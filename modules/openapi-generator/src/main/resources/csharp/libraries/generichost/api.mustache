@@ -564,11 +564,11 @@ namespace {{packageName}}.{{apiPackage}}
                     // Set client side default value of Header Param "{{baseName}}".                    
                     if (ClientUtils.IsContentHeader("{{baseName}}"))
                     {
-                        httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{#_enum}}"{{{.}}}"{{/_enum}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}){{/headerIsJsonMimeType}}); // Constant header parameter
+                        httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{#isString}}"{{#_enum}}{{{.}}}{{/_enum}}"{{/isString}}{{^isString}}{{#_enum}}{{{.}}}{{/_enum}}{{/isString}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}){{/headerIsJsonMimeType}}); // Constant header parameter
                     }
                     else
                     {
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{#_enum}}"{{{.}}}"{{/_enum}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}){{/headerIsJsonMimeType}}); // Constant header parameter
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{#isString}}"{{#_enum}}{{{.}}}{{/_enum}}"{{/isString}}{{^isString}}{{#_enum}}{{{.}}}{{/_enum}}{{/isString}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}){{/headerIsJsonMimeType}}); // Constant header parameter
                     }
 
                     {{/isHeaderParam}}

@@ -258,9 +258,13 @@ public class CSharpClientCodegenTest {
         File apiFile = files
                 .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
         assertNotNull(apiFile);
-        // A constant (autoset) header whose content type is JSON is also serialized as JSON.
+        // A constant (autoset) JSON header is serialized as JSON, with the constant rendered as its schema type:
+        // a string constant becomes a JSON string ...
         assertFileContains(apiFile.toPath(),
-                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(\"CONSTANT_VALUE\")); // Constant header parameter");
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const-Str\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(\"CONSTANT_VALUE\")); // Constant header parameter");
+        // ... and an integer constant stays a JSON number (not a quoted string).
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const-Int\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(42)); // Constant header parameter");
     }
 
     @Test
