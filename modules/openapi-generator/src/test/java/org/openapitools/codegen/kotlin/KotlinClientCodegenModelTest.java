@@ -42,6 +42,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.languages.KotlinClientCodegen.*;
@@ -990,6 +991,33 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
+  public void testMoshiEnumUnknownDefaultCaseAdaptersAreNullSafe() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName(KOTLIN_GENERATOR)
+              .setLibrary("jvm-okhttp4")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "moshi");
+                put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+              }})
+              .setInputSpec("src/test/resources/3_0/enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path helperKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt");
+
+      // EnumJsonAdapter is not null-safe, so every registered fallback adapter must be wrapped
+      TestUtils.assertFileContains(helperKt, ".nullSafe())");
+      TestUtils.assertFileNotContains(helperKt, "unknown_default_open_api))");
+  }
+
+  @Test
   public void testJacksonEnumsWithUnknownDefaultCase() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
@@ -1504,5 +1532,22 @@ public class KotlinClientCodegenModelTest {
         }
         Assert.assertTrue(sawJsonTypeInfo,
                 "Expected at least one generated model with @JsonTypeInfo to exercise the code path");
+    }
+
+    /**
+     * AbstractKotlinCodegen calls cliOptions.clear(), so an option inherited from DefaultCodegen stays
+     * functional while vanishing from config-help and docs/generators/kotlin.md. That is how
+     * enumUnknownDefaultCase went undocumented for years; this guards the re-registration.
+     */
+    @Test
+    public void testEnumUnknownDefaultCaseIsRegisteredAsCliOption() {
+        CliOption option = new KotlinClientCodegen().cliOptions().stream()
+                .filter(o -> CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE.equals(o.getOpt()))
+                .findFirst()
+                .orElse(null);
+
+        Assert.assertNotNull(option, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE + " is not registered");
+        Assert.assertEquals(option.getDefault(), "false");
+        Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
 }

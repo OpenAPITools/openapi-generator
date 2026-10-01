@@ -197,3 +197,13 @@ This is a server-specific convention, not standard OpenAPI form serialization.
 The option defaults to false and does not affect non-exploded form parameters,
 JSON, deepObject, spaceDelimited or pipeDelimited parameters.
 {{/useDotNotationForFormObjects}}
+
+## Deep-object query parameters
+
+For `style: deepObject`, nested objects are serialized using bracket notation, for example
+`filter[name][contains]=Alice`. Arrays and sets use zero-based indices, for example
+`filter[sort][0][field]=name`. Dates are serialized as ISO strings; null and undefined
+values and empty containers are omitted.
+
+OpenAPI only specifies deepObject serialization for flat objects. This recursive
+encoding is a generator extension and requires a server that accepts bracket notation.

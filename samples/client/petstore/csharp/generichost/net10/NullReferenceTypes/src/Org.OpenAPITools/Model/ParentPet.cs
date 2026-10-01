@@ -134,7 +134,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentPet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parentPet is ChildCat childCat){
@@ -154,7 +153,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentPet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", parentPet.PetType);

@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.media.Schema
       JsonSubTypes.Type(value = Dog::class, name = "DOG")
 )
 
-interface Animal {
+sealed interface Animal {
                 @get:Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
         val className: kotlin.String
 

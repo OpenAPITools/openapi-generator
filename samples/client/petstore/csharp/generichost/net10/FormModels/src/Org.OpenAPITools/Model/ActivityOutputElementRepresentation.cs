@@ -179,7 +179,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -194,7 +193,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activityOutputElementRepresentation.Prop1Option.IsSet && activityOutputElementRepresentation.Prop1 == null)

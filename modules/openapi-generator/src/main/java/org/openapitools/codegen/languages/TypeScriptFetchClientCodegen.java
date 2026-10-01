@@ -162,7 +162,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_DATE, "Native Date. `format: date` and `format: date-time` are both mapped to Date and (de)serialized by the runtime.");
         dateOptions.put(DATE_LIBRARY_STRING, "Plain string. Values are passed through untouched, leaving date handling to the consumer.");
-        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime.");
+        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime. (Experimental support) ");
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -1152,9 +1152,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
 
             // the split narrowed each variant to a single media type per axis; the merged operation speaks
-            // them all again, so its documentation says so. apis.mustache reads consumes only where the
-            // request axis was not split - a case where this union is the single value anyway - and never
-            // reads produces, so this is documentation only.
+            // them all again, so its documentation lists the media types of its variants - not the ones only
+            // its error responses declare, which a caller never asks for. apis.mustache reads consumes only
+            // where the request axis was not split - a case where this union is the single value anyway - and
+            // never reads produces, so this is documentation only.
             base.consumes = mediaTypesOf(requestVariants, v -> v.consumes);
             base.produces = mediaTypesOf(responseVariants, v -> v.produces);
 
@@ -1573,6 +1574,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isPrimitiveType = cp.isPrimitiveType;
             this.isModel = cp.isModel;
             this.isExplode = cp.isExplode;
+            this.isExplode = cp.isExplode;
+            this.isDeepObject = cp.isDeepObject;
+            this.isFormStyle = cp.isFormStyle;
+            this.isMatrix = cp.isMatrix;
+            this.isAllowEmptyValue = cp.isAllowEmptyValue;
+            this.isSpaceDelimited = cp.isSpaceDelimited;
+            this.isPipeDelimited = cp.isPipeDelimited;
+
             this.baseName = cp.baseName;
             this.paramName = cp.paramName;
             this.dataType = cp.dataType;

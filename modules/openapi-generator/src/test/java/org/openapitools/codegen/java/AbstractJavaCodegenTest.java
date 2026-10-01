@@ -20,6 +20,7 @@ package org.openapitools.codegen.java;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -44,6 +45,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 
 public class AbstractJavaCodegenTest {
@@ -651,6 +653,95 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueForComposedOneOfSelectsMatchingMemberTest() {
+        ObjectSchema first = new ObjectSchema();
+        first.addProperty("firstOnly", new StringSchema());
+        ObjectSchema later = new ObjectSchema();
+        later.addProperty("laterOnly", new StringSchema());
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("First", first)
+                .addSchemas("Later", later));
+        codegen.setOpenAPI(openAPI);
+
+        ComposedSchema composed = new ComposedSchema();
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/First"));
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/Later"));
+        composed.setDefault(Map.of("laterOnly", "later"));
+
+        CodegenProperty cp = codegen.fromProperty("choice", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertTrue(rendered.contains("new Later().laterOnly(\"later\")"), rendered);
+        Assert.assertFalse(rendered.contains("new First()"), rendered);
+    }
+
+    @Test
+    public void toDefaultValueForRecursiveComposedSchemaDoesNotOverflow() {
+        ComposedSchema recursive = new ComposedSchema();
+        recursive.addProperty("name", new StringSchema());
+        recursive.addAllOfItem(new Schema<>().$ref("#/components/schemas/Recursive"));
+        recursive.setDefault(Map.of("name", "recursive"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Recursive", recursive)));
+
+        CodegenProperty property = codegen.fromProperty("recursive", recursive);
+        String rendered = codegen.toDefaultValue(property, recursive);
+
+        Assert.assertEquals(rendered, "new " + property.datatypeWithEnum + "().name(\"recursive\")");
+    }
+
+    @Test
+    public void toDefaultValueForNestedDatesUsesConfiguredDateLibraryTest() {
+        ObjectSchema nested = new ObjectSchema();
+        nested.addProperty("date", new DateSchema());
+        nested.addProperty("dateTime", new DateTimeSchema());
+        StringSchema timeLocal = new StringSchema();
+        timeLocal.setFormat("time-local");
+        nested.addProperty("timeLocal", timeLocal);
+        StringSchema dateTimeLocal = new StringSchema();
+        dateTimeLocal.setFormat("date-time-local");
+        nested.addProperty("dateTimeLocal", dateTimeLocal);
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("date", "2019-02-15");
+        defaultValue.put("dateTime", "1984-12-19T03:39:57-08:00");
+        defaultValue.put("timeLocal", "10:15:30");
+        defaultValue.put("dateTimeLocal", "2007-12-03T10:15:30");
+        nested.setDefault(defaultValue);
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Nested", nested)));
+
+        codegen.setDateLibrary("java8");
+        CodegenProperty java8Property = codegen.fromProperty("nested", nested);
+        String java8Rendered = codegen.toDefaultValue(java8Property, nested);
+        Assert.assertTrue(java8Rendered.contains(".date(java.time.LocalDate.parse(\"2019-02-15\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\""),
+                java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".timeLocal(java.time.LocalTime.parse(\"10:15:30\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTimeLocal(java.time.LocalDateTime.parse(\"2007-12-03T10:15:30\"))"),
+                java8Rendered);
+
+        codegen.setDateLibrary("java8-localdatetime");
+        CodegenProperty localDateTimeProperty = codegen.fromProperty("nested", nested);
+        String localDateTimeRendered = codegen.toDefaultValue(localDateTimeProperty, nested);
+        Assert.assertTrue(localDateTimeRendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\").toLocalDateTime())"),
+                localDateTimeRendered);
+
+        codegen.setDateLibrary("joda");
+        CodegenProperty jodaProperty = codegen.fromProperty("nested", nested);
+        String jodaRendered = codegen.toDefaultValue(jodaProperty, nested);
+        Assert.assertTrue(jodaRendered.contains(".date(org.joda.time.LocalDate.parse(\"2019-02-15\"))"), jodaRendered);
+        Assert.assertTrue(jodaRendered.contains(".dateTime(org.joda.time.DateTime.parse(\"1984-12-19T03:39:57-08:00\"))"),
+                jodaRendered);
+        Assert.assertFalse(jodaRendered.contains("java.time"), jodaRendered);
+
+        codegen.setDateLibrary("legacy");
+        CodegenProperty legacyProperty = codegen.fromProperty("nested", nested);
+        String legacyRendered = codegen.toDefaultValue(legacyProperty, nested);
+        Assert.assertFalse(legacyRendered.contains("java.time"), legacyRendered);
+        Assert.assertFalse(legacyRendered.contains("org.joda.time"), legacyRendered);
+        Assert.assertEquals(legacyRendered, "new " + legacyProperty.datatypeWithEnum
+                + "().timeLocal(\"10:15:30\").dateTimeLocal(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
     public void toDefaultValueForObjectWithEnumPropertyDefaultTest() {
         // An object default that contains an enum property must render the enum constant
         // (e.g. `OutputFormat.OrderEnum.SIMILARITY`) rather than a raw quoted string, which
@@ -1113,6 +1204,43 @@ public class AbstractJavaCodegenTest {
     @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
     public void testSanitizedDataType() {
         assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
+    }
+
+    @Test
+    public void contentTypeVariantsCarryTheirOwnAcceptAndContentType() {
+        // x-accepts and x-content-type are computed in preprocessOpenAPI, before the operations are split by
+        // content-type; the variants are stamped again as they are split, so none inherits the media-types
+        // of the operation it was split from
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get))
+                .extracting(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .extracting(op -> op.operationId, op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+
+        // POST /reports: request json | xml, 200 json | pdf, 400 json
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> op.vendorExtensions.get("x-content-type"),
+                        op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", "application/json", List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", "application/json", List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", "application/xml", List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", "application/xml", List.of("application/pdf")));
+
+        // not split: the Accept computed from every response, as before
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        assertThat((String[]) codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).vendorExtensions.get("x-accepts"))
+                .containsExactly("application/json", "application/pdf");
     }
 
     @Test(description = "the OAS 3.1 null type maps to Object instead of a never-generated ModelNull (issue 24520)")
