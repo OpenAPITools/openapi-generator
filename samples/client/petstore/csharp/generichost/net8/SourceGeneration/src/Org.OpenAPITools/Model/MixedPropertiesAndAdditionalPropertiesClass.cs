@@ -220,16 +220,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: dateTime.");
 
             if (map.IsSet && map.Value == null)
-                throw new ArgumentNullException(nameof(map), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: map.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: uuid.");
 
             if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: uuid_with_pattern.");
 
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
@@ -240,7 +240,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -255,7 +254,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.DateTime == null)

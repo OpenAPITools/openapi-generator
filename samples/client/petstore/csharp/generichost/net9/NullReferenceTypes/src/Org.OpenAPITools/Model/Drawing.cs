@@ -207,10 +207,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (mainShape.IsSet && mainShape.Value == null)
-                throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: mainShape.");
 
             if (shapes.IsSet && shapes.Value == null)
-                throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: shapes.");
 
             return new Drawing(mainShape, nullableShape, shapeOrNull, shapes);
         }
@@ -221,7 +221,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="drawing"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -236,7 +235,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="drawing"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
             if (drawing.MainShapeOption.IsSet && drawing.MainShape == null)

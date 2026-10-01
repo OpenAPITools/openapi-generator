@@ -153,16 +153,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!aObjVariableobject.IsSet)
-                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(aObjVariableobject));
+                throw new JsonException("Property is required for class NotificationtestGetElementsV1ResponseMPayload: a_objVariableobject.");
 
             if (!pkiNotificationtestID.IsSet)
-                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
+                throw new JsonException("Property is required for class NotificationtestGetElementsV1ResponseMPayload: pkiNotificationtestID.");
 
             if (aObjVariableobject.IsSet && aObjVariableobject.Value == null)
-                throw new ArgumentNullException(nameof(aObjVariableobject), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new JsonException("Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload: a_objVariableobject.");
 
             if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
-                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new JsonException("Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload: pkiNotificationtestID.");
 
             return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!);
         }
@@ -173,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -188,7 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("a_objVariableobject");

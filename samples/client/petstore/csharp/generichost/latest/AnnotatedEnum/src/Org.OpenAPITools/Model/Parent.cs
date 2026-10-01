@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class Parent.");
+                throw new JsonException("Property is not nullable for class Parent: number.");
 
             return new Parent(number);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,7 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parent.NumberOption.IsSet && parent.Number == null)

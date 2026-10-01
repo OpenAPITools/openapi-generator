@@ -153,16 +153,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class SimpleQuadrilateral.", nameof(quadrilateralType));
+                throw new JsonException("Property is required for class SimpleQuadrilateral: quadrilateralType.");
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class SimpleQuadrilateral.", nameof(shapeType));
+                throw new JsonException("Property is required for class SimpleQuadrilateral: shapeType.");
 
             if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class SimpleQuadrilateral.");
+                throw new JsonException("Property is not nullable for class SimpleQuadrilateral: quadrilateralType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class SimpleQuadrilateral.");
+                throw new JsonException("Property is not nullable for class SimpleQuadrilateral: shapeType.");
 
             return new SimpleQuadrilateral(quadrilateralType.Value!, shapeType.Value!);
         }
@@ -173,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -188,7 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);

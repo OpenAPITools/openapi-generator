@@ -159,10 +159,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
+                throw new JsonException("Property is not nullable for class HasOnlyReadOnly: bar.");
 
             if (foo.IsSet && foo.Value == null)
-                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
+                throw new JsonException("Property is not nullable for class HasOnlyReadOnly: foo.");
 
             return new HasOnlyReadOnly(bar, foo);
         }
@@ -173,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="hasOnlyReadOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -188,7 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="hasOnlyReadOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (hasOnlyReadOnly.BarOption.IsSet && hasOnlyReadOnly.Bar == null)

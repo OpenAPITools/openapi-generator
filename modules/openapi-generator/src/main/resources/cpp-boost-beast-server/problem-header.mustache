@@ -1,0 +1,234 @@
+{{>licenseInfo}}
+// ============================================================================
+// Problem.h - RFC 9457 problem details responses.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_PROBLEM_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_PROBLEM_H_
+
+#include <boost/beast/http.hpp>
+
+#include <cstddef>
+#include <string>
+#include <utility>
+#include <cstdio>
+#include <vector>
+
+namespace {{apiNamespace}} {
+
+/// One validation error occurrence: a location pointer plus a message.
+struct ProblemError {
+    std::string path;
+    std::string message;
+};
+/// RFC 9457 problem details object.
+struct Problem {
+    unsigned status = 500;
+    std::string type = "about:blank";
+    std::string title;
+    std::string detail;
+    std::string instance;
+    std::vector<ProblemError> errors;
+
+    Problem& withError(std::string path, std::string message) {
+        errors.push_back(ProblemError{std::move(path), std::move(message)});
+        return *this;
+    }
+
+    static Problem badRequest(std::string detail) {
+        Problem p;
+        p.status = 400;
+        p.title = "Bad Request";
+        p.detail = std::move(detail);
+        return p;
+    }
+
+    static Problem unauthorized() {
+        Problem p;
+        p.status = 401;
+        p.title = "Unauthorized";
+        p.detail = "Missing or invalid credentials";
+        return p;
+    }
+
+    static Problem notFound(std::string const& target) {
+        Problem p;
+        p.status = 404;
+        p.title = "Not Found";
+        p.detail = "The resource '" + target + "' was not found.";
+        p.instance = target;
+        return p;
+    }
+
+    static Problem methodNotAllowed(std::string const& allow) {
+        Problem p;
+        p.status = 405;
+        p.title = "Method Not Allowed";
+        p.detail = "Allowed methods: " + allow;
+        return p;
+    }
+
+    static Problem unsupportedMediaType(std::string const& received) {
+        Problem p;
+        p.status = 415;
+        p.title = "Unsupported Media Type";
+        p.detail = "Content-Type '" + received + "' is not supported";
+        return p;
+    }
+
+    static Problem payloadTooLarge() {
+        Problem p;
+        p.status = 413;
+        p.title = "Content Too Large";
+        p.detail = "Request body exceeds the configured limit";
+        return p;
+    }
+
+    static Problem requestHeaderFieldsTooLarge() {
+        Problem p;
+        p.status = 431;
+        p.title = "Request Header Fields Too Large";
+        p.detail = "Request headers exceed the configured limit";
+        return p;
+    }
+
+    static Problem expectationFailed() {
+        Problem p;
+        p.status = 417;
+        p.title = "Expectation Failed";
+        p.detail = "The request carries an Expectation extension this server does not support";
+        return p;
+    }
+
+    static Problem internal() {
+        Problem p;
+        p.status = 500;
+        p.title = "Internal Server Error";
+        return p;
+    }
+
+    static Problem notImplemented(std::string const& operationId) {
+        Problem p;
+        p.status = 501;
+        p.title = "Not Implemented";
+        p.detail = "Operation '" + operationId + "' has no implementation";
+        return p;
+    }
+};
+
+/// Serializes a problem as an HTTP response with application/problem+json.
+inline boost::beast::http::response<boost::beast::http::string_body>
+toProblemResponse(Problem const& problem) {
+    namespace http = boost::beast::http;
+    auto jsonEscape = [](std::string const& text) {
+        std::string out;
+        out.reserve(text.size());
+        std::size_t i = 0;
+        while (i < text.size()) {
+            unsigned char byte = static_cast<unsigned char>(text[i]);
+            if (byte < 0x80) {
+                switch (byte) {
+                    case '"': out += "\\\""; break;
+                    case '\\': out += "\\\\"; break;
+                    case '\n': out += "\\n"; break;
+                    case '\r': out += "\\r"; break;
+                    case '\t': out += "\\t"; break;
+                    case '\b': out += "\\b"; break;
+                    case '\f': out += "\\f"; break;
+                    default:
+                        if (byte < 0x20 || byte == 0x7f) {
+                            // Escape C0 controls and DEL as \u00XX.
+                            char buffer[8];
+                            std::snprintf(buffer, sizeof(buffer), "\\u%04x",
+                                          static_cast<unsigned>(byte));
+                            out += buffer;
+                        } else {
+                            out.push_back(static_cast<char>(byte));
+                        }
+                        break;
+                }
+                i += 1;
+                continue;
+            }
+            // A UTF-8 lead byte and its continuation bytes pass through
+            // verbatim (accented text, CJK, emoji in echoed values stay
+            // human-readable). An invalid sequence — C1/overlong lead,
+            // truncated tail, bad continuation, surrogate, or out-of-range
+            // codepoint — is replaced with \ufffd one byte at a time so the
+            // problem document is always valid JSON (RFC 8259 requires it).
+            std::size_t extra = 0;
+            unsigned int codepoint = 0;
+            if (byte >= 0xC2 && byte <= 0xDF) {
+                extra = 1;
+                codepoint = byte & 0x1FU;
+            } else if (byte >= 0xE0 && byte <= 0xEF) {
+                extra = 2;
+                codepoint = byte & 0x0FU;
+            } else if (byte >= 0xF0 && byte <= 0xF4) {
+                extra = 3;
+                codepoint = byte & 0x07U;
+            }
+            bool valid = extra > 0 && i + extra + 1 <= text.size();
+            for (std::size_t k = 1; valid && k <= extra; ++k) {
+                unsigned char next = static_cast<unsigned char>(text[i + k]);
+                if (next < 0x80 || next > 0xBF) {
+                    valid = false;
+                    break;
+                }
+                codepoint = (codepoint << 6) | (next & 0x3FU);
+            }
+            // Shortest-form enforcement: the lead-byte table above already
+            // refuses C0/C1 overlongs, but 3- and 4-byte overlongs hide
+            // behind otherwise-valid continuation bytes — E0 A0 80 decodes
+            // to U+0080 and F0 8F BF BF to U+FFFF, both ≥ 0x80 yet both
+            // non-shortest (they would encode in fewer bytes). Require each
+            // form's minimum so accepted bytes are exactly valid UTF-8.
+            if (valid && (codepoint < 0x80 || codepoint > 0x10FFFF
+                    || (extra == 2 && codepoint < 0x800)
+                    || (extra == 3 && codepoint < 0x10000)
+                    || (codepoint >= 0xD800 && codepoint <= 0xDFFF))) {
+                valid = false;
+            }
+            if (!valid) {
+                out += "\\ufffd";
+                i += 1;
+                continue;
+            }
+            out.append(text, i, extra + 1);
+            i += extra + 1;
+        }
+        return out;
+    };
+    http::response<http::string_body> res{
+        static_cast<http::status>(problem.status), 11};
+    res.set(http::field::server, "openapi-generator-cpp-boost-beast-server");
+    res.set(http::field::content_type, "application/problem+json");
+    std::string body = "{";
+    body += "\"type\":\"" + jsonEscape(problem.type) + "\"";
+    body += ",\"title\":\"" + jsonEscape(problem.title) + "\"";
+    body += ",\"status\":" + std::to_string(problem.status);
+    if (!problem.detail.empty()) {
+        body += ",\"detail\":\"" + jsonEscape(problem.detail) + "\"";
+    }
+    if (!problem.instance.empty()) {
+        body += ",\"instance\":\"" + jsonEscape(problem.instance) + "\"";
+    }
+    if (!problem.errors.empty()) {
+        body += ",\"errors\":[";
+        for (std::size_t i = 0; i < problem.errors.size(); ++i) {
+            if (i != 0) {
+                body += ",";
+            }
+            body += "{\"path\":\"" + jsonEscape(problem.errors[i].path)
+                    + "\",\"message\":\"" + jsonEscape(problem.errors[i].message) + "\"}";
+        }
+        body += "]";
+    }
+    body += "}";
+    res.body() = std::move(body);
+    res.prepare_payload();
+    return res;
+}
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_PROBLEM_H_

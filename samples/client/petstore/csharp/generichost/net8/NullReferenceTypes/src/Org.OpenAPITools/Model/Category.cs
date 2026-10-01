@@ -160,13 +160,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Category.", nameof(name));
+                throw new JsonException("Property is required for class Category: name.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
+                throw new JsonException("Property is not nullable for class Category: id.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
+                throw new JsonException("Property is not nullable for class Category: name.");
 
             return new Category(id, name.Value!);
         }
@@ -177,7 +177,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="category"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -192,7 +191,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="category"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
             if (category.IdOption.IsSet && category.Id == null)

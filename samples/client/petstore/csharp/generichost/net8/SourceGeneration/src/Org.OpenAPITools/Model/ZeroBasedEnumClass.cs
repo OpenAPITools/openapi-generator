@@ -221,7 +221,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (zeroBasedEnum.IsSet && zeroBasedEnum.Value == null)
-                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is not nullable for class ZeroBasedEnumClass.");
+                throw new JsonException("Property is not nullable for class ZeroBasedEnumClass: ZeroBasedEnum.");
 
             return new ZeroBasedEnumClass(zeroBasedEnum);
         }
@@ -232,7 +232,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="zeroBasedEnumClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -247,7 +246,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="zeroBasedEnumClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (zeroBasedEnumClass.ZeroBasedEnumOption.IsSet && zeroBasedEnumClass.ZeroBasedEnum == null)

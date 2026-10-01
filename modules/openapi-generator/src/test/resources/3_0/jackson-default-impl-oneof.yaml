@@ -1,0 +1,152 @@
+openapi: 3.0.1
+info:
+  title: Jackson defaultImpl oneOf sample
+  description: >
+    Sample spec exercising Jackson @JsonTypeInfo(defaultImpl = ...) on oneOf
+    interfaces, driven by the x-jackson-default-impl vendor extension (spec-based)
+    and the typeInfoDefaultImpls generator option (config-based).
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /animals:
+    post:
+      tags:
+        - default
+      operationId: createAnimal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+  /fruits:
+    post:
+      tags:
+        - default
+      operationId: createFruit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
+  /beverages:
+    post:
+      tags:
+        - default
+      operationId: createBeverage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beverage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beverage'
+components:
+  schemas:
+    # Deduction-based oneOf (no discriminator): default impl set via the spec extension.
+    Animal:
+      x-jackson-default-impl: Dog
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+    Cat:
+      type: object
+      properties:
+        declawed:
+          type: boolean
+    # Discriminator-based oneOf: default impl resolved via the typeInfoDefaultImpls config option.
+    Fruit:
+      type: object
+      properties:
+        fruitType:
+          type: string
+      required:
+        - fruitType
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+    Apple:
+      type: object
+      required:
+        - fruitType
+      properties:
+        fruitType:
+          type: string
+        seeds:
+          type: integer
+    Banana:
+      type: object
+      required:
+        - fruitType
+      properties:
+        fruitType:
+          type: string
+        length:
+          type: integer
+    # Discriminator-based oneOf: default impl set via the spec extension.
+    Beverage:
+      x-jackson-default-impl: Water
+      type: object
+      properties:
+        beverageType:
+          type: string
+      required:
+        - beverageType
+      oneOf:
+        - $ref: '#/components/schemas/Water'
+        - $ref: '#/components/schemas/Soda'
+      discriminator:
+        propertyName: beverageType
+        mapping:
+          WATER: '#/components/schemas/Water'
+          SODA: '#/components/schemas/Soda'
+    Water:
+      type: object
+      required:
+        - beverageType
+      properties:
+        beverageType:
+          type: string
+        sparkling:
+          type: boolean
+    Soda:
+      type: object
+      required:
+        - beverageType
+      properties:
+        beverageType:
+          type: string
+        sugarGrams:
+          type: integer

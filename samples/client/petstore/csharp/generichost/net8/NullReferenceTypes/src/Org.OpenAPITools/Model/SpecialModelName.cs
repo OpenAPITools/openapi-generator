@@ -167,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varSpecialModelName.IsSet && varSpecialModelName.Value == null)
-                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: _special_model.name_.");
 
             if (specialPropertyName.IsSet && specialPropertyName.Value == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: $special[property.name].");
 
             return new SpecialModelName(varSpecialModelName, specialPropertyName);
         }
@@ -181,7 +181,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -196,7 +195,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
             if (specialModelName.VarSpecialModelNameOption.IsSet && specialModelName.VarSpecialModelName == null)

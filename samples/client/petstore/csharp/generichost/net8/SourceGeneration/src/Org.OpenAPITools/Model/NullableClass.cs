@@ -378,10 +378,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayItemsNullable.IsSet && arrayItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is not nullable for class NullableClass.");
+                throw new JsonException("Property is not nullable for class NullableClass: array_items_nullable.");
 
             if (objectItemsNullable.IsSet && objectItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is not nullable for class NullableClass.");
+                throw new JsonException("Property is not nullable for class NullableClass: object_items_nullable.");
 
             return new NullableClass(arrayAndItemsNullableProp, arrayItemsNullable, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectItemsNullable, objectNullableProp, stringProp);
         }
@@ -392,7 +392,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -407,7 +406,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (nullableClass.ArrayItemsNullableOption.IsSet && nullableClass.ArrayItemsNullable == null)

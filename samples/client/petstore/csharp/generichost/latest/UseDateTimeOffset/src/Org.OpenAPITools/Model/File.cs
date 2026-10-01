@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (sourceURI.IsSet && sourceURI.Value == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
+                throw new JsonException("Property is not nullable for class File: sourceURI.");
 
             return new File(sourceURI);
         }
@@ -151,7 +151,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -166,7 +165,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             if (file.SourceURIOption.IsSet && file.SourceURI == null)

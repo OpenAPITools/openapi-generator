@@ -215,13 +215,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (b.IsSet && b.Value == null)
-                throw new ArgumentNullException(nameof(b), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: b.");
 
             if (g.IsSet && g.Value == null)
-                throw new ArgumentNullException(nameof(g), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: g.");
 
             if (r.IsSet && r.Value == null)
-                throw new ArgumentNullException(nameof(r), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: r.");
 
             return new Color(b, g, r);
         }
@@ -232,7 +232,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="color"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Color color, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -247,7 +246,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="color"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Color color, JsonSerializerOptions jsonSerializerOptions)
         {
             if (color.BOption.IsSet && color.B == null)

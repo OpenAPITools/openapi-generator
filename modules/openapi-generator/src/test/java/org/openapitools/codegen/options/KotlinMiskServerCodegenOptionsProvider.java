@@ -22,6 +22,7 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String API_SUFFIX_VALUE = "Api";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS_VALUE = "";
+    public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS_VALUE = "";
     public static final String USE_BEAN_VALIDATION = "false";
     public static final String GENERATE_STUB_IMPL_CLASSES = "false";
     public static final String ADD_MODEL_MOSHI_JSON_ANNOTATION = "true";
@@ -58,6 +59,8 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
             .put(AbstractKotlinCodegen.MODEL_MUTABLE, MODEL_MUTABLE_VALUE)
             .put(AbstractKotlinCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
                 ADDITIONAL_MODEL_TYPE_ANNOTATIONS_VALUE)
+            .put(AbstractKotlinCodegen.ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
+                ADDITIONAL_ENUM_TYPE_ANNOTATIONS_VALUE)
             .put(KotlinMiskServerCodegen.MODULE_CLASS_NAME, MODULE_CLASS_NAME)
             .put(BeanValidationFeatures.USE_BEANVALIDATION, USE_BEAN_VALIDATION)
             .put(KotlinMiskServerCodegen.ACTION_PATH_PREFIX, ACTION_PATH_PREFIX)

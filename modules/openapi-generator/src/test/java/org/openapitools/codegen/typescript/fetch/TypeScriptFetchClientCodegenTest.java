@@ -127,7 +127,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(api,
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept?: 'application/json' }",
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }",
-                "Promise<runtime.ApiResponse<Receipt | Blob>>");
+                "Promise<runtime.ApiResponse<Receipt | runtime.HttpFile>>");
 
         // Content-Type is set inside the branch that builds the body, Accept defaults to the response
         // content-type declared first, and deserialisation dispatches on what the server actually returned
@@ -221,7 +221,7 @@ public class TypeScriptFetchClientCodegenTest {
         Path api = Paths.get(output + "/apis/ReportApi.ts");
         TestUtils.assertFileContains(api,
                 "async getReport(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | null | undefined>;",
-                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob | null | undefined>;",
+                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile | null | undefined>;",
                 "switch (response.raw.status) {",
                 "            case 204:",
                 "                return null;");
@@ -1235,6 +1235,36 @@ public class TypeScriptFetchClientCodegenTest {
         // date-time keeps the full timestamp.
         TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/exploded-object-query-param.yaml");
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. A free-form object is isMap but not isContainer, so it used to fall
+        // through to a whole-object assignment and end up bracketed by the runtime.
+        TestUtils.assertFileContains(api,
+                "for (let key of Object.keys(requestParameters['filter'])) {",
+                "const value = (requestParameters['filter'] as any)[key];");
+        TestUtils.assertFileNotContains(api, "queryParameters['filter'] = requestParameters['filter'];");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(api,
+                "for (let key of Object.keys(requestParameters['typedFilter'])) {",
+                "const value = (requestParameters['typedFilter'] as any)[key];");
+
+        // pins the emitted loop: a null or undefined entry is skipped, and the entry is defined rather than assigned so a key named __proto__ survives
+        TestUtils.assertFileContains(api, "if (value != null) { Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true }); }");
+
+        // deepObject nests under the parameter name, which the runtime does for a whole object
+        TestUtils.assertFileContains(api, "queryParameters['deepFilter'] = requestParameters['deepFilter'];");
+        TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['deepFilter'])");
+
+        // without explode the object stays a single parameter
+        TestUtils.assertFileContains(api, "queryParameters['flatFilter'] = requestParameters['flatFilter'];");
+        TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

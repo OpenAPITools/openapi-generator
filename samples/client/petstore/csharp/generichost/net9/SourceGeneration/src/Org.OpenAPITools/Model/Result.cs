@@ -191,13 +191,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: code.");
 
             if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: data.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: uuid.");
 
             return new Result(code, data, uuid);
         }
@@ -208,7 +208,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="result"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -223,7 +222,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="result"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
             if (result.CodeOption.IsSet && result.Code == null)

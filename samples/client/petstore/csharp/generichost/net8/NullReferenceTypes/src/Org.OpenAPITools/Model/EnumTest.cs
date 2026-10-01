@@ -824,31 +824,31 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!enumStringRequired.IsSet)
-                throw new ArgumentException("Property is required for class EnumTest.", nameof(enumStringRequired));
+                throw new JsonException("Property is required for class EnumTest: enum_string_required.");
 
             if (enumStringRequired.IsSet && enumStringRequired.Value == null)
-                throw new ArgumentNullException(nameof(enumStringRequired), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: enum_string_required.");
 
             if (enumInteger.IsSet && enumInteger.Value == null)
-                throw new ArgumentNullException(nameof(enumInteger), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: enum_integer.");
 
             if (enumIntegerOnly.IsSet && enumIntegerOnly.Value == null)
-                throw new ArgumentNullException(nameof(enumIntegerOnly), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: enum_integer_only.");
 
             if (enumNumber.IsSet && enumNumber.Value == null)
-                throw new ArgumentNullException(nameof(enumNumber), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: enum_number.");
 
             if (enumString.IsSet && enumString.Value == null)
-                throw new ArgumentNullException(nameof(enumString), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: enum_string.");
 
             if (outerEnumDefaultValue.IsSet && outerEnumDefaultValue.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumDefaultValue), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: outerEnumDefaultValue.");
 
             if (outerEnumInteger.IsSet && outerEnumInteger.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumInteger), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: outerEnumInteger.");
 
             if (outerEnumIntegerDefaultValue.IsSet && outerEnumIntegerDefaultValue.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is not nullable for class EnumTest.");
+                throw new JsonException("Property is not nullable for class EnumTest: outerEnumIntegerDefaultValue.");
 
             return new EnumTest(enumStringRequired.Value!.Value!, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnum, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue);
         }
@@ -859,7 +859,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumTest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -874,7 +873,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumTest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (enumTest.EnumIntegerOption.IsSet && enumTest.EnumInteger == null)

@@ -165,10 +165,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (file.IsSet && file.Value == null)
-                throw new ArgumentNullException(nameof(file), "Property is not nullable for class FileSchemaTestClass.");
+                throw new JsonException("Property is not nullable for class FileSchemaTestClass: file.");
 
             if (files.IsSet && files.Value == null)
-                throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
+                throw new JsonException("Property is not nullable for class FileSchemaTestClass: files.");
 
             return new FileSchemaTestClass(file, files);
         }
@@ -179,7 +179,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -194,7 +193,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fileSchemaTestClass.FileOption.IsSet && fileSchemaTestClass.File == null)

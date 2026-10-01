@@ -172,16 +172,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Whale.", nameof(className));
+                throw new JsonException("Property is required for class Whale: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Whale.");
+                throw new JsonException("Property is not nullable for class Whale: className.");
 
             if (hasBaleen.IsSet && hasBaleen.Value == null)
-                throw new ArgumentNullException(nameof(hasBaleen), "Property is not nullable for class Whale.");
+                throw new JsonException("Property is not nullable for class Whale: hasBaleen.");
 
             if (hasTeeth.IsSet && hasTeeth.Value == null)
-                throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
+                throw new JsonException("Property is not nullable for class Whale: hasTeeth.");
 
             return new Whale(className.Value!, hasBaleen, hasTeeth);
         }
@@ -192,7 +192,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="whale"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -207,7 +206,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="whale"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
             if (whale.HasBaleenOption.IsSet && whale.HasBaleen == null)

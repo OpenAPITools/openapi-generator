@@ -340,22 +340,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: complete.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: id.");
 
             if (petId.IsSet && petId.Value == null)
-                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: petId.");
 
             if (quantity.IsSet && quantity.Value == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: quantity.");
 
             if (shipDate.IsSet && shipDate.Value == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: shipDate.");
 
             if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: status.");
 
             return new Order(complete, id, petId, quantity, shipDate, status);
         }
@@ -366,7 +366,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="order"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -381,7 +380,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="order"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.CompleteOption.IsSet && order.Complete == null)

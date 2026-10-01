@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class IconsDefaultResponse.");
+                throw new JsonException("Property is not nullable for class IconsDefaultResponse: string.");
 
             return new IconsDefaultResponse(varString);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,7 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (iconsDefaultResponse.StringOption.IsSet && iconsDefaultResponse.String == null)

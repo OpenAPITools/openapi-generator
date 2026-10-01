@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedAnyOf.");
+                throw new JsonException("Property is not nullable for class MixedAnyOf: content.");
 
             return new MixedAnyOf(content);
         }
@@ -158,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -173,7 +172,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedAnyOf.ContentOption.IsSet && mixedAnyOf.Content == null)

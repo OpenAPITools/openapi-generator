@@ -25,6 +25,7 @@ public interface UploadApi {
 
     @POST
     @Consumes({ "multipart/form-data" })
-    void uploadPost(@RestForm(value = "file") FileUpload _file);
+    void uploadPost(
+@RestForm(value = "file") FileUpload _file);
 
 }

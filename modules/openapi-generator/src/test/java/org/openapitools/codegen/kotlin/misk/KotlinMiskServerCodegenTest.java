@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class KotlinMiskServerCodegenTest {
 
@@ -60,6 +61,10 @@ public class KotlinMiskServerCodegenTest {
 
         Path buildGradle = Paths.get(output + "/build.gradle.kts");
         Assert.assertTrue(buildGradle.toFile().exists());
+
+        Path settingsGradle = Paths.get(output + "/settings.gradle.kts");
+        Assert.assertTrue(settingsGradle.toFile().exists());
+        assertFileNotContains(settingsGradle, "include(\":models\")");
         
         // Verify build.gradle.kts content
         assertFileContains(buildGradle, "id(\"org.jetbrains.kotlin.jvm\")");

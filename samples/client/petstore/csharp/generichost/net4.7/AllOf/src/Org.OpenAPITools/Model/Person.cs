@@ -195,13 +195,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: $_type.");
 
             return new Person(firstName, lastName);
         }
@@ -212,7 +212,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person is Adult adult){
@@ -237,7 +236,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)

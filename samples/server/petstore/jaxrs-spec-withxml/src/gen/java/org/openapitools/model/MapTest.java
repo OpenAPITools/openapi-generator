@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
     @XmlRootElement(name="MapTest")
 
 public class MapTest  implements Serializable {
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   @XmlType(name="InnerEnum")
 @XmlEnum(String.class)
 public enum InnerEnum {
@@ -84,9 +84,9 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   protected MapTest(MapTestBuilder<?, ?> b) {
     this.mapMapOfString = b.mapMapOfString;

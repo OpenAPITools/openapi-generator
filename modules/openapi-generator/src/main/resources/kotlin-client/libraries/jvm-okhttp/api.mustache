@@ -210,6 +210,7 @@ import {{packageName}}.infrastructure.Serializer
             .apply {
                 {{#queryParams}}
                 {{^isQueryStringParam}}
+                {{^vendorExtensions.x-kotlin-explode-form-object}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
                     {{#isModel}}
@@ -252,7 +253,24 @@ import {{packageName}}.infrastructure.Serializer
                 {{/isModel}}
                 {{/isNullable}}
                 {{/required}}
+                {{/vendorExtensions.x-kotlin-explode-form-object}}
                 {{/isQueryStringParam}}
+                {{/queryParams}}
+                {{#queryParams}}
+                {{#vendorExtensions.x-kotlin-explode-form-object}}
+                // form style, explode: one query parameter per entry, keyed by the property name, appended after the declared ones; null is left out, a collection repeats the key
+                ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->
+                    val localVariableValues = when (value) {
+                        is kotlin.collections.Iterable<*> -> value.toList()
+                        is kotlin.Array<*> -> value.toList()
+                        else -> listOf(value)
+                    }.filterNotNull().map { this@{{classname}}.parameterToString(it) }
+                    if (key != null && localVariableValues.isNotEmpty()) {
+                        val localVariableName = key.toString()
+                        put(localVariableName, getOrElse(localVariableName) { emptyList() } + localVariableValues)
+                    }
+                }
+                {{/vendorExtensions.x-kotlin-explode-form-object}}
                 {{/queryParams}}
             }
             {{/hasQueryParams}}

@@ -139,6 +139,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean companionObject = false;
 
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
+
     protected String authFolder;
 
     @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
@@ -303,6 +305,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
+        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS,
+                "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). "
+                        + "For kotlin-client this applies to discriminator-based oneOf interfaces only "
+                        + "(deduction-based oneOf is not supported by the kotlin-client templates). "
+                        + "Overrides x-jackson-default-impl when both are set for the same schema. "
+                        + "Requires the jackson serialization library. "
+                        + "Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`")
+                .defaultValue("empty map"));
 
         cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
@@ -313,6 +323,19 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
 
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
+
+        // AbstractKotlinCodegen calls cliOptions.clear(), dropping DefaultCodegen's registration.
+        // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
+        CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
+                "Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`(serializationLibrary) decodes every unknown value to it: `jackson` skips nullable enums, `kotlinx_serialization` skips non-string enums, and neither `gson`(serializationLibrary) nor `multiplatform`(library) decodes to it at all.");
+        Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
+        enumUnknownDefaultCaseOpts.put("false",
+                "No changes to the enums are made, this is the default option.");
+        enumUnknownDefaultCaseOpts.put("true",
+                "Each enum gains an `unknown_default_open_api` case.");
+        enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
+        cliOptions.add(enumUnknownDefaultCaseOpt);
     }
 
     @Override
@@ -523,6 +546,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
             setGenerateOneOfAnyOfWrappers(convertPropertyToBooleanAndWriteBack(GENERATE_ONEOF_ANYOF_WRAPPERS));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS));
         }
 
         if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
@@ -1019,6 +1046,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        // Resolve x-jackson-default-impl / typeInfoDefaultImpls into x-jackson-resolved-default-impl.
+        // kotlin-client only supports discriminator-based oneOf (via @JsonTypeInfo + @JsonSubTypes);
+        // deduction-based is not supported by these templates.
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.jackson) {
+            Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+            for (CodegenModel cm : allModelsMap.values()) {
+                if (cm.discriminator == null) {
+                    continue;
+                }
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModelsMap.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    // typeInfoAnnotation.mustache is rendered inside {{#discriminator}},
+                    // so JMustache resolves 'vendorExtensions' against CodegenDiscriminator.
+                    cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                }
+            }
+        }
+
         if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization || getLibrary().equals(MULTIPLATFORM)) {
             // The loop removes unneeded variables so commas are handled correctly in the related templates
             for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
@@ -1117,6 +1164,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .filter(isSerializable)
                             .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
+
+                    // form style with explode puts a map-typed query parameter on the wire as one parameter
+                    // per entry; api.mustache adds those after the declared query parameters
+                    for (CodegenParameter param : operation.queryParams) {
+                        if (param.isMap && param.isExplode && !param.isDeepObject) {
+                            param.vendorExtensions.put("x-kotlin-explode-form-object", true);
+                        }
+                    }
                 }
 
                 // set multipart against all relevant operations
@@ -1299,6 +1354,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         var extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 

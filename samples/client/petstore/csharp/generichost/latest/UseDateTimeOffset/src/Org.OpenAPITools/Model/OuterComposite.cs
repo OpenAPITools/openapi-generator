@@ -179,13 +179,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (myBoolean.IsSet && myBoolean.Value == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_boolean.");
 
             if (myNumber.IsSet && myNumber.Value == null)
-                throw new ArgumentNullException(nameof(myNumber), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_number.");
 
             if (myString.IsSet && myString.Value == null)
-                throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_string.");
 
             return new OuterComposite(myBoolean, myNumber, myString);
         }
@@ -196,7 +196,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -211,7 +210,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             if (outerComposite.MyBooleanOption.IsSet && outerComposite.MyBoolean == null)

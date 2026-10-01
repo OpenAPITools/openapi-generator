@@ -208,16 +208,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bars.IsSet && bars.Value == null)
-                throw new ArgumentNullException(nameof(bars), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: bars.");
 
             if (deprecatedRef.IsSet && deprecatedRef.Value == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: deprecatedRef.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: id.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: uuid.");
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
         }
@@ -228,7 +228,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -243,7 +242,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
             if (objectWithDeprecatedFields.BarsOption.IsSet && objectWithDeprecatedFields.Bars == null)

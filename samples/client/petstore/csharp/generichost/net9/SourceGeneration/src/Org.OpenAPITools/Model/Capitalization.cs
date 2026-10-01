@@ -249,22 +249,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (aTTNAME.IsSet && aTTNAME.Value == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: ATT_NAME.");
 
             if (capitalCamel.IsSet && capitalCamel.Value == null)
-                throw new ArgumentNullException(nameof(capitalCamel), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: CapitalCamel.");
 
             if (capitalSnake.IsSet && capitalSnake.Value == null)
-                throw new ArgumentNullException(nameof(capitalSnake), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: Capital_Snake.");
 
             if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: SCA_ETH_Flow_Points.");
 
             if (smallCamel.IsSet && smallCamel.Value == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: smallCamel.");
 
             if (smallSnake.IsSet && smallSnake.Value == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: small_Snake.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
@@ -275,7 +275,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -290,7 +289,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
             if (capitalization.ATT_NAMEOption.IsSet && capitalization.ATT_NAME == null)

@@ -22,6 +22,7 @@ public interface FileApi {
     @GET
     @Produces({ "application/json" })
     @ResponseStatus(200)
-    FileContent fileIdGet(@PathParam("id") String id);
+    FileContent fileIdGet(@PathParam("id") String id
+);
 
 }
