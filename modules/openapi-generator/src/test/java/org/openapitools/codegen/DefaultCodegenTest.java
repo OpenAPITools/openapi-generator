@@ -5375,6 +5375,21 @@ public class DefaultCodegenTest {
         assertTrue(openIdScheme.isOpenId);
     }
 
+    @Test
+    public void testUntypedMapPropertyIsMap() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_25054.yaml");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel model = codegen.fromModel("Example", openAPI.getComponents().getSchemas().get("Example"));
+
+        for (String name : List.of("map", "typedMap", "modelMap")) {
+            CodegenProperty property = model.getVars().stream().filter(v -> v.baseName.equals(name)).findFirst().orElseThrow();
+            assertTrue(property.isContainer, name);
+            assertEquals(property.containerType, "map", name);
+            assertTrue(property.isMap, name);
+        }
+    }
+
     private List<String> getRequiredVars(CodegenModel model) {
         return getNames(model.getRequiredVars());
     }
