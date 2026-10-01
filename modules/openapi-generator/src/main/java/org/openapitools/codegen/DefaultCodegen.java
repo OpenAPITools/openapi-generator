@@ -5722,6 +5722,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isPathParam = true;
         } else if (parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isHeaderParam = true;
+            codegenParameter.headerIsJsonMimeType = isJsonMimeType(codegenParameter.contentType);
         } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isCookieParam = true;
         } else {

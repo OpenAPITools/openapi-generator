@@ -204,6 +204,63 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+        assertNotNull(apiFile);
+        // JSON-content header is serialized as JSON, not via ParameterToString (which would emit the model's debug ToString()).
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(xJsonArg)); // header parameter");
+        assertFileNotContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xJsonArg)); // header parameter");
+        // A regular (non-JSON) header keeps the existing behavior.
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Plain-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xPlainArg)); // header parameter");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerializationGenericHost() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+        assertNotNull(apiFile);
+        // JSON-content header is serialized with System.Text.Json using the client's serializer options.
+        assertFileContains(apiFile.toPath(),
+                "JsonSerializer.Serialize(xJsonArg, _jsonSerializerOptions)");
+        assertFileContains(apiFile.toPath(),
+                "ClientUtils.ParameterToString(xPlainArg)");
+    }
+
+    @Test
     public void testUserAgentIsNotUrlEncoded() throws IOException {
         // both restsharp Configuration templates: the default one and the useIntForTimeout v7.9.0 fallback
         for (boolean useIntForTimeout : new boolean[]{false, true}) {
