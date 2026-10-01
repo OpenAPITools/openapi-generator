@@ -141,6 +141,29 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile, "dst.int32");
     }
 
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("go-json-header").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterToJSONHeaderValue(r.xJsonArg)",
+                "parameterToJSONHeaderValue(r.xOptionalJson)",
+                "localVarHeaderParams[\"X-Json-Arg\"] = jsonHeaderValue",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg");
+        TestUtils.assertFileNotContains(api,
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg");
+    }
+
     @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
     public void testExplodedObjectQueryParameter() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
