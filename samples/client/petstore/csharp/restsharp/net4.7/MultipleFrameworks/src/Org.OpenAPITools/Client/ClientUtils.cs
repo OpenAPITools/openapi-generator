@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Client
         /// so model objects are rendered as JSON instead of their debug ToString() representation.
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
-        /// <returns>JSON representation of the object with every non-ASCII character (including DEL, U+007F) escaped as \uXXXX.</returns>
+        /// <returns>JSON representation of the object with every C0 control character (including CR and LF), DEL, and non-ASCII character escaped as \uXXXX, so raw control bytes can never reach the header value.</returns>
         public static string ParameterToJsonString(object obj)
         {
             // JsonConvert renders a null reference as the JSON literal "null" (not a null string).
