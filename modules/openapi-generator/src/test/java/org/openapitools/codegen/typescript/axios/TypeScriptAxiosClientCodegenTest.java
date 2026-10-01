@@ -280,4 +280,27 @@ public class TypeScriptAxiosClientCodegenTest {
                         "    Xyz: '(xyz)',\n" +
                         "} as const;");
     }
+
+    @Test
+    public void testBareNullPropertiesIssue24520() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_bare_null_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_24520.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+        String content = Files.readString(file);
+
+        assertThat(content).doesNotContain("Null;");
+        assertThat(content).doesNotContain("Array<Null>");
+        assertThat(content).doesNotContain("from './null'");
+    }
 }

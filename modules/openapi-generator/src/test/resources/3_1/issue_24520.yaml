@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  title: Repro bare null property
+  version: 1.0.0
+components:
+  schemas:
+    Child:
+      type: object
+      properties:
+        name:
+          type: string
+
+    # a component schema that is itself a bare null type
+    NullAlias:
+      type: "null"
+
+    ParentBareNull:
+      type: object
+      properties:
+        # 1. property: Swashbuckle emits this shape for an untyped / `dynamic` member
+        dyn:
+          type: "null"
+        # 2. array items
+        dynList:
+          type: array
+          items:
+            type: "null"
+        # 3. property that $refs a null-typed component schema
+        dynRef:
+          $ref: "#/components/schemas/NullAlias"
+        # control: an ordinary $ref property, which stays correct
+        child:
+          $ref: "#/components/schemas/Child"
