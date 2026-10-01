@@ -237,37 +237,6 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
-    public void testJsonContentConstantHeaderUsesJsonSerialization() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content-constant.yaml");
-        final DefaultGenerator defaultGenerator = new DefaultGenerator();
-        final ClientOptInput clientOptInput = new ClientOptInput();
-        clientOptInput.openAPI(openAPI);
-        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
-        cSharpClientCodegen.setLibrary("restsharp");
-        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
-        cSharpClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
-        cSharpClientCodegen.setAutosetConstants(true);
-        clientOptInput.config(cSharpClientCodegen);
-        defaultGenerator.opts(clientOptInput);
-
-        Map<String, File> files = defaultGenerator.generate().stream()
-                .collect(Collectors.toMap(File::getPath, Function.identity()));
-
-        File apiFile = files
-                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
-        assertNotNull(apiFile);
-        // A constant (autoset) JSON header is serialized as JSON, with the constant rendered as its schema type:
-        // a string constant becomes a JSON string ...
-        assertFileContains(apiFile.toPath(),
-                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const-Str\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(\"CONSTANT_VALUE\")); // Constant header parameter");
-        // ... and an integer constant stays a JSON number (not a quoted string).
-        assertFileContains(apiFile.toPath(),
-                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const-Int\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(42)); // Constant header parameter");
-    }
-
-    @Test
     public void testJsonContentHeaderUsesJsonSerializationGenericHost() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

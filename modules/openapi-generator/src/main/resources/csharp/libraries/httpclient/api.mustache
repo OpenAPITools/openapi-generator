@@ -642,12 +642,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#constantParams}}
             {{#isHeaderParam}}
             // Set client side default value of Header Param "{{baseName}}".
-            {{#headerIsJsonMimeType}}
-            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToJsonString({{#isString}}"{{#_enum}}{{{.}}}{{/_enum}}"{{/isString}}{{^isString}}{{#_enum}}{{{.}}}{{/_enum}}{{/isString}})); // Constant header parameter
-            {{/headerIsJsonMimeType}}
-            {{^headerIsJsonMimeType}}
             localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
-            {{/headerIsJsonMimeType}}
             {{/isHeaderParam}}
             {{/constantParams}}
             {{#headerParams}}
