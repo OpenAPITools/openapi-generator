@@ -1,0 +1,81 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group = 'org.openapitools'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+           artifactId = 'microprofile-rest-client-3-mutiny'
+           from components.java
+        }
+    }
+}
+
+task execute(type:JavaExec) {
+   mainClass = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+ext {
+    microprofile_rest_client_api_version = "3.0"
+    jackson_jaxrs_version = "2.17.1"
+    jakarta_activation_version = "2.1.0"
+    jakarta_annotation_version = "2.0.0"
+    jakarta_json_bind_version = "3.0.0"
+    jakarta_json_version = "2.0.1"
+    jakarta_ws_rs_version = "3.0.0"
+    jakarta_xml_bind_version = "3.0.1"
+    jaxb_version = "3.0.2"
+    mutiny_version = "1.10.0"
+    junit_version = "5.10.2"
+}
+
+dependencies {
+    // Eclipse MicroProfile Rest Client
+    implementation "org.eclipse.microprofile.rest.client:microprofile-rest-client-api:$microprofile_rest_client_api_version"
+
+    // JAX-RS
+    compileOnly "jakarta.ws.rs:jakarta.ws.rs-api:$jakarta_ws_rs_version"
+
+    compileOnly "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    implementation "jakarta.json.bind:jakarta.json.bind-api:$jakarta_json_bind_version"
+    implementation "jakarta.json:jakarta.json-api:$jakarta_json_version"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:$jakarta_xml_bind_version"
+    implementation "com.sun.xml.bind:jaxb-core:$jaxb_version"
+    implementation "com.sun.xml.bind:jaxb-impl:$jaxb_version"
+    implementation "jakarta.activation:jakarta.activation-api:$jakarta_activation_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_jaxrs_version"
+    implementation "io.smallrye.reactive:mutiny:$mutiny_version"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+}
+
+test {
+    useJUnitPlatform()
+}
