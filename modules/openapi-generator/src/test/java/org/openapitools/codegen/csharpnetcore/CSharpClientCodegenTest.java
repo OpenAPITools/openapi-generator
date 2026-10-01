@@ -228,9 +228,39 @@ public class CSharpClientCodegenTest {
                 "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(xJsonArg)); // header parameter");
         assertFileNotContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xJsonArg)); // header parameter");
+        // A vendor JSON media type (application/vnd.*+json) is also serialized as JSON.
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Vendor-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(xVendorJsonArg)); // header parameter");
         // A regular (non-JSON) header keeps the existing behavior.
         assertFileContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-Plain-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xPlainArg)); // header parameter");
+    }
+
+    @Test
+    public void testJsonContentConstantHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content-constant.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+        assertNotNull(apiFile);
+        // A constant (autoset) header whose content type is JSON is also serialized as JSON.
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Const\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(\"CONSTANT_VALUE\")); // Constant header parameter");
     }
 
     @Test
@@ -256,6 +286,9 @@ public class CSharpClientCodegenTest {
         // JSON-content header is serialized with System.Text.Json using the client's serializer options.
         assertFileContains(apiFile.toPath(),
                 "JsonSerializer.Serialize(xJsonArg, _jsonSerializerOptions)");
+        // A vendor JSON media type (application/vnd.*+json) is also serialized as JSON.
+        assertFileContains(apiFile.toPath(),
+                "JsonSerializer.Serialize(xVendorJsonArg, _jsonSerializerOptions)");
         assertFileContains(apiFile.toPath(),
                 "ClientUtils.ParameterToString(xPlainArg)");
     }

@@ -1,0 +1,23 @@
+openapi: 3.1.0
+
+info:
+  title: JSON constant header repro
+  version: 1.0.0
+
+paths:
+  /test:
+    post:
+      operationId: testJsonConstantHeader
+      parameters:
+        - name: X-Json-Const
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - CONSTANT_VALUE
+      responses:
+        '204':
+          description: OK
