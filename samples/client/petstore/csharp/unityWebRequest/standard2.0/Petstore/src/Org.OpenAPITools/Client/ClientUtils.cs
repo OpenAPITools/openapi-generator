@@ -133,17 +133,17 @@ namespace Org.OpenAPITools.Client
         /// <returns>JSON representation of the object with every non-ASCII character (including DEL, U+007F) escaped as \uXXXX.</returns>
         public static string ParameterToJsonString(object obj)
         {
-            string json = Serialize(obj);
-            if (json == null)
-                return null;
+            // JsonConvert renders a null reference as the JSON literal "null" (not a null string).
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
 
-            // Escape every character outside the printable ASCII range (anything >= U+007F, which
-            // includes DEL) as \uXXXX. This runs over the final JSON string, so it is robust to
-            // custom converters that emit raw JSON, producing a value safe to use as an HTTP header.
+            // Escape everything that is not printable ASCII: C0 controls (including CR and LF), DEL,
+            // and all non-ASCII characters, as \uXXXX. Because this runs over the final serialized
+            // string, the result is safe to use as an HTTP header value even if a custom converter
+            // emitted raw control characters or non-ASCII text (preventing header splitting/injection).
             StringBuilder escaped = new StringBuilder(json.Length);
             foreach (char c in json)
             {
-                if (c >= 0x7f)
+                if (c < 0x20 || c >= 0x7f)
                     escaped.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
                 else
                     escaped.Append(c);
