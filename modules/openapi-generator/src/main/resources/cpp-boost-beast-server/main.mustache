@@ -1,0 +1,91 @@
+{{>licenseInfo}}
+// ============================================================================
+// main.cpp - quick-start server entry point (generated with
+// addApiImplStubs=true). Every operation answers 501 problem+json until you
+// provide a real service implementation.
+// ============================================================================
+#include <boost/asio.hpp>
+
+#include <cerrno>
+#include <cstdlib>
+#include <iostream>
+#include <memory>
+
+#include "server/HttpServer.h"
+#include "server/Router.h"
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#include "api/{{classname}}.h"
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+{{#apiNamespaceDeclarations}}
+using namespace {{this}};
+{{/apiNamespaceDeclarations}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+static void attach{{classname}}(HttpServer& server) {
+    {{classname}}::attach(server, std::make_shared<{{classname}}Stub>());
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+int main() {
+    unsigned port = 8080;
+#if defined(_MSC_VER)
+    char* rawPortText = nullptr;
+    std::size_t rawPortSize = 0;
+    if (_dupenv_s(&rawPortText, &rawPortSize, "PORT") != 0) {
+        std::cerr << "fatal: could not read PORT from the environment\n";
+        return EXIT_FAILURE;
+    }
+    std::unique_ptr<char, decltype(&std::free)> portTextOwner(
+        rawPortText, &std::free);
+    char const* portText = portTextOwner.get();
+#else
+    char const* portText = std::getenv("PORT");
+#endif
+    if (portText != nullptr) {
+        // Validate the whole value: a partial parse (e.g. "80x") or an
+        // out-of-range number must fail loudly rather than silently bind a
+        // different port than the operator intended. Port 0 would bind an
+        // ephemeral port whose number the log line below cannot know.
+        char* end = nullptr;
+        errno = 0;
+        unsigned long parsed = std::strtoul(portText, &end, 10);
+        if (errno != 0 || end == portText || *end != '\0'
+                || parsed < 1 || parsed > 65535) {
+            std::cerr << "fatal: invalid PORT value '" << portText
+                      << "' (expected an integer between 1 and 65535)\n";
+            return EXIT_FAILURE;
+        }
+        port = static_cast<unsigned>(parsed);
+    }
+
+    try {
+        boost::asio::io_context ioc;
+        auto router = std::make_shared<Router>();
+        auto server = HttpServer::create(ioc, router);
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+        attach{{classname}}(*server);
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+        server->listen(boost::asio::ip::tcp::endpoint{
+            boost::asio::ip::make_address("0.0.0.0"),
+            static_cast<unsigned short>(port)});
+        std::cout << "{{packageName}} listening on 0.0.0.0:" << port << "\n";
+        ioc.run();
+    } catch (std::exception const& error) {
+        std::cerr << "fatal: " << error.what() << "\n";
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+}
