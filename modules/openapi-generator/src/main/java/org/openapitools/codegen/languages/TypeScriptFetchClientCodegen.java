@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
@@ -726,6 +727,28 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+        CodegenProperty not = cp.getComposedSchemas() == null ? null : cp.getComposedSchemas().getNot();
+        if (not != null && not.isString && (not.isEnum || not.isEnumRef)
+                && not.allowableValues != null && not.allowableValues.get("values") instanceof List) {
+            StringJoiner comparisons = new StringJoiner(" || ");
+            for (Object excluded : (List<?>) not.allowableValues.get("values")) {
+                String literal;
+                if (excluded == null) {
+                    literal = "null";
+                } else if (excluded instanceof String) {
+                    literal = TextNode.valueOf((String) excluded).toString();
+                } else {
+                    continue;
+                }
+                comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.name) + "] === " + literal);
+                if (cp.getHasSanitizedName() && !cp.name.equals(cp.baseName)) {
+                    comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.baseName) + "] === " + literal);
+                }
+            }
+            if (comparisons.length() > 0) {
+                cp.vendorExtensions.put("x-typescript-fetch-not-enum-comparison", comparisons.toString());
+            }
+        }
         return new ExtendedCodegenProperty(cp);
     }
 
