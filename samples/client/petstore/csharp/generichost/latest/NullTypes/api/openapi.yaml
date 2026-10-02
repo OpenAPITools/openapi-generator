@@ -45,6 +45,7 @@ components:
         alwaysNull:
           description: |
             This property can only ever be null.  In OAS 3.1 you express that with `type: null`.  The C# generator must map this to a nullable Object.
+          nullable: true
     ShapeOrNull:
       allOf:
       - $ref: "#/components/schemas/Shape"
@@ -78,6 +79,7 @@ components:
         debugInfo:
           description: |
             Always null in production. Maps to nullable Object in C#.
+          nullable: true
         shape:
           allOf:
           - $ref: "#/components/schemas/Shape"
