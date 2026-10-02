@@ -355,6 +355,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(DATETIME_FORMAT)) {
             setDatetimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else if (datetimeFormat != null) {
+            additionalProperties.put(DATETIME_FORMAT, datetimeFormat);
         }
 
         if (additionalProperties.containsKey(DATE_FORMAT)) {

@@ -143,6 +143,16 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testDatetimeFormatSetterIsStillHonoured() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setDatetimeFormat("%Y-%m-%dT%H:%M:%SZ");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/echo_api.yaml");
+
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"),
+                "datetime_format: Optional[str]=\"%Y-%m-%dT%H:%M:%SZ\",");
+    }
+
+    @Test
     public void testDatetimeFormatOptionIsStillHonoured() throws IOException {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.additionalProperties().put(PythonClientCodegen.DATETIME_FORMAT, "%Y-%m-%dT%H:%M:%SZ");
