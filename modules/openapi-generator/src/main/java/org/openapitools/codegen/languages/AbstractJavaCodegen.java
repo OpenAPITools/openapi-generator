@@ -1925,16 +1925,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toExampleValue(Schema p) {
-        if (p.getExample() != null) {
-            if (p.getExample() instanceof Date) {
-                Date date = (Date) p.getExample();
-                return DateTimeFormatter.ISO_LOCAL_DATE.format(ZonedDateTime.ofInstant(date.toInstant(), UTC));
-            }
-            return escapeText(p.getExample().toString());
-        } else {
+    protected String getExampleValueToString(Object example) {
+        if (example == null) {
             return null;
         }
+        if (example instanceof Date) {
+            Date date = (Date) example;
+            return DateTimeFormatter.ISO_LOCAL_DATE.format(ZonedDateTime.ofInstant(date.toInstant(), UTC));
+        }
+        return escapeText(super.getExampleValueToString(example));
     }
 
     @Override
