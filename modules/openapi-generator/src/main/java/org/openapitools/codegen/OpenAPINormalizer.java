@@ -986,7 +986,11 @@ public class OpenAPINormalizer {
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             if (result.getItems() != null) {
-                result.setItems(normalizeBareNullSchemaIfNeeded(result.getItems(), visitedSchemas));
+                if (getRule(NORMALIZE_31SPEC)) {
+                    result.setItems(normalizeBareNullSchemaIfNeeded(result.getItems(), visitedSchemas));
+                } else {
+                    normalizeSchema(result.getItems(), visitedSchemas);
+                }
             }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
