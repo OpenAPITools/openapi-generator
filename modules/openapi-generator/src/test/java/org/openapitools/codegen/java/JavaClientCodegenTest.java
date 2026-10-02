@@ -438,6 +438,51 @@ public class JavaClientCodegenTest {
         Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
+    @DataProvider
+    public Object[][] propertyRefEnumDefaults() {
+        return new Object[][] {
+                {"String", "ARCHIVE"},
+                {"Date", "2026-01-01"},
+                {"UUID", "123e4567-e89b-12d3-a456-426614174000"},
+                {"BigDecimal", "1.5"}
+        };
+    }
+
+    @Test(dataProvider = "propertyRefEnumDefaults")
+    public void testPropertyRefDiscriminatorDoesNotQualifyScalarDefault(String dataType, String value) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = dataType;
+        property.datatypeWithEnum = dataType;
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.isDiscriminator = true;
+        property.defaultValue = "String".equals(dataType) ? value : codegen.toEnumValue(value, dataType);
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of(value));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertNull(property.defaultValue);
+    }
+
+    @Test
+    public void testPropertyRefPreservesOrdinaryStringDefault() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = "String";
+        property.datatypeWithEnum = "String";
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.defaultValue = "ARCHIVE";
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of("ARCHIVE"));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertEquals("\"ARCHIVE\"", property.defaultValue);
+    }
+
     @Test
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
@@ -1945,6 +1990,24 @@ public class JavaClientCodegenTest {
                 .assertProperty("format")
                 .asString()
                 .contains("new OutputFormat().order(OutputFormat.OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
+    public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
+                Map.of(MODEL_NAME_PREFIX, "Stock"));
+
+        // CategoryEvent.category is a discriminator property that is a `$ref` to another schema's
+        // (CategorySource) inline enum property, not to a named enum schema and not an inline enum
+        // itself. There is no enum type at this use site to qualify the discriminator mapping value
+        // with, so no default must be emitted here; previously this rendered the uncompilable
+        // `this.category = String.ARCHIVE;` (see #24874).
+        JavaFileAssert.assertThat(files.get("StockArchiveCategoryEvent.java"))
+                .fileDoesNotContain("String.ARCHIVE");
+        JavaFileAssert.assertThat(files.get("StockOrdinaryCategory.java"))
+                .assertProperty("category")
+                .asString()
+                .contains("CategoryEnum category = CategoryEnum.ARCHIVE");
     }
 
     @Test

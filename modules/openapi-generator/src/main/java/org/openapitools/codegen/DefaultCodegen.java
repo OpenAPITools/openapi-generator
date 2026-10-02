@@ -7227,7 +7227,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(var, enumName);
+                if (!var.isEnum && ModelUtils.isRefToSchemaWithProperties(var.getRef())) {
+                    // A reference to another model's property does not declare an enum type here.
+                    // Preserve ordinary scalar defaults, but discard the unquoted discriminator
+                    // mapping value synthesized by setEnumDiscriminatorDefaultValue (#24874).
+                    var.defaultValue = var.isDiscriminator ? null : enumDefaultValue;
+                } else {
+                    var.defaultValue = toEnumDefaultValue(var, enumName);
+                }
             }
         }
     }
