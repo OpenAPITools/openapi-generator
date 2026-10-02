@@ -46,7 +46,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
-public class DefaultApi {
+public class DefaultApi implements AutoCloseable {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
    */
@@ -271,4 +271,19 @@ public class DefaultApi {
     return localVarRequestBuilder;
   }
 
+  /**
+   * Closes the {@link HttpClient} that this instance created from the {@link ApiClient}
+   * it was constructed with. {@code ApiClient.getHttpClient()} builds a new client on
+   * every call, so the client held here is owned exclusively by this instance and is not
+   * shared with any other API instance.
+   *
+   * <p>{@link HttpClient} only became {@link AutoCloseable} in Java 21, hence the guard;
+   * on earlier runtimes there is no way to release the client's threads early.
+   */
+  @Override
+  public void close() throws Exception {
+    if (memberVarHttpClient instanceof AutoCloseable) {
+      ((AutoCloseable) memberVarHttpClient).close();
+    }
+  }
 }
