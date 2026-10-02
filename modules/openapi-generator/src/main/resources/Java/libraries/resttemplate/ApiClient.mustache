@@ -26,6 +26,11 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 {{#withXml}}
+{{#useJackson3}}
+import {{jacksonPackage}}.databind.DeserializationFeature;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
+{{/useJackson3}}
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
@@ -889,7 +894,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      */
     protected RestTemplate buildRestTemplate() {
         {{#withXml}}List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+        {{#useJackson3}}
+        // Jackson 3 handles java.time and java.util.Optional out of the box
+        JsonMapper jsonMapper = JsonMapper.builder()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
+        messageConverters.add(new JacksonJsonHttpMessageConverter(jsonMapper));
+        {{/useJackson3}}
+        {{^useJackson3}}
         messageConverters.add(new MappingJackson2HttpMessageConverter());
+        {{/useJackson3}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
