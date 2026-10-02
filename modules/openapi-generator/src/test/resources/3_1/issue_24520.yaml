@@ -28,6 +28,17 @@ components:
         # 3. property that $refs a null-typed component schema
         dynRef:
           $ref: "#/components/schemas/NullAlias"
+        # 4. property that $refs a null-typed component schema with sibling metadata
+        dynRefWithDesc:
+          $ref: "#/components/schemas/NullAlias"
+          description: "Sibling description for bare null ref"
+        # 5. property with explicit nullable: false that $refs null-typed schema
+        dynRefExplicitNotNullable:
+          $ref: "#/components/schemas/NullAlias"
+          nullable: false
+        # 6. untyped schema with validation constraints, should NOT be converted to bare null
+        patternProp:
+          pattern: "^[a-z]+$"
         # control: an ordinary $ref property, which stays correct
         child:
           $ref: "#/components/schemas/Child"

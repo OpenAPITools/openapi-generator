@@ -299,6 +299,11 @@ public class TypeScriptAxiosClientCodegenTest {
         Path file = Paths.get(output + "/api.ts");
         String content = Files.readString(file);
 
+        assertThat(content).contains("'dyn'?: any | null;");
+        assertThat(content).contains("'dynList'?: Array<any | null>;");
+        assertThat(content).contains("'dynRef'?: any | null;");
+        assertThat(content).contains("'dynRefWithDesc'?: any | null;");
+        assertThat(content).contains("'dynRefExplicitNotNullable'?: any | null;");
         assertThat(content).doesNotContain("Null;");
         assertThat(content).doesNotContain("Array<Null>");
         assertThat(content).doesNotContain("from './null'");

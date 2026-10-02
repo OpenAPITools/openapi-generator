@@ -986,15 +986,7 @@ public class OpenAPINormalizer {
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             if (result.getItems() != null) {
-                Schema normalized = normalizeSchema(result.getItems(), visitedSchemas);
-                if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, normalized)) {
-                    Schema anyTypeNullable = new Schema();
-                    anyTypeNullable.setNullable(true);
-                    ModelUtils.copyMetadata(normalized, anyTypeNullable);
-                    result.setItems(anyTypeNullable);
-                } else if (getRule(NORMALIZE_31SPEC) && normalized != null) {
-                    result.setItems(normalized);
-                }
+                result.setItems(normalizeBareNullSchemaIfNeeded(result.getItems(), visitedSchemas));
             }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
@@ -1048,23 +1040,15 @@ public class OpenAPINormalizer {
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             Schema result = normalizeMapSchema(schema);
             Schema additionalProperties = (Schema) result.getAdditionalProperties();
-            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+            if (getRule(NORMALIZE_31SPEC)) {
                 // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
                 // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
                 // so generators emit a fictional `Null` / `ModelNull` value type that fails to
                 // compile. Normalize it to an any-type nullable schema so the map value is
                 // generated as a normal (nullable) object instead.
-                Schema anyTypeNullable = new Schema();
-                anyTypeNullable.setNullable(true);
-                ModelUtils.copyMetadata(additionalProperties, anyTypeNullable);
-                result.setAdditionalProperties(anyTypeNullable);
+                result.setAdditionalProperties(normalizeBareNullSchemaIfNeeded(additionalProperties, visitedSchemas));
             } else {
-                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
-                if (getRule(NORMALIZE_31SPEC)) {
-                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
-                    // value is rewritten to a proper array schema), which would otherwise be lost.
-                    result.setAdditionalProperties(normalized);
-                }
+                normalizeSchema(additionalProperties, visitedSchemas);
             }
 
             return result;
@@ -1150,6 +1134,105 @@ public class OpenAPINormalizer {
         }
     }
 
+    /**
+     * Resolves references recursively up to a reasonable depth.
+     *
+     * @param schema Schema to dereference
+     * @return dereferenced schema, or original schema if not a ref
+     */
+    private Schema<?> dereferenceSchema(Schema<?> schema) {
+        Schema<?> current = schema;
+        int depth = 0;
+        while (current != null && StringUtils.isNotEmpty(current.get$ref()) && depth < 10) {
+            Schema<?> next = ModelUtils.getReferencedSchema(openAPI, current);
+            if (next == current) {
+                break;
+            }
+            current = next;
+            depth++;
+        }
+        if (current != null && ModelUtils.hasAllOf(current) && current.getAllOf().size() == 1
+                && current.getAllOf().get(0) instanceof Schema) {
+            Schema<?> first = (Schema<?>) current.getAllOf().get(0);
+            while (first != null && StringUtils.isNotEmpty(first.get$ref()) && depth < 10) {
+                Schema<?> next = ModelUtils.getReferencedSchema(openAPI, first);
+                if (next == first) {
+                    break;
+                }
+                first = next;
+                depth++;
+            }
+            current = first;
+        }
+        return current;
+    }
+
+    /**
+     * Return true if the schema resolves explicitly to a bare null type (type: "null" or types: ["null"]).
+     *
+     * @param schema Schema to check
+     * @return true if schema is an explicit bare null type
+     */
+    protected boolean isBareNullSchema(Schema<?> schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        Schema<?> target = dereferenceSchema(schema);
+        if (target == null) {
+            return false;
+        }
+
+        if (target.getTypes() != null && !target.getTypes().isEmpty()) {
+            if (target.getTypes().size() == 1) {
+                return "null".equals(target.getTypes().iterator().next());
+            }
+            return false;
+        }
+
+        return "null".equals(target.getType());
+    }
+
+    /**
+     * Normalizes a schema if it is an explicit bare null type under NORMALIZE_31SPEC,
+     * converting it to an any-type nullable schema while preserving metadata.
+     * Otherwise normalizes the schema using {@link #normalizeSchema}.
+     *
+     * @param schema Schema to normalize
+     * @param visitedSchemas a set of visited schemas
+     * @return normalized schema
+     */
+    protected Schema normalizeBareNullSchemaIfNeeded(Schema<?> schema, Set<Schema> visitedSchemas) {
+        if (schema == null) {
+            return null;
+        }
+
+        if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(schema)) {
+            Schema anyTypeNullable = new Schema();
+            Schema<?> target = dereferenceSchema(schema);
+            if (target != null && target != schema) {
+                ModelUtils.copyMetadata(target, anyTypeNullable);
+            }
+            ModelUtils.copyMetadata(schema, anyTypeNullable);
+            anyTypeNullable.setNullable(true);
+            return anyTypeNullable;
+        }
+
+        Schema normalized = normalizeSchema(schema, visitedSchemas);
+        if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(normalized)) {
+            Schema anyTypeNullable = new Schema();
+            Schema<?> target = dereferenceSchema(normalized);
+            if (target != null && target != normalized) {
+                ModelUtils.copyMetadata(target, anyTypeNullable);
+            }
+            ModelUtils.copyMetadata(normalized, anyTypeNullable);
+            anyTypeNullable.setNullable(true);
+            return anyTypeNullable;
+        }
+
+        return normalized;
+    }
+
     protected Schema normalizeArraySchema(Schema schema) {
         Schema result = processNormalize31Spec(schema, new HashSet<>());
         return processSetArraytoNullable(result);
@@ -1204,15 +1287,7 @@ public class OpenAPINormalizer {
                     property.getExtensions().remove(X_INTERNAL);
                 }
             }
-            Schema newProperty = normalizeSchema(property, new HashSet<>());
-            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, newProperty)) {
-                Schema anyTypeNullable = new Schema();
-                anyTypeNullable.setNullable(true);
-                ModelUtils.copyMetadata(newProperty, anyTypeNullable);
-                propertiesEntry.setValue(anyTypeNullable);
-            } else {
-                propertiesEntry.setValue(newProperty);
-            }
+            propertiesEntry.setValue(normalizeBareNullSchemaIfNeeded(property, new HashSet<>()));
         }
     }
 
