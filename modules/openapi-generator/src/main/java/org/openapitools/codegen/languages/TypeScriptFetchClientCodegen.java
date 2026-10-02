@@ -965,6 +965,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
+        // Type names omit branch nullability. Null is valid only when exactly one branch accepts it.
+        if (oneOfsList.stream().filter(cp -> cp.isNullable).count() == 1) {
+            cm.oneOf.add("null");
+        }
+
         // create a set of any non-primitive, non-array types used in the oneOf schemas which will
         // need to be imported.
         cm.oneOfModels = oneOfsList.stream()
