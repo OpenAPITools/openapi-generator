@@ -512,6 +512,83 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testComplexDefaultsGenerateValidJava() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setInputSpec("src/test/resources/bugs/issue_24993.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/ComplexDefaults.java"))
+                .content()
+                .contains(
+                        "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
+                                + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
+                        "new ArrayList<>(Arrays.asList(10l, 20l))",
+                        "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
+                        "new ComplexDefaultsObjectOneOf(new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE))",
+                        "new ComplexDefaultsObjectAnyOf().name(\"any-of\").count(5).status(Status.INACTIVE)",
+                        "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
+                        "private File binaryValue = null;")
+                .containsPattern("new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h2\\\"\\s*,\\s*\\\"Header 2\\\"\\s*\\)\\s*\\)\\s*\\)\\s*\\)")
+                .doesNotContain("Arrays.asList(, )", "= {", "[B@");
+    }
+
+    @Test
+    public void testNestedArrayDefaultDoesNotSeedAddItemWithDefault() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP_GSON);
+
+        assertThat(files.get("NestedArrayWithDefaultValues.java").toPath()).content()
+                .containsPattern("private\\s+List\\s*<\\s*List\\s*<\\s*String\\s*>\\s*>\\s+nestedArray\\s*=\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,")
+                .containsPattern("if\\s*\\(\\s*this\\.nestedArray\\s*==\\s*null\\s*\\)\\s*\\{\\s*"
+                        + "this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*\\)\\s*;")
+                .doesNotContainPattern("this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(");
+    }
+
+    @Test
+    public void testJersey3NullableContainerDefaultIsDeclared() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                "jersey3",
+                Map.of(JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        validateJavaSourceFiles(List.copyOf(files.values()));
+        assertThat(files.get("ContainerDefaultValue.java").toPath()).content()
+                .contains("private JsonNullable<List<String>> nullableArrayWithDefault = "
+                        + "JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(\"foo\", \"bar\")));"
+                )
+                .contains("this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>());")
+                .doesNotContain("this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(");
+    }
+
+    @Test
+    public void testJersey3NullableNullDefaultRemainsUndefined() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/bugs/issue_24993.yaml",
+                "jersey3",
+                Map.of(JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertThat(files.get("ComplexDefaults.java").toPath()).content()
+                .containsPattern("nullableObject\\s*=\\s*JsonNullable\\.<[^>]+>undefined\\(\\);")
+                .containsPattern("nullableArrayWithNullDefault\\s*=\\s*JsonNullable\\.<List<String>>undefined\\(\\);")
+                .doesNotContain("JsonNullable.<DefaultObject>of(null)")
+                .doesNotContain("JsonNullable.<List<String>>of(null)");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

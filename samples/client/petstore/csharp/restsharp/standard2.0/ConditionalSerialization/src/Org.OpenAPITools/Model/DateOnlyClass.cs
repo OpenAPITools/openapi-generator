@@ -36,11 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateTime dateOnlyProperty = default)
+        public DateOnlyClass(DateTime? dateOnlyProperty = default)
         {
-            this._DateOnlyProperty = dateOnlyProperty;
-            if (this.DateOnlyProperty != null)
+            if (dateOnlyProperty != null)
             {
+                this._DateOnlyProperty = dateOnlyProperty.Value;
                 this._flagDateOnlyProperty = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
