@@ -2179,10 +2179,12 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        Map<String, Schema> originalProperties = schema.getProperties();
+        List<String> originalRequired = schema.getRequired();
+
         ObjectSchema os = new ObjectSchema();
         // set the properties, etc of the new schema to the properties of schema
-        os.setProperties(schema.getProperties());
-        os.setRequired(schema.getRequired());
+        os.setProperties(originalProperties);
         os.setAdditionalProperties(schema.getAdditionalProperties());
         os.setNullable(schema.getNullable());
         os.setDescription(schema.getDescription());
@@ -2190,10 +2192,34 @@ public class OpenAPINormalizer {
         os.setExample(schema.getExample());
         os.setExamples(schema.getExamples());
         os.setTitle(schema.getTitle());
-        schema.getAllOf().add(os); // move new schema as a child schema of allOf
-        // clean up by removing properties, etc
+
+        // Split required properties between local and inherited
+        if (originalRequired != null) {
+            List<String> localRequired = new ArrayList<>();
+            List<String> inheritedRequired = new ArrayList<>();
+            
+            for (String req : originalRequired) {
+                if (originalProperties != null && originalProperties.containsKey(req)) {
+                    localRequired.add(req);
+                } else {
+                    inheritedRequired.add(req);
+                }
+            }
+            
+            if (!localRequired.isEmpty()) {
+                os.setRequired(localRequired);
+            }
+            
+            if (!inheritedRequired.isEmpty()) {
+                schema.setRequired(inheritedRequired);
+            } else {
+                schema.setRequired(null);
+            }
+        }
+
+        schema.getAllOf().add(os);  // move new schema as a child schema of allOf
+        // clean up by removing properties, etc        
         schema.setProperties(null);
-        schema.setRequired(null);
         schema.setAdditionalProperties(null);
         schema.setNullable(null);
         schema.setDescription(null);
