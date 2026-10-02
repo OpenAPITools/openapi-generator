@@ -2274,6 +2274,7 @@ public class OpenAPINormalizerTest {
         Schema dyn = (Schema) schema.getProperties().get("dyn");
         assertNull(dyn.getType());
         assertNull(dyn.getTypes());
+        assertNull(dyn.get$ref());
         assertTrue(dyn.getNullable());
 
         Schema dynList = (Schema) schema.getProperties().get("dynList");
@@ -2281,12 +2282,31 @@ public class OpenAPINormalizerTest {
         Schema dynListItems = dynList.getItems();
         assertNull(dynListItems.getType());
         assertNull(dynListItems.getTypes());
+        assertNull(dynListItems.get$ref());
         assertTrue(dynListItems.getNullable());
 
         Schema dynRef = (Schema) schema.getProperties().get("dynRef");
         assertNull(dynRef.getType());
         assertNull(dynRef.getTypes());
+        assertNull(dynRef.get$ref());
         assertTrue(dynRef.getNullable());
+
+        Schema dynRefWithDesc = (Schema) schema.getProperties().get("dynRefWithDesc");
+        assertNull(dynRefWithDesc.getType());
+        assertNull(dynRefWithDesc.getTypes());
+        assertNull(dynRefWithDesc.get$ref());
+        assertTrue(dynRefWithDesc.getNullable());
+        assertEquals(dynRefWithDesc.getDescription(), "Sibling description for bare null ref");
+
+        Schema dynRefExplicitNotNullable = (Schema) schema.getProperties().get("dynRefExplicitNotNullable");
+        assertNull(dynRefExplicitNotNullable.getType());
+        assertNull(dynRefExplicitNotNullable.getTypes());
+        assertNull(dynRefExplicitNotNullable.get$ref());
+        assertTrue(dynRefExplicitNotNullable.getNullable());
+
+        Schema patternProp = (Schema) schema.getProperties().get("patternProp");
+        assertEquals(patternProp.getPattern(), "^[a-z]+$");
+        assertNull(patternProp.getNullable());
 
         Schema child = (Schema) schema.getProperties().get("child");
         assertEquals(child.get$ref(), "#/components/schemas/Child");
