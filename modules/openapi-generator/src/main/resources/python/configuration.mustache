@@ -237,6 +237,7 @@ class Configuration:
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
     :param datetime_format: Datetime format string for serialization.
+      If None, datetime.isoformat() is used, which is RFC 3339 compliant.
     :param date_format: Date format string for serialization.
 
 {{#hasAuthMethods}}
@@ -373,7 +374,7 @@ conf = {{{packageName}}}.Configuration(
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
-        datetime_format: str="{{{datetimeFormat}}}",
+        datetime_format: Optional[str]={{#datetimeFormat}}"{{{.}}}"{{/datetimeFormat}}{{^datetimeFormat}}None{{/datetimeFormat}},
         date_format: str="{{{dateFormat}}}",
         *,
         debug: Optional[bool] = None,

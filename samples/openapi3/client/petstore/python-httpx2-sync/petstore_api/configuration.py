@@ -181,6 +181,7 @@ class Configuration:
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
     :param datetime_format: Datetime format string for serialization.
+      If None, datetime.isoformat() is used, which is RFC 3339 compliant.
     :param date_format: Date format string for serialization.
 
     :Example:
@@ -290,7 +291,7 @@ conf = petstore_api.Configuration(
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
-        datetime_format: str="%Y-%m-%dT%H:%M:%S.%f%z",
+        datetime_format: Optional[str]=None,
         date_format: str="%Y-%m-%d",
         *,
         debug: Optional[bool] = None,

@@ -114,7 +114,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    @Setter protected String datetimeFormat = null;
     @Setter protected String dateFormat = "%Y-%m-%d";
     @Setter protected boolean setEnsureAsciiToFalse = false;
     @Setter protected boolean useIndependentImplicitClients = false;
@@ -221,8 +221,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
         cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.")
                 .defaultValue("Union[StrictFloat, StrictInt]"));
-        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
-                .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
+        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters. If not set, datetime.isoformat() is used, which is RFC 3339 compliant."));
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
@@ -356,8 +355,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(DATETIME_FORMAT)) {
             setDatetimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
-        } else {
-            additionalProperties.put(DATETIME_FORMAT, datetimeFormat);
         }
 
         if (additionalProperties.containsKey(DATE_FORMAT)) {

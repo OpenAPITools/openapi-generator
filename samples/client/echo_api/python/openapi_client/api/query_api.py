@@ -573,7 +573,9 @@ class QueryApi:
                 _query_params.append(
                     (
                         'datetime_query',
-                        datetime_query.strftime(
+                        datetime_query.isoformat()
+                        if self.api_client.configuration.datetime_format is None
+                        else datetime_query.strftime(
                             self.api_client.configuration.datetime_format
                         )
                     )
