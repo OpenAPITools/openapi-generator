@@ -14,6 +14,13 @@ components:
     NullAlias:
       type: "null"
 
+    # a referenced one-member allOf wrapper with its own description and extension
+    NullWrapperAllOf:
+      description: "Wrapper description on allOf schema"
+      x-wrapper-ext: "wrapper-extension-value"
+      allOf:
+        - $ref: "#/components/schemas/NullAlias"
+
     ParentBareNull:
       type: object
       properties:
@@ -39,6 +46,13 @@ components:
         # 6. untyped schema with validation constraints, should NOT be converted to bare null
         patternProp:
           pattern: "^[a-z]+$"
+        # 7. property that $refs a one-member allOf wrapper around null schema
+        dynRefToAllOfWrapper:
+          $ref: "#/components/schemas/NullWrapperAllOf"
+        # 8. property that $refs a one-member allOf wrapper with sibling description overriding wrapper
+        dynRefToAllOfWrapperWithSiblingDesc:
+          $ref: "#/components/schemas/NullWrapperAllOf"
+          description: "Overridden description on property"
         # control: an ordinary $ref property, which stays correct
         child:
           $ref: "#/components/schemas/Child"

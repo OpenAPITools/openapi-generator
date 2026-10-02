@@ -1135,36 +1135,69 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Resolves references recursively up to a reasonable depth.
+     * Resolves references and single-element allOf wrappers recursively up to a reasonable depth,
+     * collecting every schema in the resolution chain from root to leaf.
      *
-     * @param schema Schema to dereference
-     * @return dereferenced schema, or original schema if not a ref
+     * @param schema Root schema
+     * @return list of schemas from root to leaf
      */
-    private Schema<?> dereferenceSchema(Schema<?> schema) {
-        Schema<?> current = schema;
-        int depth = 0;
-        while (current != null && StringUtils.isNotEmpty(current.get$ref()) && depth < 10) {
-            Schema<?> next = ModelUtils.getReferencedSchema(openAPI, current);
-            if (next == current) {
-                break;
-            }
-            current = next;
-            depth++;
+    private List<Schema<?>> collectResolutionChain(Schema<?> schema) {
+        List<Schema<?>> chain = new ArrayList<>();
+        if (schema == null) {
+            return chain;
         }
-        if (current != null && ModelUtils.hasAllOf(current) && current.getAllOf().size() == 1
-                && current.getAllOf().get(0) instanceof Schema) {
-            Schema<?> first = (Schema<?>) current.getAllOf().get(0);
-            while (first != null && StringUtils.isNotEmpty(first.get$ref()) && depth < 10) {
-                Schema<?> next = ModelUtils.getReferencedSchema(openAPI, first);
-                if (next == first) {
+
+        Schema<?> current = schema;
+        chain.add(current);
+        Set<Schema<?>> seen = new HashSet<>();
+        seen.add(current);
+
+        int depth = 0;
+        while (depth < 10) {
+            depth++;
+            if (StringUtils.isNotEmpty(current.get$ref())) {
+                Schema<?> next = ModelUtils.getReferencedSchema(openAPI, current);
+                if (next == null || next == current || !seen.add(next)) {
                     break;
                 }
-                first = next;
-                depth++;
+                current = next;
+                chain.add(current);
+            } else if (ModelUtils.hasAllOf(current) && current.getAllOf().size() == 1
+                    && current.getAllOf().get(0) instanceof Schema) {
+                Schema<?> first = (Schema<?>) current.getAllOf().get(0);
+                if (first == null || first == current || !seen.add(first)) {
+                    break;
+                }
+                current = first;
+                chain.add(current);
+            } else {
+                break;
             }
-            current = first;
         }
-        return current;
+        return chain;
+    }
+
+    /**
+     * Constructs a new any-type nullable schema by copying metadata from each resolved schema
+     * in the chain (leaf to root so that outer layers override inner layers) and forcing nullable: true.
+     *
+     * @param chain resolution chain from root to leaf
+     * @return any-type nullable schema preserving metadata from all layers
+     */
+    private Schema createAnyTypeNullableSchema(List<Schema<?>> chain) {
+        Schema anyTypeNullable = new Schema();
+        for (int i = chain.size() - 1; i >= 0; i--) {
+            Schema<?> s = chain.get(i);
+            ModelUtils.copyMetadata(s, anyTypeNullable);
+            if (s.getExtensions() != null) {
+                if (anyTypeNullable.getExtensions() == null) {
+                    anyTypeNullable.setExtensions(new LinkedHashMap<>());
+                }
+                anyTypeNullable.getExtensions().putAll(s.getExtensions());
+            }
+        }
+        anyTypeNullable.setNullable(true);
+        return anyTypeNullable;
     }
 
     /**
@@ -1178,7 +1211,12 @@ public class OpenAPINormalizer {
             return false;
         }
 
-        Schema<?> target = dereferenceSchema(schema);
+        List<Schema<?>> chain = collectResolutionChain(schema);
+        if (chain.isEmpty()) {
+            return false;
+        }
+
+        Schema<?> target = chain.get(chain.size() - 1);
         if (target == null) {
             return false;
         }
@@ -1208,26 +1246,14 @@ public class OpenAPINormalizer {
         }
 
         if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(schema)) {
-            Schema anyTypeNullable = new Schema();
-            Schema<?> target = dereferenceSchema(schema);
-            if (target != null && target != schema) {
-                ModelUtils.copyMetadata(target, anyTypeNullable);
-            }
-            ModelUtils.copyMetadata(schema, anyTypeNullable);
-            anyTypeNullable.setNullable(true);
-            return anyTypeNullable;
+            List<Schema<?>> chain = collectResolutionChain(schema);
+            return createAnyTypeNullableSchema(chain);
         }
 
         Schema normalized = normalizeSchema(schema, visitedSchemas);
         if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(normalized)) {
-            Schema anyTypeNullable = new Schema();
-            Schema<?> target = dereferenceSchema(normalized);
-            if (target != null && target != normalized) {
-                ModelUtils.copyMetadata(target, anyTypeNullable);
-            }
-            ModelUtils.copyMetadata(normalized, anyTypeNullable);
-            anyTypeNullable.setNullable(true);
-            return anyTypeNullable;
+            List<Schema<?>> chain = collectResolutionChain(normalized);
+            return createAnyTypeNullableSchema(chain);
         }
 
         return normalized;

@@ -2308,6 +2308,24 @@ public class OpenAPINormalizerTest {
         assertEquals(patternProp.getPattern(), "^[a-z]+$");
         assertNull(patternProp.getNullable());
 
+        Schema dynRefToAllOfWrapper = (Schema) schema.getProperties().get("dynRefToAllOfWrapper");
+        assertNull(dynRefToAllOfWrapper.getType());
+        assertNull(dynRefToAllOfWrapper.getTypes());
+        assertNull(dynRefToAllOfWrapper.get$ref());
+        assertTrue(dynRefToAllOfWrapper.getNullable());
+        assertEquals(dynRefToAllOfWrapper.getDescription(), "Wrapper description on allOf schema");
+        assertNotNull(dynRefToAllOfWrapper.getExtensions());
+        assertEquals(dynRefToAllOfWrapper.getExtensions().get("x-wrapper-ext"), "wrapper-extension-value");
+
+        Schema dynRefToAllOfWrapperWithSiblingDesc = (Schema) schema.getProperties().get("dynRefToAllOfWrapperWithSiblingDesc");
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.getType());
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.getTypes());
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.get$ref());
+        assertTrue(dynRefToAllOfWrapperWithSiblingDesc.getNullable());
+        assertEquals(dynRefToAllOfWrapperWithSiblingDesc.getDescription(), "Overridden description on property");
+        assertNotNull(dynRefToAllOfWrapperWithSiblingDesc.getExtensions());
+        assertEquals(dynRefToAllOfWrapperWithSiblingDesc.getExtensions().get("x-wrapper-ext"), "wrapper-extension-value");
+
         Schema child = (Schema) schema.getProperties().get("child");
         assertEquals(child.get$ref(), "#/components/schemas/Child");
     }
