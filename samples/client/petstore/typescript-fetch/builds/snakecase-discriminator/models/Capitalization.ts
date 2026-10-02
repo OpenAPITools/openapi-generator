@@ -21,39 +21,27 @@ import { mapValues } from '../runtime';
 export interface Capitalization {
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     smallCamel?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     capitalCamel?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     smallSnake?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     capitalSnake?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     sCAETHFlowPoints?: string;
     /**
      * Name of the pet
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     aTTNAME?: string;
 }

@@ -11,6 +11,11 @@
 package petstoreserver
 
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 
 
 // SpecialInfo - An order info for a pets from the pet store
@@ -22,18 +27,74 @@ type SpecialInfo struct {
 
 	Type string `json:"type,omitempty"`
 }
-
-// AssertSpecialInfoRequired checks if the required fields are not zero-ed
-func AssertSpecialInfoRequired(obj SpecialInfo) error {
-	elements := map[string]interface{}{
-		"requireTest": obj.RequireTest,
+// UnmarshalJSON validates required property keys then unmarshals into SpecialInfo
+func (o *SpecialInfo) UnmarshalJSON(data []byte) (err error) {
+	// Presence is checked against required fields that exist on this struct,
+	// including fields promoted from embedded allOf parents.
+	requiredProperties := []string{
+		"requireTest",
 	}
-	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
+
+	requiredNullableProperties := map[string]bool{
+		"requireTest": false,
+	}
+
+	allowedJsonKeys := map[string]struct{}{
+		"promotion": {},
+		"requireTest": {},
+		"type": {},
+	}
+
+	allProperties := make(map[string]json.RawMessage)
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		value, exists := allProperties[requiredProperty]
+		if !exists {
+			return &RequiredError{Field: requiredProperty}
+		}
+		if string(value) == "null" && !requiredNullableProperties[requiredProperty] {
+			return &RequiredError{Field: requiredProperty}
 		}
 	}
 
+	for key := range allProperties {
+		if _, exists := allowedJsonKeys[key]; !exists {
+			return fmt.Errorf("json: unknown field %q", key)
+		}
+	}
+
+	var decoded SpecialInfo
+
+	if value, exists := allProperties["promotion"]; exists {
+		if err = json.Unmarshal(value, &decoded.Promotion); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["requireTest"]; exists {
+		if err = json.Unmarshal(value, &decoded.RequireTest); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["type"]; exists {
+		if err = json.Unmarshal(value, &decoded.Type); err != nil {
+			return err
+		}
+	}
+
+	*o = decoded
+
+	return nil
+}
+
+// AssertSpecialInfoRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
+func AssertSpecialInfoRequired(obj SpecialInfo) error {
 	return nil
 }
 

@@ -60,6 +60,11 @@ import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
+    {{#enumDescription}}
+    /**
+     * {{.}}
+     */
+    {{/enumDescription}}
     {{^multiplatform}}
     {{#moshi}}
     @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
@@ -204,7 +209,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             ?: throw IllegalArgumentException("Unknown enum value: $value")
     }
 

@@ -20,32 +20,59 @@ import {
 } from '../models/User';
 
 export interface UserApiCreateUserRequest {
+    /**
+     * 
+     */
     body: User;
 }
 
 export interface UserApiCreateUsersWithArrayInputRequest {
+    /**
+     * 
+     */
     body: Array<User>;
 }
 
 export interface UserApiCreateUsersWithListInputRequest {
+    /**
+     * 
+     */
     body: Array<User>;
 }
 
 export interface UserApiDeleteUserRequest {
+    /**
+     * The name that needs to be deleted
+     */
     username: string;
 }
 
 export interface UserApiGetUserByNameRequest {
+    /**
+     * The name that needs to be fetched. Use user1 for testing.
+     */
     username: string;
 }
 
 export interface UserApiLoginUserRequest {
+    /**
+     * The user name for login
+     */
     username: string;
+    /**
+     * The password for login in clear text
+     */
     password: string;
 }
 
 export interface UserApiUpdateUserRequest {
+    /**
+     * name that need to be deleted
+     */
     username: string;
+    /**
+     * 
+     */
     body: User;
 }
 

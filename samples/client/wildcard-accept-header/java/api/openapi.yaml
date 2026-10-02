@@ -1,0 +1,27 @@
+openapi: 3.0.1
+info:
+  title: WildcardAcceptHeader
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /ping:
+    get:
+      operationId: ping
+      parameters:
+      - explode: false
+        in: header
+        name: Accept
+        required: false
+        schema:
+          default: '*/*'
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ok
+      x-accepts:
+      - application/json
+components:
+  schemas: {}
+

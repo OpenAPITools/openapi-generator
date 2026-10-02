@@ -71,14 +71,18 @@ class ModelTests(unittest.TestCase):
         self.assertFalse(self.pet1 == self.pet2)
 
     def test_oneOf(self):
+        mapping_value = """basque'"\\pig\nkind"""
+        wire_name = """class'"\\Name"""
+        wire_value = {wire_name: mapping_value, "color": "red"}
+        wire_json = json.dumps(wire_value)
+
         # test new Pig
         new_pig = petstore_api.Pig()
         self.assertEqual("null", new_pig.to_json())
         self.assertEqual(None, new_pig.actual_instance)
 
         # test from_json
-        json_str = '{"className": "BasquePig", "color": "red"}'
-        p = petstore_api.Pig.from_json(json_str)
+        p = petstore_api.Pig.from_json(wire_json)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
         # test init
@@ -109,25 +113,37 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(str(e), error_message)
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+        self.assertEqual(p.to_json(), wire_json)
 
         # test nested property
-        nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
-        self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
+        nested_wire_name = "nested_\npig"
+        nested = petstore_api.WithNestedOneOf.from_dict({
+            "size": 1,
+            nested_wire_name: wire_value,
+        })
+        self.assertEqual(
+            nested.to_json(),
+            json.dumps({"size": 1, nested_wire_name: wire_value}),
+        )
+        self.assertEqual(nested.to_dict()[nested_wire_name], wire_value)
 
         nested_json = nested.to_json()
         nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
         self.assertEqual(nested2.to_json(), nested_json)
 
     def test_anyOf(self):
+        mapping_value = """basque'"\\pig\nkind"""
+        wire_name = """class'"\\Name"""
+        wire_value = {wire_name: mapping_value, "color": "red"}
+        wire_json = json.dumps(wire_value)
+
         # test new AnyOfPig
         new_anypig = petstore_api.AnyOfPig()
         self.assertEqual("null", new_anypig.to_json())
         self.assertEqual(None, new_anypig.actual_instance)
 
         # test from_json
-        json_str = '{"className": "BasquePig", "color": "red"}'
-        p = petstore_api.AnyOfPig.from_json(json_str)
+        p = petstore_api.AnyOfPig.from_json(wire_json)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
         # test init
@@ -159,7 +175,7 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(str(e), error_message)
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+        self.assertEqual(p.to_json(), wire_json)
 
     def test_inheritance(self):
         dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
@@ -170,6 +186,14 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
+
+    def test_inheritance_discriminators(self):
+        mapping_value = """sub'"\\kind\nvalue"""
+        wire_name = """element'"\\Type"""
+        model = petstore_api.DiscriminatorAllOfSuper.from_dict(
+            {wire_name: mapping_value}
+        )
+        self.assertIsInstance(model, petstore_api.DiscriminatorAllOfSub)
 
     def test_list(self):
         # should throw exception as var_123_list should be string

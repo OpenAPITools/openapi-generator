@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
@@ -34,9 +35,14 @@ public class DartClientCodegen extends AbstractDartCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String SERIALIZATION_LIBRARY_NATIVE = "native_serialization";
+    public static final String USE_FINAL_PROPERTIES = "useFinalProperties";
+
+    @Setter protected boolean useFinalProperties = false;
 
     public DartClientCodegen() {
         super();
+
+        addOption(USE_FINAL_PROPERTIES, "Add 'final' to class properties, thus making them immutable", String.valueOf(useFinalProperties));
 
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");
@@ -53,6 +59,12 @@ public class DartClientCodegen extends AbstractDartCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(USE_FINAL_PROPERTIES)) {
+            this.setUseFinalProperties(convertPropertyToBooleanAndWriteBack(USE_FINAL_PROPERTIES));
+        } else {
+            additionalProperties.put(USE_FINAL_PROPERTIES, useFinalProperties);
+        }
 
         // handle library not being set
         if (additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {

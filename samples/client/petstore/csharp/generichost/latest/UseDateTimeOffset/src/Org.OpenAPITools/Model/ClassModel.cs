@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ClassModel" />
     /// </summary>
-    public class ClassModelJsonConverter : JsonConverter<ClassModel>
+    public partial class ClassModelJsonConverter : JsonConverter<ClassModel>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassModelJsonConverter" /> class.
+        /// </summary>
+        public ClassModelJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ClassModel" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
+                throw new JsonException("Property is not nullable for class ClassModel: _class.");
 
             return new ClassModel(varClass);
         }
@@ -140,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="classModel"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -155,11 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="classModel"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
             if (classModel.ClassOption.IsSet && classModel.Class == null)
-                throw new ArgumentNullException(nameof(classModel.Class), "Property is required for class ClassModel.");
+                throw new JsonException("Cannot write null property ClassModel.Class to non-nullable JSON property '_class'.");
 
             if (classModel.ClassOption.IsSet)
                 writer.WriteString("_class", classModel.Class);

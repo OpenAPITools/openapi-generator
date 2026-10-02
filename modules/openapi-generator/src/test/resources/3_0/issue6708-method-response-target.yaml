@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: split targets the method response (issue 6708)
+  version: 1.0.0
+paths:
+  /a:
+    get:
+      operationId: getA
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '206':
+          description: partial
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A'
+  /b:
+    get:
+      operationId: getB
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A'
+        '206':
+          description: partial
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/B'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    A:
+      type: object
+      properties:
+        id:
+          type: string
+    B:
+      type: object
+      properties:
+        ref:
+          type: string

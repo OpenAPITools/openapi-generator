@@ -114,6 +114,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/test",

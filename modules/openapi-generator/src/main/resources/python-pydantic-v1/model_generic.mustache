@@ -32,7 +32,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
+    __properties = [{{#allVars}}{{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
@@ -93,14 +93,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name = {{#lambda.pythonSingleQuotedStringLiteral}}{{{discriminator.propertyBaseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}
 
     {{#mappedModels}}
     {{#-first}}
     # discriminator mappings
     __discriminator_value_class_map = {
     {{/-first}}
-        '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
+        {{#lambda.pythonSingleQuotedStringLiteral}}{{{mappingName}}}{{/lambda.pythonSingleQuotedStringLiteral}}: '{{{modelName}}}'{{^-last}},{{/-last}}
     {{#-last}}
     }
 
@@ -156,7 +156,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     _items.append(
                          [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
                     )
-            _dict['{{{baseName}}}'] = _items
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.isArray}}
         {{#items.isMap}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of map)
@@ -167,7 +167,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     _items.append(
                          {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item.items() if _inner_value is not None}
                     )
-            _dict['{{{baseName}}}'] = _items
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.isMap}}
         {{/items.items.isPrimitiveType}}
         {{/items.isContainer}}
@@ -180,7 +180,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _item in self.{{{name}}}:
                 if _item:
                     _items.append(_item.to_dict())
-            _dict['{{{baseName}}}'] = _items
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/items.isContainer}}
@@ -197,7 +197,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
-            _dict['{{{baseName}}}'] = _field_dict_of_array
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_array
         {{/items.isArray}}
         {{#items.isMap}}      
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of dict)
@@ -208,7 +208,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     _field_dict_of_dict[_key] = {
                         _inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _value.items() if _inner_value is not None
                     }
-            _dict['{{{baseName}}}'] = _field_dict_of_dict
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_dict
         {{/items.isMap}}
         {{/items.items.isPrimitiveType}}
         {{/items.isContainer}}
@@ -221,7 +221,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _key in self.{{{name}}}:
                 if self.{{{name}}}[_key]:
                     _field_dict[_key] = self.{{{name}}}[_key].to_dict()
-            _dict['{{{baseName}}}'] = _field_dict
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/items.isContainer}}
@@ -232,7 +232,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of {{{name}}}
         if self.{{{name}}}:
-            _dict['{{{baseName}}}'] = self.{{{name}}}.to_dict()
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = self.{{{name}}}.to_dict()
         {{/isEnumOrRef}}
         {{/isPrimitiveType}}
         {{/isContainer}}
@@ -249,7 +249,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # set to None if {{{name}}} (nullable) is None
         # and __fields_set__ contains the field
         if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
-            _dict['{{{baseName}}}'] = None
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = None
 
         {{/isNullable}}
         {{/allVars}}
@@ -293,34 +293,34 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#isArray}}
             {{#items.isContainer}}
             {{#items.items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{^items.items.isPrimitiveType}}
             {{#items.isArray}}
             "{{{name}}}": [
                     [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj.get("{{{baseName}}}")
-                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+                    for _item in obj.get({{{vendorExtensions.x-py-wire-name-literal}}})
+                ] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{#items.isMap}}
             "{{{name}}}": [
                     {_inner_key: {{{items.items.dataType}}}.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
-                    for _item in obj.get("{{{baseName}}}")
-                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+                    for _item in obj.get({{{vendorExtensions.x-py-wire-name-literal}}})
+                ] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{/items.items.isPrimitiveType}}
             {{/items.isContainer}}
             {{^items.isContainer}}
             {{^items.isPrimitiveType}}
             {{#items.isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{^items.isEnumOrRef}}
-            "{{{name}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj.get("{{{baseName}}}")] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{name}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj.get({{{vendorExtensions.x-py-wire-name-literal}}})] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/items.isContainer}}
             {{/isArray}}
@@ -331,52 +331,52 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isMap}}
             "{{{name}}}": {
                 _k: {_ik: {{{items.items.dataType}}}.from_dict(_iv) for _ik, _iv in _v.items()} if _v is not None else None
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             }
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
             "{{{name}}}": {
                 _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             }
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
             "{{{name}}}": {
-                _k: {{{items.dataType}}}.from_dict(_v) for _k, _v in obj["{{{baseName}}}"].items()
+                _k: {{{items.dataType}}}.from_dict(_v) for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             }
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
             {{^isEnumOrRef}}
-            "{{{name}}}": {{{dataType}}}.from_dict(obj.get("{{{baseName}}}")) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{name}}}": {{{dataType}}}.from_dict(obj.get({{{vendorExtensions.x-py-wire-name-literal}}})) if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{#isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{#defaultValue}} if obj.get("{{baseName}}") is not None else {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{#defaultValue}} if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
             {{#defaultValue}}
-            "{{{name}}}": obj.get("{{{baseName}}}") if obj.get("{{{baseName}}}") is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
             {{/defaultValue}}
             {{^defaultValue}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/defaultValue}}
             {{/isPrimitiveType}}
             {{/isContainer}}

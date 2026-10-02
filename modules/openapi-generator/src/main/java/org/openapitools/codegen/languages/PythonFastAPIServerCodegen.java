@@ -63,6 +63,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String X_FASTAPI_REQUEST_BODY_EXAMPLE = "x-python-fastapi-request-body-example";
 
     private String implPackage;
+    private boolean useExternalImplementationPackage = false;
 
     @Override
     public CodegenType getTag() {
@@ -101,6 +102,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         languageSpecificPrimitives.add("Dict");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
+        // Binary response body: map OAS file/binary to built-in bytes (not the invalid Py2 type `file`).
+        // Multipart upload fields remain UploadFile via overrideFileFormParamTyping (#23793).
+        // See https://github.com/OpenAPITools/openapi-generator/issues/20775
+        typeMapping.put("file", "bytes");
+        typeMapping.put("binary", "bytes");
 
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");
@@ -123,6 +129,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
                 .defaultValue(implPackage));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE, CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -167,16 +175,22 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             this.sourceFolder = ((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE)) {
+            this.useExternalImplementationPackage = convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
             this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
-            // Prefix templating value with the package name
-            additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
-                    this.packageName + "." + this.implPackage);
         }
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
-        implPackage = packageName + "." + implPackage;
+        if (!useExternalImplementationPackage) {
+            // The implementation package is a sub-package of the generated one
+            implPackage = packageName + "." + implPackage;
+        }
+        // Templating value: the fully qualified implementation package
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, implPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
@@ -195,7 +209,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        if (!useExternalImplementationPackage) {
+            // An external implementation package already exists and is owned by the user: nothing to generate in it
+            supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        }
 
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
 
@@ -238,6 +255,38 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        // Path/query/header/cookie values always arrive as strings on the wire and rely on Pydantic
+        // coercion, so they must not use strict types. Body params keep the strict default.
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam || parameter.isCookieParam) {
+            return new PydanticCoercibleType(
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    classname
+            );
+        }
+
+        return super.getPydanticParameterType(
+                parameter,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
@@ -276,7 +325,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
      * are typed as FastAPI {@code UploadFile} instead of the client-side bytes/str union.
      * FastAPI parses multipart {@code format: binary} fields into {@link UploadFile} instances;
      * the default Pydantic-based union ({@code Union[StrictBytes, StrictStr, ...]}) rejects
-     * them with a 422 at request time.
+     * them with a 422 at request time. Array properties with {@code items.format: binary} use
+     * {@code List[UploadFile]} so multiple parts with the same field name bind correctly.
      *
      * @param operation the operation whose parameters may need rewriting
      * @return {@code true} if at least one parameter was rewritten
@@ -285,16 +335,34 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         boolean changed = false;
         for (CodegenParameter param : operation.allParams) {
             if (param.isFormParam && param.isFile) {
-                param.vendorExtensions.put(X_PY_TYPING, param.required ? "UploadFile" : "Optional[UploadFile]");
+                param.vendorExtensions.put(X_PY_TYPING, uploadFileFormParamTyping(param));
                 changed = true;
             }
         }
         for (CodegenParameter param : operation.formParams) {
             if (param.isFile) {
-                param.vendorExtensions.put(X_PY_TYPING, param.required ? "UploadFile" : "Optional[UploadFile]");
+                param.vendorExtensions.put(X_PY_TYPING, uploadFileFormParamTyping(param));
             }
         }
         return changed;
+    }
+
+    /**
+     * Returns the FastAPI type string for a binary multipart form parameter to store in
+     * {@code x-py-typing}.
+     * <p>
+     * A single {@code format: binary} field becomes {@code UploadFile} or {@code Optional[UploadFile]}.
+     * An array of binary items becomes {@code List[UploadFile]} or {@code Optional[List[UploadFile]]}
+     * so multiple parts sharing the same field name bind correctly.
+     *
+     * @param param the form parameter being typed
+     * @return Python typing for the generated endpoint signature
+     */
+    private String uploadFileFormParamTyping(CodegenParameter param) {
+        if (param.isArray && param.isFile) {
+            return param.required ? "List[UploadFile]" : "Optional[List[UploadFile]]";
+        }
+        return param.required ? "UploadFile" : "Optional[UploadFile]";
     }
 
     private void addFastAPIUploadFileImport(OperationsMap objs) {
@@ -509,14 +577,16 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
-        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
+            System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

@@ -142,8 +142,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedAnyOfContent" />
     /// </summary>
-    public class MixedAnyOfContentJsonConverter : JsonConverter<MixedAnyOfContent>
+    public partial class MixedAnyOfContentJsonConverter : JsonConverter<MixedAnyOfContent>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedAnyOfContentJsonConverter" /> class.
+        /// </summary>
+        public MixedAnyOfContentJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedAnyOfContent" />
         /// </summary>
@@ -241,7 +251,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOfContent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedAnyOfContent mixedAnyOfContent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -274,7 +283,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOfContent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedAnyOfContent mixedAnyOfContent, JsonSerializerOptions jsonSerializerOptions)
         {
 

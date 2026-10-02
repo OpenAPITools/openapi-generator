@@ -21,12 +21,8 @@ if [ "$NODE_INDEX" = "1" ]; then
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test cpp-restsdk"
 
-  # install cpprestsdk
-  sudo apt-get install libcpprest-dev
-  wget "https://github.com/aminya/setup-cpp/releases/download/v0.37.0/setup-cpp-x64-linux"
-  chmod +x ./setup-cpp-x64-linux
-  sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
-  source ~/.cpprc # activate cpp environment variables
+  # install cpprestsdk and C++ build tools via apt (avoids setup-cpp's PPA/GPG key fetch)
+  sudo apt-get install -y libcpprest-dev clang cmake
 
   (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
 

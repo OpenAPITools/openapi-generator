@@ -268,6 +268,7 @@ where
                                         Ok(param_op_get_request) => param_op_get_request,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter OpGetRequest - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter OpGetRequest due to schema")),
                                     }
@@ -279,12 +280,12 @@ where
                                     Some(param_op_get_request) => param_op_get_request,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter OpGetRequest".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_op_get_request, "OpGetRequest", validation);
-
 
                                 let result = api_impl.op_get(
                                             param_op_get_request,
@@ -314,6 +315,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -322,6 +327,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }

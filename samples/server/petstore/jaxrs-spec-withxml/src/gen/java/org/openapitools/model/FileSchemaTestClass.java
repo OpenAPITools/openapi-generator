@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "FileSchemaTestClass", propOrder =
     { "_file", "files"
     })
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
-  private @Valid List<@Valid ModelFile> files = new ArrayList<>();
+  private List<@Valid ModelFile> files = new ArrayList<>();
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
     this._file = b._file;
@@ -78,7 +78,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  @Valid public List<@Valid ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 

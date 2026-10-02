@@ -25,39 +25,79 @@ import {
 } from '../models/Pet';
 
 export interface AddPetRequest {
+    /**
+     * 
+     */
     pet: Pet;
 }
 
 export interface DeletePetRequest {
+    /**
+     * Pet id to delete
+     */
     petId: number;
+    /**
+     * 
+     */
     apiKey?: string;
 }
 
 export interface FindPetsByStatusRequest {
+    /**
+     * Status values that need to be considered for filter
+     * @deprecated
+     */
     status: Array<FindPetsByStatusStatusEnum>;
 }
 
 export interface FindPetsByTagsRequest {
+    /**
+     * Tags to filter by
+     */
     tags: Array<string>;
 }
 
 export interface GetPetByIdRequest {
+    /**
+     * ID of pet to return
+     */
     petId: number;
 }
 
 export interface UpdatePetRequest {
+    /**
+     * 
+     */
     pet: Pet;
 }
 
 export interface UpdatePetWithFormRequest {
+    /**
+     * ID of pet that needs to be updated
+     */
     petId: number;
+    /**
+     * Updated name of the pet
+     */
     name?: string;
+    /**
+     * Updated status of the pet
+     */
     status?: string;
 }
 
 export interface UploadFileRequest {
+    /**
+     * ID of pet to update
+     */
     petId: number;
+    /**
+     * Additional data to pass to server
+     */
     additionalMetadata?: string;
+    /**
+     * file to upload
+     */
     file?: Blob;
 }
 
@@ -552,6 +592,6 @@ export class PetApi extends runtime.BaseAPI {
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];

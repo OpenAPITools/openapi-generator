@@ -119,6 +119,7 @@ use openapi_v3::{
     QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
+    RequiredBinaryStreamPutResponse,
     RequiredOctetStreamPutResponse,
     ResponsesWithHeadersGetResponse,
     Rfc7807GetResponse,
@@ -279,6 +280,14 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<RegisterCallbackPostResponse, ApiError>
     {
         info!("register_callback_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+    async fn required_binary_stream_put(
+        &self,
+        body: swagger::ByteArray,
+        context: &C) -> Result<RequiredBinaryStreamPutResponse, ApiError>
+    {
+        info!("required_binary_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
     async fn required_octet_stream_put(

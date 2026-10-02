@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: Minimal repro
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiateUploadRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseOnlyValue'
+  /search:
+    get:
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/QueryParameterValue'
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    InitiateUploadRequest:
+      type: object
+      properties:
+        dynamicMetadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DynamicMetadataValue'
+        readOnlyMetadata:
+          type: object
+          readOnly: true
+          additionalProperties:
+            $ref: '#/components/schemas/ReadOnlyValue'
+        allowedValue:
+          not:
+            $ref: '#/components/schemas/ForbiddenValue'
+    DynamicMetadataValue:
+      oneOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: string
+          format: date-time
+    ResponseOnlyValue:
+      oneOf:
+        - type: string
+        - type: integer
+    QueryParameterValue:
+      oneOf:
+        - type: string
+        - type: integer
+    ReadOnlyValue:
+      oneOf:
+        - type: string
+        - type: integer
+    ForbiddenValue:
+      oneOf:
+        - type: string
+        - type: integer

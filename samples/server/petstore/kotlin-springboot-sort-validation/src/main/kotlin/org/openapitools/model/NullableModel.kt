@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -24,13 +25,20 @@ import jakarta.validation.Valid
  */
 data class NullableModel(
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("requiredNonNullable", required = true)
     @get:JsonProperty("requiredNonNullable", required = true) val requiredNonNullable: kotlin.String,
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("requiredNullable", required = true)
     @get:JsonProperty("requiredNullable", required = true) val requiredNullable: kotlin.String?,
 
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.FAIL)
+    @param:JsonProperty("optionalNonNullable")
     @get:JsonProperty("optionalNonNullable") val optionalNonNullable: kotlin.String? = null,
 
+    @param:JsonProperty("optionalNullable")
     @get:JsonProperty("optionalNullable") val optionalNullable: JsonNullable<kotlin.String> = JsonNullable.undefined()
 ) : java.io.Serializable {
 

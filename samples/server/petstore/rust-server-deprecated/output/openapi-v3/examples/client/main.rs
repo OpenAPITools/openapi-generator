@@ -23,6 +23,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       QueryExampleGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
+                      RequiredBinaryStreamPutResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
@@ -83,6 +84,7 @@ fn main() {
                 "QueryExampleGet",
                 "ReadonlyAuthSchemeGet",
                 "RegisterCallbackPost",
+                "RequiredBinaryStreamPut",
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
@@ -271,6 +273,12 @@ fn main() {
         Some("RegisterCallbackPost") => {
             let result = rt.block_on(client.register_callback_post(
                   "url_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("RequiredBinaryStreamPut") => {
+            let result = rt.block_on(client.required_binary_stream_put(
+                  swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+{{! The class body lives in the api_operations partial at column 0 and is re-indented by the
+    indent2/indent4 lambdas so it sits correctly in BOTH module shapes: `module <moduleName>` +
+    `module <apiNamespace>` + class (4 spaces) when the wrapper is present, or a single
+    `module <moduleName>` + class (2 spaces) when apiNamespace is empty (the nested-moduleName
+    case, e.g. `Dolibarr::Api`). Keeping one partial avoids duplicating the body per shape. }}
+module {{moduleName}}
+{{#apiNamespacePresent}}
+  module {{apiNamespace}}
+{{/apiNamespacePresent}}
+{{#operations}}
+{{#apiNamespacePresent}}
+    {{#indent4}}{{> api_operations}}{{/indent4}}
+{{/apiNamespacePresent}}
+{{^apiNamespacePresent}}
+  {{#indent2}}{{> api_operations}}{{/indent2}}
+{{/apiNamespacePresent}}
+{{/operations}}
+{{#apiNamespacePresent}}
+  end
+{{/apiNamespacePresent}}
+end

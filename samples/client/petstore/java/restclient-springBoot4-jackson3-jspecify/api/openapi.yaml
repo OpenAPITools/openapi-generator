@@ -5,6 +5,15 @@ info:
   version: 1.0.0
 servers:
 - url: /
+tags:
+- description: requiredAndNullable
+  name: requiredAndNullable
+- description: foo
+  name: foo
+- description: upload
+  name: upload
+- description: file
+  name: file
 paths:
   /foo/{dtParam}:
     get:
@@ -33,6 +42,14 @@ paths:
           format: date-time
           type: string
         style: form
+      - explode: true
+        in: query
+        name: color
+        required: false
+        schema:
+          default: red
+          type: string
+        style: form
       responses:
         default:
           content:
@@ -40,6 +57,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/Foo"
           description: response
+      tags:
+      - foo
+      x-accepts:
+      - application/json
+  /requiredAndNullable:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequiredAndNullable"
+        description: bodyWithRequiredAndNullableAttributes
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredAndNullable"
+          description: response
+      tags:
+      - requiredAndNullable
+      x-content-type: application/json
       x-accepts:
       - application/json
   /upload:
@@ -53,6 +93,24 @@ paths:
       responses:
         default:
           description: ok
+      tags:
+      - upload
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /uploadFiles:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/_uploadFiles_post_request"
+        description: file
+      responses:
+        default:
+          description: ok
+      tags:
+      - upload
       x-content-type: multipart/form-data
       x-accepts:
       - application/json
@@ -68,7 +126,13 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileContent"
           description: ok
+      tags:
+      - file
       x-accepts:
       - application/json
 components:
@@ -76,21 +140,38 @@ components:
     Foo:
       example:
         dt: 2000-01-23T04:56:07.000+00:00
+        nullableDt: 2000-01-23T04:56:07.000+00:00
         binary: ""
+        nullableBinary: ""
         listOfDt:
         - 2000-01-23T04:56:07.000+00:00
         - 2000-01-23T04:56:07.000+00:00
         listMinIntems:
         - 2000-01-23T04:56:07.000+00:00
         - 2000-01-23T04:56:07.000+00:00
+        nullableListMinIntems:
+        - 2000-01-23T04:56:07.000+00:00
+        - 2000-01-23T04:56:07.000+00:00
         requiredDt: 2000-01-23T04:56:07.000+00:00
         number: 0.8008281904610115
+        nullableNumber: 6.027456183070403
+        color: red
+        requiredColor: red
+        nullableColor: red
       properties:
         dt:
           format: date-time
           type: string
+        nullableDt:
+          format: date-time
+          nullable: true
+          type: string
         binary:
           format: binary
+          type: string
+        nullableBinary:
+          format: binary
+          nullable: true
           type: string
         listOfDt:
           items:
@@ -103,17 +184,102 @@ components:
             type: string
           minItems: 1
           type: array
+        nullableListMinIntems:
+          items:
+            format: date-time
+            type: string
+          minItems: 1
+          nullable: true
+          type: array
         requiredDt:
           format: date-time
           type: string
         number:
           type: number
+        nullableNumber:
+          nullable: true
+          type: number
+        color:
+          default: red
+          type: string
+        requiredColor:
+          default: red
+          type: string
+        nullableColor:
+          default: red
+          nullable: true
+          type: string
       required:
+      - requiredColor
       - requiredDt
+    RequiredAndNullable:
+      example:
+        str: str
+        file: ""
+        color: red
+        onlyRequired: onlyRequired
+        list:
+        - list
+        - list
+      properties:
+        str:
+          nullable: true
+          type: string
+        file:
+          format: binary
+          nullable: true
+          type: string
+        color:
+          default: red
+          nullable: true
+          type: string
+        onlyRequired:
+          type: string
+        list:
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - color
+      - file
+      - list
+      - onlyRequired
+      - str
+      type: object
+    FileContent:
+      example:
+        name: name
+        size: 0
+        virusScan: clean
+      properties:
+        name:
+          readOnly: true
+          type: string
+        size:
+          readOnly: true
+          type: integer
+        virusScan:
+          enum:
+          - clean
+          - detected
+          readOnly: true
+          type: string
+      required:
+      - name
+      type: object
     _upload_post_request:
       properties:
         file:
           format: binary
           type: string
+      type: object
+    _uploadFiles_post_request:
+      properties:
+        file:
+          items:
+            format: binary
+            type: string
+          type: array
       type: object
 

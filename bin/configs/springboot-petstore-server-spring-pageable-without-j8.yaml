@@ -5,6 +5,8 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 java8: false
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   documentationProvider: springdoc
   artifactId: springboot-spring-pageable-withoutj8
   hideGenerationTimestamp: 'true'

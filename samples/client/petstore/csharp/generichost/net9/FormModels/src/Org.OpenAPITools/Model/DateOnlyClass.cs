@@ -90,12 +90,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
-    public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
+    public partial class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateOnlyClassJsonConverter" /> class.
+        /// </summary>
+        public DateOnlyClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string DateOnlyPropertyFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// Deserializes json to <see cref="DateOnlyClass" />
@@ -141,7 +151,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
+                throw new JsonException("Property is not nullable for class DateOnlyClass: dateOnlyProperty.");
 
             return new DateOnlyClass(dateOnlyProperty);
         }
@@ -152,7 +162,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="dateOnlyClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -167,9 +176,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="dateOnlyClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (dateOnlyClass.DateOnlyPropertyOption.IsSet && dateOnlyClass.DateOnlyProperty == null)
+                throw new JsonException("Cannot write null property DateOnlyClass.DateOnlyProperty to non-nullable JSON property 'dateOnlyProperty'.");
+
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
                 writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value.Value.ToString(DateOnlyPropertyFormat));
         }

@@ -3,6 +3,8 @@ outputDir: samples/server/petstore/springboot-file-delegate-optional
 inputSpec: modules/openapi-generator/src/test/resources/3_0/issue18345.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   delegatePattern: true
   useOptional: true
   useSpringBoot3: true

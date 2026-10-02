@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import org.openapitools.client.model.Pet;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +31,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -49,12 +51,22 @@ import org.openapitools.client.JSON;
 /**
  * PetWithTypesObjectNullAndRef
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class PetWithTypesObjectNullAndRef {
   public static final String SERIALIZED_NAME_FIRST_PROPERTY = "first_property";
   @SerializedName(SERIALIZED_NAME_FIRST_PROPERTY)
   @javax.annotation.Nullable
   private Pet firstProperty;
+
+  public static final String SERIALIZED_NAME_SECOND_PROPERTY = "second_property";
+  @SerializedName(SERIALIZED_NAME_SECOND_PROPERTY)
+  @javax.annotation.Nullable
+  private Object secondProperty = null;
+
+  public static final String SERIALIZED_NAME_THIRD_PROPERTY = "third_property";
+  @SerializedName(SERIALIZED_NAME_THIRD_PROPERTY)
+  @javax.annotation.Nullable
+  private Object thirdProperty = null;
 
   public PetWithTypesObjectNullAndRef() {
   }
@@ -75,6 +87,44 @@ public class PetWithTypesObjectNullAndRef {
 
   public void setFirstProperty(@javax.annotation.Nullable Pet firstProperty) {
     this.firstProperty = firstProperty;
+  }
+
+
+  public PetWithTypesObjectNullAndRef secondProperty(@javax.annotation.Nullable Object secondProperty) {
+    this.secondProperty = secondProperty;
+    return this;
+  }
+
+  /**
+   * just null type
+   * @return secondProperty
+   */
+  @javax.annotation.Nullable
+  public Object getSecondProperty() {
+    return secondProperty;
+  }
+
+  public void setSecondProperty(@javax.annotation.Nullable Object secondProperty) {
+    this.secondProperty = secondProperty;
+  }
+
+
+  public PetWithTypesObjectNullAndRef thirdProperty(@javax.annotation.Nullable Object thirdProperty) {
+    this.thirdProperty = thirdProperty;
+    return this;
+  }
+
+  /**
+   * null type declared as the OAS 3.1 quoted string
+   * @return thirdProperty
+   */
+  @javax.annotation.Nullable
+  public Object getThirdProperty() {
+    return thirdProperty;
+  }
+
+  public void setThirdProperty(@javax.annotation.Nullable Object thirdProperty) {
+    this.thirdProperty = thirdProperty;
   }
 
   /**
@@ -132,13 +182,26 @@ public class PetWithTypesObjectNullAndRef {
       return false;
     }
     PetWithTypesObjectNullAndRef petWithTypesObjectNullAndRef = (PetWithTypesObjectNullAndRef) o;
-    return Objects.equals(this.firstProperty, petWithTypesObjectNullAndRef.firstProperty)&&
+    return Objects.equals(this.firstProperty, petWithTypesObjectNullAndRef.firstProperty) &&
+        Objects.equals(this.secondProperty, petWithTypesObjectNullAndRef.secondProperty) &&
+        Objects.equals(this.thirdProperty, petWithTypesObjectNullAndRef.thirdProperty)&&
         Objects.equals(this.additionalProperties, petWithTypesObjectNullAndRef.additionalProperties);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstProperty, additionalProperties);
+    return Objects.hash(firstProperty, secondProperty, thirdProperty, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -146,6 +209,8 @@ public class PetWithTypesObjectNullAndRef {
     StringBuilder sb = new StringBuilder();
     sb.append("class PetWithTypesObjectNullAndRef {\n");
     sb.append("    firstProperty: ").append(toIndentedString(firstProperty)).append("\n");
+    sb.append("    secondProperty: ").append(toIndentedString(secondProperty)).append("\n");
+    sb.append("    thirdProperty: ").append(toIndentedString(thirdProperty)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -165,7 +230,7 @@ public class PetWithTypesObjectNullAndRef {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("first_property"));
+    openapiFields = new HashSet<String>(Arrays.asList("first_property", "second_property", "third_property"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -219,7 +284,9 @@ public class PetWithTypesObjectNullAndRef {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());

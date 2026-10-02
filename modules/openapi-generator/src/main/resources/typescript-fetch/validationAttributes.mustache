@@ -2,6 +2,8 @@
 
 export const {{classname}}PropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -18,6 +20,12 @@ export const {{classname}}PropertyValidationAttributesMap: {
 {{#vars}}
 {{#hasValidation}}
     {{name}}: {
+        {{#dataType}}
+        dataType: "{{{dataType}}}",
+        {{/dataType}}
+        {{#required}}
+        required: {{required}},
+        {{/required}}
         {{#maxLength}}
         maxLength: {{maxLength}},
         {{/maxLength}}

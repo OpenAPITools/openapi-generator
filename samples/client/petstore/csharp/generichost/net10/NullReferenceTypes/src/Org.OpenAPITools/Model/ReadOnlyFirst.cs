@@ -145,8 +145,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ReadOnlyFirst" />
     /// </summary>
-    public class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
+    public partial class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFirstJsonConverter" /> class.
+        /// </summary>
+        public ReadOnlyFirstJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ReadOnlyFirst" />
         /// </summary>
@@ -195,10 +205,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
+                throw new JsonException("Property is not nullable for class ReadOnlyFirst: bar.");
 
             if (baz.IsSet && baz.Value == null)
-                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
+                throw new JsonException("Property is not nullable for class ReadOnlyFirst: baz.");
 
             return new ReadOnlyFirst(bar, baz);
         }
@@ -209,7 +219,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="readOnlyFirst"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -224,14 +233,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="readOnlyFirst"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
             if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
+                throw new JsonException("Cannot write null property ReadOnlyFirst.Bar to non-nullable JSON property 'bar'.");
 
             if (readOnlyFirst.BazOption.IsSet && readOnlyFirst.Baz == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
+                throw new JsonException("Cannot write null property ReadOnlyFirst.Baz to non-nullable JSON property 'baz'.");
 
             if (readOnlyFirst.BarOption.IsSet)
                 writer.WriteString("bar", readOnlyFirst.Bar);

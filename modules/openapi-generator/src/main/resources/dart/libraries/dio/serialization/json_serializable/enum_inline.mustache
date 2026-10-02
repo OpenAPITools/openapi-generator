@@ -1,5 +1,7 @@
 {{#enumName}}
-{{#description}}/// {{{description}}}{{/description}}
+{{#description}}
+/// {{{description}}}
+{{/description}}
 {{#isDeprecated}}
 @Deprecated('{{{enumName}}} has been deprecated')
 {{/isDeprecated}}
@@ -7,9 +9,11 @@ enum {{{ enumName }}} {
 {{#allowableValues}}
 {{#enumVars}}
 {{^isNull}}
-{{#description}}
-    /// {{{.}}}
-{{/description}}
+{{#enumDescription}}
+/**
+ * {{#lambda.dartdoc}}{{{.}}}{{/lambda.dartdoc}}
+ */
+{{/enumDescription}}
 @JsonValue({{#isString}}r{{/isString}}{{{value}}})
 {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/isNull}}

@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -48,7 +48,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
   @javax.annotation.Nullable
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, @Valid Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
@@ -99,7 +99,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(@javax.annotation.Nullable Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(@javax.annotation.Nullable Map<String, @Valid Animal> map) {
     
     this.map = map;
     return this;
@@ -118,15 +118,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
    */
   @javax.annotation.Nullable
-  @Valid
 
 
-  public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
 
-  public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
+  public void setMap(@javax.annotation.Nullable Map<String, @Valid Animal> map) {
     this.map = map;
   }
 

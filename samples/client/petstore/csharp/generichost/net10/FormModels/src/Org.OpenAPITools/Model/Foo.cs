@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Foo" />
     /// </summary>
-    public class FooJsonConverter : JsonConverter<Foo>
+    public partial class FooJsonConverter : JsonConverter<Foo>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FooJsonConverter" /> class.
+        /// </summary>
+        public FooJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Foo" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
+                throw new JsonException("Property is not nullable for class Foo: bar.");
 
             return new Foo(bar);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="foo"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="foo"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
             if (foo.BarOption.IsSet && foo.Bar == null)
-                throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
+                throw new JsonException("Cannot write null property Foo.Bar to non-nullable JSON property 'bar'.");
 
             if (foo.BarOption.IsSet)
                 writer.WriteString("bar", foo.Bar);

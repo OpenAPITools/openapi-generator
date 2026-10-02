@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the pet API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class PetApi  {
 
    private final PetApiService delegate;
@@ -73,7 +73,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response addPet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
+    public Response addPet(@Schema(description = "Pet object that needs to be added to the store", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet, securityContext);
     }
@@ -88,7 +88,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response deletePet(@Schema(description= "Pet id to delete", required = true) @PathParam("petId") @NotNull  Long petId,@Schema(description = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
+    public Response deletePet(@Schema(description= "Pet id to delete", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("petId") @NotNull  Long petId,@Schema(description = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
@@ -138,7 +138,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "api_key")
         }, tags={ "pet", }) 
-    public Response getPetById(@Schema(description= "ID of pet to return", required = true) @PathParam("petId") @NotNull  Long petId,@Context SecurityContext securityContext)
+    public Response getPetById(@Schema(description= "ID of pet to return", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("petId") @NotNull  Long petId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getPetById(petId, securityContext);
     }
@@ -157,7 +157,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response updatePet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
+    public Response updatePet(@Schema(description = "Pet object that needs to be added to the store", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet, securityContext);
     }
@@ -173,7 +173,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response updatePetWithForm(@Schema(description= "ID of pet that needs to be updated", required = true) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Updated name of the pet") @FormParam("name") String name,@Schema(description = "Updated status of the pet") @FormParam("status") String status,@Context SecurityContext securityContext)
+    public Response updatePetWithForm(@Schema(description= "ID of pet that needs to be updated", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Updated name of the pet") @FormParam("name") String name,@Schema(description = "Updated status of the pet") @FormParam("status") String status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePetWithForm(petId, name, status, securityContext);
     }
@@ -188,7 +188,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response uploadFile(@Schema(description= "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata,@FormDataParam("file") FormDataBodyPart _fileBodypart,@Context SecurityContext securityContext)
+    public Response uploadFile(@Schema(description= "ID of pet to update", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata,@FormDataParam("file") FormDataBodyPart _fileBodypart,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.uploadFile(petId, additionalMetadata, _fileBodypart, securityContext);
     }

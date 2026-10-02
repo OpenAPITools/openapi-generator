@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
-        public Mammal(Whale whale)
+        internal Mammal(Whale whale)
         {
             Whale = whale;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
-        public Mammal(Zebra zebra)
+        internal Mammal(Zebra zebra)
         {
             Zebra = zebra;
             OnCreated();
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
-        public Mammal(Pig pig)
+        internal Mammal(Pig pig)
         {
             Pig = pig;
             OnCreated();
@@ -113,8 +113,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Mammal" />
     /// </summary>
-    public class MammalJsonConverter : JsonConverter<Mammal>
+    public partial class MammalJsonConverter : JsonConverter<Mammal>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MammalJsonConverter" /> class.
+        /// </summary>
+        public MammalJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Mammal" />
         /// </summary>
@@ -198,10 +208,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Mammal.", nameof(className));
+                throw new JsonException("Property is required for class Mammal: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
+                throw new JsonException("Property is not nullable for class Mammal: className.");
 
             if (pig != null)
                 return new Mammal(pig);
@@ -221,7 +231,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -254,7 +263,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
 

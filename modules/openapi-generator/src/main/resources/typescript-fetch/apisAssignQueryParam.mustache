@@ -1,10 +1,10 @@
 {{! Assign query parameters based on their type }}
 {{#isDateTimeType}}
-            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString();
+            queryParameters['{{baseName}}'] = runtime.serializeDateTime(requestParameters['{{paramName}}'] as any);
 {{/isDateTimeType}}
 {{^isDateTimeType}}
 {{#isDateType}}
-            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString().substring(0,10);
+            queryParameters['{{baseName}}'] = runtime.serializeDate(requestParameters['{{paramName}}'] as any);
 {{/isDateType}}
 {{^isDateType}}
             queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];

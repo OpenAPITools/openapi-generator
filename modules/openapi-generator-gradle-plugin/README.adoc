@@ -98,7 +98,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.23.0"
+  id "org.openapi.generator" version "7.25.0"
 }
 ----
 
@@ -114,7 +114,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:7.23.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:7.25.0"
   }
 }
 
@@ -160,10 +160,30 @@ apply plugin: 'org.openapi.generator'
 |None
 |Local root folder with spec file(s)
 
+|schemaLocation
+|String / Provider<Directory>
+|None
+|Optional directory containing additional schema files referenced via `$ref` in the input specification. By default, Gradle only tracks `inputSpec` for up-to-date checks, so changes to `$ref`-referenced schema files elsewhere would not trigger re-generation. Declaring this directory makes Gradle track all files inside it too. This only affects up-to-date/cache tracking; it does not change how `$ref`s are resolved at generation time. For schemas that aren't all under one directory, use `schemaLocations` instead.
+
+|schemaLocations
+|ConfigurableFileCollection
+|empty
+|Like `schemaLocation`, but accepts any combination of individual files, multiple directories, or filtered file trees instead of a single whole directory, e.g. `schemaLocations.from("schemas/user.yaml", "schemas/order.yaml")` or `schemaLocations.from(fileTree("schemas") { include("*.yaml") })`. Since it isn't a `Provider`-based property, it does not support Groovy `=` assignment — use `.from(...)`, or the `setSchemaLocationsAsStrings(vararg paths)` convenience method.
+
 |mergedFileName
 |String / Provider<String>
-|None
-|Name of the file that will contain all merged specs
+|`merged`
+|Name of the output file that will contain all merged specs (used with `inputSpecRootDirectory`)
+
+|mergeMode
+|String / Provider<String>
+|`REF`
+|How multiple spec files are merged. `REF` (default) preserves the original behaviour: generates a lightweight index spec where each path is a `$ref` pointing back to its source file — identical to the master behaviour. `DEEP` fully parses and inlines all paths and components into a single self-contained spec, with component deduplication and conflict detection controlled by `mergeConflictStrategy`.
+
+|mergeConflictStrategy
+|String / Provider<String>
+|`WARN`
+|How to handle name conflicts when `mergeMode` is `DEEP` and two specs define the same component (schema, response, etc.) or the same path+method with different definitions. `WARN` (default) keeps the first definition and logs a warning. `FAIL` throws an exception and aborts the build.
 
 |remoteInputSpec
 |String / Provider<String>
@@ -405,6 +425,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To write all log messages (not just errors) to STDOUT
 
+|quiet
+|Boolean / Provider<Boolean>
+|false
+|Whether generation should run in quiet mode.
 |enablePostProcessFile
 |Boolean / Provider<Boolean>
 |false
@@ -443,7 +467,7 @@ file states is output.
 
 |workerIsolation
 |String / Provider<String>
-|`process`
+|`classloader`
 a|Controls how the code-generation work action is isolated from the Gradle daemon.
 
 `classloader` (default):: Runs generation inside the Gradle daemon JVM using a separate `ClassLoader`. Avoids the per-task JVM
@@ -461,7 +485,55 @@ warning].
 |Gradle default (~512 MiB)
 |Maximum heap size for the forked worker JVM when `workerIsolation` is `process` (e.g. `"512m"`, `"1g"`).
 Has no effect when `workerIsolation` is `classloader`.
+
+|generatorClasspath
+|ConfigurableFileCollection
+|(empty)
+a|Additional classpath entries (jars, class directories, project outputs) forwarded to the code generation worker
+in *both* `workerIsolation` modes (`process` and `classloader`). Required for any custom class referenced by name
+in generator options - most notably a custom `NORMALIZER_CLASS` (see `openapiNormalizer`) or custom generator
+selected by `generatorName`/FQCN - to be resolvable by the worker, since such classes are not on the plugin's own
+runtime classpath.
+
+For dependencies from a repository or another project, prefer adding them to the `openApiGeneratorExtra`
+configuration created by this plugin (see below); `generatorClasspath` is a lower-level escape hatch for ad hoc
+files/directories:
+
+[source,groovy]
+----
+openApiGenerate {
+    generatorClasspath.from(files("libs/my-normalizer.jar", "libs/my-custom-generator.jar"))
+}
+----
 |===
+
+[NOTE]
+====
+The plugin creates an `openApiGeneratorExtra` dependency configuration (resolvable, not published) whose entries
+are automatically forwarded into `generatorClasspath` for both `workerIsolation` modes. Use it to declare a
+custom `NORMALIZER_CLASS`, custom generator selected by `generatorName`/FQCN, or any other class referenced by name
+in generator options as a normal Gradle dependency - a published artifact, a local jar, or another project in the
+same build:
+
+[source,groovy]
+----
+dependencies {
+    openApiGeneratorExtra("com.acme:my-normalizer:1.0.0")           // custom NORMALIZER_CLASS
+    openApiGeneratorExtra("com.acme:my-custom-generator:1.0.0")    // custom generator
+    openApiGeneratorExtra(project(":my-generator-module"))          // project dependency; built automatically
+    openApiGeneratorExtra(files("libs/my-normalizer.jar"))          // local normalizer jar/class directory
+    openApiGeneratorExtra(files("libs/my-custom-generator.jar"))    // local generator jar/class directory
+}
+
+openApiGenerate {
+    generatorName = "com.acme.MyGenerator"
+    openapiNormalizer = ["NORMALIZER_CLASS": "com.acme.MyNormalizer"]
+}
+----
+
+Without a corresponding entry in `openApiGeneratorExtra` or `generatorClasspath`, a custom `NORMALIZER_CLASS` or
+custom generator selected by name/FQCN will fail to load with a clear error, regardless of `workerIsolation` mode.
+====
 
 [NOTE]
 ====
@@ -496,6 +568,47 @@ models: "User:Pet"
 }
 ----
 ====
+
+==== Tracking additional schema files ($ref)
+
+By default, Gradle only watches `inputSpec` for up-to-date checks, so changes to `$ref`-referenced
+schema files elsewhere are not picked up automatically. Use `schemaLocation` (a single directory)
+or `schemaLocations` (any combination of files, directories, or filtered file trees) to have Gradle
+track them too. Neither property changes how `$ref`s are resolved at generation time — they only
+affect Gradle's up-to-date/cache tracking.
+
+[source,kotlin]
+----
+openApiGenerate {
+    inputSpec.set("$rootDir/specs/petstore.yaml")
+    // Track a single directory of referenced schemas
+    schemaLocation.set(file("$rootDir/specs/schemas"))
+    // Or track specific files / multiple locations / filtered trees
+    schemaLocations.from("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+}
+----
+
+[source,groovy]
+----
+openApiGenerate {
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    schemaLocation = "specs/schemas"
+    schemaLocations.from("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+}
+----
+
+Alternatively, the Groovy-friendly `setSchemaLocationsAsStrings(...)` helper can be used instead of
+`schemaLocations.from(...)` — note that it *replaces* any previously configured `schemaLocations`
+entries rather than adding to them, so do not combine the two on the same property:
+
+[source,groovy]
+----
+openApiGenerate {
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    schemaLocation = "specs/schemas"
+    setSchemaLocationsAsStrings("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+}
+----
 
 === openApiValidate
 
@@ -715,7 +828,7 @@ When configuring project extensions like `openApiGenerate { }`, `openApiValidate
 |Extension |Available Methods
 
 |`openApiGenerate`
-|`setInputSpec(path)`, `setOutputDir(path)`, `setTemplateDir(path)`, `setConfigFile(path)`, `setIgnoreFileOverride(path)`, `setInputSpecRootDirectory(path)`
+|`setInputSpec(path)`, `setOutputDir(path)`, `setTemplateDir(path)`, `setConfigFile(path)`, `setIgnoreFileOverride(path)`, `setInputSpecRootDirectory(path)`, `setSchemaLocation(path)`, `setSchemaLocationsAsStrings(vararg paths)`
 
 |`openApiValidate`
 |`setInputSpec(path)`
@@ -819,7 +932,7 @@ Both patterns work identically for String-based property configuration in Groovy
 |Task Type |Available Methods
 
 |`GenerateTask`
-|`setInputSpecAsString(path)`, `setOutputDirAsString(path)`, `setTemplateDirAsString(path)`, `setConfigFileAsString(path)`, `setIgnoreFileOverrideAsString(path)`, `setInputSpecRootDirectoryAsString(path)`, `setSchemaLocationAsString(path)`
+|`setInputSpecAsString(path)`, `setOutputDirAsString(path)`, `setTemplateDirAsString(path)`, `setConfigFileAsString(path)`, `setIgnoreFileOverrideAsString(path)`, `setInputSpecRootDirectoryAsString(path)`, `setSchemaLocationAsString(path)`, `setSchemaLocationsAsStrings(vararg paths)`
 
 |`ValidateTask`
 |`setInputSpecAsString(path)`
@@ -931,7 +1044,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:7.23.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:7.25.0') {
             exclude group: 'com.google.guava'
         }
     }

@@ -114,6 +114,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
@@ -185,6 +186,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
@@ -256,6 +258,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
@@ -326,6 +329,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
@@ -546,6 +550,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
@@ -620,6 +625,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),

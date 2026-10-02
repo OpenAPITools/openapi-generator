@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestCollectionEndingWithWordList" />
     /// </summary>
-    public class TestCollectionEndingWithWordListJsonConverter : JsonConverter<TestCollectionEndingWithWordList>
+    public partial class TestCollectionEndingWithWordListJsonConverter : JsonConverter<TestCollectionEndingWithWordList>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListJsonConverter" /> class.
+        /// </summary>
+        public TestCollectionEndingWithWordListJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestCollectionEndingWithWordList" />
         /// </summary>
@@ -137,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (value.IsSet && value.Value == null)
-                throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
+                throw new JsonException("Property is not nullable for class TestCollectionEndingWithWordList: value.");
 
             return new TestCollectionEndingWithWordList(value);
         }
@@ -148,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testCollectionEndingWithWordList"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -163,11 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testCollectionEndingWithWordList"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testCollectionEndingWithWordList.ValueOption.IsSet && testCollectionEndingWithWordList.Value == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
+                throw new JsonException("Cannot write null property TestCollectionEndingWithWordList.Value to non-nullable JSON property 'value'.");
 
             if (testCollectionEndingWithWordList.ValueOption.IsSet)
                 writer.WriteString("value", testCollectionEndingWithWordList.Value);

@@ -1,0 +1,13 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-cloud-4
+library: spring-cloud
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serializableModel: "true"
+  useBeanValidation: "true"
+  interfaceOnly: "true"
+  useSpringBoot4: "true"

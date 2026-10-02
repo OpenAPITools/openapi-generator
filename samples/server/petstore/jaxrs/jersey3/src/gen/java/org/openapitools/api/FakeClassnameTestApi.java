@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the fake_classname_test API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeClassnameTestApi  {
 
    private final FakeClassnameTestApiService delegate;
@@ -69,7 +69,7 @@ public class FakeClassnameTestApi  {
             },security = {
             @SecurityRequirement(name = "api_key_query")
         }, tags={ "fake_classname_tags 123#$%^", }) 
-    public Response testClassname(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
+    public Response testClassname(@Schema(description = "client model", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(client, securityContext);
     }

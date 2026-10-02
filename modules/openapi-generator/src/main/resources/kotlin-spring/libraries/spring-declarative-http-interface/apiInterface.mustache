@@ -29,6 +29,9 @@ import io.swagger.annotations.AuthorizationScope
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
+{{#clientRegistrationId}}
+import org.springframework.security.oauth2.client.annotation.ClientRegistrationId
+{{/clientRegistrationId}}
 {{^useResponseEntity}}
 import org.springframework.http.HttpStatus
 {{/useResponseEntity}}
@@ -43,7 +46,6 @@ import {{javaxPackage}}.validation.constraints.*
 {{/useBeanValidation}}
 
 {{#reactiveModeReactor}}
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 {{/reactiveModeReactor}}
 
@@ -56,12 +58,18 @@ import kotlin.collections.Map
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
+{{#clientRegistrationId}}
+@ClientRegistrationId("{{{clientRegistrationId}}}")
+{{/clientRegistrationId}}
 {{#operations}}
 interface {{classname}} {
 
 {{#operation}}{{!
 }}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
 {{/useResponseEntity}}{{!
+}}{{#vendorExtensions.x-operation-extra-annotation}}
+    {{{.}}}
+{{/vendorExtensions.x-operation-extra-annotation}}{{!
 }}{{#httpMethod}}    @HttpExchange(
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
         url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},

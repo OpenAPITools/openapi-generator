@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Model200Response" />
     /// </summary>
-    public class Model200ResponseJsonConverter : JsonConverter<Model200Response>
+    public partial class Model200ResponseJsonConverter : JsonConverter<Model200Response>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Model200ResponseJsonConverter" /> class.
+        /// </summary>
+        public Model200ResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Model200Response" />
         /// </summary>
@@ -157,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
+                throw new JsonException("Property is not nullable for class Model200Response: class.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
+                throw new JsonException("Property is not nullable for class Model200Response: name.");
 
             return new Model200Response(varClass, name);
         }
@@ -171,7 +181,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="model200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,11 +195,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="model200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             if (model200Response.ClassOption.IsSet && model200Response.Class == null)
-                throw new ArgumentNullException(nameof(model200Response.Class), "Property is required for class Model200Response.");
+                throw new JsonException("Cannot write null property Model200Response.Class to non-nullable JSON property 'class'.");
+
+            if (model200Response.NameOption.IsSet && model200Response.Name == null)
+                throw new JsonException("Cannot write null property Model200Response.Name to non-nullable JSON property 'name'.");
 
             if (model200Response.ClassOption.IsSet)
                 writer.WriteString("class", model200Response.Class);

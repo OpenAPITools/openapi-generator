@@ -4,6 +4,8 @@ outputDir: samples/client/petstore/spring-http-interface-reactive-bean-validatio
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   artifactId: spring-http-interface-reactive
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"

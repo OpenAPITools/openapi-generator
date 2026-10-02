@@ -4,6 +4,8 @@ outputDir: samples/client/petstore/spring-http-interface-oauth
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   artifactId: spring-http-interface-oauth-petstore
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"

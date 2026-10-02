@@ -17,19 +17,64 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional
+from collections.abc import Mapping as _Mapping
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictInt, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+from typing import TYPE_CHECKING
 
 class ModelReturn(BaseModel):
     """
     Model for testing reserved words
     """ # noqa: E501
-    var_return: Optional[StrictInt] = Field(default=None, alias="return")
+    alias_choices: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("return", "AliasChoices"), serialization_alias="return", alias="AliasChoices")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["return"]
+
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if (
+            "return" in obj
+            and "AliasChoices" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "return",
+                    "AliasChoices",
+                )
+            )
+        if "return" not in obj and "AliasChoices" in obj:
+            obj["return"] = obj["AliasChoices"]
+        obj.pop("AliasChoices", None)
+        if remove_hidden_storage_names:
+            obj.pop("alias_choices", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,6 +133,14 @@ class ModelReturn(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=True,
+            ),
+        )
+
         _obj = cls.model_validate({
             "return": obj.get("return")
         })
@@ -98,4 +151,32 @@ class ModelReturn(BaseModel):
 
         return _obj
 
+    if TYPE_CHECKING:
+
+        @property
+        def AliasChoices(self) -> _ModelReturn_alias_choices_public_type:
+            return self.alias_choices
+
+        @AliasChoices.setter
+        def AliasChoices(self, value: _ModelReturn_alias_choices_public_type) -> None:
+            self.alias_choices = value
+
+
+if TYPE_CHECKING:
+    _ModelReturn_alias_choices_public_type = Optional[StrictInt]
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+setattr(
+    ModelReturn,
+    "AliasChoices",
+    property(
+        lambda self: self.alias_choices,
+        lambda self, value: setattr(
+            self,
+            "alias_choices",
+            value,
+        ),
+    ),
+)
 

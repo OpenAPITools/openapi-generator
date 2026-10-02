@@ -245,6 +245,49 @@ class GenerateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should suppress promo banner in quiet mode`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(
+            """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            quiet = true
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+    """.trimIndent(),
+            projectFiles
+        )
+
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        assertFalse(
+            result.output.contains("# Thanks for using OpenAPI Generator."),
+            "Promo banner is shown even when quiet mode is enabled."
+        )
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "property_format_provider")
     fun `openApiGenerate should cleanup outputDir`(format: String) {
         val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange

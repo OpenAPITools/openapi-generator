@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Tag {
     /**
      * 
-     * @type {number}
-     * @memberof Tag
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Tag
      */
     name?: string;
 }

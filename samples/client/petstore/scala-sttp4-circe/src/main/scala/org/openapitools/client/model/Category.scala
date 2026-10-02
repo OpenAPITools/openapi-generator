@@ -23,8 +23,22 @@ case class Category(
 object Category {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Category] = deriveEncoder
-  implicit val decoder: Decoder[Category] = deriveDecoder
+  implicit val encoder: Encoder[Category] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.name.map(v => "name" -> v.asJson)
+      ).flatten
+    )
+  }
+  implicit val decoder: Decoder[Category] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      name <- c.downField("name").as[Option[String]]
+    } yield Category(
+      id = id,
+      name = name
+    )
+  }
 }

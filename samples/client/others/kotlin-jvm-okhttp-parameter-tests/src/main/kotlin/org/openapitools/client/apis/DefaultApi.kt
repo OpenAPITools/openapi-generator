@@ -224,11 +224,12 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
         headerDefault?.apply { localVariableHeaders["header_default"] = this.toString() }
         headerDefaultEnum?.apply { localVariableHeaders["header_default_enum"] = this.toString() }
         headerDefaultInt?.apply { localVariableHeaders["header_default_int"] = this.toString() }
         headerNullable?.apply { localVariableHeaders["header_nullable"] = this.toString() }
-        
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/test/parameters/{path_default}/{path_nullable}".replace("{"+"path_default"+"}", encodeURIComponent(pathDefault.toString())).replace("{"+"path_nullable"+"}", encodeURIComponent(pathNullable.toString())),

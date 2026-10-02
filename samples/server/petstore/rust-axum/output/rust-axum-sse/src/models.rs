@@ -153,7 +153,7 @@ impl std::str::FromStr for LiveUpdatesGet200Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing LiveUpdatesGet200Response".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -171,7 +171,7 @@ impl std::str::FromStr for LiveUpdatesGet200Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing LiveUpdatesGet200Response".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -251,11 +251,10 @@ impl LiveUpdatesGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for LiveUpdatesGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![
-            self.data
-                .as_ref()
-                .map(|data| ["data".to_string(), data.to_string()].join(",")),
-        ];
+        let params: Vec<Option<String>> = vec![self
+            .data
+            .as_ref()
+            .map(|data| ["data".to_string(), data.to_string()].join(","))];
 
         write!(
             f,
@@ -291,7 +290,7 @@ impl std::str::FromStr for LiveUpdatesGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing LiveUpdatesGet201Response".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -305,7 +304,7 @@ impl std::str::FromStr for LiveUpdatesGet201Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing LiveUpdatesGet201Response".to_string(),
-                        );
+                        )
                     }
                 }
             }

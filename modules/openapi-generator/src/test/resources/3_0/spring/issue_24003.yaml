@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: x-discriminator-value JsonTypeName bug
+  version: 1.0.0
+paths:
+  /locks:
+    get:
+      operationId: getLocks
+      responses:
+        '200':
+          description: list of locks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BrLock'
+components:
+  schemas:
+    LockType:
+      type: string
+      enum:
+        - USER
+        - COMPONENT
+
+    BrLock:
+      type: object
+      required:
+        - lockType
+      properties:
+        lockType:
+          $ref: '#/components/schemas/LockType'
+      oneOf:
+        - $ref: '#/components/schemas/UserBrLock'
+        - $ref: '#/components/schemas/ComponentBrLock'
+      discriminator:
+        propertyName: lockType
+        mapping:
+          USER: '#/components/schemas/UserBrLock'
+          COMPONENT: '#/components/schemas/ComponentBrLock'
+
+    BaseBrLock:
+      type: object
+      required:
+        - lockType
+      properties:
+        lockType:
+          $ref: '#/components/schemas/LockType'
+
+    UserBrLock:
+      allOf:
+        - $ref: '#/components/schemas/BaseBrLock'
+        - type: object
+          required:
+            - userId
+          properties:
+            userId:
+              type: string
+
+    ComponentBrLock:
+      allOf:
+        - $ref: '#/components/schemas/BaseBrLock'
+        - type: object
+          required:
+            - componentId
+          properties:
+            componentId:
+              type: string

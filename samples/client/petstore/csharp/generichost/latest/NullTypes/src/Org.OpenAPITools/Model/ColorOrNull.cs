@@ -94,8 +94,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ColorOrNull" />
     /// </summary>
-    public class ColorOrNullJsonConverter : JsonConverter<ColorOrNull>
+    public partial class ColorOrNullJsonConverter : JsonConverter<ColorOrNull>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorOrNullJsonConverter" /> class.
+        /// </summary>
+        public ColorOrNullJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ColorOrNull" />
         /// </summary>
@@ -172,7 +182,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="colorOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ColorOrNull colorOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -196,7 +205,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="colorOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ColorOrNull colorOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
 

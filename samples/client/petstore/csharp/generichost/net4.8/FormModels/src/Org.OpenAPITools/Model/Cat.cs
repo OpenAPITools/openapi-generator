@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Cat" />
     /// </summary>
-    public class CatJsonConverter : JsonConverter<Cat>
+    public partial class CatJsonConverter : JsonConverter<Cat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatJsonConverter" /> class.
+        /// </summary>
+        public CatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Cat" />
         /// </summary>
@@ -128,16 +138,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Cat.", nameof(className));
+                throw new JsonException("Property is required for class Cat: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Cat.");
+                throw new JsonException("Property is not nullable for class Cat: className.");
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
+                throw new JsonException("Property is not nullable for class Cat: color.");
 
             if (declawed.IsSet && declawed.Value == null)
-                throw new ArgumentNullException(nameof(declawed), "Property is not nullable for class Cat.");
+                throw new JsonException("Property is not nullable for class Cat: declawed.");
 
             return new Cat(color, declawed);
         }
@@ -148,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="cat"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -163,11 +172,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="cat"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
             if (cat.ColorOption.IsSet && cat.Color == null)
-                throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
+                throw new JsonException("Cannot write null property Cat.Color to non-nullable JSON property 'color'.");
+
+            if (cat.DeclawedOption.IsSet && cat.Declawed == null)
+                throw new JsonException("Cannot write null property Cat.Declawed to non-nullable JSON property 'declawed'.");
 
             writer.WriteString("className", cat.ClassName);
 

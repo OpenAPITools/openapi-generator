@@ -15,10 +15,15 @@ Method | HTTP request | Description
 {{^usePromiseKit}}
 {{^useRxSwift}}
 {{^useVapor}}
+{{^useAsyncAwait}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping (_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)
+{{/useAsyncAwait}}
 {{/useVapor}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
+{{#useAsyncAwait}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) async throws{{#returnType}} -> {{{returnType}}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}
+{{/useAsyncAwait}}
 {{#usePromiseKit}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}>
 {{/usePromiseKit}}
@@ -45,6 +50,7 @@ import {{{projectName}}}
 {{^usePromiseKit}}
 {{^useRxSwift}}
 {{^useVapor}}
+{{^useAsyncAwait}}
 {{#summary}}
 // {{{.}}}
 {{/summary}}
@@ -58,9 +64,23 @@ import {{{projectName}}}
         dump(response)
     }
 }
+{{/useAsyncAwait}}
 {{/useVapor}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
+{{#useAsyncAwait}}
+{{#summary}}
+// {{{.}}}
+{{/summary}}
+do {
+    {{#returnType}}let response = {{/returnType}}try await {{classname}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+{{#returnType}}
+    dump(response)
+{{/returnType}}
+} catch {
+    print(error)
+}
+{{/useAsyncAwait}}
 {{#usePromiseKit}}
 {{#summary}}
 // {{{.}}}

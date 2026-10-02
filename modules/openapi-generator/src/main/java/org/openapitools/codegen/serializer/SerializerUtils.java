@@ -9,6 +9,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,14 @@ public class SerializerUtils {
     private static final boolean minimizeYamlQuotes = Boolean.parseBoolean(GlobalSettings.getProperty(YAML_MINIMIZE_QUOTES_PROPERTY, "true"));
 
     public static String toYamlString(OpenAPI openAPI) {
+        return toYamlString(openAPI, false);
+    }
+
+    public static String toYamlString(OpenAPI openAPI, boolean sortOutput) {
         if (openAPI == null) {
             return null;
         }
-        SimpleModule module = createModule();
+        SimpleModule module = createModule(sortOutput);
         try {
             ObjectMapper yamlMapper = Yaml.mapper().copy();
             // there is an unfortunate YAML condition where user inputs should be treated as strings (e.g. "1234_1234"), but in yaml this is a valid number and
@@ -44,11 +49,15 @@ public class SerializerUtils {
     }
 
     public static String toJsonString(OpenAPI openAPI) {
+        return toJsonString(openAPI, false);
+    }
+
+    public static String toJsonString(OpenAPI openAPI, boolean sortOutput) {
         if (openAPI == null) {
             return null;
         }
 
-        SimpleModule module = createModule();
+        SimpleModule module = createModule(sortOutput);
         try {
             return Json.mapper()
                     .copy()
@@ -63,10 +72,13 @@ public class SerializerUtils {
         return null;
     }
 
-    private static SimpleModule createModule() {
+    private static SimpleModule createModule(boolean sortOutput) {
         SimpleModule module = new SimpleModule("OpenAPIModule");
         module.addSerializer(OpenAPI.class, new OpenAPISerializer());
         module.addSerializer(byte[].class, new ByteArraySerializer());
+        if (sortOutput) {
+            module.addSerializer(PathItem.class, new PathItemSerializer());
+        }
         return module;
     }
 }

@@ -34,7 +34,7 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -83,7 +83,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty(value = "files")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<@Valid ModelFile> getFiles() {
     return files;
   }

@@ -175,7 +175,7 @@ public class ValidateMojoTest extends BaseTestCase {
 
     // WHEN & THEN
     MojoExecutionException e = assertThrows(MojoExecutionException.class, mojo::execute);
-    assertEquals("inputSpec or inputSpecRootDirectory must be specified", e.getMessage());
+    assertEquals("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified", e.getMessage());
   }
 
   /**

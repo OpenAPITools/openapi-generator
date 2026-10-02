@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/elixir/**
+      - samples/client/petstore/elixir-req/**
   pull_request:
     paths:
       - samples/client/petstore/elixir/**
+      - samples/client/petstore/elixir-req/**
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +19,7 @@ jobs:
         elixir: ['1.18.3']
         sample:
           - samples/client/petstore/elixir/
+          - samples/client/petstore/elixir-req/
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -26,7 +29,7 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}

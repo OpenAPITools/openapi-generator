@@ -346,7 +346,7 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         return querystringSingleKey(key, valueAsArray, keyPrefix);
     }
     if (value instanceof Date) {
-        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDateTime(value))}`;
     }
     if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
@@ -359,6 +359,57 @@ export function exists(json: any, key: string) {
     return value !== null && value !== undefined;
 }
 
+/**
+ * Every generated date call site routes through these.
+ *
+ * `format: date` is a calendar date, with no time and no offset, so it is converted
+ * against the local calendar on both ends: they have to agree or the date shifts by
+ * a day. `format: date-time` is an instant and uses UTC.
+ */
+export function serializeDateTime(value: Date): string {
+    return value.toISOString();
+}
+
+export function serializeDate(value: Date): string {
+    if (isNaN(value.getTime())) {
+        throw new RangeError('Invalid time value');
+    }
+    const year = ('000' + value.getFullYear()).slice(-4);
+    const month = ('0' + (value.getMonth() + 1)).slice(-2);
+    const day = ('0' + value.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+}
+
+
+export function parseDate(value: Date | string): Date {
+    if (value instanceof Date) {
+        return value;
+    }
+    // `new Date("2026-08-05")` would parse as UTC midnight: a different day west of UTC.
+    // Local midnight is the stated day everywhere. setFullYear avoids the 1900 offset the
+    // multi-argument constructor applies to years 0-99.
+    const fullDate = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value));
+    if (fullDate) {
+        const year = Number(fullDate[1]);
+        const month = Number(fullDate[2]) - 1;
+        const day = Number(fullDate[3]);
+        const date = new Date(0);
+        date.setFullYear(year, month, day);
+        date.setHours(0, 0, 0, 0);
+        // Out-of-range components (or a day the local zone skipped) silently roll over,
+        // which would hand back a date the server never sent.
+        if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+            return new Date(NaN);
+        }
+        return date;
+    }
+    return new Date(value);
+}
+
+export function parseDateTime(value: any): Date {
+    return new Date(value);
+}
+
 export function mapValues(data: any, fn: (item: any) => any) {
     const result: { [key: string]: any } = {};
     for (const key of Object.keys(data)) {
@@ -367,9 +418,14 @@ export function mapValues(data: any, fn: (item: any) => any) {
     return result;
 }
 
+// Pass-through serializer for `any`-typed properties in form data. See #1877.
+export function anyToJSON(value: any): any {
+    return value;
+}
+
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {
-        if ('multipart/form-data' === consume.contentType) {
+        if (consume.contentType?.startsWith('multipart/form-data') == true) {
             return true;
         }
     }
@@ -432,12 +488,79 @@ export class VoidApiResponse {
     }
 }
 
+/**
+ * A Blob carrying the file name the server advertised, empty when it did not send one. It is a File
+ * wherever one can be built, and the bare Blob given a name otherwise. Same name and shape as the
+ * `typescript` generator's browser HttpFile.
+ */
+export type HttpFile = Blob & { readonly name: string };
+
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value(): Promise<Blob> {
-        return await this.raw.blob();
+    /**
+     * The body named after the Content-Disposition header, so that a download keeps the name the
+     * server gave it. A File is built from a native Blob; the Blob itself is named where there is no
+     * global File (Node.js before 20), where File cannot be constructed, or where the Blob is not the
+     * native one, as returned by an injected fetch implementation such as node-fetch, which a File
+     * would stringify instead of wrapping.
+     */
+    async value(): Promise<HttpFile> {
+        const blob = await this.raw.blob();
+        const name = parseContentDispositionFilename(this.raw.headers) ?? '';
+        if (typeof File !== 'undefined' && blob instanceof Blob) {
+            try {
+                return new File([blob], name, { type: blob.type });
+            } catch {
+                // File cannot be constructed: name the Blob itself
+            }
+        }
+        return Object.assign(blob, { name });
     };
+}
+
+/**
+ * The file name advertised by a Content-Disposition header (RFC 6266): the RFC 5987 encoded
+ * `filename*` parameter first, falling back to the plain `filename` when it is malformed, not UTF-8
+ * or has no usable name. Any directory part is dropped; undefined when no usable name is advertised.
+ */
+export function parseContentDispositionFilename(headers: Headers): string | undefined {
+    const params = parseHeaderParameters(headers.get('Content-Disposition') ?? '');
+    return basename(decodeExtValue(params.get('filename*'))) ?? basename(params.get('filename'));
+}
+
+/** The decoded RFC 5987 ext-value, or undefined when it is not UTF-8 or its percent-encoding is malformed. */
+function decodeExtValue(value: string | undefined): string | undefined {
+    const match = value === undefined ? null : /^utf-8'[^']*'(.*)$/i.exec(value);
+    try {
+        return match ? decodeURIComponent(match[1]) : undefined;
+    } catch {
+        return undefined;
+    }
+}
+
+/**
+ * The `name=value` parameters of a header value, consumed one at a time so that a quoted-string is
+ * taken whole, `;` included. Names are lower-cased, quoted-string values are unquoted with their
+ * backslash escapes resolved, and the first occurrence of a name wins.
+ */
+function parseHeaderParameters(value: string): Map<string, string> {
+    const params = new Map<string, string>();
+    const parameter = /(?:^|;)\s*([^=;]+?)\s*=\s*(?:"((?:[^"\\]|\\.)*)"?|([^;]*))/g;
+    let match: RegExpExecArray | null;
+    while ((match = parameter.exec(value)) !== null) {
+        const name = match[1].toLowerCase();
+        if (!params.has(name)) {
+            params.set(name, match[2] !== undefined ? match[2].replace(/\\(.)/g, '$1') : match[3].trim());
+        }
+    }
+    return params;
+}
+
+/** The last `/` or `\` separated segment of a file name, or undefined when it is not a file name. */
+function basename(name: string | undefined): string | undefined {
+    const base = name?.split(/[\\/]/).pop();
+    return !base || base === '.' || base === '..' ? undefined : base;
 }
 
 export class TextApiResponse {

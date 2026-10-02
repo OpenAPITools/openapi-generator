@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ActivityOutputElementRepresentation" />
     /// </summary>
-    public class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
+    public partial class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivityOutputElementRepresentationJsonConverter" /> class.
+        /// </summary>
+        public ActivityOutputElementRepresentationJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ActivityOutputElementRepresentation" />
         /// </summary>
@@ -157,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (prop1.IsSet && prop1.Value == null)
-                throw new ArgumentNullException(nameof(prop1), "Property is not nullable for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Property is not nullable for class ActivityOutputElementRepresentation: prop1.");
 
             if (prop2.IsSet && prop2.Value == null)
-                throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Property is not nullable for class ActivityOutputElementRepresentation: prop2.");
 
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }
@@ -171,7 +181,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,14 +195,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activityOutputElementRepresentation.Prop1Option.IsSet && activityOutputElementRepresentation.Prop1 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop1), "Property is required for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Cannot write null property ActivityOutputElementRepresentation.Prop1 to non-nullable JSON property 'prop1'.");
 
             if (activityOutputElementRepresentation.Prop2Option.IsSet && activityOutputElementRepresentation.Prop2 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Cannot write null property ActivityOutputElementRepresentation.Prop2 to non-nullable JSON property 'prop2'.");
 
             if (activityOutputElementRepresentation.Prop1Option.IsSet)
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);

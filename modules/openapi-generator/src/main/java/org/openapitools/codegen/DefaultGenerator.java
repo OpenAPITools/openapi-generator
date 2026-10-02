@@ -66,6 +66,10 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
 public class DefaultGenerator implements Generator {
+    private static final String FILE_PATH_COLLISION_LOG = "FILEPATH_COLLISION";
+    private static final String FILE_PATH_COLLISION_LOG_MESSAGE =
+            FILE_PATH_COLLISION_LOG + ": File path collision detected. Files may be overwritten by later-processed collisions. " +
+            "Use 'modelNameMappings' or another name mapping to resolve file name collisions.";
     private static final String METADATA_DIR = ".openapi-generator";
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
     private final boolean dryRun;
@@ -1461,7 +1465,9 @@ public class DefaultGenerator implements Generator {
 
                 // O(1) case-insensitive duplicate check via a pre-lowercased shadow set
                 if (!seenFilesLower.add(absoluteTarget.toString().toLowerCase(Locale.ROOT))) {
-                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget);
+                    once(LOGGER).warn(FILE_PATH_COLLISION_LOG_MESSAGE);
+                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths, see log '{}' for more information. path={}",
+                            FILE_PATH_COLLISION_LOG, absoluteTarget);
                 }
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {
@@ -1518,6 +1524,17 @@ public class DefaultGenerator implements Generator {
 
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
+            return;
+        }
+
+        // splitOperationsByContentType: an operation that exposes several content-types with different
+        // schemas is divided into one self-contained single-content-type Operation per content-type, each
+        // re-entering the pipeline so it is typed natively by the generator.
+        List<Operation> contentTypeVariants = config.divideOperationsByContentType(openAPI, resourcePath, httpMethod, operation);
+        if (contentTypeVariants.size() > 1) {
+            for (Operation variant : contentTypeVariants) {
+                processOperation(resourcePath, httpMethod, variant, operations, path);
+            }
             return;
         }
 

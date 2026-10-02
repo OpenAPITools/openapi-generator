@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -26,15 +27,18 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable UUID uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
-  private Map<String, AnimalDto> map = new HashMap<>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, @Valid AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -76,7 +80,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, AnimalDto> map) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, @Valid AnimalDto> map) {
     this.map = map;
     return this;
   }
@@ -93,14 +97,14 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get map
    * @return map
    */
-  @Valid 
+  
   @JsonProperty("map")
-  public Map<String, AnimalDto> getMap() {
+  public Map<String, @Valid AnimalDto> getMap() {
     return map;
   }
 
   @JsonProperty("map")
-  public void setMap(Map<String, AnimalDto> map) {
+  public void setMap(Map<String, @Valid AnimalDto> map) {
     this.map = map;
   }
 

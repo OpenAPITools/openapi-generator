@@ -3,6 +3,9 @@ outputDir: samples/server/petstore/springboot-useoptional
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
+  optionalNonNullPropertyJsonInclude: "NON_DEFAULT"
   groupId: org.openapitools.openapi3
   #documentationProvider: springdoc
   useOptional: true

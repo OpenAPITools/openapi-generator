@@ -40,6 +40,18 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void toVarNameWithAtSign() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "at_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "atId");
+    }
+
+    @Test
     public void toEnumVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to PascalCase
@@ -463,6 +475,29 @@ public class TypeScriptAngularClientCodegenTest {
         final String fileContents = Files.readString(Paths.get(output + "/model/type.ts"));
         assertThat(fileContents).containsOnlyOnce("} as const;");
         assertThat(fileContents).doesNotContain(" as Type");
+    }
+
+    @Test
+    public void testFormObjectDotNotationOption() throws IOException {
+        for (Object option : new Object[]{null, false, "false", true, "true"}) {
+            File output = Files.createTempDirectory("angular-form-dot").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/query-param-form.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptAngularClientCodegen.USE_DOT_NOTATION_FOR_FORM_OBJECTS, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String service = Files.readString(output.toPath().resolve("api.base.service.ts"));
+            if (Boolean.parseBoolean(String.valueOf(option))) {
+                assertThat(service).contains("this.addToHttpParams(httpParams, `${key}.${k}`, value[k], paramStyle, explode)");
+            } else {
+                assertThat(service).contains("this.addToHttpParams(httpParams, k, value[k], paramStyle, explode)");
+                assertThat(service).doesNotContain("`${key}.${k}`");
+            }
+        }
     }
 
     @Test

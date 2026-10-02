@@ -100,7 +100,9 @@ class ObjectWithDeprecatedFields {
 
       return ObjectWithDeprecatedFields(
         uuid: mapValueOfType<String>(json, r'uuid'),
-        id: num.parse('${json[r'id']}'),
+        id: json[r'id'] == null
+            ? null
+            : num.parse('${json[r'id']}'),
         deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
         bars: json[r'bars'] is Iterable
             ? (json[r'bars'] as Iterable).cast<String>().toList(growable: false)

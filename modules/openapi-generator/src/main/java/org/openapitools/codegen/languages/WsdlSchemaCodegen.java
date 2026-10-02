@@ -18,6 +18,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -25,6 +27,7 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -384,5 +387,35 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.WSDL;
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // patch to work around the fix to set isArray, isMap in response objects
+        // ref: https://github.com/OpenAPITools/openapi-generator/pull/24566/
+        CodegenResponse cr = super.fromResponse(responseCode, response);
+
+        Schema responseSchema;
+        if (this.openAPI != null && this.openAPI.getComponents() != null) {
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
+        }
+
+        if (ModelUtils.isTypeObjectSchema(responseSchema)) {
+            CodegenProperty cp = fromProperty("response", responseSchema, false);
+
+            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+                cr.isFreeFormObject = true;
+            } else {
+                cr.isModel = true;
+            }
+            cr.simpleType = false;
+            cr.containerType = cp.containerType;
+            cr.containerTypeMapped = cp.containerTypeMapped;
+            addVarsRequiredVarsAdditionalProps(responseSchema, cr);
+        }
+
+        return cr;
     }
 }

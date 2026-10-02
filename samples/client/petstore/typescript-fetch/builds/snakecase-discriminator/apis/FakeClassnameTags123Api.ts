@@ -20,6 +20,9 @@ import {
 } from '../models/Client';
 
 export interface TestClassnameRequest {
+    /**
+     * 
+     */
     client: Client;
 }
 

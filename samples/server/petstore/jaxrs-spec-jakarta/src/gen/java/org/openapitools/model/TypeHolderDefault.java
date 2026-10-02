@@ -21,13 +21,13 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("TypeHolderDefault")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class TypeHolderDefault  implements Serializable {
   private String stringItem = "what";
   private BigDecimal numberItem;
   private Integer integerItem;
   private Boolean boolItem = true;
-  private @Valid List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   protected TypeHolderDefault(TypeHolderDefaultBuilder<?, ?> b) {
     this.stringItem = b.stringItem;

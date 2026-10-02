@@ -12,3 +12,7 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 #  serializableModel: "true"
 #  useBeanValidation: "true"
 #  useSpringBoot3: "true"
+additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
+  optionalNonNullPropertyJsonInclude: "NON_NULL"

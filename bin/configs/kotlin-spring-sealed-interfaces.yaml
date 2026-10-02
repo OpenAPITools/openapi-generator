@@ -3,6 +3,8 @@ outputDir: samples/server/petstore/kotlin-spring-sealed-interfaces
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   useSealedResponseInterfaces: true
   interfaceOnly: true
   dateLibrary: java8

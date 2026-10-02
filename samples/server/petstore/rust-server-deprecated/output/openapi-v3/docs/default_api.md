@@ -21,6 +21,7 @@ Method | HTTP request | Description
 **queryExampleGet**](default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **POST** /register-callback | 
+****](default_api.md#) | **PUT** /required_binary_stream | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
 ****](default_api.md#) | **GET** /responses_with_headers | 
 ****](default_api.md#) | **GET** /rfc7807 | 
@@ -482,6 +483,31 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> (body)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **body** | **swagger::ByteArray**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/octet-stream
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

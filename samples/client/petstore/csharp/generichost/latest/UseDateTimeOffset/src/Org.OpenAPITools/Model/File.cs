@@ -84,8 +84,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="File" />
     /// </summary>
-    public class FileJsonConverter : JsonConverter<File>
+    public partial class FileJsonConverter : JsonConverter<File>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileJsonConverter" /> class.
+        /// </summary>
+        public FileJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="File" />
         /// </summary>
@@ -130,7 +140,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (sourceURI.IsSet && sourceURI.Value == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
+                throw new JsonException("Property is not nullable for class File: sourceURI.");
 
             return new File(sourceURI);
         }
@@ -141,7 +151,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -156,11 +165,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             if (file.SourceURIOption.IsSet && file.SourceURI == null)
-                throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
+                throw new JsonException("Cannot write null property File.SourceURI to non-nullable JSON property 'sourceURI'.");
 
             if (file.SourceURIOption.IsSet)
                 writer.WriteString("sourceURI", file.SourceURI);

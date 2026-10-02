@@ -141,6 +141,35 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile, "dst.int32");
     }
 
+    @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/client.go"),
+                "keyPrefixForMapEntry = k.String()",
+                "if !ok { continue } if entry.Kind() == reflect.Slice {",
+                "case reflect.Ptr: if v.IsNil() { return }",
+                "styleForElement = \"\"");
+
+        // the api passes the declared style through
+        Path api = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
+    }
+
     @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -514,5 +543,52 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(docPath, "stringWithBackslash := \"C:\\\\path\\\\to\\\\file\"");
         // Verify that quotes are properly escaped in email parameter examples
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
+    }
+
+    @Test(description = "generateUnmarshalJSON=false must also suppress the oneOf UnmarshalJSON so the generated code does not reference the validator import that is no longer added (#24053)")
+    public void testOneOfUnmarshalJSONHonorsGenerateUnmarshalJSONFlag() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // With the flag disabled the validator import is not added, so the oneOf model must not
+        // emit UnmarshalJSON (which would reference the missing validator package and fail to compile).
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileNotContains(oneOfModel, "func (dst *Object) UnmarshalJSON");
+        TestUtils.assertFileNotContains(oneOfModel, "validator.Validate");
+        TestUtils.assertFileNotContains(oneOfModel, "gopkg.in/validator.v2");
+    }
+
+    @Test(description = "with the default generateUnmarshalJSON=true the oneOf UnmarshalJSON and the validator import are still generated")
+    public void testOneOfUnmarshalJSONGeneratedByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileContains(oneOfModel,
+                "func (dst *Object) UnmarshalJSON",
+                "validator.Validate",
+                "gopkg.in/validator.v2");
     }
 }

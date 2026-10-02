@@ -18,6 +18,7 @@
 package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -270,6 +271,27 @@ public class ModelUtilsTest {
 
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
+    }
+
+    @Test(enabled = false)
+    public void testIsFreeFormObjectFromSpec() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        // Create initial "empty" object schema.
+        Schema additionalPropertiesUnset = ModelUtils.getSchema(openAPI, "AdditionalPropertiesUnset");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesUnset, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesUnset));
+
+        Schema additionalPropertiesTrue = ModelUtils.getSchema(openAPI, "AdditionalPropertiesTrue");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesTrue, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesTrue));
+
+        Schema additionalPropertiesFalse = ModelUtils.getSchema(openAPI, "AdditionalPropertiesFalse");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesFalse, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesFalse));
+
+        Schema asdditionalPropertiesSchema = ModelUtils.getSchema(openAPI, "AdditionalPropertiesSchema");
+        Assert.assertFalse(ModelUtils.isFreeFormObject(asdditionalPropertiesSchema, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(asdditionalPropertiesSchema));
     }
 
     @Test
@@ -553,6 +575,23 @@ public class ModelUtilsTest {
         assertTrue(schema.getReadOnly());
         assertNull(schema.getWriteOnly());
         assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifyOneOfWithOnlyOneNonNullSubSchemaDoesNotMutateSharedSchema() {
+        OpenAPI openAPI = new OpenAPI().specVersion(SpecVersion.V31);
+        Schema sharedRef = new Schema<>().$ref("#/components/schemas/ContentType");
+        Schema nullableParent = new ComposedSchema().oneOf(new ArrayList<>(Arrays.asList(
+                new Schema<>().type("null"),
+                sharedRef)));
+
+        Schema simplified = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI, nullableParent, nullableParent.getOneOf());
+
+        assertNotSame(simplified, sharedRef);
+        assertEquals(simplified.get$ref(), sharedRef.get$ref());
+        assertTrue(simplified.getNullable());
+        assertNull(sharedRef.getNullable());
     }
 
     @Test

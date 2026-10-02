@@ -15,6 +15,8 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
@@ -199,16 +201,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         // Sanitize any other special characters that weren't replaced
         name = sanitizeName(name);
 
-        // Keep track of modifications prior to casing
-        boolean nameWasModified = !originalName.equals(name);
-
         // Convert casing
         name = casingFunction.apply(name);
 
         // If word starts with number add a prefix
         // Note: this must be done after casing since CamelCase will strip leading underscores
         if (name.matches("^\\d.*")) {
-            nameWasModified = true;
             name = casingFunction.apply(escapePrefix + '_' + name);
         }
 
@@ -216,7 +214,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         // There is currently a bug in Rust where this doesn't work for a few reserved words :(
         // https://internals.rust-lang.org/t/raw-identifiers-dont-work-for-all-identifiers/9094
         if (isReservedWord(name)) {
-            nameWasModified = true;
             if (this.keywordsThatDoNotSupportRawIdentifiers.contains(name) || !allowRawIdentifiers) {
                 name = casingFunction.apply(escapePrefix + '_' + name);
             } else {
@@ -225,8 +222,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         }
 
         // If the name had to be modified (not just because of casing), log the change
-        if (nameWasModified) {
-            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casingFunction.apply(originalName), type, name);
+        String casedOriginalName = casingFunction.apply(originalName);
+        if (!casedOriginalName.equals(name)) {
+            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casedOriginalName, type, name);
         }
 
         return name;
@@ -292,7 +290,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
-        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+        } else if ((hasAnyOf(mdl)) || (hasOneOf(mdl))) {
             mdl.dataType = getSchemaType(model);
         }
 

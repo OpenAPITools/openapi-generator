@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NullableMapProperty {
 
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
@@ -35,7 +35,7 @@ public class NullableMapProperty {
   }
 
   public NullableMapProperty putLanguageValuesItem(String key, String languageValuesItem) {
-    if (this.languageValues == null || !this.languageValues.isPresent()) {
+    if (this.languageValues == null || !this.languageValues.isPresent() || this.languageValues.get() == null) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
     this.languageValues.get().put(key, languageValuesItem);
@@ -47,7 +47,7 @@ public class NullableMapProperty {
    * @return languageValues
    */
   
-  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;
@@ -98,7 +98,7 @@ public class NullableMapProperty {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   

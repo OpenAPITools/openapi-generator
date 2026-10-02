@@ -146,12 +146,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
     /// </summary>
-    public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
+    public partial class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClassJsonConverter" /> class.
+        /// </summary>
+        public MixedPropertiesAndAdditionalPropertiesClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize DateTime
         /// </summary>
-        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string DateTimeFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
@@ -209,16 +219,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: dateTime.");
 
             if (map.IsSet && map.Value == null)
-                throw new ArgumentNullException(nameof(map), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: map.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: uuid.");
 
             if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass: uuid_with_pattern.");
 
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
@@ -229,7 +239,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -244,11 +253,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.DateTime == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.DateTime to non-nullable JSON property 'dateTime'.");
+
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.Map == null)
-                throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.Map to non-nullable JSON property 'map'.");
+
+            if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.Uuid == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.Uuid to non-nullable JSON property 'uuid'.");
+
+            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern to non-nullable JSON property 'uuid_with_pattern'.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
                 writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));

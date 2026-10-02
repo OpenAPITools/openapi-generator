@@ -17,6 +17,26 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /fake/oneof:
+    post:
+      tags:
+        - fake
+      summary: test oneOf polymorphism
+      description: Accepts and returns oneOf schemas to exercise polymorphism support
+      operationId: testOneOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mammal'
+        required: true
+      responses:
+        '200':
+          description: a fruit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
   /foo:
     get:
       responses:
@@ -2309,4 +2329,134 @@ components:
           properties:
             childProperty:
               type: string
+
+    Apple:
+      type: object
+      properties:
+        cultivar:
+          type: string
+        origin:
+          type: string
+
+    Banana:
+      type: object
+      properties:
+        lengthCm:
+          type: number
+
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+
+    Whale:
+      type: object
+      required:
+        - className
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+
+    Zebra:
+      type: object
+      required:
+        - className
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+
+    Mammal:
+      oneOf:
+        - $ref: '#/components/schemas/Whale'
+        - $ref: '#/components/schemas/Zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/Whale'
+          zebra: '#/components/schemas/Zebra'
+
+    Zoo:
+      type: object
+      description: A model that uses oneOf and anyOf schemas as property types.
+      required:
+        - favoriteMammal
+        - favoriteReptile
+      properties:
+        favoriteMammal:
+          # required, discriminated oneOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        optionalMammal:
+          # optional, discriminated oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        snack:
+          # optional, discriminator-less oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Fruit'
+        mammals:
+          # array of oneOf -> degrades to an `array` type hint (the union lives in the phpdoc)
+          type: array
+          items:
+            $ref: '#/components/schemas/Mammal'
+        favoriteReptile:
+          # required, discriminated anyOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Reptile'
+        drink:
+          # optional, discriminator-less anyOf -> nullable PHP union
+          $ref: '#/components/schemas/Smoothie'
+        featuredCreature:
+          # optional anyOf whose members are THEMSELVES composed (Mammal, Reptile) -> the union
+          # must flatten transitively to their leaves, not the intermediate composed types
+          $ref: '#/components/schemas/Creature'
+
+    Lizard:
+      type: object
+      required:
+        - reptileType
+      properties:
+        lovesRocks:
+          type: boolean
+        reptileType:
+          type: string
+
+    Snake:
+      type: object
+      required:
+        - reptileType
+      properties:
+        venomous:
+          type: boolean
+        reptileType:
+          type: string
+
+    Reptile:
+      anyOf:
+        - $ref: '#/components/schemas/Lizard'
+        - $ref: '#/components/schemas/Snake'
+      discriminator:
+        propertyName: reptileType
+        mapping:
+          lizard: '#/components/schemas/Lizard'
+          snake: '#/components/schemas/Snake'
+
+    Smoothie:
+      anyOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+
+    Creature:
+      # anyOf whose members are themselves composed: Mammal (oneOf Whale/Zebra) and Reptile
+      # (anyOf Lizard/Snake). A property referencing Creature must flatten transitively to the
+      # leaves (Whale|Zebra|Lizard|Snake), since the deserializer unwraps to the leaf instance.
+      anyOf:
+        - $ref: '#/components/schemas/Mammal'
+        - $ref: '#/components/schemas/Reptile'
 

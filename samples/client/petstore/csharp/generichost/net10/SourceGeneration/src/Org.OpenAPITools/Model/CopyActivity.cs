@@ -129,8 +129,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="CopyActivity" />
     /// </summary>
-    public class CopyActivityJsonConverter : JsonConverter<CopyActivity>
+    public partial class CopyActivityJsonConverter : JsonConverter<CopyActivity>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopyActivityJsonConverter" /> class.
+        /// </summary>
+        public CopyActivityJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CopyActivity" />
         /// </summary>
@@ -172,7 +182,12 @@ namespace Org.OpenAPITools.Model
                         case "$schema":
                             string? schemaRawValue = utf8JsonReader.GetString();
                             if (schemaRawValue != null)
-                                schema = new Option<CopyActivity.SchemaEnum?>(CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue));
+                            {
+                                CopyActivity.SchemaEnum? schemaValue = CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue);
+                                if (schemaValue == null)
+                                    throw new JsonException();
+                                schema = new Option<CopyActivity.SchemaEnum?>(schemaValue);
+                            }
                             break;
                         default:
                             break;
@@ -181,16 +196,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!copyActivitytt.IsSet)
-                throw new ArgumentException("Property is required for class CopyActivity.", nameof(copyActivitytt));
+                throw new JsonException("Property is required for class CopyActivity: copyActivitytt.");
 
             if (!schema.IsSet)
-                throw new ArgumentException("Property is required for class CopyActivity.", nameof(schema));
+                throw new JsonException("Property is required for class CopyActivity: $schema.");
 
             if (copyActivitytt.IsSet && copyActivitytt.Value == null)
-                throw new ArgumentNullException(nameof(copyActivitytt), "Property is not nullable for class CopyActivity.");
+                throw new JsonException("Property is not nullable for class CopyActivity: copyActivitytt.");
 
             if (schema.IsSet && schema.Value == null)
-                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class CopyActivity.");
+                throw new JsonException("Property is not nullable for class CopyActivity: $schema.");
 
             return new CopyActivity(copyActivitytt.Value!);
         }
@@ -201,7 +216,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="copyActivity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, CopyActivity copyActivity, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -216,12 +230,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="copyActivity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CopyActivity copyActivity, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (copyActivity.CopyActivitytt == null)
-                throw new ArgumentNullException(nameof(copyActivity.CopyActivitytt), "Property is required for class CopyActivity.");
-
             writer.WriteString("copyActivitytt", copyActivity.CopyActivitytt);
 
             writer.WriteString("$schema", CopyActivity.SchemaEnumToJsonValue(copyActivity.Schema));

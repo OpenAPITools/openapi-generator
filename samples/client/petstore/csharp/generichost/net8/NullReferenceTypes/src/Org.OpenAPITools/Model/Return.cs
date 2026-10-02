@@ -125,8 +125,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Return" />
     /// </summary>
-    public class ReturnJsonConverter : JsonConverter<Return>
+    public partial class ReturnJsonConverter : JsonConverter<Return>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReturnJsonConverter" /> class.
+        /// </summary>
+        public ReturnJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Return" />
         /// </summary>
@@ -183,19 +193,19 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!varLock.IsSet)
-                throw new ArgumentException("Property is required for class Return.", nameof(varLock));
+                throw new JsonException("Property is required for class Return: lock.");
 
             if (!varAbstract.IsSet)
-                throw new ArgumentException("Property is required for class Return.", nameof(varAbstract));
+                throw new JsonException("Property is required for class Return: abstract.");
 
             if (varLock.IsSet && varLock.Value == null)
-                throw new ArgumentNullException(nameof(varLock), "Property is not nullable for class Return.");
+                throw new JsonException("Property is not nullable for class Return: lock.");
 
             if (varReturn.IsSet && varReturn.Value == null)
-                throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
+                throw new JsonException("Property is not nullable for class Return: return.");
 
             if (varUnsafe.IsSet && varUnsafe.Value == null)
-                throw new ArgumentNullException(nameof(varUnsafe), "Property is not nullable for class Return.");
+                throw new JsonException("Property is not nullable for class Return: unsafe.");
 
             return new Return(varLock.Value!, varAbstract.Value!, varReturn, varUnsafe);
         }
@@ -206,7 +216,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -221,14 +230,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (varReturn.Lock == null)
-                throw new ArgumentNullException(nameof(varReturn.Lock), "Property is required for class Return.");
+            if (varReturn.VarReturnOption.IsSet && varReturn.VarReturn == null)
+                throw new JsonException("Cannot write null property Return.VarReturn to non-nullable JSON property 'return'.");
 
             if (varReturn.UnsafeOption.IsSet && varReturn.Unsafe == null)
-                throw new ArgumentNullException(nameof(varReturn.Unsafe), "Property is required for class Return.");
+                throw new JsonException("Cannot write null property Return.Unsafe to non-nullable JSON property 'unsafe'.");
 
             writer.WriteString("lock", varReturn.Lock);
 

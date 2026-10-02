@@ -43,18 +43,11 @@ import kotlinx.serialization.encoding.*
      */
     @Serializable
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
-    {{^enumUnknownDefaultCase}}
         {{#allowableValues}}{{#enumVars}}
         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
-        {{&name}}({{{value}}}){{^-last}},{{/-last}}
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/enumVars}}{{/allowableValues}}
-    {{/enumUnknownDefaultCase}}
-    {{#enumUnknownDefaultCase}}
-        {{#allowableValues}}{{#enumVars}}{{^-last}}
-        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
-        {{&name}}({{{value}}}),
-        {{/-last}}{{/enumVars}}{{/allowableValues}}
-    {{/enumUnknownDefaultCase}}
+        override fun toString(): kotlin.String = value{{^isString}}.toString(){{/isString}}
     }
 
     {{/isEnum}}

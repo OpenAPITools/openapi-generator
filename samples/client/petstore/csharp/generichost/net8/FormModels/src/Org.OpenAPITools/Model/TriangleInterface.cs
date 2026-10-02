@@ -82,8 +82,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TriangleInterface" />
     /// </summary>
-    public class TriangleInterfaceJsonConverter : JsonConverter<TriangleInterface>
+    public partial class TriangleInterfaceJsonConverter : JsonConverter<TriangleInterface>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangleInterfaceJsonConverter" /> class.
+        /// </summary>
+        public TriangleInterfaceJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TriangleInterface" />
         /// </summary>
@@ -128,10 +138,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class TriangleInterface.", nameof(triangleType));
+                throw new JsonException("Property is required for class TriangleInterface: triangleType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
+                throw new JsonException("Property is not nullable for class TriangleInterface: triangleType.");
 
             return new TriangleInterface(triangleType.Value);
         }
@@ -142,7 +152,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangleInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -157,12 +166,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangleInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangleInterface.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
-
             writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }

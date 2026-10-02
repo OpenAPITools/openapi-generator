@@ -25,10 +25,16 @@ import {
 } from '../models/GetBehaviorTypeResponse';
 
 export interface GetBehaviorPermissionsRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 
 export interface GetBehaviorTypeRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 

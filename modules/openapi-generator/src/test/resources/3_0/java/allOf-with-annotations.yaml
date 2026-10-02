@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  title: allOf Annotations Test
+  version: 0.0.1
+paths:
+  /:
+    get:
+      operationId: getDog
+      x-operation-extra-annotation:
+        - '@SuppressWarnings("unchecked")'
+        - '@Deprecated'
+      parameters:
+        - name: includeDetails
+          in: query
+          required: false
+          x-field-extra-annotation:
+            - '@SuppressWarnings("unchecked")'
+            - '@Deprecated'
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+components:
+  schemas:
+    Animal:
+      type: object
+      properties:
+        name:
+          type: string
+    Dog:
+      x-class-extra-annotation:
+        - '@SuppressWarnings("unchecked")'
+        - '@Deprecated'
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        breed:
+          x-field-extra-annotation:
+            - '@SuppressWarnings("unchecked")'
+            - '@Deprecated'
+          type: string
+    Cat:
+      x-class-extra-annotation: '@SuppressWarnings("unchecked")'
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        indoor:
+          x-field-extra-annotation: '@Deprecated'
+          type: boolean
+    Bird:
+      x-class-extra-annotation: |-
+        @SuppressWarnings("unchecked")
+        @Deprecated
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        wingSpan:
+          type: integer
+    Fish:
+      x-class-extra-annotation:
+        - '@Deprecated'
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        waterType:
+          type: string

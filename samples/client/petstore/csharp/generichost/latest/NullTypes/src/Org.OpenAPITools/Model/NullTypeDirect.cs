@@ -100,8 +100,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NullTypeDirect" />
     /// </summary>
-    public class NullTypeDirectJsonConverter : JsonConverter<NullTypeDirect>
+    public partial class NullTypeDirectJsonConverter : JsonConverter<NullTypeDirect>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullTypeDirectJsonConverter" /> class.
+        /// </summary>
+        public NullTypeDirectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="NullTypeDirect" />
         /// </summary>
@@ -150,7 +160,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class NullTypeDirect.");
+                throw new JsonException("Property is not nullable for class NullTypeDirect: id.");
 
             return new NullTypeDirect(alwaysNull, id);
         }
@@ -161,7 +171,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullTypeDirect"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NullTypeDirect nullTypeDirect, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -176,9 +185,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullTypeDirect"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NullTypeDirect nullTypeDirect, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullTypeDirect.IdOption.IsSet && nullTypeDirect.Id == null)
+                throw new JsonException("Cannot write null property NullTypeDirect.Id to non-nullable JSON property 'id'.");
+
             if (nullTypeDirect.AlwaysNullOption.IsSet)
                 if (nullTypeDirect.AlwaysNullOption.Value != null)
                 {

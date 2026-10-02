@@ -180,7 +180,6 @@ class EnumTest {
 
 }
 
-
 enum EnumTestEnumStringEnum {
 @JsonValue(r'UPPER')
 UPPER(r'UPPER'),
@@ -198,7 +197,6 @@ final String value;
 @override
 String toString() => value;
 }
-
 
 
 enum EnumTestEnumStringRequiredEnum {
@@ -220,7 +218,6 @@ String toString() => value;
 }
 
 
-
 enum EnumTestEnumIntegerEnum {
 @JsonValue(1)
 number1('1'),
@@ -236,7 +233,6 @@ final String value;
 @override
 String toString() => value;
 }
-
 
 
 enum EnumTestEnumNumberEnum {

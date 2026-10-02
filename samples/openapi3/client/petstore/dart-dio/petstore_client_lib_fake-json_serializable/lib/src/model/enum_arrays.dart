@@ -43,7 +43,7 @@ class EnumArrays {
     name: r'array_enum',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: List<EnumArraysArrayEnumEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: EnumArraysArrayEnumEnum.unknownDefaultOpenApi,
   )
 
 
@@ -74,7 +74,6 @@ class EnumArrays {
 
 }
 
-
 enum EnumArraysJustSymbolEnum {
 @JsonValue(r'>=')
 greaterThanEqual(r'>='),
@@ -90,7 +89,6 @@ final String value;
 @override
 String toString() => value;
 }
-
 
 
 enum EnumArraysArrayEnumEnum {

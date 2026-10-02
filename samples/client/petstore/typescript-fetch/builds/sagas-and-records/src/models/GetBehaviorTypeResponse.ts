@@ -36,14 +36,10 @@ import {
 export interface GetBehaviorTypeResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof GetBehaviorTypeResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {BehaviorType}
-     * @memberof GetBehaviorTypeResponse
      */
     data?: BehaviorType;
 }

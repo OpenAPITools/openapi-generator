@@ -96,7 +96,9 @@ import java.io.IOException
  *
  */
 {{#parcelizeModels}}
+{{^kotlinx_serialization}}
 @Parcelize
+{{/kotlinx_serialization}}
 {{/parcelizeModels}}
 {{^generateOneOfAnyOfWrappers}}
 {{^discriminator}}
@@ -119,9 +121,10 @@ import java.io.IOException
 {{>additionalModelTypeAnnotations}}
 {{#kotlinx_serialization}}
 {{#discriminator}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}} {
 {{#discriminator.mappedModels}}
-    @JvmInline
+{{#parcelizeModels}}    @Parcelize
+{{/parcelizeModels}}    @JvmInline
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}} value class {{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(val value: {{modelName}}) : {{classname}}
 
 {{/discriminator.mappedModels}}
@@ -164,11 +167,12 @@ import java.io.IOException
 }
 {{/discriminator}}
 {{^discriminator}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}} {
 {{#composedSchemas}}
 {{#oneOf}}
 {{^vendorExtensions.x-duplicated-data-type}}
-    @JvmInline
+{{#parcelizeModels}}    @Parcelize
+{{/parcelizeModels}}    @JvmInline
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}({{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{{dataType}}}) : {{classname}}
 
 {{/vendorExtensions.x-duplicated-data-type}}

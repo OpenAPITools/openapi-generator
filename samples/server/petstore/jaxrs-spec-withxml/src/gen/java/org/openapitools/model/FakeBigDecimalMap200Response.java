@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "FakeBigDecimalMap200Response", propOrder =
     { "someId", "someMap"
     })
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
-  private @Valid Map<String, BigDecimal> someMap = new HashMap<>();
+  private Map<String, BigDecimal> someMap = new HashMap<>();
 
   protected FakeBigDecimalMap200Response(FakeBigDecimalMap200ResponseBuilder<?, ?> b) {
     this.someId = b.someId;
@@ -78,7 +78,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("someMap")
-  @Valid public Map<String, BigDecimal> getSomeMap() {
+  public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }
 

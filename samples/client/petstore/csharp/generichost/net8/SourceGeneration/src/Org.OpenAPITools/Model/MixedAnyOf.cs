@@ -92,8 +92,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedAnyOf" />
     /// </summary>
-    public class MixedAnyOfJsonConverter : JsonConverter<MixedAnyOf>
+    public partial class MixedAnyOfJsonConverter : JsonConverter<MixedAnyOf>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedAnyOfJsonConverter" /> class.
+        /// </summary>
+        public MixedAnyOfJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedAnyOf" />
         /// </summary>
@@ -138,7 +148,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedAnyOf.");
+                throw new JsonException("Property is not nullable for class MixedAnyOf: content.");
 
             return new MixedAnyOf(content);
         }
@@ -149,7 +159,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -164,11 +173,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedAnyOf.ContentOption.IsSet && mixedAnyOf.Content == null)
-                throw new ArgumentNullException(nameof(mixedAnyOf.Content), "Property is required for class MixedAnyOf.");
+                throw new JsonException("Cannot write null property MixedAnyOf.Content to non-nullable JSON property 'content'.");
 
             if (mixedAnyOf.ContentOption.IsSet)
             {

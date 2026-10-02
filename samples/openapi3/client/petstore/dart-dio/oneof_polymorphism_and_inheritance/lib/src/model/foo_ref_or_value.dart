@@ -132,3 +132,4 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
   }
 }
 
+

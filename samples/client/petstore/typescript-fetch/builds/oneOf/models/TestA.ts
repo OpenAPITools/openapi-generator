@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface TestA {
     /**
      * 
-     * @type {string}
-     * @memberof TestA
      */
     foo: string;
 }

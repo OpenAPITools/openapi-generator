@@ -22,7 +22,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
         mock_resp.data = b"some text"
         mock_resp.headers = {}
 
-        marker = petstore_api.TestObjectForMultipartRequestsRequestMarker(
+        marker = petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
             name="name",
         )
 
@@ -39,7 +39,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
             returned = self.fake_api.upload_file_with_additional_properties(
                 file=self.test_file_path,
                 count=100,
-                object=petstore_api.TestObjectForMultipartRequestsRequestMarker(
+                object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
                     name="foo"
                 ),
             )

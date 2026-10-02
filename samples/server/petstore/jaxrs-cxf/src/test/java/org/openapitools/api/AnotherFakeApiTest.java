@@ -15,9 +15,9 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 import java.util.UUID;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
@@ -48,7 +48,7 @@ public class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();

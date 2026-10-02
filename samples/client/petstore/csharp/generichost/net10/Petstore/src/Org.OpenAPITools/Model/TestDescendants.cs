@@ -166,8 +166,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestDescendants" />
     /// </summary>
-    public class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
+    public partial class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestDescendantsJsonConverter" /> class.
+        /// </summary>
+        public TestDescendantsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestDescendants" />
         /// </summary>
@@ -217,7 +227,12 @@ namespace Org.OpenAPITools.Model
                         case "objectType":
                             string objectTypeRawValue = utf8JsonReader.GetString();
                             if (objectTypeRawValue != null)
-                                objectType = new Option<TestDescendants.ObjectTypeEnum?>(TestDescendants.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue));
+                            {
+                                TestDescendants.ObjectTypeEnum? objectTypeValue = TestDescendants.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue);
+                                if (objectTypeValue == null)
+                                    throw new JsonException();
+                                objectType = new Option<TestDescendants.ObjectTypeEnum?>(objectTypeValue);
+                            }
                             break;
                         default:
                             break;
@@ -226,16 +241,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!alternativeName.IsSet)
-                throw new ArgumentException("Property is required for class TestDescendants.", nameof(alternativeName));
+                throw new JsonException("Property is required for class TestDescendants: alternativeName.");
 
             if (!objectType.IsSet)
-                throw new ArgumentException("Property is required for class TestDescendants.", nameof(objectType));
+                throw new JsonException("Property is required for class TestDescendants: objectType.");
 
             if (alternativeName.IsSet && alternativeName.Value == null)
-                throw new ArgumentNullException(nameof(alternativeName), "Property is not nullable for class TestDescendants.");
+                throw new JsonException("Property is not nullable for class TestDescendants: alternativeName.");
 
             if (objectType.IsSet && objectType.Value == null)
-                throw new ArgumentNullException(nameof(objectType), "Property is not nullable for class TestDescendants.");
+                throw new JsonException("Property is not nullable for class TestDescendants: objectType.");
 
             return new TestDescendants(alternativeName.Value);
         }
@@ -246,7 +261,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testDescendants"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TestDescendants testDescendants, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testDescendants is Descendant1 descendant1){
@@ -271,12 +285,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testDescendants"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestDescendants testDescendants, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testDescendants.AlternativeName == null)
-                throw new ArgumentNullException(nameof(testDescendants.AlternativeName), "Property is required for class TestDescendants.");
-
             writer.WriteString("alternativeName", testDescendants.AlternativeName);
 
             writer.WriteString("objectType", TestDescendants.ObjectTypeEnumToJsonValue(testDescendants.ObjectType));

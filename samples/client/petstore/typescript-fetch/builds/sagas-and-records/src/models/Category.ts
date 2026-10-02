@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Category {
     /**
      * 
-     * @type {number}
-     * @memberof Category
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Category
      */
     name?: string;
 }

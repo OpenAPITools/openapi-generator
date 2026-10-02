@@ -24,6 +24,7 @@ import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -38,8 +39,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
-import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_DESCRIPTION;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_NAME;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -63,6 +65,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Setter protected String developerOrganizationUrl = "https://openapi-generator.tech";
     @Setter protected String srcBasePath = "lib";
     @Setter protected String testBasePath = "test";
+    @Setter protected String composerPackageName = null;
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
@@ -93,8 +96,78 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "resourcePath", "httpBody", "queryParams", "headerParams",
                         "formParams", "_header_accept", "_tempBody",
 
-                        // PHP reserved words
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+                        // PHP reserved words, ref: https://www.php.net/manual/en/reserved.keywords.php
+                        "__halt_compiler",
+                        "abstract",
+                        "and",
+                        "array",
+                        "as",
+                        "break",
+                        "callable",
+                        "case",
+                        "catch",
+                        "class",
+                        "clone",
+                        "const",
+                        "continue",
+                        "declare",
+                        "default",
+                        "die",
+                        "do",
+                        "echo",
+                        "else",
+                        "elseif",
+                        "empty",
+                        "enddeclare",
+                        "endfor",
+                        "endforeach",
+                        "endif",
+                        "endswitch",
+                        "endwhile",
+                        "eval",
+                        "exit",
+                        "extends",
+                        "final",
+                        "finally",
+                        "fn",
+                        "for",
+                        "foreach",
+                        "function",
+                        "global",
+                        "goto",
+                        "if",
+                        "implements",
+                        "include",
+                        "include_once",
+                        "instanceof",
+                        "insteadof",
+                        "interface",
+                        "isset",
+                        "list",
+                        "match",
+                        "namespace",
+                        "new",
+                        "or",
+                        "print",
+                        "private",
+                        "protected",
+                        "public",
+                        "readonly",
+                        "require",
+                        "require_once",
+                        "return",
+                        "static",
+                        "switch",
+                        "throw",
+                        "trait",
+                        "try",
+                        "unset",
+                        "use",
+                        "var",
+                        "while",
+                        "xor",
+                        "yield"
+                )
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
@@ -258,6 +331,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.COMPOSER_PACKAGE_NAME)) {
+            this.setComposerPackageName((String) additionalProperties.get(CodegenConstants.COMPOSER_PACKAGE_NAME));
         }
 
         if (!this.getComposerPackageName().isEmpty()) {
@@ -753,10 +830,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType, this::toEnumVarName);
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, "enumDescription", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, ENUM_NAME, dataType, this::toEnumVarName);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, ENUM_DESCRIPTION, dataType);
         }
     }
 
@@ -966,11 +1043,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Get Composer package name based on GIT_USER_ID and GIT_REPO_ID.
+     * Get Composer package name. Returns the explicitly configured value if set, otherwise
+     * derives it from GIT_USER_ID and GIT_REPO_ID.
      *
      * @return package name or empty string on fail
      */
     public String getComposerPackageName() {
+        if (this.composerPackageName != null && !this.composerPackageName.isEmpty()) {
+            return this.composerPackageName;
+        }
         String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
         if (
                 packageName.contentEquals("/")

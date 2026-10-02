@@ -67,6 +67,7 @@ data class Order (
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),
         @SerialName(value = "delivered") delivered("delivered");
+        override fun toString(): kotlin.String = value
     }
 
 }

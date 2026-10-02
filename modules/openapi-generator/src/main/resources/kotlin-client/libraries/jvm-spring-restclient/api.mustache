@@ -9,7 +9,13 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.RestClientResponseException
 
 {{#jackson}}
+{{^useJackson3}}
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+{{/useJackson3}}
+{{#useJackson3}}
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter
+import {{packageName}}.infrastructure.Serializer
+{{/useJackson3}}
 {{/jackson}}
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
@@ -23,11 +29,20 @@ import {{packageName}}.infrastructure.*
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}}(client: RestClient) : ApiClient(client) {
 
     {{#jackson}}
+    {{^useJackson3}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)
         .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
         .build()
     )
+    {{/useJackson3}}
+    {{#useJackson3}}
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(RestClient.builder()
+        .baseUrl(baseUrl)
+        .configureMessageConverters { it.registerDefaults().withJsonConverter(JacksonJsonHttpMessageConverter(Serializer.jacksonObjectMapper)) }
+        .build()
+    )
+    {{/useJackson3}}
     {{/jackson}}
 
     {{#operation}}
@@ -118,12 +133,11 @@ import {{packageName}}.infrastructure.*
             }
             {{/hasQueryParams}}
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{/hasFormParams}})
-        {{#headerParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
-        {{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}localVariableHeaders["Content-Type"] = "{{{mediaType}}}"
-        {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"
-{{/hasProduces}}
+        {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"{{/hasProduces}}
+{{#headerParams}}
+        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+{{/headerParams}}
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}

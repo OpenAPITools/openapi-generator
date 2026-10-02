@@ -17,12 +17,44 @@ package org.openapitools.codegen.cpphttplib;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CppHttplibServerCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @SuppressWarnings("static-method")
 public class CppHttplibServerCodegenModelTest {
+
+    /**
+     * Wraps a single model the way {@link org.openapitools.codegen.DefaultGenerator}
+     * does before calling {@code postProcessAllModels}, so tests can exercise the full
+     * enum vendor-extension pipeline (identifier + original-value derivation), not just
+     * the intermediate state produced by {@code fromModel}. This mirrors
+     * {@code DefaultGenerator}'s {@code processModels}, which runs {@code postProcessModels}
+     * (and, for C++, {@code postProcessModelsEnum} with it) before {@code postProcessAllModels}
+     * is ever invoked.
+     */
+    private Map<String, ModelsMap> wrapForPostProcessAllModels(CppHttplibServerCodegen codegen, String name, CodegenModel model) {
+        final ModelMap modelMap = new ModelMap();
+        modelMap.setModel(model);
+        final ModelsMap modelsMap = new ModelsMap();
+        modelsMap.setModels(Collections.singletonList(modelMap));
+        codegen.postProcessModels(modelsMap);
+        final HashMap<String, ModelsMap> allModels = new HashMap<>();
+        allModels.put(name, modelsMap);
+        return allModels;
+    }
     @Test(description = "convert model with enum property")
     public void enumPropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
@@ -135,6 +167,31 @@ public class CppHttplibServerCodegenModelTest {
             "isArrayOfEnum vendor extension should be true");
     }
 
+    @Test(description = "the enum class declared for an array-of-enum property must use valid, "
+            + "upper-cased C++ identifiers, sourced from items (which setEnumVendorExtensions() derives)")
+    public void arrayOfEnumsDeclaresValidUpperCaseIdentifiersTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        StringSchema enumItemSchema = new StringSchema();
+        // lower-case spec values, like issue #24052's Pet.status, exercise the
+        // identifier-vs-serialized-value distinction for array items too.
+        enumItemSchema.setEnum(java.util.Arrays.asList("red", "green", "blue"));
+        schema.addProperty("colors", new ArraySchema().items(enumItemSchema));
+
+        final CodegenModel model = codegen.fromModel("ModelWithColorArray", schema);
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "ModelWithColorArray", model))
+                .get("ModelWithColorArray").getModels().get(0).getModel();
+
+        CodegenProperty arrayProp = processedModel.vars.get(0);
+        // model-header.mustache declares `enum class {{enumName}} { {{items.allowableValues.values}} };`
+        // for array-of-enum properties, so items must independently hold valid C++ identifiers.
+        List<?> declaredIdentifiers = (List<?>) arrayProp.items.allowableValues.get("values");
+        Assert.assertEquals(declaredIdentifiers, java.util.Arrays.asList("UNSPECIFIED", "RED", "GREEN", "BLUE"));
+    }
+
     @Test(description = "convert model with map property")
     public void mapPropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
@@ -166,17 +223,54 @@ public class CppHttplibServerCodegenModelTest {
         schema.addProperty("userStatus", statusSchema);
 
         final CodegenModel model = codegen.fromModel("UserStatusModel", schema);
-
         Assert.assertEquals(model.vars.size(), 1);
-        CodegenProperty statusProp = model.vars.get(0);
-        Assert.assertTrue(statusProp.isEnum);
+        Assert.assertTrue(model.vars.get(0).isEnum);
+
+        // The C++ identifier (numeric prefixing + upper-casing) is only finalized during
+        // postProcessAllModels, since that's the single place both the identifier and the
+        // original spec value are derived together (see enumSerializationUsesOriginalSpecValueTest).
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "UserStatusModel", model))
+                .get("UserStatusModel").getModels().get(0).getModel();
+        CodegenProperty statusProp = processedModel.vars.get(0);
         Assert.assertTrue((boolean) statusProp.vendorExtensions.getOrDefault("isEnum", false));
-        // Numeric enum values should be converted to valid C++ names (prefixed with underscore)
-        java.util.List<?> enumValues = (java.util.List<?>) statusProp.vendorExtensions.getOrDefault("values", statusProp._enum);
+        List<?> enumValues = (List<?>) statusProp.vendorExtensions.get("values");
         Assert.assertNotNull(enumValues);
         // Check that numeric values are properly converted
         Assert.assertTrue(enumValues.stream().anyMatch(v -> v.toString().startsWith("_")),
             "Numeric enum values should be prefixed with underscore");
+    }
+
+    @Test(description = "issue #24052: enum (de)serialization must use the original spec value, not the derived C++ identifier")
+    public void enumSerializationUsesOriginalSpecValueTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        StringSchema statusSchema = new StringSchema();
+        statusSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+        schema.addProperty("status", statusSchema);
+
+        final CodegenModel model = codegen.fromModel("Pet", schema);
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "Pet", model))
+                .get("Pet").getModels().get(0).getModel();
+
+        CodegenProperty statusProp = processedModel.vars.get(0);
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> enumCases = (List<Map<String, String>>) statusProp.vendorExtensions.get("enumCases");
+        Assert.assertNotNull(enumCases);
+
+        Map<String, String> availableCase = enumCases.stream()
+                .filter(c -> "available".equals(c.get("value")))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(availableCase,
+                "expected an enumCases entry whose value is the original spec text \"available\": " + enumCases);
+        // The C++ identifier is upper-cased for enum naming conventions...
+        Assert.assertEquals(availableCase.get("name"), "AVAILABLE");
+        // ...but the serialized value must remain exactly what the OpenAPI spec declared.
+        Assert.assertEquals(availableCase.get("value"), "available");
     }
 
     @Test(description = "convert enum model")
@@ -189,15 +283,150 @@ public class CppHttplibServerCodegenModelTest {
 
         final CodegenModel model = codegen.fromModel("Status", enumSchema);
 
-        // Note: The C++ httplib server generator may not process enum-only models
-        // in the same way as regular object models. The model might be null or empty.
-        if (model != null) {
-            Assert.assertEquals(model.name, "Status");
-            // Check if it's marked as an enum in vendor extensions
-            if (model.vendorExtensions.containsKey("x-is-enum")) {
-                Assert.assertEquals(model.vendorExtensions.get("x-is-enum"), true);
-            }
-        }
+        Assert.assertNotNull(model);
+        Assert.assertEquals(model.name, "Status");
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), true,
+                "string-backed top-level enums must serialize their values as JSON strings");
+        Assert.assertNotNull(model.allowableValues);
+        Assert.assertEquals(model.allowableValues.get("values"),
+                java.util.Arrays.asList("ACTIVE", "INACTIVE", "PENDING"));
+
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "Status", model))
+                .get("Status").getModels().get(0).getModel();
+        Assert.assertNotNull(processedModel.vendorExtensions.get("modelClassName"));
+        Assert.assertEquals(((List<?>) processedModel.allowableValues.get("enumVars")).size(), 3);
+    }
+
+    @Test(description = "convert integer-backed top-level enum model")
+    public void integerBackedEnumModelTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        IntegerSchema enumSchema = new IntegerSchema();
+        enumSchema.setEnum(java.util.Arrays.asList(0, 1, 2));
+
+        final CodegenModel model = codegen.fromModel("NumericStatus", enumSchema);
+
+        Assert.assertNotNull(model);
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        // model-header.mustache's `{{^vendorExtensions.isStringEnum}}` branch renders these
+        // values unquoted, so the flag must be false for integer-backed top-level enums.
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), false,
+                "integer-backed top-level enums must serialize their values as raw JSON numbers");
+    }
+
+    @Test(description = "convert 3.1 nullable top-level enum model with string values")
+    public void nullableStringEnumModelTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        // OpenAPI 3.1 `type: [null, string]`. ModelUtils.getType() returns the *first* declared
+        // type, so ModelUtils.isStringSchema() is false here even though the enum is string-backed.
+        JsonSchema enumSchema = new JsonSchema();
+        enumSchema.addType("null");
+        enumSchema.addType("string");
+        enumSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+
+        final CodegenModel model = codegen.fromModel("NullableStatus", enumSchema);
+
+        Assert.assertNotNull(model);
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        // Without the value-based fallback the template would emit `j = available;` instead of
+        // `j = "available";`, which does not compile.
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), true,
+                "string-valued top-level enums must serialize their values as JSON strings even when"
+                        + " the declared type is not plainly `string`");
+    }
+
+    @Test(description = "model-header.mustache must render quoted values for string-backed "
+            + "top-level enums and bare values for integer-backed ones; the other enum tests "
+            + "only assert the isStringEnum flag that feeds this template, not its output")
+    public void topLevelEnumHeadersRenderTypedJsonValuesTest() throws IOException {
+        final File output = Files.createTempDirectory("cpp-httplib-server-enums").toFile();
+        output.deleteOnExit();
+
+        StringSchema stringEnumSchema = new StringSchema();
+        stringEnumSchema.setEnum(java.util.Arrays.asList("active", "inactive", "pending"));
+        IntegerSchema integerEnumSchema = new IntegerSchema();
+        integerEnumSchema.setEnum(java.util.Arrays.asList(0, 1, 2));
+
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("TopLevelStatus", stringEnumSchema);
+        openAPI.getComponents().addSchemas("TopLevelPriority", integerEnumSchema);
+
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.additionalProperties().put("modelNamespace", "models");
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        final List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        // model-header.mustache guards the quoting with `{{#vendorExtensions.isStringEnum}}`, so a
+        // `type: string` enum must emit quoted values; bare ones would be undeclared identifiers.
+        final Path stringEnumHeader = output.toPath().resolve("models/TopLevelStatus.h");
+        TestUtils.assertFileContains(stringEnumHeader,
+                "case TopLevelStatus::ACTIVE: j = \"active\"; break;",
+                "case TopLevelStatus::INACTIVE: j = \"inactive\"; break;",
+                "case TopLevelStatus::PENDING: j = \"pending\"; break;",
+                "if (j == \"active\")");
+        TestUtils.assertFileNotContains(stringEnumHeader, "j = active;");
+        // An enumerator outside the declared set must fail loudly rather than leave `j` untouched,
+        // mirroring the throw that from_json already performs on an unrecognised JSON value.
+        TestUtils.assertFileContains(stringEnumHeader,
+                "default: throw nlohmann::json::type_error::create(302, "
+                        + "\"Invalid value for TopLevelStatus\", &j);");
+
+        // ...while the `{{^vendorExtensions.isStringEnum}}` branch must leave a `type: integer`
+        // enum's values bare, or they serialize as JSON strings instead of numbers.
+        final Path integerEnumHeader = output.toPath().resolve("models/TopLevelPriority.h");
+        TestUtils.assertFileContains(integerEnumHeader,
+                "case TopLevelPriority::_0: j = 0; break;",
+                "case TopLevelPriority::_1: j = 1; break;",
+                "case TopLevelPriority::_2: j = 2; break;",
+                "if (j == 0)");
+        TestUtils.assertFileNotContains(integerEnumHeader, "j = \"0\";");
+        TestUtils.assertFileContains(integerEnumHeader,
+                "default: throw nlohmann::json::type_error::create(302, "
+                        + "\"Invalid value for TopLevelPriority\", &j);");
+    }
+
+    @Test(description = "model-source.mustache's ToString and FromString for an enum property "
+            + "are plain C++ conversion helpers, not nlohmann (de)serializers, so an unrecognised "
+            + "value must not throw nlohmann::json::type_error: ToString falls back to an empty "
+            + "string and FromString throws plain std::invalid_argument")
+    public void propertyEnumConversionRejectsUnknownValuesTest() throws IOException {
+        final File output = Files.createTempDirectory("cpp-httplib-server-prop-enums").toFile();
+        output.deleteOnExit();
+
+        StringSchema statusSchema = new StringSchema();
+        statusSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+        ObjectSchema petSchema = new ObjectSchema();
+        petSchema.addProperty("status", statusSchema);
+
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("Pet", petSchema);
+
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.additionalProperties().put("modelNamespace", "models");
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        final List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        // Property enums (de)serialize through StatusEnumToString/StatusEnumFromString rather
+        // than the switch/if-chain in model-header.mustache's top-level to_json/from_json, and
+        // those helpers don't depend on nlohmann::json at all.
+        final Path source = output.toPath().resolve("models/Pet.cpp");
+        TestUtils.assertFileContains(source,
+                "default: return {};",
+                "throw std::invalid_argument(\"Invalid enum value\");");
+        TestUtils.assertFileNotContains(source, "nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\")");
     }
 
     @Test(description = "convert model with nullable property")

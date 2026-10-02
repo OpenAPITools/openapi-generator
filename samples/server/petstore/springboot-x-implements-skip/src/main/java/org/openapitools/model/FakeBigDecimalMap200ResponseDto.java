@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -24,11 +25,13 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeBigDecimalMap200ResponseDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal someId;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200ResponseDto someId(@Nullable BigDecimal someId) {
@@ -69,7 +72,7 @@ public class FakeBigDecimalMap200ResponseDto {
    * Get someMap
    * @return someMap
    */
-  @Valid 
+  
   @Schema(name = "someMap", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("someMap")
   public Map<String, BigDecimal> getSomeMap() {

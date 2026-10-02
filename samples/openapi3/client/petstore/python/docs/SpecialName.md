@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **var_property** | **int** |  | [optional] 
 **var_async** | [**Category**](Category.md) |  | [optional] 
-**var_schema** | **str** | pet status in the store | [optional] 
+**schema** | **str** | pet status in the store | [optional]
 
 ## Example
 

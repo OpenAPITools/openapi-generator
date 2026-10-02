@@ -653,7 +653,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<RequestContext> {
+    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject; }, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -676,7 +676,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(requestBody, "{ [key: string]: ComplexObject | null; }", ""),
+            ObjectSerializer.serialize(requestBody, "{ [key: string]: ComplexObject; }", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -1214,22 +1214,22 @@ export class DefaultApiResponseProcessor {
      * @params response Response returned by the server for a request to testDecodeMapOfObjectsGet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async testDecodeMapOfObjectsGetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<{ [key: string]: ComplexObject | null; } >> {
+     public async testDecodeMapOfObjectsGetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<{ [key: string]: ComplexObject; } >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: { [key: string]: ComplexObject | null; } = ObjectSerializer.deserialize(
+            const body: { [key: string]: ComplexObject; } = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "{ [key: string]: ComplexObject | null; }", ""
-            ) as { [key: string]: ComplexObject | null; };
+                "{ [key: string]: ComplexObject; }", ""
+            ) as { [key: string]: ComplexObject; };
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: { [key: string]: ComplexObject | null; } = ObjectSerializer.deserialize(
+            const body: { [key: string]: ComplexObject; } = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "{ [key: string]: ComplexObject | null; }", ""
-            ) as { [key: string]: ComplexObject | null; };
+                "{ [key: string]: ComplexObject; }", ""
+            ) as { [key: string]: ComplexObject; };
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

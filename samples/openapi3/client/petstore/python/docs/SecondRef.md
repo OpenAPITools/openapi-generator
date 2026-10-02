@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **category** | **str** |  | [optional] 
-**circular_ref** | [**CircularReferenceModel**](CircularReferenceModel.md) |  | [optional] 
+**_circular_ref** | [**CircularReferenceModel**](CircularReferenceModel.md) |  | [optional]
 
 ## Example
 

@@ -29,9 +29,11 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +42,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.*;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/java-helidon/common/} and {@code src/main/resources/java-helidon/client/}.
@@ -412,10 +414,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
-                                if (defaultValue.equals(enumVars.get("name"))) {
+                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.getAllowableValues())) {
+                                if (defaultValue.equals(enumVars.getEnumName())) {
                                     // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.get("value");
+                                    var.defaultValue = (String) enumVars.getEnumValue();
                                 }
                             }
                         }

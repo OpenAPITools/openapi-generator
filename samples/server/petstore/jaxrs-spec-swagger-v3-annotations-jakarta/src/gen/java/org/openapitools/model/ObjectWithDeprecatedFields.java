@@ -21,7 +21,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("ObjectWithDeprecatedFields")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
   @Deprecated
@@ -29,7 +29,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   @Deprecated
   private DeprecatedObject deprecatedRef;
   @Deprecated
-  private @Valid List<String> bars = new ArrayList<>();
+  private List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;

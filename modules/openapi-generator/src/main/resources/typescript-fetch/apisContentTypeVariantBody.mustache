@@ -1,0 +1,34 @@
+{{! Builds the body of one request content-type variant, inside its case of the content-type switch, where
+    the request union is narrowed to that variant's member. Context: a request variant entry. }}
+{{#hasFormParams}}
+{{! required form params are guarded here rather than before the switch: they only exist on this
+    member of the request union, the other content-types do not have them }}
+{{#formParams}}
+{{#required}}
+                if (requestParameters['{{paramName}}'] == null) {
+                    throw new runtime.RequiredError(
+                        '{{paramName}}',
+                        'Required parameter "{{paramName}}" was null or undefined when calling {{nickname}}().'
+                    );
+                }
+{{/required}}
+{{/formParams}}
+{{! the lambda leaves the first line alone, so the literal spaces below are what indent it }}
+        {{#lambda.indented_8_skip_blank}}{{>apisFormParams}}{{/lambda.indented_8_skip_blank}}
+                {{! a multipart body sets no Content-Type: fetch adds it with the boundary it generates }}
+                body = formParams;
+{{/hasFormParams}}
+{{^hasFormParams}}
+                headerParameters['Content-Type'] = '{{mediaType}}';
+{{#bodyParam}}
+{{#required}}
+                if (requestParameters['{{paramName}}'] == null) {
+                    throw new runtime.RequiredError(
+                        '{{paramName}}',
+                        'Required parameter "{{paramName}}" was null or undefined when calling {{nickname}}().'
+                    );
+                }
+{{/required}}
+{{/bodyParam}}
+                body = {{#bodyParam}}{{>apisRequestBodyValue}}{{/bodyParam}}{{^bodyParam}}undefined{{/bodyParam}};
+{{/hasFormParams}}

@@ -130,12 +130,38 @@ class {{classname}}(Model):
 {{/required}}
 {{#hasValidation}}
 {{#maxLength}}
+{{#isByteArray}}
+        if {{name}} is not None:
+            import base64
+            try:
+                decoded_length = len(base64.b64decode({{name}}))
+                if decoded_length > {{maxLength}}:
+                    raise ValueError("Invalid value for `{{name}}`, byte length must be less than or equal to `{{maxLength}}`")  # noqa: E501
+            except (TypeError, ValueError, base64.binascii.Error):
+                # If it's not valid base64, other validation will catch it
+                pass
+{{/isByteArray}}
+{{^isByteArray}}
         if {{name}} is not None and len({{name}}) > {{maxLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
+{{/isByteArray}}
 {{/maxLength}}
 {{#minLength}}
+{{#isByteArray}}
+        if {{name}} is not None:
+            import base64
+            try:
+                decoded_length = len(base64.b64decode({{name}}))
+                if decoded_length < {{minLength}}:
+                    raise ValueError("Invalid value for `{{name}}`, byte length must be greater than or equal to `{{minLength}}`")  # noqa: E501
+            except (TypeError, ValueError, base64.binascii.Error):
+                # If it's not valid base64, other validation will catch it
+                pass
+{{/isByteArray}}
+{{^isByteArray}}
         if {{name}} is not None and len({{name}}) < {{minLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
+{{/isByteArray}}
 {{/minLength}}
 {{#maximum}}
         if {{name}} is not None and {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501

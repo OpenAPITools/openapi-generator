@@ -233,7 +233,7 @@ class FormatTest {
     } else {
       json[r'binary'] = null;
     }
-      json[r'date'] = _dateFormatter.format(this.date.toUtc());
+      json[r'date'] = _dateFormatter.format(this.date);
     if (this.dateTime != null) {
       json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
     } else {

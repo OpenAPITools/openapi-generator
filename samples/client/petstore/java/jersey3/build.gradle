@@ -20,6 +20,21 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    swagger_annotations_version = "1.6.5"
+    jackson_version = "2.21.6"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.6"
+    jackson_databind_nullable_version = "0.2.12"
+    jakarta_annotation_version = "3.0.0"
+    bean_validation_version = "3.1.1"
+    jersey_version = "3.0.4"
+    junit_version = "5.8.2"
+    scribejava_apis_version = "8.3.1"
+    tomitribe_http_signatures_version = "1.7"
+    commons_lang3_version = "3.17.0"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -78,8 +93,10 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     publishing {
         publications {
@@ -92,24 +109,9 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.5"
-    jackson_version = "2.21.1"
-    jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.1"
-    jackson_databind_nullable_version = "0.2.10"
-    jakarta_annotation_version = "3.0.0"
-    bean_validation_version = "3.1.1"
-    jersey_version = "3.0.4"
-    junit_version = "5.8.2"
-    scribejava_apis_version = "8.3.1"
-    tomitribe_http_signatures_version = "1.7"
-    commons_lang3_version = "3.17.0"
 }
 
 dependencies {

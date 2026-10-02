@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.FakeHealthGetAsync();
             var model = response.Ok();
-            Assert.IsType<HealthCheckResult>(model);
+            Assert.IsType<Org.OpenAPITools.Model.HealthCheckResult>(model);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<OuterComposite> outerComposite = default;
             var response = await _instance.FakeOuterCompositeSerializeAsync(outerComposite);
             var model = response.Ok();
-            Assert.IsType<OuterComposite>(model);
+            Assert.IsType<Org.OpenAPITools.Model.OuterComposite>(model);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.GetMixedAnyOfAsync();
             var model = response.Ok();
-            Assert.IsType<MixedAnyOf>(model);
+            Assert.IsType<Org.OpenAPITools.Model.MixedAnyOf>(model);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.GetMixedOneOfAsync();
             var model = response.Ok();
-            Assert.IsType<MixedOneOf>(model);
+            Assert.IsType<Org.OpenAPITools.Model.MixedOneOf>(model);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Test.Api
             ModelClient modelClient = default;
             var response = await _instance.TestClientModelAsync(modelClient);
             var model = response.Ok();
-            Assert.IsType<ModelClient>(model);
+            Assert.IsType<Org.OpenAPITools.Model.ModelClient>(model);
         }
 
         /// <summary>
@@ -217,11 +217,11 @@ namespace Org.OpenAPITools.Test.Api
         {
             Client.Option<TestEnumParametersRequestEnumFormString> enumFormString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default;
-            Client.Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default;
+            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default;
             Client.Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default;
             Client.Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default;
-            Client.Option<TestEnumParametersRequestEnumFormString> enumQueryString = default;
+            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default;
             await _instance.TestEnumParametersAsync(enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
         }

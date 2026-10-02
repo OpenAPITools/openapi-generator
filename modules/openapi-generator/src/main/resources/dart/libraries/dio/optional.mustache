@@ -19,7 +19,7 @@ import 'package:json_annotation/json_annotation.dart';
 /// // Field has value - sends {"field": "value"}
 /// final patch3 = Model(field: const Optional.present('value'));
 /// ```
-sealed class Optional<T> {
+abstract class Optional<T> {
   const Optional();
 
   /// Creates an Optional with an absent value (not set).
@@ -48,7 +48,7 @@ sealed class Optional<T> {
 }
 
 /// Represents an absent Optional value.
-final class Absent<T> extends Optional<T> {
+class Absent<T> extends Optional<T> {
   const Absent();
 
   @override
@@ -77,7 +77,7 @@ final class Absent<T> extends Optional<T> {
 }
 
 /// Represents a present Optional value.
-final class Present<T> extends Optional<T> {
+class Present<T> extends Optional<T> {
   const Present(this._value);
 
   final T _value;

@@ -109,8 +109,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Animal" />
     /// </summary>
-    public class AnimalJsonConverter : JsonConverter<Animal>
+    public partial class AnimalJsonConverter : JsonConverter<Animal>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimalJsonConverter" /> class.
+        /// </summary>
+        public AnimalJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Animal" />
         /// </summary>
@@ -167,13 +177,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Animal.", nameof(className));
+                throw new JsonException("Property is required for class Animal: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Animal.");
+                throw new JsonException("Property is not nullable for class Animal: className.");
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
+                throw new JsonException("Property is not nullable for class Animal: color.");
 
             return new Animal(color);
         }
@@ -184,7 +194,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (animal is Cat cat){
@@ -209,11 +218,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (animal.ColorOption.IsSet && animal.Color == null)
-                throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
+                throw new JsonException("Cannot write null property Animal.Color to non-nullable JSON property 'color'.");
 
             writer.WriteString("className", animal.ClassName);
 

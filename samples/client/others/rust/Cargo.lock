@@ -868,6 +868,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "nullable-enum-query-params-reqwest"
+version = "1.0.0"
+dependencies = [
+ "reqwest 0.13.1",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "url",
+]
+
+[[package]]
 name = "num_cpus"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -84,7 +84,7 @@ class {{classname}} {
 
     final _queryParameters = <String, dynamic>{
       {{#queryParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
+      {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
       {{/queryParams}}
     };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 

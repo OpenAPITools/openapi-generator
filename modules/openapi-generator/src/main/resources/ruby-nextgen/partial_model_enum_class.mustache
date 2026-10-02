@@ -1,0 +1,21 @@
+    module {{classname}}
+{{#allowableValues}}
+{{#enumVars}}
+      {{name}} = {{{value}}}
+{{/enumVars}}
+{{/allowableValues}}
+
+      def self.all
+        @all ||= [
+{{#allowableValues}}
+{{#enumVars}}
+          {{name}},
+{{/enumVars}}
+{{/allowableValues}}
+        ].freeze
+      end
+
+      def self.valid?(value)
+        all.include?(value)
+      end
+    end

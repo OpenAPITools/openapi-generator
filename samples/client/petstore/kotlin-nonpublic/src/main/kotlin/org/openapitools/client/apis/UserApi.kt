@@ -113,6 +113,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
@@ -183,6 +184,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
@@ -253,6 +255,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
@@ -323,6 +326,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
@@ -543,6 +547,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
@@ -616,6 +621,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.F
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),

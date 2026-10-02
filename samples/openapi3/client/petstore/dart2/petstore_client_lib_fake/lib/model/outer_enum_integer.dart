@@ -11,31 +11,30 @@
 part of openapi.api;
 
 
-class OuterEnumInteger {
-  /// Instantiate a new enum with the provided [value].
-  const OuterEnumInteger._(this.value);
+enum OuterEnumInteger {
+  number0._(0),
+  number1._(1),
+  number2._(2),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const OuterEnumInteger._(this._value);
 
   /// The underlying value of this enum member.
-  final int value;
+  final int _value;
 
   @override
-  String toString() => value.toString();
+  String toString() => _value.toString();
 
-  int toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  int toJson() => _value;
 
-  static const number0 = OuterEnumInteger._(0);
-  static const number1 = OuterEnumInteger._(1);
-  static const number2 = OuterEnumInteger._(2);
-
-  /// List of all possible values in this [enum][OuterEnumInteger].
-  static const values = <OuterEnumInteger>[
-    number0,
-    number1,
-    number2,
-  ];
-
+  /// Returns the instance of [OuterEnumInteger] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static OuterEnumInteger? fromJson(dynamic value) => OuterEnumIntegerTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [OuterEnumInteger]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<OuterEnumInteger> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnumInteger>[];
     if (json is List && json.isNotEmpty) {
@@ -57,9 +56,11 @@ class OuterEnumIntegerTypeTransformer {
 
   const OuterEnumIntegerTypeTransformer._();
 
-  int encode(OuterEnumInteger data) => data.value;
+  /// Encodes this enum as a value suitable for JSON.
+  int encode(OuterEnumInteger data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a OuterEnumInteger.
+  /// Returns the instance of [OuterEnumInteger] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -68,6 +69,9 @@ class OuterEnumIntegerTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumInteger? decode(dynamic data, {bool allowNull = true}) {
+    if (data is OuterEnumInteger) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case 0: return OuterEnumInteger.number0;
@@ -82,7 +86,7 @@ class OuterEnumIntegerTypeTransformer {
     return null;
   }
 
-  /// Singleton [OuterEnumIntegerTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static OuterEnumIntegerTypeTransformer? _instance;
 }
 

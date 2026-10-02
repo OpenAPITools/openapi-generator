@@ -137,7 +137,7 @@ pub enum AddPetResponse {
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>)
     ,
     /// Invalid status value
     InvalidStatusValue
@@ -148,7 +148,7 @@ pub enum FindPetsByStatusResponse {
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>)
     ,
     /// Invalid tag value
     InvalidTagValue
@@ -178,7 +178,7 @@ pub enum DeletePetResponse {
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Pet)
+    (swagger::OneOf2::<models::Pet, models::Pet>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -212,7 +212,7 @@ pub enum GetInventoryResponse {
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2::<models::Order, models::Order>)
     ,
     /// Invalid Order
     InvalidOrder
@@ -233,7 +233,7 @@ pub enum DeleteOrderResponse {
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2::<models::Order, models::Order>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -266,7 +266,7 @@ pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
     {
-        body: String,
+        body: swagger::OneOf2::<String, String>,
         x_rate_limit:
         Option<
         i32
@@ -303,7 +303,7 @@ pub enum DeleteUserResponse {
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::User)
+    (swagger::OneOf2::<models::User, models::User>)
     ,
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -396,9 +396,9 @@ pub trait Api<C: Send + Sync> {
     async fn test_enum_parameters<'a>(
         &self,
         enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
@@ -636,9 +636,9 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn test_enum_parameters<'a>(
         &self,
         enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
@@ -923,9 +923,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     async fn test_enum_parameters<'a>(
         &self,
         enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,

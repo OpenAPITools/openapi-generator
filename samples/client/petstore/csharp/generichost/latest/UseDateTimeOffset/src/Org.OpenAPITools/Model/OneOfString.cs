@@ -73,8 +73,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfString" />
     /// </summary>
-    public class OneOfStringJsonConverter : JsonConverter<OneOfString>
+    public partial class OneOfStringJsonConverter : JsonConverter<OneOfString>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfStringJsonConverter" /> class.
+        /// </summary>
+        public OneOfStringJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfString" />
         /// </summary>
@@ -127,7 +137,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -142,7 +151,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
 

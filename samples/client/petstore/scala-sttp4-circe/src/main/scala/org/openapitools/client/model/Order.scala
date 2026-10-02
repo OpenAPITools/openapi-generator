@@ -29,18 +29,44 @@ case class Order(
 object Order {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Order] = deriveEncoder
-  implicit val decoder: Decoder[Order] = deriveDecoder
+  implicit val encoder: Encoder[Order] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.petId.map(v => "petId" -> v.asJson),
+        t.quantity.map(v => "quantity" -> v.asJson),
+        t.shipDate.map(v => "shipDate" -> v.asJson),
+        t.status.map(v => "status" -> v.asJson),
+        t.complete.map(v => "complete" -> v.asJson)
+      ).flatten
+    )
+  }
+  implicit val decoder: Decoder[Order] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      petId <- c.downField("petId").as[Option[Long]]
+      quantity <- c.downField("quantity").as[Option[Int]]
+      shipDate <- c.downField("shipDate").as[Option[OffsetDateTime]]
+      status <- c.downField("status").as[Option[OrderEnums.Status]]
+      complete <- c.downField("complete").as[Option[Boolean]]
+    } yield Order(
+      id = id,
+      petId = petId,
+      quantity = quantity,
+      shipDate = shipDate,
+      status = status,
+      complete = complete
+    )
+  }
 }
 object OrderEnums {
 
   sealed trait Status
   object Status {
-    case object Placed extends Status
-    case object Approved extends Status
-    case object Delivered extends Status
+    case object Placed extends Status { override def toString: String = "placed" }
+    case object Approved extends Status { override def toString: String = "approved" }
+    case object Delivered extends Status { override def toString: String = "delivered" }
 
     import io.circe.{Encoder, Decoder}
 

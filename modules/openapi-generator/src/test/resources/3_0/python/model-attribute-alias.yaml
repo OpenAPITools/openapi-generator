@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: Model attribute alias
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    AliasModel:
+      type: object
+      properties:
+        continue:
+          type: string
+        schema:
+          type: string
+        ordinary:
+          type: string
+        importCollision:
+          type: string
+        dateTimeCollision:
+          type: string
+          format: date-time
+        camelCase:
+          type: string
+        underscore:
+          type: string
+        model_dump:
+          type: string
+        to_dict:
+          type: string
+    BaseAliasModel:
+      type: object
+      properties:
+        parentValue:
+          type: string
+    InheritedAliasModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseAliasModel'
+        - type: object
+          properties:
+            childValue:
+              type: string
+    InputCollisionModel:
+      type: object
+      properties:
+        a:
+          type: string
+        _b:
+          type: string
+    CrossNamespaceAliasModel:
+      type: object
+      properties:
+        crossFirst:
+          type: string
+        cross_storage:
+          type: string
+    AdditionalPropertiesAliasModel:
+      type: object
+      additionalProperties: true
+      properties:
+        additionalValue:
+          type: string
+    OneOfAliasModel:
+      properties:
+        continue:
+          type: string
+      oneOf:
+        - type: string
+        - type: integer
+    AnyOfAliasModel:
+      properties:
+        continue:
+          type: string
+      anyOf:
+        - type: string
+        - type: integer
+    ValidatorCollisionModel:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [active]
+        mapped_status_validate_enum:
+          type: string
+        pattern:
+          type: string
+          pattern: '^[a-z]+$'
+        getDiscriminatorValue:
+          type: string
+    DiscriminatorAliasBase:
+      type: object
+      required: [kind]
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/DiscriminatorAliasChild'
+      properties:
+        kind:
+          type: string
+        discriminatorHelper:
+          type: string
+    DiscriminatorAliasChild:
+      allOf:
+        - $ref: '#/components/schemas/DiscriminatorAliasBase'
+        - type: object
+          properties:
+            childValue:
+              type: string
+    MangledBase:
+      type: object
+      x-parent: true
+      properties:
+        status:
+          type: string
+          enum: [active]
+    MangledChild:
+      x-parent: true
+      allOf:
+        - type: object
+          properties:
+            childValue:
+              type: string
+        - $ref: '#/components/schemas/MangledBase'
+    MangledGrandchild:
+      allOf:
+        - type: object
+          properties:
+            value:
+              type: string
+        - $ref: '#/components/schemas/MangledChild'

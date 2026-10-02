@@ -210,6 +210,18 @@ paths:
       responses:
         '200':
           description: 'OK'
+  /required_binary_stream:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: 'OK'
   /readonly_auth_scheme:
     get:
       security:
@@ -554,6 +566,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesReferencedAnyOfObject'
+  /multiple-response-content-types:
+    post:
+      operationId: MultipleResponseContentTypes
+      summary: Test multiple content types in a single response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectParam'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfObject'
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfObject'
 
 components:
   securitySchemes:

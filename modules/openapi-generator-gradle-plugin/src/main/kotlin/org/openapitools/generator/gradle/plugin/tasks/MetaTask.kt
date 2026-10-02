@@ -49,12 +49,25 @@ abstract class MetaTask : DefaultTask() {
     @get:Inject
     abstract val layout: ProjectLayout
 
+    /**
+     * The human-readable name of the new generator to create.
+     *
+     * Used to derive the generator class name and the template resource directory.
+     */
     @get:Input
     abstract val generatorName: Property<String>
 
+    /**
+     * The Java package name for the generated generator class.
+     * Defaults to `org.openapitools.codegen`.
+     */
     @get:Input
     abstract val packageName: Property<String>
 
+    /**
+     * The directory where the new generator project files will be written.
+     * Defaults to the current project directory.
+     */
     @get:OutputDirectory
     abstract val outputFolder: DirectoryProperty
 

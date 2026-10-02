@@ -54,6 +54,7 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setUseEnumExtension(Boolean.parseBoolean(DartClientOptionsProvider.USE_ENUM_EXTENSION));
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(DartClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setUseOptional(Boolean.parseBoolean(DartClientOptionsProvider.USE_OPTIONAL_VALUE));
+        verify(clientCodegen).setUseFinalProperties(Boolean.parseBoolean(DartClientOptionsProvider.USE_FINAL_PROPERTIES_VALUE));
         verify(clientCodegen).setPatchOnly(Boolean.parseBoolean(DartClientOptionsProvider.PATCH_ONLY_VALUE));
     }
 }

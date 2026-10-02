@@ -20,9 +20,21 @@ import {
 } from '../models/StructuredType';
 
 export interface CreateFileRequest {
+    /**
+     * 
+     */
     documentBytes: Blob;
+    /**
+     * 
+     */
     documentType: string;
+    /**
+     * 
+     */
     properties: { [key: string]: string; };
+    /**
+     * 
+     */
     structured?: StructuredType;
 }
 

@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -44,7 +44,7 @@ public class DeprecatedObject {
   /**
    * Constructor with all args parameters
    */
-  public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) String name) {
+  public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nullable String name) {
     this.name = name;
   }
 

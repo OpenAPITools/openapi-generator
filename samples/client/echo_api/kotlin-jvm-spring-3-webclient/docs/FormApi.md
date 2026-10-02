@@ -39,10 +39,10 @@ try {
 ```
 
 ### Parameters
-| **integerForm** | **kotlin.Int**|  | [optional] |
-| **booleanForm** | **kotlin.Boolean**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **integerForm** | **kotlin.Int**|  | [optional] |
+| **booleanForm** | **kotlin.Boolean**|  | [optional] |
 | **stringForm** | **kotlin.String**|  | [optional] |
 
 ### Return type
@@ -92,13 +92,13 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **form1** | **kotlin.String**|  | [optional] |
 | **form2** | **kotlin.Int**|  | [optional] |
 | **form3** | **kotlin.String**|  | [optional] |
 | **form4** | **kotlin.Boolean**|  | [optional] |
 | **id** | **kotlin.Long**|  | [optional] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **name** | **kotlin.String**|  | [optional] |
 
 ### Return type

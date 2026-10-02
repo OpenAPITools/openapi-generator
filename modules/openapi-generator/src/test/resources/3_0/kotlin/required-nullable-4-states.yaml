@@ -34,6 +34,11 @@ components:
         optionalNonNullable:
           type: string
           nullable: false
+        # Scenario 3 with default: required=false, nullable=false, default value set => null must be blocked
+        optionalNonNullableWithDefault:
+          type: string
+          nullable: false
+          default: "defaultValue"
         # Scenario 4: required=false, nullable=true => 3-state (JsonNullable)
         optionalNullable:
           type: string

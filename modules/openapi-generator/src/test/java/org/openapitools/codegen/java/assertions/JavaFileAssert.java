@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
@@ -36,7 +37,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public static JavaFileAssert assertThat(final Path path) {
         try {
             return new JavaFileAssert(StaticJavaParser.parse(path));
-        } catch (IOException e) {
+        } catch (IOException | ParseProblemException e) {
             throw new RuntimeException("Exception while reading file: " + path, e);
         }
     }
@@ -235,7 +236,9 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         Assertions.assertThat(actualBody)
                 .withFailMessage(
                         "File should contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        Arrays.stream(lines)
+                                .filter(line -> !actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .contains(lines);
 
@@ -249,7 +252,9 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         Assertions.assertThat(actualBody)
                 .withFailMessage(
                         "File should not contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        Arrays.stream(lines)
+                                .filter(line -> actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .doesNotContain(lines);
 

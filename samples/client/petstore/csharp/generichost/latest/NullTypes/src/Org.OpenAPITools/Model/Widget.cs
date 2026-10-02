@@ -138,8 +138,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Widget" />
     /// </summary>
-    public class WidgetJsonConverter : JsonConverter<Widget>
+    public partial class WidgetJsonConverter : JsonConverter<Widget>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WidgetJsonConverter" /> class.
+        /// </summary>
+        public WidgetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Widget" />
         /// </summary>
@@ -200,16 +210,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!id.IsSet)
-                throw new ArgumentException("Property is required for class Widget.", nameof(id));
+                throw new JsonException("Property is required for class Widget: id.");
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Widget.", nameof(name));
+                throw new JsonException("Property is required for class Widget: name.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Widget.");
+                throw new JsonException("Property is not nullable for class Widget: id.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Widget.");
+                throw new JsonException("Property is not nullable for class Widget: name.");
 
             return new Widget(id.Value!.Value!, name.Value!, color, debugInfo, shape);
         }
@@ -220,7 +230,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="widget"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Widget widget, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -235,12 +244,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="widget"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Widget widget, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (widget.Name == null)
-                throw new ArgumentNullException(nameof(widget.Name), "Property is required for class Widget.");
-
             writer.WriteNumber("id", widget.Id);
 
             writer.WriteString("name", widget.Name);

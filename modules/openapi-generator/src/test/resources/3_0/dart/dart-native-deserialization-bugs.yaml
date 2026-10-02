@@ -32,6 +32,11 @@ components:
         nickname:
           type: string
           nullable: true
+    OptionalNumberModel:
+      type: object
+      properties:
+        problem:
+          type: number
     ComplexNestedArrayNullableModel:
       type: object
       properties:
@@ -42,3 +47,18 @@ components:
             nullable: true
             items:
               $ref: '#/components/schemas/NullableRequiredModel'
+    DateOnlyModel:
+      type: object
+      required:
+        - requiredDate
+      properties:
+        requiredDate:
+          type: string
+          format: date
+        optionalDate:
+          type: string
+          format: date
+        patternedDate:
+          type: string
+          format: date
+          pattern: '^\d{4}-\d{2}-\d{2}$'

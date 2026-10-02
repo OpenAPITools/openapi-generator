@@ -77,10 +77,9 @@ class ArrayOfMapModel(BaseModel):
         _items = []
         if self.array_of_map_property:
             for _item_array_of_map_property in self.array_of_map_property:
-                if _item_array_of_map_property:
-                    _items.append(
-                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item_array_of_map_property.items()}
-                    )
+                _items.append(
+                     {_inner_key: _inner_value.to_dict() if _inner_value is not None else None for _inner_key, _inner_value in _item_array_of_map_property.items()} if _item_array_of_map_property is not None else None
+                )
             _dict['array_of_map_property'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -100,7 +99,7 @@ class ArrayOfMapModel(BaseModel):
 
         _obj = cls.model_validate({
             "array_of_map_property": [
-                    {_inner_key: Tag.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    {_inner_key: Tag.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()} if _item is not None else None
                     for _item in obj["array_of_map_property"]
                 ] if obj.get("array_of_map_property") is not None else None
         })

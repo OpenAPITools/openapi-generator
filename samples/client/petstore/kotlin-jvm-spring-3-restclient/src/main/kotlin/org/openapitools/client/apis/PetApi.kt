@@ -100,8 +100,9 @@ open class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )
@@ -299,6 +300,7 @@ open class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )
