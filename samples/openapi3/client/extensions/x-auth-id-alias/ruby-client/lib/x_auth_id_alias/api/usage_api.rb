@@ -69,7 +69,7 @@ module XAuthIDAlias
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsageApi#any_key\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -126,7 +126,7 @@ module XAuthIDAlias
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsageApi#both_keys\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -183,7 +183,7 @@ module XAuthIDAlias
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsageApi#key_in_header\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -240,7 +240,7 @@ module XAuthIDAlias
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsageApi#key_in_query\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

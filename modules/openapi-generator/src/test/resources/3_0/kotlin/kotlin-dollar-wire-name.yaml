@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info: {title: Dollar, version: 1.0.0}
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - name: $filter
+          in: query
+          schema: {type: string}
+        - name: $top
+          in: query
+          schema: {type: integer}
+        - name: filter
+          in: query
+          schema: {type: string}
+        - name: opts
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              $a: {type: string}
+              b: {type: integer}
+      responses:
+        '200': {description: ok}
+  /items/{$id}:
+    get:
+      operationId: getItem
+      parameters:
+        - name: $id
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        '200': {description: ok}
+  /odata/$count:
+    get:
+      operationId: odataCount
+      responses:
+        '200': {description: ok}

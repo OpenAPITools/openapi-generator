@@ -44,6 +44,10 @@ module Petstore
       @@default ||= ApiClient.new
     end
 
+    # HTTP verbs that HTTPX emits through its normal (upper-cased) dispatch path.
+    # OpenAPI 3.2 query/additionalOperations verbs are handled verbatim below.
+    STANDARD_HTTP_METHODS = %w[GET POST PUT PATCH DELETE OPTIONS HEAD TRACE CONNECT].freeze
+
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
@@ -97,10 +101,12 @@ module Petstore
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
-      if %w[POST PATCH PUT DELETE].include?(http_method)
+      # OpenAPI 3.2 query/additionalOperations verbs may carry a body too; for
+      # non-standard methods we always attempt to build one (nil when absent).
+      if %w[POST PATCH PUT DELETE].include?(http_method) || !STANDARD_HTTP_METHODS.include?(http_method.to_s)
         body_params = build_request_body(header_params, form_params, opts[:body])
         if config.debugging
-          config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+          config.logger.debug "HTTP request body param ~BEGIN~\n#{body_params}\n~END~\n"
         end
       end
       req_opts = {
@@ -108,7 +114,18 @@ module Petstore
       }
       req_opts.merge!(body_params) if body_params
       req_opts[:params] = query_params if query_params && !query_params.empty?
-      session.request(http_method, url, **req_opts)
+      if STANDARD_HTTP_METHODS.include?(http_method.to_s)
+        session.request(http_method, url, **req_opts)
+      else
+        # OpenAPI 3.2 (query/additionalOperations): emit the verb verbatim.
+        # NOTE: HTTPX::Request internally stores @verb = verb.to_s.upcase and @verb is
+        # only used when emitting the request line, so we restore it after building.
+        # This depends on HTTPX internals - if a future httpx release changes how the
+        # verb is stored/emitted, this needs revisiting.
+        request = session.build_request(http_method, url, req_opts)
+        request.instance_variable_set(:@verb, http_method.to_s)
+        session.request(request)
+      end
     end
 
     # Builds the HTTP request body
@@ -275,9 +292,12 @@ module Petstore
     end
 
     def build_request_url(path, opts = {})
-      # Add leading and trailing slashes to path
-      path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url(opts[:operation]) + path
+      # Add leading and trailing slashes to path. An OpenAPI 3.2
+      # `in: querystring` value is appended verbatim to `path`, so only the
+      # part before '?' may have its slashes collapsed.
+      path_only, sep, query = path.partition('?')
+      path_only = "/#{path_only}".gsub(/\/+/, '/')
+      @config.base_url(opts[:operation]) + path_only + sep + query
     end
 
     # Update header and query params based on authentication settings.

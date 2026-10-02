@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.QueryStringParameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Getter;
@@ -277,6 +278,7 @@ public class DefaultGenerator implements Generator {
         // resolve inline models
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setCodegen(config);
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaOptions(config.inlineSchemaOption());
 
@@ -1497,6 +1499,15 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
+            if (config.supportsAdditionalOperations()) {
+                processOperation(resourcePath, "query", path.getQuery(), ops, path);
+                if (path.getAdditionalOperations() != null) {
+                    path.getAdditionalOperations().forEach((method, operation) ->
+                            processOperation(resourcePath, method, method, operation, ops, path));
+                }
+            } else if (hasQueryOrAdditionalOperations(path)) {
+                LOGGER.warn("Path '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output", resourcePath, config.getName());
+            }
         }
         return ops;
     }
@@ -1518,12 +1529,62 @@ public class DefaultGenerator implements Generator {
             processOperation(resourceKey, "patch", path.getPatch(), ops, path);
             processOperation(resourceKey, "options", path.getOptions(), ops, path);
             processOperation(resourceKey, "trace", path.getTrace(), ops, path);
+            if (config.supportsAdditionalOperations()) {
+                processOperation(resourceKey, "query", path.getQuery(), ops, path);
+                if (path.getAdditionalOperations() != null) {
+                    path.getAdditionalOperations().forEach((method, operation) ->
+                            processOperation(resourceKey, method, method, operation, ops, path));
+                }
+            } else if (hasQueryOrAdditionalOperations(path)) {
+                LOGGER.warn("Webhook '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output", resourceKey, config.getName());
+            }
         }
         return ops;
     }
 
+    private boolean hasQueryOrAdditionalOperations(PathItem path) {
+        return path.getQuery() != null
+                || (path.getAdditionalOperations() != null && !path.getAdditionalOperations().isEmpty());
+    }
+
+    /**
+     * True when the operation (or its path item) declares an OpenAPI 3.2
+     * {@code in: querystring} parameter — the whole, already-encoded query
+     * string — which generators without {@code supportsQueryStringParameters()}
+     * cannot serialize. Operation-level and path-level parameters are both
+     * consulted, with {@code $ref}s resolved.
+     */
+    private boolean hasQueryStringParameter(Operation operation, PathItem path) {
+        return hasQueryStringParameter(operation.getParameters())
+                || (path != null && hasQueryStringParameter(path.getParameters()));
+    }
+
+    private boolean hasQueryStringParameter(List<Parameter> parameters) {
+        if (parameters == null) {
+            return false;
+        }
+        for (Parameter p : parameters) {
+            Parameter resolved = ModelUtils.getReferencedParameter(openAPI, p);
+            if (resolved != null && (resolved instanceof QueryStringParameter
+                    || "querystring".equalsIgnoreCase(resolved.getIn()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+        processOperation(resourcePath, httpMethod, null, operation, operations, path);
+    }
+
+    private void processOperation(String resourcePath, String httpMethod, String wireHttpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
+            return;
+        }
+
+        if (!config.supportsQueryStringParameters() && hasQueryStringParameter(operation, path)) {
+            LOGGER.warn("{} {} declares an OpenAPI 3.2 'in: querystring' parameter but generator '{}' does not support it; the operation will be missing from the generated output",
+                    httpMethod.toUpperCase(Locale.ROOT), resourcePath, config.getName());
             return;
         }
 
@@ -1533,7 +1594,7 @@ public class DefaultGenerator implements Generator {
         List<Operation> contentTypeVariants = config.divideOperationsByContentType(openAPI, resourcePath, httpMethod, operation);
         if (contentTypeVariants.size() > 1) {
             for (Operation variant : contentTypeVariants) {
-                processOperation(resourcePath, httpMethod, variant, operations, path);
+                processOperation(resourcePath, httpMethod, wireHttpMethod, variant, operations, path);
             }
             return;
         }
@@ -1604,6 +1665,11 @@ public class DefaultGenerator implements Generator {
                             httpMethod, resourcePath, operation.getOperationId());
                 } else {
                     CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+                    if (wireHttpMethod != null) {
+                        // OpenAPI 3.2 additionalOperations: the map key is the HTTP method
+                        // name and must be sent verbatim instead of upper-cased
+                        codegenOperation.httpMethod = wireHttpMethod;
+                    }
                     codegenOperation.tags = new ArrayList<>(tags);
                     config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 

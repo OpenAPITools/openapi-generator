@@ -232,7 +232,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/test/parameters/{path_default}/{path_nullable}".replace("{"+"path_default"+"}", encodeURIComponent(pathDefault.toString())).replace("{"+"path_nullable"+"}", encodeURIComponent(pathNullable.toString())),
+            path = "/test/parameters/{path_default}/{path_nullable}".replace("{"+"path_default"+"}", this@DefaultApi.encodeURIComponent(pathDefault.toString())).replace("{"+"path_nullable"+"}", this@DefaultApi.encodeURIComponent(pathNullable.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

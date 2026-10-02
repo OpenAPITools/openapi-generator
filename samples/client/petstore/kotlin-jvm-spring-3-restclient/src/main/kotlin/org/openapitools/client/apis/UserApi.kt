@@ -53,7 +53,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun createUserWithHttpInfo(user: User): ResponseEntity<Unit> {
         val localVariableConfig = createUserRequestConfig(user = user)
-        return request<User, Unit>(
+        return this.request<User, Unit>(
             localVariableConfig
         )
     }
@@ -65,13 +65,13 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -88,7 +88,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return this.request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
@@ -100,13 +100,13 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -123,7 +123,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
         val localVariableConfig = createUsersWithListInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return this.request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
@@ -135,13 +135,13 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -158,7 +158,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun deleteUserWithHttpInfo(username: kotlin.String): ResponseEntity<Unit> {
         val localVariableConfig = deleteUserRequestConfig(username = username)
-        return request<Unit, Unit>(
+        return this.request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -169,14 +169,14 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "username" to username,
         )
 
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/user/{username}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -187,14 +187,14 @@ open class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getUserByName(username: kotlin.String): User {
-        val result = getUserByNameWithHttpInfo(username = username)
-        return result.body!!
+        val localVariableResult = getUserByNameWithHttpInfo(username = username)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun getUserByNameWithHttpInfo(username: kotlin.String): ResponseEntity<User> {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
-        return request<Unit, User>(
+        return this.request<Unit, User>(
             localVariableConfig
         )
     }
@@ -205,14 +205,14 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "username" to username,
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/{username}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -223,14 +223,14 @@ open class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
-        val result = loginUserWithHttpInfo(username = username, password = password)
-        return result.body!!
+        val localVariableResult = loginUserWithHttpInfo(username = username, password = password)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String): ResponseEntity<kotlin.String> {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -245,13 +245,13 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/login",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -268,7 +268,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun logoutUserWithHttpInfo(): ResponseEntity<Unit> {
         val localVariableConfig = logoutUserRequestConfig()
-        return request<Unit, Unit>(
+        return this.request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -279,13 +279,13 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -302,7 +302,7 @@ open class UserApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun updateUserWithHttpInfo(username: kotlin.String, user: User): ResponseEntity<Unit> {
         val localVariableConfig = updateUserRequestConfig(username = username, user = user)
-        return request<User, Unit>(
+        return this.request<User, Unit>(
             localVariableConfig
         )
     }
@@ -314,14 +314,14 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "username" to username,
         )
 
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/user/{username}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

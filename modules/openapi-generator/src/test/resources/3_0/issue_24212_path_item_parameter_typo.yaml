@@ -1,0 +1,24 @@
+# NOTE: 'requried' (typo for 'required') below is intentional -- this is the
+# regression fixture for issue #24212's "a typo nested inside a path-item
+# member must not be reported as a dropped operation" test
+# (CodegenConfiguratorTest#shouldNotFalsePositiveOnNestedPathItemMemberTypo).
+# Do not "fix" this typo; it exists specifically to make swagger-parser emit
+# its nested unexpected-attribute message
+# ("attribute paths.'/tasks/{id}'.[id].requried is unexpected").
+openapi: 3.0.3
+info:
+  title: issue 24212 false-positive regression test
+  version: '1.0'
+paths:
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        requried: true
+        schema:
+          type: string
+    get:
+      operationId: getTask
+      responses:
+        '200':
+          description: OK

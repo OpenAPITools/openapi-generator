@@ -488,13 +488,22 @@ public class OpenAPINormalizer {
                     "delete", PathItem::getDelete,
                     "patch", PathItem::getPatch,
                     "options", PathItem::getOptions,
-                    "trace", PathItem::getTrace
+                    "trace", PathItem::getTrace,
+                    "query", PathItem::getQuery
             );
 
             if (filter != null && filter.hasFilter()) {
                 // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
                 // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
                 filter.apply(pathsEntry.getKey(), path, methodMap);
+
+                // additionalOperations are filtered individually: a key differing from a fixed method only by case
+                // (e.g. "GET") would overwrite the fixed method's methodMap entry once lowercased
+                if (path.getAdditionalOperations() != null) {
+                    Filter operationFilter = filter;
+                    path.getAdditionalOperations().forEach((method, operation) ->
+                            operationFilter.apply(pathsEntry.getKey(), operation, method.toLowerCase(Locale.ROOT)));
+                }
             }
 
             // Include callback operation as well
@@ -2629,23 +2638,32 @@ public class OpenAPINormalizer {
         }
 
         public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(pathItem);
-                if (operation != null) {
-                    boolean found = false;
-                    String operationId = operation.getOperationId();
-                    found |= logIfMatch(PATH, operationId, hasPathStarting(path));
-                    found |= logIfMatch(TAG, operationId, hasTag(operation));
-                    found |= logIfMatch(OPERATION_ID, operationId, hasOperationId(operation));
-                    found |= logIfMatch(METHOD, operationId, hasMethod(method));
-                    found |= hasCustomFilterMatch(path, operation);
+            methodMap.forEach((method, getter) -> apply(path, getter.apply(pathItem), method));
+        }
 
-                    operation.addExtension(X_INTERNAL, !found);
-                    if (!found) {
-                        getLogger().info("Operation `{}` does not match any filter and is marked as internal only (x-internal: true)", operationId);
-                    }
+        /**
+         * Applies the filters to a single operation, marking it as internal
+         * (`x-internal=true`) if it does not match any of the filters.
+         *
+         * @param path      Path of the operation
+         * @param operation OpenAPI Operation (ignored if null)
+         * @param method    HTTP method name used for `method:` filter matching
+         */
+        public void apply(String path, Operation operation, String method) {
+            if (operation != null) {
+                boolean found = false;
+                String operationId = operation.getOperationId();
+                found |= logIfMatch(PATH, operationId, hasPathStarting(path));
+                found |= logIfMatch(TAG, operationId, hasTag(operation));
+                found |= logIfMatch(OPERATION_ID, operationId, hasOperationId(operation));
+                found |= logIfMatch(METHOD, operationId, hasMethod(method));
+                found |= hasCustomFilterMatch(path, operation);
+
+                operation.addExtension(X_INTERNAL, !found);
+                if (!found) {
+                    getLogger().info("Operation `{}` does not match any filter and is marked as internal only (x-internal: true)", operationId);
                 }
-            });
+            }
         }
 
         private boolean hasPathStarting(String path) {

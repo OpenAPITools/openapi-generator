@@ -1,0 +1,49 @@
+openapi: 3.2.0
+info:
+  title: webhook operations test
+  version: '1.0'
+paths: {}
+webhooks:
+  petChanged:
+    query:
+      operationId: onPetQuery
+      parameters:
+        - name: qs
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      "customMethod":
+        operationId: onPetCustom
+        responses:
+          '204':
+            description: done
+  # webhook referencing a component model: generators that only scan
+  # openAPI.getPaths() for operation input models would miss this
+  petUpdated:
+    post:
+      operationId: onPetUpdated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
