@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
@@ -684,8 +685,42 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
+        postProcessNotEnum(model, property);
 
         super.postProcessModelProperty(model, property);
+    }
+
+    /**
+     * Builds a C# boolean expression that is true when a property holds a value forbidden by a
+     * {@code not: { enum: [...] }} schema, and stores it as the {@code x-csharp-not-enum-comparison}
+     * vendor extension. Templates use it to reject the excluded values both at deserialization time
+     * (so oneOf/anyOf matching narrows correctly) and in {@code Validate()}.
+     */
+    private void postProcessNotEnum(CodegenModel model, CodegenProperty property) {
+        CodegenProperty not = property.getComposedSchemas() == null ? null : property.getComposedSchemas().getNot();
+        if (not == null || !not.isString || !(not.isEnum || not.isEnumRef)
+                || not.allowableValues == null || !(not.allowableValues.get("values") instanceof List)) {
+            return;
+        }
+
+        StringJoiner comparisons = new StringJoiner(" || ");
+        for (Object excluded : (List<?>) not.allowableValues.get("values")) {
+            String literal;
+            if (excluded == null) {
+                literal = "null";
+            } else if (excluded instanceof String) {
+                // A JSON string literal is also a valid C# string literal for these escapes.
+                literal = TextNode.valueOf((String) excluded).toString();
+            } else {
+                continue;
+            }
+            comparisons.add("this." + property.name + " == " + literal);
+        }
+
+        if (comparisons.length() > 0) {
+            property.vendorExtensions.put("x-csharp-not-enum-comparison", comparisons.toString());
+            model.vendorExtensions.put("x-csharp-has-not-enum", true);
+        }
     }
 
     @Override
