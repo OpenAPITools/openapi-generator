@@ -10160,7 +10160,8 @@ public class SpringCodegenTest {
                 .fileContains(
                         "private List<@NotNull @Size(max=50) String> listString",
                         "private List<@Min(0)Integer> listInteger",
-                        "private List<@Size(max=10) String> listCode"
+                        "private List<@Size(max=10) String> listCode",
+                        "private List<@NotEmpty Stubb> listRef"
                 );
     }
 
@@ -10176,6 +10177,7 @@ public class SpringCodegenTest {
                 "private List<@Size(max=50) String> listStringNullable",
                 "private List<@NotNull @Valid Stubb> listSample",
                 "private List<@NotNull @Min(0)Integer> listInteger",
-                "private List<@NotNull @Size(max=10) String> listCode");
+                "private List<@NotNull @Size(max=10) String> listCode",
+                "private List<@NotNull @NotEmpty Stubb> listRef");
     }
 }
