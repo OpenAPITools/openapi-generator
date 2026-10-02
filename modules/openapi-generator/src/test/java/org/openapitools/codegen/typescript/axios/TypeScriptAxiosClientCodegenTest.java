@@ -304,6 +304,8 @@ public class TypeScriptAxiosClientCodegenTest {
         assertThat(content).contains("'dynRef'?: any | null;");
         assertThat(content).contains("'dynRefWithDesc'?: any | null;");
         assertThat(content).contains("'dynRefExplicitNotNullable'?: any | null;");
+        assertThat(content).contains("'dynRefToAllOfWrapper'?: any | null;");
+        assertThat(content).contains("'dynRefToAllOfWrapperWithSiblingDesc'?: any | null;");
         assertThat(content).doesNotContain("Null;");
         assertThat(content).doesNotContain("Array<Null>");
         assertThat(content).doesNotContain("from './null'");
