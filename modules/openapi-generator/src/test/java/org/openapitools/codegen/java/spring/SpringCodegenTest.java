@@ -10152,9 +10152,9 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void x_items_extra_annotation() throws IOException {
+    void listItems_annotated_with_x_field_extra_annotation() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
-                Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true"));
 
         JavaFileAssert.assertThat(files.get("SampleModel.java"))
                 .fileContains(
@@ -10165,9 +10165,9 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void additionalItemsAnnotations() throws IOException {
+    void listItems_with_additionalItemsAnnotations() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
-                Map.of("useBeanValidation", "true", "useSpringBoot3", "true",
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true",
                         ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull"
                         ));
 
