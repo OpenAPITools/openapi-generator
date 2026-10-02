@@ -97,7 +97,7 @@ public class MapTestDto {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @Valid 
+  
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;

@@ -61,7 +61,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<List<BigDecimal>> getArrayArrayNumber() {

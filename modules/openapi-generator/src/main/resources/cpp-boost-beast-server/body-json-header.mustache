@@ -1,0 +1,376 @@
+{{>licenseInfo}}
+// ============================================================================
+// BodyJson.h - generic typed body conversion between generated model types
+// and JSON bodies. Uses the generated models' toJsonValue/fromJsonValue
+// member API, so models, containers, maps, shared_ptrs, and primitives all
+// convert without per-operation code. Header-only.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_
+
+#include <boost/json.hpp>
+
+#include <cmath>
+#include <cstdint>
+#include <cstddef>
+#include <limits>
+#include <memory>
+#include <optional>
+#include <stdexcept>
+#include <variant>
+#include <vector>
+
+// CompositionBranchValue lives here; the response path unwraps it below.
+// The include is directory-qualified so a generated model header cannot
+// hijack it through the model/ search path (same policy as api-header).
+// ValidationTypes.h carries the numeric decode contract — its
+// tryGetMathematicalInteger consults the exact wire lexeme inside a
+// handler decode (it pulls Oas31ExactJson.h with it), so integer leaves
+// share the model pipeline's judgment verbatim.
+#include "model/ValidationTypes.h"
+
+namespace {{apiNamespace}} {
+
+template <typename T, typename = void>
+struct HasToJsonValue : std::false_type {};
+template <typename T>
+struct HasToJsonValue<T, std::void_t<decltype(
+        std::declval<T const&>().toJsonValue())>> : std::true_type {};
+
+template <typename T, typename = void>
+struct HasFromJsonValue : std::false_type {};
+template <typename T>
+struct HasFromJsonValue<T, std::void_t<decltype(
+        std::declval<T&>().fromJsonValue(std::declval<boost::json::value const&>()))>>
+    : std::true_type {};
+
+// ---------------------------------------------------------------------------
+// Serialization: typed value -> JSON body string.
+// ---------------------------------------------------------------------------
+
+inline boost::json::value bodyLeaf(std::string const& value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(const char* value) {
+    return boost::json::value(std::string(value == nullptr ? "" : value));
+}
+
+inline boost::json::value bodyLeaf(bool value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(std::int32_t value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(std::int64_t value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(float value) {
+    return boost::json::value(static_cast<double>(value));
+}
+
+inline boost::json::value bodyLeaf(double value) {
+    return boost::json::value(value);
+}
+
+template <typename T>
+std::enable_if_t<HasToJsonValue<T>::value, boost::json::value>
+bodyLeaf(T const& value) {
+    return value.toJsonValue();
+}
+
+inline boost::json::value bodyLeaf(boost::json::value value) {
+    return value;
+}
+template <typename T>
+boost::json::value bodyLeaf(std::shared_ptr<T> const& value) {
+    if (!value) return boost::json::value(nullptr);
+    return bodyLeaf(*value);
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::vector<T> const& values) {
+    boost::json::array array;
+    array.reserve(values.size());
+    for (T const& value : values) {
+        array.push_back(bodyLeaf(value));
+    }
+    return array;
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::map<std::string, T> const& values) {
+    boost::json::object object;
+    for (auto const& entry : values) {
+        object[entry.first] = bodyLeaf(entry.second);
+    }
+    return object;
+}
+
+// Composition unions (oneOf/anyOf responses) arrive as std::variant; the
+// active branch alone is serializable, so std::visit dispatches to the
+// overload set above. monostate (present-null branches) serializes as null;
+// std::optional serializes its value or null when disengaged. Duplicate
+// C++ branch types are preserved as tagged CompositionBranchValue wrappers
+// (model namespace, found by ADL on the dependent call below); unwrapping
+// serializes exactly the branch's value.
+
+template <std::size_t BranchIndex, typename ValueType>
+boost::json::value bodyLeaf(
+        {{{modelNamespace}}}::CompositionBranchValue<
+                BranchIndex, ValueType> const& value) {
+    return bodyLeaf(value.value);
+}
+
+inline boost::json::value bodyLeaf(std::monostate) {
+    return nullptr;
+}
+
+template <typename... Alternatives>
+boost::json::value bodyLeaf(
+        std::variant<Alternatives...> const& value) {
+    return std::visit([](auto const& active) {
+        return bodyLeaf(active);
+    }, value);
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::optional<T> const& value) {
+    if (!value.has_value()) {
+        return nullptr;
+    }
+    return bodyLeaf(*value);
+}
+
+template <typename T>
+std::string toJsonBody(T const& value) {
+    return boost::json::serialize(bodyLeaf(value));
+}
+
+// ---------------------------------------------------------------------------
+// Deserialization: parsed JSON document -> typed value. Throws
+// std::invalid_argument on shape mismatches.
+// ---------------------------------------------------------------------------
+
+inline void fromJsonLeaf(boost::json::value const& json, std::string& out) {
+    if (!json.is_string()) {
+        throw std::invalid_argument("expected a JSON string");
+    }
+    out.assign(json.as_string().data(), json.as_string().size());
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, bool& out) {
+    if (!json.is_bool()) {
+        throw std::invalid_argument("expected a JSON boolean");
+    }
+    out = json.as_bool();
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::int32_t& out) {
+    if (json.is_int64()) {
+        std::int64_t value = json.as_int64();
+        if (value < std::numeric_limits<std::int32_t>::min()
+                || value > std::numeric_limits<std::int32_t>::max()) {
+            throw std::invalid_argument("integer out of int32 range");
+        }
+        out = static_cast<std::int32_t>(value);
+        return;
+    }
+    if (json.is_uint64()) {
+        std::uint64_t value = json.as_uint64();
+        if (value > static_cast<std::uint64_t>(
+                std::numeric_limits<std::int32_t>::max())) {
+            throw std::invalid_argument("integer out of int32 range");
+        }
+        out = static_cast<std::int32_t>(value);
+        return;
+    }
+    // JSON makes no integer/real distinction: 1.0 IS the integer 1 (RFC
+    // 8259 6.1, JSON Schema type "integer" admits integral reals). Boost
+    // stores any fraction-carrying token as double, so an integral double
+    // in range decodes exactly.
+    if (json.is_double()) {
+        double value = json.as_double();
+        double integral;
+        if (std::modf(value, &integral) == 0.0
+                && value >= static_cast<double>(std::numeric_limits<std::int32_t>::min())
+                && value <= static_cast<double>(std::numeric_limits<std::int32_t>::max())) {
+            out = static_cast<std::int32_t>(integral);
+            return;
+        }
+    }
+    throw std::invalid_argument("expected a JSON integer");
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::int64_t& out) {
+    // One judgment with the model pipeline: integral kinds convert directly;
+    // a double converts while it is a trustworthy image (|value| <= 2^53)
+    // or while the handler's ExactInstanceScope still holds the wire lexeme
+    // (9007199254740993.0 names an integer exactly from its text); past the
+    // window with no lexeme it fails closed — 400, never a corrupted int64.
+    if (!{{{modelNamespace}}}::tryGetMathematicalInteger(json, out)) {
+        throw std::invalid_argument("expected a JSON integer");
+    }
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, float& out) {
+    if (json.is_double()) {
+        out = static_cast<float>(json.as_double());
+        return;
+    }
+    if (json.is_int64()) {
+        out = static_cast<float>(json.as_int64());
+        return;
+    }
+    if (json.is_uint64()) {
+        // as_uint64 + cast: to_number<int64_t> throws (not system_error-
+        // catchable as invalid_argument) for values above INT64_MAX.
+        out = static_cast<float>(json.as_uint64());
+        return;
+    }
+    throw std::invalid_argument("expected a JSON number");
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, double& out) {
+    if (json.is_double()) {
+        out = json.as_double();
+        return;
+    }
+    if (json.is_int64()) {
+        out = static_cast<double>(json.as_int64());
+        return;
+    }
+    if (json.is_uint64()) {
+        out = static_cast<double>(json.as_uint64());
+        return;
+    }
+    throw std::invalid_argument("expected a JSON number");
+}
+
+template <typename T>
+std::enable_if_t<HasFromJsonValue<T>::value, void>
+fromJsonLeaf(boost::json::value const& json, T& out) {
+    out.fromJsonValue(json);
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, boost::json::value& out) {
+    out = json;
+}
+
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::shared_ptr<T>& out) {
+    if (json.is_null()) {
+        out.reset();
+        return;
+    }
+    if (!out) {
+        out = std::make_shared<T>();
+    }
+    fromJsonLeaf(json, *out);
+}
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::vector<T>& out) {
+    if (!json.is_array()) {
+        throw std::invalid_argument("expected a JSON array");
+    }
+    out.clear();
+    out.reserve(json.as_array().size());
+    for (boost::json::value const& element : json.as_array()) {
+        T value;
+        fromJsonLeaf(element, value);
+        out.push_back(std::move(value));
+    }
+}
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::map<std::string, T>& out) {
+    if (!json.is_object()) {
+        throw std::invalid_argument("expected a JSON object");
+    }
+    out.clear();
+    for (auto const& member : json.as_object()) {
+        T value;
+        fromJsonLeaf(member.value(), value);
+        out.emplace(std::string(member.key().data(), member.key().size()),
+                    std::move(value));
+    }
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::nullptr_t& out) {
+    if (!json.is_null()) {
+        throw std::invalid_argument("expected JSON null");
+    }
+    out = nullptr;
+}
+
+// std::optional decodes null as "absent" and any other value as "present".
+// This collapses the JSON null-vs-missing distinction for body members;
+// models needing the difference use NullableField, which decodes both.
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::optional<T>& out) {
+    if (json.is_null()) {
+        out.reset();
+        return;
+    }
+    T value;
+    fromJsonLeaf(json, value);
+    out = std::move(value);
+}
+
+// Composition unions (oneOf/anyOf bodies) decode structurally: branches are
+// tried in declaration order and the first that parses wins. monostate
+// matches JSON null. When no branch matches, the value is rejected. A union
+// with structurally overlapping branches (e.g. two plain objects) is
+// inherently ambiguous; the first orderally-matching branch wins
+// deterministically.
+template <std::size_t Index = 0, typename Union>
+bool decodeVariantAlternative(boost::json::value const& json, Union& out) {
+    if constexpr (Index < std::variant_size_v<Union>) {
+        using Alternative = std::variant_alternative_t<Index, Union>;
+        if constexpr (std::is_same_v<Alternative, std::monostate>) {
+            if (json.is_null()) {
+                out = Alternative{};
+                return true;
+            }
+        } else {
+            Alternative candidate;
+            try {
+                fromJsonLeaf(json, candidate);
+                out = std::move(candidate);
+                return true;
+            } catch (std::exception const&) {
+                // branch mismatch: try the next one
+            }
+        }
+        return decodeVariantAlternative<Index + 1>(json, out);
+    }
+    return false;
+}
+
+template <typename... Alternatives>
+void fromJsonLeaf(boost::json::value const& json, std::variant<Alternatives...>& out) {
+    if (!decodeVariantAlternative<>(json, out)) {
+        throw std::invalid_argument("JSON value matches no union branch");
+    }
+}
+
+/// Parses a JSON request body and decodes it into a typed value.
+/// Throws std::invalid_argument on malformed JSON or shape mismatch.
+template <typename T>
+void fromJsonBody(std::string const& body, T& out) {
+    boost::system::error_code error;
+    boost::json::value parsed = boost::json::parse(body, error);
+    if (error) {
+        throw std::invalid_argument("malformed JSON body: " + error.message());
+    }
+    fromJsonLeaf(parsed, out);
+}
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_

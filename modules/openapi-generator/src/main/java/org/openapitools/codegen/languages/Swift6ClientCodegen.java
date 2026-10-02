@@ -79,6 +79,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String IDENTIFIABLE_MODELS = "identifiableModels";
+    public static final String NONISOLATED_MODELS = "nonisolatedModels";
     public static final String USE_PARAMETER_CONVERTIBLE = "useParameterConvertible";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
@@ -124,6 +125,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean hashableModels = true;
     @Setter
     protected boolean identifiableModels = true;
+    @Setter
+    protected boolean nonisolatedModels = false;
     @Setter
     protected boolean useParameterConvertible = true;
     @Getter
@@ -221,8 +224,24 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        // name used by swift client
+                        // Types declared by the generated code itself (support files and
+                        // per-library implementations). A model with one of these names
+                        // would be an invalid redeclaration of the client's own type.
                         "ErrorResponse", "Response",
+                        "APIHelper", "AlamofireDecodableRequestBuilder", "AlamofireRequestBuilder",
+                        "AlamofireRequestBuilderFactory", "AnyResponseSerializer", "ArrayRule",
+                        "ArrayValidationErrorKind", "CaseIterableDefaultsLast", "CodableHelper",
+                        "DecodableRequestBuilderError", "DefaultOpenAPIInterceptor", "DownloadException",
+                        "HTTPMethod", "JSONDataEncoding", "JSONEncodingHelper",
+                        "NullEncodable", "NumericRule", "NumericValidationErrorKind",
+                        "OpenAPIInterceptor", "OpenAPIInterceptorRetry",
+                        "OpenAPIMutex", "OpenISO8601DateFormatter", "ParameterConvertible",
+                        "ParameterEncoding", "RequestBuilder", "RequestBuilderFactory", "RequestTask",
+                        "StringRule", "StringValidationErrorKind", "SynchronizedDictionary",
+                        "UnknownCaseCheckable", "URLSessionDataTaskProtocol",
+                        "URLSessionDecodableRequestBuilder", "URLSessionProtocol",
+                        "URLSessionRequestBuilder", "URLSessionRequestBuilderFactory",
+                        "ValidationError", "Validator",
 
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
@@ -259,8 +278,20 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Collections
                         "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
 
-                        // The following are commonly-used Foundation types
+                        // The following are commonly-used Foundation (and stdlib) types that
+                        // the generated support files reference unqualified: a model with one
+                        // of these names would shadow the real type inside the generated
+                        // module and break the client's own code.
                         "URL", "Data", "Codable", "Encodable", "Decodable",
+                        "AnyHashable", "Calendar", "DateFormatter", "DispatchQueue", "FileManager",
+                        "HTTPURLResponse", "JSONDecoder", "JSONEncoder",
+                        "KeyedDecodingContainerProtocol", "KeyedEncodingContainerProtocol",
+                        "Locale", "NSCoder", "NSDecimalNumber", "NSNumber", "NSObject",
+                        "NSRecursiveLock", "NSRegularExpression", "NSString", "Progress",
+                        "TimeZone", "URLAuthenticationChallenge", "URLComponents", "URLCredential",
+                        "URLQueryItem", "URLRequest", "URLResponse", "URLSession",
+                        "URLSessionConfiguration", "URLSessionDataTask", "URLSessionTask",
+                        "URLSessionTaskDelegate",
 
                         // The following are other words we want to reserve
                         "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
@@ -350,6 +381,12 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(IDENTIFIABLE_MODELS,
                 "Make models conform to Identifiable when an id is present (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(new CliOption(NONISOLATED_MODELS,
+                "Mark generated models, and the supporting protocols, extensions and helper types they rely on, "
+                        + "as nonisolated so they stay usable off the main actor in modules built with default MainActor isolation (SE-0466). "
+                        + "Requires a Swift 6.1+ toolchain (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(USE_PARAMETER_CONVERTIBLE,
                 "Make models conform to ParameterConvertible protocol (default: true)")
@@ -591,6 +628,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(IDENTIFIABLE_MODELS, identifiableModels);
 
+        if (additionalProperties.containsKey(NONISOLATED_MODELS)) {
+            setNonisolatedModels(convertPropertyToBooleanAndWriteBack(NONISOLATED_MODELS));
+        }
+        additionalProperties.put(NONISOLATED_MODELS, nonisolatedModels);
+
         if (additionalProperties.containsKey(USE_PARAMETER_CONVERTIBLE)) {
             setUseParameterConvertible(convertPropertyToBooleanAndWriteBack(USE_PARAMETER_CONVERTIBLE));
         }
@@ -766,6 +808,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+        markModelClassRendering(objs);
         if (additionalModelObjectAttributes.isEmpty()
                 && additionalModelEnumAttributes.isEmpty()
                 && additionalModelImports.isEmpty()) {
@@ -784,6 +827,69 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         return objs;
+    }
+
+    /** Models on an inline reference cycle become final classes: a struct that stores itself has infinite size (#15240). */
+    private void markModelClassRendering(Map<String, ModelsMap> objs) {
+        Map<String, CodegenModel> modelsByClassname = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
+                modelsByClassname.put(cm.classname, cm);
+            }
+        }
+
+        Map<String, Set<String>> inlineRefs = new HashMap<>();
+        for (CodegenModel cm : modelsByClassname.values()) {
+            Set<String> refs = new LinkedHashSet<>();
+            collectInlineModelRefs(cm.allVars, modelsByClassname, refs);
+            if (cm.getComposedSchemas() != null) {
+                // oneOf/anyOf render as enums with inline associated values, so they carry the
+                // recursion; allOf is flattened into allVars and is deliberately not an edge
+                collectInlineModelRefs(cm.getComposedSchemas().getOneOf(), modelsByClassname, refs);
+                collectInlineModelRefs(cm.getComposedSchemas().getAnyOf(), modelsByClassname, refs);
+            }
+            inlineRefs.put(cm.classname, refs);
+        }
+
+        for (CodegenModel cm : modelsByClassname.values()) {
+            boolean recursive = !useClasses && isOnInlineReferenceCycle(cm.classname, inlineRefs);
+            if (useClasses || recursive) {
+                cm.vendorExtensions.put("x-swift-use-class", true);
+            }
+            if ((useClasses && readonlyProperties) || recursive) {
+                // a struct embedding one of these classes is still declared Sendable, so the
+                // class must conform; a recursion-breaking class is treated as unchecked the
+                // way readonlyProperties classes already are
+                cm.vendorExtensions.put("x-swift-unchecked-sendable", true);
+            }
+        }
+    }
+
+    private void collectInlineModelRefs(List<CodegenProperty> vars, Map<String, CodegenModel> modelsByClassname, Set<String> refs) {
+        if (vars == null) {
+            return;
+        }
+        for (CodegenProperty var : vars) {
+            if (!var.isContainer && var.complexType != null && modelsByClassname.containsKey(var.complexType)) {
+                refs.add(var.complexType);
+            }
+        }
+    }
+
+    private boolean isOnInlineReferenceCycle(String classname, Map<String, Set<String>> inlineRefs) {
+        Deque<String> toVisit = new ArrayDeque<>(inlineRefs.getOrDefault(classname, Collections.emptySet()));
+        Set<String> visited = new HashSet<>();
+        while (!toVisit.isEmpty()) {
+            String current = toVisit.pop();
+            if (classname.equals(current)) {
+                return true;
+            }
+            if (visited.add(current)) {
+                toVisit.addAll(inlineRefs.getOrDefault(current, Collections.emptySet()));
+            }
+        }
+        return false;
     }
 
     @Override
@@ -1319,6 +1425,16 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             // which provide Objective-C compatibility.
             property.vendorExtensions.put("x-swift-optional-scalar", true);
         }
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        // Don't wrap the pattern in "/.../" delimiters: the generated
+        // Validator hands rule.pattern straight to NSRegularExpression, which
+        // has no delimiter syntax. Wrapping also escaped every inner "/" as
+        // "\/", which is not a valid escape sequence in a Swift string
+        // literal, so any pattern containing "/" failed to compile (#15604).
+        return escapeText(pattern);
     }
 
     @Override

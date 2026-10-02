@@ -1,0 +1,17 @@
+generatorName: java
+outputDir: samples/client/petstore/java/microprofile-rest-client-3.0-jspecify
+library: microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  serializationLibrary: jackson
+  artifactId: microprofile-rest-client-3-jspecify
+  configKey: petstore
+  microprofileRestClientVersion: "3.0"
+  hideGenerationTimestamp: true
+  useReflectionEqualsHashCode: true
+  openApiNullable: "false"
+  useJspecify: true
+typeMappings:
+  BigDecimal: java.math.BigDecimal

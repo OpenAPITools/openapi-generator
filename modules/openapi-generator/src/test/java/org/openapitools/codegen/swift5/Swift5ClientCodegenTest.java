@@ -36,6 +36,22 @@ public class Swift5ClientCodegenTest {
     Swift5ClientCodegen swiftCodegen = new Swift5ClientCodegen();
 
     @Test(enabled = true)
+    public void testToRegularExpressionRemainsValidInSwiftStringLiteral() throws Exception {
+        // patterns are passed verbatim to NSRegularExpression at runtime, so no
+        // "/.../" delimiters are added and, in particular, no "\/" escape is
+        // produced ("\/" is not a valid escape sequence in a Swift string
+        // literal, see issue #15604)
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?://x"), "http(s)?://x");
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z/]+"), "[a-z/]+");
+        // "\/" in the spec (a JSON-style escaped slash) is normalized to "/"
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?:\\/\\/x"), "http(s)?://x");
+        // backslashes are escaped for the Swift string literal
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z0-9\\-]+\\.[a-z]{2,63}"), "[a-z0-9\\\\-]+\\\\.[a-z]{2,63}");
+        // a pattern that already carries delimiters is left untouched
+        Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
+    }
+
+    @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
@@ -163,6 +179,31 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
+    @Test(description = "model names colliding with types declared by the generated client are renamed", enabled = true)
+    public void reservedTypeNamesDeclaredByClientTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Names declared by the generated support files (Validation.swift, Models.swift, ...):
+        // a model with such a name would be an invalid redeclaration of the client's own type.
+        Assert.assertEquals(codegen.toModelName("ValidationError"), "ModelValidationError");
+        Assert.assertEquals(codegen.toModelName("Validator"), "ModelValidator");
+        Assert.assertEquals(codegen.toModelName("Configuration"), "ModelConfiguration");
+        Assert.assertEquals(codegen.toModelName("RequestBuilder"), "ModelRequestBuilder");
+    }
+
+    @Test(description = "model names shadowing Foundation types used by the generated client are renamed", enabled = true)
+    public void reservedFoundationTypeNamesTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Foundation types the generated support files reference unqualified
+        // (e.g. OpenISO8601DateFormatter.swift assigns `formatter.locale = Locale(...)`):
+        // a model with such a name would shadow the Foundation type inside the module.
+        Assert.assertEquals(codegen.toModelName("Locale"), "ModelLocale");
+        Assert.assertEquals(codegen.toModelName("DateFormatter"), "ModelDateFormatter");
+        Assert.assertEquals(codegen.toModelName("TimeZone"), "ModelTimeZone");
+        Assert.assertEquals(codegen.toModelName("URLSession"), "ModelURLSession");
+    }
+
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
     public void prefixExceptionTest() {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
@@ -223,6 +264,31 @@ public class Swift5ClientCodegenTest {
         // Then
         final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
         Assert.assertEquals(podAuthors, openAPIDevs);
+    }
+
+    @Test(description = "models on an inline reference cycle become classes, everything else stays a struct")
+    public void testRecursiveModelsBecomeClasses() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift5")
+                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path models = target.resolve("OpenAPIClient/Classes/OpenAPIs/Models");
+        // a struct that stores itself inline has infinite size and does not compile (#15240):
+        // the self-referencing model and both halves of the mutual cycle become final classes
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public final class ContactInfo:");
+        TestUtils.assertFileContains(models.resolve("NodeA.swift"), "public final class NodeA:");
+        TestUtils.assertFileContains(models.resolve("NodeB.swift"), "public final class NodeB:");
+        // embedding a cyclic class costs nothing, and containers already give heap
+        // indirection - these stay structs
+        TestUtils.assertFileContains(models.resolve("DomainInfo.swift"), "public struct DomainInfo:");
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public struct Category:");
+        // allOf is flattened rather than stored, so it is not an edge: only Derived is on a cycle
+        TestUtils.assertFileContains(models.resolve("Derived.swift"), "public final class Derived:");
+        TestUtils.assertFileContains(models.resolve("Base.swift"), "public struct Base:");
     }
 
     @Test(description = "Bug example code generation", enabled = true)
@@ -349,6 +415,44 @@ public class Swift5ClientCodegenTest {
             Assert.assertTrue(content.contains("case \"APPLE\":"));
             Assert.assertTrue(content.contains("self = .typeAppleOneOfEnumMappingDisc(try AppleOneOfEnumMappingDisc(from: decoder))"));
             Assert.assertFalse(content.contains("if let value = try? container.decode(AppleOneOfEnumMappingDisc.self)"));
+
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test(description = "query parameter dictionaries carry an explicit type annotation so swiftc does not have to infer them", enabled = true)
+    public void queryParameterDictionaryIsTypeAnnotatedTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File apiFile = files.stream()
+                    .filter(f -> f.getName().equals("PetAPI.swift"))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("PetAPI.swift not found"));
+
+            String content = Files.readString(apiFile.toPath());
+
+            // The dictionary literal of (wrappedValue:, isExplode:) tuples must be bound to an
+            // explicitly typed local: without the annotation the constraint solver has to infer
+            // the type from every entry's encodeToJSON() overload at once, which times out
+            // ("the compiler is unable to type-check this expression in reasonable time")
+            // for operations with many query parameters.
+            Assert.assertTrue(content.contains("let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = ["));
+            Assert.assertTrue(content.contains("APIHelper.mapValuesToQueryItems(localVariableQueryParameters)"));
 
         } finally {
             output.deleteOnExit();

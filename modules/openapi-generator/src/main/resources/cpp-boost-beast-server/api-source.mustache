@@ -1,0 +1,439 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.cpp
+ */
+
+#include "{{classname}}.h"
+
+#include "server/BodyJson.h"
+#include "server/ParamCodecs.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
+{{#x-server-schema-validation}}
+// Body pre-validation evaluates the declared schema IR before decoding.
+#include "model/Oas31ExactJson.h"
+#include "model/Oas31SchemaRegistry.h"
+#include "model/Oas31Validator.h"
+{{/x-server-schema-validation}}
+
+#include <algorithm>
+#include <cctype>
+#include <regex>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_ptr<{{classname}}> impl) {
+    auto router = server.routerPtr();
+
+{{#operation}}
+    // ------------------------------------------------------------------
+    // {{httpMethod}} {{{vendorExtensions.x-server-path-literal}}} ({{{vendorExtensions.x-server-operation-id-literal}}})
+    // ------------------------------------------------------------------
+    {
+        {{{apiNsQualified}}}SecurityGroups security;
+{{#vendorExtensions.x-server-security-groups}}
+        {
+            std::vector<{{{apiNsQualified}}}SchemeRequirement> group;
+{{#.}}
+            // Values are C++-escaped by CppBoostBeastOperationFacts; triple
+            // braces insert them verbatim (double braces would HTML-escape).
+            group.push_back({{{apiNsQualified}}}SchemeRequirement{
+                "{{{name}}}", "{{{type}}}", "{{{in}}}", "{{{paramName}}}", "{{{httpScheme}}}" });
+{{/.}}
+            security.push_back(std::move(group));
+        }
+{{/vendorExtensions.x-server-security-groups}}
+
+        router->add(
+            "{{httpMethod}}",
+            "{{{vendorExtensions.x-server-path-literal}}}",
+            [impl](std::shared_ptr<{{{apiNsQualified}}}RequestContext> ctx,
+                    std::shared_ptr<{{{apiNsQualified}}}ResponderCore> responderCore) {
+                {{vendorExtensions.x-server-operation-pascal}}Request request;
+                {{{apiNsQualified}}}Problem problem;
+                bool invalid = false;
+
+{{#vendorExtensions.x-server-params}}
+                // ---- parameter {{{baseNameLiteral}}} ({{in}}, {{style}}) ----
+                {
+{{#isPath}}
+{{^isContainer}}
+                    auto rawSegment = ctx->pathParams.find("{{{baseNameLiteral}}}");
+                    std::string encoded =
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+{{#hasScalarConstraints}}                    bool present = true;
+{{/hasScalarConstraints}}
+                    bool malformed = false;
+                    std::string text;
+{{#styleSimple}}                    text = percentDecode(encoded);
+{{/styleSimple}}
+{{#styleLabel}}                    malformed = !decodeLabel(encoded, text);
+                    if (!malformed) {
+                        text = percentDecode(text);
+                    }
+{{/styleLabel}}
+{{#styleMatrix}}                    malformed = !decodeMatrix(encoded, "{{{baseNameLiteral}}}", text);
+                    if (!malformed) {
+                        text = percentDecode(text);
+                    }
+{{/styleMatrix}}
+                    if (malformed) {
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not {{style}}-encoded");
+                        invalid = true;
+                    } else if (text.empty()) {
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is missing or empty");
+                        invalid = true;
+                    } else if (!parseScalar(text, request.{{cppName}})) {
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not a valid {{{dataType}}}");
+                        invalid = true;
+                    }
+{{>param-constraints}}
+{{/isContainer}}
+{{#isContainer}}
+                    auto rawSegment = ctx->pathParams.find("{{{baseNameLiteral}}}");
+                    std::string encoded =
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+                    bool malformed = false;
+{{#styleLabel}}                    std::string segmentValue;
+{{/styleLabel}}{{#styleMatrix}}{{^explode}}                    std::string segmentValue;
+{{/explode}}{{/styleMatrix}}
+                    std::vector<std::string> elements;
+{{#styleSimple}}                    elements = splitSimple(encoded);
+{{/styleSimple}}
+{{#styleLabel}}                    malformed = !decodeLabel(encoded, segmentValue);
+{{#explode}}                    if (!malformed) {
+                        elements = splitOn(segmentValue, '.');
+                    }
+{{/explode}}{{^explode}}                    if (!malformed) {
+                        elements = splitSimple(segmentValue);
+                    }
+{{/explode}}{{/styleLabel}}
+{{#styleMatrix}}{{#explode}}                    malformed = !splitMatrixExploded(encoded, "{{{baseNameLiteral}}}", elements);
+{{/explode}}{{^explode}}                    malformed = !decodeMatrix(encoded, "{{{baseNameLiteral}}}", segmentValue);
+                    if (!malformed) {
+                        elements = splitSimple(segmentValue);
+                    }
+{{/explode}}{{/styleMatrix}}
+                    if (malformed) {
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not {{style}}-encoded");
+                        invalid = true;
+                    } else {
+                        for (std::string& element : elements) {
+                            std::string text = percentDecode(element);
+                            {{{innerType}}} value;
+                            if (!parseScalar(text, value)) {
+                                problem.withError("{{{baseNameLiteral}}}", "path parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(text, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "path parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{#hasContainerConstraints}}                    bool present = true;
+{{/hasContainerConstraints}}
+{{>param-container-constraints}}
+{{/isContainer}}
+{{/isPath}}
+{{#isQuery}}
+{{^isContainer}}
+                    auto values = ctx->encodedQuery.equal_range("{{{baseNameLiteral}}}");
+                    bool present = values.first != values.second;
+                    std::string text;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
+                    } else {
+                        text = percentDecodeQuery(values.first->second);
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "query parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
+                    }
+{{>param-constraints}}
+{{/isContainer}}
+{{#isContainer}}
+{{^styleDeepObject}}
+                    auto values = ctx->encodedQuery.equal_range("{{{baseNameLiteral}}}");
+                    bool present = values.first != values.second;
+                    std::vector<std::string> elements;
+                    if (present) {
+{{#styleForm}}{{#explode}}
+                        for (auto it = values.first; it != values.second; ++it) {
+                            elements.push_back(percentDecodeQuery(it->second));
+                        }
+{{/explode}}{{^explode}}
+                        elements = splitQueryParameter(values.first->second, ',');
+{{/explode}}{{/styleForm}}
+{{#stylePipeDelimited}}
+                        elements = splitQueryParameter(values.first->second, '|');
+{{/stylePipeDelimited}}
+{{#styleSpaceDelimited}}
+                        elements = splitQueryParameter(values.first->second, ' ');
+{{/styleSpaceDelimited}}
+                    }
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
+                    } else {
+                        for (std::string const& decodedElement : elements) {
+                            {{{innerType}}} value;
+                            if (!parseScalar(decodedElement, value)) {
+                                problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(decodedElement, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{>param-container-constraints}}
+{{/styleDeepObject}}
+{{#styleDeepObject}}
+                    bool present = false;
+                    for (auto const& entry : ctx->encodedQuery) {
+                        std::string const prefix = "{{{baseNameLiteral}}}[";
+                        if (entry.first.size() > prefix.size()
+                                && entry.first.compare(0, prefix.size(), prefix) == 0
+                                && entry.first.back() == ']') {
+                            present = true;
+                            std::string key = entry.first.substr(
+                                prefix.size(), entry.first.size() - prefix.size() - 1);
+                            request.{{cppName}}[key] = percentDecodeQuery(entry.second);
+                        }
+                    }
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
+                    }
+{{/styleDeepObject}}
+{{/isContainer}}
+{{/isQuery}}
+{{#isHeader}}
+{{^isContainer}}
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{{baseNameLiteral}}}"));
+                    bool present = values.first != values.second;
+                    std::string text;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required header parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional header parameter keeps its default value
+{{/required}}
+                    } else {
+                        text = values.first->second;
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "header parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
+                    }
+{{>param-constraints}}
+{{/isContainer}}
+{{#isContainer}}
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{{baseNameLiteral}}}"));
+                    bool present = values.first != values.second;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required header parameter is missing");
+                        invalid = true;
+{{/required}}
+                    } else {
+                        for (std::string& element : splitSimple(values.first->second)) {
+                            {{{innerType}}} value;
+                            if (!parseScalar(element, value)) {
+                                problem.withError("{{{baseNameLiteral}}}", "header parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(element, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "header parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{>param-container-constraints}}
+{{/isContainer}}
+{{/isHeader}}
+{{#isCookie}}
+                    auto values = ctx->cookies.equal_range("{{{baseNameLiteral}}}");
+                    bool present = values.first != values.second;
+                    std::string text;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{{baseNameLiteral}}}", "required cookie parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional cookie parameter keeps its default value
+{{/required}}
+                    } else {
+                        text = values.first->second;
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "cookie parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
+                    }
+{{>param-constraints}}
+{{/isCookie}}
+                }
+{{/vendorExtensions.x-server-params}}
+
+{{#vendorExtensions.x-server-has-request-body}}
+                // ---- request body ({{vendorExtensions.x-server-request-model}}) ----
+                {
+{{^vendorExtensions.x-server-request-body-required}}
+                    // An optional body decodes only when bytes arrive; an
+                    // empty body leaves the default-constructed value.
+                    bool skipOptionalEmptyBody = ctx->body.empty();
+                    if (!skipOptionalEmptyBody) {
+{{/vendorExtensions.x-server-request-body-required}}
+                    auto contentTypeEntry = ctx->headers.find("content-type");
+                    std::string contentType =
+                        contentTypeEntry != ctx->headers.end()
+                            ? contentTypeEntry->second : std::string();
+                    std::size_t semicolon = contentType.find(';');
+                    if (semicolon != std::string::npos) {
+                        contentType.resize(semicolon);
+                    }
+                    // Media types are case-insensitive (RFC 9110 8.3.1).
+                    for (char& c : contentType) {
+                        c = static_cast<char>(std::tolower(
+                            static_cast<unsigned char>(c)));
+                    }
+                    // RFC 9110 5.6.3 allows whitespace around the type/
+                    // subtype and between parameters; trim it on both sides
+                    // (' ' and HTAB) before comparing.
+                    while (!contentType.empty()
+                            && (contentType.front() == ' ' || contentType.front() == '\t')) {
+                        contentType.erase(contentType.begin());
+                    }
+                    while (!contentType.empty()
+                            && (contentType.back() == ' ' || contentType.back() == '\t')) {
+                        contentType.pop_back();
+                    }
+                    static std::vector<std::string> const kMediaTypes = {
+                        {{{vendorExtensions.x-server-request-media-types}}} };
+                    bool supported = !contentType.empty()
+                        ? std::find(kMediaTypes.begin(), kMediaTypes.end(), contentType) != kMediaTypes.end()
+                        : kMediaTypes.size() == 1;
+                    if (!supported) {
+                        responderCore->sendProblem({{{apiNsQualified}}}Problem::unsupportedMediaType(contentType));
+                        return;
+                    }
+                    try {
+{{#vendorExtensions.x-server-request-body-schema-id}}
+                        // Validate the raw payload against the declared
+                        // component schema BEFORE decoding. The model decode
+                        // is deliberately tolerant (client-compat policy:
+                        // nulls on non-nullable fields are skipped, unknown
+                        // members ignored); the server gate enforces the
+                        // schema so a sloppy payload cannot reach the service
+                        // with silently defaulted fields. Exact-JSON parsing
+                        // preserves numeric lexemes, so multipleOf and
+                        // magnitude checks see the wire text, and the decode
+                        // inside the scope converts numbers exactly too.
+                        {{{schemaValidationNamespace}}}::ExactJsonValue exactJson =
+                            {{{schemaValidationNamespace}}}::parseExactJson(ctx->body);
+                        {{{schemaValidationNamespace}}}::requireModelConvertibleJson(exactJson);
+                        {{{schemaValidationNamespace}}}::ExactInstanceScope exactScope(exactJson);
+                        {{{schemaValidationNamespace}}}::SchemaIndex const schemaIndex =
+                            {{{schemaValidationNamespace}}}::schemaNodeFor("{{{vendorExtensions.x-server-request-body-schema-id}}}");
+                        if (schemaIndex == {{{schemaValidationNamespace}}}::kNoSchema) {
+                            throw std::invalid_argument(
+                                "request body schema id is not in the generated registry");
+                        }
+                        {
+                            {{{schemaValidationNamespace}}}::RawInstance instance(&exactJson.value);
+                            {{{schemaValidationNamespace}}}::ValidationPath validationPath;
+                            {{{schemaValidationNamespace}}}::ValidationContext context;
+                            {{{schemaValidationNamespace}}}::ValidationResult const result =
+                                {{{schemaValidationNamespace}}}::sharedSchemaEvaluator().validate(
+                                    schemaIndex, instance, validationPath, context);
+                            if (!result.success) {
+                                std::string message = "request body failed schema validation";
+                                if (!result.failurePath.empty()) {
+                                    message += " at '" + result.failurePath + "'";
+                                }
+                                if (!result.failureMessage.empty()) {
+                                    message += ": " + result.failureMessage;
+                                }
+                                throw std::invalid_argument(message);
+                            }
+                        }
+                        fromJsonLeaf(exactJson.value, request.body);
+{{/vendorExtensions.x-server-request-body-schema-id}}
+{{^vendorExtensions.x-server-request-body-schema-id}}
+                        fromJsonBody(ctx->body, request.body);
+{{/vendorExtensions.x-server-request-body-schema-id}}
+                    } catch (std::invalid_argument const& error) {
+                        {{{apiNsQualified}}}Problem parseProblem = {{{apiNsQualified}}}Problem::badRequest(error.what());
+                        parseProblem.withError("body", error.what());
+                        responderCore->sendProblem(std::move(parseProblem));
+                        return;
+                    } catch (std::length_error const& error) {
+                        // A numeric lexeme beyond the implementation limit is
+                        // a payload problem, not a server fault: answer 400.
+                        {{{apiNsQualified}}}Problem parseProblem = {{{apiNsQualified}}}Problem::badRequest(error.what());
+                        parseProblem.withError("body", error.what());
+                        responderCore->sendProblem(std::move(parseProblem));
+                        return;
+                    }
+{{^vendorExtensions.x-server-request-body-required}}
+                    }
+{{/vendorExtensions.x-server-request-body-required}}
+                }
+{{/vendorExtensions.x-server-has-request-body}}
+
+                if (invalid) {
+                    problem.status = 400;
+                    problem.title = "Bad Request";
+                    responderCore->sendProblem(std::move(problem));
+                    return;
+                }
+
+                {{vendorExtensions.x-server-operation-pascal}}Responder responder(responderCore);
+                impl->{{nickname}}(std::move(request), ctx, std::move(responder));
+            },
+            std::move(security),
+            "{{{vendorExtensions.x-server-operation-id-literal}}}");
+    }
+{{/operation}}
+}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+{{/operations}}

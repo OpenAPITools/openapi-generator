@@ -122,7 +122,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         supportsInheritance = true;
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.STABLE).build();
 
         // clear import mapping (from default generator) as crystal does not use it
         // at the moment
@@ -385,7 +385,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Crystal client library (beta).";
+        return "Generates a Crystal client library.";
     }
 
     @Override

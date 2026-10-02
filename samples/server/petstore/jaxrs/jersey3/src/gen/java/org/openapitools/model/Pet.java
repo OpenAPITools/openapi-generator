@@ -212,7 +212,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "tags")
   @Schema(description = "")
-  @Valid 
+  
   public List<@Valid Tag> getTags() {
     return tags;
   }
