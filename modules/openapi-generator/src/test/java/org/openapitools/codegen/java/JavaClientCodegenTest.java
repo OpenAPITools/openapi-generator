@@ -437,6 +437,51 @@ public class JavaClientCodegenTest {
         Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
+    @DataProvider
+    public Object[][] propertyRefEnumDefaults() {
+        return new Object[][] {
+                {"String", "ARCHIVE"},
+                {"Date", "2026-01-01"},
+                {"UUID", "123e4567-e89b-12d3-a456-426614174000"},
+                {"BigDecimal", "1.5"}
+        };
+    }
+
+    @Test(dataProvider = "propertyRefEnumDefaults")
+    public void testPropertyRefDiscriminatorDoesNotQualifyScalarDefault(String dataType, String value) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = dataType;
+        property.datatypeWithEnum = dataType;
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.isDiscriminator = true;
+        property.defaultValue = "String".equals(dataType) ? value : codegen.toEnumValue(value, dataType);
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of(value));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertNull(property.defaultValue);
+    }
+
+    @Test
+    public void testPropertyRefPreservesOrdinaryStringDefault() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = "String";
+        property.datatypeWithEnum = "String";
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.defaultValue = "ARCHIVE";
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of("ARCHIVE"));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertEquals("\"ARCHIVE\"", property.defaultValue);
+    }
+
     @Test
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
@@ -1881,6 +1926,10 @@ public class JavaClientCodegenTest {
         // `this.category = String.ARCHIVE;` (see #24874).
         JavaFileAssert.assertThat(files.get("StockArchiveCategoryEvent.java"))
                 .fileDoesNotContain("String.ARCHIVE");
+        JavaFileAssert.assertThat(files.get("StockOrdinaryCategory.java"))
+                .assertProperty("category")
+                .asString()
+                .contains("CategoryEnum category = CategoryEnum.ARCHIVE");
     }
 
     @Test

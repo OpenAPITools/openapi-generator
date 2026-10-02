@@ -14,6 +14,7 @@ components:
           type: string
           enum:
             - ARCHIVE
+          default: ARCHIVE
     CategoryEvent:
       type: object
       required:
@@ -33,3 +34,8 @@ components:
           properties:
             value:
               type: string
+    OrdinaryCategory:
+      type: object
+      properties:
+        category:
+          $ref: "#/components/schemas/CategorySource/properties/category"
