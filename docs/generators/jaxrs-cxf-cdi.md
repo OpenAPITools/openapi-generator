@@ -115,6 +115,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
 |BigDecimal|java.math.BigDecimal|
+|BigInteger|java.math.BigInteger|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |File|java.io.File|
@@ -143,6 +144,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>BigInteger</li>
 <li>Boolean</li>
 <li>Double</li>
 <li>Float</li>
