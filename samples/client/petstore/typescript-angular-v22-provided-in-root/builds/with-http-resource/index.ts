@@ -1,14 +1,8 @@
 export * from './api/api';
-{{#models.0}}
 export * from './model/models';
-{{/models.0}}
 export * from './variables';
 export * from './configuration';
 export * from './api.module';
-{{#ngVersionAtLeast_17}}
 export * from './provide-api';
-{{/ngVersionAtLeast_17}}
-{{#withHttpResource}}
 export * from './http.resource.options';
-{{/withHttpResource}}
 export * from './param';

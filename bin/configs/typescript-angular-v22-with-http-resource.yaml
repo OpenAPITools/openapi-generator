@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v22-provided-in-root/builds/with-http-resource
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-angular/http-resource.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 22.0.0
+  supportsES6: true
+  withHttpResource: true
