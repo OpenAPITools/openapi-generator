@@ -697,6 +697,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
      * (so oneOf/anyOf matching narrows correctly) and in {@code Validate()}.
      */
     private void postProcessNotEnum(CodegenModel model, CodegenProperty property) {
+        // Skip when the property itself is an enum: it is generated as a C# enum type, so the
+        // emitted `this.Name == "value"` string comparison would not compile.
+        if (property.isEnum || property.isEnumRef) {
+            return;
+        }
         CodegenProperty not = property.getComposedSchemas() == null ? null : property.getComposedSchemas().getNot();
         if (not == null || !not.isString || !(not.isEnum || not.isEnumRef)
                 || not.allowableValues == null || !(not.allowableValues.get("values") instanceof List)) {

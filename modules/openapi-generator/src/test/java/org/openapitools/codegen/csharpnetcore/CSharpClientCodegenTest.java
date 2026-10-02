@@ -234,6 +234,13 @@ public class CSharpClientCodegenTest {
         // The Known member (plain enum) must NOT get the not-enum handling.
         assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
                 "must not be a value excluded by the 'not' schema");
+        // A property that is ITSELF an enum (generated as a C# enum type) must not get the string-comparison
+        // handling, which would not compile.
+        assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "EnumAndNot.cs"),
+                "must not be a value excluded by the 'not' schema", "OnDeserializedNotEnum");
+        // A property named like the generated callback is renamed so it cannot collide with the method.
+        assertFileContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Reserved.cs"),
+                "PropertyOnDeserializedNotEnum");
     }
 
     @Test
