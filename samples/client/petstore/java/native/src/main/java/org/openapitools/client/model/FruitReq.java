@@ -171,12 +171,12 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public FruitReq(BananaReq o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

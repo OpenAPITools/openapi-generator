@@ -112,42 +112,59 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 {{#useJackson3}}
             JsonToken token = tree.asToken();
 {{/useJackson3}}
+            {{#composedSchemas}}
             {{#oneOf}}
-            // deserialize {{{.}}}
+            // deserialize {{{dataType}}}
             try {
                 boolean attemptParsing = true;
+                {{#isArray}}
+                attemptParsing = (token == JsonToken.START_ARRAY);
+                {{/isArray}}
+                {{^isContainer}}
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if ({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class) || {{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class) || {{{.}}}.class.equals(Boolean.class) || {{{.}}}.class.equals(String.class)) {
+                if ({{{dataType}}}.class.equals(Integer.class) || {{{dataType}}}.class.equals(Long.class) || {{{dataType}}}.class.equals(Float.class) || {{{dataType}}}.class.equals(Double.class) || {{{dataType}}}.class.equals(Boolean.class) || {{{dataType}}}.class.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= (({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= (({{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= ({{{.}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= ({{{.}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (({{{dataType}}}.class.equals(Integer.class) || {{{dataType}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= (({{{dataType}}}.class.equals(Float.class) || {{{dataType}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= ({{{dataType}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= ({{{dataType}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
                         {{#isNullable}}
                         attemptParsing |= (token == JsonToken.VALUE_NULL);
                         {{/isNullable}}
                     }
                 }
+                {{/isContainer}}
                 if (attemptParsing) {
+                    {{#isContainer}}
 {{^useJackson3}}
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<{{{dataType}}}>() {});
 {{/useJackson3}}
 {{#useJackson3}}
-                    deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<{{{dataType}}}>() {}));
 {{/useJackson3}}
+                    {{/isContainer}}
+                    {{^isContainer}}
+{{^useJackson3}}
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, {{{dataType}}}.class);
+{{/useJackson3}}
+                    {{/isContainer}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
                     match++;
-                    log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
+                    log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
                 }
             } catch (Exception e) {
                 // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+                log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
             }
 
             {{/oneOf}}
+            {{/composedSchemas}}
             if (match == 1) {
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
@@ -207,17 +224,23 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
+    {{#composedSchemas}}
     {{#oneOf}}
-    public {{classname}}({{{.}}} o) {
-        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{dataType}}} o) {
+        this();
         setActualInstance(o);
     }
 
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/oneOf}}
+    {{/composedSchemas}}
     static {
+        {{#composedSchemas}}
         {{#oneOf}}
-        schemas.put("{{{.}}}", {{{.}}}.class);
+        schemas.put("{{{dataType}}}", {{#isContainer}}{{{baseType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}.class);
         {{/oneOf}}
+        {{/composedSchemas}}
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
@@ -238,7 +261,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     * {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -252,40 +275,48 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         {{/isNullable}}
+        {{#composedSchemas}}
         {{#oneOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (JSON.isInstanceOf({{#isContainer}}{{{baseType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/oneOf}}
+        {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     * {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}
      *
-     * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
+     * @return The actual instance ({{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}})
      */
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
     }
 
+    {{#composedSchemas}}
     {{#oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{.}}}`
-     * @throws ClassCastException if the instance is not `{{{.}}}`
+     * @return The actual instance of `{{dataType}}`
+     * @throws ClassCastException if the instance is not `{{dataType}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
-        return ({{{.}}})super.getActualInstance();
+    public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
+    {{/composedSchemas}}
 
 {{#supportUrlQuery}}
 
@@ -323,7 +354,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#composedSchemas.oneOf}}
     {{^vendorExtensions.x-duplicated-data-type}}
-    if (getActualInstance() instanceof {{{dataType}}}) {
+    if (getActualInstance() instanceof {{#isContainer}}{{{baseType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
         {{#isArray}}
         {{#items.isPrimitiveType}}
         {{#uniqueItems}}
@@ -342,7 +373,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
             joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
-                ApiClient.urlEncode(String.valueOf(getActualInstance().get(i)))));
+                ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
           }
         }
         {{/uniqueItems}}
@@ -365,7 +396,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
             if ((({{{dataType}}})getActualInstance()).get(i) != null) {
-              joiner.add((({{{items.dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              joiner.add((({{{dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
             }
           }
@@ -389,7 +420,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{^uniqueItems}}
         if (getActualInstance() != null) {
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
-            if (getActualInstance().get(i) != null) {
+            if ((({{{dataType}}})getActualInstance()).get(i) != null) {
               joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                   ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
@@ -407,7 +438,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
-                getActualInstance().get(_key), ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
+                ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
           }
         }
         {{/items.isPrimitiveType}}
@@ -415,7 +446,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             if ((({{{dataType}}})getActualInstance()).get(_key) != null) {
-              joiner.add((({{{items.dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              joiner.add((({{{dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
             }
           }
