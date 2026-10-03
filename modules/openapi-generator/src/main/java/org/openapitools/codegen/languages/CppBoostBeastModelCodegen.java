@@ -297,6 +297,11 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             }
             return super.processSimplifyAnyOfEnum(schema);
         }
+
+        @Override
+        protected Schema normalizeBareNullSchemaIfNeeded(Schema<?> schema, Set<Schema> visitedSchemas) {
+            return normalizeSchema(schema, visitedSchemas);
+        }
     }
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {

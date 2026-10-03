@@ -2330,5 +2330,28 @@ public class OpenAPINormalizerTest {
         assertEquals(child.get$ref(), "#/components/schemas/Child");
     }
 
+    @Test
+    public void testOpenAPINormalizer31SpecBareNullPropertiesDisabled() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZE_31SPEC", "true",
+                "NORMALIZE_BARE_NULL_SCHEMAS", "false"
+        );
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ParentBareNull");
+        Schema dyn = (Schema) schema.getProperties().get("dyn");
+        assertEquals(ModelUtils.getType(dyn), "null");
+
+        Schema dynList = (Schema) schema.getProperties().get("dynList");
+        assertEquals(dynList.getType(), "array");
+        Schema dynListItems = dynList.getItems();
+        assertEquals(ModelUtils.getType(dynListItems), "null");
+
+        Schema dynRef = (Schema) schema.getProperties().get("dynRef");
+        assertEquals(dynRef.get$ref(), "#/components/schemas/NullAlias");
+    }
+
 }
 
