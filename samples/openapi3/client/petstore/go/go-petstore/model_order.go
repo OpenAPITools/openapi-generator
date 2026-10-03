@@ -13,6 +13,8 @@ package petstore
 import (
 	"encoding/json"
 	"time"
+	"fmt"
+	"strings"
 )
 
 // checks if the Order type satisfies the MappedNullable interface at compile time
@@ -31,6 +33,29 @@ type Order struct {
 }
 
 type _Order Order
+
+func (o *Order) validateStringEnumValues(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	for fieldName, raw := range fields {
+		if !strings.EqualFold(fieldName, "status") {
+			continue
+		}
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "status")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "placed" && value != "approved" && value != "delivered" {
+			return fmt.Errorf("invalid value %q for property %s", value, "status")
+		}
+	}
+	return nil
+}
 
 // NewOrder instantiates a new Order object
 // This constructor will assign default values to properties that have it defined,
@@ -282,6 +307,9 @@ func (o Order) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *Order) UnmarshalJSON(data []byte) (err error) {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
 	varOrder := _Order{}
 
 	err = json.Unmarshal(data, &varOrder)
