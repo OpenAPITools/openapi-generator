@@ -290,7 +290,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    */
-  @Valid 
+  
   @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnum")
   public Optional<OuterEnum> getOuterEnum() {

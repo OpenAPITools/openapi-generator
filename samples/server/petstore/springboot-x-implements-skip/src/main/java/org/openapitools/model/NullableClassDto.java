@@ -97,7 +97,7 @@ public class NullableClassDto {
    * Get numberProp
    * @return numberProp
    */
-  @Valid 
+  
   @Schema(name = "number_prop", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("number_prop")
   public JsonNullable<BigDecimal> getNumberProp() {
@@ -157,7 +157,7 @@ public class NullableClassDto {
    * Get dateProp
    * @return dateProp
    */
-  @Valid 
+  
   @Schema(name = "date_prop", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("date_prop")
   public JsonNullable<LocalDate> getDateProp() {
@@ -177,7 +177,7 @@ public class NullableClassDto {
    * Get datetimeProp
    * @return datetimeProp
    */
-  @Valid 
+  
   @Schema(name = "datetime_prop", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("datetime_prop")
   public JsonNullable<OffsetDateTime> getDatetimeProp() {

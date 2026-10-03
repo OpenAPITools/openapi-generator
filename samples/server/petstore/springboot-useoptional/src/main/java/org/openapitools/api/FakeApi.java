@@ -110,7 +110,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) Optional<Boolean> body
+        @Parameter(name = "body", description = "Input boolean as post body") @RequestBody(required = false) Optional<Boolean> body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -142,7 +142,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) Optional<OuterComposite> outerComposite
+        @Parameter(name = "OuterComposite", description = "Input composite as post body") @RequestBody(required = false) Optional<@Valid OuterComposite> outerComposite
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -183,7 +183,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) Optional<BigDecimal> body
+        @Parameter(name = "body", description = "Input number as post body") @RequestBody(required = false) Optional<BigDecimal> body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -215,7 +215,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) Optional<String> body
+        @Parameter(name = "body", description = "Input string as post body") @RequestBody(required = false) Optional<String> body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
