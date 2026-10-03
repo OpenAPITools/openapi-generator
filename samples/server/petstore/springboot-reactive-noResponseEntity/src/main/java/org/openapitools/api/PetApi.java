@@ -303,8 +303,8 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     default Mono<Void> updatePetWithForm(
         @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
         return getDelegate().updatePetWithForm(petId, name, status);
     }
