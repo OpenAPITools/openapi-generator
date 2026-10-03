@@ -17,11 +17,9 @@ part 'model200_response.g.dart';
   explicitToJson: true,
 )
 class Model200Response {
-  /// Returns a new [Model200Response] instance.
+/// Returns a new [Model200Response] instance.
   Model200Response({
-
      this.name,
-
      this.class_,
   });
 
@@ -53,6 +51,7 @@ class Model200Response {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
+    runtimeType == other.runtimeType &&
       other.name == name &&
       other.class_ == class_;
 

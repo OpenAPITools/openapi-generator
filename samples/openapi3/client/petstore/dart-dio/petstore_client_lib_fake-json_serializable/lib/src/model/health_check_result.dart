@@ -17,9 +17,8 @@ part 'health_check_result.g.dart';
   explicitToJson: true,
 )
 class HealthCheckResult {
-  /// Returns a new [HealthCheckResult] instance.
+/// Returns a new [HealthCheckResult] instance.
   HealthCheckResult({
-
      this.nullableMessage,
   });
 
@@ -39,6 +38,7 @@ class HealthCheckResult {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
+    runtimeType == other.runtimeType &&
       other.nullableMessage == nullableMessage;
 
     @override

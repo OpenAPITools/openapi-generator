@@ -17,11 +17,9 @@ part 'parent_with_nullable.g.dart';
   explicitToJson: true,
 )
 class ParentWithNullable {
-  /// Returns a new [ParentWithNullable] instance.
+/// Returns a new [ParentWithNullable] instance.
   ParentWithNullable({
-
      this.type,
-
      this.nullableProperty,
   });
 
@@ -53,6 +51,7 @@ class ParentWithNullable {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ParentWithNullable &&
+    runtimeType == other.runtimeType &&
       other.type == type &&
       other.nullableProperty == nullableProperty;
 
