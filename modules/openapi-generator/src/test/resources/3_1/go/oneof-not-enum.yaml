@@ -46,6 +46,12 @@ components:
         kind:
           type: [string, 'null']
           enum: [known, null]
+    NullableEnumWithoutNullValue:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          enum: [known]
     NullableExcludedEnum:
       type: object
       properties:

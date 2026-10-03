@@ -39,16 +39,19 @@ type _{{{classname}}} {{{classname}}}
 {{/isAdditionalPropertiesTrue}}
 {{#vendorExtensions.x-go-has-string-enum-validation}}
 func (o *{{{classname}}}) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+{{#vars}}
+{{#vendorExtensions.x-go-enum-property-name}}
+		{{name}} json.RawMessage{{{vendorExtensions.x-go-datatag}}}
+{{/vendorExtensions.x-go-enum-property-name}}
+{{/vars}}
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
 {{#vars}}
 {{#vendorExtensions.x-go-allowed-string-enum-comparison}}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, {{{vendorExtensions.x-go-enum-property-name}}}) {
-			continue
-		}
+	if raw := fields.{{name}}; raw != nil {
 {{^vendorExtensions.x-go-allowed-string-enum-null}}
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", {{{vendorExtensions.x-go-enum-property-name}}})
@@ -64,10 +67,7 @@ func (o *{{{classname}}}) validateStringEnumValues(data []byte) error {
 	}
 {{/vendorExtensions.x-go-allowed-string-enum-comparison}}
 {{#vendorExtensions.x-go-excluded-string-enum-comparison}}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, {{{vendorExtensions.x-go-enum-property-name}}}) {
-			continue
-		}
+	if raw := fields.{{name}}; raw != nil {
 		var value interface{}
 		if err := json.Unmarshal(raw, &value); err != nil {
 			return err
@@ -89,7 +89,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) error {
 	if err := o.validateStringEnumValues(data); err != nil {
 		return err
 	}
-	var value _{{{classname}}}
+	value := _{{{classname}}}(*o)
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}

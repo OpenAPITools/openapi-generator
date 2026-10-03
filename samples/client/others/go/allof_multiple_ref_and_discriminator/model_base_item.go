@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"bytes"
 	"fmt"
-	"strings"
 )
 
 // checks if the BaseItem type satisfies the MappedNullable interface at compile time
@@ -29,14 +28,13 @@ type BaseItem struct {
 type _BaseItem BaseItem
 
 func (o *BaseItem) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+		Type json.RawMessage `json:"type"`
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "type") {
-			continue
-		}
+	if raw := fields.Type; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "type")
 		}

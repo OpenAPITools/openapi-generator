@@ -560,7 +560,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
                         if (allowed != null) {
                             param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
-                            if (param.isNullable && ((List<?>) param.allowableValues.get("values")).contains(null)) {
+                            if (param.isNullable && (param.isEnumRef || ((List<?>) param.allowableValues.get("values")).contains(null))) {
                                 param.vendorExtensions.put("x-go-allowed-string-enum-null", true);
                             }
                         }
@@ -616,9 +616,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 imports.add(createMapping("import", "strings"));
             }
 
-            if (hasStringEnumValidation && !hasOneOf(model) && !hasAnyOf(model)
-                    && imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
-                imports.add(createMapping("import", "strings"));
+            if (hasStringEnumValidation) {
+                imports.sort(Comparator.comparing(i -> i.get("import")));
             }
         }
         return objs;

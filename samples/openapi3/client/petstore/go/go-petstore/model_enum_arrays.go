@@ -13,7 +13,6 @@ package petstore
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 // checks if the EnumArrays type satisfies the MappedNullable interface at compile time
@@ -29,14 +28,13 @@ type EnumArrays struct {
 type _EnumArrays EnumArrays
 
 func (o *EnumArrays) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+		JustSymbol json.RawMessage `json:"just_symbol,omitempty"`
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "just_symbol") {
-			continue
-		}
+	if raw := fields.JustSymbol; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "just_symbol")
 		}
