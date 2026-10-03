@@ -179,6 +179,16 @@ public class GoClientCodegen extends AbstractGoCodegen {
         this.setWithGoMod(true);
     }
 
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isHeaderParam
+                && (isJsonMimeType(parameter.contentType) || isJsonVendorMimeType(parameter.contentType))) {
+            parameter.vendorExtensions.put("x-go-json-header", true);
+            additionalProperties.put("x-go-has-json-header", true);
+        }
+    }
+
     /**
      * Configures a friendly name for the generator. This will be used by the
      * generator to select the library with the -g flag.
@@ -219,6 +229,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public void processOpts() {
+        additionalProperties.remove("x-go-has-json-header");
         this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
 
