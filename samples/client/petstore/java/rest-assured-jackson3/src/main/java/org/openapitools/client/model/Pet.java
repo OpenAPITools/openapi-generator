@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -21,12 +21,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-import tools.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
@@ -34,7 +31,7 @@ import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
- * Pet
+ * A pet for sale in the pet store
  */
 @JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
@@ -60,7 +57,7 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @javax.annotation.Nonnull
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @javax.annotation.Nullable
@@ -190,7 +187,7 @@ public class Pet {
     this.name = name;
   }
 
-  public Pet photoUrls(@javax.annotation.Nonnull Set<String> photoUrls) {
+  public Pet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
@@ -198,7 +195,7 @@ public class Pet {
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
-      this.photoUrls = new LinkedHashSet<>();
+      this.photoUrls = new ArrayList<>();
     }
     this.photoUrls.add(photoUrlsItem);
     return this;
@@ -214,15 +211,14 @@ public class Pet {
   @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public Set<String> getPhotoUrls() {
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
-  @JsonDeserialize(as = LinkedHashSet.class)
   @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPhotoUrls(@javax.annotation.Nonnull Set<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -269,7 +265,9 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
 
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)

@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -24,7 +24,7 @@ import static io.restassured.config.RestAssuredConfig.config;
 import static org.openapitools.client.JacksonObjectMapper.jackson;
 
 public class ApiClient {
-    public static final String BASE_URI = "http://petstore.swagger.io:80/v2";
+    public static final String BASE_URI = "http://petstore.swagger.io/v2";
 
     protected final Config config;
 
@@ -36,23 +36,8 @@ public class ApiClient {
         return new ApiClient(config);
     }
 
-    public AnotherFakeApi anotherFake() {
-        return AnotherFakeApi.anotherFake(config.reqSpecSupplier);
-    }
-    public FakeApi fake() {
-        return FakeApi.fake(config.reqSpecSupplier);
-    }
-    public FakeClassnameTags123Api fakeClassnameTags123() {
-        return FakeClassnameTags123Api.fakeClassnameTags123(config.reqSpecSupplier);
-    }
     public PetApi pet() {
         return PetApi.pet(config.reqSpecSupplier);
-    }
-    public StoreApi store() {
-        return StoreApi.store(config.reqSpecSupplier);
-    }
-    public UserApi user() {
-        return UserApi.user(config.reqSpecSupplier);
     }
 
     public static class Config {
