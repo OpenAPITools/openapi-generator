@@ -1687,6 +1687,27 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
     }
 
+    @Test(description = "3.1 property with additionalProperties but no type is deserialized as a map")
+    public void testUntypedMapPropertyIsDeserialized() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_1/issue_25054.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "openapi_client", "models", "example.py");
+        TestUtils.assertFileContains(model,
+            "\"map\": obj.get(\"map\")",
+            "\"typedMap\": obj.get(\"typedMap\")",
+            "(_k, Item.from_dict(_v))");
+    }
+
     @Test( description = "test src-layout with setuptools" )
     public void testSrcLayoutSetuptools() throws IOException {
         PythonClientCodegen codegen = new PythonClientCodegen();

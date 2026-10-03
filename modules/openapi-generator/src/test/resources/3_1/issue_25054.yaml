@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Map property without type
+paths: {}
+components:
+  schemas:
+    Example:
+      type: object
+      properties:
+        map:
+          additionalProperties:
+            type: string
+        typedMap:
+          type: object
+          additionalProperties:
+            type: string
+        modelMap:
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
