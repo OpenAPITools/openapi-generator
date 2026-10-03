@@ -180,6 +180,17 @@ namespace Org.OpenAPITools.Model
         public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
+            if (fruitReq.AppleReq != null)
+            {
+                AppleReqJsonConverter appleReqJsonConverter = new AppleReqJsonConverter();
+                appleReqJsonConverter.WriteProperties(writer, fruitReq.AppleReq, jsonSerializerOptions);
+            }
+
+            if (fruitReq.BananaReq != null)
+            {
+                BananaReqJsonConverter bananaReqJsonConverter = new BananaReqJsonConverter();
+                bananaReqJsonConverter.WriteProperties(writer, fruitReq.BananaReq, jsonSerializerOptions);
+            }
 
             WriteProperties(writer, fruitReq, jsonSerializerOptions);
             writer.WriteEndObject();
