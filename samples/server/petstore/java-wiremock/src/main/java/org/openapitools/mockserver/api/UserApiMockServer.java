@@ -193,7 +193,7 @@ public class UserApiMockServer {
         return "{ \"id\" : 0, \"username\" : \"username\", \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"email\" : \"email\", \"password\" : \"password\", \"phone\" : \"phone\", \"userStatus\" : 6 }";
     }
     public static String getUserByName200ResponseSample2() {
-        return "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
+        return "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>********</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
     }
 
 
