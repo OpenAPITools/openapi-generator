@@ -11,13 +11,11 @@ module {{moduleName}}
 {{/apiNamespacePresent}}
 {{#operations}}
 {{#apiNamespacePresent}}
-    {{#indent4}}{{> api_operations}}{{/indent4}}
+    {{#lambda.trimTrailing}}{{#indent4}}{{> api_operations}}{{/indent4}}{{/lambda.trimTrailing}}
 {{/apiNamespacePresent}}
 {{^apiNamespacePresent}}
-  {{#indent2}}{{> api_operations}}{{/indent2}}
+  {{#lambda.trimTrailing}}{{#indent2}}{{> api_operations}}{{/indent2}}{{/lambda.trimTrailing}}
 {{/apiNamespacePresent}}
+{{#apiNamespacePresent}}  end{{/apiNamespacePresent}}
 {{/operations}}
-{{#apiNamespacePresent}}
-  end
-{{/apiNamespacePresent}}
 end
