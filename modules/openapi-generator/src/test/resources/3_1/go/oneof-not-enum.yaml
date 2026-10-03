@@ -67,6 +67,8 @@ components:
         kind:
           type: string
           enum: [allowed]
+        '-':
+          type: string
       discriminator:
         propertyName: kind
         mapping:

@@ -591,7 +591,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
                 if (hasInheritedStringEnumValidation && !model.isAdditionalPropertiesTrue) {
                     for (CodegenProperty param : effectiveVars.values()) {
-                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName).toString());
+                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName + (param.required ? "" : ",omitempty")).toString());
                     }
                     model.vendorExtensions.put("x-go-inherited-string-enum-validation", true);
                     model.vendorExtensions.put("x-go-flattened-vars", new ArrayList<>(effectiveVars.values()));
