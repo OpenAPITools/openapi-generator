@@ -79,6 +79,7 @@ jobs:
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
+          - samples/client/petstore/java/rest-assured-jackson3
           - samples/client/petstore/java/microprofile-rest-client
           - samples/client/petstore/java/microprofile-rest-client-mutiny
           - samples/client/petstore/java/microprofile-rest-client-3.0
