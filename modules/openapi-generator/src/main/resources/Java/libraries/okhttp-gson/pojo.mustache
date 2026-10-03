@@ -390,7 +390,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
         // validate the required field `{{{baseName}}}` (array)
         for (int i = 0; i < jsonArray{{name}}.size(); i++) {
-          {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+          JsonElement arrayElement = jsonArray{{name}}.get(i);
+          if(arrayElement == null || arrayElement.isJsonNull()){
+            continue;
+          }
+          {{{items.dataType}}}.validateJsonElement();
         }
       }
       {{/required}}
