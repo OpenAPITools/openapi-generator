@@ -58,5 +58,10 @@ abstract class CppBoostBeastNormalizerTestSupport {
         public Schema processSimplifyAnyOfEnum(Schema schema) {
             return super.processSimplifyAnyOfEnum(schema);
         }
+
+        @Override
+        public void normalize() {
+            super.normalize();
+        }
     }
 }
