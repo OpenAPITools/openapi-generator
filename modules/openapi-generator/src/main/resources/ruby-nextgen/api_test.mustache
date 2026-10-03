@@ -13,7 +13,7 @@ RSpec.describe {{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiN
 {{#rbNamespaceHasDirectOperations}}
 {{#rbNamespaceResources}}
 
-  it 'is reachable through the namespace client' do
+  it 'exposes {{accessor}} through the namespace client' do
     expect(client.{{rbNamespaceAccessor}}.{{accessor}}).to be_a({{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiNamespacePresent}}{{className}})
   end
 {{/rbNamespaceResources}}
@@ -21,7 +21,7 @@ RSpec.describe {{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiN
 {{#rbNamespaceOnly}}
 {{#rbNamespaceResources}}
 
-  it 'is reachable through the namespace client' do
+  it 'exposes {{accessor}} through the namespace client' do
     expect(client.{{rbNamespaceAccessor}}.{{accessor}}).to be_a({{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiNamespacePresent}}{{className}})
   end
 {{/rbNamespaceResources}}

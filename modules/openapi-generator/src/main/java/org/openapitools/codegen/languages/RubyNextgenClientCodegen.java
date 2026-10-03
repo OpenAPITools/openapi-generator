@@ -65,10 +65,10 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     // normal Ruby object behavior.
     private static final Set<String> RESERVED_ACCESSOR_NAMES = new HashSet<>(Arrays.asList(
             "initialize", "configuration", "connection", "client",
-            "class", "singleton_class", "clone", "dup", "itself", "taint", "untaint",
-            "untrust", "trust", "freeze", "frozen?", "nil?", "hash", "eql?", "==",
+            "class", "singleton_class", "clone", "dup", "itself", "freeze", "frozen?",
+            "nil?", "hash", "eql?", "==",
             "equal?", "!", "!=", "instance_of?", "kind_of?", "is_a?", "display",
-            "send", "__send__", "public_send", "respond_to?", "extend", "method",
+            "send", "__send__", "public_send", "public_method", "respond_to?", "extend", "method",
             "define_singleton_method", "singleton_method", "tap", "yield_self", "then",
             "instance_eval", "instance_exec", "enum_for", "to_enum", "to_s", "inspect",
             "methods", "public_methods", "protected_methods", "private_methods",
@@ -620,6 +620,18 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         return null;
     }
 
+    private Map<String, Object> findRubyNamespaceByClassName(String className) {
+        if (className == null) {
+            return null;
+        }
+        for (Map<String, Object> namespace : rubyNamespaces) {
+            if (className.equals(namespace.get("className"))) {
+                return namespace;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation,
                                     CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
@@ -633,11 +645,10 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         Map<String, Object> namespace = findRubyNamespace(r.namespace);
         if (r.resource != null && namespace != null
                 && !Boolean.TRUE.equals(namespace.get("hasDirectOperations"))) {
-            List<CodegenOperation> namespaceOperations = operations.computeIfAbsent(
-                    r.namespace, k -> new ArrayList<>());
-            if (namespaceOperations.isEmpty()) {
-                namespaceOperations.add(namespaceOnlyOperation(r.namespace));
-            }
+            // Keep an empty namespace operation group so DefaultGenerator still renders the
+            // namespace file. The empty group is intentional: a synthetic CodegenOperation
+            // would flow through operation post-processing and API templates as a fake method.
+            operations.computeIfAbsent(r.namespace, k -> new ArrayList<>());
         }
         List<CodegenOperation> opList = operations.computeIfAbsent(groupKey, k -> new ArrayList<>());
         // An operation carrying multiple tags is delivered once per tag; because we group by
@@ -666,18 +677,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             co.operationId = unique;
         }
         opList.add(co);
-    }
-
-    private static CodegenOperation namespaceOnlyOperation(String namespace) {
-        CodegenOperation operation = new CodegenOperation();
-        operation.operationId = "__namespace__";
-        operation.operationIdOriginal = operation.operationId;
-        operation.path = "";
-        operation.httpMethod = "";
-        operation.baseName = namespace;
-        operation.vendorExtensions.put("x-rb-namespace", namespace);
-        operation.vendorExtensions.put("x-rb-namespace-only", true);
-        return operation;
     }
 
     /**
@@ -742,60 +741,11 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Map<String, Object>> nsMap = new TreeMap<>();
-        Map<String, Set<String>> resourcesByNs = new TreeMap<>();
-        Map<String, Set<String>> directOperationsByNs = new TreeMap<>();
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        if (apiInfo != null) {
-            List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
-            if (apis != null) {
-                for (Map<String, Object> api : apis) {
-                    Map<String, Object> ops = (Map<String, Object>) api.get("operations");
-                    if (ops == null) continue;
-                    List<CodegenOperation> opList = (List<CodegenOperation>) ops.get("operation");
-                    if (opList == null) continue;
-                    for (CodegenOperation co : opList) {
-                        String ns = (String) co.vendorExtensions.get("x-rb-namespace");
-                        String res = (String) co.vendorExtensions.get("x-rb-resource");
-                        if (ns == null) continue;
-                        nsMap.computeIfAbsent(ns, k -> {
-                            Map<String, Object> m = new HashMap<>();
-                            String base = underscore(sanitizeName(ns.replace('-', '_')));
-                            m.put("name", base);
-                            // `accessor` is the Client method name; `name` stays the on-disk
-                            // dir basename (Zeitwerk inflection key), so guarding one never
-                            // desyncs the other.
-                            m.put("accessor", safeAccessorName(base));
-                            m.put("className", toApiName(ns));
-                            return m;
-                        });
-                        if (res != null) {
-                            resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
-                        } else if (co.operationId != null
-                                && !Boolean.TRUE.equals(co.vendorExtensions.get("x-rb-namespace-only"))) {
-                            directOperationsByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(co.operationId);
-                        }
-                    }
-                }
-            }
-        }
-        List<Map<String, Object>> nsList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, Object>> e : nsMap.entrySet()) {
-            Map<String, Object> m = e.getValue();
-            List<Map<String, Object>> resources = new ArrayList<>();
-            Set<String> reservedNames = directOperationsByNs
-                    .getOrDefault(e.getKey(), Collections.emptySet());
-            for (String res : resourcesByNs.getOrDefault(e.getKey(), Collections.emptySet())) {
-                Map<String, Object> rm = new HashMap<>();
-                String resourceAccessor = underscore(sanitizeName(res.replace('-', '_')));
-                rm.put("name", resourceAccessor);
-                rm.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
-                rm.put("className", toApiName(e.getKey() + "/" + res));
-                resources.add(rm);
-            }
-            m.put("resources", resources);
-            nsList.add(m);
-        }
+        // rubyNamespaces is built once from the OpenAPI paths. Operation post-processing
+        // updates the shared resource maps with final operation-id collisions before this
+        // method runs, so rebuilding the same structure from apiInfo is both redundant and
+        // capable of undoing those final accessor decisions.
+        List<Map<String, Object>> nsList = rubyNamespaces;
         additionalProperties.put("rbNamespaces", nsList);
         objs.put("rbNamespaces", nsList);
 
@@ -878,27 +828,22 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap ops = objs.getOperations();
-        if (ops != null && !ops.getOperation().isEmpty()) {
-            CodegenOperation firstOperation = ops.getOperation().get(0);
-            String namespaceName = (String) firstOperation.vendorExtensions.get("x-rb-namespace");
-            Map<String, Object> namespace = findRubyNamespace(namespaceName);
+        List<CodegenOperation> operationList = ops == null || ops.getOperation() == null
+                ? Collections.emptyList() : ops.getOperation();
+        if (ops != null) {
+            Map<String, Object> namespace = findRubyNamespaceByClassName(ops.getClassname());
             if (namespace != null) {
-                boolean namespaceOnly = Boolean.TRUE.equals(
-                        firstOperation.vendorExtensions.get("x-rb-namespace-only"));
+                boolean namespaceOnly = operationList.isEmpty();
                 if (namespaceOnly) {
                     updateResourceAccessors(namespace, Collections.emptySet());
                     ops.put("rbNamespaceOnly", true);
                     ops.put("rbNamespaceClassName", namespace.get("className"));
                     ops.put("rbNamespaceResources", namespace.get("resources"));
                     ops.put("rbNamespaceAccessor", namespace.get("accessor"));
-                }
-                boolean isNamespaceClass = ops.getClassname().equals(namespace.get("className"));
-                if (!namespaceOnly && isNamespaceClass) {
+                } else {
                     Set<String> directOperationNames = new HashSet<>();
-                    for (CodegenOperation operation : ops.getOperation()) {
-                        if (!Boolean.TRUE.equals(operation.vendorExtensions.get("x-rb-namespace-only"))) {
-                            directOperationNames.add(operation.operationId);
-                        }
+                    for (CodegenOperation operation : operationList) {
+                        directOperationNames.add(operation.operationId);
                     }
                     updateResourceAccessors(namespace, directOperationNames);
                     ops.put("rbNamespaceHasDirectOperations", true);
@@ -907,7 +852,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                 }
             }
         }
-        for (CodegenOperation co : ops.getOperation()) {
+        for (CodegenOperation co : operationList) {
             String rt;
             if (co.returnBaseType == null) {
                 rt = "nil";

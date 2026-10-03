@@ -431,6 +431,30 @@ public class RubyNextgenClientCodegenTest {
                 "def siblings", "@siblings ||= Only::Siblings.new(@connection)");
         org.openapitools.codegen.TestUtils.assertFileNotContains(
                 namespaceOnly, "class Only::Children", "class Only::Siblings");
+        assertEquals(java.nio.file.Files.readString(namespaceOnly),
+                "# frozen_string_literal: true\n"
+                        + "\n"
+                        + "module Petstore\n"
+                        + "  module Api\n"
+                        + "    class Only\n"
+                        + "      def initialize(connection)\n"
+                        + "        @connection = connection\n"
+                        + "      end\n"
+                        + "\n"
+                        + "      def children\n"
+                        + "        @children ||= Only::Children.new(@connection)\n"
+                        + "      end\n"
+                        + "\n"
+                        + "      def siblings\n"
+                        + "        @siblings ||= Only::Siblings.new(@connection)\n"
+                        + "      end\n"
+                        + "    end\n"
+                        + "  end\n"
+                        + "end\n");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("spec/api/only_spec.rb"),
+                "exposes children through the namespace client",
+                "exposes siblings through the namespace client");
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/only/children.rb"), "class Only::Children");
         org.openapitools.codegen.TestUtils.assertFileExists(

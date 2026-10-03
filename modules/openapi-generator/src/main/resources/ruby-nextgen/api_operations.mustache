@@ -9,9 +9,7 @@ class {{rbNamespaceClassName}}
     @{{accessor}} ||= {{className}}.new(@connection)
   end
 {{/rbNamespaceResources}}
-end
-
-{{/rbNamespaceOnly}}
+end{{/rbNamespaceOnly}}
 {{^rbNamespaceOnly}}
 class {{classname}}
   def initialize(connection)
