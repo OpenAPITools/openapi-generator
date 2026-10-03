@@ -88,13 +88,13 @@
         }
         {{/isBoolean}}
         {{#isDate}}
-        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "Date") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a Date:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "POSIXt") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -109,7 +109,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -160,13 +160,13 @@
         }
         {{/isBoolean}}
         {{#isDate}}
-        if (!is.character(`{{name}}`)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "Date") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a Date:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (!is.character(`{{name}}`)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "POSIXt") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -181,7 +181,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -239,7 +239,17 @@
           {{#isContainer}}
           {{#isArray}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          lapply(self$`{{name}}`, as.character)
+          {{/isDate}}
+          {{#isDateTime}}
+          lapply(self$`{{name}}`, .format_datetime)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -247,7 +257,17 @@
           {{/isArray}}
           {{#isMap}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          lapply(self$`{{name}}`, as.character)
+          {{/isDate}}
+          {{#isDateTime}}
+          lapply(self$`{{name}}`, .format_datetime)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -256,7 +276,17 @@
           {{/isContainer}}
           {{^isContainer}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          as.character(self$`{{name}}`)
+          {{/isDate}}
+          {{#isDateTime}}
+          .format_datetime(self$`{{name}}`)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -330,7 +360,17 @@
           stop(paste("Error! Invalid data for `{{baseName}}`. Must be a URL:", this_object$`{{baseName}}`))
         }
         {{/isUri}}
+        {{#isDate}}
+        self$`{{name}}` <- as.Date(this_object$`{{baseName}}`)
+        {{/isDate}}
+        {{#isDateTime}}
+        self$`{{name}}` <- .parse_datetime(this_object$`{{baseName}}`)
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
         self$`{{name}}` <- this_object$`{{baseName}}`
+        {{/isDateTime}}
+        {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object` <- {{dataType}}$new()
@@ -400,7 +440,17 @@
         stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", this_object$`{{name}}`))
       }
       {{/isUri}}
+      {{#isDate}}
+      self$`{{name}}` <- if (is.null(this_object$`{{baseName}}`)) NULL else as.Date(this_object$`{{baseName}}`)
+      {{/isDate}}
+      {{#isDateTime}}
+      self$`{{name}}` <- if (is.null(this_object$`{{baseName}}`)) NULL else .parse_datetime(this_object$`{{baseName}}`)
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       self$`{{name}}` <- this_object$`{{name}}`
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object$`{{name}}`, auto_unbox = TRUE, digits = NA))
