@@ -341,7 +341,7 @@ public interface FakeApi {
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
-     * @param _byte None (required)
+     * @param _byte None (required) (base64 encoded)
      * @param integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
@@ -377,7 +377,7 @@ public interface FakeApi {
         @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
         @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
         @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
+        @Parameter(name = "byte", description = "None", required = true, schema = @Schema(type = "string", format = "byte")) @Valid @RequestPart(value = "byte", required = true) String _byte /* base64 encoded binary */,
         @Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
         @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
