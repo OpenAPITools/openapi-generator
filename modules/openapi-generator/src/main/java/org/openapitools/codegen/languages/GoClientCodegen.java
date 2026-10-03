@@ -561,13 +561,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             boolean hasStringEnumValidation = false;
+            boolean hasInheritedStringEnumValidation = false;
             if (generateUnmarshalJSON) {
+                Map<String, CodegenProperty> effectiveVars = new LinkedHashMap<>();
+                for (CodegenProperty param : model.parent == null ? model.vars : model.allVars) {
+                    effectiveVars.put(param.baseName, param);
+                }
+                Map<String, CodegenProperty> ownVars = new HashMap<>();
                 for (CodegenProperty param : model.vars) {
+                    ownVars.put(param.baseName, param);
+                }
+                List<CodegenProperty> validationVars = new ArrayList<>();
+                for (CodegenProperty param : effectiveVars.values()) {
                     String allowed = stringEnumComparison(param, false);
                     CodegenProperty not = param.getComposedSchemas() == null ? null : param.getComposedSchemas().getNot();
                     String excluded = stringEnumComparison(not, true);
                     if (allowed != null || excluded != null) {
                         hasStringEnumValidation = true;
+                        hasInheritedStringEnumValidation |= !ownVars.containsKey(param.baseName);
+                        if (ownVars.containsKey(param.baseName) && ownVars.get(param.baseName).vendorExtensions.containsKey("x-go-datatag")
+                                && !param.vendorExtensions.containsKey("x-go-datatag")) {
+                            param.vendorExtensions.put("x-go-datatag", ownVars.get(param.baseName).vendorExtensions.get("x-go-datatag"));
+                        }
+                        validationVars.add(param);
                         param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
                         if (allowed != null) {
                             param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
@@ -582,6 +598,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
                 if (hasStringEnumValidation) {
                     model.vendorExtensions.put("x-go-has-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-string-enum-validation-vars", validationVars);
+                }
+                if (hasInheritedStringEnumValidation && !model.isAdditionalPropertiesTrue) {
+                    for (CodegenProperty param : effectiveVars.values()) {
+                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName).toString());
+                    }
+                    model.vendorExtensions.put("x-go-inherited-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-flattened-vars", new ArrayList<>(effectiveVars.values()));
                 }
             }
 

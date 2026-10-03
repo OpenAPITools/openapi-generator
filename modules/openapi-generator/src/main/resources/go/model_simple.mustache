@@ -40,16 +40,14 @@ type _{{{classname}}} {{{classname}}}
 {{#vendorExtensions.x-go-has-string-enum-validation}}
 func (o *{{{classname}}}) validateStringEnumValues(data []byte) error {
 	var fields struct {
-{{#vars}}
-{{#vendorExtensions.x-go-enum-property-name}}
-		{{name}} json.RawMessage{{{vendorExtensions.x-go-datatag}}}
-{{/vendorExtensions.x-go-enum-property-name}}
-{{/vars}}
+{{#vendorExtensions.x-go-string-enum-validation-vars}}
+		{{name}} json.RawMessage{{#vendorExtensions.x-go-datatag}}{{{.}}}{{/vendorExtensions.x-go-datatag}}{{^vendorExtensions.x-go-datatag}} `json:{{{vendorExtensions.x-go-enum-property-name}}}`{{/vendorExtensions.x-go-datatag}}
+{{/vendorExtensions.x-go-string-enum-validation-vars}}
 	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-{{#vars}}
+{{#vendorExtensions.x-go-string-enum-validation-vars}}
 {{#vendorExtensions.x-go-allowed-string-enum-comparison}}
 	if raw := fields.{{name}}; raw != nil {
 {{^vendorExtensions.x-go-allowed-string-enum-null}}
@@ -77,7 +75,7 @@ func (o *{{{classname}}}) validateStringEnumValues(data []byte) error {
 		}
 	}
 {{/vendorExtensions.x-go-excluded-string-enum-comparison}}
-{{/vars}}
+{{/vendorExtensions.x-go-string-enum-validation-vars}}
 	return nil
 }
 
@@ -89,11 +87,33 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) error {
 	if err := o.validateStringEnumValues(data); err != nil {
 		return err
 	}
+{{#vendorExtensions.x-go-inherited-string-enum-validation}}
+	var decoded struct {
+{{#vendorExtensions.x-go-flattened-vars}}
+{{^-first}}
+
+{{/-first}}
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`
+{{/vendorExtensions.x-go-flattened-vars}}
+	}
+{{#vendorExtensions.x-go-flattened-vars}}
+	decoded.{{name}} = o.{{name}}
+{{/vendorExtensions.x-go-flattened-vars}}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*o = {{{classname}}}{}
+{{#vendorExtensions.x-go-flattened-vars}}
+	o.{{name}} = decoded.{{name}}
+{{/vendorExtensions.x-go-flattened-vars}}
+{{/vendorExtensions.x-go-inherited-string-enum-validation}}
+{{^vendorExtensions.x-go-inherited-string-enum-validation}}
 	value := _{{{classname}}}(*o)
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
 	*o = {{{classname}}}(value)
+{{/vendorExtensions.x-go-inherited-string-enum-validation}}
 	return nil
 }
 
@@ -618,6 +638,29 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{/isAdditionalPropertiesTrue}}
 {{^isAdditionalPropertiesTrue}}
 {{#hasRequired}}
+{{#vendorExtensions.x-go-inherited-string-enum-validation}}
+	var decoded struct {
+{{#vendorExtensions.x-go-flattened-vars}}
+{{^-first}}
+
+{{/-first}}
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`
+{{/vendorExtensions.x-go-flattened-vars}}
+	}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	if err = decoder.Decode(&decoded); err != nil {
+		return err
+	}
+
+	*o = {{{classname}}}{}
+{{#vendorExtensions.x-go-flattened-vars}}
+	o.{{name}} = decoded.{{name}}
+{{/vendorExtensions.x-go-flattened-vars}}
+	return nil
+{{/vendorExtensions.x-go-inherited-string-enum-validation}}
+{{^vendorExtensions.x-go-inherited-string-enum-validation}}
 	var{{{classname}}} := _{{{classname}}}{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
@@ -631,6 +674,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 	*o = {{{classname}}}(var{{{classname}}})
 
 	return err
+{{/vendorExtensions.x-go-inherited-string-enum-validation}}
 }
 
 {{/hasRequired}}

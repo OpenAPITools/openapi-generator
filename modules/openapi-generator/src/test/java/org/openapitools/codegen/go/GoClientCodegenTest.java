@@ -237,6 +237,29 @@ public class GoClientCodegenTest {
                 "if err := o.validateStringEnumValues(data); err != nil");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum_without_null_value.go"),
                 "if string(raw) == \"null\" {");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_enum_child.go"),
+                "func (o *OptionalEnumChild) validateStringEnumValues(data []byte) error",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "if value != \"allowed\"",
+                "decoded.Kind = o.Kind",
+                "o.Kind = decoded.Kind",
+                "o.Label = decoded.Label");
+
+        File allOfOutput = Files.createTempDirectory("go-inherited-enum").toFile();
+        allOfOutput.deleteOnExit();
+        final CodegenConfigurator allOfConfigurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml")
+                .setOutputDir(allOfOutput.getAbsolutePath());
+        new DefaultGenerator().opts(allOfConfigurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(allOfOutput.getAbsolutePath(), "model_final_item.go"),
+                "func (o *FinalItem) validateStringEnumValues(data []byte) error",
+                "Type json.RawMessage `json:\"type\"`",
+                "if raw := fields.Type; raw != nil",
+                "if value != \"FINAL\"",
+                "if err := o.validateStringEnumValues(data); err != nil",
+                "o.Type = decoded.Type");
     }
 
     @Test
