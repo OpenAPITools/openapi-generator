@@ -81,12 +81,12 @@ public class NameDto {
    */
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("snake_case")
+  @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  @JsonProperty("snake_case")
+  @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -123,12 +123,12 @@ public class NameDto {
    */
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("123Number")
+  @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   public @Nullable Integer get123Number() {
     return _123Number;
   }
 
-  @JsonProperty("123Number")
+  @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   public void set123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
   }

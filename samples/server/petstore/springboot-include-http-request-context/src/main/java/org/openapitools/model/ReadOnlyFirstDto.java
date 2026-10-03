@@ -42,12 +42,12 @@ public class ReadOnlyFirstDto {
    */
   
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getBar() {
     return bar;
   }
 
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }

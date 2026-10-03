@@ -42,12 +42,12 @@ public class HasOnlyReadOnlyDto {
    */
   
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getBar() {
     return bar;
   }
 
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -63,12 +63,12 @@ public class HasOnlyReadOnlyDto {
    */
   
   @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getFoo() {
     return foo;
   }
 
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }

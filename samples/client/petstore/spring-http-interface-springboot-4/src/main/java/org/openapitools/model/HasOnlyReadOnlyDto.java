@@ -44,12 +44,12 @@ public class HasOnlyReadOnlyDto {
    * @return bar
    */
   
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getBar() {
     return bar;
   }
 
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -64,12 +64,12 @@ public class HasOnlyReadOnlyDto {
    * @return foo
    */
   
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getFoo() {
     return foo;
   }
 
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }

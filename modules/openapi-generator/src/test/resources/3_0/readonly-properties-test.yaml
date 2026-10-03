@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: ReadOnly Properties Test
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      operationId: getUsers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          readOnly: true
+        username:
+          type: string
+          description: User's login name
+        email:
+          type: string
+          format: email
+          description: User's email address
+      required:
+        - username
+        - email
