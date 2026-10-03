@@ -13,6 +13,8 @@ package petstore
 import (
 	"encoding/json"
 	"time"
+	"fmt"
+	"strings"
 )
 
 // checks if the Order type satisfies the MappedNullable interface at compile time
@@ -27,6 +29,43 @@ type Order struct {
 	// Order Status
 	Status *string `json:"status,omitempty"`
 	Complete *bool `json:"complete,omitempty"`
+}
+
+func (o *Order) validateStringEnumValues(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	for fieldName, raw := range fields {
+		if !strings.EqualFold(fieldName, "status") {
+			continue
+		}
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "status")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "placed" && value != "approved" && value != "delivered" {
+			return fmt.Errorf("invalid value %q for property %s", value, "status")
+		}
+	}
+	return nil
+}
+
+type _Order Order
+
+func (o *Order) UnmarshalJSON(data []byte) error {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
+	var value _Order
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*o = Order(value)
+	return nil
 }
 
 // NewOrder instantiates a new Order object

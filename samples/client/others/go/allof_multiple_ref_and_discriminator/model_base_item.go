@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 // checks if the BaseItem type satisfies the MappedNullable interface at compile time
@@ -26,6 +27,29 @@ type BaseItem struct {
 }
 
 type _BaseItem BaseItem
+
+func (o *BaseItem) validateStringEnumValues(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	for fieldName, raw := range fields {
+		if !strings.EqualFold(fieldName, "type") {
+			continue
+		}
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "type")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "FINAL" {
+			return fmt.Errorf("invalid value %q for property %s", value, "type")
+		}
+	}
+	return nil
+}
 
 // NewBaseItem instantiates a new BaseItem object
 // This constructor will assign default values to properties that have it defined,
@@ -110,6 +134,9 @@ func (o BaseItem) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
