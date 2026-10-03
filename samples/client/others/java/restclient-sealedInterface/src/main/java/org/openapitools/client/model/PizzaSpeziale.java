@@ -111,6 +111,12 @@ public final class PizzaSpeziale extends Pizza implements Serializable {
   }
 
   @Override
+  public PizzaSpeziale pizzaSize(@jakarta.annotation.Nullable BigDecimal pizzaSize) {
+    this.setPizzaSize(pizzaSize);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
