@@ -17,6 +17,7 @@ import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -750,6 +751,38 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionTwo } from './OptionTwo'");
         TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
+    }
+
+    @DataProvider
+    public Object[][] nullableOneOfRuntimeCheckModes() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "nullableOneOfRuntimeCheckModes")
+    public void testNullablePrimitiveOneOfTypes(boolean withoutRuntimeChecks) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, withoutRuntimeChecks);
+        File output = generate(properties,
+                "src/test/resources/3_0/typescript-fetch/oneof-nullable-primitives.yaml");
+
+        for (String model : List.of("InlineNullableValue", "ReferencedNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = null | number | string;");
+        }
+
+        // Null must match exactly one branch, rather than none or both branches.
+        for (String model : List.of("NonNullableValue", "MultipleNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = number | string;");
+        }
+
+        Path arrayItems = Paths.get(output + (withoutRuntimeChecks
+                ? "/models/index.ts" : "/models/NullableArrayItems.ts"));
+        TestUtils.assertFileContains(arrayItems, "export type NullableArrayItems = Array<string | null> | number;");
+
+        Path values = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/Values.ts"));
+        TestUtils.assertFileContains(values, "array: Array<InlineNullableValue>;",
+                "map: { [key: string]: InlineNullableValue; };");
     }
 
     /**
