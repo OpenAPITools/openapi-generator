@@ -16,9 +16,9 @@ import javax.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
-* additional field as Enum
-* Values: ALLOWED,IN_PROGRESS,REJECTED
-*/
+ * additional field as Enum
+ * Values: ALLOWED,IN_PROGRESS,REJECTED
+ */
 enum class MultipartMixedStatus(@get:JsonValue val value: kotlin.String) {
 
     ALLOWED("ALLOWED"),
@@ -29,9 +29,8 @@ enum class MultipartMixedStatus(@get:JsonValue val value: kotlin.String) {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): MultipartMixedStatus {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'MultipartMixedStatus'")
+            return values().firstOrNull{ it.value == value }
+                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'MultipartMixedStatus'")
         }
     }
 }
-
