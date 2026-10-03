@@ -913,7 +913,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
                 .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
         additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+                .write(fragment.execute()
+                        .replaceAll("\\\\", Matcher.quoteReplacement("\\\\"))
+                        .replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
 
