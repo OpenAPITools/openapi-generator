@@ -32,11 +32,11 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
 import org.openapitools.codegen.languages.Oas31CompositionLowering;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.languages.Oas31KeywordScanner;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -715,7 +715,8 @@ public class CompositionNormalizationTest extends CppBoostBeastNormalizerTestSup
 
     @Test
     public void testCppBoostBeastNormalizerBareNullDefaultDisabled() {
-        io.swagger.v3.oas.models.OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        io.swagger.v3.oas.models.OpenAPI openAPI =
+                TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
         new TestNormalizer(
                 openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
 
@@ -731,7 +732,8 @@ public class CompositionNormalizationTest extends CppBoostBeastNormalizerTestSup
 
     @Test
     public void testCppBoostBeastNormalizerBareNullOptIn() {
-        io.swagger.v3.oas.models.OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        io.swagger.v3.oas.models.OpenAPI openAPI =
+                TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
         Map<String, String> inputRules = Map.of(
                 "NORMALIZE_31SPEC", "true",
                 "NORMALIZE_BARE_NULL_SCHEMAS", "true"
