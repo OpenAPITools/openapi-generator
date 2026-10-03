@@ -13,7 +13,6 @@ package petstore
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 // checks if the Pet type satisfies the MappedNullable interface at compile time
@@ -35,14 +34,13 @@ type Pet struct {
 type _Pet Pet
 
 func (o *Pet) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+		Status json.RawMessage `json:"status,omitempty" xml:"status"`
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "status") {
-			continue
-		}
+	if raw := fields.Status; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "status")
 		}

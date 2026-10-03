@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"bytes"
 	"fmt"
-	"strings"
 )
 
 // checks if the EnumTest type satisfies the MappedNullable interface at compile time
@@ -32,14 +31,15 @@ type EnumTest struct {
 type _EnumTest EnumTest
 
 func (o *EnumTest) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+		EnumString json.RawMessage `json:"enum_string,omitempty"`
+		EnumStringRequired json.RawMessage `json:"enum_string_required"`
+		OuterEnum json.RawMessage `json:"outerEnum,omitempty"`
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "enum_string") {
-			continue
-		}
+	if raw := fields.EnumString; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "enum_string")
 		}
@@ -51,10 +51,7 @@ func (o *EnumTest) validateStringEnumValues(data []byte) error {
 			return fmt.Errorf("invalid value %q for property %s", value, "enum_string")
 		}
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "enum_string_required") {
-			continue
-		}
+	if raw := fields.EnumStringRequired; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "enum_string_required")
 		}
@@ -66,10 +63,7 @@ func (o *EnumTest) validateStringEnumValues(data []byte) error {
 			return fmt.Errorf("invalid value %q for property %s", value, "enum_string_required")
 		}
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "outerEnum") {
-			continue
-		}
+	if raw := fields.OuterEnum; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "outerEnum")
 		}

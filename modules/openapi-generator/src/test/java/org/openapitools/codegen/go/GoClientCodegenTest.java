@@ -214,25 +214,49 @@ public class GoClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_known.go"),
                 "if value != \"known\"",
-                "strings.EqualFold(fieldName, \"kind\")",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "if raw := fields.Kind; raw != nil",
                 "if err := o.validateStringEnumValues(data); err != nil");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_other.go"),
                 "if value == \"known\"",
                 "if err := o.validateStringEnumValues(data); err != nil");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_other.go"),
                 "if value == \"known\" || value == \"a\\\"b\"",
-                "strings.EqualFold(fieldName, \"kind\")",
+                "Kind json.RawMessage `json:\"kind,omitempty\"`",
+                "value := _OptionalOther(*o)",
                 "func (o *OptionalOther) UnmarshalJSON(data []byte) error",
                 "if err := o.validateStringEnumValues(data); err != nil");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_any_other.go"),
                 "var value interface{}",
                 "if value == \"known\"");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum.go"),
-                "strings.EqualFold(fieldName, \"kind\")",
+                "if raw := fields.Kind; raw != nil",
                 "if string(raw) != \"null\" && (value != \"known\")");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_excluded_enum.go"),
                 "if value == \"known\" || value == nil",
                 "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum_without_null_value.go"),
+                "if string(raw) == \"null\" {");
+    }
+
+    @Test
+    public void testNullableStringEnumRefValidation() throws IOException {
+        File output = Files.createTempDirectory("go-nullable-enum-ref").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "model_enum_test_.go");
+        TestUtils.assertFileContains(model,
+                "if raw := fields.OuterEnum; raw != nil",
+                "if string(raw) != \"null\" && (value != \"placed\"",
+                "if raw := fields.OuterEnumDefaultValue; raw != nil",
+                "if string(raw) == \"null\" {");
     }
 
     @Test(description = "Verify form style query parameters explode an object instead of bracketing it")

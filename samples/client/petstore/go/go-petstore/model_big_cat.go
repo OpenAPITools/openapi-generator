@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"bytes"
 	"fmt"
-	"strings"
 )
 
 // checks if the BigCat type satisfies the MappedNullable interface at compile time
@@ -29,14 +28,13 @@ type BigCat struct {
 type _BigCat BigCat
 
 func (o *BigCat) validateStringEnumValues(data []byte) error {
-	var fields map[string]json.RawMessage
+	var fields struct {
+		Kind json.RawMessage `json:"kind,omitempty"`
+	}
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
-	for fieldName, raw := range fields {
-		if !strings.EqualFold(fieldName, "kind") {
-			continue
-		}
+	if raw := fields.Kind; raw != nil {
 		if string(raw) == "null" {
 			return fmt.Errorf("invalid null value for property %s", "kind")
 		}
