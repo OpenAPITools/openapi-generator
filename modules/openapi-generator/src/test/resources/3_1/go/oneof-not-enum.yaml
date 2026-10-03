@@ -34,6 +34,8 @@ components:
           type: string
           not:
             $ref: '#/components/schemas/ExcludedKinds'
+        label:
+          type: string
     AnyOther:
       type: object
       properties:
@@ -59,3 +61,23 @@ components:
           type: [string, 'null']
           not:
             enum: [known, null]
+    OptionalEnumParent:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum: [allowed]
+      discriminator:
+        propertyName: kind
+        mapping:
+          allowed: '#/components/schemas/OptionalEnumChild'
+    OptionalEnumChildFields:
+      type: object
+      properties:
+        label:
+          type: string
+    OptionalEnumChild:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/OptionalEnumParent'
+        - $ref: '#/components/schemas/OptionalEnumChildFields'
