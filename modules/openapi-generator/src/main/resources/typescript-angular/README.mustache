@@ -183,6 +183,20 @@ new Configuration({
 [parameter-locations-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations
 [style-values-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
 [@honoluluhenk/http-param-expander]: https://www.npmjs.com/package/@honoluluhenk/http-param-expander
+{{#useDotNotationForFormObjects}}
+
+## Form query object dot notation
+
+This client was generated with `useDotNotationForFormObjects=true`. For exploded
+form query objects, property names include the parameter name and all parent
+properties: `filter = { name: { contains: "Alice" } }` is serialized as
+`filter.name.contains=Alice`. Primitive arrays and sets retain repeated keys,
+for example `filter.ids=1&filter.ids=2`.
+
+This is a server-specific convention, not standard OpenAPI form serialization.
+The option defaults to false and does not affect non-exploded form parameters,
+JSON, deepObject, spaceDelimited or pipeDelimited parameters.
+{{/useDotNotationForFormObjects}}
 
 ## Deep-object query parameters
 
