@@ -325,7 +325,9 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
                 _query_params.append(
                     (
                         '{{baseName}}',
-                        {{paramName}}.strftime(
+                        {{paramName}}.isoformat()
+                        if self.api_client.configuration.datetime_format is None
+                        else {{paramName}}.strftime(
                             self.api_client.configuration.datetime_format
                         )
                     )

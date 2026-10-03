@@ -6758,7 +6758,9 @@ class FakeApi:
                 _query_params.append(
                     (
                         'date_time_query',
-                        date_time_query.strftime(
+                        date_time_query.isoformat()
+                        if self.api_client.configuration.datetime_format is None
+                        else date_time_query.strftime(
                             self.api_client.configuration.datetime_format
                         )
                     )

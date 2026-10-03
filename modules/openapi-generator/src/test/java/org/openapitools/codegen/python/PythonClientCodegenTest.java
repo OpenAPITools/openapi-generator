@@ -129,6 +129,40 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testDatetimeQueryParamDefaultsToIsoformat() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final String output = generateFiles(codegen, "src/test/resources/3_0/echo_api.yaml");
+
+        // strftime's %z renders +0000; RFC 3339 requires +00:00, which isoformat() emits.
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"),
+                "datetime_format: Optional[str]=None,");
+        assertFileContains(Paths.get(output, "openapi_client/api/query_api.py"),
+                "datetime_query.isoformat()",
+                "if self.api_client.configuration.datetime_format is None");
+        Assert.assertNull(codegen.additionalProperties().get(PythonClientCodegen.DATETIME_FORMAT));
+    }
+
+    @Test
+    public void testDatetimeFormatSetterIsStillHonoured() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setDatetimeFormat("%Y-%m-%dT%H:%M:%SZ");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/echo_api.yaml");
+
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"),
+                "datetime_format: Optional[str]=\"%Y-%m-%dT%H:%M:%SZ\",");
+    }
+
+    @Test
+    public void testDatetimeFormatOptionIsStillHonoured() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(PythonClientCodegen.DATETIME_FORMAT, "%Y-%m-%dT%H:%M:%SZ");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/echo_api.yaml");
+
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"),
+                "datetime_format: Optional[str]=\"%Y-%m-%dT%H:%M:%SZ\",");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();
