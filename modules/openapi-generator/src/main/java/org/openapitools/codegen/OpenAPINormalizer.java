@@ -171,6 +171,9 @@ public class OpenAPINormalizer {
     // when set to true, some more schema definitions are considered as `null` in 3.1 spec
     final String LOOSE_NULL_DEFINITIONS = "LOOSE_NULL_DEFINITIONS";
 
+    // when set to true, normalize bare null schemas to any-type nullable schemas in 3.1 spec
+    final String NORMALIZE_BARE_NULL_SCHEMAS = "NORMALIZE_BARE_NULL_SCHEMAS";
+
     // ============= end of rules =============
 
     private static final String ONE_OF_ANY_OF_ENUM_SIMPLIFIED = "Simplified {} with enum sub-schemas to single enum: {} since rule {} was enabled";
@@ -272,12 +275,14 @@ public class OpenAPINormalizer {
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(LOOSE_NULL_DEFINITIONS);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
+        ruleNames.add(NORMALIZE_BARE_NULL_SCHEMAS);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
         rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
         rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
+        rules.put(NORMALIZE_BARE_NULL_SCHEMAS, true);
 
         processRules(inputRules);
 
@@ -1249,13 +1254,13 @@ public class OpenAPINormalizer {
             return null;
         }
 
-        if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(schema)) {
+        if (getRule(NORMALIZE_31SPEC) && getRule(NORMALIZE_BARE_NULL_SCHEMAS) && isBareNullSchema(schema)) {
             List<Schema<?>> chain = collectResolutionChain(schema);
             return createAnyTypeNullableSchema(chain);
         }
 
         Schema normalized = normalizeSchema(schema, visitedSchemas);
-        if (getRule(NORMALIZE_31SPEC) && isBareNullSchema(normalized)) {
+        if (getRule(NORMALIZE_31SPEC) && getRule(NORMALIZE_BARE_NULL_SCHEMAS) && isBareNullSchema(normalized)) {
             List<Schema<?>> chain = collectResolutionChain(normalized);
             return createAnyTypeNullableSchema(chain);
         }
