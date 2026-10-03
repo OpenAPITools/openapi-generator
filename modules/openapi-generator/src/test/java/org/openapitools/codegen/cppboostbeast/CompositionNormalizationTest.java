@@ -32,6 +32,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
 import org.openapitools.codegen.languages.Oas31CompositionLowering;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.languages.Oas31KeywordScanner;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -710,5 +711,44 @@ public class CompositionNormalizationTest extends CppBoostBeastNormalizerTestSup
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertNotNull(codegen.fromModel("NumericEnums", wrapper),
                 "JSON-equal numeric and nested enum values must have a satisfiable intersection");
+    }
+
+    @Test
+    public void testCppBoostBeastNormalizerBareNullDefaultDisabled() {
+        io.swagger.v3.oas.models.OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        new TestNormalizer(
+                openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        Schema schema = (Schema) openAPI.getComponents().getSchemas().get("ParentBareNull");
+        Schema dyn = (Schema) schema.getProperties().get("dyn");
+        Assert.assertEquals(ModelUtils.getType(dyn), "null");
+
+        Schema dynList = (Schema) schema.getProperties().get("dynList");
+        Assert.assertEquals(dynList.getType(), "array");
+        Schema dynListItems = dynList.getItems();
+        Assert.assertEquals(ModelUtils.getType(dynListItems), "null");
+    }
+
+    @Test
+    public void testCppBoostBeastNormalizerBareNullOptIn() {
+        io.swagger.v3.oas.models.OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZE_31SPEC", "true",
+                "NORMALIZE_BARE_NULL_SCHEMAS", "true"
+        );
+        new TestNormalizer(openAPI, inputRules).normalize();
+
+        Schema schema = (Schema) openAPI.getComponents().getSchemas().get("ParentBareNull");
+        Schema dyn = (Schema) schema.getProperties().get("dyn");
+        Assert.assertNull(dyn.getType());
+        Assert.assertNull(dyn.getTypes());
+        Assert.assertTrue(dyn.getNullable());
+
+        Schema dynList = (Schema) schema.getProperties().get("dynList");
+        Assert.assertEquals(dynList.getType(), "array");
+        Schema dynListItems = dynList.getItems();
+        Assert.assertNull(dynListItems.getType());
+        Assert.assertNull(dynListItems.getTypes());
+        Assert.assertTrue(dynListItems.getNullable());
     }
 }
