@@ -60,8 +60,8 @@ export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PetRegionsResponseToJSON(json: any): PetRegionsResponse {
-    return PetRegionsResponseToJSONTyped(json, false);
+export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any {
+    return PetRegionsResponseToJSONTyped(value, false);
 }
 
 export function PetRegionsResponseToJSONTyped(value?: PetRegionsResponse | null, ignoreDiscriminator: boolean = false): any {

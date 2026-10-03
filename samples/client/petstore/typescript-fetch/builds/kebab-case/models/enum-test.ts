@@ -151,8 +151,8 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function EnumTestToJSON(json: any): EnumTest {
-    return EnumTestToJSONTyped(json, false);
+export function EnumTestToJSON(value?: EnumTest | null): any {
+    return EnumTestToJSONTyped(value, false);
 }
 
 export function EnumTestToJSONTyped(value?: EnumTest | null, ignoreDiscriminator: boolean = false): any {

@@ -109,8 +109,8 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
     };
 }
 
-export function OrderToJSON(json: any): Order {
-    return OrderToJSONTyped(json, false);
+export function OrderToJSON(value?: Order | null): any {
+    return OrderToJSONTyped(value, false);
 }
 
 export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {

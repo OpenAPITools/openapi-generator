@@ -141,8 +141,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 
-export function {{classname}}ToJSON(json: any): {{classname}} {
-    return {{classname}}ToJSONTyped(json, false);
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    return {{classname}}ToJSONTyped(value, false);
 }
 
 export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classname}}, {{#readOnlyVars}}'{{name}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{classname}}{{/hasReadOnly}} | null, ignoreDiscriminator: boolean = false): any {

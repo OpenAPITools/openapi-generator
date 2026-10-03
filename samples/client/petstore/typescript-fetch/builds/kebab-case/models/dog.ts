@@ -54,8 +54,8 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
     };
 }
 
-export function DogToJSON(json: any): Dog {
-    return DogToJSONTyped(json, false);
+export function DogToJSON(value?: Dog | null): any {
+    return DogToJSONTyped(value, false);
 }
 
 export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator: boolean = false): any {
