@@ -9,7 +9,6 @@
  */
 
 using System;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -22,15 +21,6 @@ namespace Org.OpenAPITools.Client
     public class DateOnlyNullableJsonConverter : JsonConverter<DateOnly?>
     {
         /// <summary>
-        /// The formats used to deserialize the date
-        /// </summary>
-        public static string[] Formats { get; } = {
-            "yyyy'-'MM'-'dd",
-            "yyyyMMdd"
-
-        };
-
-        /// <summary>
         /// Returns a DateOnly from the Json object
         /// </summary>
         /// <param name="reader"></param>
@@ -41,13 +31,7 @@ namespace Org.OpenAPITools.Client
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string value = reader.GetString()!;
-
-            foreach(string format in Formats)
-                if (DateOnly.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly result))
-                    return result;
-
-            throw new NotSupportedException();
+            return JsonSerializer.Deserialize<DateOnly>(ref reader, options);
         }
 
         /// <summary>
@@ -61,7 +45,7 @@ namespace Org.OpenAPITools.Client
             if (dateOnlyValue == null)
                 writer.WriteNullValue();
             else
-                writer.WriteStringValue(dateOnlyValue.Value.ToString("yyyy'-'MM'-'dd", CultureInfo.InvariantCulture));
+                JsonSerializer.Serialize(writer, dateOnlyValue.Value, options);
         }
     }
 }
