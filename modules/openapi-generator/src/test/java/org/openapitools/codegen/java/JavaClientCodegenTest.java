@@ -898,6 +898,38 @@ public class JavaClientCodegenTest {
                 .contains("jackson-databind-nullable");
     }
 
+    @Test
+    public void testRestAssuredWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JacksonObjectMapper.java")).content()
+                .contains("extends Jackson3Mapper")
+                .contains("import io.restassured.path.json.mapper.factory.Jackson3ObjectMapperFactory;")
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("com.fasterxml.jackson.databind")
+                .doesNotContain("Jackson2");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339JavaTimeModule.java")).doesNotExist();
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson</groupId>")
+                .contains("<rest-assured.version>6.0.1</rest-assured.version>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>")
+                .doesNotContain("jackson-datatype-jsr310");
+    }
+
     @Test(dataProvider = "springBoot4Jackson3Libraries")
     void supportsJackson3WithOpenApiNullableForSpringBoot4Libraries(String library) {
         String outputDir = newTempFolder().toString();
