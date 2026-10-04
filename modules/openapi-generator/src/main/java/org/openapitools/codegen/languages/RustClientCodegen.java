@@ -319,8 +319,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
                 else {
                     // In-placed type (primitive), because there is no mapping or ref for it.
-                    // use camelized `title` if present, otherwise use `type`
-                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    // use camelized `title` if present, otherwise use `type`, otherwise the property's base type
+                    String oneOfName = Optional.ofNullable(schema.getTitle())
+                            .or(() -> Optional.ofNullable(ModelUtils.getType(schema)))
+                            .orElse(oneOf.baseType);
                     oneOf.setName(toModelName(oneOfName));
                 }
             }
@@ -794,6 +796,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     param.dataType = "String";
                     param.isPrimitiveType = true;
                     param.isString = true;
+                }
+
+                // Free-form objects are `serde_json::Value`, which is not in `models`: mark them primitive, as
+                // DefaultCodegen.updateRequestBodyForObject does for bodies, so no `models::` prefix is added.
+                // Free-form maps (`additionalProperties`) are containers and keep their handling.
+                if (param.isFreeFormObject && !param.isContainer) {
+                    param.isPrimitiveType = true;
                 }
             }
 

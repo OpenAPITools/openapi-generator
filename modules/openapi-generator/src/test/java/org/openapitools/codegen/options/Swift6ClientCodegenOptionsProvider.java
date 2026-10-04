@@ -47,6 +47,7 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
     public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String HASHABLE_MODELS_VALUE = "true";
+    public static final String NONISOLATED_MODELS_VALUE = "true";
     public static final String IDENTIFIABLE_MODELS_VALUE = "true";
     public static final String USE_PARAMETER_CONVERTIBLE_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
@@ -102,6 +103,7 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                         GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .put(Swift6ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
                 .put(Swift6ClientCodegen.IDENTIFIABLE_MODELS, IDENTIFIABLE_MODELS_VALUE)
+                .put(Swift6ClientCodegen.NONISOLATED_MODELS, NONISOLATED_MODELS_VALUE)
                 .put(Swift6ClientCodegen.USE_PARAMETER_CONVERTIBLE, USE_PARAMETER_CONVERTIBLE_VALUE)
                 .put(Swift6ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift6ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")

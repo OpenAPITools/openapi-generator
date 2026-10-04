@@ -95,7 +95,10 @@ export class ObjectSerializer {
             let instance: {[index: string]: any} = {};
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
+                const value = Object.prototype.hasOwnProperty.call(data, attributeType.name)
+                    ? data[attributeType.name]
+                    : data[attributeType.baseName];
+                instance[attributeType.baseName] = ObjectSerializer.serialize(value, attributeType.type);
             }
             return instance;
         }

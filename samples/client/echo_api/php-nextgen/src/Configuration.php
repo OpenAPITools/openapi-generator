@@ -141,14 +141,18 @@ class Configuration
     /**
      * Sets API key
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $key              API key or token
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $key              API key or token
      *
      * @return $this
      */
-    public function setApiKey(string $apiKeyIdentifier, string $key): static
+    public function setApiKey(string $apiKeyIdentifier, ?string $key): static
     {
-        $this->apiKeys[$apiKeyIdentifier] = $key;
+        if ($key === null) {
+            unset($this->apiKeys[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeys[$apiKeyIdentifier] = $key;
+        }
         return $this;
     }
 
@@ -167,14 +171,18 @@ class Configuration
     /**
      * Sets the prefix for API key (e.g. Bearer)
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $prefix           API key prefix, e.g. Bearer
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $prefix           API key prefix, e.g. Bearer
      *
      * @return $this
      */
-    public function setApiKeyPrefix(string $apiKeyIdentifier, string $prefix): static
+    public function setApiKeyPrefix(string $apiKeyIdentifier, ?string $prefix): static
     {
-        $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        if ($prefix === null) {
+            unset($this->apiKeyPrefixes[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        }
         return $this;
     }
 

@@ -18,7 +18,7 @@ pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
 pydantic = ">= 2.11"
 typing-extensions = ">= 4.7.1"
-
+# Deprecated by Poetry; retained for compatibility with legacy Poetry 1 releases.
 [tool.poetry.dev-dependencies]
 pytest = ">= 9.0.3"
 pytest-cov = ">= 2.8.1"
