@@ -1,0 +1,224 @@
+openapi: 3.2.0
+info:
+  title: query operation test
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+    query:
+      operationId: queryPets
+      parameters:
+        - name: qs
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      PURGE:
+        operationId: purgePets
+        responses:
+          '204':
+            description: done
+      customMethod:
+        operationId: customPets
+        responses:
+          '204':
+            description: done
+      # HTTP token punctuation must be preserved verbatim (RFC 9110 tchar)
+      "CHECK&FETCH":
+        operationId: checkFetchPets
+        responses:
+          '204':
+            description: done
+      # `#` is valid tchar but would trigger interpolation inside a Ruby :"..." literal
+      "X#Y":
+        operationId: hashPets
+        responses:
+          '204':
+            description: done
+      # `|` is valid tchar but breaks markdown tables in generated docs
+      "A|B":
+        operationId: pipePets
+        responses:
+          '204':
+            description: done
+      # `$` is valid tchar but would interpolate inside a Kotlin "..." literal
+      "A$B":
+        operationId: dollarPets
+        responses:
+          '204':
+            description: done
+  /find:
+    # a standard-method op carrying `in: querystring`: libraries without
+    # querystring support must degrade it to an ordinary name=value param
+    get:
+      operationId: findPets
+      parameters:
+        - name: q
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /items:
+    # QUERY carrying a body; the querystring param is named `uri`, which
+    # collides with template-internal variables in several generators
+    query:
+      operationId: searchItems
+      parameters:
+        - name: uri
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: ok
+  /report:
+    additionalOperations:
+      # OkHttp 5 requires a body for REPORT/PROPPATCH just like for QUERY
+      REPORT:
+        operationId: reportItems
+        parameters:
+          # `localVariableQuery` collides with kotlin template-internal locals
+          - name: localVariableQuery
+            in: querystring
+            required: true
+            content:
+              application/x-www-form-urlencoded:
+                schema:
+                  type: string
+        responses:
+          '207':
+            description: multi
+      PROPPATCH:
+        operationId: propPatch
+        requestBody:
+          required: true
+          content:
+            application/xml:
+              schema:
+                type: string
+        responses:
+          '207':
+            description: multi
+  /collide:
+    # query params whose names collide with kotlin template-internal locals
+    # (localVariableBody/localVariableQuery/localVariableHeaders); the kotlin
+    # generator renames the parameters, the wire names stay unchanged
+    get:
+      operationId: collidePets
+      parameters:
+        - name: localVariableQuery
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: localVariableHeaders
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: localVariableBody
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  # `in: querystring` params named after template-internal locals. Each name
+  # needs its own operation (one querystring param per operation); PHP renames
+  # them to param_*/paramXxx, other generators keep the plain name.
+  /shadow-query:
+    get:
+      operationId: shadowQueryParam
+      parameters:
+        - name: query
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-headers:
+    get:
+      operationId: shadowHeadersParam
+      parameters:
+        - name: headers
+          in: querystring
+          required: false
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-multipart:
+    get:
+      operationId: shadowMultipartParam
+      parameters:
+        - name: multipart
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-uri:
+    get:
+      operationId: shadowUriParam
+      parameters:
+        - name: uri
+          in: querystring
+          required: false
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-body:
+    # a body parameter named after a template-internal local (`headers`)
+    post:
+      operationId: shadowBodyParam
+      requestBody:
+        required: true
+        x-codegen-request-body-name: headers
+        content:
+          application/json:
+            schema:
+                type: string
+      responses:
+        '200':
+          description: ok

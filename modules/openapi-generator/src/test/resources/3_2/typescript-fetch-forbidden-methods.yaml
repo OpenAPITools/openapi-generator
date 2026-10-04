@@ -1,0 +1,28 @@
+openapi: 3.2.0
+info:
+  title: fetch-forbidden method test
+  version: '1.0'
+paths:
+  /pets:
+    # TRACE is a native PathItem field and a fetch-forbidden method at the
+    # same time; the generated client must still warn about it
+    trace:
+      operationId: tracePets
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      # CONNECT has no native PathItem field, so it always arrives through
+      # additionalOperations while still counting as a standard method name
+      CONNECT:
+        operationId: connectPets
+        responses:
+          '204':
+            description: done
+      # TRACK is neither a PathItem field nor a standard name: the forbidden
+      # warning must fire for it as well
+      TRACK:
+        operationId: trackPets
+        responses:
+          '204':
+            description: done

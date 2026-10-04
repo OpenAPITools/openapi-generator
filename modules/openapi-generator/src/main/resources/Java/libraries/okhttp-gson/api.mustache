@@ -170,7 +170,7 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}
+            {{#isQueryStringParam}}{{! OpenAPI 3.2 in: querystring - the value is the whole (already encoded) query string }}localVarPath = localVarPath + (localVarPath.contains("?") ? "&" : "?") + {{paramName}};{{/isQueryStringParam}}{{^isQueryStringParam}}{{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}{{/isQueryStringParam}}
         }
 
         {{/queryParams}}

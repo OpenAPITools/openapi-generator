@@ -225,10 +225,10 @@ open class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (datetimeQuery != null) {
-                    put("datetime_query", listOf(parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
+                    put("datetime_query", listOf(this@QueryApi.parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
                 }
                 if (dateQuery != null) {
-                    put("date_query", listOf(parseDateToQueryString<java.time.LocalDate>(dateQuery)))
+                    put("date_query", listOf(this@QueryApi.parseDateToQueryString<java.time.LocalDate>(dateQuery)))
                 }
                 if (stringQuery != null) {
                     put("string_query", listOf(stringQuery.toString()))
@@ -400,22 +400,22 @@ open class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
             .apply {
                 if (queryObject != null) {
                     if (queryObject.id != null) {
-                        put("queryObject[id]", listOf(queryObject.id.toString()))
+                        put("query_object[id]", listOf(queryObject.id.toString()))
                     }
                     if (queryObject.name != null) {
-                        put("queryObject[name]", listOf(queryObject.name.toString()))
+                        put("query_object[name]", listOf(queryObject.name.toString()))
                     }
                     if (queryObject.category != null) {
-                        put("queryObject[category]", listOf(queryObject.category.toString()))
+                        put("query_object[category]", listOf(queryObject.category.toString()))
                     }
                     if (queryObject.photoUrls != null) {
-                        put("queryObject[photoUrls]", toMultiValue(queryObject.photoUrls.toList(), ""))
+                        put("query_object[photoUrls]", toMultiValue(queryObject.photoUrls.toList(), ""))
                     }
                     if (queryObject.tags != null) {
-                        put("queryObject[tags]", toMultiValue(queryObject.tags.toList(), ""))
+                        put("query_object[tags]", toMultiValue(queryObject.tags.toList(), ""))
                     }
                     if (queryObject.status != null) {
-                        put("queryObject[status]", listOf(queryObject.status.value))
+                        put("query_object[status]", listOf(queryObject.status.value))
                     }
                 }
             }

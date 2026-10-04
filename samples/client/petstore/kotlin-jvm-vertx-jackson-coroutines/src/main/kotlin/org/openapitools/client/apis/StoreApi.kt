@@ -61,18 +61,18 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun deleteOrder(orderId: kotlin.String) : Unit {
-        return deleteOrderWithHttpInfo(orderId = orderId).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return deleteOrderWithHttpInfo(orderId = orderId).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -89,8 +89,8 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteOrderWithHttpInfo(orderId: kotlin.String) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/store/order/{orderId}".replace("{"+"orderId"+"}", this.encodeURIComponent(orderId.toString()))))
 
         
         
@@ -100,11 +100,11 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
 
 
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -122,18 +122,18 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
-        return getInventoryWithHttpInfo().map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
+        return getInventoryWithHttpInfo().map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -150,29 +150,29 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getInventoryWithHttpInfo() : Future<ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/inventory"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/store/inventory"))
 
         
         
         
-        request.putHeader("Accept", "application/json")
+        localVariableRequest.putHeader("Accept", "application/json")
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -191,18 +191,18 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun getOrderById(orderId: kotlin.Long) : Order {
-        return getOrderByIdWithHttpInfo(orderId = orderId).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as Order
+        return getOrderByIdWithHttpInfo(orderId = orderId).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as Order
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -220,22 +220,22 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : Future<ApiResponse<Order?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/store/order/{orderId}".replace("{"+"orderId"+"}", this.encodeURIComponent(orderId.toString()))))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Order?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Order?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -254,18 +254,18 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun placeOrder(order: Order) : Order {
-        return placeOrderWithHttpInfo(order = order).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as Order
+        return placeOrderWithHttpInfo(order = order).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as Order
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -283,24 +283,24 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun placeOrderWithHttpInfo(order: Order) : Future<ApiResponse<Order?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/store/order"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/store/order"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
 
-        return request
-            .sendBuffer(responseBody(order))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(order))
             .map {
-                val apiResponse: ApiResponse<Order?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Order?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 

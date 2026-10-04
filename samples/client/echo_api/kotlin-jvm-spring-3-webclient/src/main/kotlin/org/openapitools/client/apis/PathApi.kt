@@ -67,7 +67,7 @@ open class PathApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -78,7 +78,7 @@ open class PathApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "path_string" to pathString,
             "path_integer" to pathInteger,
             "enum_nonref_string_path" to enumNonrefStringPath.value,
@@ -88,7 +88,7 @@ open class PathApi(client: WebClient) : ApiClient(client) {
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

@@ -73,7 +73,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -108,7 +108,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -143,7 +143,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -178,7 +178,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -212,7 +212,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -245,7 +245,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -266,9 +266,9 @@ import java.text.DateFormat
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
-                        ParametersBuilder().also {
-                        name?.apply { it.append("name", name) }
-                        status?.apply { it.append("status", status) }
+                        ParametersBuilder().also { localVariableBuilder ->
+                        name?.apply { localVariableBuilder.append("name", name) }
+                        status?.apply { localVariableBuilder.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -283,7 +283,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return urlEncodedFormRequest(
+            return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -322,7 +322,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return multipartFormRequest(
+            return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

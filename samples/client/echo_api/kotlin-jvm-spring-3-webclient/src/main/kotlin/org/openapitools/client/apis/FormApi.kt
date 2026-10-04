@@ -57,7 +57,7 @@ open class FormApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testFormIntegerBooleanStringWithHttpInfo(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testFormIntegerBooleanStringRequestConfig(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -71,13 +71,13 @@ open class FormApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/form/integer/boolean/string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -95,7 +95,7 @@ open class FormApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testFormOneofWithHttpInfo(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testFormOneofRequestConfig(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -112,13 +112,13 @@ open class FormApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/form/oneof",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

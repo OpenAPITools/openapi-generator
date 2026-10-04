@@ -133,7 +133,7 @@ open class DefaultApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return multipartFormRequest(
+        return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

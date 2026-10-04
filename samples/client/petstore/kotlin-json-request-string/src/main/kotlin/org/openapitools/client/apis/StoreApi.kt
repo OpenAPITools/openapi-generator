@@ -118,7 +118,7 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", this@StoreApi.encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -261,7 +261,7 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", this@StoreApi.encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

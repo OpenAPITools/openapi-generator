@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
@@ -386,6 +387,232 @@ public class DefaultCodegenTest {
         assertTrue(image.isFormParam);
         assertFalse(image.isBinary);
         assertFalse(image.isFile);
+    }
+
+    @Test
+    public void testAllOfFormRequiredMatchesByBaseName() {
+        // required matching must use the schema property name (baseName), not the
+        // normalized paramName: `user_id` -> `userId` used to silently drop the flag
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("query").required,
+                "allOf member required must apply");
+        assertTrue(paramsByBaseName.get("user_id").required,
+                "required must match the schema name even when paramName is normalized to userId");
+        assertFalse(paramsByBaseName.get("nickname").required,
+                "non-required allOf member stays optional");
+    }
+
+    @Test
+    public void testTopLevelRequiredDoesNotMaskAllOfMemberRequired() {
+        // sibling bug: a top-level `required` used to bypass the allOf-member
+        // required lists entirely
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-top").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("top").required,
+                "top-level required must apply");
+        assertTrue(paramsByBaseName.get("member_req").required,
+                "allOf member required must apply alongside top-level required");
+        assertFalse(paramsByBaseName.get("member_opt").required,
+                "non-required member stays optional");
+    }
+
+    @Test
+    public void testOneOfBranchesDoNotForceFormRequired() {
+        // a schema carrying both `properties`/`required` and oneOf branches is not
+        // caught by ModelUtils.isOneOf (which requires empty properties); without
+        // care the allOf-style required union would also force branch-only fields
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-mixed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("common").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("a").required,
+                "oneOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("b").required,
+                "oneOf branch required must not force the form parameter");
+    }
+
+    @Test
+    public void testSingleAllOfWrapperOwnRequired() {
+        // the single-allOf unwrapping keeps the wrapper schema in `original`; its
+        // own `required` list must still apply to member properties
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-wrapper").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("wrapper_req").required,
+                "allOf wrapper's own required must apply");
+        assertFalse(paramsByBaseName.get("wrapper_opt").required,
+                "non-required member stays optional");
+    }
+
+    @Test
+    public void testAllOfRefChainCollectsRequiredFromEveryLevel() {
+        // a 3-level allOf chain through $ref (ChainA -> ChainB -> ChainC): the
+        // required traversal must follow every hop, not just the first
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-chain").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("chain_a").required,
+                "required from the first $ref target must apply");
+        assertTrue(paramsByBaseName.get("chain_b").required,
+                "required from the second $ref hop must apply");
+        assertTrue(paramsByBaseName.get("chain_c").required,
+                "required from the third $ref hop must apply");
+        assertFalse(paramsByBaseName.get("chain_a_opt").required,
+                "non-required property stays optional");
+        assertFalse(paramsByBaseName.get("chain_c_opt").required,
+                "non-required property stays optional");
+    }
+
+    @Test
+    public void testOneOfInsideAllOfMemberDoesNotForceRequired() {
+        // an allOf member that itself mixes `properties`/`required` with oneOf
+        // branches: the member's own required applies, but required entries
+        // inside the alternative branches must not force the form parameters
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-member-oneof").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("c").required,
+                "the allOf member's own required must apply");
+        assertFalse(paramsByBaseName.get("x").required,
+                "oneOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("y").required,
+                "oneOf branch required must not force the form parameter");
+    }
+
+    @Test
+    public void testCircularAllOfRefsDoNotStackOverflow() {
+        // CycA allOf-> CycB and CycB allOf-> CycA form a $ref cycle; both the
+        // property collection and the required traversal must terminate via
+        // the visited-schema guard instead of recursing forever
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-cyclic").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("ca").required,
+                "required collected before the cycle closes must apply");
+        assertTrue(paramsByBaseName.get("cb").required,
+                "required collected before the cycle closes must apply");
+    }
+
+    @Test
+    public void testAllOfRefChainRequiredMatchesSnakeCaseBaseName() {
+        // snake_case names are normalized to camelCase paramNames (user_id ->
+        // userId); required matching must stay on the baseName even when the
+        // allOf member is reached through a $ref
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-ref-snake").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("user_id").required,
+                "required must match the schema name even when paramName is normalized to userId");
+        assertTrue(paramsByBaseName.get("plain_req").required,
+                "required must match the schema name even when paramName is normalized to plainReq");
+        assertFalse(paramsByBaseName.get("snake_opt").required,
+                "non-required property stays optional");
+    }
+
+    @Test
+    public void testComposedPropertyRequiredDoesNotLeak() {
+        // a property that is itself a composed schema with an inner `required`
+        // must not leak that entry into the enclosing form's required set
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-nested-composed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("outer_req").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("nested").required,
+                "the composed property itself is not in the required list");
+        // tripwire: the optional top-level `z` would wrongly turn required if
+        // the inner `required: [z]` leaked into the enclosing required set
+        assertFalse(paramsByBaseName.get("z").required,
+                "required inside a property's own composed schema must not leak outward");
+    }
+
+    @Test
+    public void testAnyOfBranchesDoNotForceFormRequired() {
+        // same mixed shape as testOneOfBranchesDoNotForceFormRequired but with
+        // anyOf: required entries inside the alternatives must stay optional
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-anyof-mixed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("common").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("p").required,
+                "anyOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("q").required,
+                "anyOf branch required must not force the form parameter");
     }
 
     @Test
@@ -2141,6 +2368,32 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testCallbackAdditionalOperationMethodCasingPreserved() {
+        // OpenAPI 3.2: additionalOperations keys are HTTP method names that must be
+        // sent verbatim - "customMethod" must not be normalized to CUSTOMMETHOD
+        DefaultCodegen codegen = new DefaultCodegen() {
+            @Override
+            public boolean supportsAdditionalOperations() {
+                return true;
+            }
+        };
+        codegen.setOpenAPI(TestUtils.createOpenAPI());
+
+        PathItem callbackPath = new PathItem();
+        callbackPath.addAdditionalOperation("customMethod",
+                new Operation().operationId("customCallback")
+                        .responses(new ApiResponses()
+                                .addApiResponse("200", new ApiResponse().description("ok"))));
+        Callback callback = new Callback();
+        callback.addPathItem("{$request.body#/callbackUrl}", callbackPath);
+
+        CodegenCallback cb = codegen.fromCallback("onEvent", callback, null);
+        Assert.assertEquals(cb.urls.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.get(0).httpMethod, "customMethod");
+    }
+
+    @Test
     public void testLeadingSlashIsAddedIfMissing() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
@@ -2554,6 +2807,44 @@ public class DefaultCodegenTest {
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
         return TestUtils.createCodegenModelWrapper(cm);
+    }
+
+    @Test
+    public void queryStringParameterSetsFlagAndLandsInQueryParams() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/query-operation.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation queryOp = openAPI.getPaths().get("/pets").getQuery();
+        assertNotNull(queryOp, "3.2 query operation should be bound by the parser");
+        CodegenOperation co = codegen.fromOperation("/pets", "query", queryOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam, "in: querystring parameter must set isQueryStringParam");
+        assertFalse(p.isQueryParam);
+        assertEquals(co.allParams.size(), 1);
+    }
+
+    @Test
+    public void queryStringParameterWithObjectContentBecomesString() {
+        // `in: querystring` describes the whole query string via `content`.
+        // Even when the content schema is an object/model, the codegen parameter
+        // must be a plain String (caller supplies the encoded query string), so
+        // no typed model is pulled into the operation signature.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/querystring-object.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation getOp = openAPI.getPaths().get("/pets").getGet();
+        CodegenOperation co = codegen.fromOperation("/pets", "get", getOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam);
+        assertEquals(p.dataType, "String");
+        assertFalse(p.isModel);
+        assertFalse(p.isMap);
     }
 
     @Test

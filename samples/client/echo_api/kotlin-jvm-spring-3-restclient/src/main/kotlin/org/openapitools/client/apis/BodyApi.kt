@@ -48,14 +48,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testBinaryGif(): java.io.File {
-        val result = testBinaryGifWithHttpInfo()
-        return result.body!!
+        val localVariableResult = testBinaryGifWithHttpInfo()
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testBinaryGifWithHttpInfo(): ResponseEntity<java.io.File> {
         val localVariableConfig = testBinaryGifRequestConfig()
-        return request<Unit, java.io.File>(
+        return this.request<Unit, java.io.File>(
             localVariableConfig
         )
     }
@@ -66,13 +66,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "image/gif"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/binary/gif",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -83,14 +83,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): kotlin.String {
-        val result = testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
-        return result.body!!
+        val localVariableResult = testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testBodyApplicationOctetstreamBinaryRequestConfig(body = body)
-        return request<java.io.File, kotlin.String>(
+        return this.request<java.io.File, kotlin.String>(
             localVariableConfig
         )
     }
@@ -102,13 +102,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/octet-stream"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -119,14 +119,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): kotlin.String {
-        val result = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
-        return result.body!!
+        val localVariableResult = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): ResponseEntity<kotlin.String> {
         val localVariableConfig = testBodyMultipartFormdataArrayOfBinaryRequestConfig(files = files)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -138,13 +138,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/array_of_binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -155,14 +155,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): kotlin.String {
-        val result = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
-        return result.body!!
+        val localVariableResult = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testBodyMultipartFormdataSingleBinaryRequestConfig(myFile = myFile)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -174,13 +174,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/single_binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -191,14 +191,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): kotlin.String {
-        val result = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
-        return result.body!!
+        val localVariableResult = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testEchoBodyFreeFormObjectResponseStringRequestConfig(body = body)
-        return request<kotlin.Any, kotlin.String>(
+        return this.request<kotlin.Any, kotlin.String>(
             localVariableConfig
         )
     }
@@ -210,13 +210,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/FreeFormObject/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -227,14 +227,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyPet(pet: Pet? = null): Pet {
-        val result = testEchoBodyPetWithHttpInfo(pet = pet)
-        return result.body!!
+        val localVariableResult = testEchoBodyPetWithHttpInfo(pet = pet)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyPetWithHttpInfo(pet: Pet? = null): ResponseEntity<Pet> {
         val localVariableConfig = testEchoBodyPetRequestConfig(pet = pet)
-        return request<Pet, Pet>(
+        return this.request<Pet, Pet>(
             localVariableConfig
         )
     }
@@ -246,13 +246,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Pet",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -263,14 +263,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyPetResponseString(pet: Pet? = null): kotlin.String {
-        val result = testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
-        return result.body!!
+        val localVariableResult = testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testEchoBodyPetResponseStringRequestConfig(pet = pet)
-        return request<Pet, kotlin.String>(
+        return this.request<Pet, kotlin.String>(
             localVariableConfig
         )
     }
@@ -282,13 +282,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Pet/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -299,14 +299,14 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyTagResponseString(tag: Tag? = null): kotlin.String {
-        val result = testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
-        return result.body!!
+        val localVariableResult = testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testEchoBodyTagResponseStringRequestConfig(tag = tag)
-        return request<Tag, kotlin.String>(
+        return this.request<Tag, kotlin.String>(
             localVariableConfig
         )
     }
@@ -318,13 +318,13 @@ open class BodyApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Tag/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

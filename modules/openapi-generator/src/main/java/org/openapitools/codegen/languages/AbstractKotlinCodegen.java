@@ -1140,8 +1140,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return "paramCallback";
         }
 
-        // should be the same as variable name
-        return toVariableName(name);
+        String paramName = toVariableName(name);
+        // Statement-level `val`/`var` locals declared in operation templates
+        // use the `localVar`/`localVariable` prefix (enforced by a template
+        // lint test; lambda bindings such as `it` are outside that rule).
+        // Compare the *normalized* name against that prefix so spelling
+        // variants (local_variable_body, LocalVariableBody, ...) cannot slip
+        // through and collide downstream, and future template locals are
+        // covered without maintaining a list.
+        if (paramName.startsWith("localVar")) {
+            return toVariableName("param_" + name);
+        }
+        return paramName;
     }
 
     @Override

@@ -1,0 +1,22 @@
+# NOTE: the single-quote sequence inside the path name below is intentional.
+# swagger-parser wraps path names in single quotes when building its
+# "unexpected attribute" location, so the path "/tasks'.'x-custom" makes it
+# emit a message with a second quoted segment nested inside the first:
+#   attribute paths.'/tasks'.'x-custom'.nested is unexpected
+# This is the regression fixture for issue #24212's "a nested quoted key must
+# not be reported as a dropped operation" test
+# (CodegenConfiguratorTest#shouldNotFalsePositiveOnNestedQuotedPathItemMemberTypo).
+# Do not "fix" the path name or remove the typo'd 'nested' member; both exist
+# specifically to trigger this parser message shape.
+openapi: 3.0.3
+info:
+  title: issue 24212 nested quoted-key false-positive regression test
+  version: '1.0'
+paths:
+  "/tasks'.'x-custom":
+    get:
+      operationId: getTask
+      responses:
+        '200':
+          description: OK
+    nested: true
