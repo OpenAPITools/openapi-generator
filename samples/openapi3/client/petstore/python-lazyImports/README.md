@@ -148,6 +148,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_json_header_content**](docs/FakeApi.md#test_json_header_content) | **POST** /test/json-header-content | 
 *FakeApi* | [**test_object_for_multipart_requests**](docs/FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
@@ -229,6 +230,7 @@ Class | Method | HTTP request | Description
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HeaderArg](docs/HeaderArg.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [HuntingDog](docs/HuntingDog.md)
  - [Info](docs/Info.md)
