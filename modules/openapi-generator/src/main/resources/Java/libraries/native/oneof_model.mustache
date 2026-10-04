@@ -437,7 +437,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%s%s", containerPrefix, _key, containerSuffix),
                 ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
           }
         }
@@ -447,7 +447,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             if ((({{{dataType}}})getActualInstance()).get(_key) != null) {
               joiner.add((({{{dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
-                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
+                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%s%s", containerPrefix, _key, containerSuffix))));
             }
           }
         }

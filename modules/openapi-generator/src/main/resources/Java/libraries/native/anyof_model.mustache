@@ -91,6 +91,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#anyOf}}
             // deserialize {{{dataType}}}
             try {
+                {{#isArray}}
+                if (!tree.isArray()) {
+                    throw new IllegalArgumentException("not a JSON array");
+                }
+                {{/isArray}}
                 {{#isContainer}}
 {{^useJackson3}}
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(new {{jacksonPackage}}.core.type.TypeReference<{{{dataType}}}>() {});
