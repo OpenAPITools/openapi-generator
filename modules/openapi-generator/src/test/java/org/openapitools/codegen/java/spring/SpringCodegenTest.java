@@ -10186,7 +10186,8 @@ public class SpringCodegenTest {
                         "private List<@NotNull @Size(max=50) String> listString",
                         "private List<@Min(0)Integer> listInteger",
                         "private List<@Size(max=10) String> listCode",
-                        "private List<@NotEmpty @Valid Stubb> listRef"
+                        "private List<@NotEmpty @Valid Stubb> listRef",
+                        "private List<@NotEmpty @Valid SampleModelListInlineInner>"
                 );
     }
 
@@ -10203,6 +10204,7 @@ public class SpringCodegenTest {
                 "private List<@NotNull @Valid Stubb> listSample",
                 "private List<@NotNull @Min(0)Integer> listInteger",
                 "private List<@NotNull @Size(max=10) String> listCode",
-                "private List<@NotNull @NotEmpty @Valid Stubb> listRef");
+                "private List<@NotNull @NotEmpty @Valid Stubb> listRef",
+                "private List<@NotNull @NotEmpty @Valid SampleModelListInlineInner>");
     }
 }
