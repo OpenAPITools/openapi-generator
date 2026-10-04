@@ -86,6 +86,7 @@ __all__ = [
     "FooGetDefaultResponse",
     "FormatTest",
     "HasOnlyReadOnly",
+    "HeaderArg",
     "HealthCheckResult",
     "HuntingDog",
     "Info",
@@ -225,6 +226,7 @@ from petstore_api.models.foo import Foo as Foo
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse as FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest as FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly as HasOnlyReadOnly
+from petstore_api.models.header_arg import HeaderArg as HeaderArg
 from petstore_api.models.health_check_result import HealthCheckResult as HealthCheckResult
 from petstore_api.models.hunting_dog import HuntingDog as HuntingDog
 from petstore_api.models.info import Info as Info

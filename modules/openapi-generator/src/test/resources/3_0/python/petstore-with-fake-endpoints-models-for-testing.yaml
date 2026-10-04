@@ -1588,6 +1588,28 @@ paths:
                   type: integer
               required:
                 - file
+  /test/json-header-content:
+    post:
+      tags:
+        - fake
+      operationId: test-json-header-content
+      parameters:
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Plain-Arg
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+
   /import_test/return_datetime:
     get:
       tags:
@@ -2946,3 +2968,10 @@ components:
           type: string
           format: uuid
           pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+    HeaderArg:
+      type: object
+      properties:
+        path:
+          type: string
+        recursive:
+          type: boolean

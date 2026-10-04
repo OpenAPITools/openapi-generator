@@ -53,7 +53,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +82,31 @@ public class SpringCodegenTest {
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
                 .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+    }
+
+    @Test
+    public void testComplexDefaultsGenerateValidJava() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24993.yaml", SPRING_BOOT);
+
+        validateJavaSourceFiles(List.copyOf(files.values()));
+        assertThat(files).containsKey("ComplexDefaults.java");
+        assertThat(files.get("ComplexDefaults.java").toPath())
+                .content()
+                .contains(
+                        "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
+                                + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
+                        "new ArrayList<>(Arrays.asList(10l, 20l))",
+                        "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
+                        "new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE)",
+                        "new ComplexDefaultsObjectAnyOf().name(\"any-of\").count(5).status(Status.INACTIVE)",
+                        "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
+                        "private org.springframework.core.io.Resource binaryValue = new org.springframework.core.io.ByteArrayResource")
+                .containsPattern("new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h2\\\"\\s*,\\s*\\\"Header 2\\\"\\s*\\)\\s*\\)\\s*\\)\\s*\\)")
+                .doesNotContain("Arrays.asList(, )", "= {", "[B@");
     }
 
     @Test
@@ -10152,4 +10176,31 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    void listItems_annotated_with_x_field_extra_annotation() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true"));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java"))
+                .fileContains(
+                        "private List<@NotNull @Size(max=50) String> listString",
+                        "private List<@Min(0)Integer> listInteger",
+                        "private List<@Size(max=10) String> listCode"
+                );
+    }
+
+    @Test
+    void listItems_with_additionalItemsAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true",
+                        ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull"
+                        ));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java")).fileContains(
+                "private List<@NotNull @Size(max=50) String> listString",
+                "private List<@Size(max=50) String> listStringNullable",
+                "private List<@NotNull @Valid Stubb> listSample",
+                "private List<@NotNull @Min(0)Integer> listInteger",
+                "private List<@NotNull @Size(max=10) String> listCode");
+    }
 }

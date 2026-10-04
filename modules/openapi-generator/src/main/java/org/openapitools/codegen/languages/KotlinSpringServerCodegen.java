@@ -101,6 +101,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
+    public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
@@ -223,6 +224,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useSpringBoot4 = false;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Getter @Setter
+    protected String clientRegistrationId = null;
     @Setter
     @Getter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -385,6 +388,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         + "deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to "
                         + "false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.", false);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue("false"));
+
         addOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC, "empty map");
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
@@ -425,6 +430,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             declarativeInterfaceReactiveModeOpt.addEnum(mode.name(), mode.getDescription());
         }
         cliOptions.add(declarativeInterfaceReactiveModeOpt);
+
+        cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=" + SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY + " and useSpringBoot4=true (Spring Security 7)."));
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -601,6 +608,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_SPRING_BOOT4)) {
             this.setUseSpringBoot4(convertPropertyToBoolean(USE_SPRING_BOOT4));
         }
+        if (additionalProperties.containsKey(CLIENT_REGISTRATION_ID)) {
+            this.setClientRegistrationId(additionalProperties.get(CLIENT_REGISTRATION_ID).toString());
+        }
         if (additionalProperties.containsKey(USE_SPRING_BUILT_IN_VALIDATION)) {
             this.setUseSpringBuiltInValidation(convertPropertyToBoolean(USE_SPRING_BUILT_IN_VALIDATION));
             writePropertyBack(USE_SPRING_BUILT_IN_VALIDATION, useSpringBuiltInValidation);
@@ -754,6 +764,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
 
+        
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE)) {
+            setEnumUnknownDefaultCase(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString()));
+        }
+
         if (additionalProperties.containsKey(REACTIVE)) {
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
@@ -804,6 +819,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             writePropertyBack(INTERFACE_ONLY, interfaceOnly);
             writePropertyBack(USE_FEIGN_CLIENT, useFeignClient);
             writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
+        }
+        if (clientRegistrationId != null && !clientRegistrationId.isEmpty()) {
+            if (!SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+                throw new IllegalArgumentException(CLIENT_REGISTRATION_ID + " is only supported with the " + SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY + " library");
+            }
+            if (!isUseSpringBoot4()) {
+                throw new IllegalArgumentException(CLIENT_REGISTRATION_ID + " requires " + USE_SPRING_BOOT4 + "=true because @ClientRegistrationId is provided by Spring Security 7");
+            }
+            additionalProperties.put(CLIENT_REGISTRATION_ID, clientRegistrationId);
+        } else {
+            additionalProperties.remove(CLIENT_REGISTRATION_ID);
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(REACTIVE_MULTIPART, reactive && SPRING_BOOT.equals(library));

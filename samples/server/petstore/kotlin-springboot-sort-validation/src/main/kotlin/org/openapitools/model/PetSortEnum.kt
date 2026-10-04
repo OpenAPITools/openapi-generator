@@ -15,9 +15,9 @@ import jakarta.validation.constraints.Size
 import jakarta.validation.Valid
 
 /**
-* 
-* Values: nameCommaAsc,nameCommaDesc,idCommaAsc,idCommaDesc
-*/
+ * 
+ * Values: nameCommaAsc,nameCommaDesc,idCommaAsc,idCommaDesc
+ */
 enum class PetSortEnum(@get:JsonValue val value: kotlin.String) : java.io.Serializable {
 
     nameCommaAsc("name,asc"),
@@ -29,9 +29,8 @@ enum class PetSortEnum(@get:JsonValue val value: kotlin.String) : java.io.Serial
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): PetSortEnum {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'PetSortEnum'")
+            return values().firstOrNull{ it.value == value }
+                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'PetSortEnum'")
         }
     }
 }
-
