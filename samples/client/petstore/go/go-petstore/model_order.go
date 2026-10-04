@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -27,6 +28,42 @@ type Order struct {
 	// Order Status
 	Status *string `json:"status,omitempty"`
 	Complete *bool `json:"complete,omitempty"`
+}
+
+func (o *Order) validateStringEnumValues(data []byte) error {
+	var fields struct {
+		Status json.RawMessage `json:"status,omitempty"`
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw := fields.Status; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "status")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "placed" && value != "approved" && value != "delivered" {
+			return fmt.Errorf("invalid value %q for property %s", value, "status")
+		}
+	}
+	return nil
+}
+
+type _Order Order
+
+func (o *Order) UnmarshalJSON(data []byte) error {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
+	value := _Order(*o)
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*o = Order(value)
+	return nil
 }
 
 // NewOrder instantiates a new Order object

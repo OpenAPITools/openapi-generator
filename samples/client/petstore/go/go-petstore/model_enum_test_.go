@@ -30,6 +30,54 @@ type EnumTest struct {
 
 type _EnumTest EnumTest
 
+func (o *EnumTest) validateStringEnumValues(data []byte) error {
+	var fields struct {
+		EnumString json.RawMessage `json:"enum_string,omitempty"`
+		EnumStringRequired json.RawMessage `json:"enum_string_required"`
+		OuterEnum json.RawMessage `json:"outerEnum,omitempty"`
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw := fields.EnumString; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "enum_string")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "UPPER" && value != "lower" && value != "" {
+			return fmt.Errorf("invalid value %q for property %s", value, "enum_string")
+		}
+	}
+	if raw := fields.EnumStringRequired; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "enum_string_required")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "UPPER" && value != "lower" && value != "" {
+			return fmt.Errorf("invalid value %q for property %s", value, "enum_string_required")
+		}
+	}
+	if raw := fields.OuterEnum; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "outerEnum")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "placed" && value != "approved" && value != "delivered" {
+			return fmt.Errorf("invalid value %q for property %s", value, "outerEnum")
+		}
+	}
+	return nil
+}
+
 // NewEnumTest instantiates a new EnumTest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -227,6 +275,9 @@ func (o EnumTest) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *EnumTest) UnmarshalJSON(data []byte) (err error) {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.

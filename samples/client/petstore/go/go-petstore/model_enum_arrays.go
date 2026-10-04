@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the EnumArrays type satisfies the MappedNullable interface at compile time
@@ -21,6 +22,42 @@ var _ MappedNullable = &EnumArrays{}
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
 	ArrayEnum []string `json:"array_enum,omitempty"`
+}
+
+func (o *EnumArrays) validateStringEnumValues(data []byte) error {
+	var fields struct {
+		JustSymbol json.RawMessage `json:"just_symbol,omitempty"`
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw := fields.JustSymbol; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "just_symbol")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != ">=" && value != "$" {
+			return fmt.Errorf("invalid value %q for property %s", value, "just_symbol")
+		}
+	}
+	return nil
+}
+
+type _EnumArrays EnumArrays
+
+func (o *EnumArrays) UnmarshalJSON(data []byte) error {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
+	value := _EnumArrays(*o)
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*o = EnumArrays(value)
+	return nil
 }
 
 // NewEnumArrays instantiates a new EnumArrays object

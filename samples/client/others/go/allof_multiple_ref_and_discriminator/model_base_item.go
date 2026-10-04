@@ -27,6 +27,28 @@ type BaseItem struct {
 
 type _BaseItem BaseItem
 
+func (o *BaseItem) validateStringEnumValues(data []byte) error {
+	var fields struct {
+		Type json.RawMessage `json:"type"`
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw := fields.Type; raw != nil {
+		if string(raw) == "null" {
+			return fmt.Errorf("invalid null value for property %s", "type")
+		}
+		var value string
+		if err := json.Unmarshal(raw, &value); err != nil {
+			return err
+		}
+		if value != "FINAL" {
+			return fmt.Errorf("invalid value %q for property %s", value, "type")
+		}
+	}
+	return nil
+}
+
 // NewBaseItem instantiates a new BaseItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -110,6 +132,9 @@ func (o BaseItem) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {
+	if err := o.validateStringEnumValues(data); err != nil {
+		return err
+	}
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
