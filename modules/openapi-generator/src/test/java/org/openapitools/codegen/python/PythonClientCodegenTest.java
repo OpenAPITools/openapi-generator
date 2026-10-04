@@ -217,6 +217,29 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
     }
 
+    @Test(description = "sibling properties that share a model are not treated as a cycle (#25047)")
+    public void testExampleValueForSiblingsSharingAModel() {
+        final Schema shared = new ObjectSchema().addProperty("prop", new StringSchema());
+        final Schema holder = new ObjectSchema()
+                .addProperty("prop1", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop2", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop3", new Schema<>().$ref("#/components/schemas/Shared"));
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Shared", shared)
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertFalse(example.matches("(?s).*=\\s*,.*"), "empty example value in:\n" + example);
+        for (String prop : Arrays.asList("prop1", "prop2", "prop3")) {
+            Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
+                    prop + " missing its example in:\n" + example);
+        }
+    }
+
     @Test(description = "test single quotes escape")
     public void testSingleQuotes() {
         final PythonClientCodegen codegen = new PythonClientCodegen();
