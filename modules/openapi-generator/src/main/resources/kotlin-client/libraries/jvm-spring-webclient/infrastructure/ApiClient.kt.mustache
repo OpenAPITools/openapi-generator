@@ -66,6 +66,21 @@ import reactor.core.publisher.Mono
             }
         }
     }
+
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val BASE_URL: String = "{{{basePath}}}"
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val BASE_PATH_WITHOUT_HOST: String = "{{{basePathWithoutHost}}}"
+    }
+}
+
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun createUrlWithBasePath(baseUrl: String, basePath: String = ApiClient.BASE_PATH_WITHOUT_HOST): String {
+    if(baseUrl.endsWith("/") && basePath.startsWith("/")) {
+        return baseUrl.dropLast(1) + basePath
+    } else if(!baseUrl.endsWith("/") && !basePath.startsWith("/")) {
+        return "$baseUrl/$basePath"
+    } else {
+        return baseUrl + basePath;
+    }
 }
 
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T: Any> parseDateToQueryString(value : T): String {
@@ -84,3 +99,4 @@ import reactor.core.publisher.Mono
         return value.toString()
         {{/toJson}}
     }
+
