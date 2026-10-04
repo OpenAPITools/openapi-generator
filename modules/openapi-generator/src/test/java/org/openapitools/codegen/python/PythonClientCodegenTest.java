@@ -1703,6 +1703,8 @@ public class PythonClientCodegenTest {
 
         Path model = Paths.get(output.getAbsolutePath(), "openapi_client", "models", "example.py");
         TestUtils.assertFileContains(model,
+            "map: Optional[Dict[str, StrictStr]] = None",
+            "model_map: Optional[Dict[str, Item]] = Field(default=None, alias=\"modelMap\")",
             "\"map\": obj.get(\"map\")",
             "\"typedMap\": obj.get(\"typedMap\")",
             "(_k, Item.from_dict(_v))");

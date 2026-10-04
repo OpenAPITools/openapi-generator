@@ -5385,7 +5385,7 @@ public class DefaultCodegenTest {
         for (String name : List.of("map", "typedMap", "modelMap")) {
             CodegenProperty property = model.getVars().stream().filter(v -> v.baseName.equals(name)).findFirst().orElseThrow();
             assertTrue(property.isContainer, name);
-            assertEquals(property.containerType, "map", name);
+            assertEquals("map", property.containerType, name);
             assertTrue(property.isMap, name);
         }
     }
