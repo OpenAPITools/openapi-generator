@@ -47,7 +47,12 @@ public class NestedArrayWithDefaultValues {
   public static final String SERIALIZED_NAME_NESTED_ARRAY = "nestedArray";
   @JsonbProperty(SERIALIZED_NAME_NESTED_ARRAY)
   @javax.annotation.Nullable
-  private List<List<String>> nestedArray;
+  private List<List<String>> nestedArray = new ArrayList<>(Arrays.asList(
+        new ArrayList<>(Arrays.asList("h1", "Header 1")),
+        new ArrayList<>(Arrays.asList("h2", "Header 2")),
+        new ArrayList<>(Arrays.asList("h3", "Header 3")),
+        new ArrayList<>(Arrays.asList("h4", "Header 4"))
+      ));
 
   public NestedArrayWithDefaultValues() {
   }
@@ -59,7 +64,12 @@ public class NestedArrayWithDefaultValues {
 
   public NestedArrayWithDefaultValues addNestedArrayItem(List<String> nestedArrayItem) {
     if (this.nestedArray == null) {
-      this.nestedArray = new ArrayList<>();
+      this.nestedArray = new ArrayList<>(Arrays.asList(
+        new ArrayList<>(Arrays.asList("h1", "Header 1")),
+        new ArrayList<>(Arrays.asList("h2", "Header 2")),
+        new ArrayList<>(Arrays.asList("h3", "Header 3")),
+        new ArrayList<>(Arrays.asList("h4", "Header 4"))
+      ));
     }
     this.nestedArray.add(nestedArrayItem);
     return this;
