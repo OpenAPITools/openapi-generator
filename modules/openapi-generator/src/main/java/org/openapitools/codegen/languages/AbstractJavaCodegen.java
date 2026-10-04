@@ -1248,9 +1248,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "";
         }
 
-        if (items.get$ref() != null) {
+        String itemsRef = items.get$ref();
+        if (itemsRef == null && items.getAllOf() != null && items.getAllOf().size() == 1) {
+            // $ref with siblings is wrapped by the normalizer into allOf: [$ref]
+            // -> ensure that @Valid is used below
+            itemsRef = items.getAllOf().get(0).get$ref();
+        }
+        if (itemsRef != null) {
             Map<String, Schema> schemas = this.openAPI.getComponents().getSchemas();
-            String ref = ModelUtils.getSimpleRef(items.get$ref());
+            String ref = ModelUtils.getSimpleRef(itemsRef);
             if (ref != null) {
                 Schema<?> schema = schemas.get(ref);
                 // objects and oneOf/anyOf/allOf models cascade validation into their elements;
