@@ -24,6 +24,12 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Known'
         - $ref: '#/components/schemas/Other'
+    OrdinaryEnum:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [known]
     ExcludedKinds:
       type: string
       enum: [known, 'a"b']
@@ -61,6 +67,10 @@ components:
           type: [string, 'null']
           not:
             enum: [known, null]
+    EnumNullUnion:
+      oneOf:
+        - $ref: '#/components/schemas/NullableEnum'
+        - $ref: '#/components/schemas/NullableExcludedEnum'
     OptionalEnumParent:
       type: object
       properties:
@@ -83,3 +93,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/OptionalEnumParent'
         - $ref: '#/components/schemas/OptionalEnumChildFields'
+    OptionalEnumOther:
+      type: object
+      properties:
+        kind:
+          type: string
+          not:
+            enum: [allowed]
+    OptionalEnumUnion:
+      oneOf:
+        - $ref: '#/components/schemas/OptionalEnumChild'
+        - $ref: '#/components/schemas/OptionalEnumOther'

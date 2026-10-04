@@ -560,55 +560,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
             }
 
-            boolean hasStringEnumValidation = false;
-            boolean hasInheritedStringEnumValidation = false;
-            if (generateUnmarshalJSON) {
-                Map<String, CodegenProperty> effectiveVars = new LinkedHashMap<>();
-                for (CodegenProperty param : model.parent == null ? model.vars : model.allVars) {
-                    effectiveVars.put(param.baseName, param);
-                }
-                Map<String, CodegenProperty> ownVars = new HashMap<>();
-                for (CodegenProperty param : model.vars) {
-                    ownVars.put(param.baseName, param);
-                }
-                List<CodegenProperty> validationVars = new ArrayList<>();
-                for (CodegenProperty param : effectiveVars.values()) {
-                    String allowed = stringEnumComparison(param, false);
-                    CodegenProperty not = param.getComposedSchemas() == null ? null : param.getComposedSchemas().getNot();
-                    String excluded = stringEnumComparison(not, true);
-                    if (allowed != null || excluded != null) {
-                        hasStringEnumValidation = true;
-                        hasInheritedStringEnumValidation |= !ownVars.containsKey(param.baseName);
-                        if (ownVars.containsKey(param.baseName) && ownVars.get(param.baseName).vendorExtensions.containsKey("x-go-datatag")
-                                && !param.vendorExtensions.containsKey("x-go-datatag")) {
-                            param.vendorExtensions.put("x-go-datatag", ownVars.get(param.baseName).vendorExtensions.get("x-go-datatag"));
-                        }
-                        validationVars.add(param);
-                        param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
-                        if (allowed != null) {
-                            param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
-                            if (param.isNullable && (param.isEnumRef || ((List<?>) param.allowableValues.get("values")).contains(null))) {
-                                param.vendorExtensions.put("x-go-allowed-string-enum-null", true);
-                            }
-                        }
-                        if (excluded != null) {
-                            param.vendorExtensions.put("x-go-excluded-string-enum-comparison", excluded);
-                        }
-                    }
-                }
-                if (hasStringEnumValidation) {
-                    model.vendorExtensions.put("x-go-has-string-enum-validation", true);
-                    model.vendorExtensions.put("x-go-string-enum-validation-vars", validationVars);
-                }
-                if (hasInheritedStringEnumValidation && !model.isAdditionalPropertiesTrue) {
-                    for (CodegenProperty param : effectiveVars.values()) {
-                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName + (param.required ? "" : ",omitempty")).toString());
-                    }
-                    model.vendorExtensions.put("x-go-inherited-string-enum-validation", true);
-                    model.vendorExtensions.put("x-go-flattened-vars", new ArrayList<>(effectiveVars.values()));
-                }
-            }
-
             // additional import for different cases
             boolean addedFmtImport = false;
 
@@ -641,21 +592,127 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
             }
 
-            if (hasStringEnumValidation && !addedFmtImport && !model.hasRequired) {
-                imports.add(createMapping("import", "fmt"));
-            }
-
             // additionalProperties: true and parent
             if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMap)) {
                 imports.add(createMapping("import", "reflect"));
                 imports.add(createMapping("import", "strings"));
             }
+        }
+        return objs;
+    }
 
-            if (hasStringEnumValidation) {
-                imports.sort(Comparator.comparing(i -> i.get("import")));
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (!generateUnmarshalJSON) {
+            return objs;
+        }
+
+        // An allowed enum only needs strict validation when a oneOf sibling excludes values for that property.
+        Map<CodegenModel, Set<String>> allowedOneOfProperties = new IdentityHashMap<>();
+        for (ModelsMap models : objs.values()) {
+            for (ModelMap modelMap : models.getModels()) {
+                CodegenModel union = modelMap.getModel();
+                for (String excludedMemberName : union.oneOf) {
+                    CodegenModel excludedMember = ModelUtils.getModelByName(excludedMemberName, objs);
+                    if (excludedMember == null) {
+                        continue;
+                    }
+                    for (CodegenProperty excludedProperty : effectiveVars(excludedMember).values()) {
+                        CodegenProperty not = excludedProperty.getComposedSchemas() == null
+                                ? null : excludedProperty.getComposedSchemas().getNot();
+                        if (stringEnumComparison(not, true) == null) {
+                            continue;
+                        }
+                        for (String allowedMemberName : union.oneOf) {
+                            if (allowedMemberName.equals(excludedMemberName)) {
+                                continue;
+                            }
+                            CodegenModel allowedMember = ModelUtils.getModelByName(allowedMemberName, objs);
+                            if (allowedMember == null) {
+                                continue;
+                            }
+                            CodegenProperty allowedProperty = effectiveVars(allowedMember).get(excludedProperty.baseName);
+                            if (stringEnumComparison(allowedProperty, false) != null) {
+                                allowedOneOfProperties.computeIfAbsent(allowedMember, ignored -> new HashSet<>())
+                                        .add(excludedProperty.baseName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (ModelsMap models : objs.values()) {
+            for (ModelMap modelMap : models.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.isEnum || hasOneOf(model) || hasAnyOf(model)) {
+                    continue;
+                }
+                Map<String, CodegenProperty> effectiveVars = effectiveVars(model);
+                Map<String, CodegenProperty> ownVars = new HashMap<>();
+                for (CodegenProperty param : model.vars) {
+                    ownVars.put(param.baseName, param);
+                }
+                List<CodegenProperty> validationVars = new ArrayList<>();
+                boolean hasInheritedStringEnumValidation = false;
+                for (CodegenProperty param : effectiveVars.values()) {
+                    String allowed = allowedOneOfProperties.getOrDefault(model, Collections.emptySet()).contains(param.baseName)
+                            ? stringEnumComparison(param, false) : null;
+                    CodegenProperty not = param.getComposedSchemas() == null ? null : param.getComposedSchemas().getNot();
+                    String excluded = stringEnumComparison(not, true);
+                    if (allowed != null || excluded != null) {
+                        hasInheritedStringEnumValidation |= !ownVars.containsKey(param.baseName);
+                        if (ownVars.containsKey(param.baseName) && ownVars.get(param.baseName).vendorExtensions.containsKey("x-go-datatag")
+                                && !param.vendorExtensions.containsKey("x-go-datatag")) {
+                            param.vendorExtensions.put("x-go-datatag", ownVars.get(param.baseName).vendorExtensions.get("x-go-datatag"));
+                        }
+                        validationVars.add(param);
+                        param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
+                        if (allowed != null) {
+                            param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
+                            if (param.isNullable && (param.isEnumRef || ((List<?>) param.allowableValues.get("values")).contains(null))) {
+                                param.vendorExtensions.put("x-go-allowed-string-enum-null", true);
+                            }
+                        }
+                        if (excluded != null) {
+                            param.vendorExtensions.put("x-go-excluded-string-enum-comparison", excluded);
+                        }
+                    }
+                }
+                if (!validationVars.isEmpty()) {
+                    model.vendorExtensions.put("x-go-has-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-string-enum-validation-vars", validationVars);
+                    List<Map<String, String>> imports = models.getImports();
+                    if (imports.stream().noneMatch(i -> "fmt".equals(i.get("import")))) {
+                        imports.add(createMapping("import", "fmt"));
+                    }
+                    if (model.hasRequired && validationVars.stream().anyMatch(param -> param.required)) {
+                        model.vendorExtensions.put("x-go-enum-required-case-fold", true);
+                        if (imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
+                            imports.add(createMapping("import", "strings"));
+                        }
+                    }
+                    imports.sort(Comparator.comparing(i -> i.get("import")));
+                }
+                if (hasInheritedStringEnumValidation && !model.isAdditionalPropertiesTrue) {
+                    for (CodegenProperty param : effectiveVars.values()) {
+                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName + (param.required ? "" : ",omitempty")).toString());
+                    }
+                    model.vendorExtensions.put("x-go-inherited-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-flattened-vars", new ArrayList<>(effectiveVars.values()));
+                }
             }
         }
         return objs;
+    }
+
+    private static Map<String, CodegenProperty> effectiveVars(CodegenModel model) {
+        Map<String, CodegenProperty> vars = new LinkedHashMap<>();
+        for (CodegenProperty param : model.parent == null ? model.vars : model.allVars) {
+            vars.put(param.baseName, param);
+        }
+        return vars;
     }
 
     private static String stringEnumComparison(CodegenProperty property, boolean excluded) {

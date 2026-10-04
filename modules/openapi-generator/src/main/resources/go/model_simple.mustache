@@ -71,7 +71,7 @@ func (o *{{{classname}}}) validateStringEnumValues(data []byte) error {
 			return err
 		}
 		if {{{vendorExtensions.x-go-excluded-string-enum-comparison}}} {
-			return fmt.Errorf("excluded value %q for property %s", value, {{{vendorExtensions.x-go-enum-property-name}}})
+			return fmt.Errorf("excluded value %v for property %s", value, {{{vendorExtensions.x-go-enum-property-name}}})
 		}
 	}
 {{/vendorExtensions.x-go-excluded-string-enum-comparison}}
@@ -491,18 +491,46 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 		return err;
 	}
 
+{{#vendorExtensions.x-go-enum-required-case-fold}}
+	lookupRequiredProperty := func(requiredProperty string) (interface{}, bool) {
+		if value, exists := allProperties[requiredProperty]; exists {
+			return value, true
+		}
+		for name, value := range allProperties {
+			if strings.EqualFold(name, requiredProperty) {
+				return value, true
+			}
+		}
+		return nil, false
+	}
+{{/vendorExtensions.x-go-enum-required-case-fold}}
 	for _, requiredProperty := range(requiredProperties) {
 		{{#useDefaultValuesForRequiredVars}}
+{{#vendorExtensions.x-go-enum-required-case-fold}}
+		if value, exists := lookupRequiredProperty(requiredProperty); !exists || value == "" {
+{{/vendorExtensions.x-go-enum-required-case-fold}}
+{{^vendorExtensions.x-go-enum-required-case-fold}}
 		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+{{/vendorExtensions.x-go-enum-required-case-fold}}
 			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
 				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
 				defaultValueApplied = true
 			}
 		}
+{{#vendorExtensions.x-go-enum-required-case-fold}}
+		if value, exists := lookupRequiredProperty(requiredProperty); !exists || value == ""{
+{{/vendorExtensions.x-go-enum-required-case-fold}}
+{{^vendorExtensions.x-go-enum-required-case-fold}}
 		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+{{/vendorExtensions.x-go-enum-required-case-fold}}
 		{{/useDefaultValuesForRequiredVars}}
 		{{^useDefaultValuesForRequiredVars}}
+{{#vendorExtensions.x-go-enum-required-case-fold}}
+		if _, exists := lookupRequiredProperty(requiredProperty); !exists {
+{{/vendorExtensions.x-go-enum-required-case-fold}}
+{{^vendorExtensions.x-go-enum-required-case-fold}}
 		if _, exists := allProperties[requiredProperty]; !exists {
+{{/vendorExtensions.x-go-enum-required-case-fold}}
 		{{/useDefaultValuesForRequiredVars}}
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
