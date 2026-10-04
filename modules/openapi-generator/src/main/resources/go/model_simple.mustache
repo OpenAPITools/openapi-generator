@@ -93,7 +93,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) error {
 {{^-first}}
 
 {{/-first}}
-		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{#vendorExtensions.x-go-datatag}}{{{.}}}{{/vendorExtensions.x-go-datatag}}{{^vendorExtensions.x-go-datatag}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`{{/vendorExtensions.x-go-datatag}}
 {{/vendorExtensions.x-go-flattened-vars}}
 	}
 {{#vendorExtensions.x-go-flattened-vars}}
@@ -644,7 +644,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{^-first}}
 
 {{/-first}}
-		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{#vendorExtensions.x-go-datatag}}{{{.}}}{{/vendorExtensions.x-go-datatag}}{{^vendorExtensions.x-go-datatag}} `json:{{{vendorExtensions.x-go-flattened-json-name}}}`{{/vendorExtensions.x-go-datatag}}
 {{/vendorExtensions.x-go-flattened-vars}}
 	}
 
