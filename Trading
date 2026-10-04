@@ -1,0 +1,693 @@
+openapi: 3.0.3
+info:
+  title: VegaTrade API
+  version: 1.0.0
+  description: |
+    API REST para gestión de cuentas, posiciones, órdenes y datos de mercado para un exchange de trading.
+    
+    ## Características
+    - Gestión de cuentas y balances
+    - Creación y cancelación de órdenes
+    - Posiciones abiertas
+    - Datos de mercado en tiempo real
+    - Autenticación segura con HMAC
+    - Idempotency para evitar duplicados
+    - Rate limiting
+    
+    ## Seguridad
+    - API Key en header X-API-Key
+    - Firma HMAC-SHA256 en X-Signature
+    - Timestamp en X-Timestamp
+    - Requiere HTTPS
+    
+  termsOfService: https://www.vegatrade.example/terms
+  contact:
+    name: VegaTrade Engineering
+    email: api@vegatrade.example
+    url: https://www.vegatrade.example/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.vegatrade.example/v1
+    description: Producción
+    variables:
+      basePath:
+        default: v1
+  - url: https://sandbox-api.vegatrade.example/v1
+    description: Sandbox para pruebas
+
+tags:
+  - name: Accounts
+    description: Consulta de cuentas y balances
+  - name: Orders
+    description: Creación, consulta y cancelación de órdenes
+  - name: Positions
+    description: Posiciones abiertas y cerradas
+  - name: Market Data
+    description: Cotizaciones y velas históricas
+
+security:
+  - apiKeyAuth: []
+  - hmacSignature: []
+
+paths:
+  # ============ ACCOUNTS ============
+  
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: Listar cuentas del usuario
+      operationId: listAccounts
+      description: Obtiene todas las cuentas disponibles del usuario autenticado
+      responses:
+        '200':
+          description: Lista de cuentas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  /accounts/{accountId}:
+    get:
+      tags:
+        - Accounts
+      summary: Obtener detalles de cuenta
+      operationId: getAccount
+      parameters:
+        - $ref: '#/components/parameters/accountId'
+      responses:
+        '200':
+          description: Detalles de la cuenta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  /accounts/{accountId}/balances:
+    get:
+      tags:
+        - Accounts
+      summary: Obtener balances de cuenta
+      operationId: getAccountBalances
+      description: Obtiene los balances actuales de todos los activos en la cuenta
+      parameters:
+        - $ref: '#/components/parameters/accountId'
+        - in: query
+          name: asset
+          schema:
+            type: string
+            example: "BTC"
+          description: Filtrar por un activo específico
+      responses:
+        '200':
+          description: Balances actuales
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: string
+                    example: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+                  balances:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Balance'
+                  totalUsdValue:
+                    type: string
+                    description: Valor total en USD
+                    example: "150000.50"
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-10-04T14:13:22.000Z"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  # ============ ORDERS ============
+  
+  /orders:
+    post:
+      tags:
+        - Orders
+      summary: Crear una orden
+      operationId: createOrder
+      description: Crea una nueva orden con validación de riesgo y balances
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: '#/components/parameters/xTimestamp'
+        - $ref: '#/components/parameters/xSignature'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreateRequest'
+            examples:
+              limitBuy:
+                summary: Orden LIMIT de compra
+                value:
+                  accountId: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+                  symbol: "BTCUSD"
+                  side: "BUY"
+                  type: "LIMIT"
+                  quantity: "0.125"
+                  price: "61000.00"
+                  timeInForce: "GTC"
+              marketSell:
+                summary: Orden MARKET de venta
+                value:
+                  accountId: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+                  symbol: "ETHUSD"
+                  side: "SELL"
+                  type: "MARKET"
+                  quantity: "1.5"
+      responses:
+        '201':
+          description: Orden creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Conflicto de validación de riesgo o balance insuficiente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+    get:
+      tags:
+        - Orders
+      summary: Listar órdenes
+      operationId: listOrders
+      description: Obtiene lista de órdenes con filtros opcionales
+      parameters:
+        - in: query
+          name: accountId
+          required: true
+          schema:
+            type: string
+            example: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [NEW, PARTIALLY_FILLED, FILLED, CANCELED, REJECTED, EXPIRED]
+          description: Filtrar por estado
+        - in: query
+          name: symbol
+          schema:
+            type: string
+            example: "BTCUSD"
+          description: Filtrar por símbolo
+        - in: query
+          name: side
+          schema:
+            type: string
+            enum: [BUY, SELL]
+          description: Filtrar por lado (compra/venta)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Número máximo de resultados
+        - in: query
+          name: before
+          schema:
+            type: string
+            format: date-time
+          description: Cursor para paginación
+      responses:
+        '200':
+          description: Lista de órdenes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  /orders/{orderId}:
+    get:
+      tags:
+        - Orders
+      summary: Obtener orden por ID
+      operationId: getOrder
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        '200':
+          description: Orden encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+    delete:
+      tags:
+        - Orders
+      summary: Cancelar orden
+      operationId: cancelOrder
+      description: Cancela una orden abierta. La orden debe estar en estado NEW o PARTIALLY_FILLED
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: '#/components/parameters/xTimestamp'
+        - $ref: '#/components/parameters/xSignature'
+      responses:
+        '200':
+          description: Orden cancelada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: La orden no puede ser cancelada (ya ejecutada o cancelada)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  # ============ POSITIONS ============
+  
+  /positions:
+    get:
+      tags:
+        - Positions
+      summary: Obtener posiciones abiertas
+      operationId: getPositions
+      parameters:
+        - in: query
+          name: accountId
+          required: true
+          schema:
+            type: string
+            example: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+        - in: query
+          name: symbol
+          schema:
+            type: string
+            example: "ETHUSD"
+          description: Filtrar por símbolo
+      responses:
+        '200':
+          description: Posiciones abiertas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Position'
+                  totalUnrealizedPnl:
+                    type: string
+                    example: "5234.75"
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  # ============ MARKET DATA ============
+  
+  /market-data/quotes:
+    get:
+      tags:
+        - Market Data
+      summary: Obtener cotizaciones
+      operationId: getQuotes
+      description: Obtiene cotizaciones en tiempo real (o near-real-time) para uno o más símbolos
+      parameters:
+        - in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+            example: "BTCUSD,ETHUSD,SOLUSD"
+          description: Símbolos separados por comas
+      responses:
+        '200':
+          description: Cotizaciones actuales
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Quote'
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-10-04T14:13:22.000Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+  /market-data/candles:
+    get:
+      tags:
+        - Market Data
+      summary: Obtener velas históricas
+      operationId: getCandles
+      description: Obtiene datos OHLCV (velas) históricas en diferentes intervalos
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          schema:
+            type: string
+            example: "BTCUSD"
+        - in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+            enum: [1m, 5m, 15m, 30m, 1h, 4h, 1d, 1w]
+            example: "1h"
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 200
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date-time
+            description: Timestamp de inicio (ISO8601)
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date-time
+            description: Timestamp de fin (ISO8601)
+      responses:
+        '200':
+          description: Velas históricas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  symbol:
+                    type: string
+                    example: "BTCUSD"
+                  interval:
+                    type: string
+                    example: "1h"
+                  candles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Candle'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API Key del cliente
+    hmacSignature:
+      type: apiKey
+      in: header
+      name: X-Signature
+      description: |
+        Firma HMAC-SHA256 del payload.
+        Se genera como: HMAC-SHA256(payload_raw + timestamp, secret_key)
+        Incluye con X-Timestamp
+
+  parameters:
+    accountId:
+      in: path
+      name: accountId
+      required: true
+      schema:
+        type: string
+        example: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+      description: ID único de la cuenta
+
+    orderId:
+      in: path
+      name: orderId
+      required: true
+      schema:
+        type: string
+        example: "ord_01J7F5MNHV2KQ1M9240ZCQQ0R3"
+      description: ID único de la orden
+
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      required: false
+      schema:
+        type: string
+        maxLength: 64
+        example: "8f4ab8e7-5f42-42c5-a5ca-a85f75d6fd7a"
+      description: |
+        UUID único para evitar duplicados.
+        El servidor rechazará requests duplicadas con la misma clave.
+
+    xTimestamp:
+      in: header
+      name: X-Timestamp
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: "2026-10-04T14:13:22.000Z"
+      description: Timestamp ISO8601 de la solicitud (requerido para HMAC)
+
+    xSignature:
+      in: header
+      name: X-Signature
+      required: false
+      schema:
+        type: string
+        example: "abc123def456..."
+      description: Firma HMAC-SHA256 (requerida para requests POST/DELETE)
+
+  responses:
+    BadRequest:
+      description: Solicitud inválida o malformada
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "INVALID_REQUEST"
+            message: "El campo 'quantity' es requerido"
+            requestId: "req_91ae43d7fb"
+
+    Unauthorized:
+      description: No autorizado. API Key inválida o expirada
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "UNAUTHORIZED"
+            message: "API Key inválida o expirada"
+            requestId: "req_91ae43d7fb"
+
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "NOT_FOUND"
+            message: "La orden no existe"
+            requestId: "req_91ae43d7fb"
+
+    RateLimitExceeded:
+      description: Límite de tasa excedido. Reintentar después del tiempo especificado
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: Límite máximo de requests
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: Requests restantes en la ventana
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: Timestamp Unix cuando se resetea el límite
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "RATE_LIMIT_EXCEEDED"
+            message: "Límite de tasa excedido. Reintentar en 60 segundos"
+            requestId: "req_91ae43d7fb"
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: Código de error estandarizado
+          example: "INVALID_ORDER"
+          enum:
+            - INVALID_REQUEST
+            - UNAUTHORIZED
+            - NOT_FOUND
+            - CONFLICT
+            - RATE_LIMIT_EXCEEDED
+            - INSUFFICIENT_BALANCE
+            - INVALID_ORDER
+            - ORDER_NOT_CANCELABLE
+            - INTERNAL_ERROR
+        message:
+          type: string
+          description: Descripción legible del error
+          example: "El precio de la orden excede el límite permitido"
+        requestId:
+          type: string
+          description: ID único para tracking
+          example: "req_91ae43d7fb"
+        details:
+          type: array
+          description: Detalles adicionales del error
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "price"
+              issue:
+                type: string
+                example: "El precio debe ser un número positivo"
+
+    Pagination:
+      type: object
+      description: Información de paginación
+      properties:
+        next:
+          type: string
+          nullable: true
+          description: Cursor para la siguiente página
+          example: "eyJvZmZzZXQiOjEwfQ=="
+        previous:
+          type: string
+          nullable: true
+          description: Cursor para la página anterior
+          example: null
+        total:
+          type: integer
+          description: Total de elementos
+          example: 142
+
+    Account:
+      type: object
+      required: [accountId, status, createdAt]
+      properties:
+        accountId:
+          type: string
+          example: "acct_01HXYZ9M9R3Q6W6CJ6N8J8F4A"
+          description: ID único de la cuenta
+        status:
+          type: string
+          enum: [ACTIVE, SUSPENDED, CLOSED, PENDING]
+          example: "ACTIVE"
+          description: Estado de la cuenta
+        type:
+          type: string
+          enum: [SPOT, MARGIN, FUTURES]
+          example: "SPOT"
+          description: Tipo de cuenta
+        currency:
+          type: string
+          example: "USD"
+          description: Moneda de depósito
+        leverage:
+          type: string
+          description: Apalancamiento permitido (solo MARGIN/FUTURES)
+          example: "1.0"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-12T10:22:00.000Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-10-04T13:45:10.000Z"
+
+    Balance:
+      type: object
+      required: [asset, free, locked, total]
+      properties:
+ 
