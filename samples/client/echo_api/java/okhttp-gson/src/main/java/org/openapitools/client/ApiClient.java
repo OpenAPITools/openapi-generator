@@ -730,6 +730,9 @@ public class ApiClient {
      * @return JSON representation of the parameter
      */
     public String parameterToJsonString(Object param) {
+        if (param == null) {
+            return "";
+        }
         String json = JSON.serialize(param);
         int firstUnsafe = -1;
         for (int i = 0; i < json.length(); i++) {

@@ -318,6 +318,12 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testParameterToJsonStringNull() {
+        assertEquals("", apiClient.parameterToString(null));
+        assertEquals("", apiClient.parameterToJsonString(null));
+    }
+
+    @Test
     public void testParameterToJsonStringAscii() {
         Map<String, String> value = new HashMap<>();
         value.put("path", "/x");

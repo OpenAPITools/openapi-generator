@@ -632,6 +632,7 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
                 .content()
                 .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
+                .contains("public String parameterToJsonString(Object param) {\n        if (param == null) {\n            return \"\";\n        }")
                 .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
                 .contains("headerParams.put(param.getName(), parameterToString(value));");
 
