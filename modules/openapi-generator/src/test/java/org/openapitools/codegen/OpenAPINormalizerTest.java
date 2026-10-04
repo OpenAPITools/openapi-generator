@@ -646,13 +646,19 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testSimplifyAnyOfKeepsDescriptionsOfSharedInlineSubSchema() {
-        // Parsed with resolve enabled, as CodegenConfigurator does, the 3.1 parser hands both
-        // anyOf lists the same `type: string` instance.
+        // Parsed with resolve enabled, as CodegenConfigurator does.
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_1/issue_25030.json", null, parseOptions)
                 .getOpenAPI();
+
+        Object parameterString = openAPI.getPaths().get("/book-with-pages").getGet().getParameters().get(0)
+                .getSchema().getAnyOf().get(0);
+        Object propertyString = ((Schema) ModelUtils.getSchema(openAPI, "Book").getProperties().get("broken_field"))
+                .getAnyOf().get(0);
+        assertSame(parameterString, propertyString,
+                "precondition: the parser shares one `type: string` instance between both anyOf lists");
 
         new OpenAPINormalizer(openAPI, new HashMap<>()).normalize();
 
