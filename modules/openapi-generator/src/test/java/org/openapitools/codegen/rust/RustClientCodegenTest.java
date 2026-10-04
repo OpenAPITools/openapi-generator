@@ -471,4 +471,20 @@ public class RustClientCodegenTest {
             TestUtils.assertFileNotContains(outputPath, "param_value.to_string()");
         }
     }
+
+    @Test
+    public void testOneOfMemberWithoutTitleOrType() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/oneof-member-without-type.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/models/conditions.rs");
+        TestUtils.assertFileExists(outputPath);
+        TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
+    }
 }
