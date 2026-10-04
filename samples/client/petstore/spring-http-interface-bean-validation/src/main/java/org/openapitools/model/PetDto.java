@@ -201,7 +201,7 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
     return tags;

@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public enum VendorExtension {
@@ -33,6 +34,7 @@ public enum VendorExtension {
     X_MINIMUM_MESSAGE("x-minimum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the minimum value of a variable", null),
     X_MAXIMUM_MESSAGE("x-maximum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the maximum value of a variable", null),
     X_ZERO_BASED_ENUM("x-zero-based-enum", ExtensionLevel.MODEL, "When used on an enum, the index will not be generated and the default numbering will be used, zero-based", "false"),
+    X_JACKSON_DEFAULT_IMPL("x-jackson-default-impl", ExtensionLevel.MODEL, "Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.", null),
     X_JACKSON_JSON_INCLUDE_POLICY("x-jackson-json-include-policy", ExtensionLevel.FIELD, "Manually override the resolved Jackson `@JsonInclude` policy for this property. Must be one of `ALWAYS`, `NON_NULL`, `NON_ABSENT`, `NON_EMPTY`, `NON_DEFAULT`, `USE_DEFAULTS`, `CUSTOM`, or `NONE` to emit no annotation. Always wins over the automatic required/nullable matrix and the `optionalNonNullPropertyJsonInclude` option.", "resolved automatically per the required/nullable matrix"),
     X_JACKSON_JSON_SETTER_NULLS("x-jackson-json-setter-nulls", ExtensionLevel.FIELD, "Manually override the resolved Jackson `@JsonSetter(nulls = ...)` deserialization null-handling for this property. Must be one of `SKIP` (ignore an explicit JSON null, keeping the default), `FAIL` (reject an explicit JSON null), or `NONE` to emit no annotation. Always wins over the automatic `openApiNullable` default and the `optionalNonNullPropertyJsonSetterNulls` option, and is honored regardless of `generateJsonSetterNullsAnnotations` or whether the property is required/nullable.", "resolved automatically per the openApiNullable default");
 
@@ -51,6 +53,47 @@ public enum VendorExtension {
     VendorExtension(final String name, final ExtensionLevel level, final String description, final String defaultValue) {
         this(name, Collections.singletonList(level), description, defaultValue);
     }
+
+    /**
+     * Utility method to check if a vendorExtensions contain this key.
+     * @param extensions nullable map of extensions
+     * @return true if exist.
+     */
+    public boolean usedIn(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return false;
+        }
+        return extensions.containsKey(name);
+    }
+
+    /**
+     * Utility method to check get the String value in vendorExtensions.
+     *
+     * @param extensions nullable map of extensions
+     * @return the string value if it exists, null otherwise.
+     */
+    public String getStringValue(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return null;
+        }
+        Object value = extensions.get(name);
+        return value != null? value.toString(): null;
+    }
+
+    /**
+     * Utility method to check get the value in vendorExtensions.
+     *
+     * @param extensions nullable map of extensions
+     * @return the value if it exists, null otherwise.
+     */
+    public Object getValue(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return null;
+        }
+        return extensions.get(name);
+    }
+
+
 
     public enum ExtensionLevel {
         FIELD,

@@ -268,6 +268,9 @@ public class CodegenConstants {
     // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
 
+    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
+    public static final String TYPE_INFO_DEFAULT_IMPLS_DESC = "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`";
+
     public static final String API_NAME_PREFIX = "apiNamePrefix";
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
 
@@ -471,6 +474,9 @@ public class CodegenConstants {
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
+
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE = "useExternalImplementationPackage";
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC = "If true, fastapiImplementationPackage is a fully qualified python package that already exists outside the generated package: it is imported as-is (not prefixed with packageName) and its __init__.py is not generated.";
 
     public static final String WITH_XML = "withXml";
 

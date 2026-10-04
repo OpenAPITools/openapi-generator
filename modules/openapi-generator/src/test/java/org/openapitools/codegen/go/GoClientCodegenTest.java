@@ -142,6 +142,96 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("go-json-header").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterToJSONHeaderValue(r.xJsonArg)",
+                "parameterToJSONHeaderValue(r.xVendorJson)",
+                "parameterToJSONHeaderValue(r.xOptionalJson)",
+                "localVarHeaderParams[\"X-Json-Arg\"] = jsonHeaderValue",
+                "localVarHeaderParams[\"X-Vendor-Json\"] = jsonHeaderValue",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Required-Plain\", r.xRequiredPlain");
+        TestUtils.assertFileNotContains(api,
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Vendor-Json\", r.xVendorJson");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
+    }
+
+    @Test
+    public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
+        GoClientCodegen codegen = new GoClientCodegen();
+        File firstOutput = Files.createTempDirectory("go-json-header-first").toFile();
+        firstOutput.deleteOnExit();
+        ClientOptInput firstInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(firstOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(firstOutput.getAbsolutePath());
+        new DefaultGenerator().opts(firstInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(Paths.get(firstOutput.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
+
+        File secondOutput = Files.createTempDirectory("go-json-header-second").toFile();
+        secondOutput.deleteOnExit();
+        ClientOptInput secondInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(secondOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(secondOutput.getAbsolutePath());
+        new DefaultGenerator().opts(secondInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileNotContains(Paths.get(secondOutput.getAbsolutePath(), "client.go"),
+                "parameterToJSONHeaderValue");
+    }
+
+    @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/client.go"),
+                "keyPrefixForMapEntry = k.String()",
+                "if !ok { continue } if entry.Kind() == reflect.Slice {",
+                "case reflect.Ptr: if v.IsNil() { return }",
+                "styleForElement = \"\"");
+        TestUtils.assertFileNotContains(Paths.get(output + "/client.go"),
+                "parameterToJSONHeaderValue", "unicode/utf16");
+
+        // the api passes the declared style through
+        Path api = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
+    }
+
+    @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

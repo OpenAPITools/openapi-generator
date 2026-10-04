@@ -746,6 +746,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+        markModelClassRendering(objs);
         if (additionalModelObjectAttributes.isEmpty()
                 && additionalModelEnumAttributes.isEmpty()
                 && additionalModelImports.isEmpty()) {
@@ -764,6 +765,62 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         return objs;
+    }
+
+    /** Models on an inline reference cycle become final classes: a struct that stores itself has infinite size (#15240). */
+    private void markModelClassRendering(Map<String, ModelsMap> objs) {
+        Map<String, CodegenModel> modelsByClassname = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
+                modelsByClassname.put(cm.classname, cm);
+            }
+        }
+
+        Map<String, Set<String>> inlineRefs = new HashMap<>();
+        for (CodegenModel cm : modelsByClassname.values()) {
+            Set<String> refs = new LinkedHashSet<>();
+            collectInlineModelRefs(cm.allVars, modelsByClassname, refs);
+            if (cm.getComposedSchemas() != null) {
+                // oneOf/anyOf render as enums with inline associated values, so they carry the
+                // recursion; allOf is flattened into allVars and is deliberately not an edge
+                collectInlineModelRefs(cm.getComposedSchemas().getOneOf(), modelsByClassname, refs);
+                collectInlineModelRefs(cm.getComposedSchemas().getAnyOf(), modelsByClassname, refs);
+            }
+            inlineRefs.put(cm.classname, refs);
+        }
+
+        for (CodegenModel cm : modelsByClassname.values()) {
+            if (useClasses || isOnInlineReferenceCycle(cm.classname, inlineRefs)) {
+                cm.vendorExtensions.put("x-swift-use-class", true);
+            }
+        }
+    }
+
+    private void collectInlineModelRefs(List<CodegenProperty> vars, Map<String, CodegenModel> modelsByClassname, Set<String> refs) {
+        if (vars == null) {
+            return;
+        }
+        for (CodegenProperty var : vars) {
+            if (!var.isContainer && var.complexType != null && modelsByClassname.containsKey(var.complexType)) {
+                refs.add(var.complexType);
+            }
+        }
+    }
+
+    private boolean isOnInlineReferenceCycle(String classname, Map<String, Set<String>> inlineRefs) {
+        Deque<String> toVisit = new ArrayDeque<>(inlineRefs.getOrDefault(classname, Collections.emptySet()));
+        Set<String> visited = new HashSet<>();
+        while (!toVisit.isEmpty()) {
+            String current = toVisit.pop();
+            if (classname.equals(current)) {
+                return true;
+            }
+            if (visited.add(current)) {
+                toVisit.addAll(inlineRefs.getOrDefault(current, Collections.emptySet()));
+            }
+        }
+        return false;
     }
 
     @Override

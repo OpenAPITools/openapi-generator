@@ -49,7 +49,7 @@ export class BaseService {
             }
 
             return Object.keys(value as Record<string, any>).reduce(
-                (hp, k) => hp.append(`${key}[${k}]`, value[k]),
+                (hp, k) => this.addToHttpParamsDeepObject(hp, `${key}[${k}]`, value[k]),
                 httpParams,
             );
         } else if (paramStyle === QueryParamStyle.Json) {
@@ -92,5 +92,29 @@ export class BaseService {
                 }
             }
         }
+    }
+
+    /**
+     * Nested deepObject values are an extension to OpenAPI's flat-object serialization.
+     * Object properties use bracket notation; array and set elements use numeric indices.
+     */
+    private addToHttpParamsDeepObject(httpParams: OpenApiHttpParams, key: string, value: any): OpenApiHttpParams {
+        if (value === null || value === undefined) {
+            return httpParams;
+        } else if (value instanceof Date) {
+            return httpParams.append(key, value.toISOString());
+        } else if (Array.isArray(value) || value instanceof Set) {
+            const array = Array.isArray(value) ? value : Array.from(value);
+            return array.reduce(
+                (hp, item, index) => this.addToHttpParamsDeepObject(hp, `${key}[${index}]`, item),
+                httpParams,
+            );
+        } else if (typeof value === 'object') {
+            return Object.keys(value).reduce(
+                (hp, k) => this.addToHttpParamsDeepObject(hp, `${key}[${k}]`, value[k]),
+                httpParams,
+            );
+        }
+        return httpParams.append(key, value.toString());
     }
 }

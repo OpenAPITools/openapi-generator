@@ -1,5 +1,8 @@
 {{>partial_header}}
 
+{{#x-python-has-json-header}}
+import json
+{{/x-python-has-json-header}}
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -347,13 +350,50 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
                 _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isDate}}
             {{^isDateTime}}{{^isDate}}
+            {{#isMap}}
+            {{#isExplode}}
+            {{#isDeepObject}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            _query_params.extend(self.api_client.explode_query_object('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{/isExplode}}
+            {{^isExplode}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isExplode}}
+            {{/isMap}}
+            {{#isModel}}
+            {{#isExplode}}
+            {{#isDeepObject}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            _query_params.extend(self.api_client.explode_query_object('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{/isExplode}}
+            {{^isExplode}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isExplode}}
+            {{/isModel}}
+            {{^isMap}}
+            {{^isModel}}
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isModel}}
+            {{/isMap}}
             {{/isDate}}{{/isDateTime}}
 {{/queryParams}}
         # process the header parameters
 {{#headerParams}}
         if {{paramName}} is not None:
+            {{#vendorExtensions.x-python-json-header}}
+            _header_params['{{baseName}}'] = json.dumps(
+                self.api_client.sanitize_for_serialization({{paramName}})
+            )
+            {{/vendorExtensions.x-python-json-header}}
+            {{^vendorExtensions.x-python-json-header}}
             _header_params['{{baseName}}'] = {{paramName}}
+            {{/vendorExtensions.x-python-json-header}}
 {{/headerParams}}
         # process the form parameters
 {{#formParams}}

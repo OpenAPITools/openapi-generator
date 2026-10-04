@@ -81,7 +81,7 @@ public class FileSchemaTestClass   {
    **/
   @JsonProperty(value = "files")
   @Schema(description = "")
-  @Valid 
+  
   public List<@Valid ModelFile> getFiles() {
     return files;
   }
