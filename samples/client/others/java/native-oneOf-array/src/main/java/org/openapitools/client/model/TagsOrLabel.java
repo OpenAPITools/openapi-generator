@@ -81,6 +81,9 @@ public class TagsOrLabel extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize List<String>
             try {
+                if (!tree.isArray()) {
+                    throw new IllegalArgumentException("not a JSON array");
+                }
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {});
                 TagsOrLabel ret = new TagsOrLabel();
                 ret.setActualInstance(deserialized);

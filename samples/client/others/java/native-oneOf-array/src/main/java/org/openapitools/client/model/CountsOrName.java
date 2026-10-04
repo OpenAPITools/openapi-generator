@@ -265,7 +265,7 @@ public class CountsOrName extends AbstractOpenApiSchema {
         if (getActualInstance() != null) {
           for (String _key : ((Map<String, Integer>)getActualInstance()).keySet()) {
             joiner.add(String.format(java.util.Locale.ROOT, "%sone_of_0%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%s%s", containerPrefix, _key, containerSuffix),
                 ApiClient.urlEncode(String.valueOf(((Map<String, Integer>)getActualInstance()).get(_key)))));
           }
         }
