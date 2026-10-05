@@ -34,6 +34,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class GoClientCodegenTest {
@@ -272,11 +274,17 @@ public class GoClientCodegenTest {
             if (goVersion.waitFor() != 0) {
                 return;
             }
+            Matcher version = Pattern.compile("go(\\d+)\\.(\\d+)")
+                    .matcher(new String(goVersion.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+            if (!version.find() || Integer.parseInt(version.group(1)) < 1
+                    || (Integer.parseInt(version.group(1)) == 1 && Integer.parseInt(version.group(2)) < 23)) {
+                return;
+            }
         } catch (IOException ignored) {
             return;
         }
         Files.copy(Paths.get("src/test/resources/3_1/go/oneof-not-enum_test.go"),
-                Paths.get(output.getAbsolutePath(), "oneof-not-enum_test.go"));
+                Paths.get(output.getAbsolutePath(), "oneof-not-enum_test.go")).toFile().deleteOnExit();
         Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestStringEnumScope$", ".")
                 .directory(output).redirectErrorStream(true).start();
         String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);

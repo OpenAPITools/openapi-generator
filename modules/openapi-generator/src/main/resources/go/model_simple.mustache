@@ -513,6 +513,13 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+{{#vendorExtensions.x-go-enum-required-case-fold}}
+				for name := range allProperties {
+					if strings.EqualFold(name, requiredProperty) {
+						delete(allProperties, name)
+					}
+				}
+{{/vendorExtensions.x-go-enum-required-case-fold}}
 				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
 				defaultValueApplied = true
 			}
