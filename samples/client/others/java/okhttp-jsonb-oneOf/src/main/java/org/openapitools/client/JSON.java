@@ -19,10 +19,10 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.config.BinaryDataStrategy;
 import java.io.File;
 
 
-import okio.ByteString;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -148,6 +148,7 @@ public class JSON {
      */
     private static void rebuildJsonb() {
         JsonbConfig config = new JsonbConfig();
+        config.withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
         config.withAdapters(new FileAdapter());
         if (dateFormat != null) {
             config.withAdapters(new DateAdapter(dateFormat));

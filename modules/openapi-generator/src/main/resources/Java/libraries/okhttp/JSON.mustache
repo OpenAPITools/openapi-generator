@@ -44,6 +44,7 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.config.BinaryDataStrategy;
 import java.io.File;
 {{/isJsonb}}
 
@@ -68,7 +69,9 @@ import {{jacksonPackage}}.datatype.joda.JodaModule;
 {{/isJackson}}
 {{/joda}}
 
+{{#isGson}}
 import okio.ByteString;
+{{/isGson}}
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -691,6 +694,9 @@ public class JSON {
      */
     private static void rebuildJsonb() {
         JsonbConfig config = new JsonbConfig();
+        {{! Yasson's default BinaryDataStrategy is BYTE, i.e. a JSON array of numbers; the OpenAPI
+            'format: byte' contract (and the Gson/Jackson variants of this library) is base64. }}
+        config.withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
         {{! Unconditional: unlike the date adapters below there is no format to configure, and
             without it every model carrying a 'format: binary' property fails to (de)serialize. }}
         config.withAdapters(new FileAdapter());
