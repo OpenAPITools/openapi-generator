@@ -13,6 +13,11 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
 import org.tomitribe.auth.signatures.Algorithm;
 import org.tomitribe.auth.signatures.Signer;
 import org.tomitribe.auth.signatures.SigningAlgorithm;
@@ -137,5 +142,81 @@ public class ApiClientTest {
         assertEquals(",b", apiClient.collectionPathParameterToString("csv", Arrays.asList(null, "b")));
         assertEquals("", apiClient.collectionPathParameterToString("csv", Collections.emptyList()));
         assertEquals("", apiClient.collectionPathParameterToString("csv", null));
+    }
+
+    @Test
+    public void testMultipartComplexPartSerializedAsJson() throws Exception {
+        Category category = new Category().id(1L).name("dogs");
+        Map<String, Object> formParams = new LinkedHashMap<>();
+        formParams.put("name", "doggie");
+        formParams.put("category", category);
+        formParams.put("tags", Arrays.asList("a", "b"));
+
+        Entity<?> entity = apiClient.serialize(null, formParams, "multipart/form-data", false);
+        List<BodyPart> parts = ((MultiPart) entity.getEntity()).getBodyParts();
+        assertEquals(4, parts.size());
+
+        // scalars stay plain text parts
+        FormDataBodyPart name = (FormDataBodyPart) parts.get(0);
+        assertEquals("name", name.getName());
+        assertEquals(MediaType.TEXT_PLAIN_TYPE, name.getMediaType());
+        assertEquals("doggie", name.getEntity());
+
+        // complex objects are sent as JSON, not via toString()
+        FormDataBodyPart categoryPart = (FormDataBodyPart) parts.get(1);
+        assertEquals("category", categoryPart.getName());
+        assertEquals(MediaType.APPLICATION_JSON_TYPE, categoryPart.getMediaType());
+        assertEquals("{\"id\":1,\"name\":\"dogs\"}", categoryPart.getEntity());
+
+        // list items become one part each
+        assertEquals("a", ((FormDataBodyPart) parts.get(2)).getEntity());
+        assertEquals("b", ((FormDataBodyPart) parts.get(3)).getEntity());
+    }
+
+    @Test
+    public void testMultipartEncodingContentTypeIsHonoured() throws Exception {
+        java.io.File image = java.io.File.createTempFile("upload", ".bin");
+        image.deleteOnExit();
+        Map<String, Object> formParams = new LinkedHashMap<>();
+        formParams.put("metadata", "{\"raw\":true}");
+        formParams.put("ids", Arrays.asList(1, 2));
+        formParams.put("image", image);
+        formParams.put("count", 5);
+        formParams.put("note", "plain");
+        Map<String, String> formParamContentTypes = new HashMap<>();
+        formParamContentTypes.put("metadata", "application/json");
+        formParamContentTypes.put("ids", "application/json");
+        formParamContentTypes.put("image", "image/png");
+        formParamContentTypes.put("count", "text/csv");
+
+        Entity<?> entity = apiClient.serialize(null, formParams, formParamContentTypes, "multipart/form-data", false);
+        List<BodyPart> parts = ((MultiPart) entity.getEntity()).getBodyParts();
+        assertEquals(5, parts.size());
+
+        // a string declared as JSON is sent as-is, not double encoded
+        FormDataBodyPart metadata = (FormDataBodyPart) parts.get(0);
+        assertEquals("metadata", metadata.getName());
+        assertEquals(MediaType.APPLICATION_JSON_TYPE, metadata.getMediaType());
+        assertEquals("{\"raw\":true}", metadata.getEntity());
+
+        // an array declared as JSON is a single JSON part
+        FormDataBodyPart ids = (FormDataBodyPart) parts.get(1);
+        assertEquals("ids", ids.getName());
+        assertEquals(MediaType.APPLICATION_JSON_TYPE, ids.getMediaType());
+        assertEquals("[1,2]", ids.getEntity());
+
+        // the declared type replaces the probed file type
+        FormDataBodyPart imagePart = (FormDataBodyPart) parts.get(2);
+        assertEquals(MediaType.valueOf("image/png"), imagePart.getMediaType());
+
+        // scalars keep their text value with the declared type
+        FormDataBodyPart count = (FormDataBodyPart) parts.get(3);
+        assertEquals(MediaType.valueOf("text/csv"), count.getMediaType());
+        assertEquals("5", count.getEntity());
+
+        // no encoding: plain text as before
+        FormDataBodyPart note = (FormDataBodyPart) parts.get(4);
+        assertEquals(MediaType.TEXT_PLAIN_TYPE, note.getMediaType());
+        assertEquals("plain", note.getEntity());
     }
 }

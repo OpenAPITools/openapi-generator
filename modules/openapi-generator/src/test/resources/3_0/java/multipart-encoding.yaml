@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: multipart encoding
+  version: 1.0.0
+paths:
+  /multipart-encoding:
+    post:
+      operationId: multipartEncoding
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  description: "a string that already contains JSON"
+                  type: string
+                ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: "an array sent as a single JSON part"
+                marker:
+                  $ref: '#/components/schemas/Marker'
+                image:
+                  type: string
+                  format: binary
+                note:
+                  description: "no encoding, sent as text"
+                  type: string
+            encoding:
+              metadata:
+                contentType: application/json
+              ids:
+                contentType: application/json
+              marker:
+                contentType: application/json
+              image:
+                contentType: image/png
+      responses:
+        '204':
+          description: Successful operation
+components:
+  schemas:
+    Marker:
+      type: object
+      properties:
+        name:
+          type: string

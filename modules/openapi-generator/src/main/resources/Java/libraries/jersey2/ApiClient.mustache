@@ -1019,18 +1019,39 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @param obj Object
    * @param formParams Form parameters
    * @param contentType Context type
+   * @param isBodyNullable True if the body is nullable
    * @return Entity
    * @throws ApiException API exception
    */
   public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
+    return serialize(obj, formParams, Collections.<String, String>emptyMap(), contentType, isBodyNullable);
+  }
+
+  /**
+   * Serialize the given Java object into string entity according the given
+   * Content-Type (only JSON is supported for now).
+   *
+   * @param obj Object
+   * @param formParams Form parameters
+   * @param formParamContentTypes Content types of the multipart form parameters, as declared by the encoding of the request body
+   * @param contentType Context type
+   * @param isBodyNullable True if the body is nullable
+   * @return Entity
+   * @throws ApiException API exception
+   */
+  public Entity<?> serialize(Object obj, Map<String, Object> formParams, Map<String, String> formParamContentTypes, String contentType, boolean isBodyNullable) throws ApiException {
     Entity<?> entity;
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof Iterable<?>) {
-          ((Iterable<?>)param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
+        MediaType partType = parsePartMediaType(formParamContentTypes == null ? null : formParamContentTypes.get(param.getKey()));
+        // a JSON encoded array is sent as a single part instead of one part per item
+        if (param.getValue() instanceof Iterable<?> && !isJsonPartType(partType)) {
+          for (Object v : (Iterable<?>) param.getValue()) {
+            addParamToMultipart(v, param.getKey(), multiPart, partType);
+          }
         } else {
-          addParamToMultipart(param.getValue(), param.getKey(), multiPart);
+          addParamToMultipart(param.getValue(), param.getKey(), multiPart, partType);
         }
       }
       entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -1063,11 +1084,27 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
-   * @param obj Object
+   * @param value Object
    * @param key Key of the object
    * @param multiPart MultiPart to add the form param to
+   * @throws ApiException if the value cannot be serialized to JSON
    */
-  protected void addParamToMultipart(Object value, String key, MultiPart multiPart) {
+  protected void addParamToMultipart(Object value, String key, MultiPart multiPart) throws ApiException {
+    addParamToMultipart(value, key, multiPart, null);
+  }
+
+  /**
+   * Adds the object with the provided key to the MultiPart.
+   * The declared part type (from the encoding of the request body) takes precedence,
+   * otherwise the Content-Type is derived from the object type.
+   *
+   * @param value Object
+   * @param key Key of the object
+   * @param multiPart MultiPart to add the form param to
+   * @param partType Declared Content-Type of the part, or null if not declared
+   * @throws ApiException if the value cannot be serialized to JSON
+   */
+  protected void addParamToMultipart(Object value, String key, MultiPart multiPart, MediaType partType) throws ApiException {
     if (value instanceof File) {
       File file = (File) value;
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
@@ -1075,18 +1112,99 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
       // Attempt to probe the content type for the file so that the form part is more correctly
       // and precisely identified, but fall back to application/octet-stream if that fails.
-      MediaType type;
-      try {
-        type = MediaType.valueOf(Files.probeContentType(file.toPath()));
-      } catch (IOException | IllegalArgumentException e) {
-        type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+      MediaType type = partType;
+      if (type == null) {
+        try {
+          type = MediaType.valueOf(Files.probeContentType(file.toPath()));
+        } catch (IOException | IllegalArgumentException e) {
+          type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+        }
       }
 
       multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
-    } else {
+    } else if (isJsonPartType(partType)) {
+      // the encoding asks for JSON: strings are expected to already contain JSON, everything else is serialized
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
-      multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value)));
+      String jsonValue = value instanceof String ? (String) value : serializeToJson(value);
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, jsonValue, partType));
+    } else if (isPlainFormValue(value)) {
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
+      if (partType == null) {
+        multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value)));
+      } else {
+        multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value), partType));
+      }
+    } else {
+      // Complex objects (models, maps, ...) are sent as JSON parts instead of their toString() output
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, serializeToJson(value), MediaType.APPLICATION_JSON_TYPE));
     }
+  }
+
+  /**
+   * Serialize the given object to a JSON string.
+   *
+   * @param value Object
+   * @return JSON string
+   * @throws ApiException if the value cannot be serialized to JSON
+   */
+  protected String serializeToJson(Object value) throws ApiException {
+    try {
+      return json.getMapper().writeValueAsString(value);
+    } catch (Exception e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * Parse the Content-Type declared for a multipart part.
+   * Only the first entry of a comma separated list is used, wildcard or invalid types are ignored.
+   *
+   * @param partContentType Declared Content-Type, may be null
+   * @return The parsed media type, or null if none could be used
+   */
+  protected MediaType parsePartMediaType(String partContentType) {
+    if (partContentType == null) {
+      return null;
+    }
+    String first = partContentType.split(",")[0].trim();
+    if (first.isEmpty() || first.contains("*")) {
+      return null;
+    }
+    try {
+      return MediaType.valueOf(first);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Check whether the given part type is a JSON type.
+   *
+   * @param partType Part media type, may be null
+   * @return True if the part must be sent as JSON
+   */
+  protected boolean isJsonPartType(MediaType partType) {
+    return partType != null && isJsonMime(partType.toString());
+  }
+
+  /**
+   * Check whether the given form value should be sent as a plain text part.
+   *
+   * @param value Object
+   * @return true if the value is a scalar that can be sent as text
+   */
+  protected boolean isPlainFormValue(Object value) {
+    return value == null
+        || value instanceof String
+        || value instanceof Number
+        || value instanceof Boolean
+        || value instanceof Character
+        || value instanceof Enum<?>
+        || value instanceof Date
+        || value instanceof java.time.temporal.TemporalAccessor
+        || value instanceof java.util.UUID
+        || value instanceof java.net.URI;
   } 
 
   /**
@@ -1251,6 +1369,46 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       GenericType<T> returnType,
       boolean isBodyNullable)
       throws ApiException {
+    return invokeAPI(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, Collections.<String, String>emptyMap(), accept, contentType, authNames, returnType, isBodyNullable);
+  }
+
+  /**
+   * Invoke API by sending HTTP request with the given options.
+   *
+   * @param <T> Type
+   * @param operation The qualified name of the operation
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object
+   * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
+   * @param formParams The form parameters
+   * @param formParamContentTypes The declared Content-Types of the multipart form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @param returnType The return type into which to deserialize the response
+   * @param isBodyNullable True if the body is nullable
+   * @return The response body in type of string
+   * @throws ApiException API exception
+   */
+  public <T> ApiResponse<T> invokeAPI(
+      String operation,
+      String path,
+      String method,
+      List<Pair> queryParams,
+      Object body,
+      Map<String, String> headerParams,
+      Map<String, String> cookieParams,
+      Map<String, Object> formParams,
+      Map<String, String> formParamContentTypes,
+      String accept,
+      String contentType,
+      String[] authNames,
+      GenericType<T> returnType,
+      boolean isBodyNullable)
+      throws ApiException {
 
     String targetURL;
     List<ServerConfiguration> serverConfigurations;
@@ -1321,7 +1479,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       }
     }
 
-    Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
+    Entity<?> entity = serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
