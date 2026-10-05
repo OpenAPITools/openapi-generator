@@ -31,7 +31,6 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 {{#hasChildren}}
-{{#discriminator}}
 import jakarta.json.JsonObject;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -41,7 +40,6 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
-{{/discriminator}}
 {{/hasChildren}}
 {{#isAdditionalPropertiesTrue}}
 {{^hasChildren}}
@@ -788,7 +786,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/isGson}}
 {{#isJsonb}}
 {{#hasChildren}}
-{{#discriminator}}
+{{! A parent without a discriminator (x-parent, or a single allOf $ref) needs these too: the
+    leaf (de)serializers below are skipped for every model with children, and Yasson falls
+    back to a superclass' serializer, so only this delegating variant is safe for a parent.
+    With no discriminator the deserializer simply binds the root itself. }}
 
   /**
    * Custom JSON-B serializer for the root of a discriminated hierarchy. Yasson serializes a
@@ -886,7 +887,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     @Override
     public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      {{#discriminator}}
       String discriminatorValue = jsonObj.getString("{{{discriminator.propertyBaseName}}}", null);
+      {{/discriminator}}
       {{#discriminator.mappedModels}}
       if ("{{mappingName}}".equals(discriminatorValue)) {
         {{#model}}
@@ -960,7 +963,6 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
     }
   }
-{{/discriminator}}
 {{/hasChildren}}
 {{#isAdditionalPropertiesTrue}}
 {{^hasChildren}}

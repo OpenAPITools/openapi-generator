@@ -5739,6 +5739,24 @@ public class JavaClientCodegenTest {
         assertThat(files.get("Cat.java")).content().doesNotContain("discriminatorValue");
     }
 
+    @Test(description = "a JSON-B parent without a discriminator (x-parent) gets the delegating root "
+            + "(de)serializers, since the leaf ones are skipped for every model with children")
+    public void testOkhttpJsonbParentWithoutDiscriminator() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allOf_extension_parent.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("Person.java")).content()
+                .contains("public static class CustomJsonbSerializer implements JsonbSerializer<Person>")
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<Person>")
+                .contains("validateRequiredFields(jsonObj, openapiRequiredFields, \"Person\");")
+                .doesNotContain("discriminatorValue");
+        assertThat(files.get("JSON.java")).content()
+                .contains("config.withSerializers(new org.openapitools.client.model.Person.CustomJsonbSerializer());")
+                .contains("config.withDeserializers(new org.openapitools.client.model.Person.CustomJsonbDeserializer());");
+    }
+
     @Test(description = "okhttp Jackson models import Arrays and Map only when the template uses them")
     public void testOkhttpJacksonModelImportsArraysAndMapOnlyWhenUsed() {
         final Map<String, File> files = generateFromContract(

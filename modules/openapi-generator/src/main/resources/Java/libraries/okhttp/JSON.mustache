@@ -784,10 +784,8 @@ public class JSON {
         {{#model}}
         {{^isEnum}}
         {{#hasChildren}}
-        {{#discriminator}}
         config.withSerializers(new {{modelPackage}}.{{classname}}.CustomJsonbSerializer());
         config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
-        {{/discriminator}}
         {{/hasChildren}}
         {{/isEnum}}
         {{/model}}
