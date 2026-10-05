@@ -73,6 +73,24 @@ public class RetryingOAuthTest {
             exchange.close();
         });
 
+        // Token endpoints that misbehave: an OAuth error response, and a 2xx body that is not JSON.
+        server.createContext("/token-error", exchange -> {
+            byte[] body = "{\"error\":\"invalid_client\"}".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, body.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(body);
+            }
+        });
+        server.createContext("/token-form", exchange -> {
+            byte[] body = "access_token=abc&token_type=Bearer".getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "application/x-www-form-urlencoded");
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, body.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(body);
+            }
+        });
+
         server.start();
         int port = server.getAddress().getPort();
         baseUrl = "http://127.0.0.1:" + port;
@@ -138,5 +156,30 @@ public class RetryingOAuthTest {
         assertEquals("authorization_code", formParams.get("grant_type"));
         assertEquals("_clientId", formParams.get("client_id"));
         assertEquals("_clientSecret", formParams.get("client_secret"));
+    }
+
+    @Test
+    public void testTokenEndpointErrorIsReported() {
+        RetryingOAuth failing = new RetryingOAuth(baseUrl + "/token-error", "_clientId", OAuthFlow.ACCESS_CODE,
+                "_clientSecret", Collections.<String, String>emptyMap());
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(failing).build();
+
+        IOException e = assertThrows(IOException.class,
+                () -> client.newCall(new Request.Builder().url(baseUrl + "/api").build()).execute());
+        assertTrue(e.getMessage().contains("400"), e.getMessage());
+        assertTrue(e.getMessage().contains("invalid_client"), e.getMessage());
+        assertNull(failing.getAccessToken());
+    }
+
+    @Test
+    public void testUnparseableTokenResponseIsReported() {
+        RetryingOAuth failing = new RetryingOAuth(baseUrl + "/token-form", "_clientId", OAuthFlow.ACCESS_CODE,
+                "_clientSecret", Collections.<String, String>emptyMap());
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(failing).build();
+
+        IOException e = assertThrows(IOException.class,
+                () -> client.newCall(new Request.Builder().url(baseUrl + "/api").build()).execute());
+        assertTrue(e.getMessage().contains("could not be parsed") || e.getMessage().contains("no access_token"), e.getMessage());
+        assertNull(failing.getAccessToken());
     }
 }

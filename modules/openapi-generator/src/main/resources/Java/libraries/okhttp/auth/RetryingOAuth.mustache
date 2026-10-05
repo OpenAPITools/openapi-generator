@@ -131,12 +131,22 @@ public class RetryingOAuth extends OAuth implements Interceptor {
         if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {
             Request tokenRequest = tokenRequestBuilder.build();
             try (Response response = client.newCall(tokenRequest).execute()) {
-                if (response.isSuccessful() && response.body() != null) {
-                    AccessTokenResponse tokenResponse = json.deserialize(response.body().string(), AccessTokenResponse.class);
-                    if (tokenResponse != null && tokenResponse.accessToken != null) {
-                        setAccessToken(tokenResponse.accessToken);
-                    }
+                String body = response.body().string();
+                if (!response.isSuccessful()) {
+                    // surface the token endpoint's answer instead of silently sending the request unauthenticated
+                    throw new IOException("OAuth token request to " + tokenRequest.url() + " failed with HTTP "
+                            + response.code() + (body.isEmpty() ? "" : ": " + body));
                 }
+                AccessTokenResponse tokenResponse;
+                try {
+                    tokenResponse = json.deserialize(body, AccessTokenResponse.class);
+                } catch (RuntimeException e) {
+                    throw new IOException("OAuth token response from " + tokenRequest.url() + " could not be parsed: " + body, e);
+                }
+                if (tokenResponse == null || tokenResponse.accessToken == null) {
+                    throw new IOException("OAuth token response from " + tokenRequest.url() + " contains no access_token: " + body);
+                }
+                setAccessToken(tokenResponse.accessToken);
             }
         }
         return getAccessToken() == null || !getAccessToken().equals(requestAccessToken);
