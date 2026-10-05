@@ -1289,8 +1289,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // they cannot be routed this way; none of them is duplicated.
             final boolean gson = additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON);
             if (rendersAsPojo(codegenModel)) {
-                codegenModel.imports.add("Arrays"); // openapiFields/openapiRequiredFields, byte[] equals/hashCode
-                codegenModel.imports.add("Map");    // additionalProperties holder, Map.Entry iteration
+                // Jackson models render neither openapiFields nor the Gson/JSON-B Map.Entry loops, so
+                // they only need Arrays for byte[] equals/hashCode and the JsonNullable hash helper,
+                // and Map only for the additionalProperties holder.
+                final boolean jackson = additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON);
+                if (!jackson || codegenModel.vars.stream().anyMatch(v -> v.isByteArray)
+                        || codegenModel.vendorExtensions.containsKey("x-jackson-optional-nullable-helpers")) {
+                    codegenModel.imports.add("Arrays"); // openapiFields/openapiRequiredFields, byte[] equals/hashCode
+                }
+                if (!jackson || codegenModel.isAdditionalPropertiesTrue) {
+                    codegenModel.imports.add("Map"); // additionalProperties holder, Map.Entry iteration
+                }
                 if (codegenModel.isAdditionalPropertiesTrue) {
                     // The only other `new HashMap<>()` in pojo.mustache is the default of a map property,
                     // and AbstractJavaCodegen.postProcessModelProperty already imports HashMap for those.

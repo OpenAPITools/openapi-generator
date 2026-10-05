@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 

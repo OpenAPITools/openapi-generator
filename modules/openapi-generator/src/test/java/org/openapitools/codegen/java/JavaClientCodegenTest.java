@@ -5739,6 +5739,22 @@ public class JavaClientCodegenTest {
         assertThat(files.get("Cat.java")).content().doesNotContain("discriminatorValue");
     }
 
+    @Test(description = "okhttp Jackson models import Arrays and Map only when the template uses them")
+    public void testOkhttpJacksonModelImportsArraysAndMapOnlyWhenUsed() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON));
+
+        assertThat(files.get("Category.java")).content()
+                .doesNotContain("import java.util.Arrays;")
+                .doesNotContain("import java.util.Map;");
+        // byte[] equals/hashCode
+        assertThat(files.get("FormatTest.java")).content().contains("import java.util.Arrays;");
+        // JsonNullable hashCodeNullable helper
+        assertThat(files.get("NullableClass.java")).content().contains("import java.util.Arrays;");
+    }
+
     @Test(description = "composed oneOf models must keep okhttp-gson's fromJson/toJson helpers "
             + "so migrating consumers do not lose API surface")
     public void testOkhttpOneOfModelsKeepJsonHelpers() {
