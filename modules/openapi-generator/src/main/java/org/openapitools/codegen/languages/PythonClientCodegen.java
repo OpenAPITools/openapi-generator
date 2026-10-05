@@ -1048,6 +1048,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if (property.getComposedSchemas() != null
+                && property.getComposedSchemas().getNot() != null) {
+            CodegenProperty notProperty = property.getComposedSchemas().getNot();
+            if (notProperty.isEnum
+                    && notProperty.isString
+                    && notProperty.allowableValues != null
+                    && notProperty.allowableValues.get("values") != null) {
+                property.vendorExtensions.put(
+                        "x-python-not-string-enum-values",
+                        notProperty.allowableValues.get("values"));
+            }
+        }
+
         if (hasOneOf(model) || hasAnyOf(model)) {
             return;
         }
