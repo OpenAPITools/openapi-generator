@@ -380,6 +380,18 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       {{/hasVars}}
       {{#vars}}
+      {{#vendorExtensions.x-java-not-string-enum-values}}
+        if (jsonObj.get("{{{baseName}}}") != null
+                && !jsonObj.get("{{{baseName}}}").isJsonNull()
+                && jsonObj.get("{{{baseName}}}").isJsonPrimitive()
+                && jsonObj.get("{{{baseName}}}").getAsJsonPrimitive().isString()
+                && {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}.equals(jsonObj.get("{{{baseName}}}").getAsString())) {
+          throw new IllegalArgumentException(String.format(
+              java.util.Locale.ROOT,
+              "The field `{{{baseName}}}` in the JSON string matches a value disallowed by `not`: `%s`",
+              jsonObj.get("{{{baseName}}}").toString()));
+        }
+      {{/vendorExtensions.x-java-not-string-enum-values}}
       {{#isArray}}
       {{#items.isModel}}
       {{#required}}

@@ -1122,6 +1122,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     readOnlyFields.add(cp.name);
                 }
 
+                if (cp.vendorExtensions.containsKey("x-python-not-string-enum-values")) {
+                    moduleImports.add(PYDANTIC, "field_validator");
+                }
+
                 String typing = pydantic.generatePythonType(cp);
                 cp.vendorExtensions.put(X_PY_TYPING, typing);
 

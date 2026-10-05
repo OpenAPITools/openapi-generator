@@ -93,6 +93,7 @@ __all__ = [
     "InnerDictWithProperty",
     "InputAllOf",
     "IntOrString",
+    "Known",
     "ListClass",
     "MapOfArrayOfModel",
     "MapTest",
@@ -110,6 +111,7 @@ __all__ = [
     "ObjectWithDeprecatedFields",
     "OneOfEnumString",
     "Order",
+    "Other",
     "OuterComposite",
     "OuterEnum",
     "OuterEnumDefaultValue",
@@ -134,6 +136,7 @@ __all__ = [
     "SpecialModelName",
     "SpecialName",
     "Tag",
+    "TaggedUnion",
     "Task",
     "TaskActivity",
     "TestEnum",
@@ -236,6 +239,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.inner_dict_with_property import InnerDictWithProperty as InnerDictWithProperty
     from petstore_api.models.input_all_of import InputAllOf as InputAllOf
     from petstore_api.models.int_or_string import IntOrString as IntOrString
+    from petstore_api.models.known import Known as Known
     from petstore_api.models.list_class import ListClass as ListClass
     from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel as MapOfArrayOfModel
     from petstore_api.models.map_test import MapTest as MapTest
@@ -253,6 +257,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields as ObjectWithDeprecatedFields
     from petstore_api.models.one_of_enum_string import OneOfEnumString as OneOfEnumString
     from petstore_api.models.order import Order as Order
+    from petstore_api.models.other import Other as Other
     from petstore_api.models.outer_composite import OuterComposite as OuterComposite
     from petstore_api.models.outer_enum import OuterEnum as OuterEnum
     from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue as OuterEnumDefaultValue
@@ -277,6 +282,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.special_model_name import SpecialModelName as SpecialModelName
     from petstore_api.models.special_name import SpecialName as SpecialName
     from petstore_api.models.tag import Tag as Tag
+    from petstore_api.models.tagged_union import TaggedUnion as TaggedUnion
     from petstore_api.models.task import Task as Task
     from petstore_api.models.task_activity import TaskActivity as TaskActivity
     from petstore_api.models.test_enum import TestEnum as TestEnum
@@ -374,6 +380,7 @@ else:
         "InnerDictWithProperty": ".models.inner_dict_with_property",
         "InputAllOf": ".models.input_all_of",
         "IntOrString": ".models.int_or_string",
+        "Known": ".models.known",
         "ListClass": ".models.list_class",
         "MapOfArrayOfModel": ".models.map_of_array_of_model",
         "MapTest": ".models.map_test",
@@ -391,6 +398,7 @@ else:
         "ObjectWithDeprecatedFields": ".models.object_with_deprecated_fields",
         "OneOfEnumString": ".models.one_of_enum_string",
         "Order": ".models.order",
+        "Other": ".models.other",
         "OuterComposite": ".models.outer_composite",
         "OuterEnum": ".models.outer_enum",
         "OuterEnumDefaultValue": ".models.outer_enum_default_value",
@@ -415,6 +423,7 @@ else:
         "SpecialModelName": ".models.special_model_name",
         "SpecialName": ".models.special_name",
         "Tag": ".models.tag",
+        "TaggedUnion": ".models.tagged_union",
         "Task": ".models.task",
         "TaskActivity": ".models.task_activity",
         "TestEnum": ".models.test_enum",

@@ -70,6 +70,7 @@ __all__ = [
     "InnerDictWithProperty",
     "InputAllOf",
     "IntOrString",
+    "Known",
     "ListClass",
     "MapOfArrayOfModel",
     "MapTest",
@@ -87,6 +88,7 @@ __all__ = [
     "ObjectWithDeprecatedFields",
     "OneOfEnumString",
     "Order",
+    "Other",
     "OuterComposite",
     "OuterEnum",
     "OuterEnumDefaultValue",
@@ -111,6 +113,7 @@ __all__ = [
     "SpecialModelName",
     "SpecialName",
     "Tag",
+    "TaggedUnion",
     "Task",
     "TaskActivity",
     "TestEnum",
@@ -191,6 +194,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
     from petstore_api.models.input_all_of import InputAllOf
     from petstore_api.models.int_or_string import IntOrString
+    from petstore_api.models.known import Known
     from petstore_api.models.list_class import ListClass
     from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel
     from petstore_api.models.map_test import MapTest
@@ -208,6 +212,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
     from petstore_api.models.one_of_enum_string import OneOfEnumString
     from petstore_api.models.order import Order
+    from petstore_api.models.other import Other
     from petstore_api.models.outer_composite import OuterComposite
     from petstore_api.models.outer_enum import OuterEnum
     from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
@@ -232,6 +237,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.special_model_name import SpecialModelName
     from petstore_api.models.special_name import SpecialName
     from petstore_api.models.tag import Tag
+    from petstore_api.models.tagged_union import TaggedUnion
     from petstore_api.models.task import Task
     from petstore_api.models.task_activity import TaskActivity
     from petstore_api.models.test_enum import TestEnum
@@ -311,6 +317,7 @@ else:
         "InnerDictWithProperty": ".inner_dict_with_property",
         "InputAllOf": ".input_all_of",
         "IntOrString": ".int_or_string",
+        "Known": ".known",
         "ListClass": ".list_class",
         "MapOfArrayOfModel": ".map_of_array_of_model",
         "MapTest": ".map_test",
@@ -328,6 +335,7 @@ else:
         "ObjectWithDeprecatedFields": ".object_with_deprecated_fields",
         "OneOfEnumString": ".one_of_enum_string",
         "Order": ".order",
+        "Other": ".other",
         "OuterComposite": ".outer_composite",
         "OuterEnum": ".outer_enum",
         "OuterEnumDefaultValue": ".outer_enum_default_value",
@@ -352,6 +360,7 @@ else:
         "SpecialModelName": ".special_model_name",
         "SpecialName": ".special_name",
         "Tag": ".tag",
+        "TaggedUnion": ".tagged_union",
         "Task": ".task",
         "TaskActivity": ".task_activity",
         "TestEnum": ".test_enum",

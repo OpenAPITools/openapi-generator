@@ -1191,6 +1191,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        if (OKHTTP_GSON.equals(getLibrary())
+                && property.getComposedSchemas() != null
+                && property.getComposedSchemas().getNot() != null) {
+            CodegenProperty notProperty = property.getComposedSchemas().getNot();
+            if (((notProperty.isEnum && notProperty.isString) || notProperty.isEnumRef)
+                    && notProperty.allowableValues != null
+                    && notProperty.allowableValues.get("values") != null) {
+                property.vendorExtensions.put(
+                        "x-java-not-string-enum-values",
+                        notProperty.allowableValues.get("values"));
+            }
+        }
+
         if (!model.isEnum) {
             //Needed imports for Jackson based libraries
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
