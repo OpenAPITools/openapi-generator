@@ -67,6 +67,7 @@ docs/Info.md
 docs/InnerDictWithProperty.md
 docs/InputAllOf.md
 docs/IntOrString.md
+docs/Known.md
 docs/ListClass.md
 docs/MapOfArrayOfModel.md
 docs/MapTest.md
@@ -82,6 +83,7 @@ docs/ObjectToTestAdditionalProperties.md
 docs/ObjectWithDeprecatedFields.md
 docs/OneOfEnumString.md
 docs/Order.md
+docs/Other.md
 docs/OuterComposite.md
 docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
@@ -108,6 +110,7 @@ docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TaggedUnion.md
 docs/Task.md
 docs/TaskActivity.md
 docs/TestEnum.md
@@ -201,6 +204,7 @@ petstore_api/models/info.py
 petstore_api/models/inner_dict_with_property.py
 petstore_api/models/input_all_of.py
 petstore_api/models/int_or_string.py
+petstore_api/models/known.py
 petstore_api/models/list_class.py
 petstore_api/models/map_of_array_of_model.py
 petstore_api/models/map_test.py
@@ -216,6 +220,7 @@ petstore_api/models/object_to_test_additional_properties.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/one_of_enum_string.py
 petstore_api/models/order.py
+petstore_api/models/other.py
 petstore_api/models/outer_composite.py
 petstore_api/models/outer_enum.py
 petstore_api/models/outer_enum_default_value.py
@@ -240,6 +245,7 @@ petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py
+petstore_api/models/tagged_union.py
 petstore_api/models/task.py
 petstore_api/models/task_activity.py
 petstore_api/models/test_enum.py
