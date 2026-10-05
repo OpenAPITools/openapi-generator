@@ -1005,6 +1005,45 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpGsonValidatesStringEnumExcludedByNot() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/oneof-not-enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Other.java"))
+                .content()
+                .contains(
+                        "if (jsonObj.get(\"kind\") != null",
+                        "jsonObj.get(\"kind\").isJsonPrimitive()",
+                        "jsonObj.get(\"kind\").getAsJsonPrimitive().isString()",
+                        "\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                        "matches a value disallowed by `not`"
+                )
+                .doesNotContain(
+                        "jsonObj.get(\"not_schema\")"
+                );
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/OtherWithEnumRef.java"))
+                .content()
+                .contains(
+                        "if (jsonObj.get(\"kind\") != null",
+                        "jsonObj.get(\"kind\").isJsonPrimitive()",
+                        "jsonObj.get(\"kind\").getAsJsonPrimitive().isString()",
+                        "\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                        "matches a value disallowed by `not`"
+                )
+                .doesNotContain(
+                        "jsonObj.get(\"not_schema\")"
+                );
+    }
+
+    @Test
     public void testReferencedHeader() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
