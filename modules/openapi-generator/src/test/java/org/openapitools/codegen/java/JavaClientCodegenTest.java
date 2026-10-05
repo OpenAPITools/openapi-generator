@@ -5796,6 +5796,26 @@ public class JavaClientCodegenTest {
                 .contains("config.withDeserializers(new org.openapitools.client.model.Person.CustomJsonbDeserializer());");
     }
 
+    @Test(description = "okhttp Gson and JSON-B reject a string value excluded by `not: enum`, so a oneOf "
+            + "with a complementary branch resolves unambiguously (port of #25066)")
+    public void testOkhttpValidatesStringEnumExcludedByNot() {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP);
+        for (String model : List.of("Other.java", "OtherWithEnumRef.java")) {
+            assertThat(files.get(model)).content()
+                    .contains("\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                            "matches a value disallowed by `not`");
+        }
+
+        files = generateFromContract("src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+        for (String model : List.of("Other.java", "OtherWithEnumRef.java")) {
+            assertThat(files.get(model)).content()
+                    .contains("\"known\".equals(((jakarta.json.JsonString) jsonObj.get(\"kind\")).getString())",
+                            "matches a value disallowed by `not`");
+        }
+    }
+
     @Test(description = "okhttp Jackson models import Arrays and Map only when the template uses them")
     public void testOkhttpJacksonModelImportsArraysAndMapOnlyWhenUsed() {
         final Map<String, File> files = generateFromContract(

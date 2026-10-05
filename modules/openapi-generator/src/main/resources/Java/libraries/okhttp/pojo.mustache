@@ -549,6 +549,18 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       {{/hasVars}}
       {{#vars}}
+      {{#vendorExtensions.x-java-not-string-enum-values}}
+      if (jsonObj.get("{{{baseName}}}") != null
+              && !jsonObj.get("{{{baseName}}}").isJsonNull()
+              && jsonObj.get("{{{baseName}}}").isJsonPrimitive()
+              && jsonObj.get("{{{baseName}}}").getAsJsonPrimitive().isString()
+              && {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}.equals(jsonObj.get("{{{baseName}}}").getAsString())) {
+        throw new IllegalArgumentException(String.format(
+            java.util.Locale.ROOT,
+            "The field `{{{baseName}}}` in the JSON string matches a value disallowed by `not`: `%s`",
+            jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/vendorExtensions.x-java-not-string-enum-values}}
       {{#isArray}}
       {{#items.isModel}}
       {{#required}}
@@ -1016,6 +1028,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
       // capture once so every field of this object binds against the same configuration,
       // even if a format setter rebuilds the shared instance concurrently
+      {{#allVars}}
+      {{#vendorExtensions.x-java-not-string-enum-values}}
+      if (jsonObj.get("{{{baseName}}}") instanceof jakarta.json.JsonString
+          && {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}.equals(((jakarta.json.JsonString) jsonObj.get("{{{baseName}}}")).getString())) {
+        throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `{{{baseName}}}` in the JSON object matches a value disallowed by `not`: %s", jsonObj.get("{{{baseName}}}")));
+      }
+      {{/vendorExtensions.x-java-not-string-enum-values}}
+      {{/allVars}}
       Jsonb jsonb = JSON.getJsonb();
       {{classname}} instance = new {{classname}}();
       {{#allVars}}
@@ -1120,6 +1140,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
           capture in place. }}
       // capture once so every field of this object binds against the same configuration,
       // even if a format setter rebuilds the shared instance concurrently
+      {{#allVars}}
+      {{#vendorExtensions.x-java-not-string-enum-values}}
+      if (jsonObj.get("{{{baseName}}}") instanceof jakarta.json.JsonString
+          && {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}.equals(((jakarta.json.JsonString) jsonObj.get("{{{baseName}}}")).getString())) {
+        throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `{{{baseName}}}` in the JSON object matches a value disallowed by `not`: %s", jsonObj.get("{{{baseName}}}")));
+      }
+      {{/vendorExtensions.x-java-not-string-enum-values}}
+      {{/allVars}}
       Jsonb jsonb = JSON.getJsonb();
       {{classname}} instance = new {{classname}}();
       {{#allVars}}

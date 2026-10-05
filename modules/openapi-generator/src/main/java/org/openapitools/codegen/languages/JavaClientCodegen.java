@@ -1191,7 +1191,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        if (OKHTTP_GSON.equals(getLibrary())
+        if ((OKHTTP_GSON.equals(getLibrary()) || OKHTTP.equals(getLibrary()))
                 && property.getComposedSchemas() != null
                 && property.getComposedSchemas().getNot() != null) {
             CodegenProperty notProperty = property.getComposedSchemas().getNot();
