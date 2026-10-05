@@ -59,6 +59,7 @@ docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
+docs/HeaderArg.md
 docs/HealthCheckResult.md
 docs/HuntingDog.md
 docs/ImportTestDatetimeApi.md
@@ -193,6 +194,7 @@ petstore_api/models/foo.py
 petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
+petstore_api/models/header_arg.py
 petstore_api/models/health_check_result.py
 petstore_api/models/hunting_dog.py
 petstore_api/models/info.py

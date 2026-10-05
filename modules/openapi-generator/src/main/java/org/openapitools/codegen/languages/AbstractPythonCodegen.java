@@ -610,8 +610,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
                             schema2.setTitle(propname);
                         }
+                        // Each property gets its own copy of the path: includedSchemas tracks the
+                        // ancestors of the current schema for cycle detection, so siblings that
+                        // reference the same model must not count as a cycle (#25047).
                         example += "\n" + indentationString + underscore(propname) + " = " +
-                                toExampleValueRecursive(schema2, includedSchemas, indentation + 1) + ", ";
+                                toExampleValueRecursive(schema2, new ArrayList<>(includedSchemas), indentation + 1) + ", ";
                     }
                 }
             }

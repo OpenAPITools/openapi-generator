@@ -589,6 +589,60 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerialization() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("public String parameterToJsonString(Object param)");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToJsonString(xJsonArg));"
+                )
+                .doesNotContain(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToString(xJsonArg));"
+                );
+    }
+
+    @Test
+    public void testDynamicJsonContentHeaderUsesJsonSerialization() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
+                .contains("public String parameterToJsonString(Object param) {\n        if (param == null) {\n            return \"\";\n        }")
+                .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
+                .contains("headerParams.put(param.getName(), parameterToString(value));");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("paramMap.put(\"X-Json-Arg\", xJsonArg);")
+                .contains("paramMap.put(\"X-Plain-Arg\", xPlainArg);");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -896,6 +950,38 @@ public class JavaClientCodegenTest {
                 .contains("<groupId>tools.jackson.core</groupId>")
                 .contains("<groupId>com.fasterxml.jackson.core</groupId>")
                 .contains("jackson-databind-nullable");
+    }
+
+    @Test
+    public void testRestAssuredWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JacksonObjectMapper.java")).content()
+                .contains("extends Jackson3Mapper")
+                .contains("import io.restassured.path.json.mapper.factory.Jackson3ObjectMapperFactory;")
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("com.fasterxml.jackson.databind")
+                .doesNotContain("Jackson2");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339JavaTimeModule.java")).doesNotExist();
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson</groupId>")
+                .contains("<rest-assured.version>6.0.1</rest-assured.version>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>")
+                .doesNotContain("jackson-datatype-jsr310");
     }
 
     @Test(dataProvider = "springBoot4Jackson3Libraries")

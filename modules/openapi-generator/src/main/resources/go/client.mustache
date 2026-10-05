@@ -155,6 +155,17 @@ func parameterValueToString( obj interface{}, key string ) string {
 	}
 	return fmt.Sprintf("%v", dataMap[key])
 }
+{{#x-go-has-json-header}}
+
+// parameterToJSONHeaderValue encodes a content: application/json header.
+func parameterToJSONHeaderValue(obj interface{}) (string, error) {
+	encoded, err := json.Marshal(obj)
+	if err != nil {
+		return "", err
+	}
+	return string(encoded), nil
+}
+{{/x-go-has-json-header}}
 
 // parameterAddToHeaderOrQuery adds the provided object to the request header or url query
 // supporting deep object syntax
