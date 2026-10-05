@@ -199,6 +199,39 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testOneOfNotEnumValidation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path other = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "models",
+                "other.py");
+
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
+    }
+
+    @Test
     public void testSettersForConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setHideGenerationTimestamp(false);
