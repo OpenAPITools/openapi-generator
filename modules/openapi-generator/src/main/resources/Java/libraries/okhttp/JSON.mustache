@@ -137,7 +137,18 @@ public class JSON {
     {{/joda}}
     {{/isJsonb}}
 
+    static {
+        ensureInitialized();
+    }
+
     public JSON() {
+        ensureInitialized();
+    }
+
+    {{! The shared serializer is static and the models call JSON.getGson()/getMapper()/getJsonb()
+        statically (Pet.fromJson(), toJson(), the TypeAdapters/deserializers), so it must exist
+        before any ApiClient or JSON instance has been constructed. }}
+    private static synchronized void ensureInitialized() {
         {{#isGson}}
         if (gson != null) {
             // the shared static Gson is already built; rebuilding would discard a

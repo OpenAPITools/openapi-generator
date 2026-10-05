@@ -64,7 +64,15 @@ public class JSON {
     private static LocalDateTimeTypeAdapter localDateTimeTypeAdapter = new LocalDateTimeTypeAdapter();
     private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
+    static {
+        ensureInitialized();
+    }
+
     public JSON() {
+        ensureInitialized();
+    }
+
+    private static synchronized void ensureInitialized() {
         if (gson != null) {
             // the shared static Gson is already built; rebuilding would discard a
             // customization installed through setGson()

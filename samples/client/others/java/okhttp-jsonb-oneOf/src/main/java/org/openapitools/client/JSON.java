@@ -58,7 +58,15 @@ public class JSON {
     private static DateTimeFormatter localDateFormat;
     private static DateTimeFormatter localDateTimeFormat;
 
+    static {
+        ensureInitialized();
+    }
+
     public JSON() {
+        ensureInitialized();
+    }
+
+    private static synchronized void ensureInitialized() {
         if (jsonb == null || plainJsonb == null) {
             rebuildJsonb();
         }

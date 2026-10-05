@@ -55,7 +55,15 @@ import java.util.HashMap;
 public class JSON {
     private static ObjectMapper mapper;
 
+    static {
+        ensureInitialized();
+    }
+
     public JSON() {
+        ensureInitialized();
+    }
+
+    private static synchronized void ensureInitialized() {
         if (mapper == null) {
             mapper = JsonMapper.builder()
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
