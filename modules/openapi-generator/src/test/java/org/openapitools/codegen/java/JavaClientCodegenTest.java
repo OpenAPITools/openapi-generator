@@ -3118,6 +3118,7 @@ public class JavaClientCodegenTest {
     public void testHandleURIEnumWithXml() {
         for (String library : List.of(
                 JavaClientCodegen.OKHTTP_GSON,
+                JavaClientCodegen.OKHTTP,
                 JavaClientCodegen.RESTTEMPLATE,
                 JavaClientCodegen.NATIVE)) {
             final Path output = newTempFolder();
