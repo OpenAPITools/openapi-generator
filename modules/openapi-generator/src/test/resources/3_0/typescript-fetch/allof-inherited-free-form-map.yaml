@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: allOf inherited free-form map
+  version: 1.0.0
+paths:
+  /child:
+    get:
+      operationId: getChild
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Child"
+components:
+  schemas:
+    Base:
+      required:
+        - requiredLoose
+      properties:
+        requiredLoose:
+          type: object
+          additionalProperties:
+            description: can be any type
+        optionalLoose:
+          type: object
+          additionalProperties:
+            description: can be any type
+        realObject:
+          type: object
+          additionalProperties:
+            type: object
+    Child:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      properties:
+        extra:
+          type: string
