@@ -2988,12 +2988,107 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         };
         Mustache.Lambda javaStringLiteralLambda = (fragment, writer) ->
                 writer.write(toEnumValue(fragment.execute(), "String"));
+        // Places type-use annotations rendered in front of a (possibly fully qualified) type where Java
+        // allows them, e.g. {{#lambda.typeUseAnnotations}}Optional<@Valid {{{dataType}}}{{/lambda.typeUseAnnotations}}
+        // -> Optional<@Valid Pet> or Optional<java.time.@Valid Instant> (Optional<@Valid java.time.Instant> does not compile).
+        Mustache.Lambda typeUseAnnotationsLambda = (fragment, writer) ->
+                writer.write(placeTypeUseAnnotations(fragment.execute()));
         return super.addMustacheLambdas()
                 .put("javaStringLiteral", javaStringLiteralLambda)
+                .put("typeUseAnnotations", typeUseAnnotationsLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda)
                 .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
+    }
+
+    /**
+     * Moves the type-use annotations written in front of the innermost type argument of {@code declaration} after the
+     * package qualifier when that type is fully qualified, as required by the Java grammar:
+     * {@code Optional<@Valid java.time.Instant>} becomes {@code Optional<java.time.@Valid Instant>}. Declarations whose
+     * annotated type is not qualified, or that carry no annotations, are returned unchanged.
+     *
+     * @param declaration rendered type declaration, e.g. {@code JsonNullable<@Valid @Size(max = 3) com.acme.Code}
+     * @return the declaration with its type-use annotations at a legal position
+     */
+    public static String placeTypeUseAnnotations(String declaration) {
+        int firstAnnotation = declaration.indexOf('@');
+        if (firstAnnotation < 0) {
+            return declaration;
+        }
+        // keep the wrapper (e.g. "Optional<") untouched; the annotations apply to the type argument that follows
+        int start = declaration.lastIndexOf('<', firstAnnotation) + 1;
+        if (!StringUtils.isBlank(declaration.substring(start, firstAnnotation))) {
+            // something else precedes the first annotation (e.g. "java.time.@Nullable Instant"): already placed
+            return declaration;
+        }
+        int end = skipAnnotations(declaration, firstAnnotation);
+        String annotations = declaration.substring(firstAnnotation, end);
+        String type = declaration.substring(end);
+        int idx = getLastIndexOfQualifier(type);
+        if (idx <= 0) {
+            return declaration;
+        }
+        return declaration.substring(0, firstAnnotation) + type.substring(0, idx + 1) + annotations + type.substring(idx + 1);
+    }
+
+    /**
+     * @return the index right after the annotations (and their trailing whitespace) starting at {@code index}
+     */
+    private static int skipAnnotations(String declaration, int index) {
+        int i = index;
+        int length = declaration.length();
+        while (i < length && declaration.charAt(i) == '@') {
+            i++;
+            while (i < length && (Character.isJavaIdentifierPart(declaration.charAt(i)) || declaration.charAt(i) == '.')) {
+                i++;
+            }
+            if (i < length && declaration.charAt(i) == '(') {
+                i = skipParentheses(declaration, i);
+            }
+            while (i < length && Character.isWhitespace(declaration.charAt(i))) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    /**
+     * @return the index right after the parenthesis group opened at {@code index}, ignoring parentheses in string literals
+     */
+    private static int skipParentheses(String declaration, int index) {
+        int depth = 0;
+        boolean inString = false;
+        for (int i = index; i < declaration.length(); i++) {
+            char c = declaration.charAt(i);
+            if (inString) {
+                if (c == '\\') {
+                    i++;
+                } else if (c == '"') {
+                    inString = false;
+                }
+            } else if (c == '"') {
+                inString = true;
+            } else if (c == '(') {
+                depth++;
+            } else if (c == ')' && --depth == 0) {
+                return i + 1;
+            }
+        }
+        return declaration.length();
+    }
+
+    private static int getLastIndexOfQualifier(String dataType) {
+        int index = dataType.indexOf('<');
+        if (index >= 0) {
+            dataType = dataType.substring(0, index);
+        }
+        int at = dataType.indexOf('@');
+        if (at >= 0) {
+            // e.g. "java.time.@Nullable Instant": the qualifier ends before the existing annotation
+            dataType = dataType.substring(0, at);
+        }
+        return dataType.lastIndexOf('.');
     }
 
     private int getLastIndex(String dataType) {

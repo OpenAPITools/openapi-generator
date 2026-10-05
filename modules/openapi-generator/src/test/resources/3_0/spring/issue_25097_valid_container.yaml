@@ -1,0 +1,305 @@
+openapi: 3.0.3
+info:
+  title: Bean validation @Valid placement on containers and wrappers (issue 25097)
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: findItems
+      parameters:
+        - name: itemCodes
+          in: query
+          required: true
+          schema:
+            type: array
+            maxItems: 8
+            items:
+              type: string
+              minLength: 1
+              maxLength: 10
+        - name: filter
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: ok
+    post:
+      operationId: updateItems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              maxItems: 500
+              items:
+                $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ok
+  /search:
+    get:
+      operationId: searchItems
+      parameters:
+        - name: criteria
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Item'
+        - name: requiredCriteria
+          in: query
+          required: true
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Animal'
+      responses:
+        '200':
+          description: ok
+  /upload:
+    post:
+      operationId: uploadItem
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                item:
+                  $ref: '#/components/schemas/Item'
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ok
+  /optionalBody:
+    post:
+      operationId: saveOptionalItem
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ok
+  /optionalScalarBody:
+    post:
+      operationId: saveOptionalCode
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: string
+              pattern: '[A-Z]{3}'
+      responses:
+        '200':
+          description: ok
+  /requiredBody:
+    post:
+      operationId: saveRequiredItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ok
+  /kittens:
+    post:
+      operationId: saveKittens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Cat'
+      responses:
+        '200':
+          description: ok
+  /breeders:
+    post:
+      operationId: saveBreeders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/Breeder'
+      responses:
+        '200':
+          description: ok
+  /itemMap:
+    post:
+      operationId: saveItemMap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ok
+  /anyPets:
+    post:
+      operationId: saveAnyPets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AnyPet'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Item:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+          maxLength: 10
+    Animal:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            barks:
+              type: boolean
+    Breeder:
+      oneOf:
+        - $ref: '#/components/schemas/Animal'
+        - $ref: '#/components/schemas/Dog'
+    AnyPet:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    FreeForm:
+      type: object
+      additionalProperties: true
+    Color:
+      type: string
+      enum: [red, blue]
+    Zoo:
+      type: object
+      required: [exactSources]
+      properties:
+        exactSources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        animals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animal'
+        cats:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cat'
+        breeders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Breeder'
+        anyPets:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/AnyPet'
+        relatedItems:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        catsByName:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Cat'
+        nestedItemMaps:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Item'
+        listOfItemMaps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Item'
+        mapOfItemLists:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Item'
+        nullableItemMap:
+          type: object
+          nullable: true
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        freeForms:
+          type: array
+          items:
+            $ref: '#/components/schemas/FreeForm'
+        freeFormMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/FreeForm'
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+        codes:
+          type: array
+          items:
+            type: string
+            maxLength: 3
+        singleItem:
+          $ref: '#/components/schemas/Item'
+        nullableSingleItem:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Item'
+        attachment:
+          type: string
+          format: binary
+        nullableAttachment:
+          type: string
+          format: binary
+          nullable: true

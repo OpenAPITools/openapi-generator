@@ -1137,6 +1137,203 @@ public class SpringCodegenTest {
                 .fileDoesNotContain("@Valid @RequestParam(value = \"status\", required = true) List<String>");
     }
 
+    private static final String ISSUE_25097_SPEC = "src/test/resources/3_0/spring/issue_25097_valid_container.yaml";
+
+    @Test
+    public void beanValidationOnListParameters_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // Variant 1: container constraints (@NotNull/@Size) stay on the container, element constraints and
+        // cascaded validation go on the type argument, and the container-level @Valid (HV000271) is gone.
+        JavaFileAssert.assertThat(files.get("ItemsApi.java"))
+                .assertMethod("findItems")
+                .assertParameter("itemCodes").hasAnnotatedType("List<@Size(min = 1, max = 10) String>")
+                .assertParameterAnnotations()
+                .containsWithName("NotNull")
+                .containsWithNameAndAttributes("Size", ImmutableMap.of("max", "8"))
+                .doesNotContainWithName("Valid")
+                .toParameter().toMethod()
+                .assertParameter("filter").hasAnnotatedType("Map<String, String>")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("Valid")
+                .toParameter().toMethod().toFileAssert()
+                .assertMethod("updateItems")
+                .assertParameter("item").hasAnnotatedType("List<@Valid Item>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of("max", "500"))
+                .doesNotContainWithName("Valid");
+
+        // A map request body cascades through the value type argument.
+        JavaFileAssert.assertThat(files.get("ItemMapApi.java"))
+                .assertMethod("saveItemMap")
+                .assertParameter("requestBody").hasAnnotatedType("Map<String, @Valid Item>")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("Valid");
+
+        // Single (non-container) bodies keep the parameter-level @Valid.
+        JavaFileAssert.assertThat(files.get("RequiredBodyApi.java"))
+                .assertMethod("saveRequiredItem")
+                .assertParameter("item").hasType("Item")
+                .assertParameterAnnotations()
+                .containsWithName("Valid");
+    }
+
+    @Test
+    public void beanValidationOnComposedArrayItems_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // Variant 3b: once the container-level @Valid is gone, arrays/sets of allOf/oneOf/anyOf models must
+        // carry @Valid on the type argument, otherwise element validation is silently lost.
+        JavaFileAssert.assertThat(files.get("KittensApi.java"))
+                .assertMethod("saveKittens")
+                .assertParameter("cat").hasAnnotatedType("List<@Valid Cat>")
+                .assertParameterAnnotations().doesNotContainWithName("Valid");
+        JavaFileAssert.assertThat(files.get("BreedersApi.java"))
+                .assertMethod("saveBreeders")
+                .assertParameter("breeder").hasAnnotatedType("Set<@Valid Breeder>")
+                .assertParameterAnnotations().doesNotContainWithName("Valid");
+        JavaFileAssert.assertThat(files.get("AnyPetsApi.java"))
+                .assertMethod("saveAnyPets")
+                .assertParameter("anyPet").hasAnnotatedType("List<@Valid AnyPet>")
+                .assertParameterAnnotations().doesNotContainWithName("Valid");
+
+        JavaFileAssert.assertThat(files.get("Zoo.java"))
+                .fileContains(
+                        "private List<@Valid Cat> cats",          // allOf
+                        "private List<@Valid Breeder> breeders",  // oneOf
+                        "private Set<@Valid AnyPet> anyPets",     // anyOf
+                        "public List<@Valid Cat> getCats()",
+                        "public List<@Valid Breeder> getBreeders()",
+                        "public Set<@Valid AnyPet> getAnyPets()",
+                        // free-form objects and enums are not cascadable
+                        "public List<Map<String, Object>> getFreeForms()",
+                        "public List<Color> getColors()")
+                .fileDoesNotContain("@Valid Color", "@Valid Map<String, Object>", "@Valid Object");
+    }
+
+    @Test
+    public void beanValidationOnContainerModelGetters_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // Variant 2: container getters only carry @Valid on the type argument, never on the getter itself.
+        final JavaFileAssert zoo = JavaFileAssert.assertThat(files.get("Zoo.java"));
+        zoo.assertMethod("getExactSources").hasReturnType("List<@Valid Item>")
+                .assertMethodAnnotations().containsWithName("NotNull").doesNotContainWithName("Valid");
+        // Variant 3a: map values (also nested and nullable) cascade through the value type argument.
+        zoo.assertMethod("getRelatedItems").hasReturnType("Map<String, @Valid Item>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getCatsByName").hasReturnType("Map<String, @Valid Cat>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getNestedItemMaps").hasReturnType("Map<String, Map<String, @Valid Item>>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getListOfItemMaps").hasReturnType("List<Map<String, @Valid Item>>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getMapOfItemLists").hasReturnType("Map<String, List<@Valid Item>>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getNullableItemMap").hasReturnType("JsonNullable<Map<String, @Valid Item>>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        zoo.assertMethod("getCodes").hasReturnType("List<@Size(max = 3) String>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+        // A plain (unwrapped) single object keeps the member-level @Valid.
+        zoo.assertMethod("getSingleItem").hasReturnType("Item")
+                .assertMethodAnnotations().containsWithName("Valid");
+    }
+
+    @Test
+    public void beanValidationOnJsonNullableModel_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+        codegen.setOpenApiNullable(true);
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // JsonNullable is a container for Hibernate Validator (jackson-databind-nullable registers a
+        // ValueExtractor), so a member-level @Valid on it logs HV000271: cascade through the type argument.
+        JavaFileAssert.assertThat(files.get("Zoo.java"))
+                .fileContains("private JsonNullable<@Valid Item> nullableSingleItem = JsonNullable.<Item>undefined();",
+                        "public JsonNullable<org.springframework.core.io.Resource> getNullableAttachment()")
+                .assertMethod("getNullableSingleItem").hasReturnType("JsonNullable<@Valid Item>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid");
+    }
+
+    @Test
+    public void beanValidationOnOptionalModel_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+        codegen.setUseOptional(true);
+        codegen.setOpenApiNullable(true);
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // Optional is a container for Hibernate Validator: @Valid goes on its type argument.
+        JavaFileAssert.assertThat(files.get("Zoo.java"))
+                .fileContains("private Optional<@Valid Item> singleItem = Optional.empty();")
+                .assertMethod("getSingleItem").hasReturnType("Optional<@Valid Item>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                .assertMethod("getNullableSingleItem").hasReturnType("JsonNullable<@Valid Item>")
+                .assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                // non-model values (here a fully qualified binary type) have nothing to cascade into: no @Valid at all
+                .fileContains(
+                        "private Optional<org.springframework.core.io.Resource> attachment = Optional.empty();",
+                        "public Optional<org.springframework.core.io.Resource> getAttachment()",
+                        "public JsonNullable<org.springframework.core.io.Resource> getNullableAttachment()")
+                .assertMethod("getAttachment").assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                .assertMethod("getNullableAttachment").assertMethodAnnotations().doesNotContainWithName("Valid");
+
+        // Optional HTTP model parameters deliberately keep the parameter-level annotation. Spring MVC maps
+        // violations from that form to the existing HTTP 400 response; Optional<@Valid Item> changes them
+        // into a ConstraintViolationException and HTTP 500.
+        JavaFileAssert.assertThat(files.get("SearchApi.java"))
+                .assertMethod("searchItems")
+                .assertParameter("criteria").hasAnnotatedType("Optional<Item>")
+                .assertParameterAnnotations().containsWithName("Valid");
+        JavaFileAssert.assertThat(files.get("UploadApi.java"))
+                .assertMethod("uploadItem")
+                .assertParameter("item").hasAnnotatedType("Optional<Item>")
+                .assertParameterAnnotations().containsWithName("Valid");
+        JavaFileAssert.assertThat(files.get("OptionalBodyApi.java"))
+                .assertMethod("saveOptionalItem")
+                .assertParameter("item").hasAnnotatedType("Optional<Item>")
+                .assertParameterAnnotations().containsWithName("Valid");
+        // Optional scalar bodies have no cascade target. Avoid a parameter-level @Valid that causes HV000271.
+        JavaFileAssert.assertThat(files.get("OptionalScalarBodyApi.java"))
+                .assertMethod("saveOptionalCode")
+                .assertParameter("body").hasAnnotatedType("Optional<@Pattern(regexp = \"[A-Z]{3}\") String>")
+                .assertParameterAnnotations().doesNotContainWithName("Valid");
+    }
+
+    @Test
+    public void beanValidationOnOptionalModelLombok_issue25097() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+        codegen.setUseOptional(true);
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data");
+
+        final Map<String, File> files = generateFiles(codegen, ISSUE_25097_SPEC);
+
+        // With Lombok-generated accessors, bean validation is declared on the field.
+        JavaFileAssert.assertThat(files.get("Zoo.java"))
+                .fileContains(
+                        "private Optional<@Valid Item> singleItem = Optional.empty();",
+                        "private JsonNullable<@Valid Item> nullableSingleItem = JsonNullable.<Item>undefined();")
+                .assertProperty("singleItem").assertPropertyAnnotations().doesNotContainWithName("Valid")
+                .toProperty().toType()
+                .assertProperty("nullableSingleItem").assertPropertyAnnotations().doesNotContainWithName("Valid");
+    }
+
     @Test
     public void testXImplements() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
@@ -4830,7 +5027,8 @@ public class SpringCodegenTest {
                 .toType()
                 .fileContains("stringDefault = Optional.of(\"ABC\")")
                 .assertProperty("zebra")
-                .withType("Optional<Zebra>")
+                // a wrapped model cascades through the type argument (HV000271 on a member-level @Valid Optional)
+                .withType("Optional<@Valid Zebra>")
                 .toType()
 
                 .assertProperty("stringPatternNullable")
@@ -4943,7 +5141,7 @@ public class SpringCodegenTest {
         assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
         assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(value = \"1\") BigDecimal>");
         assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(value = \"10\") BigDecimal>");
-        assertOptionalMethod(javaFileAssert, "Zebra", "zebra", "Optional<Zebra>");
+        assertOptionalMethod(javaFileAssert, "Zebra", "zebra", "Optional<@Valid Zebra>");
 
         assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable", "JsonNullable<@Size(min = 1, max = 10) String>");
@@ -9081,7 +9279,8 @@ public class SpringCodegenTest {
                 configurator -> configurator.addSchemaMapping("ExternalModel", "com.example.ExternalModel"));
 
         JavaFileAssert.assertThat(files.get("MyObject.java"))
-                .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
+                // a fully qualified type argument carries its type-use @Valid after the package qualifier
+                .assertProperty("optionalRef").withType("JsonNullable<com.example.@Valid ExternalModel>");
     }
 
     @Test

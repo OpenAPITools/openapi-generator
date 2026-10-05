@@ -2772,6 +2772,48 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(mixed, "@Valid Map<String, Animal>");
     }
 
+    @DataProvider(name = "beanValidationLibraries_issue25097")
+    public static Object[][] beanValidationLibraries_issue25097() {
+        return new Object[][]{{JavaClientCodegen.RESTTEMPLATE}, {JavaClientCodegen.NATIVE}, {JavaClientCodegen.WEBCLIENT}};
+    }
+
+    @Test(dataProvider = "beanValidationLibraries_issue25097")
+    public void testBeanValidationOnContainerModelGetters_issue25097(String library) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/spring/issue_25097_valid_container.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        // DTO getters of container properties carry @Valid only on the type argument, never on the getter
+        // itself (HV000271), for lists, sets, maps, nested containers and allOf/oneOf/anyOf elements.
+        final JavaFileAssert zoo = JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Zoo.java"));
+        final Map<String, String> containerGetters = new LinkedHashMap<>();
+        containerGetters.put("getExactSources", "List<@Valid Item>");
+        containerGetters.put("getCats", "List<@Valid Cat>");
+        containerGetters.put("getBreeders", "List<@Valid Breeder>");
+        containerGetters.put("getAnyPets", "Set<@Valid AnyPet>");
+        containerGetters.put("getRelatedItems", "Map<String, @Valid Item>");
+        containerGetters.put("getCatsByName", "Map<String, @Valid Cat>");
+        containerGetters.put("getNestedItemMaps", "Map<String, Map<String, @Valid Item>>");
+        containerGetters.put("getListOfItemMaps", "List<Map<String, @Valid Item>>");
+        containerGetters.put("getMapOfItemLists", "Map<String, List<@Valid Item>>");
+        containerGetters.put("getFreeForms", "List<Map<String, Object>>");
+        containerGetters.put("getColors", "List<Color>");
+        containerGetters.forEach((getter, type) -> zoo.assertMethod(getter).hasReturnType(type)
+                .assertMethodAnnotations().doesNotContainWithName("Valid"));
+        zoo.assertMethod("getExactSources").assertMethodAnnotations().containsWithName("NotNull");
+        // single (unwrapped) objects keep the member-level @Valid
+        zoo.assertMethod("getSingleItem").hasReturnType("Item").assertMethodAnnotations().containsWithName("Valid");
+        zoo.assertMethod("getNullableSingleItem").hasReturnType("Item").assertMethodAnnotations().containsWithName("Valid");
+    }
+
     @Test
     public void testRestTemplateWithPerformBeanValidationEnabled() {
         final Path output = newTempFolder();
