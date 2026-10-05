@@ -58,6 +58,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
     public static final String TARGET_FRAMEWORK = "targetFramework";
     public static final String NET_60_OR_LATER = "net60OrLater";
+    public static final String NET_10_OR_LATER = "net10OrLater";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -489,6 +490,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
 
         setCentralizedPackageManagementOption();
+        if ("true".equals(additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT))) {
+            supportingFiles.add(new SupportingFile("Directory.Packages.props.mustache", packageFolder, "Directory.Packages.props"));
+        }
     }
 
     private void setCentralizedPackageManagementOption() {
@@ -862,6 +866,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             targetFramework.startsWith("net8.0") ||
             targetFramework.startsWith("net10.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
+        }
+        if (targetFramework.startsWith("net10.0")) {
+            additionalProperties.put(NET_10_OR_LATER, true);
         }
     }
 

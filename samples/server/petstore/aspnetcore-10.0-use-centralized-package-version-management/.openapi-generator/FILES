@@ -11,6 +11,7 @@ src/Org.OpenAPITools/Controllers/PetApi.cs
 src/Org.OpenAPITools/Controllers/StoreApi.cs
 src/Org.OpenAPITools/Controllers/UserApi.cs
 src/Org.OpenAPITools/Converters/CustomEnumConverter.cs
+src/Org.OpenAPITools/Directory.Packages.props
 src/Org.OpenAPITools/Dockerfile
 src/Org.OpenAPITools/Filters/BasePathFilter.cs
 src/Org.OpenAPITools/Filters/GeneratePathParamsValidationFilter.cs
