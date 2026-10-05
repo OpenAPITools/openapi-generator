@@ -644,6 +644,62 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerializationOkHttp() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("public String parameterToJsonString(Object param)");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToJsonString(xJsonArg));"
+                )
+                .doesNotContain(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToString(xJsonArg));"
+                )
+                .contains(
+                        "localVarHeaderParams.put(\"X-Plain-Arg\", localVarApiClient.parameterToString(xPlainArg));"
+                );
+    }
+
+    @Test
+    public void testDynamicJsonContentHeaderUsesJsonSerializationOkHttp() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
+                .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
+                .contains("headerParams.put(param.getName(), parameterToString(value));");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("paramMap.put(\"X-Json-Arg\", xJsonArg);")
+                .contains("paramMap.put(\"X-Plain-Arg\", xPlainArg);");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

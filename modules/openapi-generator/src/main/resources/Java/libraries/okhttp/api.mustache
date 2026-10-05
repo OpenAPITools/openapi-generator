@@ -235,7 +235,12 @@ public class {{classname}} {
         {{#headerParams}}
 
         if ({{paramName}} != null) {
+            {{#headerIsJsonMimeType}}
+            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToJsonString({{paramName}}));
+            {{/headerIsJsonMimeType}}
+            {{^headerIsJsonMimeType}}
             localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+            {{/headerIsJsonMimeType}}
         }
 
         {{/headerParams}}
