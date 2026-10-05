@@ -208,7 +208,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -223,7 +222,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             if (varReturn.VarReturnOption.IsSet && varReturn.VarReturn == null)

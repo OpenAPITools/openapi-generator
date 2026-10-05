@@ -129,6 +129,62 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testJsonImportOnlyGeneratedForJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "pet_api.py");
+
+        TestUtils.assertFileNotContains(api, "import json");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "default_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "import json",
+                "_header_params['X-Json-Arg'] = json.dumps(",
+                "self.api_client.sanitize_for_serialization(x_json_arg)",
+                "_header_params['X-Plain-Arg'] = x_plain_arg");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "_header_params['X-Json-Arg'] = x_json_arg",
+                "_header_params['X-Plain-Arg'] = json.dumps(");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();
@@ -139,6 +195,40 @@ public class PythonClientCodegenTest {
                         PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS),
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
+    }
+
+    @Test
+    public void testOneOfNotEnumValidation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path other = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "models",
+                "other.py");
+
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
     }
 
     @Test
@@ -214,6 +304,29 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
+    }
+
+    @Test(description = "sibling properties that share a model are not treated as a cycle (#25047)")
+    public void testExampleValueForSiblingsSharingAModel() {
+        final Schema shared = new ObjectSchema().addProperty("prop", new StringSchema());
+        final Schema holder = new ObjectSchema()
+                .addProperty("prop1", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop2", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop3", new Schema<>().$ref("#/components/schemas/Shared"));
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Shared", shared)
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertFalse(example.matches("(?s).*=\\s*,.*"), "empty example value in:\n" + example);
+        for (String prop : Arrays.asList("prop1", "prop2", "prop3")) {
+            Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
+                    prop + " missing its example in:\n" + example);
+        }
     }
 
     @Test(description = "test single quotes escape")
@@ -801,6 +914,74 @@ public class PythonClientCodegenTest {
         File apiInitFile = files.get(Paths.get(output.getAbsolutePath(), "my_pkg", "my_api", "__init__.py").toString());
         assertNotNull(apiInitFile);
         assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('filter', filter))",
+            "_query_params.extend(self.api_client.explode_query_object('typedFilter', typed_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
+
+        // a collection format applies only to a list, so an exploded "context": "en" next to a context: multi array stays context=en
+        Path apiClient = Paths.get(output.getAbsolutePath(), "openapi_client", "api_client.py");
+        TestUtils.assertFileContains(apiClient,
+            "def explode_query_object(self, name, obj):",
+            "if k in collection_formats and isinstance(v, (list, tuple)):");
+    }
+
+    @Test
+    public void testExplodedModelQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/python/exploded-model-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        // a model is serialized first (wire names), then exploded; a oneOf holding a primitive stays one parameter, one holding a list repeats the name
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('refFilter', ref_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('inlineFilter', inline_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('oneOfFilter', one_of_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('oneOfFilter', one_of_filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
     }
 
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
@@ -1616,5 +1797,26 @@ public class PythonClientCodegenTest {
                 "_owned_api_client",
                 "def close(self) -> None:");
         TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
+    }
+
+    @Test( description = "test src-layout with setuptools" )
+    public void testSrcLayoutSetuptools() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path setup = Paths.get(output, "setup.py");
+        assertFileContains(setup, "package_dir={\"\": \"src\"}", "packages=find_packages(where=\"src\", exclude=");
+    }
+
+    @Test( description = "test src-layout with poetry1" )
+    public void testSrcLayoutPoetry() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        codegen.additionalProperties().put("poetry1", true);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
 }

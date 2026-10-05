@@ -349,6 +349,38 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOAS31NullableTypeArrayIsInheritedThroughAllOf() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/allof-nullable-type-array.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // `id`, the items of `tags` and the values of `meta` are all declared with the OAS 3.1
+        // `type: [<type>, 'null']` form on Base, so they must stay nullable both on Base itself
+        // and on Derived, which pulls them in via `allOf: [$ref: Base, {...}]`. Nullability must
+        // survive at every nesting level, not just on the property itself.
+        for (String modelName : List.of("Base", "Derived", "Control")) {
+            Schema<?> schema = openAPI.getComponents().getSchemas().get(modelName);
+            CodegenModel model = codegen.fromModel(modelName, schema);
+
+            assertTrue(varNamed(model, "id").isNullable,
+                    "`id` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "tags").items.isNullable,
+                    "the items of `tags` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "meta").additionalProperties.isNullable,
+                    "the values of `meta` must be nullable on " + modelName);
+        }
+    }
+
+    private static CodegenProperty varNamed(CodegenModel model, String baseName) {
+        return model.vars.stream()
+                .filter(v -> baseName.equals(v.baseName))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("no `" + baseName + "` var on " + model.name));
+    }
+
+    @Test
     public void testOAS31ContentMediaTypeBinaryFormParameter() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
         new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
@@ -5363,6 +5395,29 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testHeaderIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/java/json-header-content.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/test";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        assertThat(codegenOperation.headerParams).hasSize(2);
+
+        CodegenParameter jsonHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Json-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(jsonHeader.headerIsJsonMimeType).isTrue();
+
+        CodegenParameter plainHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Plain-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(plainHeader.headerIsJsonMimeType).isFalse();
+    }
+
+    @Test
     public void testDefaultOauthIsNotNull() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_20662.yaml");
@@ -5539,5 +5594,62 @@ public class DefaultCodegenTest {
         DefaultCodegen off = new DefaultCodegen();
         off.processOpts();
         assertThat(off.splitOperationsByContentType).isFalse();
+    }
+
+    @Test
+    public void testGetEnumValueForPropertyWithNullAllowableValues() {
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setIsEnum(true);
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+
+        String result = DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, var);
+        assertEquals("defaultType", result);
+
+        Assertions.assertNull(DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, null));
+        assertEquals("defaultType", DefaultCodegen.getEnumValueForProperty("TestModel", null, var));
+    }
+
+    @Test
+    public void testSetEnumDiscriminatorDefaultValue() {
+        CodegenModel model = new CodegenModel();
+        model.name = "TestModel";
+        model.schemaName = "TestModel";
+
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setPropertyBaseName("type");
+        discriminator.setPropertyName("type");
+        discriminator.setIsEnum(true);
+        model.discriminator = discriminator;
+
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+        model.vars.add(var);
+        model.allVars.add(var);
+
+        // 1. With mapping defined and null allowableValues:
+        // Verifies the discriminator matching path executes and assigns mapped value without NPE
+        discriminator.setMapping(Map.of("CustomModel", "TestModel"));
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("CustomModel", var.defaultValue);
+
+        // 2. With allowableValues populated matching modelName:
+        // Verifies allowableValues matching path assigns the enum value
+        discriminator.setMapping(Collections.emptyMap());
+        var.allowableValues = Map.of(EnumVarMap.ENUM_VALUES, List.of("TestModel"));
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("TestModel", var.defaultValue);
+
+        // 3. With null allowableValues and no mapping match:
+        // Verifies fallback to defaultValue runs safely without NPE (issue #22177)
+        var.allowableValues = null;
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("defaultType", var.defaultValue);
     }
 }
