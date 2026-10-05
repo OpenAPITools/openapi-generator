@@ -492,32 +492,30 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 	}
 
 {{#vendorExtensions.x-go-enum-required-case-fold}}
-	lookupRequiredProperty := func(requiredProperty string) (interface{}, bool) {
+	lookupRequiredProperty := func(requiredProperty string) (interface{}, string, bool) {
 		if value, exists := allProperties[requiredProperty]; exists {
-			return value, true
+			return value, requiredProperty, true
 		}
 		for name, value := range allProperties {
 			if strings.EqualFold(name, requiredProperty) {
-				return value, true
+				return value, name, true
 			}
 		}
-		return nil, false
+		return nil, "", false
 	}
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 	for _, requiredProperty := range(requiredProperties) {
 		{{#useDefaultValuesForRequiredVars}}
 {{#vendorExtensions.x-go-enum-required-case-fold}}
-		if value, exists := lookupRequiredProperty(requiredProperty); !exists || value == "" {
+		if value, matchedKey, exists := lookupRequiredProperty(requiredProperty); !exists || value == "" {
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 {{^vendorExtensions.x-go-enum-required-case-fold}}
 		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
 {{#vendorExtensions.x-go-enum-required-case-fold}}
-				for name := range allProperties {
-					if strings.EqualFold(name, requiredProperty) {
-						delete(allProperties, name)
-					}
+				if exists && matchedKey != requiredProperty {
+					delete(allProperties, matchedKey)
 				}
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
@@ -525,7 +523,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 			}
 		}
 {{#vendorExtensions.x-go-enum-required-case-fold}}
-		if value, exists := lookupRequiredProperty(requiredProperty); !exists || value == ""{
+		if value, _, exists := lookupRequiredProperty(requiredProperty); !exists || value == ""{
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 {{^vendorExtensions.x-go-enum-required-case-fold}}
 		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
@@ -533,7 +531,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 		{{/useDefaultValuesForRequiredVars}}
 		{{^useDefaultValuesForRequiredVars}}
 {{#vendorExtensions.x-go-enum-required-case-fold}}
-		if _, exists := lookupRequiredProperty(requiredProperty); !exists {
+		if _, _, exists := lookupRequiredProperty(requiredProperty); !exists {
 {{/vendorExtensions.x-go-enum-required-case-fold}}
 {{^vendorExtensions.x-go-enum-required-case-fold}}
 		if _, exists := allProperties[requiredProperty]; !exists {
