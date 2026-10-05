@@ -397,7 +397,15 @@ public class JSON {
      */
     @SuppressWarnings("unchecked")
     public <T> T deserialize(String body, Type returnType) {
-        return jsonb.fromJson(body, returnType);
+        try {
+            return jsonb.fromJson(body, returnType);
+        } catch (jakarta.json.bind.JsonbException e) {
+            if (returnType.equals(String.class)) {
+                return (T) body;
+            } else {
+                throw e;
+            }
+        }
     }
 
     /**

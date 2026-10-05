@@ -38,4 +38,13 @@ public class JSONTest {
                 FormatTest.class);
         assertArrayEquals("hello".getBytes(StandardCharsets.UTF_8), back.getByte());
     }
+
+    @Test
+    public void testDeserializeStringFallsBackToRawBody() {
+        // ApiClient routes text responses with a JSON-ish or missing Content-Type through deserialize();
+        // for a String return type the raw body must come back instead of a JsonbException
+        assertEquals("hello", json.deserialize("hello", String.class));
+        assertEquals("quoted", json.deserialize("\"quoted\"", String.class));
+        assertThrows(jakarta.json.bind.JsonbException.class, () -> json.deserialize("hello", FormatTest.class));
+    }
 }
