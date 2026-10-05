@@ -26,11 +26,22 @@ ext {
     {{#swagger2AnnotationLibrary}}
     swagger_annotations_version = "2.2.36"
     {{/swagger2AnnotationLibrary}}
+    {{^useJackson3}}
     rest_assured_version = "5.5.6"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    rest_assured_version = "6.0.1"
+    {{/useJackson3}}
     junit_version = "5.10.3"
 {{#jackson}}
+    {{^useJackson3}}
     jackson_version = "2.21.6"
     jackson_databind_version = "2.21.6"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    jackson3_version = "3.1.6"
+    jackson_annotations_version = "2.21"
+    {{/useJackson3}}
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.12"
     {{/openApiNullable}}
@@ -106,8 +117,14 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'maven-publish'
 
     java {
+        {{^useJackson3}}
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        {{/useJackson3}}
+        {{#useJackson3}}
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        {{/useJackson3}}
     }
 
     publishing {
@@ -135,6 +152,7 @@ dependencies {
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.rest-assured:rest-assured:$rest_assured_version"
 {{#jackson}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
@@ -149,6 +167,18 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    implementation "tools.jackson.core:jackson-core:$jackson3_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
+    implementation "tools.jackson.core:jackson-databind:$jackson3_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
+    {{#withXml}}
+    implementation "tools.jackson.dataformat:jackson-dataformat-xml:$jackson3_version"
+    {{/withXml}}
+    {{/useJackson3}}
 {{/jackson}}
 {{#gson}}
     implementation "io.gsonfire:gson-fire:$gson_fire_version"

@@ -63,6 +63,7 @@ from petstore_api.models.foo import Foo
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.header_arg import HeaderArg
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.hunting_dog import HuntingDog
 from petstore_api.models.info import Info

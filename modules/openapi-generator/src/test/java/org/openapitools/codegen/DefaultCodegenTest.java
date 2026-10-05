@@ -5363,6 +5363,29 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testHeaderIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/java/json-header-content.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/test";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        assertThat(codegenOperation.headerParams).hasSize(2);
+
+        CodegenParameter jsonHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Json-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(jsonHeader.headerIsJsonMimeType).isTrue();
+
+        CodegenParameter plainHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Plain-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(plainHeader.headerIsJsonMimeType).isFalse();
+    }
+
+    @Test
     public void testDefaultOauthIsNotNull() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_20662.yaml");

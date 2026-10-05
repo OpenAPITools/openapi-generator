@@ -63,6 +63,7 @@ __all__ = [
     "FooGetDefaultResponse",
     "FormatTest",
     "HasOnlyReadOnly",
+    "HeaderArg",
     "HealthCheckResult",
     "HuntingDog",
     "Info",
@@ -183,6 +184,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
     from petstore_api.models.format_test import FormatTest
     from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+    from petstore_api.models.header_arg import HeaderArg
     from petstore_api.models.health_check_result import HealthCheckResult
     from petstore_api.models.hunting_dog import HuntingDog
     from petstore_api.models.info import Info
@@ -302,6 +304,7 @@ else:
         "FooGetDefaultResponse": ".foo_get_default_response",
         "FormatTest": ".format_test",
         "HasOnlyReadOnly": ".has_only_read_only",
+        "HeaderArg": ".header_arg",
         "HealthCheckResult": ".health_check_result",
         "HuntingDog": ".hunting_dog",
         "Info": ".info",

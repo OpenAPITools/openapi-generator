@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: JSON header webhook
+  version: 1.0.0
+webhooks:
+  onEvent:
+    post:
+      operationId: onEvent
+      parameters:
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        file_path:
+          type: string
