@@ -83,4 +83,14 @@ public class AspNetServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(AspNetServerCodegen.USE_FRAMEWORK_REFERENCE), Boolean.TRUE);
         Assert.assertEquals(codegen.additionalProperties().get(AspNetServerCodegen.NET_60_OR_LATER), Boolean.TRUE);
     }
+
+    @Test
+    public void aspnetCore10IsTheDefaultVersion() {
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(AspNetServerCodegen.ASPNET_CORE_VERSION), "10.0");
+        Assert.assertEquals(codegen.additionalProperties().get(AspNetServerCodegen.TARGET_FRAMEWORK), "net10.0");
+    }
 }

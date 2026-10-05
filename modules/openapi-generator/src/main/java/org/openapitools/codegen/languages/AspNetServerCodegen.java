@@ -200,7 +200,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
         aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
         aspnetCoreVersion.addEnum("10.0", "ASP.NET Core 10.0");
-        aspnetCoreVersion.setDefault("8.0");
+        aspnetCoreVersion.setDefault("10.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
