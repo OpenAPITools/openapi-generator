@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
@@ -598,6 +599,147 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
         return objs;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (!generateUnmarshalJSON) {
+            return objs;
+        }
+
+        // Scope allowed-enum checks to oneOf variants whose sibling excludes values of the same property.
+        Map<CodegenModel, Set<String>> allowedOneOfProperties = new IdentityHashMap<>();
+        for (ModelsMap models : objs.values()) {
+            for (ModelMap modelMap : models.getModels()) {
+                CodegenModel union = modelMap.getModel();
+                for (String excludedMemberName : union.oneOf) {
+                    CodegenModel excludedMember = ModelUtils.getModelByName(excludedMemberName, objs);
+                    if (excludedMember == null) {
+                        continue;
+                    }
+                    for (CodegenProperty excludedProperty : effectiveVars(excludedMember).values()) {
+                        CodegenProperty not = excludedProperty.getComposedSchemas() == null
+                                ? null : excludedProperty.getComposedSchemas().getNot();
+                        if (stringEnumComparison(not, true) == null) {
+                            continue;
+                        }
+                        for (String allowedMemberName : union.oneOf) {
+                            if (allowedMemberName.equals(excludedMemberName)) {
+                                continue;
+                            }
+                            CodegenModel allowedMember = ModelUtils.getModelByName(allowedMemberName, objs);
+                            if (allowedMember == null) {
+                                continue;
+                            }
+                            CodegenProperty allowedProperty = effectiveVars(allowedMember).get(excludedProperty.baseName);
+                            if (stringEnumComparison(allowedProperty, false) != null) {
+                                allowedOneOfProperties.computeIfAbsent(allowedMember, ignored -> new HashSet<>())
+                                        .add(excludedProperty.baseName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (ModelsMap models : objs.values()) {
+            for (ModelMap modelMap : models.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.isEnum || hasOneOf(model) || hasAnyOf(model)) {
+                    continue;
+                }
+                // allOf children may need to validate properties inherited from their parent.
+                Map<String, CodegenProperty> effectiveVars = effectiveVars(model);
+                Map<String, CodegenProperty> ownVars = new HashMap<>();
+                for (CodegenProperty param : model.vars) {
+                    ownVars.put(param.baseName, param);
+                }
+                List<CodegenProperty> validationVars = new ArrayList<>();
+                boolean hasInheritedStringEnumValidation = false;
+                for (CodegenProperty param : effectiveVars.values()) {
+                    String allowed = allowedOneOfProperties.getOrDefault(model, Collections.emptySet()).contains(param.baseName)
+                            ? stringEnumComparison(param, false) : null;
+                    CodegenProperty not = param.getComposedSchemas() == null ? null : param.getComposedSchemas().getNot();
+                    String excluded = stringEnumComparison(not, true);
+                    if (allowed != null || excluded != null) {
+                        hasInheritedStringEnumValidation |= !ownVars.containsKey(param.baseName);
+                        if (ownVars.containsKey(param.baseName) && ownVars.get(param.baseName).vendorExtensions.containsKey("x-go-datatag")
+                                && !param.vendorExtensions.containsKey("x-go-datatag")) {
+                            param.vendorExtensions.put("x-go-datatag", ownVars.get(param.baseName).vendorExtensions.get("x-go-datatag"));
+                        }
+                        validationVars.add(param);
+                        param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
+                        if (allowed != null) {
+                            param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
+                            if (param.isNullable && (param.isEnumRef || ((List<?>) param.allowableValues.get("values")).contains(null))) {
+                                param.vendorExtensions.put("x-go-allowed-string-enum-null", true);
+                            }
+                        }
+                        if (excluded != null) {
+                            param.vendorExtensions.put("x-go-excluded-string-enum-comparison", excluded);
+                        }
+                    }
+                }
+                if (!validationVars.isEmpty()) {
+                    model.vendorExtensions.put("x-go-has-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-string-enum-validation-vars", validationVars);
+                    List<Map<String, String>> imports = models.getImports();
+                    if (imports.stream().noneMatch(i -> "fmt".equals(i.get("import")))) {
+                        imports.add(createMapping("import", "fmt"));
+                    }
+                    if (model.hasRequired && validationVars.stream().anyMatch(param -> param.required)) {
+                        // Required-key checks must match the case-insensitive field names accepted by encoding/json.
+                        model.vendorExtensions.put("x-go-enum-required-case-fold", true);
+                        if (imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
+                            imports.add(createMapping("import", "strings"));
+                        }
+                    }
+                    imports.sort(Comparator.comparing(i -> i.get("import")));
+                }
+                if (hasInheritedStringEnumValidation && !model.isAdditionalPropertiesTrue) {
+                    for (CodegenProperty param : effectiveVars.values()) {
+                        param.vendorExtensions.put("x-go-flattened-json-name", TextNode.valueOf(param.baseName + (param.required ? "" : ",omitempty")).toString());
+                    }
+                    model.vendorExtensions.put("x-go-inherited-string-enum-validation", true);
+                    model.vendorExtensions.put("x-go-flattened-vars", new ArrayList<>(effectiveVars.values()));
+                }
+            }
+        }
+        return objs;
+    }
+
+    /** Returns properties used for validation, including inherited allOf properties when present. */
+    private static Map<String, CodegenProperty> effectiveVars(CodegenModel model) {
+        Map<String, CodegenProperty> vars = new LinkedHashMap<>();
+        for (CodegenProperty param : model.parent == null ? model.vars : model.allVars) {
+            vars.put(param.baseName, param);
+        }
+        return vars;
+    }
+
+    /** Builds a Go comparison for supported string/null enum values, using equality in exclusion mode. */
+    private static String stringEnumComparison(CodegenProperty property, boolean excluded) {
+        if (property == null || !(property.isString && property.isEnum || property.isEnumRef)
+                || property.allowableValues == null
+                || !(property.allowableValues.get("values") instanceof List)) {
+            return null;
+        }
+        StringJoiner comparisons = new StringJoiner(excluded ? " || " : " && ");
+        for (Object value : (List<?>) property.allowableValues.get("values")) {
+            if (value == null && excluded) {
+                comparisons.add("value == nil");
+                continue;
+            }
+            if (value == null && property.isNullable) {
+                continue;
+            }
+            if (!(value instanceof String)) {
+                return null;
+            }
+            comparisons.add("value " + (excluded ? "==" : "!=") + " " + TextNode.valueOf((String) value));
+        }
+        return comparisons.length() == 0 ? (property.isNullable && !excluded ? "true" : null) : comparisons.toString();
     }
 
     /**
