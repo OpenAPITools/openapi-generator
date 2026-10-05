@@ -5803,9 +5803,19 @@ public class JavaClientCodegenTest {
                 "src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP);
         for (String model : List.of("Other.java", "OtherWithEnumRef.java")) {
             assertThat(files.get(model)).content()
-                    .contains("\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                    .contains("\"known\".equals(jsonElement.getAsJsonObject().get(\"kind\").getAsString())",
                             "matches a value disallowed by `not`");
         }
+
+        // a child model enforces the `not` constraint of an inherited property too
+        files = generateFromContract("src/test/resources/3_1/java/not-enum-inherited.yaml", JavaClientCodegen.OKHTTP);
+        assertThat(files.get("Derived.java")).content()
+                .contains("public class Derived extends Base")
+                .contains("\"known\".equals(jsonElement.getAsJsonObject().get(\"kind\").getAsString())");
+        files = generateFromContract("src/test/resources/3_1/java/not-enum-inherited.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+        assertThat(files.get("Derived.java")).content()
+                .contains("\"known\".equals(((jakarta.json.JsonString) jsonObj.get(\"kind\")).getString())");
 
         files = generateFromContract("src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP,
                 Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
