@@ -2193,6 +2193,9 @@ public class OpenAPINormalizer {
         os.setExamples(schema.getExamples());
         os.setTitle(schema.getTitle());
 
+        // Schema#setRequired only keeps names present in properties, so clear them first to retain inherited required names
+        schema.setProperties(null);
+
         // Split required properties between local and inherited
         if (originalRequired != null) {
             List<String> localRequired = new ArrayList<>();
@@ -2218,8 +2221,7 @@ public class OpenAPINormalizer {
         }
 
         schema.getAllOf().add(os);  // move new schema as a child schema of allOf
-        // clean up by removing properties, etc        
-        schema.setProperties(null);
+        // clean up by removing properties, etc
         schema.setAdditionalProperties(null);
         schema.setNullable(null);
         schema.setDescription(null);
