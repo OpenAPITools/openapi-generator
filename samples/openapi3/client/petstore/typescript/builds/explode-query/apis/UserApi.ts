@@ -242,7 +242,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (password !== undefined) {
-            requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string", ""));
+            requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string", "password"));
         }
 
 
