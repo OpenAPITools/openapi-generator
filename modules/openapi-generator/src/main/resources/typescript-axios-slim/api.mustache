@@ -1,0 +1,37 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+
+{{^withSeparateModelsAndApi}}
+import type { Configuration } from './configuration{{importFileExtension}}';
+import type { AxiosInstance, AxiosResponse } from 'axios';
+import globalAxios from 'axios';
+{{#withNodeImports}}
+// URLSearchParams not necessarily used
+// @ts-ignore
+import { URLSearchParams } from 'url';
+{{#multipartFormData}}
+import FormData from 'form-data'
+{{/multipartFormData}}
+{{/withNodeImports}}
+import * as v from 'valibot';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { runAxiosRequest, withParams, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, serializeDataIfNeeded, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from './common{{importFileExtension}}';
+import type { ObserveOptions, ResponseObserveOptions, ObserveReturn, RunAxiosPrepare } from './common{{importFileExtension}}';
+import type { RequestArgs } from './base{{importFileExtension}}';
+// @ts-ignore
+import { COLLECTION_FORMATS, BaseAPI, RequiredError } from './base{{importFileExtension}}';
+
+{{#models}}
+{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/model}}
+{{/models}}
+{{#apiInfo}}{{#apis}}
+{{>apiInner}}
+
+{{/apis}}{{/apiInfo}}
+{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
+{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{tsApiPackage}}/{{classFilename}}{{importFileExtension}}';
+{{/operations}}{{/apis}}{{/apiInfo}}
+{{/withSeparateModelsAndApi}}
