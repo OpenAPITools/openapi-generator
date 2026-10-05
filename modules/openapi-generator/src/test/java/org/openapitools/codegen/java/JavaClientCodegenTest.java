@@ -4879,11 +4879,11 @@ public class JavaClientCodegenTest {
     public void testWebClientDeprecatedOperation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", WEBCLIENT);
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-                .assertMethod("findPetsByTags").hasAnnotation("Deprecated")
+                .assertMethod("findPetsByTags").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
                 .toFileAssert()
-                .assertMethod("findPetsByTagsWithHttpInfo").hasAnnotation("Deprecated")
+                .assertMethod("findPetsByTagsWithHttpInfo").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
                 .toFileAssert()
-                .assertMethod("findPetsByTagsWithResponseSpec").hasAnnotation("Deprecated")
+                .assertMethod("findPetsByTagsWithResponseSpec").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
                 .toFileAssert()
                 .assertMethod("findPetsByStatus").doesNotHaveAnnotation("Deprecated")
                 .toFileAssert()
