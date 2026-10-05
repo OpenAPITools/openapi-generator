@@ -139,6 +139,47 @@ public class RubyNextgenClientCodegenTest {
     }
 
     @Test
+    public void testSupportingFilesRespectSelectiveApiGeneration() {
+        io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
+                .parseSpec("src/test/resources/3_0/petstore.yaml");
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        java.util.Map<String, java.util.List<org.openapitools.codegen.CodegenOperation>> groups =
+                new java.util.TreeMap<>();
+        for (java.util.Map.Entry<String, io.swagger.v3.oas.models.PathItem> pathEntry
+                : openAPI.getPaths().entrySet()) {
+            for (java.util.Map.Entry<io.swagger.v3.oas.models.PathItem.HttpMethod,
+                    io.swagger.v3.oas.models.Operation> operationEntry
+                    : pathEntry.getValue().readOperationsMap().entrySet()) {
+                org.openapitools.codegen.CodegenOperation operation = codegen.fromOperation(
+                        pathEntry.getKey(), operationEntry.getKey().name(), operationEntry.getValue(), null);
+                codegen.addOperationToGroup(null, pathEntry.getKey(), operationEntry.getValue(), operation, groups);
+            }
+        }
+
+        org.openapitools.codegen.model.OperationMap generatedOperations =
+                new org.openapitools.codegen.model.OperationMap();
+        generatedOperations.setClassname(codegen.toApiName("pet"));
+        org.openapitools.codegen.model.OperationsMap generatedApi =
+                new org.openapitools.codegen.model.OperationsMap();
+        generatedApi.setOperation(generatedOperations);
+        org.openapitools.codegen.model.ApiInfoMap apiInfo =
+                new org.openapitools.codegen.model.ApiInfoMap();
+        apiInfo.setApis(java.util.Collections.singletonList(generatedApi));
+
+        java.util.Map<String, Object> supportingData = new java.util.HashMap<>();
+        supportingData.put("apiInfo", apiInfo);
+        codegen.postProcessSupportingFileData(supportingData);
+
+        java.util.List<java.util.Map<String, Object>> namespaces =
+                (java.util.List<java.util.Map<String, Object>>) supportingData.get("rbNamespaces");
+        assertEquals(namespaces.size(), 1);
+        assertEquals(namespaces.get(0).get("routeName"), "pet");
+    }
+
+    @Test
     public void testOperationIdCollisionIsDeduped() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
                 .parseSpec("src/test/resources/3_0/petstore.yaml");
