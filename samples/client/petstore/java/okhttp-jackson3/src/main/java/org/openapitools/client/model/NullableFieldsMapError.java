@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * Error response
@@ -134,16 +133,6 @@ public class NullableFieldsMapError {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("status", "reason"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("status", "reason"));
-  }
 
 
 

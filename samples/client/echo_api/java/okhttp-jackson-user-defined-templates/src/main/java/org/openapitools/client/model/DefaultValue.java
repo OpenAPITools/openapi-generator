@@ -26,7 +26,6 @@ import java.util.Map;
 import org.openapitools.client.model.StringEnumRef;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * to test the default value of properties
@@ -423,16 +422,6 @@ public class DefaultValue {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(0);
-  }
 
 
 }

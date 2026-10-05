@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
@@ -112,16 +111,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("values"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(0);
-  }
 
 
 }

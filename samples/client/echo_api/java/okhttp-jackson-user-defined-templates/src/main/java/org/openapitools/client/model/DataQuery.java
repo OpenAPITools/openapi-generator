@@ -27,7 +27,6 @@ import java.util.Map;
 import org.openapitools.client.model.Query;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * DataQuery
@@ -172,16 +171,6 @@ public class DataQuery extends Query {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "outcomes", "suffix", "text", "date"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(0);
-  }
 
 
 }

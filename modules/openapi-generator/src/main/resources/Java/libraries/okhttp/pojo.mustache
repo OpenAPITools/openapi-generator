@@ -80,7 +80,9 @@ import java.lang.reflect.Type;
     JavaClientCodegen.fromModel, which is also where codegen imports them for container
     properties. Emitting them here as well produced duplicate import lines. HashSet stays: it
     has no Java importMapping entry, and it is not duplicated. }}
+{{^isJackson}}
 import java.util.HashSet;
+{{/isJackson}}
 {{#isGson}}
 
 import {{invokerPackage}}.JSON;
@@ -477,6 +479,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   };
 {{/parcelableModel}}
 
+  {{^isJackson}}
+  {{! Jackson binds through annotations and never consults these sets; the Gson TypeAdapter and the
+      JSON-B deserializer use them for required/undeclared-field validation. }}
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -502,6 +507,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     openapiRequiredFields = new HashSet<String>(0);
     {{/hasRequired}}
   }
+  {{/isJackson}}
 
 {{#isGson}}
   /**

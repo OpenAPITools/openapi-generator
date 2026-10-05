@@ -27,7 +27,6 @@ import java.util.Map;
 import org.jspecify.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * RequiredAndNullable
@@ -242,16 +241,6 @@ public class RequiredAndNullable {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("str", "file", "color", "onlyRequired", "list"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("str", "file", "color", "onlyRequired", "list"));
-  }
 
 
 

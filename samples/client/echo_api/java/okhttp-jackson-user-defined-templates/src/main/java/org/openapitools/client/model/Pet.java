@@ -27,7 +27,6 @@ import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * Pet
@@ -320,16 +319,6 @@ public class Pet {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "name", "category", "photoUrls", "tags", "status"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "photoUrls"));
-  }
 
 
 }

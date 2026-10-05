@@ -29,7 +29,6 @@ import java.util.Map;
 import org.jspecify.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.HashSet;
 
 /**
  * Foo
@@ -516,16 +515,6 @@ public class Foo {
   }
 
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("dt", "nullableDt", "binary", "nullableBinary", "listOfDt", "listMinIntems", "nullableListMinIntems", "requiredDt", "number", "nullableNumber", "color", "requiredColor", "nullableColor"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("requiredDt", "requiredColor"));
-  }
 
 
 
