@@ -90,10 +90,13 @@ public class RetryingOAuth extends OAuth implements Interceptor {
             updateAccessToken(null);
         }
 
-        if (getAccessToken() != null) {
+        // Remember the token this request is sent with: a 401/403 must only trigger a token refresh
+        // if no other thread has refreshed the token in the meantime (see updateAccessToken).
+        String requestAccessToken = getAccessToken();
+        if (requestAccessToken != null) {
             // Build the request
             Request.Builder requestBuilder = request.newBuilder();
-            requestBuilder.header("Authorization", "Bearer " + getAccessToken());
+            requestBuilder.header("Authorization", "Bearer " + requestAccessToken);
 
             // Execute the request
             Response response = chain.proceed(requestBuilder.build());
@@ -106,7 +109,6 @@ public class RetryingOAuth extends OAuth implements Interceptor {
                             updateTokenAndRetryOnAuthorizationFailure
             ) {
                 try {
-                    String requestAccessToken = getAccessToken();
                     if (updateAccessToken(requestAccessToken)) {
                         if (response.body() != null) {
                             response.body().close();

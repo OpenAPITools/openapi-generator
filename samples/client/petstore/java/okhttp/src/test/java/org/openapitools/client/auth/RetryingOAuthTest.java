@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -39,6 +40,7 @@ public class RetryingOAuthTest {
     private String baseUrl;
     private RetryingOAuth oauth;
     private OkHttpClient httpClient;
+    private final AtomicInteger tokenRequests = new AtomicInteger();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -47,6 +49,7 @@ public class RetryingOAuthTest {
 
         // Token endpoint: always issues "new-access-token".
         server.createContext("/token", exchange -> {
+            tokenRequests.incrementAndGet();
             try {
                 // small delay so two concurrent 401s are likely to overlap on the
                 // synchronized updateAccessToken() critical section
@@ -66,6 +69,14 @@ public class RetryingOAuthTest {
         // Protected resource: 200 only when called with the fresh access token, 401 otherwise.
         server.createContext("/api", exchange -> {
             String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+            String delay = exchange.getRequestHeaders().getFirst("X-Delay");
+            if (delay != null) {
+                try {
+                    Thread.sleep(Long.parseLong(delay));
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             int code = "Bearer new-access-token".equals(authHeader)
                     ? HttpURLConnection.HTTP_OK
                     : HttpURLConnection.HTTP_UNAUTHORIZED;
@@ -156,6 +167,33 @@ public class RetryingOAuthTest {
         assertEquals("authorization_code", formParams.get("grant_type"));
         assertEquals("_clientId", formParams.get("client_id"));
         assertEquals("_clientSecret", formParams.get("client_secret"));
+    }
+
+    @Test
+    public void testStaleTokenIsRefreshedOnlyOnce() throws Exception {
+        // The second request's 401 arrives only after the first request has already refreshed the
+        // token; it must reuse the refreshed token instead of asking the token endpoint again
+        // (and it must still be retried, i.e. end in 200).
+        Request fast = new Request.Builder().url(baseUrl + "/api").build();
+        Request slow = new Request.Builder().url(baseUrl + "/api").header("X-Delay", "700").build();
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        try {
+            Future<Integer> slowResponse = executor.submit(() -> {
+                try (Response response = httpClient.newCall(slow).execute()) {
+                    return response.code();
+                }
+            });
+            Future<Integer> fastResponse = executor.submit(() -> {
+                try (Response response = httpClient.newCall(fast).execute()) {
+                    return response.code();
+                }
+            });
+            assertEquals(HttpURLConnection.HTTP_OK, fastResponse.get(10, TimeUnit.SECONDS).intValue());
+            assertEquals(HttpURLConnection.HTTP_OK, slowResponse.get(10, TimeUnit.SECONDS).intValue());
+        } finally {
+            executor.shutdown();
+        }
+        assertEquals(1, tokenRequests.get(), "token endpoint must be called once per stale token, not once per 401");
     }
 
     @Test
