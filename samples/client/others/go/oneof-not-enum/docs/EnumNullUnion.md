@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Kind** | Pointer to **string** |  | [optional] 
+**Kind** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -50,6 +50,16 @@ SetKind sets Kind field to given value.
 
 HasKind returns a boolean if a field has been set.
 
+### SetKindNil
+
+`func (o *EnumNullUnion) SetKindNil(b bool)`
+
+ SetKindNil sets the value for Kind to be an explicit nil
+
+### UnsetKind
+`func (o *EnumNullUnion) UnsetKind()`
+
+UnsetKind ensures that no value is present for Kind, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
