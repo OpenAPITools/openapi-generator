@@ -608,7 +608,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return objs;
         }
 
-        // An allowed enum only needs strict validation when a oneOf sibling excludes values for that property.
+        // Scope allowed-enum checks to oneOf variants whose sibling excludes values of the same property.
         Map<CodegenModel, Set<String>> allowedOneOfProperties = new IdentityHashMap<>();
         for (ModelsMap models : objs.values()) {
             for (ModelMap modelMap : models.getModels()) {
@@ -649,6 +649,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 if (model.isEnum || hasOneOf(model) || hasAnyOf(model)) {
                     continue;
                 }
+                // allOf children may need to validate properties inherited from their parent.
                 Map<String, CodegenProperty> effectiveVars = effectiveVars(model);
                 Map<String, CodegenProperty> ownVars = new HashMap<>();
                 for (CodegenProperty param : model.vars) {
@@ -688,6 +689,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         imports.add(createMapping("import", "fmt"));
                     }
                     if (model.hasRequired && validationVars.stream().anyMatch(param -> param.required)) {
+                        // Required-key checks must match the case-insensitive field names accepted by encoding/json.
                         model.vendorExtensions.put("x-go-enum-required-case-fold", true);
                         if (imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
                             imports.add(createMapping("import", "strings"));
@@ -707,6 +709,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return objs;
     }
 
+    /** Returns properties used for validation, including inherited allOf properties when present. */
     private static Map<String, CodegenProperty> effectiveVars(CodegenModel model) {
         Map<String, CodegenProperty> vars = new LinkedHashMap<>();
         for (CodegenProperty param : model.parent == null ? model.vars : model.allVars) {
@@ -715,6 +718,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return vars;
     }
 
+    /** Builds a Go comparison for supported string/null enum values, using equality in exclusion mode. */
     private static String stringEnumComparison(CodegenProperty property, boolean excluded) {
         if (property == null || !(property.isString && property.isEnum || property.isEnumRef)
                 || property.allowableValues == null

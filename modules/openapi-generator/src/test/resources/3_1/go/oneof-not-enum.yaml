@@ -77,7 +77,7 @@ components:
         kind:
           type: string
           enum: [allowed]
-        '-':
+        dash:
           type: string
       discriminator:
         propertyName: kind

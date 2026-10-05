@@ -211,8 +211,7 @@ public class GoClientCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
                 .setInputSpec("src/test/resources/3_1/go/oneof-not-enum.yaml")
-                .setOutputDir(output.getAbsolutePath())
-                .setNameMappings(Map.of("-", "Dash"));
+                .setOutputDir(output.getAbsolutePath());
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
 
@@ -255,7 +254,7 @@ public class GoClientCodegenTest {
                 "decoded.Kind = o.Kind",
                 "o.Kind = decoded.Kind",
                 "o.Label = decoded.Label",
-                "Dash *string `json:\"-,omitempty\"`",
+                "Dash *string `json:\"dash,omitempty\"`",
                 "o.Dash = decoded.Dash");
 
         File allOfOutput = Files.createTempDirectory("go-inherited-enum").toFile();
