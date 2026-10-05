@@ -265,7 +265,7 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for NullableFieldsMapResponse: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

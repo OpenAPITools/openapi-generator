@@ -276,7 +276,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for FakeRefParameterPetIdParameter: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

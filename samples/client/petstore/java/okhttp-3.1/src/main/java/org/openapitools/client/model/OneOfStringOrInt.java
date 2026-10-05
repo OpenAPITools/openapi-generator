@@ -276,7 +276,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for OneOfStringOrInt: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

@@ -181,7 +181,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for MyExampleGet200Response: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

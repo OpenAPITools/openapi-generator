@@ -170,7 +170,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

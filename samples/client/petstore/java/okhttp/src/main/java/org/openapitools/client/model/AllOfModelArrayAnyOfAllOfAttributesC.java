@@ -274,7 +274,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
 
                     throw new IOException(String.format("Failed deserialization for AllOfModelArrayAnyOfAllOfAttributesC: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

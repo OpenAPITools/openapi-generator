@@ -594,7 +594,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     throw new IOException(String.format("Failed deserialization for {{classname}}: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
     {{/isGson}}

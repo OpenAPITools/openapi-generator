@@ -326,7 +326,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for MammalAnyof: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

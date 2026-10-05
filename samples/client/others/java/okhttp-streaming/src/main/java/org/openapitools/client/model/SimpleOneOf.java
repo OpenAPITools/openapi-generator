@@ -176,7 +176,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
 
                     throw new IOException(String.format("Failed deserialization for SimpleOneOf: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

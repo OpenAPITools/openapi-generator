@@ -264,7 +264,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
 
                     throw new IOException(String.format("Failed deserialization for AllOfModelArrayAnyOfAllOfLinkListColumn1Value: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

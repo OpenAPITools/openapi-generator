@@ -276,7 +276,7 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
 
                     throw new IOException(String.format("Failed deserialization for RefRefToPathLevelParameterOneofRefToOneofParameter: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

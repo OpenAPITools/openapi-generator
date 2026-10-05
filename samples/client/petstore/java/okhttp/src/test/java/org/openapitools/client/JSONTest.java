@@ -811,4 +811,19 @@ public class JSONTest {
         final LocalDate date = LocalDate.of(2016, 9, 9);
         assertEquals(date, json.deserialize(inputStream, LocalDate.class));
     }
+
+    @Test
+    public void testOneOfAnyOfPropertyNull() throws Exception {
+        // oneOf/anyOf TypeAdapters must be null-safe: a JSON null for a composed-schema-typed
+        // property has to deserialize to null instead of failing on "Not a JSON Object: null"
+        String str = "{\"shapeOrNull\":null,\"nullableShape\":null}";
+
+        Drawing drawing = json.getGson().fromJson(str, Drawing.class);
+        assertNull(drawing.getShapeOrNull());
+        assertNull(drawing.getNullableShape());
+
+        // and the adapters must write null back out instead of throwing
+        assertNull(json.getGson().fromJson("null", ShapeOrNull.class));
+        assertEquals("null", json.getGson().toJson(null, ShapeOrNull.class));
+    }
 }

@@ -168,7 +168,7 @@ public class StringOrInt extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for StringOrInt: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

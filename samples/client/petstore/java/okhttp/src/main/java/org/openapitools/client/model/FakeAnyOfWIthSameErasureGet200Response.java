@@ -251,7 +251,7 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
 
                     throw new IOException(String.format("Failed deserialization for FakeAnyOfWIthSameErasureGet200Response: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

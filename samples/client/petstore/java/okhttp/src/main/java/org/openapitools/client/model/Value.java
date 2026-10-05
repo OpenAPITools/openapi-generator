@@ -280,7 +280,7 @@ public class Value extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for Value: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

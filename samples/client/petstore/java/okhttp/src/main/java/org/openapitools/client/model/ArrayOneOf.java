@@ -287,7 +287,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for ArrayOneOf: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

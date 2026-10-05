@@ -276,7 +276,7 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for SelfReferenceOneOf: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

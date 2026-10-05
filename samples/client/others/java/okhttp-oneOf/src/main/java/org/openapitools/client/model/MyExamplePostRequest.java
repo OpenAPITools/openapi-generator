@@ -143,7 +143,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for MyExamplePostRequest: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

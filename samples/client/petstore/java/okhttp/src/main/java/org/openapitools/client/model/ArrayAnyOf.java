@@ -281,7 +281,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for ArrayAnyOf: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

@@ -332,7 +332,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for ScalarAnyOf: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

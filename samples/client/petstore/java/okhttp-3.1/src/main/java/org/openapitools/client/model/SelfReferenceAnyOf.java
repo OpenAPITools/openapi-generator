@@ -270,7 +270,7 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
 
                     throw new IOException(String.format("Failed deserialization for SelfReferenceAnyOf: no match found. %s", errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 

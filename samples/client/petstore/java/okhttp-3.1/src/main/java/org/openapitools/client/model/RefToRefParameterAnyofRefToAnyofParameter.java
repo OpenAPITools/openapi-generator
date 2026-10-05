@@ -287,7 +287,7 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
 
                     throw new IOException(String.format("Failed deserialization for RefToRefParameterAnyofRefToAnyofParameter: %d classes match result, expected 1. %s", match, errorMessages));
                 }
-            };
+            }.nullSafe();
         }
     }
 
