@@ -139,7 +139,6 @@ paths:
                     example: "150000.50"
                   updatedAt:
                     type: string
-            example: "eyJvZmZzZXQiOjEwfQ=="
                     example: "2026-10-04T14:13:22.000Z"
         '401':
           $ref: '#/components/responses/Unauthorized'
