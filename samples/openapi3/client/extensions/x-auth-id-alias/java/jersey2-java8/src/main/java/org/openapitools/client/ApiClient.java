@@ -873,10 +873,10 @@ public class ApiClient extends JavaTimeFormatter {
         // a JSON encoded array is sent as a single part instead of one part per item
         if (param.getValue() instanceof Iterable<?> && !isJsonPartType(partType)) {
           for (Object v : (Iterable<?>) param.getValue()) {
-            addParamToMultipart(v, param.getKey(), multiPart, partType);
+            addFormParamToMultipart(v, param.getKey(), multiPart, partType);
           }
         } else {
-          addParamToMultipart(param.getValue(), param.getKey(), multiPart, partType);
+          addFormParamToMultipart(param.getValue(), param.getKey(), multiPart, partType);
         }
       }
       entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -906,6 +906,18 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Calls the overload without part type when no part type is declared,
+   * so that subclasses overriding it keep working.
+   */
+  private void addFormParamToMultipart(Object value, String key, MultiPart multiPart, MediaType partType) throws ApiException {
+    if (partType == null) {
+      addParamToMultipart(value, key, multiPart);
+    } else {
+      addParamToMultipart(value, key, multiPart, partType);
+    }
+  }
+
+  /**
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
@@ -920,8 +932,10 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Adds the object with the provided key to the MultiPart.
-   * The declared part type (from the encoding of the request body) takes precedence,
-   * otherwise the Content-Type is derived from the object type.
+   * The declared part type (from the encoding of the request body) is used for files,
+   * plain values and JSON parts. Complex objects are always serialized as JSON and sent
+   * as application/json, since no other serializer is available for them.
+   * Without a declared part type the Content-Type is derived from the object type.
    *
    * @param value Object
    * @param key Key of the object
@@ -960,7 +974,8 @@ public class ApiClient extends JavaTimeFormatter {
         multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value), partType));
       }
     } else {
-      // Complex objects (models, maps, ...) are sent as JSON parts instead of their toString() output
+      // Complex objects (models, maps, ...) are sent as JSON parts instead of their toString() output.
+      // A declared non-JSON part type is not applied, as it would mislabel the JSON content.
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
       multiPart.bodyPart(new FormDataBodyPart(contentDisp, serializeToJson(value), MediaType.APPLICATION_JSON_TYPE));
     }
@@ -1299,7 +1314,10 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Entity<?> entity = serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);
+    // without declared part types, go through the old overload so that subclasses overriding it keep working
+    Entity<?> entity = formParamContentTypes == null || formParamContentTypes.isEmpty()
+        ? serialize(body, formParams, contentType, isBodyNullable)
+        : serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();

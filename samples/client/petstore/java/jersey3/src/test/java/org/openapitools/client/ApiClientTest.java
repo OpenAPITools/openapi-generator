@@ -219,4 +219,26 @@ public class ApiClientTest {
         assertEquals(MediaType.TEXT_PLAIN_TYPE, note.getMediaType());
         assertEquals("plain", note.getEntity());
     }
+
+    @Test
+    public void testMultipartOverrideWithoutPartTypeIsCalled() throws Exception {
+        List<String> overridden = new ArrayList<>();
+        ApiClient client = new ApiClient() {
+            @Override
+            protected void addParamToMultipart(Object value, String key, MultiPart multiPart) throws ApiException {
+                overridden.add(key);
+                super.addParamToMultipart(value, key, multiPart);
+            }
+        };
+        Map<String, Object> formParams = new LinkedHashMap<>();
+        formParams.put("note", "plain");
+        formParams.put("metadata", "{}");
+        Map<String, String> formParamContentTypes = new HashMap<>();
+        formParamContentTypes.put("metadata", "application/json");
+
+        client.serialize(null, formParams, formParamContentTypes, "multipart/form-data", false);
+
+        // the old overload is still called for parts without a declared type
+        assertEquals(Collections.singletonList("note"), overridden);
+    }
 }
