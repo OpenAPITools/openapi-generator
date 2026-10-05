@@ -1146,7 +1146,7 @@ public class ApiClient {
             return null;
         }
 
-        if ("byte[]".equals(returnType.toString())) {
+        if (byte[].class.equals(returnType) || "byte[]".equals(returnType.toString())) {
             // Handle binary response (byte array).
             try {
                 return (T) response.body().bytes();

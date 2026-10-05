@@ -3056,6 +3056,28 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpBinaryResponseDetectionIndependentOfSerializer() {
+        // Jackson's TypeReference and JSON-B's GenericType resolve byte[] to the raw class (toString() "class [B"),
+        // so the binary-response check in ApiClient must not rely on Gson's TypeToken.toString() == "byte[]" alone.
+        for (String serializer : List.of("gson", "jackson", "jsonb")) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(JavaClientCodegen.OKHTTP)
+                    .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializer)
+                    .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            validateJavaSourceFiles(files);
+
+            assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                    .content()
+                    .contains("if (byte[].class.equals(returnType) || \"byte[]\".equals(returnType.toString())) {");
+        }
+    }
+
+    @Test
     public void testOkHttpGsonHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
