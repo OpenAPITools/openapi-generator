@@ -148,6 +148,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_json_header_content**](docs/FakeApi.md#test_json_header_content) | **POST** /test/json-header-content | 
 *FakeApi* | [**test_object_for_multipart_requests**](docs/FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
@@ -229,12 +230,14 @@ Class | Method | HTTP request | Description
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HeaderArg](docs/HeaderArg.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [HuntingDog](docs/HuntingDog.md)
  - [Info](docs/Info.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [InputAllOf](docs/InputAllOf.md)
  - [IntOrString](docs/IntOrString.md)
+ - [Known](docs/Known.md)
  - [ListClass](docs/ListClass.md)
  - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
  - [MapTest](docs/MapTest.md)
@@ -252,6 +255,7 @@ Class | Method | HTTP request | Description
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [OneOfEnumString](docs/OneOfEnumString.md)
  - [Order](docs/Order.md)
+ - [Other](docs/Other.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
  - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
@@ -276,6 +280,7 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [TaggedUnion](docs/TaggedUnion.md)
  - [Task](docs/Task.md)
  - [TaskActivity](docs/TaskActivity.md)
  - [TestEnum](docs/TestEnum.md)

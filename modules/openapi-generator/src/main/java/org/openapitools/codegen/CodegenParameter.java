@@ -299,15 +299,15 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, headerIsJsonMimeType, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
-                items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
-                getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
-                getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
-                getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, isVoid,
-                additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
-                nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase);
+                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, headerIsJsonMimeType, isOptional,
+                isFile, isEnum, isEnumRef, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars,
+                requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable,
+                isDeprecated, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(),
+                getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(),
+                contentType, multipleOf, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired, isShort,
+                isUnboundedInteger, hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema,
+                content, requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, nameInPascalCase,
+                nameInCamelCase, nameInLowerCase, nameInSnakeCase);
     }
 
     @Override

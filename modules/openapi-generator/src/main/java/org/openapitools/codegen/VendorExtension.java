@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public enum VendorExtension {
@@ -52,6 +53,47 @@ public enum VendorExtension {
     VendorExtension(final String name, final ExtensionLevel level, final String description, final String defaultValue) {
         this(name, Collections.singletonList(level), description, defaultValue);
     }
+
+    /**
+     * Utility method to check if a vendorExtensions contain this key.
+     * @param extensions nullable map of extensions
+     * @return true if exist.
+     */
+    public boolean usedIn(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return false;
+        }
+        return extensions.containsKey(name);
+    }
+
+    /**
+     * Utility method to check get the String value in vendorExtensions.
+     *
+     * @param extensions nullable map of extensions
+     * @return the string value if it exists, null otherwise.
+     */
+    public String getStringValue(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return null;
+        }
+        Object value = extensions.get(name);
+        return value != null? value.toString(): null;
+    }
+
+    /**
+     * Utility method to check get the value in vendorExtensions.
+     *
+     * @param extensions nullable map of extensions
+     * @return the value if it exists, null otherwise.
+     */
+    public Object getValue(Map<String, Object> extensions) {
+        if (extensions == null) {
+            return null;
+        }
+        return extensions.get(name);
+    }
+
+
 
     public enum ExtensionLevel {
         FIELD,

@@ -253,11 +253,29 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 {{#headerParams}}
 	{{#required}}
+	{{#vendorExtensions.x-go-json-header}}
+	if jsonHeaderValue, err := parameterToJSONHeaderValue(r.{{paramName}}); err != nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("failed to serialize {{{baseName}}} header: %v", err)
+	} else {
+		localVarHeaderParams["{{{baseName}}}"] = jsonHeaderValue
+	}
+	{{/vendorExtensions.x-go-json-header}}
+	{{^vendorExtensions.x-go-json-header}}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	{{/vendorExtensions.x-go-json-header}}
 	{{/required}}
 	{{^required}}
 	if r.{{paramName}} != nil {
+		{{#vendorExtensions.x-go-json-header}}
+		if jsonHeaderValue, err := parameterToJSONHeaderValue(r.{{paramName}}); err != nil {
+			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("failed to serialize {{{baseName}}} header: %v", err)
+		} else {
+			localVarHeaderParams["{{{baseName}}}"] = jsonHeaderValue
+		}
+		{{/vendorExtensions.x-go-json-header}}
+		{{^vendorExtensions.x-go-json-header}}
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+		{{/vendorExtensions.x-go-json-header}}
 	}
 	{{/required}}
 {{/headerParams}}

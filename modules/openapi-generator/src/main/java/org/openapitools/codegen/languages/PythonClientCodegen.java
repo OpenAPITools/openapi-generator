@@ -619,10 +619,21 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
+        List<CodegenOperation> operations = objs.getOperations().getOperation();
+
         if (useIndependentImplicitClients) {
-            renameIndependentClientOperationMembers(
-                    objs.getOperations().getOperation());
+            renameIndependentClientOperationMembers(operations);
         }
+
+        boolean hasJsonHeader = operations.stream()
+                .flatMap(operation -> operation.headerParams.stream())
+                .anyMatch(parameter ->
+                        parameter.vendorExtensions.containsKey("x-python-json-header"));
+
+        if (hasJsonHeader) {
+            objs.put("x-python-has-json-header", true);
+        }
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
@@ -1021,6 +1032,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
+
+        if (parameter.isHeaderParam && isJsonMimeType(parameter.contentType)) {
+            parameter.vendorExtensions.put("x-python-json-header", true);
+        }
+
         // Only operation signatures gain this control argument. Keep model
         // field naming independent of the selected library.
         if (usesLegacyApiCompatibility()
@@ -1032,6 +1048,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if (property.getComposedSchemas() != null
+                && property.getComposedSchemas().getNot() != null) {
+            CodegenProperty notProperty = property.getComposedSchemas().getNot();
+            if (notProperty.isEnum
+                    && notProperty.isString
+                    && notProperty.allowableValues != null
+                    && notProperty.allowableValues.get("values") != null) {
+                property.vendorExtensions.put(
+                        "x-python-not-string-enum-values",
+                        notProperty.allowableValues.get("values"));
+            }
+        }
+
         if (hasOneOf(model) || hasAnyOf(model)) {
             return;
         }
