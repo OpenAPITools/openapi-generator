@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest/discriminated-union
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/discriminated-union.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: discriminated-union
