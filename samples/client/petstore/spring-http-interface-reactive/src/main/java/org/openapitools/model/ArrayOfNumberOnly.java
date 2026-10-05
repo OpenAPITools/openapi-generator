@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -45,7 +44,6 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

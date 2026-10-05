@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -42,7 +41,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * Get normalPropertyName
    * @return normalPropertyName
    */
-  
   @JsonProperty("normalPropertyName")
   public @Nullable String getNormalPropertyName() {
     return normalPropertyName;
@@ -62,7 +60,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
    */
-  
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public @Nullable String getUPPERCASEPROPERTYSNAKE() {
     return UPPER_CASE_PROPERTY_SNAKE;
@@ -82,7 +79,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
    */
-  
   @JsonProperty("lower-case-property-dashes")
   public @Nullable String getLowerCasePropertyDashes() {
     return lowerCasePropertyDashes;
@@ -102,7 +98,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
    */
-  
   @JsonProperty("property name with spaces")
   public @Nullable String getPropertyNameWithSpaces() {
     return propertyNameWithSpaces;

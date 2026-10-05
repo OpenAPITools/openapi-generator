@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -41,7 +40,6 @@ public class CategoryDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -61,7 +59,6 @@ public class CategoryDto {
    * Get name
    * @return name
    */
-  
   @JsonProperty("name")
   public @Nullable String getName() {
     return name;

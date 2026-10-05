@@ -13,7 +13,6 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -46,7 +45,6 @@ public class NullableMapPropertyDto {
    * Get languageValues
    * @return languageValues
    */
-  
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;

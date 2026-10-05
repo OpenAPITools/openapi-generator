@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -35,7 +34,6 @@ public class ClassModelDto {
    * Get propertyClass
    * @return propertyClass
    */
-  
   @JsonProperty("_class")
   public @Nullable String getPropertyClass() {
     return propertyClass;

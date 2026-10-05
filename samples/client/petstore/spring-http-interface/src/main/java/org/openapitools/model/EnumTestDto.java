@@ -11,7 +11,6 @@ import org.openapitools.model.OuterEnumDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -197,7 +196,6 @@ public class EnumTestDto {
    * Get enumString
    * @return enumString
    */
-  
   @JsonProperty("enum_string")
   public @Nullable EnumStringEnum getEnumString() {
     return enumString;
@@ -217,7 +215,6 @@ public class EnumTestDto {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -237,7 +234,6 @@ public class EnumTestDto {
    * Get enumInteger
    * @return enumInteger
    */
-  
   @JsonProperty("enum_integer")
   public @Nullable EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -257,7 +253,6 @@ public class EnumTestDto {
    * Get enumNumber
    * @return enumNumber
    */
-  
   @JsonProperty("enum_number")
   public @Nullable EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -277,7 +272,6 @@ public class EnumTestDto {
    * Get outerEnum
    * @return outerEnum
    */
-  
   @JsonProperty("outerEnum")
   public @Nullable OuterEnumDto getOuterEnum() {
     return outerEnum;

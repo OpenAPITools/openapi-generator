@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -50,7 +49,6 @@ public class CapitalizationDto {
    * Get smallCamel
    * @return smallCamel
    */
-  
   @JsonProperty("smallCamel")
   public @Nullable String getSmallCamel() {
     return smallCamel;
@@ -70,7 +68,6 @@ public class CapitalizationDto {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
   @JsonProperty("CapitalCamel")
   public @Nullable String getCapitalCamel() {
     return capitalCamel;
@@ -90,7 +87,6 @@ public class CapitalizationDto {
    * Get smallSnake
    * @return smallSnake
    */
-  
   @JsonProperty("small_Snake")
   public @Nullable String getSmallSnake() {
     return smallSnake;
@@ -110,7 +106,6 @@ public class CapitalizationDto {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
   @JsonProperty("Capital_Snake")
   public @Nullable String getCapitalSnake() {
     return capitalSnake;
@@ -130,7 +125,6 @@ public class CapitalizationDto {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
   @JsonProperty("SCA_ETH_Flow_Points")
   public @Nullable String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -150,7 +144,6 @@ public class CapitalizationDto {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
   @JsonProperty("ATT_NAME")
   public @Nullable String getATTNAME() {
     return ATT_NAME;

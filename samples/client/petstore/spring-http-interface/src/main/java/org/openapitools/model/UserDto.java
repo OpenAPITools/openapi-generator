@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -56,7 +55,6 @@ public class UserDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -76,7 +74,6 @@ public class UserDto {
    * Get username
    * @return username
    */
-  
   @JsonProperty("username")
   public @Nullable String getUsername() {
     return username;
@@ -96,7 +93,6 @@ public class UserDto {
    * Get firstName
    * @return firstName
    */
-  
   @JsonProperty("firstName")
   public @Nullable String getFirstName() {
     return firstName;
@@ -116,7 +112,6 @@ public class UserDto {
    * Get lastName
    * @return lastName
    */
-  
   @JsonProperty("lastName")
   public @Nullable String getLastName() {
     return lastName;
@@ -136,7 +131,6 @@ public class UserDto {
    * Get email
    * @return email
    */
-  
   @JsonProperty("email")
   public @Nullable String getEmail() {
     return email;
@@ -156,7 +150,6 @@ public class UserDto {
    * Get password
    * @return password
    */
-  
   @JsonProperty("password")
   public @Nullable String getPassword() {
     return password;
@@ -176,7 +169,6 @@ public class UserDto {
    * Get phone
    * @return phone
    */
-  
   @JsonProperty("phone")
   public @Nullable String getPhone() {
     return phone;
@@ -196,7 +188,6 @@ public class UserDto {
    * User Status
    * @return userStatus
    */
-  
   @JsonProperty("userStatus")
   public @Nullable Integer getUserStatus() {
     return userStatus;

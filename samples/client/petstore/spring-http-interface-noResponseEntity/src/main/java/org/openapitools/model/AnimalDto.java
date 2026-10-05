@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -55,7 +54,6 @@ public class AnimalDto {
    * Get className
    * @return className
    */
-  @NotNull
   @JsonProperty("className")
   public String getClassName() {
     return className;
@@ -75,7 +73,6 @@ public class AnimalDto {
    * Get color
    * @return color
    */
-  
   @JsonProperty("color")
   public String getColor() {
     return color;

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -33,7 +32,6 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
    */
-  
   @JsonProperty("_class")
   public @Nullable String getPropertyClass() {
     return propertyClass;

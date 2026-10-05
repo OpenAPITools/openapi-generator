@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -41,7 +40,6 @@ public class ApiResponseDto {
    * Get code
    * @return code
    */
-  
   @JsonProperty("code")
   public @Nullable Integer getCode() {
     return code;
@@ -61,7 +59,6 @@ public class ApiResponseDto {
    * Get type
    * @return type
    */
-  
   @JsonProperty("type")
   public @Nullable String getType() {
     return type;
@@ -81,7 +78,6 @@ public class ApiResponseDto {
    * Get message
    * @return message
    */
-  
   @JsonProperty("message")
   public @Nullable String getMessage() {
     return message;
