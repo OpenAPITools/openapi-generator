@@ -4876,6 +4876,23 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testWebClientDeprecatedOperation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", WEBCLIENT);
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsByTags").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByTagsWithHttpInfo").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByTagsWithResponseSpec").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").doesNotHaveAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatusWithHttpInfo").doesNotHaveAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatusWithResponseSpec").doesNotHaveAnnotation("Deprecated");
+    }
+
+    @Test
     public void testOneOfClassWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
         JavaFileAssert.assertThat(files.get("Fruit.java"))

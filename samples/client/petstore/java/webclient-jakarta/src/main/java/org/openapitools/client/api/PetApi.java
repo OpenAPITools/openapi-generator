@@ -330,7 +330,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public Set<Pet> findPetsByTags(@jakarta.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType).collect(Collectors.toSet()).block();
@@ -360,7 +362,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseSpec findPetsByTagsWithResponseSpec(@jakarta.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
