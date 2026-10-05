@@ -7165,6 +7165,37 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testHttpInterfacesAbstractConfiguratorIsGenerated() throws IOException {
+        final SpringCodegen defaultConfiguratorCodegen = new SpringCodegen();
+        defaultConfiguratorCodegen.setLibrary(SPRING_HTTP_INTERFACE);
+        defaultConfiguratorCodegen.setUseSpringBoot3(true);
+
+        final Map<String, File> defaultConfiguratorFiles = generateFiles(
+                defaultConfiguratorCodegen, "src/test/resources/3_0/petstore.yaml");
+
+        assertGeneratedAnnotation(defaultConfiguratorFiles.get("HttpInterfacesAbstractConfigurator.java"));
+
+        final SpringCodegen proxyFactoryConfiguratorCodegen = new SpringCodegen();
+        proxyFactoryConfiguratorCodegen.setLibrary(SPRING_HTTP_INTERFACE);
+        proxyFactoryConfiguratorCodegen.setUseSpringBoot3(true);
+        proxyFactoryConfiguratorCodegen.setUseHttpServiceProxyFactoryInterfacesConfigurator(true);
+
+        final Map<String, File> proxyFactoryConfiguratorFiles = generateFiles(
+                proxyFactoryConfiguratorCodegen, "src/test/resources/3_0/petstore.yaml");
+
+        assertGeneratedAnnotation(proxyFactoryConfiguratorFiles.get("HttpInterfacesAbstractConfigurator.java"));
+    }
+
+    private void assertGeneratedAnnotation(File file) {
+        JavaFileAssert.assertThat(file)
+                .hasImports("jakarta.annotation.Generated")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("Generated", ImmutableMap.of(
+                        "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
+                ));
+    }
+
+    @Test
     public void testClientRegistrationIdAnnotationNotPresentWhenNotConfigured() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-http-interface");
