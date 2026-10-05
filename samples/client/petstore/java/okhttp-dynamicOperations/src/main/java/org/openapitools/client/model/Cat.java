@@ -135,6 +135,7 @@ public class Cat extends Animal {
         if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
 
       String discriminatorValue = jsonElement.getAsJsonObject().get("className").getAsString();

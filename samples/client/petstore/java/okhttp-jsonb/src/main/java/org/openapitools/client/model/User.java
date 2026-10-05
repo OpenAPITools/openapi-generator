@@ -707,12 +707,14 @@ public class User {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link User#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public User.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public User.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -763,7 +765,7 @@ public class User {
       .objectWithNoDeclaredPropsNullable(getObjectWithNoDeclaredPropsNullable())
       .anyTypeProp(getAnyTypeProp())
       .anyTypePropNullable(getAnyTypePropNullable())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

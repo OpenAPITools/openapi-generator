@@ -179,6 +179,7 @@ public class CircularReference2 {
         if (!CircularReference2.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in CircularReference2 is not found in the empty JSON string", CircularReference2.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `prop1`

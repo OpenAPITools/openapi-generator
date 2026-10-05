@@ -178,6 +178,7 @@ public class Foo {
         if (!Foo.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Foo is not found in the empty JSON string", Foo.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {

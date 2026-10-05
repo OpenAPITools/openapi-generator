@@ -206,12 +206,14 @@ public class HasOnlyReadOnly {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link HasOnlyReadOnly#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public HasOnlyReadOnly.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public HasOnlyReadOnly.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -252,7 +254,7 @@ public class HasOnlyReadOnly {
     return new HasOnlyReadOnly.Builder()
       .bar(getBar())
       .foo(getFoo())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

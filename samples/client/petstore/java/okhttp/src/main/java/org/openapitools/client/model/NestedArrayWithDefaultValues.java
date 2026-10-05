@@ -192,6 +192,7 @@ public class NestedArrayWithDefaultValues {
         if (!NestedArrayWithDefaultValues.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in NestedArrayWithDefaultValues is not found in the empty JSON string", NestedArrayWithDefaultValues.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present

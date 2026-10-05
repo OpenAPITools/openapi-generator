@@ -68,7 +68,13 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        CountingSink countingSink = new CountingSink(sink);
+        if (isDuplex()) {
+            // A duplex body may keep writing on another thread after writeTo() returns, so completion
+            // can only be reported once the delegate closes the sink, not when this method returns.
+            requestBody.writeTo(Okio.buffer(new CountingSink(sink, true)));
+            return;
+        }
+        CountingSink countingSink = new CountingSink(sink, false);
         BufferedSink bufferedSink = Okio.buffer(countingSink);
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
@@ -82,9 +88,19 @@ public class ProgressRequestBody extends RequestBody {
 
         private long bytesWritten = 0L;
         private long contentLength = 0L;
+        private final boolean reportDoneOnClose;
 
-        public CountingSink(Sink delegate) {
+        public CountingSink(Sink delegate, boolean reportDoneOnClose) {
             super(delegate);
+            this.reportDoneOnClose = reportDoneOnClose;
+        }
+
+        @Override
+        public void close() throws IOException {
+            super.close();
+            if (reportDoneOnClose) {
+                callback.onUploadProgress(bytesWritten, contentLength == 0 ? contentLength() : contentLength, true);
+            }
         }
 
         @Override

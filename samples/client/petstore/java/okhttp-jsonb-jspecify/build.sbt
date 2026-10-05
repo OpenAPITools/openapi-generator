@@ -13,7 +13,7 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "org.jspecify" % "jspecify" % "1.0.0",
-      "com.squareup.okhttp3" % "okhttp" % "5.4.0",
+      "com.squareup.okhttp3" % "okhttp-jvm" % "5.4.0",
       "com.squareup.okhttp3" % "logging-interceptor" % "5.4.0",
       "jakarta.json.bind" % "jakarta.json.bind-api" % "3.0.1",
       "org.eclipse" % "yasson" % "3.0.4",

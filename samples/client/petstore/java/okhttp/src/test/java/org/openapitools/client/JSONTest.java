@@ -826,4 +826,13 @@ public class JSONTest {
         assertNull(json.getGson().fromJson("null", ShapeOrNull.class));
         assertEquals("null", json.getGson().toJson(null, ShapeOrNull.class));
     }
+
+    @Test
+    public void testValidateJsonElementNull() throws Exception {
+        // no required fields: a null element is an empty JSON object, there is nothing left to validate
+        org.openapitools.client.model.Tag.validateJsonElement(null);
+        // required fields: must be reported as missing instead of failing with a NullPointerException
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> Category.validateJsonElement(null));
+        assertTrue(e.getMessage().contains("name"), e.getMessage());
+    }
 }

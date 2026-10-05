@@ -3078,6 +3078,24 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpBuilderAdditionalPropertiesHelperDoesNotShadowSetters() {
+        // the builder's additional-properties helper must not share its name with a generated
+        // property setter, otherwise a declared property named `additionalProperties` of type
+        // Map<String, Object> on an additionalProperties:true schema produces an uncompilable Builder
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, Boolean.FALSE));
+
+        assertThat(files.get("AdditionalPropertiesClass.java").toPath()).content()
+                .contains("public AdditionalPropertiesClass.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {")
+                .contains(".putAdditionalProperties(getAdditionalProperties())")
+                .doesNotContain("Builder additionalProperties(Map<String, Object>");
+    }
+
+    @Test
     public void testOkHttpGsonHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",

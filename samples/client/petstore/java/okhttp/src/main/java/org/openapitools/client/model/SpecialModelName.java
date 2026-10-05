@@ -205,6 +205,7 @@ public class SpecialModelName {
         if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonNull()) && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {

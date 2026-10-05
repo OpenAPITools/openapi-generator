@@ -178,6 +178,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
         if (!TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in TestInlineFreeformAdditionalPropertiesRequest is not found in the empty JSON string", TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("someProperty") != null && !jsonObj.get("someProperty").isJsonNull()) && !jsonObj.get("someProperty").isJsonPrimitive()) {

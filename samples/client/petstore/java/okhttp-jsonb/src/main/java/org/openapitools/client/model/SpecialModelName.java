@@ -317,12 +317,14 @@ public class SpecialModelName {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link SpecialModelName#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public SpecialModelName.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public SpecialModelName.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -363,7 +365,7 @@ public class SpecialModelName {
     return new SpecialModelName.Builder()
       .$specialPropertyName(get$SpecialPropertyName())
       .specialModelName(getSpecialModelName())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

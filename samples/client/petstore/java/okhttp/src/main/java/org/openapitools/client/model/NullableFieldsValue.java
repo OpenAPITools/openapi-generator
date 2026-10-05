@@ -205,6 +205,7 @@ public class NullableFieldsValue {
         if (!NullableFieldsValue.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in NullableFieldsValue is not found in the empty JSON string", NullableFieldsValue.openapiRequiredFields.toString()));
         }
+        return; // nothing else to validate in an empty JSON string
       }
 
       // check to make sure all required properties/fields are present in the JSON string

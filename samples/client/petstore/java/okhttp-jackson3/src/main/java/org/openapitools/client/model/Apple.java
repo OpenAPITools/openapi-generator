@@ -213,12 +213,14 @@ public class Apple {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link Apple#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public Apple.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public Apple.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -259,7 +261,7 @@ public class Apple {
     return new Apple.Builder()
       .cultivar(getCultivar())
       .origin(getOrigin())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

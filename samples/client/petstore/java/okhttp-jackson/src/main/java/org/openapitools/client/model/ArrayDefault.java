@@ -231,12 +231,14 @@ public class ArrayDefault {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link ArrayDefault#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public ArrayDefault.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public ArrayDefault.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -277,7 +279,7 @@ public class ArrayDefault {
     return new ArrayDefault.Builder()
       .withDefaultEmptyBracket(getWithDefaultEmptyBracket())
       .withoutDefault(getWithoutDefault())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

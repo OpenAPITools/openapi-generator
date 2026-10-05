@@ -213,12 +213,14 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link ArrayOfInlineAllOfArrayAllofDogPropertyInner#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -259,7 +261,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return new ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder()
       .breed(getBreed())
       .color(getColor())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

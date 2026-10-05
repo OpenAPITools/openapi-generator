@@ -223,12 +223,14 @@ public class EnumStringDiscriminator {
 
     /**
     * Copies the additional (undeclared) properties into the instance under construction.
+    * (Named putAdditionalProperties rather than additionalProperties so that it cannot collide with the
+    * builder setter generated for a declared property that happens to be called additionalProperties.)
     *
     * The values are put through {@link EnumStringDiscriminator#putAdditionalProperty}, so the map is
     * rebuilt on the instance that actually owns it: a subclass declares its own holder that
     * shadows the parent one, and the virtual call always reaches the subclass field.
     */
-    public EnumStringDiscriminator.Builder additionalProperties(Map<String, Object> additionalProperties) {
+    public EnumStringDiscriminator.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {
       if (additionalProperties != null) {
         additionalProperties.forEach(this.instance::putAdditionalProperty);
       }
@@ -268,7 +270,7 @@ public class EnumStringDiscriminator {
   public EnumStringDiscriminator.Builder toBuilder() {
     return new EnumStringDiscriminator.Builder()
       .enumStrType(getEnumStrType())
-      .additionalProperties(getAdditionalProperties());
+      .putAdditionalProperties(getAdditionalProperties());
   }
 
 }

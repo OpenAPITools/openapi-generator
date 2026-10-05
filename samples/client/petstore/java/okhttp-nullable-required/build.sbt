@@ -13,7 +13,7 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
-      "com.squareup.okhttp3" % "okhttp" % "5.4.0",
+      "com.squareup.okhttp3" % "okhttp-jvm" % "5.4.0",
       "com.squareup.okhttp3" % "logging-interceptor" % "5.4.0",
       "com.google.code.gson" % "gson" % "2.10.1",
       "io.gsonfire" % "gson-fire" % "1.9.0",
