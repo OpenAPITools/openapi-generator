@@ -625,6 +625,52 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerRefactorAllOfWithPropertiesOnlyKeepsInheritedRequired() {
+        // to test the rule REFACTOR_ALLOF_WITH_PROPERTIES_ONLY with required properties declared in the referenced schema
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_inherited_required.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("MySchema");
+        assertEquals(schema.getAllOf().size(), 1);
+        assertEquals(schema.getProperties().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("MySchema");
+        assertEquals(schema2.getAllOf().size(), 2);
+        assertNull(schema2.getProperties());
+        // the required property inherited from the referenced schema stays on the parent schema
+        assertEquals(schema2.getRequired(), Arrays.asList("uuid"));
+
+        // the required property declared locally moves with its property
+        Schema newSchema = (Schema) (schema2.getAllOf().get(1));
+        assertEquals(((Schema) newSchema.getProperties().get("some_property")).getType(), "boolean");
+        assertEquals(newSchema.getRequired(), Arrays.asList("some_property"));
+    }
+
+    @Test
+    public void testOpenAPINormalizerRefactorAllOfWithPropertiesOnlyOnlyInheritedRequired() {
+        // to test the rule REFACTOR_ALLOF_WITH_PROPERTIES_ONLY when all required properties are inherited
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_inherited_required.yaml");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("MySchemaOnlyInheritedRequired");
+        assertEquals(schema.getAllOf().size(), 2);
+        assertNull(schema.getProperties());
+        assertEquals(schema.getRequired(), Arrays.asList("uuid"));
+
+        Schema newSchema = (Schema) (schema.getAllOf().get(1));
+        assertNotNull(newSchema.getProperties().get("some_property"));
+        assertNull(newSchema.getRequired());
+    }
+
+    @Test
     public void testNormalize31Schema() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
 
