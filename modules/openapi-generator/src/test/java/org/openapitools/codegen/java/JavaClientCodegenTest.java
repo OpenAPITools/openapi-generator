@@ -5551,7 +5551,8 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
                 .contains("localVarFormParams.put(\"marker\", marker);");
-        // complex parts must be sent as JSON, not via toString()
+        // the generated ApiClient has the code path sending complex parts as JSON instead of toString();
+        // the wire format is checked at runtime by the jersey3 sample's ApiClientTest
         assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
                 .contains("} else if (isPlainFormValue(value)) {")
                 .contains("return json.getMapper().writeValueAsString(value);")
@@ -5583,7 +5584,9 @@ public class JavaClientCodegenTest {
                 .contains("localVarFormParams, localVarFormParamContentTypes, localVarAccept");
         // the previous signatures are kept and delegate to the new overloads
         assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
-                .contains("Entity<?> entity = serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);")
+                .contains("? serialize(body, formParams, contentType, isBodyNullable)")
+                .contains(": serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);")
+                .contains("addParamToMultipart(value, key, multiPart);")
                 .contains("public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable)")
                 .contains("return serialize(obj, formParams, Collections.<String, String>emptyMap(), contentType, isBodyNullable);")
                 .contains("protected void addParamToMultipart(Object value, String key, MultiPart multiPart) throws ApiException {")
