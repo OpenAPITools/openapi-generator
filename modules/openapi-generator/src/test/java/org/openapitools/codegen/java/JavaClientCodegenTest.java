@@ -560,6 +560,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testNestedArrayDefaultDoesNotSeedAddItemWithDefaultOkHttp() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("NestedArrayWithDefaultValues.java").toPath()).content()
+                .containsPattern("private\\s+List\\s*<\\s*List\\s*<\\s*String\\s*>\\s*>\\s+nestedArray\\s*=\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,")
+                .containsPattern("if\\s*\\(\\s*this\\.nestedArray\\s*==\\s*null\\s*\\)\\s*\\{\\s*"
+                        + "this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*\\)\\s*;")
+                .doesNotContainPattern("this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(");
+    }
+
+    @Test
     public void testJersey3NullableContainerDefaultIsDeclared() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",

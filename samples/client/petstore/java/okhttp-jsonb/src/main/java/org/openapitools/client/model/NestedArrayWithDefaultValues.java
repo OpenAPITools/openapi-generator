@@ -64,12 +64,7 @@ public class NestedArrayWithDefaultValues {
 
   public NestedArrayWithDefaultValues addNestedArrayItem(List<String> nestedArrayItem) {
     if (this.nestedArray == null) {
-      this.nestedArray = new ArrayList<>(Arrays.asList(
-        new ArrayList<>(Arrays.asList("h1", "Header 1")),
-        new ArrayList<>(Arrays.asList("h2", "Header 2")),
-        new ArrayList<>(Arrays.asList("h3", "Header 3")),
-        new ArrayList<>(Arrays.asList("h4", "Header 4"))
-      ));
+      this.nestedArray = new ArrayList<>();
     }
     this.nestedArray.add(nestedArrayItem);
     return this;
