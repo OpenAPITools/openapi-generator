@@ -15,9 +15,6 @@ import java.time.OffsetDateTime;
 import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
-{{^useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.NotNull;
-{{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
