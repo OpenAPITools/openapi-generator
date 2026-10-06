@@ -93,6 +93,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String ADDITIONAL_ITEMS_ANNOTATIONS = "additionalItemsAnnotations";
     public static final String X_IMPLEMENTS_SKIP = "xImplementsSkip";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
@@ -194,6 +195,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
+    @Setter protected List<String> additionalItemsAnnotations = new LinkedList<>();
+    @Setter protected boolean itemsNotNullByDefault;
     @Getter @Setter
     protected boolean openApiNullable = true;
     @Setter protected String outputTestFolder = "";
@@ -363,6 +366,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newString(ADDITIONAL_ITEMS_ANNOTATIONS, "Additional annotations for list items. List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
@@ -466,15 +470,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(DISABLE_HTML_ESCAPING, this::setDisableHtmlEscaping);
         convertPropertyToStringAndWriteBack(BOOLEAN_GETTER_PREFIX, this::setBooleanGetterPrefix);
         convertPropertyToBooleanAndWriteBack(IGNORE_ANYOF_IN_ENUM, this::setIgnoreAnyOfInEnum);
-        convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
-                this::setAdditionalModelTypeAnnotations);
-        convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
-                this::setAdditionalOneOfTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalModelTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalOneOfTypeAnnotations);
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),
                 this::setAdditionalEnumTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ITEMS_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalItemsAnnotations);
         if (additionalProperties.containsKey(X_IMPLEMENTS_SKIP)) {
             this.setXImplementsSkip(getPropertyAsStringList(X_IMPLEMENTS_SKIP));
         }
@@ -699,6 +700,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             applyJavaxPackage();
         }
+        if (!additionalItemsAnnotations.isEmpty()) {
+            // detect if @NotNull is present in the additionalItemsAnnotations
+            setItemsNotNullByDefault(additionalItemsAnnotations.contains("@NotNull") ||
+                    additionalItemsAnnotations.contains("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull"));
+        }
 
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
@@ -714,6 +720,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
+    }
+
+    private static List<String> multiLineSplit(String value) {
+        return Arrays.asList(value.trim().split("\\s*(;|\\r?\\n)\\s*"));
     }
 
     /**
@@ -1121,7 +1131,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems(schema);
             String typeDeclaration = getTypeDeclarationWithBeanValidation(items);
-            return getSchemaType(target) + "<" + typeDeclaration + ">";
+            // add custom annotations on List<>
+            String extraAnnotation = getExtraListAnnotation(items);
+            String annotations = typeDeclaration;
+            if (!extraAnnotation.isEmpty()) {
+                annotations = extraAnnotation + " " + typeDeclaration;
+            }
+            return getSchemaType(target) + "<" + annotations + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -1167,7 +1183,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @param items the array/set item or map value schema
      * @return the element type declaration prefixed with its bean validation (no prefix if none)
      */
-    private String getTypeDeclarationWithBeanValidation(Schema<?> items) {
+    protected String getTypeDeclarationWithBeanValidation(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
 
         String beanValidation = getBeanValidation(items);
@@ -1191,6 +1207,30 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
+     * get the annotations for list items.
+     *
+     * @param items the Schema of the array items.
+     * @return a String with the concatened annotations, or empty if none
+     */
+    protected String getExtraListAnnotation(Schema<?> items) {
+        List<String> customAnnotations = getObjectAsStringList(VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
+        if (!additionalItemsAnnotations.isEmpty() || !customAnnotations.isEmpty()) {
+            Set<String> annotations = new LinkedHashSet<>(additionalItemsAnnotations);
+            if (items.getNullable() != null) {
+                if (items.getNullable() && itemsNotNullByDefault) {
+                    // remove the global @NotNull annotation if nullable: true
+                    // Caveat: does not work for space separated annotations. Use a list instead.
+                    annotations.remove("@NotNull");
+                    annotations.remove("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull");
+                }
+            }
+            annotations.addAll(customAnnotations);
+            return String.join(" ", annotations);
+        }
+        return "";
+    }
+
+    /**
      * This method stand for resolve bean validation for a container element
      * (array/set item or map value).
      * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
@@ -1198,7 +1238,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @param items type
      * @return BeanValidation for declared element type of a container (array, set, map value)
      */
-    private String getBeanValidation(Schema<?> items) {
+    protected String getBeanValidation(Schema<?> items) {
         if (!isUseBeanValidation()) {
             return "";
         }

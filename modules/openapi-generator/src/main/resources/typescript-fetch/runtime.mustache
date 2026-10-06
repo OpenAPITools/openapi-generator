@@ -452,7 +452,7 @@ export function parseDateTime(value: any): Date {
 {{/isDateLibraryDate}}
 {{/isDateLibraryTemporal}}
 
-{{^withoutRuntimeChecks}}
+{{#modelSerializersEnabled}}
 export function mapValues(data: any, fn: (item: any) => any) {
     const result: { [key: string]: any } = {};
     for (const key of Object.keys(data)) {
@@ -465,7 +465,7 @@ export function mapValues(data: any, fn: (item: any) => any) {
 export function anyToJSON(value: any): any {
     return value;
 }
-{{/withoutRuntimeChecks}}
+{{/modelSerializersEnabled}}
 
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {

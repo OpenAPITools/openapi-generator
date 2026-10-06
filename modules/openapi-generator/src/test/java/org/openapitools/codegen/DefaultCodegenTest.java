@@ -349,6 +349,38 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOAS31NullableTypeArrayIsInheritedThroughAllOf() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/allof-nullable-type-array.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // `id`, the items of `tags` and the values of `meta` are all declared with the OAS 3.1
+        // `type: [<type>, 'null']` form on Base, so they must stay nullable both on Base itself
+        // and on Derived, which pulls them in via `allOf: [$ref: Base, {...}]`. Nullability must
+        // survive at every nesting level, not just on the property itself.
+        for (String modelName : List.of("Base", "Derived", "Control")) {
+            Schema<?> schema = openAPI.getComponents().getSchemas().get(modelName);
+            CodegenModel model = codegen.fromModel(modelName, schema);
+
+            assertTrue(varNamed(model, "id").isNullable,
+                    "`id` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "tags").items.isNullable,
+                    "the items of `tags` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "meta").additionalProperties.isNullable,
+                    "the values of `meta` must be nullable on " + modelName);
+        }
+    }
+
+    private static CodegenProperty varNamed(CodegenModel model, String baseName) {
+        return model.vars.stream()
+                .filter(v -> baseName.equals(v.baseName))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("no `" + baseName + "` var on " + model.name));
+    }
+
+    @Test
     public void testOAS31ContentMediaTypeBinaryFormParameter() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
         new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
@@ -5360,6 +5392,29 @@ public class DefaultCodegenTest {
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
 
         assertTrue(codegenOperation.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType));
+    }
+
+    @Test
+    public void testHeaderIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/java/json-header-content.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/test";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        assertThat(codegenOperation.headerParams).hasSize(2);
+
+        CodegenParameter jsonHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Json-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(jsonHeader.headerIsJsonMimeType).isTrue();
+
+        CodegenParameter plainHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Plain-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(plainHeader.headerIsJsonMimeType).isFalse();
     }
 
     @Test

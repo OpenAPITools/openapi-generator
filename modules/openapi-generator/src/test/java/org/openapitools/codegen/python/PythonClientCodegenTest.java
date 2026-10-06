@@ -129,6 +129,62 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testJsonImportOnlyGeneratedForJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "pet_api.py");
+
+        TestUtils.assertFileNotContains(api, "import json");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "default_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "import json",
+                "_header_params['X-Json-Arg'] = json.dumps(",
+                "self.api_client.sanitize_for_serialization(x_json_arg)",
+                "_header_params['X-Plain-Arg'] = x_plain_arg");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "_header_params['X-Json-Arg'] = x_json_arg",
+                "_header_params['X-Plain-Arg'] = json.dumps(");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();
@@ -140,6 +196,39 @@ public class PythonClientCodegenTest {
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
+    }
+
+    @Test
+    public void testOneOfNotEnumValidation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path other = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "models",
+                "other.py");
+
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
     }
 
     @Test
@@ -215,6 +304,29 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
+    }
+
+    @Test(description = "sibling properties that share a model are not treated as a cycle (#25047)")
+    public void testExampleValueForSiblingsSharingAModel() {
+        final Schema shared = new ObjectSchema().addProperty("prop", new StringSchema());
+        final Schema holder = new ObjectSchema()
+                .addProperty("prop1", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop2", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop3", new Schema<>().$ref("#/components/schemas/Shared"));
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Shared", shared)
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertFalse(example.matches("(?s).*=\\s*,.*"), "empty example value in:\n" + example);
+        for (String prop : Arrays.asList("prop1", "prop2", "prop3")) {
+            Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
+                    prop + " missing its example in:\n" + example);
+        }
     }
 
     @Test(description = "test single quotes escape")

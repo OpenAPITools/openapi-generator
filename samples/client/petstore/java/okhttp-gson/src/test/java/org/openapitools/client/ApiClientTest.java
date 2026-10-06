@@ -318,6 +318,36 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testParameterToJsonStringNull() {
+        assertEquals("", apiClient.parameterToString(null));
+        assertEquals("", apiClient.parameterToJsonString(null));
+    }
+
+    @Test
+    public void testParameterToJsonStringAscii() {
+        Map<String, String> value = new HashMap<>();
+        value.put("path", "/x");
+
+        assertEquals("{\"path\":\"/x\"}", apiClient.parameterToJsonString(value));
+    }
+
+    @Test
+    public void testParameterToJsonStringEscapesNonAscii() {
+        Map<String, String> value = new HashMap<>();
+        value.put("path", "/тест");
+
+        assertEquals("{\"path\":\"/\\u0442\\u0435\\u0441\\u0442\"}", apiClient.parameterToJsonString(value));
+    }
+
+    @Test
+    public void testParameterToJsonStringEscapesDel() {
+        Map<String, String> value = new HashMap<>();
+        value.put("path", "/\u007f");
+
+        assertEquals("{\"path\":\"/\\u007f\"}", apiClient.parameterToJsonString(value));
+    }
+
+    @Test
     public void testSanitizeFilename() {
         assertEquals("sun", apiClient.sanitizeFilename("sun"));
         assertEquals("sun.gif", apiClient.sanitizeFilename("sun.gif"));

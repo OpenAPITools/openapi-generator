@@ -589,6 +589,60 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerialization() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("public String parameterToJsonString(Object param)");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToJsonString(xJsonArg));"
+                )
+                .doesNotContain(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToString(xJsonArg));"
+                );
+    }
+
+    @Test
+    public void testDynamicJsonContentHeaderUsesJsonSerialization() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
+                .contains("public String parameterToJsonString(Object param) {\n        if (param == null) {\n            return \"\";\n        }")
+                .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
+                .contains("headerParams.put(param.getName(), parameterToString(value));");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("paramMap.put(\"X-Json-Arg\", xJsonArg);")
+                .contains("paramMap.put(\"X-Plain-Arg\", xPlainArg);");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -898,6 +952,38 @@ public class JavaClientCodegenTest {
                 .contains("jackson-databind-nullable");
     }
 
+    @Test
+    public void testRestAssuredWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JacksonObjectMapper.java")).content()
+                .contains("extends Jackson3Mapper")
+                .contains("import io.restassured.path.json.mapper.factory.Jackson3ObjectMapperFactory;")
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("com.fasterxml.jackson.databind")
+                .doesNotContain("Jackson2");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339JavaTimeModule.java")).doesNotExist();
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson</groupId>")
+                .contains("<rest-assured.version>6.0.1</rest-assured.version>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>")
+                .doesNotContain("jackson-datatype-jsr310");
+    }
+
     @Test(dataProvider = "springBoot4Jackson3Libraries")
     void supportsJackson3WithOpenApiNullableForSpringBoot4Libraries(String library) {
         String outputDir = newTempFolder().toString();
@@ -916,6 +1002,45 @@ public class JavaClientCodegenTest {
         assertThat(new File(outputDir, "src/main/java/org/openapitools/client/ApiClient.java"))
                 .content()
                 .contains("JsonNullableJackson3Module");
+    }
+
+    @Test
+    public void testOkHttpGsonValidatesStringEnumExcludedByNot() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_1/java/oneof-not-enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Other.java"))
+                .content()
+                .contains(
+                        "if (jsonObj.get(\"kind\") != null",
+                        "jsonObj.get(\"kind\").isJsonPrimitive()",
+                        "jsonObj.get(\"kind\").getAsJsonPrimitive().isString()",
+                        "\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                        "matches a value disallowed by `not`"
+                )
+                .doesNotContain(
+                        "jsonObj.get(\"not_schema\")"
+                );
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/OtherWithEnumRef.java"))
+                .content()
+                .contains(
+                        "if (jsonObj.get(\"kind\") != null",
+                        "jsonObj.get(\"kind\").isJsonPrimitive()",
+                        "jsonObj.get(\"kind\").getAsJsonPrimitive().isString()",
+                        "\"known\".equals(jsonObj.get(\"kind\").getAsString())",
+                        "matches a value disallowed by `not`"
+                )
+                .doesNotContain(
+                        "jsonObj.get(\"not_schema\")"
+                );
     }
 
     @Test
@@ -2100,6 +2225,61 @@ public class JavaClientCodegenTest {
                 .content().contains("public class SchemaWithTwoAllOfRefs {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
                 .content().contains("public class AnotherChild {");
+    }
+
+    @Test
+    public void testAdditionalPropertiesFieldIsDeclaredOncePerHierarchyForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/allOf_extension_parent.yaml");
+
+        // exactly one class per hierarchy declares the bag; descendants inherit it
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
+                .content().contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content()
+                .contains("public class Child extends Person {")
+                .contains("public Child putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        // a model without an allOf parent declares its own bag, as before
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/PersonA.java"))
+                .content().contains("private Map<String, Object> additionalProperties;");
+    }
+
+    @Test
+    public void testAdditionalPropertiesFieldIsDeclaredOnceAcrossMultiLevelAllOfForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-allof-chain.yaml");
+
+        // exactly one class per hierarchy declares the bag, also across Root <- Middle <- Leaf
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Root.java"))
+                .content().contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Middle.java"))
+                .content()
+                .contains("public class Middle extends Root {")
+                .contains("public Middle putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Leaf.java"))
+                .content()
+                .contains("public class Leaf extends Middle {")
+                .contains("public Leaf putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
+    private Path generateOkHttpGsonWithAdditionalProperties(String inputSpec) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                // use default `okhttp-gson`
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty("disallowAdditionalPropertiesIfNotPresent", "false")
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+        return output;
     }
 
     @Test
@@ -4748,6 +4928,23 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Fish.java"))
                 .isNormalClass()
                 .assertTypeAnnotations().containsWithName("Deprecated");
+    }
+
+    @Test
+    public void testWebClientDeprecatedOperation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", WEBCLIENT);
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsByTags").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByTagsWithHttpInfo").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByTagsWithResponseSpec").hasAnnotation("Deprecated").commentContainsLines("@deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").doesNotHaveAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatusWithHttpInfo").doesNotHaveAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("findPetsByStatusWithResponseSpec").doesNotHaveAnnotation("Deprecated");
     }
 
     @Test
