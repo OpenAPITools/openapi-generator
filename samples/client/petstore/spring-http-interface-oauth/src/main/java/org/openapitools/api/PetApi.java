@@ -26,7 +26,6 @@ public interface PetApi {
     String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param petDto Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)

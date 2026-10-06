@@ -65,7 +65,7 @@ public interface FruitsApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Fruit> createFruit(
-        @Parameter(name = "Fruit", description = "", required = true) @Valid @RequestBody Fruit fruit
+        @Parameter(name = "Fruit", required = true) @Valid @RequestBody Fruit fruit
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

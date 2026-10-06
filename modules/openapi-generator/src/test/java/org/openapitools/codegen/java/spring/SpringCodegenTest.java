@@ -806,12 +806,12 @@ public class SpringCodegenTest {
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
-                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\"", "required", "true"))
-                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "required", "true"))
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\""))
                 .toParameter().toMethod()
                 .assertParameter("file").hasType("MultipartFile")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\""))
                 .toParameter().toMethod()
                 .assertParameter("marker").hasType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
@@ -1026,12 +1026,12 @@ public class SpringCodegenTest {
             .assertParameter("status").hasType("MultipartMixedStatus")
             .assertParameterAnnotations()
             .containsWithName("Valid")
-            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\""))
-            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\""))
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\""))
             .toParameter().toMethod()
             .assertParameter("file").hasType("Part")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\""))
             .toParameter().toMethod()
             .assertParameter("marker").hasType("MultipartMixedRequestMarker")
             .assertParameterAnnotations()
@@ -1130,11 +1130,29 @@ public class SpringCodegenTest {
         // A list query parameter loses the container-level @Valid, while a single-object request body
         // still cascades via the parameter-level @Valid (non-containers are unaffected).
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-                .fileContains("@RequestParam(value = \"status\", required = true) List<String> status")
+                .fileContains("@RequestParam(value = \"status\") List<String> status")
                 .fileContains("@Valid @RequestBody Pet pet")
                 // The scalar "status" form parameter of updatePetWithForm still keeps its (harmless) @Valid,
                 // so the negative assertion must target the container form specifically.
-                .fileDoesNotContain("@Valid @RequestParam(value = \"status\", required = true) List<String>");
+                .fileDoesNotContain("@Valid @RequestParam(value = \"status\") List<String>");
+    }
+
+    @Test
+    public void shouldOmitAnnotationAttributesWithDefaultValues() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@Parameter(name = \"api_key\", in = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false)")
+                .fileDoesNotContain("description = \"\"");
+
+        JavaFileAssert.assertThat(files.get("FakeApi.java"))
+                .fileContains(
+                        "@RequestHeader(value = \"required_boolean_group\") Boolean requiredBooleanGroup",
+                        "@RequestParam(value = \"required_string_group\") Integer requiredStringGroup",
+                        "@RequestHeader(value = \"enum_header_string\", required = false, defaultValue = \"-efg\")",
+                        "@RequestPart(value = \"requiredFile\") MultipartFile requiredFile")
+                .fileDoesNotContain("description = \"\"");
     }
 
     @Test
@@ -6390,7 +6408,7 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 // an Optional-wrapped scalar carries no cascade target, so no @Valid (avoids HV000271 on Optional)
                 "@RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",
-                "@Valid @RequestParam(value = \"length\", required = true) Integer length");
+                "@Valid @RequestParam(value = \"length\") Integer length");
     }
 
     @Test

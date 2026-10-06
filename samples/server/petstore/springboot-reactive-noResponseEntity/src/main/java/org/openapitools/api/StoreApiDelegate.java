@@ -80,7 +80,6 @@ public interface StoreApiDelegate {
 
     /**
      * POST /store/order : Place an order for a pet
-     * 
      *
      * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)

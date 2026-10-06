@@ -65,7 +65,7 @@ public interface AnimalsApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Animal> createAnimal(
-        @Parameter(name = "Animal", description = "", required = true) @Valid @RequestBody Animal animal
+        @Parameter(name = "Animal", required = true) @Valid @RequestBody Animal animal
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
