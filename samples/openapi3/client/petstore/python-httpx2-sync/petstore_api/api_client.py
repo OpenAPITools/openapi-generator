@@ -116,6 +116,23 @@ class ApiClient:
         self.default_headers[header_name] = header_value
 
 
+    @staticmethod
+    def _set_header(headers, name, value):
+        """Replace a header case-insensitively, retaining the winning spelling."""
+        for key in list(headers):
+            if key.lower() == name.lower():
+                del headers[key]
+        headers[name] = value
+
+    @classmethod
+    def _merge_headers(cls, *sources):
+        """Copy headers; later sources and later entries in each dict win."""
+        headers: Dict[str, object] = {}
+        for source in sources:
+            for name, value in (source or {}).items():
+                cls._set_header(headers, name, value)
+        return headers
+
     _default = None
 
     @classmethod
@@ -182,10 +199,9 @@ class ApiClient:
         config = self.configuration
 
         # header parameters
-        header_params = header_params or {}
-        header_params.update(self.default_headers)
+        header_params = self._merge_headers(header_params, self.default_headers)
         if self.cookie:
-            header_params['Cookie'] = self.cookie
+            self._set_header(header_params, 'Cookie', self.cookie)
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
             header_params = dict(
@@ -707,6 +723,10 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
+            for key in list(headers):
+                if key.lower() == 'cookie':
+                    self._set_header(headers, 'Cookie', headers[key])
+                    break
             if not 'Cookie' in headers:
                 headers['Cookie'] = ""
             else:
@@ -716,14 +736,15 @@ class ApiClient:
             headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
-                headers[auth_setting['key']] = auth_setting['value']
+                self._set_header(headers, auth_setting['key'], auth_setting['value'])
             else:
                 # The HTTP signature scheme requires multiple HTTP headers
                 # that are calculated dynamically.
                 signing_info = self.configuration.signing_info
                 auth_headers = signing_info.get_http_signature_headers(
                 resource_path, method, headers, body, queries)
-                headers.update(auth_headers)
+                for name, value in auth_headers.items():
+                    self._set_header(headers, name, value)
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
         else:

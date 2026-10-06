@@ -308,7 +308,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
+{{#httpxLibrary}}
+        _header_params: Dict[str, Optional[str]] = self.api_client._merge_headers(_headers)
+{{/httpxLibrary}}
+{{^httpxLibrary}}
         _header_params: Dict[str, Optional[str]] = _headers or {}
+{{/httpxLibrary}}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -387,12 +392,24 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{#headerParams}}
         if {{paramName}} is not None:
             {{#vendorExtensions.x-python-json-header}}
+{{#httpxLibrary}}
+            self.api_client._set_header(_header_params, '{{baseName}}', json.dumps(
+                self.api_client.sanitize_for_serialization({{paramName}})
+            ))
+{{/httpxLibrary}}
+{{^httpxLibrary}}
             _header_params['{{baseName}}'] = json.dumps(
                 self.api_client.sanitize_for_serialization({{paramName}})
             )
+{{/httpxLibrary}}
             {{/vendorExtensions.x-python-json-header}}
             {{^vendorExtensions.x-python-json-header}}
+{{#httpxLibrary}}
+            self.api_client._set_header(_header_params, '{{baseName}}', {{paramName}})
+{{/httpxLibrary}}
+{{^httpxLibrary}}
             _header_params['{{baseName}}'] = {{paramName}}
+{{/httpxLibrary}}
             {{/vendorExtensions.x-python-json-header}}
 {{/headerParams}}
         # process the form parameters
@@ -431,13 +448,23 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         {{/isQueryParam}}
         {{#isHeaderParam}}
         # Set client side default value of Header Param "{{baseName}}".
+{{#httpxLibrary}}
+        self.api_client._set_header(_header_params, '{{baseName}}', {{#_enum}}'{{{.}}}'{{/_enum}})
+{{/httpxLibrary}}
+{{^httpxLibrary}}
         _header_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+{{/httpxLibrary}}
         {{/isHeaderParam}}
         {{/constantParams}}
 
         {{#hasProduces}}
         # set the HTTP header `Accept`
+{{#httpxLibrary}}
+        if not any(key.lower() == 'accept' for key in _header_params):
+{{/httpxLibrary}}
+{{^httpxLibrary}}
         if 'Accept' not in _header_params:
+{{/httpxLibrary}}
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [{{#produces}}
                     '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
@@ -448,7 +475,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         {{#hasConsumes}}
         # set the HTTP header `Content-Type`
         if _content_type:
+{{#httpxLibrary}}
+            self.api_client._set_header(_header_params, 'Content-Type', _content_type)
+{{/httpxLibrary}}
+{{^httpxLibrary}}
             _header_params['Content-Type'] = _content_type
+{{/httpxLibrary}}
         else:
             _default_content_type = (
                 self.api_client.select_header_content_type(
@@ -458,7 +490,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
                 )
             )
             if _default_content_type is not None:
+{{#httpxLibrary}}
+                self.api_client._set_header(_header_params, 'Content-Type', _default_content_type)
+{{/httpxLibrary}}
+{{^httpxLibrary}}
                 _header_params['Content-Type'] = _default_content_type
+{{/httpxLibrary}}
         {{/hasConsumes}}
 
         # authentication setting
