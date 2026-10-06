@@ -56,7 +56,6 @@ public class PathApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'pathString' is set
         if (pathString == null) {
             throw new RestClientResponseException("Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -96,7 +95,7 @@ public class PathApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

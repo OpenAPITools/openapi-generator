@@ -54,14 +54,13 @@ public class DefaultApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fooGetRequestCreation() throws WebClientResponseException {
-        Object postBody = null;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -72,8 +71,8 @@ public class DefaultApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
-        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -84,7 +83,7 @@ public class DefaultApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<FooGetDefaultResponse> fooGet() throws WebClientResponseException {
-        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
+        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooGetRequestCreation().bodyToMono(localVarReturnType);
     }
 
@@ -96,7 +95,7 @@ public class DefaultApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<FooGetDefaultResponse>> fooGetWithHttpInfo() throws WebClientResponseException {
-        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
+        ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooGetRequestCreation().toEntity(localVarReturnType);
     }
 

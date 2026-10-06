@@ -53,7 +53,6 @@ public class FileApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fileIdGetRequestCreation(String id) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new RestClientResponseException("Missing the required parameter 'id' when calling fileIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -78,7 +77,7 @@ public class FileApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

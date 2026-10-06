@@ -60,7 +60,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEnumRefStringRequestCreation(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -82,7 +81,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/enum_ref_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/enum_ref_string", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -137,7 +136,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryDatetimeDateStringRequestCreation(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -160,7 +158,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/datetime/date/string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/datetime/date/string", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -218,7 +216,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -241,7 +238,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/integer/boolean/string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/integer/boolean/string", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -297,7 +294,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -325,7 +321,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -375,7 +371,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -396,7 +391,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -446,7 +441,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -467,7 +461,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_false/array_integer", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_integer", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -517,7 +511,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleFormExplodeFalseArrayStringRequestCreation(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -538,7 +531,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_false/array_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_string", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -588,7 +581,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleFormExplodeTrueArrayStringRequestCreation(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -611,7 +603,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/array_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/array_string", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -661,7 +653,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleFormExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -689,7 +680,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -739,7 +730,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -760,7 +750,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -811,7 +801,6 @@ public class QueryApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testQueryStyleJsonSerializationObjectRequestCreation(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -833,7 +822,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

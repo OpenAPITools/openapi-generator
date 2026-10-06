@@ -52,7 +52,6 @@ public class ResourceApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec resourceInResponseRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -71,7 +70,7 @@ public class ResourceApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/resource", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/resource", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

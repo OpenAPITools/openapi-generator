@@ -55,7 +55,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testBinaryGifRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -74,7 +73,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/binary/gif", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/binary/gif", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -121,7 +120,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testBodyApplicationOctetstreamBinaryRequestCreation(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
-        Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -142,7 +140,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/binary", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/binary", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -192,7 +190,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testBodyMultipartFormdataArrayOfBinaryRequestCreation(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'files' is set
         if (files == null) {
             throw new RestClientResponseException("Missing the required parameter 'files' when calling testBodyMultipartFormdataArrayOfBinary", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -205,8 +202,7 @@ public class BodyApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (files != null)
-            formParams.addAll("files", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
+        formParams.addAll("files", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -220,7 +216,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/array_of_binary", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/array_of_binary", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -270,7 +266,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testBodyMultipartFormdataSingleBinaryRequestCreation(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -279,8 +274,9 @@ public class BodyApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (myFile != null)
+        if (myFile != null) {
             formParams.add("my-file", new FileSystemResource(myFile));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -294,7 +290,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/single_binary", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/single_binary", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -344,7 +340,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyAllOfPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -365,7 +360,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/allOf/Pet", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/allOf/Pet", HttpMethod.POST, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -415,7 +410,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyFreeFormObjectResponseStringRequestCreation(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
-        Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -436,7 +430,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/FreeFormObject/response_string", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/FreeFormObject/response_string", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -486,7 +480,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -507,7 +500,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/Pet", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/Pet", HttpMethod.POST, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -557,7 +550,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyPetResponseStringRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -578,7 +570,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/Pet/response_string", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/Pet/response_string", HttpMethod.POST, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -628,7 +620,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -649,7 +640,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<StringEnumRef> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/string_enum", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/string_enum", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -699,7 +690,6 @@ public class BodyApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testEchoBodyTagResponseStringRequestCreation(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
-        Object postBody = tag;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -720,7 +710,7 @@ public class BodyApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/echo/body/Tag/response_string", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/echo/body/Tag/response_string", HttpMethod.POST, pathParams, localVarQueryParams, tag, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
