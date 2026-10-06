@@ -16,6 +16,7 @@ package org.openapitools.server.models
  * A pet cat
  * @param huntingSkill The measured skill for hunting
  * @param petType 
+ * @param name 
  */
 data class Cat(
     /* The measured skill for hunting */
@@ -26,7 +27,7 @@ data class Cat(
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
     override val petType: kotlin.String = "cat",
 
-) : Pet(petType = petType)
+) : Pet
 {
     /**
     * The measured skill for hunting
