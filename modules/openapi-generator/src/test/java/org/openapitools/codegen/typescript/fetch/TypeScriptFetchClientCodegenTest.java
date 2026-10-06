@@ -943,6 +943,32 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(apiDocs, "metadata: metadata_example");
     }
 
+    @Test(description = "Verify instanceOf excludes values from not: enum")
+    public void testNotEnumExclusionInTypeGuard() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_1/typescript-fetch/oneof-not-enum.yaml");
+
+        TestUtils.assertFileContains(Paths.get(output + "/models/Known.ts"),
+                "if (value['kind'] !== 'known') return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/Other.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/TaggedUnion.ts"),
+                "if (instanceOfOther(json)) {");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "kind?: string;",
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === \"a\\\"b\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "if (!('kind' in value)");
+        TestUtils.assertFileContains(Paths.get(output + "/models/SanitizedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"filePath\"] === \"known\" || (value as Record<string, unknown>)[\"file-path\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/NullableExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === null) return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "[\"kind\"] === 42",
+                "[\"kind\"] === true");
+    }
+
     @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
     public void testInstanceOfChecksDiscriminatorValue() throws IOException {
         File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");

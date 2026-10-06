@@ -27,12 +27,15 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class GoClientCodegenTest {
@@ -198,6 +201,109 @@ public class GoClientCodegenTest {
         new DefaultGenerator().opts(secondInput).generate().forEach(File::deleteOnExit);
         TestUtils.assertFileNotContains(Paths.get(secondOutput.getAbsolutePath(), "client.go"),
                 "parameterToJSONHeaderValue");
+    }
+
+    @Test
+    public void testStringNotEnumValidation() throws IOException, InterruptedException {
+        File output = Files.createTempDirectory("go-not-enum").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_known.go"),
+                "if value != \"known\"",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "strings.EqualFold(name, requiredProperty)",
+                "if raw := fields.Kind; raw != nil",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_other.go"),
+                "if value == \"known\"",
+                "excluded value %v for property %s",
+                "strings.EqualFold(name, requiredProperty)",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_other.go"),
+                "if value == \"known\" || value == \"a\\\"b\"",
+                "Kind json.RawMessage `json:\"kind,omitempty\"`",
+                "value := _OptionalOther(*o)",
+                "func (o *OptionalOther) UnmarshalJSON(data []byte) error",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_any_other.go"),
+                "var value interface{}",
+                "if value == \"known\"");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum.go"),
+                "if raw := fields.Kind; raw != nil",
+                "if string(raw) != \"null\" && (value != \"known\")");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_excluded_enum.go"),
+                "if value == \"known\" || value == nil",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum_without_null_value.go"),
+                "validateStringEnumValues");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_ordinary_enum.go"),
+                "validateStringEnumValues", "func (o *OrdinaryEnum) UnmarshalJSON");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_optional_enum_parent.go"),
+                "validateStringEnumValues");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_enum_child.go"),
+                "func (o *OptionalEnumChild) validateStringEnumValues(data []byte) error",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "if value != \"allowed\"",
+                "decoded.Kind = o.Kind",
+                "o.Kind = decoded.Kind",
+                "o.Label = decoded.Label",
+                "Dash *string `json:\"dash,omitempty\"`",
+                "o.Dash = decoded.Dash");
+
+        File allOfOutput = Files.createTempDirectory("go-inherited-enum").toFile();
+        allOfOutput.deleteOnExit();
+        final CodegenConfigurator allOfConfigurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml")
+                .setOutputDir(allOfOutput.getAbsolutePath());
+        new DefaultGenerator().opts(allOfConfigurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileNotContains(Paths.get(allOfOutput.getAbsolutePath(), "model_final_item.go"),
+                "validateStringEnumValues");
+
+        try {
+            Process goVersion = new ProcessBuilder("go", "version").start();
+            if (goVersion.waitFor() != 0) {
+                return;
+            }
+            Matcher version = Pattern.compile("go(\\d+)\\.(\\d+)")
+                    .matcher(new String(goVersion.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+            if (!version.find() || Integer.parseInt(version.group(1)) < 1
+                    || (Integer.parseInt(version.group(1)) == 1 && Integer.parseInt(version.group(2)) < 23)) {
+                return;
+            }
+        } catch (IOException ignored) {
+            return;
+        }
+        Files.copy(Paths.get("src/test/resources/3_1/go/oneof-not-enum_test.go"),
+                Paths.get(output.getAbsolutePath(), "oneof-not-enum_test.go")).toFile().deleteOnExit();
+        Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestStringEnumScope$", ".")
+                .directory(output).redirectErrorStream(true).start();
+        String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(goTest.waitFor(), 0, goOutput);
+    }
+
+    @Test
+    public void testNullableStringEnumRefValidation() throws IOException {
+        File output = Files.createTempDirectory("go-nullable-enum-ref").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "model_enum_test_.go");
+        TestUtils.assertFileNotContains(model, "validateStringEnumValues");
     }
 
     @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
