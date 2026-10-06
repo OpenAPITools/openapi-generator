@@ -23,7 +23,7 @@ import tempfile
 import uuid
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union
+from typing import Any, Tuple, Optional, List, Dict, Union
 from pydantic import SecretStr
 
 from petstore_api.configuration import Configuration
@@ -106,18 +106,21 @@ class ApiClient:
     @property
     def user_agent(self):
         """User agent for this API client"""
-        return self.default_headers['User-Agent']
+        for name, value in self.default_headers.items():
+            if name.lower() == 'user-agent':
+                return value
+        raise KeyError('User-Agent')
 
     @user_agent.setter
     def user_agent(self, value):
-        self.default_headers['User-Agent'] = value
+        self._set_header(self.default_headers, 'User-Agent', value)
 
     def set_default_header(self, header_name, header_value):
-        self.default_headers[header_name] = header_value
+        self._set_header(self.default_headers, header_name, header_value)
 
 
     @staticmethod
-    def _set_header(headers, name, value):
+    def _set_header(headers: Dict[str, Any], name: str, value: Any) -> None:
         """Replace a header case-insensitively, retaining the winning spelling."""
         for key in list(headers):
             if key.lower() == name.lower():
@@ -125,9 +128,9 @@ class ApiClient:
         headers[name] = value
 
     @classmethod
-    def _merge_headers(cls, *sources):
+    def _merge_headers(cls, *sources: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         """Copy headers; later sources and later entries in each dict win."""
-        headers: Dict[str, object] = {}
+        headers: Dict[str, Any] = {}
         for source in sources:
             for name, value in (source or {}).items():
                 cls._set_header(headers, name, value)
@@ -727,7 +730,7 @@ class ApiClient:
                 if key.lower() == 'cookie':
                     self._set_header(headers, 'Cookie', headers[key])
                     break
-            if not 'Cookie' in headers:
+            if not headers.get('Cookie'):
                 headers['Cookie'] = ""
             else:
                 headers['Cookie'] += "; "

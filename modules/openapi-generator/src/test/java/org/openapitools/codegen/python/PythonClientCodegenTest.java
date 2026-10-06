@@ -174,9 +174,9 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileContains(
                 api,
                 "import json",
-                "_header_params['X-Json-Arg'] = json.dumps(",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(",
                 "self.api_client.sanitize_for_serialization(x_json_arg)",
-                "_header_params['X-Plain-Arg'] = x_plain_arg");
+                "self.api_client._set_header(_header_params, 'X-Plain-Arg', x_plain_arg)");
 
         TestUtils.assertFileNotContains(
                 api,
@@ -806,7 +806,7 @@ public class PythonClientCodegenTest {
         File apiFile = files
                 .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
-        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
+        assertFileContains(apiFile.toPath(), "self.api_client._set_header(_header_params, 'X-CUSTOM_CONSTANT_HEADER', 'CONSTANT_VALUE')");
         assertFileContains(apiFile.toPath(), "_query_params.append(('CONSTANT_QUERY_STRING_KEY', 'CONSTANT_QUERY_STRING_VALUE'))");
     }
 

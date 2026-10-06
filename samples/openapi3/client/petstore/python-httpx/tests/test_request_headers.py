@@ -78,13 +78,47 @@ class TestRequestHeaders(unittest.IsolatedAsyncioTestCase):
 
     async def test_defaults_and_last_inserted_case_variant_win_without_splitting_values(self):
         self.client.set_default_header('X-Default', 'earlier-default')
-        self.client.set_default_header('x-default', 'default')
+        self.client.set_default_header('x-default', 'middle')
+        self.client.set_default_header('X-Default', 'default')
         headers = {'x-default': 'call', 'X-List': 'first', 'x-list': 'a, b, a'}
         await self.api.add_pet(self.pet, _headers=headers)
         self.assert_single_header(self.requests[-1], 'x-default', 'default')
         self.assert_single_header(self.requests[-1], 'x-list', 'a, b, a')
         self.assertIn('x-list', self.requests[-1].headers)
         self.assertEqual(headers['X-List'], 'first')
+
+    async def test_user_agent_default_updates_case_insensitively(self):
+        self.client.set_default_header('user-agent', 'custom')
+        self.assertEqual(self.client.user_agent, 'custom')
+        await self.api.add_pet(self.pet)
+        self.assert_single_header(self.requests[-1], 'user-agent', 'custom')
+        self.client.user_agent = 'reset'
+        self.assertEqual(self.client.user_agent, 'reset')
+        self.assertEqual(
+            len([key for key in self.client.default_headers if key.lower() == 'user-agent']), 1
+        )
+
+    async def test_empty_request_auth_keeps_configured_authentication(self):
+        await self.api.add_pet(self.pet, _request_auth={})
+        self.assert_single_header(self.requests[-1], 'authorization', 'Bearer configured-token')
+
+    async def test_empty_cookie_does_not_add_leading_separator(self):
+        params = self.client.param_serialize(
+            'GET', '/cookie', header_params={'cookie': ''}, query_params=[],
+            auth_settings=['cookie'],
+            _request_auth={'in': 'cookie', 'key': 'session', 'type': 'api_key', 'value': 'two'},
+        )
+        await self.client.call_api(*params)
+        self.assert_single_header(self.requests[-1], 'cookie', 'session=two')
+
+    async def test_explicit_header_parameter_overrides_call_headers(self):
+        headers = {'API_KEY': 'call'}
+        params = self.api._delete_pet_serialize(
+            pet_id=1, api_key='explicit', _headers=headers, _request_auth=None,
+            _content_type=None, _host_index=0,
+        )
+        self.assertEqual(params[2]['api_key'], 'explicit')
+        self.assertEqual(headers, {'API_KEY': 'call'})
 
     async def test_authentication_overrides_case_variants_and_preserves_inputs(self):
         self.client.set_default_header('AUTHORIZATION', 'default')

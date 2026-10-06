@@ -20,6 +20,7 @@ from typing import Any, Dict, Optional, Union
 
 import aiohttp
 import aiohttp_retry
+from multidict import CIMultiDict
 
 from petstore_api.exceptions import ApiException, ApiValueError
 
@@ -193,7 +194,7 @@ class RESTClientObject:
             )
 
         post_params = post_params or {}
-        headers = headers or {}
+        headers = CIMultiDict(headers or {})
         # url already contains the URL query string
         timeout = _request_timeout or 5 * 60
 

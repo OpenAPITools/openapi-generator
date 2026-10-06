@@ -332,10 +332,10 @@ Authentication schemes defined for the API:
 
 ## Request headers
 
-For the `httpx` and `httpx2` libraries, header names are compared case-insensitively.
+Header names are compared case-insensitively in all Python client libraries.
 Request headers are copied; supplying `_headers` does not change the caller's dict
-or the client's shared defaults. The public `_headers` argument retains its dict validation and existing value
-serialization. Pydantic can coerce mappings such as HTTPX `Headers` to a dict,
+or the client's shared defaults. The public `_headers` argument retains its dict
+validation and existing value serialization. Pydantic can coerce mappings such as HTTPX `Headers` to a dict,
 combining repeated fields into a single value; `_headers` does not provide a
 repeated-field or list-of-pairs API.
 
@@ -343,16 +343,17 @@ Precedence, from lowest to highest:
 
 1. `_headers` (within one dict, the last inserted case variant wins).
 2. Explicit OpenAPI header parameters and generated `Content-Type` (or `_content_type`).
-   Generated `Accept` is only added when `_headers` has no `Accept` case variant.
+   Generated `Accept` is added only when neither `_headers` nor explicit header
+   parameters contain an `Accept` case variant.
 3. `ApiClient.default_headers` (including headers set with `set_default_header`).
 4. The client's `cookie` setting, for `Cookie`.
-5. Authentication headers. `_request_auth` replaces configured authentication for
-   that call; cookie authentication appends to the selected `Cookie` value.
+5. Authentication headers. A non-empty `_request_auth` replaces configured
+   authentication for that call; `{}` retains configured authentication. Cookie
+   authentication appends to the selected `Cookie` value.
 
 This retains the existing precedence for identically spelled names and extends it
 to case variants. To override a generated content type, use `_content_type`;
 client defaults still take precedence over it. The winning header's spelling and
 value are retained. Values containing legitimate comma-separated lists are not
 split or deduplicated. This does not remove duplicate values inside a header or
-change HTTPX's handling of repeated fields supplied directly to the transport.
-The urllib3 and asyncio libraries are unchanged.
+change the handling of repeated fields supplied directly to the transport.

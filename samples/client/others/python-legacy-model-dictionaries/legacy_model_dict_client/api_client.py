@@ -26,7 +26,7 @@ from multiprocessing.pool import ThreadPool
 from threading import Lock
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union, Any
+from typing import Any, Tuple, Optional, List, Dict, Union
 from pydantic import SecretStr
 
 from legacy_model_dict_client.configuration import Configuration
@@ -208,15 +208,35 @@ class ApiClient:
     @property
     def user_agent(self):
         """User agent for this API client"""
-        return self.default_headers['User-Agent']
+        for name, value in self.default_headers.items():
+            if name.lower() == 'user-agent':
+                return value
+        raise KeyError('User-Agent')
 
     @user_agent.setter
     def user_agent(self, value):
-        self.default_headers['User-Agent'] = value
+        self._set_header(self.default_headers, 'User-Agent', value)
 
     def set_default_header(self, header_name, header_value):
-        self.default_headers[header_name] = header_value
+        self._set_header(self.default_headers, header_name, header_value)
 
+
+    @staticmethod
+    def _set_header(headers: Dict[str, Any], name: str, value: Any) -> None:
+        """Replace a header case-insensitively, retaining the winning spelling."""
+        for key in list(headers):
+            if key.lower() == name.lower():
+                del headers[key]
+        headers[name] = value
+
+    @classmethod
+    def _merge_headers(cls, *sources: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+        """Copy headers; later sources and later entries in each dict win."""
+        headers: Dict[str, Any] = {}
+        for source in sources:
+            for name, value in (source or {}).items():
+                cls._set_header(headers, name, value)
+        return headers
 
     _default = None
 
@@ -284,10 +304,9 @@ class ApiClient:
         config = self.configuration
 
         # header parameters
-        header_params = header_params or {}
-        header_params.update(self.default_headers)
+        header_params = self._merge_headers(header_params, self.default_headers)
         if self.cookie:
-            header_params['Cookie'] = self.cookie
+            self._set_header(header_params, 'Cookie', self.cookie)
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
             header_params = dict(
@@ -813,7 +832,11 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            if not 'Cookie' in headers:
+            for key in list(headers):
+                if key.lower() == 'cookie':
+                    self._set_header(headers, 'Cookie', headers[key])
+                    break
+            if not headers.get('Cookie'):
                 headers['Cookie'] = ""
             else:
                 headers['Cookie'] += "; "
@@ -822,7 +845,7 @@ class ApiClient:
             headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
-                headers[auth_setting['key']] = auth_setting['value']
+                self._set_header(headers, auth_setting['key'], auth_setting['value'])
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
         else:
