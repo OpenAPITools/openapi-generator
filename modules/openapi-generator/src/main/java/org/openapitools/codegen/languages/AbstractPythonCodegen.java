@@ -563,13 +563,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 example = "{ }";
             }
         } else if (ModelUtils.isObjectSchema(schema)) {
-            if (StringUtils.isBlank(schema.getTitle())) {
-                example = "None";
-                return example;
-            }
             if (ModelUtils.isFreeFormObject(schema, this.openAPI)) {
                 // free-form objects have no generated model, so the example is a plain dict
                 return "{ }";
+            }
+            if (StringUtils.isBlank(schema.getTitle())) {
+                example = "None";
+                return example;
             }
 
             // I remove any property that is a discriminator, since it is not well supported by the python generator

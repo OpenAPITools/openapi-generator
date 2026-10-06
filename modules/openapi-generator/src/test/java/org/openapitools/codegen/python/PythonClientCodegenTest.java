@@ -352,6 +352,9 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(example.contains("a_property = { }"),
                 "free-form object should be a dict in:\n" + example);
         Assert.assertFalse(example.contains("models.a_property."), "free-form object got a model path in:\n" + example);
+
+        // the same holds for a free-form object that never got a title, e.g. bare array items
+        Assert.assertEquals(codegen.toExampleValue(new ObjectSchema()), "{ }");
     }
 
     @Test(description = "test single quotes escape")
