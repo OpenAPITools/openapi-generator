@@ -1,6 +1,6 @@
 generatorName: typescript-fetch
 outputDir: samples/client/petstore/typescript-fetch/builds/oneOf-not-enum
-inputSpec: modules/openapi-generator/src/test/resources/3_1/typescript-fetch/oneOf-not-enum.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_1/typescript-fetch/oneof-not-enum.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
 additionalProperties:
   npmVersion: 1.0.0
