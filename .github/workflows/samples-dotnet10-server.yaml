@@ -24,6 +24,7 @@ jobs:
           - samples/server/petstore/aspnetcore-10.0-project4Models
           - samples/server/petstore/aspnetcore-10.0-useSwashBuckle
           - samples/server/petstore/aspnetcore-10.0-use-centralized-package-version-management
+          - samples/server/petstore/aspnetcore-10.0-abstract-class
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6.0.0
