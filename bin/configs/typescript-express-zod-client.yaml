@@ -1,0 +1,6 @@
+generatorName: typescript
+outputDir: samples/client/petstore/typescript-express-zod-client/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-express-zod/petstore.yaml
+additionalProperties:
+  framework: express-zod
+  hideGenerationTimestamp: "true"
