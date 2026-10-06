@@ -4,17 +4,13 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.FooGetDefaultResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class DefaultApi {

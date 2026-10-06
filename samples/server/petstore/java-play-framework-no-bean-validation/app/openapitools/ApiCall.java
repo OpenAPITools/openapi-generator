@@ -5,7 +5,6 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class ApiCall extends Action<OpenAPIUtils.ApiAction> {

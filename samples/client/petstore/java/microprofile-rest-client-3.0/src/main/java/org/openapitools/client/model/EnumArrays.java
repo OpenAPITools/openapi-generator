@@ -13,11 +13,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
@@ -29,11 +25,6 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbSubtype;
-import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.annotation.JsonbTypeInfo;
-import jakarta.json.bind.annotation.JsonbCreator;
-
 
 public class EnumArrays  {
   

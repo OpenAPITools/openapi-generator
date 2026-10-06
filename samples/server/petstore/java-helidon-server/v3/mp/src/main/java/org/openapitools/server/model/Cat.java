@@ -12,18 +12,8 @@
 
 package org.openapitools.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.server.model.Animal;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class Cat extends Animal {
   

@@ -13,25 +13,8 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
 import org.openapitools.client.model.OuterEnumInteger;
-import java.lang.reflect.Type;
-import jakarta.json.bind.annotation.JsonbTypeDeserializer;
-import jakarta.json.bind.annotation.JsonbTypeSerializer;
-import jakarta.json.bind.serializer.DeserializationContext;
-import jakarta.json.bind.serializer.JsonbDeserializer;
-import jakarta.json.bind.serializer.JsonbSerializer;
-import jakarta.json.bind.serializer.SerializationContext;
-import jakarta.json.stream.JsonGenerator;
-import jakarta.json.stream.JsonParser;
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbSubtype;
-import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.annotation.JsonbTypeInfo;
-import jakarta.json.bind.annotation.JsonbCreator;
-
 
 public class OuterObjectWithEnumProperty  {
   

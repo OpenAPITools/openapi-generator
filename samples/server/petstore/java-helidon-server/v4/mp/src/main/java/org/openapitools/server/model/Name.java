@@ -13,12 +13,9 @@
 package org.openapitools.server.model;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
   * Model for testing model name same as property name

@@ -2,7 +2,6 @@ package apimodels;
 
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
-import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;

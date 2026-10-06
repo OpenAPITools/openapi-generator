@@ -6,16 +6,12 @@ import org.openapitools.api.factories.PetApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 
-import java.util.Map;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;

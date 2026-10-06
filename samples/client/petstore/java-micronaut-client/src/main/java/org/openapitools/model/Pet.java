@@ -13,10 +13,8 @@
 package org.openapitools.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;

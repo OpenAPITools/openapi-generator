@@ -124,7 +124,8 @@ public class DefaultGenerator implements Generator {
             this.userDefinedTemplates = Collections.unmodifiableList(userFiles);
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite());
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite(),
+                this.config::postProcessTemplateOutput);
 
         if (this.dryRun) {
             this.templateProcessor = new DryRunTemplateManager(templateManagerOptions);

@@ -10,8 +10,6 @@ import java.util.Optional;
 
 import io.helidon.common.Errors;
 import io.helidon.common.mapper.OptionalValue;
-import io.helidon.webserver.http.ServerRequest;
-import io.helidon.webserver.http.ServerResponse;
 
 import jakarta.validation.ValidationException;
 

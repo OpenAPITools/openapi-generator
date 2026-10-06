@@ -28,7 +28,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.form.FormEncoder;
-import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.hc5.ApacheHttp5Client;
 import feign.slf4j.Slf4jLogger;

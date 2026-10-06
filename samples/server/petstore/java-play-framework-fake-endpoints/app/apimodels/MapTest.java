@@ -3,7 +3,6 @@ package apimodels;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
-import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;

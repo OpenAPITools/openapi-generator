@@ -3,7 +3,6 @@ package org.openapitools.api;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
-import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
@@ -12,7 +11,6 @@ import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.*;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 

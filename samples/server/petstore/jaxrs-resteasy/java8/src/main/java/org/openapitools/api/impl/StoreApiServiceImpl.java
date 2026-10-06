@@ -3,17 +3,11 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-
-import java.util.Map;
 import org.openapitools.model.Order;
 
-import java.util.List;
 import org.openapitools.api.NotFoundException;
 
-import java.io.InputStream;
-
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

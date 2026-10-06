@@ -6,14 +6,10 @@ import org.openapitools.api.UserApiService;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import org.joda.time.DateTime;
 import org.openapitools.model.User;
 
-import java.util.Map;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;

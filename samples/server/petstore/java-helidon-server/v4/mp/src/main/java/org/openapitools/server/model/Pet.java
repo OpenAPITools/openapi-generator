@@ -15,8 +15,6 @@ package org.openapitools.server.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,12 +22,6 @@ import org.openapitools.server.model.Category;
 import org.openapitools.server.model.Tag;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class Pet  {
   

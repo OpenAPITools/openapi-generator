@@ -2,13 +2,9 @@ package org.openapitools.server.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.DeprecatedObject;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
 
 public class ObjectWithDeprecatedFields   {
 

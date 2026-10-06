@@ -13,15 +13,10 @@
 package org.openapitools.server.api;
 
 import java.util.List;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

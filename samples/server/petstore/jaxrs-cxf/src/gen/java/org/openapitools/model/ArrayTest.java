@@ -1,7 +1,6 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;

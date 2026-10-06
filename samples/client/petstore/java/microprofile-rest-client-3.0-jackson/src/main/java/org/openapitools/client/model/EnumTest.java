@@ -14,10 +14,6 @@ package org.openapitools.client.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import java.util.Objects;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,7 +24,6 @@ import org.openapitools.client.model.OuterEnumDefaultValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonPropertyOrder({
   EnumTest.JSON_PROPERTY_ENUM_STRING,

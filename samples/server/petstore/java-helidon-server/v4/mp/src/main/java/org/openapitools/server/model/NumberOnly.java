@@ -14,13 +14,6 @@ package org.openapitools.server.model;
 
 import java.math.BigDecimal;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class NumberOnly  {
   

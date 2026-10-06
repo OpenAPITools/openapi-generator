@@ -23,7 +23,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
 

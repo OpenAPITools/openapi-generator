@@ -3,14 +3,7 @@ package org.openapitools.api;
 import org.openapitools.model.RequiredAndNullable;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import org.jboss.resteasy.reactive.ResponseStatus;
 
-
-
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

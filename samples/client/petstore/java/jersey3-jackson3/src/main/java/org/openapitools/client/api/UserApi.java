@@ -8,7 +8,6 @@ import org.openapitools.client.Pair;
 
 import jakarta.ws.rs.core.GenericType;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import jakarta.validation.constraints.*;

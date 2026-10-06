@@ -2,11 +2,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.api.client.http.EmptyContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.InputStreamContent;
@@ -20,7 +18,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class UserApi {

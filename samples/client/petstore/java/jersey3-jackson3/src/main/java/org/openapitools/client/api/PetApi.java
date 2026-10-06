@@ -13,7 +13,6 @@ import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.HashMap;

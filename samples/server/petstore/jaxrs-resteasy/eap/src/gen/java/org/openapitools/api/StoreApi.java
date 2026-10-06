@@ -8,11 +8,6 @@ import io.swagger.jaxrs.*;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-import java.util.List;
-import java.util.Map;
-
-import java.io.InputStream;
-
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

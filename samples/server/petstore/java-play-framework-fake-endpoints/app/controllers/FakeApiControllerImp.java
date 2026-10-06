@@ -3,7 +3,6 @@ package controllers;
 import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
@@ -13,13 +12,8 @@ import apimodels.XmlItem;
 
 import play.mvc.Http;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     @Override

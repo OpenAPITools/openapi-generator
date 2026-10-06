@@ -13,31 +13,14 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
-import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Arrays;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import tools.jackson.core.type.TypeReference;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -53,7 +36,6 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
 import tools.jackson.databind.ser.std.StdSerializer;
-import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

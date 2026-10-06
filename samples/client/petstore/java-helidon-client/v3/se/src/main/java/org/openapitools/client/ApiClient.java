@@ -13,22 +13,18 @@
 package org.openapitools.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import io.helidon.config.Config;
 import io.helidon.media.jackson.JacksonSupport;
 import io.helidon.webclient.WebClient;
 
-import java.net.URI;
 import java.net.URLEncoder;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;

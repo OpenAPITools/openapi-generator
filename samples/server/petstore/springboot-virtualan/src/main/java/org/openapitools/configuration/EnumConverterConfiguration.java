@@ -1,8 +1,5 @@
 package org.openapitools.configuration;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.util.UUID;
 
 import org.openapitools.virtualan.model.EnumClass;
 import org.openapitools.virtualan.model.OuterEnum;

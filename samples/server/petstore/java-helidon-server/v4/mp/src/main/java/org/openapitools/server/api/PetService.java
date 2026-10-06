@@ -12,18 +12,14 @@
 
 package org.openapitools.server.api;
 
-import java.io.File;
 import java.util.List;
 import org.openapitools.server.model.ModelApiResponse;
-import java.util.Optional;
 import org.openapitools.server.model.Pet;
 import java.util.Set;
 
 import jakarta.ws.rs.*;
 
 import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

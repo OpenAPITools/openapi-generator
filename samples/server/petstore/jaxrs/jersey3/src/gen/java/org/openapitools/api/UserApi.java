@@ -4,24 +4,15 @@ import org.openapitools.api.UserApiService;
 import org.openapitools.api.factories.UserApiServiceFactory;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.Date;
 import org.openapitools.model.User;
 
-import java.util.Map;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.ws.rs.core.Context;

@@ -14,17 +14,8 @@ package org.openapitools.server.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class EnumArrays  {
   

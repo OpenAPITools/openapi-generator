@@ -1,15 +1,11 @@
 package org.openapitools.server.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
 
 public class FormatTest   {
 

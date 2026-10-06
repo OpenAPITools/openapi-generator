@@ -1,12 +1,9 @@
 package apimodels;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
-import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 /**
  * Model for testing model name starting with number
  */

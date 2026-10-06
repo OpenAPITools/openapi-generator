@@ -1,6 +1,5 @@
 package org.openapitools.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;

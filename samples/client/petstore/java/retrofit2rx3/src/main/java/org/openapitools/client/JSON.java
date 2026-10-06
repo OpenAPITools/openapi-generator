@@ -27,8 +27,6 @@ import io.gsonfire.TypeSelector;
 import org.openapitools.client.model.*;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;

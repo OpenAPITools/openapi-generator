@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
-import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
@@ -11,9 +10,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 

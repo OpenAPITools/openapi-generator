@@ -32,10 +32,7 @@ import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
 
-
 import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

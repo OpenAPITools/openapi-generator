@@ -19,17 +19,11 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
-import org.openapitools.client.ProgressRequestBody;
-import org.openapitools.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-
-
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.Order;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;

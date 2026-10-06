@@ -4,21 +4,14 @@ import org.openapitools.client.ApiClient;
 
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
-import java.time.OffsetDateTime;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;

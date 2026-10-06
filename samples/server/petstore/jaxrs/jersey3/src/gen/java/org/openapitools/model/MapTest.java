@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 /**
  * MapTest

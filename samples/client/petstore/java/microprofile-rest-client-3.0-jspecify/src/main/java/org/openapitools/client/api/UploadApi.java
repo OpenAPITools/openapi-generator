@@ -15,16 +15,8 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.jspecify.annotations.Nullable;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.MediaType;
-
-
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;

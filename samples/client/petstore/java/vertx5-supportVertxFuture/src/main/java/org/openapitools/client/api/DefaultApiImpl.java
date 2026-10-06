@@ -5,7 +5,6 @@ import org.openapitools.client.model.FooGetDefaultResponse;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
-import io.vertx.core.json.JsonObject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -15,7 +14,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 

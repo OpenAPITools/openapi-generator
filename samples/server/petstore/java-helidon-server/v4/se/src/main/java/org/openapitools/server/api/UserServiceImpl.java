@@ -1,15 +1,7 @@
 package org.openapitools.server.api;
 
-import java.util.stream.Collectors;
-import org.openapitools.server.model.GenericTypes;
-import java.util.HexFormat;
-import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 import io.helidon.http.Status;
-import org.openapitools.server.model.User;
-import jakarta.validation.Valid;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 

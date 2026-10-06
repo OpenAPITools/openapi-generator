@@ -28,11 +28,8 @@ import org.openapitools.model.Pet;
 import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
-import java.util.Map;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;

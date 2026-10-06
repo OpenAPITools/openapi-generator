@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import java.util.Date;
 import org.openapitools.model.User;
 
 import jakarta.ws.rs.*;
@@ -8,8 +7,6 @@ import jakarta.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
-import java.io.InputStream;
-import java.util.Map;
 import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;

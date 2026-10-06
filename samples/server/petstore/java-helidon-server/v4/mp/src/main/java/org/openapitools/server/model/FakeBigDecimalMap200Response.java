@@ -12,18 +12,9 @@
 
 package org.openapitools.server.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class FakeBigDecimalMap200Response  {
   

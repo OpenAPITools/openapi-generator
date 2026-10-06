@@ -1,7 +1,6 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
-import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.io.File;
@@ -9,10 +8,7 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

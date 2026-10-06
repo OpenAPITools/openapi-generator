@@ -1,15 +1,10 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
-import java.util.Date;
 import org.openapitools.model.User;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

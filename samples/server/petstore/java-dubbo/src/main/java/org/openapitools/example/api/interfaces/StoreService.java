@@ -2,11 +2,7 @@ package org.openapitools.example.api.interfaces;
 
 import org.openapitools.example.model.Order;
 import org.openapitools.example.model.*;
-import java.util.List;
 import java.util.Map;
-import java.time.OffsetDateTime;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 

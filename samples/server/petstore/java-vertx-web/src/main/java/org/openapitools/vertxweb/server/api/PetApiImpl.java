@@ -11,7 +11,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.HttpException;
 
 import java.util.List;
-import java.util.Map;
 
 // Implement this class
 

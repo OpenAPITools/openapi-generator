@@ -3,16 +3,9 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.Serializable;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.jackson.nullable.JsonNullable;
-
-
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("_special_model.name_")

@@ -13,7 +13,6 @@
 package org.openapitools.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
 

@@ -1,7 +1,5 @@
 package org.openapitools.api;
 
-import java.io.File;
-import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 
@@ -14,7 +12,6 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.io.InputStream;
-import java.util.Map;
 import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;

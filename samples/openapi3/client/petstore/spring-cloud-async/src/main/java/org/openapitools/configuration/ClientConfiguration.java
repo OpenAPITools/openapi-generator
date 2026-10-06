@@ -18,9 +18,6 @@ import org.springframework.http.HttpHeaders;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
-import org.springframework.context.annotation.Configuration;
-
-
 public class ClientConfiguration {
 
   private static final String CLIENT_PRINCIPAL_IMPLICIT = "oauth2FeignClient";

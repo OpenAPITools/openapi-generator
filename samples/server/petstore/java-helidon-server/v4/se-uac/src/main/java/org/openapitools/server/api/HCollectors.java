@@ -1,9 +1,6 @@
 package org.openapitools.server.api;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,10 +12,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import io.helidon.common.GenericType;
 import io.helidon.http.Headers;
 import io.helidon.http.WritableHeaders;
-import io.helidon.http.media.EntityReader;
 import io.helidon.http.media.FormParamsSupport;
 import io.helidon.http.media.MediaSupport;
 

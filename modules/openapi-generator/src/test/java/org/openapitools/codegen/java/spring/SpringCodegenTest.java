@@ -1138,6 +1138,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldRemoveUnusedImports() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT,
+                Map.of(SpringCodegen.USE_SPRING_BOOT4, true));
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.openapitools.model.Pet", "io.swagger.v3.oas.annotations.Operation")
+                .hasNoImports("io.swagger.v3.oas.annotations.Parameters", "io.swagger.v3.oas.annotations.media.ExampleObject", "java.util.Map");
+        JavaFileAssert.assertThat(files.get("Category.java"))
+                .hasImports("com.fasterxml.jackson.annotation.JsonProperty")
+                .hasNoImports("java.net.URI", "java.time.OffsetDateTime", "com.fasterxml.jackson.annotation.JsonCreator");
+    }
+
+    @Test
     public void testXImplements() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
@@ -1610,7 +1623,6 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
-                .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
                 .assertProperty("stringPattern")
                 .withType("Set<@Pattern(regexp = \"[a-z]\") String>")
@@ -7045,7 +7057,8 @@ public class SpringCodegenTest {
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
-        JavaFileAssert.assertThat(apiFile).fileContains(
+        // the swagger2 Schema annotation import clashes with the model named Schema, so it is removed
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
             "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
@@ -7556,11 +7569,12 @@ public class SpringCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
         if (SPRING_BOOT.equals(library)) {
-            // Nullable annotation is not (yet) put on NativeWebRequest, but still present as import when useJspecify=true
+            // Nullable annotation is not (yet) put on NativeWebRequest, so the unused import is removed
             JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
                     .assertTypeAnnotations()
                     .doesNotContainWithName("Nullable")
-                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
+                    .toType()
+                    .fileDoesNotContain("import org.jspecify.annotations.Nullable;");
         }
     }
 
@@ -7637,11 +7651,12 @@ public class SpringCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
         if (SPRING_BOOT.equals(library)) {
-            // Nullable annotation is not (yet) put on NativeWebRequest, but still present as import when useJspecify=true
+            // Nullable annotation is not (yet) put on NativeWebRequest, so the unused import is removed
             JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
                     .assertTypeAnnotations()
                     .doesNotContainWithName("Nullable")
-                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
+                    .toType()
+                    .fileDoesNotContain("import org.jspecify.annotations.Nullable;");
         }
     }
 
@@ -7710,8 +7725,8 @@ public class SpringCodegenTest {
                     "Foo dt(java.time.Instant dt) {\n    this.dt = Optional.of(dt);",
                     "Foo.Builder dt(java.time.Instant dt) {");
         }
+        assertNullableImportedOnlyWhenUsed(files.get("FooApi.java"));
         JavaFileAssert.assertThat(files.get("FooApi.java"))
-                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "Optional<java.time.Instant> dtParam",
                         "Optional<java.time.Instant> dtQuery",
@@ -7732,12 +7747,20 @@ public class SpringCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
         if (SPRING_BOOT.equals(library)) {
-            // Nullable annotation is not (yet) put on NativeWebRequest, but still present as import when useJspecify=true
+            // Nullable annotation is not (yet) put on NativeWebRequest, so the unused import is removed
             JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
                     .assertTypeAnnotations()
                     .doesNotContainWithName("Nullable")
-                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
+                    .toType()
+                    .fileDoesNotContain("import org.jspecify.annotations.Nullable;");
         }
+    }
+
+    private static void assertNullableImportedOnlyWhenUsed(File file) throws IOException {
+        final String content = Files.readString(file.toPath());
+        final boolean imported = content.contains("import org.jspecify.annotations.Nullable;");
+        final boolean used = content.replace("import org.jspecify.annotations.Nullable;", "").contains("@Nullable");
+        Assert.assertEquals(imported, used, "Nullable should be imported if and only if it is used in " + file);
     }
 
     // -------------------------------------------------------------------------

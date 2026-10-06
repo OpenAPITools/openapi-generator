@@ -2,9 +2,7 @@ package org.openapitools.model;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;

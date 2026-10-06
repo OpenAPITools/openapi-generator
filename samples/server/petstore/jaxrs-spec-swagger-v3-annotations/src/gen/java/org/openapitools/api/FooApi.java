@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import org.openapitools.model.FooGetDefaultResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -10,11 +9,7 @@ import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 /**
 * Represents a collection of functions to interact with the API endpoints.

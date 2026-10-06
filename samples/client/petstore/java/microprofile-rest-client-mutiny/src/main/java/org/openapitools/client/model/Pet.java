@@ -13,11 +13,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -31,7 +27,6 @@ import javax.json.bind.serializer.SerializationContext;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbCreator;
 
 /**
   * A pet for sale in the pet store

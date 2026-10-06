@@ -21,7 +21,6 @@ import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesReque
 import org.openapitools.client.model.User;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.HashMap;

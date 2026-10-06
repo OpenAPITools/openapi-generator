@@ -7,7 +7,6 @@ import org.openapitools.client.model.Pet;
 import java.util.Set;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 

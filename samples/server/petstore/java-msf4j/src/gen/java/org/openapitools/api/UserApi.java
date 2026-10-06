@@ -7,21 +7,12 @@ import org.openapitools.api.factories.UserApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
-import java.util.List;
 import org.openapitools.api.NotFoundException;
 
-import java.io.InputStream;
-
-import org.wso2.msf4j.formparam.FormDataParam;
-import org.wso2.msf4j.formparam.FileInfo;
-
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
 @Path("/user")

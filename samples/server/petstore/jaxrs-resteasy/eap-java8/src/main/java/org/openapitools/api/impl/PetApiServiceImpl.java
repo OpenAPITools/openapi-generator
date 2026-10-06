@@ -4,17 +4,11 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-
-import java.io.File;
-import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 
 import java.util.List;
 
-import java.io.InputStream;
-
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 

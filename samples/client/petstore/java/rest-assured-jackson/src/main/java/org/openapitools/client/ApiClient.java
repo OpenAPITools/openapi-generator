@@ -16,7 +16,6 @@ package org.openapitools.client;
 import org.openapitools.client.api.*;
 
 import io.restassured.builder.RequestSpecBuilder;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;

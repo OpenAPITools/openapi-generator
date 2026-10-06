@@ -1,45 +1,32 @@
 package org.openapitools.server.api;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import java.util.stream.Collectors;
 import org.openapitools.server.model.EnumClass;
 import org.openapitools.server.model.FakeBigDecimalMap200Response;
-import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
-import java.nio.file.Files;
 import org.openapitools.server.model.GenericTypes;
-import java.util.HashMap;
 import io.helidon.http.HeaderNames;
-import io.helidon.http.Headers;
 import org.openapitools.server.model.HealthCheckResult;
 import java.util.HexFormat;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Objects;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import io.helidon.common.parameters.Parameters;
-import java.nio.file.Path;
 import org.openapitools.server.model.Pet;
 import io.helidon.http.media.multipart.ReadablePart;
 import io.helidon.http.Status;
 import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
-import java.io.UncheckedIOException;
 import org.openapitools.server.model.User;
-import io.helidon.common.mapper.Value;
-
-import java.util.Optional;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;

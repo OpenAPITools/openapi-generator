@@ -1,18 +1,10 @@
 package org.openapitools.server.api;
 
-import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.io.File;
-import java.util.HashMap;
 import io.helidon.http.HeaderNames;
-import io.helidon.http.Headers;
-import java.util.HexFormat;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
@@ -20,10 +12,6 @@ import org.openapitools.server.model.Pet;
 import io.helidon.http.media.multipart.ReadablePart;
 import java.util.Set;
 import io.helidon.http.Status;
-import java.io.UncheckedIOException;
-import io.helidon.common.mapper.Value;
-
-import java.util.Optional;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;

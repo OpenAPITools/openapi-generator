@@ -1,7 +1,6 @@
 package apimodels;
 
 import com.fasterxml.jackson.annotation.*;
-import java.util.Set;
 import javax.validation.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 

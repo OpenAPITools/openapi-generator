@@ -1,12 +1,10 @@
 package org.openapitools.client.api;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
-import io.vertx.core.json.JsonObject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 

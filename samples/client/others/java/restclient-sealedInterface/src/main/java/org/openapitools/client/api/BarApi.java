@@ -7,13 +7,8 @@ import org.openapitools.client.model.BarCreate;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

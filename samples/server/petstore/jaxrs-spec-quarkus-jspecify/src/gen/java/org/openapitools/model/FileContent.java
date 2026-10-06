@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -15,8 +15,6 @@ package org.openapitools.client.auth;
 
 import org.openapitools.client.Pair;
 import io.vertx.core.MultiMap;
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
