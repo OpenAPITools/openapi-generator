@@ -1239,9 +1239,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (isLibrary(OKHTTP_GSON)) {
             // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
             // the okhttp-gson additionalProperties bag is declared once, on the topmost ancestor
-            // that has one; every descendant inherits it instead of declaring its own copy
+            // that has one; every descendant inherits it instead of declaring its own copy.
+            // A oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent, and has no
+            // bag, so nothing is inherited through it
             for (CodegenModel cm : getAllModels(objs).values()) {
                 for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
+                    if (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty()) {
+                        break;
+                    }
                     if (ancestor.isAdditionalPropertiesTrue) {
                         cm.vendorExtensions.put("x-inherits-additional-properties", true);
                         break;
