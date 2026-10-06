@@ -9,12 +9,9 @@ import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
-import org.openapitools.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
-import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
@@ -24,12 +21,9 @@ import org.openapitools.model.User;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
 
-import java.io.InputStream;
-
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public abstract class FakeApiService {
     public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;

@@ -3,11 +3,9 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
-import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
@@ -16,14 +14,11 @@ import org.openapitools.model.XmlItem;
 import java.util.List;
 import org.openapitools.api.NotFoundException;
 
-import java.io.InputStream;
-
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeApiServiceImpl extends FakeApiService {
     @Override

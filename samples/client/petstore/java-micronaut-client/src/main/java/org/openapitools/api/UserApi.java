@@ -15,15 +15,10 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 

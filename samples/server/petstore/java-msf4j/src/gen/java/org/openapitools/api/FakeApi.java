@@ -10,7 +10,6 @@ import io.swagger.jaxrs.*;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
-import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
-import java.util.List;
 import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
@@ -27,9 +25,7 @@ import java.io.InputStream;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
 @Path("/fake")

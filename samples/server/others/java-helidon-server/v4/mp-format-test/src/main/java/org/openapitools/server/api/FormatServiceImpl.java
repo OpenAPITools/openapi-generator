@@ -15,12 +15,7 @@ package org.openapitools.server.api;
 
 import jakarta.ws.rs.*;
 
-
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 @Path("/format")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

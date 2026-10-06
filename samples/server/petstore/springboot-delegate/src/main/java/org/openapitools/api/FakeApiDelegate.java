@@ -3,12 +3,10 @@ package org.openapitools.api;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
@@ -21,9 +19,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 

@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 /**
  * Order

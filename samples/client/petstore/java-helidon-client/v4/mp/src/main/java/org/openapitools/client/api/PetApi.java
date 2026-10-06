@@ -12,24 +12,17 @@
 
 package org.openapitools.client.api;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Set;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.ModelApiResponse;
-import java.util.Optional;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 /**
  * OpenAPI Petstore

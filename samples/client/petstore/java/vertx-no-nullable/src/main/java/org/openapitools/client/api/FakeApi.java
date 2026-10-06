@@ -12,7 +12,6 @@ import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 

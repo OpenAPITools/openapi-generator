@@ -1,9 +1,6 @@
 package org.openapitools.server.api;
 
-import io.helidon.webserver.Handler;
-import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.OffsetDateTime;
 import org.openapitools.server.model.User;
 import java.util.logging.Logger;
 

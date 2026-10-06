@@ -1,17 +1,12 @@
 package org.openapitools.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.CatRequest;
 import org.openapitools.model.DogRequest;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
-
 
 import io.swagger.annotations.*;
 import java.util.Objects;

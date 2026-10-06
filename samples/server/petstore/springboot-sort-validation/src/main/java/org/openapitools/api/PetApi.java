@@ -9,8 +9,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.openapitools.model.Pet;
-import org.openapitools.model.PetSort;
-import org.openapitools.model.PetSortEnum;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.openapitools.configuration.ValidPageable;
@@ -18,13 +16,10 @@ import org.openapitools.configuration.ValidSort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

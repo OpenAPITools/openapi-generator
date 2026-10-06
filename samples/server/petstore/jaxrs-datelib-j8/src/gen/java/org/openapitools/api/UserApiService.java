@@ -2,15 +2,10 @@ package org.openapitools.api;
 
 import org.openapitools.api.*;
 
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-
-import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
-
-import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

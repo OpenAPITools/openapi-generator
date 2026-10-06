@@ -14,9 +14,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiResponse;
 import java.util.List;
-import java.util.Map;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 import org.openapitools.client.model.User;
 
 /**

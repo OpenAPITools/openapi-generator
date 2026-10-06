@@ -4,10 +4,6 @@ import org.openapitools.example.model.ModelApiResponse;
 import org.openapitools.example.model.Pet;
 import org.openapitools.example.model.*;
 import java.util.List;
-import java.util.Map;
-import java.time.OffsetDateTime;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 

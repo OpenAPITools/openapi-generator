@@ -1,16 +1,11 @@
 package org.openapitools.model;
 
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

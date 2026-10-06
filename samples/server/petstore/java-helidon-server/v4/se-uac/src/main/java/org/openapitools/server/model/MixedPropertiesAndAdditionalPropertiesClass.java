@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.server.model.Animal;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 

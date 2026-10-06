@@ -1,20 +1,14 @@
 package org.openapitools.api;
 
-import java.util.Date;
 import org.openapitools.model.User;
 
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.*;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

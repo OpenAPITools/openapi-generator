@@ -1,6 +1,5 @@
 package org.openapitools.model;
 
-import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnumDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.configuration.ValuedEnum;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;

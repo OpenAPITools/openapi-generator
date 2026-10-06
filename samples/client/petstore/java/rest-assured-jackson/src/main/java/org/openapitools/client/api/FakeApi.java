@@ -17,15 +17,11 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import io.restassured.RestAssured;
@@ -36,9 +32,7 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
-import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;

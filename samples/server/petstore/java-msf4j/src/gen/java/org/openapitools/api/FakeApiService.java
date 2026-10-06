@@ -3,28 +3,23 @@ package org.openapitools.api;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
-import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
-import java.util.List;
 import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public abstract class FakeApiService {

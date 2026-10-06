@@ -50,7 +50,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;

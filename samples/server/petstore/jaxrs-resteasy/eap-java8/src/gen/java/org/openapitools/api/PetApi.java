@@ -5,14 +5,10 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 
 import java.util.List;
-import java.util.Map;
-
-import java.io.InputStream;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;

@@ -13,21 +13,12 @@
 package org.openapitools.server.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.server.model.OuterEnum;
 import org.openapitools.server.model.OuterEnumDefaultValue;
 import org.openapitools.server.model.OuterEnumInteger;
 import org.openapitools.server.model.OuterEnumIntegerDefaultValue;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 
 public class EnumTest  {
   

@@ -5,13 +5,9 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import org.joda.time.DateTime;
 import org.openapitools.model.User;
 
 import java.util.List;
-import java.util.Map;
-
-import java.io.InputStream;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;

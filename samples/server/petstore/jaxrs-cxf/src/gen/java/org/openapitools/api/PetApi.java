@@ -1,12 +1,10 @@
 package org.openapitools.api;
 
-import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.*;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
@@ -14,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 

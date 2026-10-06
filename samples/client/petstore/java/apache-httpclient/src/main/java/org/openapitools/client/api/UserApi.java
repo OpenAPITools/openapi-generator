@@ -20,7 +20,6 @@ import org.openapitools.client.BaseApi;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 

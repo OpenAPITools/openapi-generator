@@ -15,15 +15,10 @@ package org.openapitools.client.api;
 import java.util.Objects;
 import org.openapitools.client.ApiResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.helidon.common.GenericType;
 import io.helidon.common.media.type.MediaTypes;
-import io.helidon.config.Config;
 import io.helidon.http.Method;
-import io.helidon.http.media.MediaSupport;
 
-import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.webclient.api.HttpClientRequest;
 import io.helidon.webclient.api.HttpClientResponse;
 
@@ -31,9 +26,7 @@ import org.openapitools.client.ApiClient;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.ModelApiResponse;
-import java.util.Optional;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
 import java.util.ArrayList;

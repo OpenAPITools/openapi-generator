@@ -2,15 +2,10 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 

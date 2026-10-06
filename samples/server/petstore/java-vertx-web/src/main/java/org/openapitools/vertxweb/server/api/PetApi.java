@@ -10,7 +10,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PetApi  {
     Future<ApiResponse<Pet>> addPet(Pet pet);

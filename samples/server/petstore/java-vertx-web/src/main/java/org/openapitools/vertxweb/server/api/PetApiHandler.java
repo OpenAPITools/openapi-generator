@@ -1,7 +1,6 @@
 package org.openapitools.vertxweb.server.api;
 
 import io.vertx.ext.web.FileUpload;
-import org.openapitools.vertxweb.server.model.ModelApiResponse;
 import org.openapitools.vertxweb.server.model.Pet;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Map;
 
 public class PetApiHandler {
 

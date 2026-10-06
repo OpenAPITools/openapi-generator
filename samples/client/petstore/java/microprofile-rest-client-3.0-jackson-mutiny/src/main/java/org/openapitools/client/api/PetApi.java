@@ -16,14 +16,8 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.MediaType;
 
 import io.smallrye.mutiny.Uni;
 

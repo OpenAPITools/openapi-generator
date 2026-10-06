@@ -1,8 +1,6 @@
 package org.openapitools.server.model;
 
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 
 /**
  * Model for testing model name same as property name

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 
 @Provider
 public class JacksonConfig implements ContextResolver<ObjectMapper> {

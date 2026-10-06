@@ -5,13 +5,7 @@ import org.openapitools.model.FooGetDefaultResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-
-
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 @org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(

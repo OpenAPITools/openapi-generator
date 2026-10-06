@@ -13,7 +13,6 @@ import org.openapitools.client.model.XmlItem;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
-import io.vertx.core.json.JsonObject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 

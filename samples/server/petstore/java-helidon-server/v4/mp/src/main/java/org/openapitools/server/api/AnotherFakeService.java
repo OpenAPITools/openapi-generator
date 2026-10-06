@@ -16,9 +16,6 @@ import org.openapitools.server.model.Client;
 
 import jakarta.ws.rs.*;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

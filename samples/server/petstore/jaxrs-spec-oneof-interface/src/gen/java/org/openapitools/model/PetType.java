@@ -1,9 +1,6 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import java.io.Serializable;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

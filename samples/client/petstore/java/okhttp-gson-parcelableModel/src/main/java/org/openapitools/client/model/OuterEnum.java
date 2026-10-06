@@ -13,10 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
-import android.os.Parcelable;
-import android.os.Parcel;
 
 import java.io.IOException;
 import com.google.gson.TypeAdapter;

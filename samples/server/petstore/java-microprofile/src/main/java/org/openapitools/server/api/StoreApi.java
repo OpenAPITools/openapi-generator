@@ -14,21 +14,12 @@ package org.openapitools.server.api;
 
 import org.openapitools.server.model.Order;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
 
 import io.smallrye.mutiny.Uni;
 
-
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-
 
 /**
  * OpenAPI Petstore

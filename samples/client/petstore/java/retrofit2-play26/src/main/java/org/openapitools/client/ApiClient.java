@@ -19,7 +19,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,6 @@ import play.libs.ws.WSClient;
 import org.openapitools.client.Play26CallAdapterFactory;
 import org.openapitools.client.Play26CallFactory;
 
-import okhttp3.Interceptor;
 import okhttp3.ResponseBody;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.Authentication;

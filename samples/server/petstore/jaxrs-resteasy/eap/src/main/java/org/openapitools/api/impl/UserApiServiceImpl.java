@@ -3,13 +3,9 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-
-import java.util.Date;
 import org.openapitools.model.User;
 
 import java.util.List;
-
-import java.io.InputStream;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;

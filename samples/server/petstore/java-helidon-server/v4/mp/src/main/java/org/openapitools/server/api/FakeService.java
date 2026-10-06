@@ -24,7 +24,6 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
@@ -34,8 +33,6 @@ import org.openapitools.server.model.User;
 import jakarta.ws.rs.*;
 
 import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 

@@ -19,15 +19,10 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
-import org.openapitools.client.ProgressRequestBody;
-import org.openapitools.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import org.openapitools.client.model.MyExampleGet200Response;
 

@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;

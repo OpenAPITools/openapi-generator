@@ -13,14 +13,10 @@
 
 package org.openapitools.client.api;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -31,7 +27,6 @@ import io.restassured.response.Response;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;

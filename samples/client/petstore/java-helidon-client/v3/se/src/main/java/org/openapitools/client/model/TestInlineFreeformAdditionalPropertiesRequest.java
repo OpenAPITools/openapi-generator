@@ -12,16 +12,7 @@
 
 package org.openapitools.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
-import java.util.Map;
-
-
-
 
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   

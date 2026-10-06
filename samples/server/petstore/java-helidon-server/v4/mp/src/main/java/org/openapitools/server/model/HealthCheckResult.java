@@ -12,14 +12,7 @@
 
 package org.openapitools.server.model;
 
-import org.openapitools.jackson.nullable.JsonNullable;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
   * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

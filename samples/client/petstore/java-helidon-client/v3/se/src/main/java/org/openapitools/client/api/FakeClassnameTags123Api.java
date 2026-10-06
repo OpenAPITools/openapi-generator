@@ -14,8 +14,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.model.Client;
-import java.util.List;
-import java.util.Map;
 
 /**
  * OpenAPI Petstore

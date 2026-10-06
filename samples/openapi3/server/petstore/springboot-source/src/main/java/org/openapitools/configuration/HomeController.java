@@ -9,8 +9,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.GetMapping;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;

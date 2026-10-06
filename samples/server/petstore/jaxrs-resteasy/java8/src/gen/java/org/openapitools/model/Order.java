@@ -1,15 +1,12 @@
 package org.openapitools.model;
 
 import java.util.Objects;
-import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 import io.swagger.annotations.*;
 
 @ApiModel(description="An order for a pets from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
