@@ -106,7 +106,7 @@ class ApiClient:
     @property
     def user_agent(self):
         """User agent for this API client"""
-        for name, value in self.default_headers.items():
+        for name, value in reversed(self.default_headers.items()):
             if name.lower() == 'user-agent':
                 return value
         raise KeyError('User-Agent')

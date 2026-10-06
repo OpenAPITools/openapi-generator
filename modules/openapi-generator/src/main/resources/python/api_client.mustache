@@ -231,7 +231,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
     @property
     def user_agent(self):
         """User agent for this API client"""
-        for name, value in self.default_headers.items():
+        for name, value in reversed(self.default_headers.items()):
             if name.lower() == 'user-agent':
                 return value
         raise KeyError('User-Agent')

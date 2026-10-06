@@ -65,6 +65,15 @@ class TestRequestHeaders(unittest.IsolatedAsyncioTestCase):
                     self.assert_header('accept', 'custom')
                     self.assertEqual(headers, {spelling: value, 'accept': 'custom'})
 
+    async def test_user_agent_matches_last_direct_default_header_write(self):
+        self.client.default_headers['user-agent'] = 'custom'
+        self.client.default_headers['USER-AGENT'] = 'latest'
+        defaults = self.client.default_headers.copy()
+        self.assertEqual(self.client.user_agent, 'latest')
+        await self.call()
+        self.assert_header('user-agent', 'latest')
+        self.assertEqual(self.client.default_headers, defaults)
+
     async def test_content_type_override_and_defaults_retain_precedence(self):
         headers = {'content-type': 'text/plain'}
         await self.call(_headers=headers, _content_type='application/custom+json')

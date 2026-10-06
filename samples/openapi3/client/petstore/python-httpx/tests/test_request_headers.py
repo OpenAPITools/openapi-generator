@@ -52,6 +52,15 @@ class TestRequestHeaders(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(headers, original)
         self.assertEqual(self.client.default_headers, defaults)
 
+    async def test_user_agent_matches_last_direct_default_header_write(self):
+        self.client.default_headers['user-agent'] = 'custom'
+        self.client.default_headers['USER-AGENT'] = 'latest'
+        defaults = self.client.default_headers.copy()
+        self.assertEqual(self.client.user_agent, 'latest')
+        await self.api.add_pet(self.pet)
+        self.assert_single_header(self.requests[-1], 'user-agent', 'latest')
+        self.assertEqual(self.client.default_headers, defaults)
+
     async def test_generated_content_type_replaces_case_variants(self):
         for spelling in ('Content-Type', 'content-type', 'CONTENT-TYPE'):
             for value in ('application/json', 'text/plain'):

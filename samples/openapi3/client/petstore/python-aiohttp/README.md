@@ -373,6 +373,8 @@ Precedence, from lowest to highest:
 This retains the existing precedence for identically spelled names and extends it
 to case variants. To override a generated content type, use `_content_type`;
 client defaults still take precedence over it. The winning header's spelling and
-value are retained. Values containing legitimate comma-separated lists are not
-split or deduplicated. This does not remove duplicate values inside a header or
-change the handling of repeated fields supplied directly to the transport.
+value are retained for replacements. Cookie authentication uses the canonical
+`Cookie` spelling and appends its value. Values containing legitimate
+comma-separated lists are not split or deduplicated. This does not remove
+duplicate values inside a header or change the handling of repeated fields
+supplied directly to the transport.
