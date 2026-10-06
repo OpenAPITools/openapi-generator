@@ -567,6 +567,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 example = "None";
                 return example;
             }
+            if (ModelUtils.isFreeFormObject(schema, this.openAPI)) {
+                // free-form objects have no generated model, so the example is a plain dict
+                return "{ }";
+            }
 
             // I remove any property that is a discriminator, since it is not well supported by the python generator
             String toExclude = null;
@@ -574,7 +578,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
+            example = packageName + ".models." + toModelFilename(schema.getTitle()) + "." + toModelName(schema.getTitle()) + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
