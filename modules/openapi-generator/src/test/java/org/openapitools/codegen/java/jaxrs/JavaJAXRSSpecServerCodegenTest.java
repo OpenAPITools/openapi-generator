@@ -445,6 +445,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        // the method returns Set<String> (and thus uses the import) only when not wrapped in a Response
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(RETURN_RESPONSE, false);
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -455,7 +458,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         Path path = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java");
 
-        assertFileContains(path, "\nimport java.util.Set;\n");
+        assertFileContains(path, "\nimport java.util.Set;\n", "Set<String> getFilteredTransactions(");
     }
 
     @Test

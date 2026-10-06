@@ -344,6 +344,17 @@ public interface CodegenConfig {
 
     void postProcessFile(File file, String fileType);
 
+    /**
+     * Post-processes the rendered output of a template before it is written to the target file.
+     *
+     * @param content the rendered template output
+     * @param target  the file the output is written to
+     * @return the content to write
+     */
+    default String postProcessTemplateOutput(String content, File target) {
+        return content;
+    }
+
     boolean isEnablePostProcessFile();
 
     void setEnablePostProcessFile(boolean isEnablePostProcessFile);

@@ -2,6 +2,9 @@ package org.openapitools.codegen.templating;
 
 import lombok.Getter;
 
+import java.io.File;
+import java.util.function.BiFunction;
+
 /**
  * Holds the options relevant to template management and execution.
  */
@@ -27,9 +30,24 @@ public class TemplateManagerOptions {
      * @param minimalUpdate Minimal update
      * @param skipOverwrite Skip overwrite
      */
+    private final BiFunction<String, File, String> templateOutputPostProcessor;
+
     public TemplateManagerOptions(boolean minimalUpdate, boolean skipOverwrite) {
+        this(minimalUpdate, skipOverwrite, (content, target) -> content);
+    }
+
+    /**
+     * Constructs a new instance of {@link TemplateManagerOptions}
+     *
+     * @param minimalUpdate               Minimal update
+     * @param skipOverwrite               Skip overwrite
+     * @param templateOutputPostProcessor Post-processes the rendered template output before it is written to the target file
+     */
+    public TemplateManagerOptions(boolean minimalUpdate, boolean skipOverwrite,
+                                  BiFunction<String, File, String> templateOutputPostProcessor) {
         this.minimalUpdate = minimalUpdate;
         this.skipOverwrite = skipOverwrite;
+        this.templateOutputPostProcessor = templateOutputPostProcessor;
     }
 
 }

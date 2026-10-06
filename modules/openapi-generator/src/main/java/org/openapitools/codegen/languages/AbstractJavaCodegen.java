@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
+import org.openapitools.codegen.utils.JavaImportPruner;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -2788,6 +2789,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             camelizeOption = LOWERCASE_FIRST_LETTER;
         }
         return camelize(name, camelizeOption);
+    }
+
+    /**
+     * Removes unused and duplicate imports from the generated Java files.
+     */
+    @Override
+    public String postProcessTemplateOutput(String content, File target) {
+        if (target == null || !"java".equals(FilenameUtils.getExtension(target.getName()))) {
+            return content;
+        }
+        return JavaImportPruner.removeUnusedImports(content);
     }
 
     @Override

@@ -185,6 +185,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         if (this.engineAdapter.handlesFile(template)) {
             // Only pass files with valid endings through template engine
             String templateContent = this.engineAdapter.compileTemplate(this, data, template);
+            templateContent = this.options.getTemplateOutputPostProcessor().apply(templateContent, target);
             return writeToFile(target.getPath(), templateContent);
         } else {
             // Do a straight copy of the file if not listed as supported by the template engine.
