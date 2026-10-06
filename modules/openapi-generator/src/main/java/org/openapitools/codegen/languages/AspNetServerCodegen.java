@@ -85,8 +85,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useSeparateModelProject = false;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
+    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0, 10.2.3");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 10.0, 8.0, 7.0, 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -199,7 +199,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
         aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
         aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
-        aspnetCoreVersion.setDefault("8.0");
+        aspnetCoreVersion.addEnum("10.0", "ASP.NET Core 10.0");
+        aspnetCoreVersion.setDefault("10.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -207,7 +208,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
-        swashbuckleVersion.setDefault("6.4.0");
+        swashbuckleVersion.addEnum("10.2.3", "Swashbuckle 10.2.3");
+        swashbuckleVersion.setDefault("10.2.3");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
 
@@ -739,6 +741,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "10.0":
             case "8.0":
             case "7.0":
             case "6.0":
@@ -834,6 +837,13 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("10.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net10.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -850,7 +860,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         String targetFramework = ((String) additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
                 targetFramework.startsWith("net7.0") ||
-                targetFramework.startsWith("net8.0")) {
+                targetFramework.startsWith("net8.0") ||
+                targetFramework.startsWith("net10.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
@@ -899,6 +910,14 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         } else if (aspnetCoreVersion.getOptValue().startsWith("6.")) {
             LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
             swashbuckleVersion.setOptValue("6.4.0");
+            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+        } else if (aspnetCoreVersion.getOptValue().startsWith("8.")) {
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+            swashbuckleVersion.setOptValue("6.4.0");
+            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+        } else if (aspnetCoreVersion.getOptValue().startsWith("10.")) {
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 10.2.3.", aspnetCoreVersion.getOptValue());
+            swashbuckleVersion.setOptValue("10.2.3");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else {
             // default, do nothing
