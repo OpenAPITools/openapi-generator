@@ -290,6 +290,10 @@ public class TypeScriptAxiosClientCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("typescript-axios")
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addAdditionalProperty("npmName", "@openapi/typescript-axios-petstore")
+                .addAdditionalProperty("snapshot", false)
+                .addAdditionalProperty("npmVersion", "1.0.0-SNAPSHOT")
+                .addAdditionalProperty("supportsES6", true)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -297,5 +301,8 @@ public class TypeScriptAxiosClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/package.json"),
                 "\"typescript\": \"^4.0 || ^5.0 || ^6.0\"");
+        assertThat(Files.readString(Paths.get(output + "/tsconfig.json")))
+                .doesNotContain("\"moduleResolution\": \"node\"");
+
     }
 }
