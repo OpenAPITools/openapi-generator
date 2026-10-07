@@ -36,9 +36,37 @@ public:
     void setFieldWithDefault(const int& fieldWithDefault);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(NullableOptionalTypes,
-         requiredField, optionalField, nullableField, optionalNullableField, fieldWithDefault)
+friend void to_json(nlohmann::json& j, const NullableOptionalTypes& o)
+{
+    j["requiredField"] = o.requiredField;
+    j["optionalField"] = o.optionalField;
+    j["nullableField"] = o.nullableField;
+    j["optionalNullableField"] = o.optionalNullableField;
+    j["fieldWithDefault"] = o.fieldWithDefault;
+}
+
+friend void from_json(const nlohmann::json& j, NullableOptionalTypes& o)
+{
+    j.at("requiredField").get_to(o.requiredField);
+
+    if (j.contains("optionalField") && !j.at("optionalField").is_null())
+    {
+        j.at("optionalField").get_to(o.optionalField);
+    }
+    if (j.contains("nullableField") && !j.at("nullableField").is_null())
+    {
+        j.at("nullableField").get_to(o.nullableField);
+    }
+    if (j.contains("optionalNullableField") && !j.at("optionalNullableField").is_null())
+    {
+        j.at("optionalNullableField").get_to(o.optionalNullableField);
+    }
+    if (j.contains("fieldWithDefault") && !j.at("fieldWithDefault").is_null())
+    {
+        j.at("fieldWithDefault").get_to(o.fieldWithDefault);
+    }
+}
+
 
 private:
     std::string requiredField;

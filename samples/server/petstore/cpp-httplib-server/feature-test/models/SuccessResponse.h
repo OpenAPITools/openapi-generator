@@ -28,9 +28,19 @@ public:
     void setData(const nlohmann::json& data);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(SuccessResponse,
-         status, data)
+friend void to_json(nlohmann::json& j, const SuccessResponse& o)
+{
+    j["status"] = o.status;
+    j["data"] = o.data;
+}
+
+friend void from_json(const nlohmann::json& j, SuccessResponse& o)
+{
+    j.at("status").get_to(o.status);
+    j.at("data").get_to(o.data);
+
+}
+
 
 private:
     std::string status;

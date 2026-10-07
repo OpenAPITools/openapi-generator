@@ -53,9 +53,21 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(CreditCard,
-         paymentType, cardNumber, cardType)
+friend void to_json(nlohmann::json& j, const CreditCard& o)
+{
+    j["paymentType"] = o.paymentType;
+    j["cardNumber"] = o.cardNumber;
+    j["cardType"] = o.cardType;
+}
+
+friend void from_json(const nlohmann::json& j, CreditCard& o)
+{
+    j.at("paymentType").get_to(o.paymentType);
+    j.at("cardNumber").get_to(o.cardNumber);
+    j.at("cardType").get_to(o.cardType);
+
+}
+
 
 private:
     std::string paymentType;

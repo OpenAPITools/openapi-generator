@@ -28,9 +28,22 @@ public:
     void setResource(const std::string& resource);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(NotFoundResponse,
-         error, resource)
+friend void to_json(nlohmann::json& j, const NotFoundResponse& o)
+{
+    j["error"] = o.error;
+    j["resource"] = o.resource;
+}
+
+friend void from_json(const nlohmann::json& j, NotFoundResponse& o)
+{
+    j.at("error").get_to(o.error);
+
+    if (j.contains("resource") && !j.at("resource").is_null())
+    {
+        j.at("resource").get_to(o.resource);
+    }
+}
+
 
 private:
     std::string error;

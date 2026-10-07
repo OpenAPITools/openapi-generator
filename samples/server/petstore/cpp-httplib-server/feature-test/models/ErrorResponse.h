@@ -32,9 +32,27 @@ public:
     void setDetails(const std::vector<std::string>& details);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ErrorResponse,
-         message, code, details)
+friend void to_json(nlohmann::json& j, const ErrorResponse& o)
+{
+    j["message"] = o.message;
+    j["code"] = o.code;
+    j["details"] = o.details;
+}
+
+friend void from_json(const nlohmann::json& j, ErrorResponse& o)
+{
+    j.at("message").get_to(o.message);
+
+    if (j.contains("code") && !j.at("code").is_null())
+    {
+        j.at("code").get_to(o.code);
+    }
+    if (j.contains("details") && !j.at("details").is_null())
+    {
+        j.at("details").get_to(o.details);
+    }
+}
+
 
 private:
     std::string message;

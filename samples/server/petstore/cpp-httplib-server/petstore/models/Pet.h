@@ -76,9 +76,39 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Pet,
-         id, name, photoUrls, status, category, tags)
+friend void to_json(nlohmann::json& j, const Pet& o)
+{
+    j["id"] = o.id;
+    j["name"] = o.name;
+    j["photoUrls"] = o.photoUrls;
+    j["status"] = o.status;
+    j["category"] = o.category;
+    j["tags"] = o.tags;
+}
+
+friend void from_json(const nlohmann::json& j, Pet& o)
+{
+    j.at("name").get_to(o.name);
+    j.at("photoUrls").get_to(o.photoUrls);
+
+    if (j.contains("id") && !j.at("id").is_null())
+    {
+        j.at("id").get_to(o.id);
+    }
+    if (j.contains("status") && !j.at("status").is_null())
+    {
+        j.at("status").get_to(o.status);
+    }
+    if (j.contains("category") && !j.at("category").is_null())
+    {
+        j.at("category").get_to(o.category);
+    }
+    if (j.contains("tags") && !j.at("tags").is_null())
+    {
+        j.at("tags").get_to(o.tags);
+    }
+}
+
 
 private:
     long id;

@@ -28,9 +28,19 @@ public:
     void setType(const std::string& type);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Animal,
-         name, type)
+friend void to_json(nlohmann::json& j, const Animal& o)
+{
+    j["name"] = o.name;
+    j["type"] = o.type;
+}
+
+friend void from_json(const nlohmann::json& j, Animal& o)
+{
+    j.at("name").get_to(o.name);
+    j.at("type").get_to(o.type);
+
+}
+
 
 private:
     std::string name;

@@ -35,9 +35,32 @@ public:
     void setMetadata(const std::map<std::string, nlohmann::json>& metadata);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Company,
-         name, headquarters, departments, metadata)
+friend void to_json(nlohmann::json& j, const Company& o)
+{
+    j["name"] = o.name;
+    j["headquarters"] = o.headquarters;
+    j["departments"] = o.departments;
+    j["metadata"] = o.metadata;
+}
+
+friend void from_json(const nlohmann::json& j, Company& o)
+{
+    j.at("name").get_to(o.name);
+
+    if (j.contains("headquarters") && !j.at("headquarters").is_null())
+    {
+        j.at("headquarters").get_to(o.headquarters);
+    }
+    if (j.contains("departments") && !j.at("departments").is_null())
+    {
+        j.at("departments").get_to(o.departments);
+    }
+    if (j.contains("metadata") && !j.at("metadata").is_null())
+    {
+        j.at("metadata").get_to(o.metadata);
+    }
+}
+
 
 private:
     std::string name;

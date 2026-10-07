@@ -32,9 +32,29 @@ public:
     void setCountry(const std::string& country);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Address,
-         street, city, zipCode, country)
+friend void to_json(nlohmann::json& j, const Address& o)
+{
+    j["street"] = o.street;
+    j["city"] = o.city;
+    j["zipCode"] = o.zipCode;
+    j["country"] = o.country;
+}
+
+friend void from_json(const nlohmann::json& j, Address& o)
+{
+    j.at("street").get_to(o.street);
+    j.at("city").get_to(o.city);
+
+    if (j.contains("zipCode") && !j.at("zipCode").is_null())
+    {
+        j.at("zipCode").get_to(o.zipCode);
+    }
+    if (j.contains("country") && !j.at("country").is_null())
+    {
+        j.at("country").get_to(o.country);
+    }
+}
+
 
 private:
     std::string street;

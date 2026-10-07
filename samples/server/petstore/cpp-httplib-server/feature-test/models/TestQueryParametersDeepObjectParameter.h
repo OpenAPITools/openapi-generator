@@ -29,9 +29,25 @@ public:
     void setAge(const int& age);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(TestQueryParametersDeepObjectParameter,
-         name, age)
+friend void to_json(nlohmann::json& j, const TestQueryParametersDeepObjectParameter& o)
+{
+    j["name"] = o.name;
+    j["age"] = o.age;
+}
+
+friend void from_json(const nlohmann::json& j, TestQueryParametersDeepObjectParameter& o)
+{
+
+    if (j.contains("name") && !j.at("name").is_null())
+    {
+        j.at("name").get_to(o.name);
+    }
+    if (j.contains("age") && !j.at("age").is_null())
+    {
+        j.at("age").get_to(o.age);
+    }
+}
+
 
 private:
     std::string name;

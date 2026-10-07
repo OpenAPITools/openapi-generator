@@ -47,9 +47,61 @@ public:
     void setPasswordField(const std::string& passwordField);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(PrimitiveTypes,
-         stringField, intField, longField, floatField, doubleField, boolField, byteField, binaryField, dateField, dateTimeField, passwordField)
+friend void to_json(nlohmann::json& j, const PrimitiveTypes& o)
+{
+    j["stringField"] = o.stringField;
+    j["intField"] = o.intField;
+    j["longField"] = o.longField;
+    j["floatField"] = o.floatField;
+    j["doubleField"] = o.doubleField;
+    j["boolField"] = o.boolField;
+    j["byteField"] = o.byteField;
+    j["binaryField"] = o.binaryField;
+    j["dateField"] = o.dateField;
+    j["dateTimeField"] = o.dateTimeField;
+    j["passwordField"] = o.passwordField;
+}
+
+friend void from_json(const nlohmann::json& j, PrimitiveTypes& o)
+{
+    j.at("stringField").get_to(o.stringField);
+    j.at("intField").get_to(o.intField);
+    j.at("boolField").get_to(o.boolField);
+
+    if (j.contains("longField") && !j.at("longField").is_null())
+    {
+        j.at("longField").get_to(o.longField);
+    }
+    if (j.contains("floatField") && !j.at("floatField").is_null())
+    {
+        j.at("floatField").get_to(o.floatField);
+    }
+    if (j.contains("doubleField") && !j.at("doubleField").is_null())
+    {
+        j.at("doubleField").get_to(o.doubleField);
+    }
+    if (j.contains("byteField") && !j.at("byteField").is_null())
+    {
+        j.at("byteField").get_to(o.byteField);
+    }
+    if (j.contains("binaryField") && !j.at("binaryField").is_null())
+    {
+        j.at("binaryField").get_to(o.binaryField);
+    }
+    if (j.contains("dateField") && !j.at("dateField").is_null())
+    {
+        j.at("dateField").get_to(o.dateField);
+    }
+    if (j.contains("dateTimeField") && !j.at("dateTimeField").is_null())
+    {
+        j.at("dateTimeField").get_to(o.dateTimeField);
+    }
+    if (j.contains("passwordField") && !j.at("passwordField").is_null())
+    {
+        j.at("passwordField").get_to(o.passwordField);
+    }
+}
+
 
 private:
     std::string stringField;
