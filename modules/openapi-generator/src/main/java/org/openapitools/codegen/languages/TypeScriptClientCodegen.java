@@ -407,13 +407,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             }
             if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<>();
-                for (String im : cm.imports) {
-                    if (cm.oneOf.contains(im)) {
-                        oneOfRefs.add(im);
-                    }
+                TreeSet<String> oneOfRefs = new TreeSet<>(cm.oneOf);
+                List<CodegenProperty> oneOfProperties = Optional.ofNullable(cm.getComposedSchemas())
+                        .map(CodegenComposedSchemas::getOneOf)
+                        .orElse(Collections.emptyList());
+                for (CodegenProperty oneOfProperty : oneOfProperties) {
+                    // resolve the types referenced by each branch so that inner types of
+                    // container types (e.g. Foo in Array<Foo>) keep their model import
+                    oneOfRefs.addAll(oneOfProperty.getImports(false, true, generatorMetadata.getFeatureSet()));
                 }
-                cm.imports = oneOfRefs;
+                cm.imports = new TreeSet<>(Sets.intersection(cm.imports, oneOfRefs));
             }
         }
         for (ModelMap mo : models) {
