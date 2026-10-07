@@ -1,4 +1,4 @@
-"""Shared request-header behavior for urllib3 and asyncio clients."""
+"""Request-header behavior for the urllib3 client."""
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
@@ -195,26 +195,15 @@ class TestRequestHeaders(unittest.IsolatedAsyncioTestCase):
         if inspect.isawaitable(result):
             await result
         self.assert_header('content-type', 'application/x-www-form-urlencoded')
-        if ASYNC:
-            import aiohttp
-            self.assertIsInstance(self.requests[-1]['data'], aiohttp.FormData)
-        else:
-            self.assertFalse(self.requests[-1].get('encode_multipart', True))
-            self.assertEqual(self.requests[-1]['fields'], [('field', 'value')])
+        self.assertFalse(self.requests[-1].get('encode_multipart', True))
+        self.assertEqual(self.requests[-1]['fields'], [('field', 'value')])
         self.assertEqual(headers, {'content-type': 'application/x-www-form-urlencoded'})
 
     async def test_transport_reads_lowercase_content_type_and_preserves_repeated_fields(self):
-        if ASYNC:
-            from multidict import CIMultiDict
-            headers: Any = CIMultiDict([
-                ('content-type', 'application/x-www-form-urlencoded'),
-                ('x-list', 'a'), ('x-list', 'b'),
-            ])
-        else:
-            import urllib3
-            headers = urllib3.HTTPHeaderDict({'content-type': 'application/x-www-form-urlencoded'})
-            headers.add('x-list', 'a')
-            headers.add('x-list', 'b')
+        import urllib3
+        headers = urllib3.HTTPHeaderDict({'content-type': 'application/x-www-form-urlencoded'})
+        headers.add('x-list', 'a')
+        headers.add('x-list', 'b')
         result = self.client.rest_client.request(
             'POST', 'https://example.test/form', headers=headers, post_params=[('field', 'value')]
         )
@@ -223,12 +212,8 @@ class TestRequestHeaders(unittest.IsolatedAsyncioTestCase):
         self.assert_header('content-type', 'application/x-www-form-urlencoded')
         self.assertEqual(self.values(self.requests[-1]['headers'], 'x-list'), ['a', 'b'])
         self.assertEqual(self.values(headers, 'x-list'), ['a', 'b'])
-        if ASYNC:
-            import aiohttp
-            self.assertIsInstance(self.requests[-1]['data'], aiohttp.FormData)
-        else:
-            self.assertFalse(self.requests[-1]['encode_multipart'])
-            self.assertEqual(self.requests[-1]['fields'], [('field', 'value')])
+        self.assertFalse(self.requests[-1]['encode_multipart'])
+        self.assertEqual(self.requests[-1]['fields'], [('field', 'value')])
 
     async def test_transport_multipart_removes_content_type_without_mutating_input(self):
         headers = {'content-type': 'multipart/form-data'}
