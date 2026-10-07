@@ -959,6 +959,10 @@ pub struct {{{classname}}} {
     #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
     #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
 {{/isString}}
+{{#vendorExtensions.x-discriminator-enum-variant}}
+    #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
+    #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
+{{/vendorExtensions.x-discriminator-enum-variant}}
 {{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
@@ -1079,18 +1083,32 @@ pub struct {{{classname}}} {
 {{#isDiscriminator}}
 {{#isString}}
 impl {{{classname}}} {
-    fn _name_for_{{{name}}}() -> String {
-        String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
+    fn _name_for_{{{name}}}() -> {{^required}}Option<{{/required}}String{{^required}}>{{/required}} {
+        {{^required}}Some({{/required}}String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}"){{^required}}){{/required}}
     }
 
-    fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_{{{name}}}<S>(_: &{{^required}}Option<{{/required}}String{{^required}}>{{/required}}, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::_name_for_{{{name}}}())
+        s.serialize_str("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
     }
 }
 {{/isString}}
+{{#vendorExtensions.x-discriminator-enum-variant}}
+impl {{{classname}}} {
+    fn _name_for_{{{name}}}() -> {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {
+        {{^required}}Some({{/required}}{{{dataType}}}::{{{.}}}{{^required}}){{/required}}
+    }
+
+    fn _serialize_{{{name}}}<S>(_: &{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str("{{{discriminatorValue}}}")
+    }
+}
+{{/vendorExtensions.x-discriminator-enum-variant}}
 {{/isDiscriminator}}
 {{/vars}}
 
@@ -1121,9 +1139,9 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{^isString}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isString}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{^isString}}{{^vendorExtensions.x-discriminator-enum-variant}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isString}}{{/isDiscriminator}},
+{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#vendorExtensions.x-discriminator-enum-variant}}{{{name}}}: Self::_name_for_{{{name}}}(){{/vendorExtensions.x-discriminator-enum-variant}}{{^vendorExtensions.x-discriminator-enum-variant}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/isDiscriminator}},
 {{/vars}}
         }
     }
