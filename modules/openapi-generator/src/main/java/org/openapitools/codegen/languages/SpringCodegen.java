@@ -328,7 +328,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
                         + "oneOf or anyOf, a byte[] property, more than 250 properties, the FAIL null policy, a "
                         + "property name a record cannot have, or a model bound from request parameters. Not supported "
-                        + "with hateoas, Lombok annotations, generateBuilders, withXml and useOptional.", useRecords));
+                        + "with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -1835,10 +1835,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with Lombok annotations in "
                     + ADDITIONAL_MODEL_TYPE_ANNOTATIONS);
         }
-        if (generateBuilders) {
-            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with " + GENERATE_BUILDERS
-                    + ": builders for records are not supported yet");
-        }
         if (withXml) {
             throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with withXml: "
                     + "XML annotations on records are not supported yet");
@@ -1855,6 +1851,10 @@ public class SpringCodegen extends AbstractJavaCodegen
      * the rest is margin.
      */
     private static final int RECORD_MAX_COMPONENTS = 250;
+
+    /** Component names whose accessor would clash with the static {@code builder()} and {@code toBuilder()} of a record. */
+    private static final Set<String> RECORD_BUILDER_CLASHING_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
+            "builder", "toBuilder"));
 
     /** Names that a record component cannot have (JLS 8.10.1). */
     private static final Set<String> RECORD_FORBIDDEN_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
@@ -2011,6 +2011,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // the record's accessor getName() looks like a bean getter, so the bean validator checks the
                 // constraints a second time under a phantom path (measured: every name from "get" on)
                 return "property '" + cp.name + "' has a Java name that starts with 'get'";
+            }
+            if (generateBuilders && RECORD_BUILDER_CLASHING_COMPONENT_NAMES.contains(cp.name)) {
+                return "property '" + cp.name + "' clashes with a method of the record's builder";
             }
             if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
                 return "property '" + cp.name + "' uses the FAIL null policy";

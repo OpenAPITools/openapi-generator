@@ -160,4 +160,114 @@ class RecordModelsTest {
         assertThat(account.toString()).contains("username=bob").contains("password=*").doesNotContain("s3cret");
         assertThat(readPet("{\"name\":\"rex\"}").toString()).startsWith("Pet[name=rex");
     }
+
+    @Test
+    void builderAppliesTheInitialValues() {
+        Pet pet = Pet.builder().name("rex").build();
+
+        assertThat(pet).isEqualTo(new Pet("rex", null, null, null, null, null, null, null, null, null, null));
+        assertThat(pet.nickname().isPresent()).isFalse();
+        assertThat(pet.age()).isEqualTo(1);
+        assertThat(pet.status()).isEqualTo(Pet.StatusEnum.AVAILABLE);
+        assertThat(pet.labels()).isEmpty();
+        assertThat(pet.colors()).containsExactly("red", "blue");
+        assertThat(pet.aliases()).isEmpty();
+    }
+
+    @Test
+    void builderSetsEveryComponent() {
+        Owner owner = Owner.builder().id(7L).email("a@b.co").build();
+        Pet pet = Pet.builder().name("rex").tag("t").nickname("rexy").age(5).kind(PetKind.DOG)
+                .status(Pet.StatusEnum.SOLD).labels(List.of("a")).colors(List.of("green"))
+                .aliases(Set.of("z")).owner(owner).born(java.time.OffsetDateTime.parse("2020-01-02T03:04:05Z")).build();
+
+        assertThat(pet).isEqualTo(new Pet("rex", "t", JsonNullable.of("rexy"), 5, PetKind.DOG, Pet.StatusEnum.SOLD,
+                List.of("a"), List.of("green"), Set.of("z"), owner, java.time.OffsetDateTime.parse("2020-01-02T03:04:05Z")));
+    }
+
+    @Test
+    void builderNullableComponentHasBothOverloads() {
+        Pet value = Pet.builder().name("rex").nickname("rexy").build();
+        Pet explicitNull = Pet.builder().name("rex").nickname(JsonNullable.of((String) null)).build();
+        Pet explicitNullThroughValue = Pet.builder().name("rex").nickname((String) null).build();
+        Pet undefined = Pet.builder().name("rex").nickname(JsonNullable.<String>undefined()).build();
+        Pet neverSet = Pet.builder().name("rex").build();
+
+        assertThat(value.nickname()).isEqualTo(JsonNullable.of("rexy"));
+        assertThat(explicitNull.nickname().isPresent()).isTrue();
+        assertThat(explicitNull.nickname().get()).isNull();
+        assertThat(explicitNullThroughValue.nickname()).isEqualTo(explicitNull.nickname());
+        assertThat(undefined.nickname().isPresent()).isFalse();
+        assertThat(neverSet.nickname().isPresent()).isFalse();
+    }
+
+    @Test
+    void builderNullGivesTheInitialValue() {
+        // the class's builder keeps a null; a record cannot tell it from "not set"
+        Pet pet = Pet.builder().name("rex").age(null).status(null).labels(null).build();
+
+        assertThat(pet.age()).isEqualTo(1);
+        assertThat(pet.status()).isEqualTo(Pet.StatusEnum.AVAILABLE);
+        assertThat(pet.labels()).isEmpty();
+    }
+
+    @Test
+    void toBuilderRoundTripGivesAnEqualRecord() throws Exception {
+        Pet pet = readPet("{\"name\":\"rex\",\"tag\":\"t\",\"nickname\":null,\"age\":5,\"kind\":\"dog\","
+                + "\"status\":\"sold\",\"labels\":[\"a\"],\"colors\":[\"green\"],\"aliases\":[\"z\"],"
+                + "\"owner\":{\"id\":7},\"born\":\"2020-01-02T03:04:05Z\"}");
+
+        Pet copy = pet.toBuilder().build();
+
+        assertThat(copy).isEqualTo(pet).hasSameHashCodeAs(pet).isNotSameAs(pet);
+        assertThat(copy.nickname().isPresent()).isTrue();
+        assertThat(pet.toBuilder().name("max").build()).isEqualTo(
+                new Pet("max", pet.tag(), pet.nickname(), pet.age(), pet.kind(), pet.status(), pet.labels(),
+                        pet.colors(), pet.aliases(), pet.owner(), pet.born()));
+        assertThat(readPet("{\"name\":\"rex\"}").toBuilder().build()).isEqualTo(readPet("{\"name\":\"rex\"}"));
+    }
+
+    @Test
+    void aBuilderCanBeUsedAgainAfterBuild() {
+        Pet.Builder builder = Pet.builder().name("rex").age(3);
+
+        Pet first = builder.build();
+        Pet second = builder.build();
+        Pet third = builder.name("max").build();
+
+        assertThat(first).isEqualTo(second).isNotSameAs(second);
+        assertThat(third.name()).isEqualTo("max");
+        assertThat(third.age()).isEqualTo(3);
+        assertThat(first.name()).isEqualTo("rex");
+    }
+
+    @Test
+    void builderOfARecordWithAPasswordDoesNotPrintIt() {
+        Account account = Account.builder().username("bob").password("s3cret").build();
+
+        assertThat(account.password()).isEqualTo("s3cret");
+        assertThat(account.toString()).contains("username=bob").contains("password=*").doesNotContain("s3cret");
+        assertThat(account.toBuilder().build().toString()).doesNotContain("s3cret");
+        assertThat(Account.builder().password("s3cret").toString()).doesNotContain("s3cret");
+    }
+
+    @Test
+    void jacksonIgnoresTheBuilder() throws Exception {
+        Pet pet = Pet.builder().name("rex").nickname("rexy").build();
+        JsonNode written = objectMapper.readTree(objectMapper.writeValueAsString(pet));
+
+        assertThat(written.size()).isEqualTo(7);
+        assertThat(written.has("builder")).isFalse();
+        assertThat(written.has("toBuilder")).isFalse();
+        assertThat(readPet(objectMapper.writeValueAsString(pet))).isEqualTo(pet);
+        assertThat(Pet.class.getConstructors()).hasSize(1);
+    }
+
+    @Test
+    void modelsThatStayClassesKeepTheirBuilder() {
+        Vehicle vehicle = Vehicle.builder().type("car").wheels(4).build();
+
+        assertThat(vehicle.getWheels()).isEqualTo(4);
+        assertThat(Car.builder().type("car").doors(5).build().getDoors()).isEqualTo(5);
+    }
 }

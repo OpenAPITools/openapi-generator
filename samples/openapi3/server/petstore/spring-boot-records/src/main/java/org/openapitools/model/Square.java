@@ -91,5 +91,63 @@ public class Square implements Shape {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Square instance;
+
+    public Builder() {
+      this(new Square());
+    }
+
+    protected Builder(Square instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Square value) { 
+      this.instance.setSide(value.side);
+      return this;
+    }
+
+    public Square.Builder side(Double side) {
+      this.instance.side(side);
+      return this;
+    }
+    
+    /**
+    * returns a built Square instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Square build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Square.Builder builder() {
+    return new Square.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Square.Builder toBuilder() {
+    Square.Builder builder = new Square.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

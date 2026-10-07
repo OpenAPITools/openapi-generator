@@ -56,6 +56,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -10283,6 +10287,7 @@ public class SpringCodegenTest {
 
     private static final String RECORDS_SPEC = "src/test/resources/3_0/spring/records.yaml";
     private static final String RECORDS_FIELDS_SPEC = "src/test/resources/3_0/spring/records-fields.yaml";
+    private static final String RECORDS_BUILDERS_SPEC = "src/test/resources/3_0/spring/records-builders.yaml";
 
     private Map<String, File> generateRecords(String spec, Map<String, Object> extraProperties) throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
@@ -10652,6 +10657,173 @@ public class SpringCodegenTest {
                 .contains("import jakarta.validation.Valid;");
     }
 
+    private static final Pattern BUILDER_METHOD = Pattern.compile(
+            "^\\s*public\\s+(?:static\\s+)?([\\w.<>]+)\\s+(\\w+)\\(([^)]*)\\)\\s*\\{", Pattern.MULTILINE);
+
+    /** The public methods of the nested Builder and the static builder() / toBuilder() of a generated model, as text. */
+    private static SortedSet<String> builderSurface(String source) {
+        int start = source.indexOf("public static class Builder");
+        assertThat(start).as("a nested Builder").isGreaterThanOrEqualTo(0);
+        SortedSet<String> signatures = new TreeSet<>();
+        Matcher matcher = BUILDER_METHOD.matcher(source.substring(start));
+        while (matcher.find()) {
+            if (matcher.group(2).equals("toString")) {
+                continue;
+            }
+            signatures.add(matcher.group(1) + " " + matcher.group(2) + "(" + matcher.group(3).replaceAll("\\s+", " ").trim() + ")");
+        }
+        return signatures;
+    }
+
+    @Test
+    public void useRecordsWithGenerateBuildersGivesRecordsABuilder() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(GENERATE_BUILDERS, "true"));
+
+        String pet = sourceOf(files.get("Pet.java"));
+        assertThat(pet)
+                .contains(
+                        "public record Pet(",
+                        "public static class Builder {",
+                        "private String name;",
+                        "private JsonNullable<String> nickname;",
+                        "private List<String> labels;",
+                        "private StatusEnum status;",
+                        "public Pet.Builder name(String name) {",
+                        "public Pet.Builder nickname(String nickname) {",
+                        "this.nickname = JsonNullable.of(nickname);",
+                        "public Pet.Builder nickname(JsonNullable<String> nickname) {",
+                        "this.nickname = nickname;",
+                        "public Pet.Builder status(StatusEnum status) {",
+                        "public Pet build() {",
+                        "return new Pet(this.name, this.tag, this.nickname, this.age, this.kind, this.status, this.labels, "
+                                + "this.colors, this.aliases, this.owner, this.born);",
+                        "public static Pet.Builder builder() {",
+                        "public Pet.Builder toBuilder() {",
+                        "return new Pet.Builder().copyOf(this);",
+                        "this.aliases = value.aliases();")
+                .doesNotContain("private Pet instance", "this.instance", "toString() {\n      return getClass()", "not reusable");
+        // the builder starts empty: initial values come from the compact constructor
+        assertThat(pet).doesNotContain("private Integer age = 1", "private List<String> labels = new");
+        // only one nickname overload takes a JsonNullable, and only nullable components have it
+        assertThat(pet.split("Builder nickname\\(JsonNullable<String> nickname\\)", -1)).hasSize(2);
+        assertThat(pet).doesNotContain("Builder name(JsonNullable", "Builder age(JsonNullable");
+        // the builder has no toString of its own; the record keeps its generated one
+        assertThat(builderSurface(pet)).noneMatch(m -> m.contains(" toString("));
+        assertThat(sourceOf(files.get("Account.java")))
+                .contains("public record Account(", "public Account.Builder password(String password) {")
+                .containsOnlyOnce("public String toString()");
+    }
+
+    @Test
+    public void useRecordsWithoutGenerateBuildersHasNoBuilder() throws IOException {
+        for (Map<String, Object> options : List.<Map<String, Object>>of(Map.of(), Map.of(GENERATE_BUILDERS, "false"))) {
+            Map<String, File> files = generateRecords(RECORDS_SPEC, options);
+
+            assertThat(sourceOf(files.get("Pet.java")))
+                    .contains("public record Pet(")
+                    .doesNotContain("Builder", "builder()");
+        }
+    }
+
+    @Test
+    public void useRecordsBuilderKeepsTheClassBuilderForFallbackClasses() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(GENERATE_BUILDERS, "true"));
+
+        assertThat(sourceOf(files.get("Vehicle.java")))
+                .contains("public class Vehicle", "private Vehicle instance;", "The builder is not reusable");
+        assertThat(sourceOf(files.get("Counters.java"))).contains("public class Counters", "private Counters instance;");
+        assertThat(sourceOf(files.get("Pet.java"))).doesNotContain("private Pet instance");
+    }
+
+    @Test
+    public void useRecordsBuilderHandlesDeprecatedContainersEnumsAndNullables() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_BUILDERS_SPEC, Map.of(GENERATE_BUILDERS, "true"));
+
+        assertThat(sourceOf(files.get("Gadget.java"))).contains(
+                "public record Gadget(",
+                "private Long id;",
+                "private JsonNullable<String> maybe;",
+                "private Set<String> tags;",
+                "private JsonNullable<List<String>> nullableTags;",
+                "private KindEnum kind;",
+                "public Gadget.Builder maybe(String maybe) {",
+                "public Gadget.Builder maybe(JsonNullable<String> maybe) {",
+                "public Gadget.Builder nullableTags(List<String> nullableTags) {",
+                "public Gadget.Builder nullableTags(JsonNullable<List<String>> nullableTags) {",
+                "this.nullableTags = JsonNullable.of(nullableTags);",
+                "public Gadget.Builder tags(Set<String> tags) {",
+                "public Gadget.Builder kind(KindEnum kind) {",
+                "@Deprecated\n    public Gadget.Builder old(String old) {");
+        assertThat(sourceOf(files.get("Gadget.java"))).doesNotContain("private Gadget instance");
+    }
+
+    @Test
+    public void useRecordsBuilderWithoutOpenApiNullableTakesPlainValues() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC,
+                Map.of(GENERATE_BUILDERS, "true", CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        assertThat(sourceOf(files.get("Pet.java")))
+                .contains("private String nickname;", "public Pet.Builder nickname(String nickname) {", "this.nickname = nickname;")
+                .doesNotContain("JsonNullable");
+    }
+
+    @Test
+    public void useRecordsBuilderKeepsModelsWithClashingComponentNamesAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_BUILDERS_SPEC, Map.of(GENERATE_BUILDERS, "true"));
+                JavaFileAssert.assertThat(files.get("Named.java")).isNormalClass();
+                // without builders the same names are fine
+                assertThat(sourceOf(generateRecords(RECORDS_BUILDERS_SPEC, Map.of()).get("Named.java")))
+                        .contains("public record Named(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Named' is generated as a class: property 'builder' clashes with a method of the record's builder");
+    }
+
+    @Test
+    public void useRecordsBuilderWithJspecifyAndSpringBoot4() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC,
+                Map.of(GENERATE_BUILDERS, "true", USE_SPRING_BOOT4, "true", USE_JSPECIFY, "true"));
+
+        assertThat(sourceOf(files.get("Owner.java")))
+                .contains("public record Owner(", "public Owner.Builder email(@Nullable String email) {", "private String email;");
+    }
+
+    @Test
+    public void useRecordsBuilderMirrorsTheMethodsOfTheClassBuilder() throws IOException {
+        Map<String, Object> builders = Map.of(GENERATE_BUILDERS, "true");
+        for (Map<String, Object> extra : List.<Map<String, Object>>of(
+                Map.of(),
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"),
+                Map.of(USE_SPRING_BOOT4, "true", USE_JSPECIFY, "true"))) {
+            Map<String, Object> options = new HashMap<>(builders);
+            options.putAll(extra);
+            for (String spec : List.of(RECORDS_SPEC, RECORDS_FIELDS_SPEC, RECORDS_BUILDERS_SPEC)) {
+                Map<String, File> records = generateRecords(spec, options);
+                Map<String, Object> classOptions = new HashMap<>(options);
+                Map<String, File> classes = generateFromContract(spec, SPRING_BOOT, classOptions);
+                int compared = 0;
+                for (Map.Entry<String, File> entry : records.entrySet()) {
+                    if (!entry.getKey().endsWith(".java") || !sourceOf(entry.getValue()).contains("public record ")
+                            || !sourceOf(entry.getValue()).contains("public static class Builder")) {
+                        continue;
+                    }
+                    String classSource = sourceOf(classes.get(entry.getKey()));
+                    assertThat(builderSurface(sourceOf(entry.getValue())))
+                            .as(entry.getKey() + " with " + options + " from " + spec)
+                            .isEqualTo(builderSurface(classSource));
+                    compared++;
+                }
+                assertThat(compared).as("records compared in " + spec).isGreaterThan(0);
+            }
+        }
+    }
+
     @Test
     public void useRecordsIsRefusedWithSpringBoot2() {
         SpringCodegen codegen = new SpringCodegen();
@@ -10667,7 +10839,6 @@ public class SpringCodegenTest {
     public Object[][] useRecordsRefusedCombinations() {
         return new Object[][]{
                 {HATEOAS, "true", "hateoas"},
-                {GENERATE_BUILDERS, "true", "generateBuilders"},
                 {CodegenConstants.WITH_XML, "true", "withXml"},
                 {USE_OPTIONAL, "true", "useOptional"},
         };
