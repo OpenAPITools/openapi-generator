@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -201,6 +202,45 @@ public class CSharpClientCodegenTest {
         assertNotNull(apiFile);
         assertFileContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-CUSTOM_CONSTANT_HEADER\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(\"CONSTANT_VALUE\"));");
+    }
+
+    @Test
+    public void testNotEnumConstraintIsEnforced() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/not-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        Path other = Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Other.cs");
+        assertNotNull(files.get(other.toString()));
+        // Enforced at deserialization so oneOf matching narrows (FromJson rejects the excluded value).
+        assertFileContains(other,
+                "[System.Runtime.Serialization.OnDeserialized]",
+                "if (this.Kind == \"known\")",
+                "throw new ArgumentException(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\");");
+        // Also enforced in Validate() for explicit validation.
+        assertFileContains(other,
+                "yield return new ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
+        // The Known member (plain enum) must NOT get the not-enum handling.
+        assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
+                "must not be a value excluded by the 'not' schema");
+        // A property that is ITSELF an enum (generated as a C# enum type) must not get the string-comparison
+        // handling, which would not compile.
+        assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "EnumAndNot.cs"),
+                "must not be a value excluded by the 'not' schema", "OnDeserializedNotEnum");
+        // A property named like the generated callback is renamed so it cannot collide with the method.
+        assertFileContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Reserved.cs"),
+                "PropertyOnDeserializedNotEnum");
     }
 
     @Test
