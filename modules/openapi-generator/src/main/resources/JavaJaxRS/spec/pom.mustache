@@ -78,6 +78,7 @@
       <version>${jakarta.ws.rs-version}</version>
       <scope>provided</scope>
     </dependency>
+    {{^jsonb}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
@@ -97,6 +98,37 @@
       <version>${jackson-version}</version>
     </dependency>
     {{/useJakartaEe}}
+    {{/jsonb}}
+    {{#jsonb}}
+    {{#useJakartaEe}}
+    <dependency>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
+      <version>${json-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <version>${json-bind-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    <dependency>
+      <groupId>javax.json</groupId>
+      <artifactId>javax.json-api</artifactId>
+      <version>${json-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.json.bind</groupId>
+      <artifactId>javax.json.bind-api</artifactId>
+      <version>${json-bind-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    {{/useJakartaEe}}
+    {{/jsonb}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
@@ -197,7 +229,13 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    {{^jsonb}}
     <jackson-version>2.21.6</jackson-version>
+    {{/jsonb}}
+    {{#jsonb}}
+    <json-api-version>{{#useJakartaEe}}2.1.3{{/useJakartaEe}}{{^useJakartaEe}}1.1.4{{/useJakartaEe}}</json-api-version>
+    <json-bind-api-version>{{#useJakartaEe}}3.0.1{{/useJakartaEe}}{{^useJakartaEe}}1.0{{/useJakartaEe}}</json-bind-api-version>
+    {{/jsonb}}
     <junit-version>5.14.4</junit-version>
     <joda-version>2.10.13</joda-version>
 {{#useJakartaEe}}

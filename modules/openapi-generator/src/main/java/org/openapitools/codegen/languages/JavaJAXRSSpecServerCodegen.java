@@ -30,6 +30,8 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Collection;
@@ -49,6 +51,8 @@ import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_
  */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaJAXRSSpecServerCodegen.class);
+
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
@@ -62,6 +66,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SEALED = "useSealed";
+    public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -79,6 +85,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
     private boolean useJakartaSecurityAnnotations = false;
+    private String serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
 
     @Setter
     private boolean useEnumCaseInsensitive = false;
@@ -168,9 +175,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_SECURITY_ANNOTATIONS, "Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.", useJakartaSecurityAnnotations));
-        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate a JSON creator constructor for required properties.", generateJsonCreator));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
+        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism. Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
+                .defaultValue(SERIALIZATION_LIBRARY_JACKSON);
+        Map<String, String> serializationOptions = new HashMap<>();
+        serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
+        serializationLibraryOption.setEnum(serializationOptions);
+        cliOptions.add(serializationLibraryOption);
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.", useJspecify));
     }
 
@@ -233,6 +247,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             artifactId = "openapi-jaxrs-client";
         }
 
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
+        // JSON-B cannot map the Joda types of the legacy default; select java8 before super.processOpts() applies the date type mappings
+        if (isJsonb() && !additionalProperties.containsKey(DATE_LIBRARY)) {
+            setDateLibrary("java8");
+        }
+
         super.processOpts();
 
         // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
@@ -245,6 +265,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     "Flag '" + USE_JAKARTA_SECURITY_ANNOTATIONS + "' requires '" + USE_JAKARTA_EE
                             + "=true'. The generated annotation '@jakarta.annotation.security.RolesAllowed' "
                             + "is incompatible with the javax.* namespace.");
+        }
+
+        if (isJsonb()) {
+            applyJsonbSerialization();
         }
 
         // expose flags to templates
@@ -342,6 +366,49 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "jaxrs-spec";
     }
 
+    public String getSerializationLibrary() {
+        return serializationLibrary;
+    }
+
+    public void setSerializationLibrary(String serializationLibrary) {
+        if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+        } else {
+            throw new IllegalArgumentException("Unexpected " + CodegenConstants.SERIALIZATION_LIBRARY + " value: '"
+                    + serializationLibrary + "'. Supported values: " + SERIALIZATION_LIBRARY_JACKSON + ", " + SERIALIZATION_LIBRARY_JSONB);
+        }
+    }
+
+    public boolean isJsonb() {
+        return SERIALIZATION_LIBRARY_JSONB.equals(serializationLibrary);
+    }
+
+    private void applyJsonbSerialization() {
+        if (StringUtils.isNotEmpty(library) && !DEFAULT_LIBRARY.equals(library)) {
+            throw new IllegalArgumentException("'" + CodegenConstants.SERIALIZATION_LIBRARY + "=" + SERIALIZATION_LIBRARY_JSONB
+                    + "' is only supported by the library '" + DEFAULT_LIBRARY + "', not by '" + library + "'.");
+        }
+        if (!getDateLibrary().startsWith("java8")) {
+            throw new IllegalArgumentException("'" + DATE_LIBRARY + "=" + getDateLibrary() + "' is not supported with '"
+                    + CodegenConstants.SERIALIZATION_LIBRARY + "=" + SERIALIZATION_LIBRARY_JSONB + "'. Use 'java8' or 'java8-localdatetime'.");
+        }
+        if (additionalProperties.containsKey(JACKSON) && jackson) {
+            throw new IllegalArgumentException("Flags '" + JACKSON + "=true' and '" + CodegenConstants.SERIALIZATION_LIBRARY + "="
+                    + SERIALIZATION_LIBRARY_JSONB + "' are mutually exclusive. Please enable only one.");
+        }
+        if (additionalProperties.containsKey(OPENAPI_NULLABLE) && openApiNullable) {
+            LOGGER.warn("'{}' is not supported with '{}={}' and will be disabled.",
+                    OPENAPI_NULLABLE, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        }
+        setJackson(false);
+        additionalProperties.put(JACKSON, false);
+        setOpenApiNullable(false);
+        additionalProperties.put(OPENAPI_NULLABLE, false);
+        additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, true);
+    }
+
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
@@ -353,6 +420,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
             codegenModel.imports.remove("JsonTypeName");
+        }
+        if (isJsonb() && codegenModel.getAdditionalProperties() != null) {
+            LOGGER.warn("Model '{}' declares additionalProperties and is (de)serialized as a plain map with '{}={}'; declared properties are not mapped to its fields.",
+                    codegenModel.name, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
         }
         if (useJspecify) {
             codegenModel.imports.add("Nullable");
