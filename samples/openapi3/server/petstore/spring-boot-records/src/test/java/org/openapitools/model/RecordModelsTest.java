@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class RecordModelsTest {
@@ -41,8 +42,11 @@ class RecordModelsTest {
         assertThat(Vehicle.class.isRecord()).isFalse();
         assertThat(Car.class.isRecord()).isFalse();
         assertThat(Counters.class.isRecord()).isFalse();
-        assertThat(Circle.class.isRecord()).isFalse();
-        assertThat(Square.class.isRecord()).isFalse();
+        assertThat(Circle.class.isRecord()).as("member of a oneOf interface").isTrue();
+        assertThat(Square.class.isRecord()).isTrue();
+        assertThat(Cat.class.isRecord()).isTrue();
+        assertThat(Dog.class.isRecord()).isTrue();
+        assertThat(Zoo.class.isRecord()).isTrue();
     }
 
     @Test
@@ -269,5 +273,126 @@ class RecordModelsTest {
 
         assertThat(vehicle.getWheels()).isEqualTo(4);
         assertThat(Car.builder().type("car").doors(5).build().getDoors()).isEqualTo(5);
+    }
+
+    private static int occurrences(String text, String part) {
+        return text.split(java.util.regex.Pattern.quote(part), -1).length - 1;
+    }
+
+    @Test
+    void theOneOfInterfacesAreSealedAndTheirMembersAreRecords() {
+        assertThat(Animal.class.isSealed()).isTrue();
+        assertThat(Animal.class.getPermittedSubclasses()).containsExactlyInAnyOrder(Cat.class, Dog.class);
+        assertThat(Shape.class.isSealed()).isTrue();
+        assertThat(Shape.class.getPermittedSubclasses()).containsExactlyInAnyOrder(Circle.class, Square.class);
+        assertThat(Animal.class.isAssignableFrom(Cat.class)).isTrue();
+        assertThat(Shape.class.isAssignableFrom(Circle.class)).isTrue();
+        assertThat(Cat.class.isRecord() && Dog.class.isRecord() && Circle.class.isRecord() && Square.class.isRecord()).isTrue();
+    }
+
+    @Test
+    void theDiscriminatorAccessorReturnsTheComponent() throws Exception {
+        Animal cat = Cat.builder().animalType("cat").name("Tom").build();
+
+        assertThat(cat.getAnimalType()).isEqualTo("cat");
+        assertThat(((Cat) cat).getAnimalType()).isEqualTo(((Cat) cat).animalType());
+        assertThat(Animal.class.getMethod("getAnimalType").getReturnType()).isEqualTo(String.class);
+        // the accessor carries the JSON name like the class's getter, and nothing else
+        for (Class<?> member : List.of(Cat.class, Dog.class)) {
+            assertThat(member.getMethod("getAnimalType").getAnnotations()).hasSize(1);
+            assertThat(member.getMethod("getAnimalType").getAnnotation(com.fasterxml.jackson.annotation.JsonProperty.class).value())
+                    .isEqualTo("animalType");
+        }
+        // no accessor for an interface without a discriminator
+        assertThat(java.util.Arrays.stream(Circle.class.getDeclaredMethods()).map(java.lang.reflect.Method::getName))
+                .doesNotContain("getShapeType");
+    }
+
+    @Test
+    void discriminatorFirstLastAndInTheMiddle() throws Exception {
+        Animal first = objectMapper.readValue("{\"animalType\":\"cat\",\"name\":\"Tom\"}", Animal.class);
+        Animal middle = objectMapper.readValue("{\"name\":\"Tom\",\"animalType\":\"cat\",\"lives\":3}", Animal.class);
+        Animal last = objectMapper.readValue("{\"name\":\"Rex\",\"barks\":true,\"animalType\":\"dog\"}", Animal.class);
+
+        assertThat(first).isEqualTo(new Cat("cat", "Tom", null));
+        assertThat(((Cat) first).lives()).isEqualTo(9);
+        assertThat(((Cat) middle).lives()).isEqualTo(3);
+        assertThat(((Cat) middle).animalType()).isEqualTo("cat");
+        assertThat(last).isInstanceOf(Dog.class);
+        assertThat(((Dog) last).name()).isEqualTo("Rex");
+        assertThat(((Dog) last).barks()).isTrue();
+        assertThat(((Dog) last).animalType()).isEqualTo("dog");
+    }
+
+    @Test
+    void discriminatorAbsentUnknownOrNullIsRefused() {
+        assertThatThrownBy(() -> objectMapper.readValue("{\"name\":\"Tom\"}", Animal.class))
+                .hasMessageContaining("animalType");
+        assertThatThrownBy(() -> objectMapper.readValue("{\"animalType\":\"bird\",\"name\":\"Tom\"}", Animal.class))
+                .hasMessageContaining("bird");
+        assertThatThrownBy(() -> objectMapper.readValue("{\"animalType\":null,\"name\":\"Tom\"}", Animal.class))
+                .isInstanceOf(Exception.class);
+    }
+
+    @Test
+    void jsonNullIsNullThroughTheInterfaceType() throws Exception {
+        assertThat(objectMapper.readValue("null", Animal.class)).isNull();
+    }
+
+    @Test
+    void writingThroughTheInterfaceWritesTheDiscriminatorOnce() throws Exception {
+        Animal cat = new Cat("cat", "Tom", null);
+        Animal dog = new Dog("Rex", true, "dog");
+
+        String viaInterface = objectMapper.writerFor(Animal.class).writeValueAsString(cat);
+        String dogViaInterface = objectMapper.writerFor(Animal.class).writeValueAsString(dog);
+
+        assertThat(occurrences(viaInterface, "\"animalType\"")).isEqualTo(1);
+        assertThat(objectMapper.readTree(viaInterface).get("animalType").asText()).isEqualTo("cat");
+        assertThat(objectMapper.readTree(viaInterface).get("lives").asInt()).isEqualTo(9);
+        assertThat(occurrences(dogViaInterface, "\"animalType\"")).isEqualTo(1);
+        assertThat(objectMapper.readValue(viaInterface, Animal.class)).isEqualTo(cat);
+        assertThat(objectMapper.readValue(dogViaInterface, Animal.class)).isEqualTo(dog);
+    }
+
+    @Test
+    void aListOfTheInterfaceTypeRoundTrips() throws Exception {
+        String json = "{\"keeper\":\"Ann\",\"animals\":[{\"animalType\":\"cat\",\"name\":\"Tom\",\"lives\":2},"
+                + "{\"animalType\":\"dog\",\"name\":\"Rex\"}],\"mascot\":{\"animalType\":\"dog\",\"name\":\"Max\"}}";
+
+        Zoo zoo = objectMapper.readValue(json, Zoo.class);
+        String written = objectMapper.writeValueAsString(zoo);
+        JsonNode tree = objectMapper.readTree(written);
+
+        assertThat(zoo.animals()).hasSize(2);
+        assertThat(zoo.animals().get(0)).isInstanceOf(Cat.class);
+        assertThat(zoo.animals().get(1)).isInstanceOf(Dog.class);
+        assertThat(zoo.mascot()).isEqualTo(new Dog("Max", null, "dog"));
+        assertThat(tree.get("animals").get(0).get("animalType").asText()).isEqualTo("cat");
+        assertThat(tree.get("animals").get(1).get("animalType").asText()).isEqualTo("dog");
+        assertThat(tree.get("mascot").get("animalType").asText()).isEqualTo("dog");
+        assertThat(occurrences(written, "\"animalType\"")).isEqualTo(3);
+        assertThat(objectMapper.readValue(written, Zoo.class)).isEqualTo(zoo).hasSameHashCodeAs(zoo);
+    }
+
+    @Test
+    void validationReachesTheMembersThroughTheInterfaceType() throws Exception {
+        Zoo zoo = objectMapper.readValue("{\"animals\":[{\"animalType\":\"cat\",\"name\":\"Tom\"},"
+                + "{\"animalType\":\"dog\",\"name\":\"R\"}],\"mascot\":{\"animalType\":\"cat\",\"name\":\"T\"}}", Zoo.class);
+
+        Set<String> paths = validator.validate(zoo).stream().map(v -> v.getPropertyPath().toString()).collect(Collectors.toSet());
+
+        assertThat(paths).containsExactlyInAnyOrder("animals[1].name", "mascot.name");
+        assertThat(validator.validate(objectMapper.readValue("{\"animals\":[{\"animalType\":\"cat\",\"name\":\"Tom\"}]}", Zoo.class)))
+                .isEmpty();
+    }
+
+    @Test
+    void membersOfAnInterfaceWithoutADiscriminatorAreWrittenAsTheyAre() throws Exception {
+        Shape circle = new Circle(1.5);
+        String json = objectMapper.writeValueAsString(circle);
+
+        assertThat(objectMapper.readTree(json).get("radius").asDouble()).isEqualTo(1.5);
+        assertThat(circle).isInstanceOf(Shape.class);
     }
 }

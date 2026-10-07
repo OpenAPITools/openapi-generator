@@ -103,6 +103,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Shape'
+  /zoos:
+    post:
+      operationId: addZoo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zoo'
+      responses:
+        '200':
+          description: The stored zoo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zoo'
 components:
   schemas:
     PetKind:
@@ -238,3 +254,53 @@ components:
         side:
           type: number
           format: double
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: animalType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Cat:
+      type: object
+      required:
+        - animalType
+        - name
+      properties:
+        animalType:
+          type: string
+        name:
+          type: string
+          minLength: 2
+        lives:
+          type: integer
+          format: int32
+          default: 9
+          minimum: 1
+          maximum: 9
+    Dog:
+      type: object
+      required:
+        - name
+        - animalType
+      properties:
+        name:
+          type: string
+          minLength: 2
+        barks:
+          type: boolean
+        animalType:
+          type: string
+    Zoo:
+      type: object
+      properties:
+        keeper:
+          type: string
+        animals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animal'
+        mascot:
+          $ref: '#/components/schemas/Animal'

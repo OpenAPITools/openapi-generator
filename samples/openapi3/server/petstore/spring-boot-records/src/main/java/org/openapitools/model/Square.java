@@ -18,135 +18,60 @@ import jakarta.annotation.Generated;
 
 /**
  * Square
+ *
+ * @param side Get side
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Square implements Shape {
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Double side;
-
-  public Square() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Square(Double side) {
-    this.side = side;
-  }
-
-  public Square side(Double side) {
-    this.side = side;
-    return this;
-  }
+public record Square(
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @NotNull 
+    @Schema(name = "side", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("side")
+    Double side
+) implements Shape {
 
   /**
-   * Get side
-   * @return side
+   * Builder of Square. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
    */
-  @NotNull 
-  @Schema(name = "side", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("side")
-  public Double getSide() {
-    return side;
-  }
-
-  @JsonProperty("side")
-  public void setSide(Double side) {
-    this.side = side;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Square square = (Square) o;
-    return Objects.equals(this.side, square.side);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(side);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Square {\n");
-    sb.append("    side: ").append(toIndentedString(side)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(@Nullable Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
-  }
-  
   public static class Builder {
 
-    private Square instance;
+    private Double side;
 
     public Builder() {
-      this(new Square());
     }
 
-    protected Builder(Square instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Square value) { 
-      this.instance.setSide(value.side);
+    protected Builder copyOf(Square value) {
+      this.side = value.side();
       return this;
     }
 
     public Square.Builder side(Double side) {
-      this.instance.side(side);
+      this.side = side;
       return this;
     }
-    
-    /**
-    * returns a built Square instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Square build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
 
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+    /**
+     * Returns a new Square from the values set so far; the builder stays usable.
+     */
+    public Square build() {
+      return new Square(this.side);
     }
   }
 
   /**
-  * Create a builder with no initialized field (except for the default values).
-  */
+   * Create a builder with no initialized component (the constructor applies the initial values).
+   */
   public static Square.Builder builder() {
     return new Square.Builder();
   }
 
   /**
-  * Create a builder with a shallow copy of this instance.
-  */
+   * Create a builder holding every component of this record.
+   */
   public Square.Builder toBuilder() {
-    Square.Builder builder = new Square.Builder();
-    return builder.copyOf(this);
+    return new Square.Builder().copyOf(this);
   }
 
 }

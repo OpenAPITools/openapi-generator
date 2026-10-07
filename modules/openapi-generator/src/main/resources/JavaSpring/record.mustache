@@ -110,6 +110,15 @@ public record {{classname}}(
     {{/vars}}
   }
   {{/vendorExtensions.x-record-has-initial-values}}
+  {{#vendorExtensions.x-record-discriminator-accessors}}
+
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
+  public {{{type}}} {{getter}}() {
+    return {{component}};
+  }
+  {{/vendorExtensions.x-record-discriminator-accessors}}
   {{#vendorExtensions.x-record-masks-password}}
 
   @Override

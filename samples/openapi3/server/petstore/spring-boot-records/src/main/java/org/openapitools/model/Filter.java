@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Filter", description = "Query parameters of the pet search")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Filter {
+public final class Filter {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
