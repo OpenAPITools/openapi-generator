@@ -109,7 +109,7 @@ public class RustAxumServerCodegenTest {
         Path target = Files.createTempDirectory("test");
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("rust-axum")
-                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-oneof.yaml")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-discriminator-enum-ref.yaml")
                 .setSkipOverwrite(false)
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();

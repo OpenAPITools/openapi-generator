@@ -1,4 +1,4 @@
-use rust_axum_oneof::models::*;
+use rust_axum_discriminator_enum_ref::models::*;
 
 #[test]
 fn test_discriminator_referencing_enum() {
