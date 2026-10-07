@@ -53,7 +53,6 @@ public class RequiredAndNullableApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec requiredAndNullablePostRequestCreation(RequiredAndNullable requiredAndNullable) throws RestClientResponseException {
-        Object postBody = requiredAndNullable;
         // verify the required parameter 'requiredAndNullable' is set
         if (requiredAndNullable == null) {
             throw new RestClientResponseException("Missing the required parameter 'requiredAndNullable' when calling requiredAndNullablePost", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -78,7 +77,7 @@ public class RequiredAndNullableApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.POST, pathParams, localVarQueryParams, requiredAndNullable, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

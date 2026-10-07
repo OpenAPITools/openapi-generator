@@ -54,7 +54,6 @@ public class FooApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createFooRequestCreation(@jakarta.annotation.Nullable Foo foo) throws RestClientResponseException {
-        Object postBody = foo;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -75,7 +74,7 @@ public class FooApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/foo", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/foo", HttpMethod.POST, pathParams, localVarQueryParams, foo, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -124,7 +123,6 @@ public class FooApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec getAllFoosRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -143,7 +141,7 @@ public class FooApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<List<FooRefOrValue>> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

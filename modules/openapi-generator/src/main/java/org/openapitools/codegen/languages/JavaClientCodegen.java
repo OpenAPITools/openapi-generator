@@ -462,6 +462,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             writePropertyBack(JAVA_17, true);
         }
 
+        if (libRestTemplate && useJakartaEe) {
+            writePropertyBack(JAVA_17, true);
+        }
+
         if (libMicroprofile && useSealedOneOfInterfaces) {
             writePropertyBack(JAVA_17, true);
         }

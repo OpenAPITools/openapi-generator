@@ -64,24 +64,28 @@ public class HeaderApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientException {
-        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
-        if (integerHeader != null)
-        localVarHeaderParams.add("integer_header", apiClient.parameterToString(integerHeader));
-        if (booleanHeader != null)
-        localVarHeaderParams.add("boolean_header", apiClient.parameterToString(booleanHeader));
-        if (stringHeader != null)
-        localVarHeaderParams.add("string_header", apiClient.parameterToString(stringHeader));
-        if (enumNonrefStringHeader != null)
-        localVarHeaderParams.add("enum_nonref_string_header", apiClient.parameterToString(enumNonrefStringHeader));
-        if (enumRefStringHeader != null)
-        localVarHeaderParams.add("enum_ref_string_header", apiClient.parameterToString(enumRefStringHeader));
+        if (integerHeader != null) {
+            localVarHeaderParams.add("integer_header", apiClient.parameterToString(integerHeader));
+        }
+        if (booleanHeader != null) {
+            localVarHeaderParams.add("boolean_header", apiClient.parameterToString(booleanHeader));
+        }
+        if (stringHeader != null) {
+            localVarHeaderParams.add("string_header", apiClient.parameterToString(stringHeader));
+        }
+        if (enumNonrefStringHeader != null) {
+            localVarHeaderParams.add("enum_nonref_string_header", apiClient.parameterToString(enumNonrefStringHeader));
+        }
+        if (enumRefStringHeader != null) {
+            localVarHeaderParams.add("enum_ref_string_header", apiClient.parameterToString(enumRefStringHeader));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -93,19 +97,18 @@ public class HeaderApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/header/integer/boolean/string/enums", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/header/integer/boolean/string/enums", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -116,6 +119,6 @@ public class HeaderApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

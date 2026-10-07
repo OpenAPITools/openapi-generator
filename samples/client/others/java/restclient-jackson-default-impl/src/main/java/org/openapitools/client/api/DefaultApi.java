@@ -55,7 +55,6 @@ public class DefaultApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createAnimalRequestCreation(@jakarta.annotation.Nonnull Animal animal) throws RestClientResponseException {
-        Object postBody = animal;
         // verify the required parameter 'animal' is set
         if (animal == null) {
             throw new RestClientResponseException("Missing the required parameter 'animal' when calling createAnimal", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -80,7 +79,7 @@ public class DefaultApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Animal> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/animals", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/animals", HttpMethod.POST, pathParams, localVarQueryParams, animal, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -130,7 +129,6 @@ public class DefaultApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createBeverageRequestCreation(@jakarta.annotation.Nonnull Beverage beverage) throws RestClientResponseException {
-        Object postBody = beverage;
         // verify the required parameter 'beverage' is set
         if (beverage == null) {
             throw new RestClientResponseException("Missing the required parameter 'beverage' when calling createBeverage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -155,7 +153,7 @@ public class DefaultApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Beverage> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/beverages", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/beverages", HttpMethod.POST, pathParams, localVarQueryParams, beverage, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -205,7 +203,6 @@ public class DefaultApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createFruitRequestCreation(@jakarta.annotation.Nonnull Fruit fruit) throws RestClientResponseException {
-        Object postBody = fruit;
         // verify the required parameter 'fruit' is set
         if (fruit == null) {
             throw new RestClientResponseException("Missing the required parameter 'fruit' when calling createFruit", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -230,7 +227,7 @@ public class DefaultApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Fruit> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fruits", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fruits", HttpMethod.POST, pathParams, localVarQueryParams, fruit, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
