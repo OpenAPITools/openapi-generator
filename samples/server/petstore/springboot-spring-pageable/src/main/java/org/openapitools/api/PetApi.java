@@ -109,7 +109,7 @@ public interface PetApi {
     )
     default ResponseEntity<Void> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+        @Parameter(name = "api_key", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -147,7 +147,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status,
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status") List<String> status,
         @ParameterObject final Pageable pageable
     ) {
         getRequest().ifPresent(request -> {
@@ -204,7 +204,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags") List<String> tags,
         @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
         @PageableDefault(page = 0, size = 20) @SortDefault.SortDefaults({@SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)}) @ParameterObject final Pageable pageable
     ) {

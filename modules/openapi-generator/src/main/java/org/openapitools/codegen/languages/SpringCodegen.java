@@ -63,6 +63,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.CodegenConstants.*;
@@ -1128,85 +1129,108 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        final OperationMap operations = objs.getOperations();
-        if (operations != null) {
-            final List<CodegenOperation> ops = operations.getOperation();
-            for (final CodegenOperation operation : ops) {
-                final List<CodegenResponse> responses = operation.responses;
-                if (responses != null) {
-                    for (final CodegenResponse resp : responses) {
-                        if ("0".equals(resp.code)) {
-                            resp.code = "200";
-                        }
-                        doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
-                            @Override
-                            public void setReturnType(final String returnType) {
-                                resp.dataType = returnType;
-                            }
-
-                            @Override
-                            public void setReturnContainer(final String returnContainer) {
-                                resp.containerType = returnContainer;
-                            }
-
-                            @Override
-                            public void setIsVoid(boolean isVoid) {
-                                resp.isVoid = isVoid;
-                            }
-                        });
-                    }
-                }
-
-                doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
-
-                    @Override
-                    public void setReturnType(final String returnType) {
-                        operation.returnType = returnType;
-                    }
-
-                    @Override
-                    public void setReturnContainer(final String returnContainer) {
-                        operation.returnContainer = returnContainer;
-                    }
-
-                    @Override
-                    public void setIsVoid(boolean isVoid) {
-                        operation.isVoid = isVoid;
-                    }
-                });
-
-                prepareVersioningParameters(ops);
-                handleImplicitHeaders(operation);
-                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
-                normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
-
-                if (useSpringSecurityPreAuthorize) {
-                    addSpringSecurityPreAuthorize(operation);
-                }
-
-                if (isLibrary(SPRING_HTTP_INTERFACE) || isLibrary(SPRING_BOOT)) {
-                    if (operation.isArray && "string".equalsIgnoreCase(operation.returnBaseType)) {
-                        operation.vendorExtensions.put(VendorExtension.X_REACTIVE_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
-                    }
-                }
-            }
-            // The tag for the controller is the first tag of the first operation
-            final CodegenOperation firstOperation = ops.get(0);
-            final Tag firstTag = firstOperation.tags.get(0);
-            final String firstTagName = firstTag.getName();
-            // But use a sensible tag name if there is none
-            objs.put("tagName", escapeText("default".equals(firstTagName) ? firstOperation.baseName : firstTagName));
-            objs.put("tagDescription", escapeText(firstTag.getDescription()));
-
-            // Add clientRegistrationId for spring-http-interface with OAuth
-            if (SPRING_HTTP_INTERFACE.equals(library) && clientRegistrationId != null && !clientRegistrationId.isEmpty()) {
-                operations.put("clientRegistrationId", clientRegistrationId);
-            }
-        }
-
         removeImport(objs, "java.util.List");
 
+        final OperationMap operations = objs.getOperations();
+        if (operations == null) {
+            return objs;
+        }
+
+        final List<CodegenOperation> ops = operations.getOperation();
+        for (final CodegenOperation operation : ops) {
+            clearEmptyDescriptions(operation);
+            postProcessResponses(operation.responses);
+
+            doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+
+                @Override
+                public void setReturnType(final String returnType) {
+                    operation.returnType = returnType;
+                }
+
+                @Override
+                public void setReturnContainer(final String returnContainer) {
+                    operation.returnContainer = returnContainer;
+                }
+
+                @Override
+                public void setIsVoid(boolean isVoid) {
+                    operation.isVoid = isVoid;
+                }
+            });
+
+            prepareVersioningParameters(ops);
+            handleImplicitHeaders(operation);
+            normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
+            normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
+
+            if (useSpringSecurityPreAuthorize) {
+                addSpringSecurityPreAuthorize(operation);
+            }
+
+            if ((isLibrary(SPRING_HTTP_INTERFACE) || isLibrary(SPRING_BOOT))
+                    && operation.isArray && "string".equalsIgnoreCase(operation.returnBaseType)) {
+                operation.vendorExtensions.put(VendorExtension.X_REACTIVE_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
+            }
+        }
+        // The tag for the controller is the first tag of the first operation
+        final CodegenOperation firstOperation = ops.get(0);
+        final Tag firstTag = firstOperation.tags.get(0);
+        final String firstTagName = firstTag.getName();
+        // But use a sensible tag name if there is none
+        objs.put("tagName", escapeText("default".equals(firstTagName) ? firstOperation.baseName : firstTagName));
+        objs.put("tagDescription", escapeText(firstTag.getDescription()));
+
+        // Add clientRegistrationId for spring-http-interface with OAuth
+        if (SPRING_HTTP_INTERFACE.equals(library) && clientRegistrationId != null && !clientRegistrationId.isEmpty()) {
+            operations.put("clientRegistrationId", clientRegistrationId);
+        }
+
         return objs;
+    }
+
+    /**
+     * Treats empty descriptions as absent, so templates omit annotation attributes like {@code description = ""}.
+     */
+    private static void clearEmptyDescriptions(CodegenOperation operation) {
+        if (StringUtils.isEmpty(operation.notes)) {
+            operation.notes = null;
+        }
+        Stream.of(operation.allParams, operation.bodyParams, operation.pathParams, operation.queryParams,
+                        operation.headerParams, operation.implicitHeadersParams, operation.formParams, operation.cookieParams,
+                        operation.requiredParams, operation.optionalParams, operation.requiredAndNotNullableParams,
+                        operation.notNullableParams)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                .filter(param -> StringUtils.isEmpty(param.description))
+                .forEach(param -> param.description = null);
+    }
+
+    private void postProcessResponses(List<CodegenResponse> responses) {
+        if (responses == null) {
+            return;
+        }
+        for (final CodegenResponse resp : responses) {
+            if ("0".equals(resp.code)) {
+                resp.code = "200";
+            }
+            doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
+                @Override
+                public void setReturnType(final String returnType) {
+                    resp.dataType = returnType;
+                }
+
+                @Override
+                public void setReturnContainer(final String returnContainer) {
+                    resp.containerType = returnContainer;
+                }
+
+                @Override
+                public void setIsVoid(boolean isVoid) {
+                    resp.isVoid = isVoid;
+                }
+            });
+        }
     }
 
     /**

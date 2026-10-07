@@ -32,7 +32,6 @@ public interface PetApi {
     String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -52,7 +51,6 @@ public interface PetApi {
     String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
-     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -85,7 +83,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
-         @RequestParam(value = "status", required = true) List<String> status
+         @RequestParam(value = "status") List<String> status
     );
 
 
@@ -106,7 +104,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
-         @RequestParam(value = "tags", required = true) Set<String> tags
+         @RequestParam(value = "tags") Set<String> tags
     );
 
 
@@ -150,7 +148,6 @@ public interface PetApi {
     String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -172,7 +169,6 @@ public interface PetApi {
     String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
-     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -195,7 +191,6 @@ public interface PetApi {
     String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -218,7 +213,6 @@ public interface PetApi {
     String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
@@ -233,7 +227,7 @@ public interface PetApi {
     )
     Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) Part requiredFile,
+         @RequestPart(value = "requiredFile") Part requiredFile,
          @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     );
 

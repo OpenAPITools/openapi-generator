@@ -233,8 +233,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username") String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password") String password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
