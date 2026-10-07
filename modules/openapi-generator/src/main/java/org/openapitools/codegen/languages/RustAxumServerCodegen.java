@@ -713,6 +713,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        final Map<String, CodegenModel> enumModels = new HashMap<>();
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.isEnum) {
+                enumModels.put(cm.getClassname(), cm);
+            }
+        }
+
         final var blocking = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
@@ -720,7 +728,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getSchemaName());
             if (discriminators != null) {
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
-                if (!discriminating(discriminators, cm)) {
+                if (!discriminating(discriminators, cm, enumModels)) {
                     final CodegenDiscriminator discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
@@ -785,20 +793,46 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .orElse(modelName);
     }
 
-    private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
+    private boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm,
+                                   final Map<String, CodegenModel> enumModels) {
         resetDiscriminatorProperty(cm);
 
         // Discriminator will be presented as enum tag -> One and only one tag is allowed
         int countString = 0;
         int countNonString = 0;
         for (final CodegenProperty var : cm.vars) {
-            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
-                if (var.isString) {
-                    var.isDiscriminator = true;
-                    ++countString;
-                } else
-                    ++countNonString;
+            final Optional<CodegenDiscriminator> matched = discriminatorsForModel.stream()
+                    .filter(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))
+                    .findFirst();
+            if (matched.isEmpty()) {
+                continue;
             }
+
+            if (!var.required) {
+                // The serde tag is always present, an optional discriminator property cannot hold it
+                LOGGER.warn("Discriminator property '{}' of model '{}' is not required, falling back to untagged",
+                        var.baseName, cm.getSchemaName());
+                ++countNonString;
+            } else if (var.isString) {
+                var.isDiscriminator = true;
+                ++countString;
+            } else if (var.isEnumRef) {
+                // A discriminator referencing a string enum can be used as serde tag,
+                // as long as the discriminator value of this variant is one of the enum values.
+                final String discriminatorValue = getDiscriminatorValue(cm.getClassname(), matched.get());
+                final String enumVariant = findEnumVariant(enumModels.get(var.complexType), discriminatorValue);
+                if (enumVariant != null) {
+                    var.isDiscriminator = true;
+                    var.discriminatorValue = discriminatorValue;
+                    var.vendorExtensions.put("x-discriminator-enum-variant", enumVariant);
+                    ++countString;
+                } else {
+                    LOGGER.warn("Discriminator value '{}' of model '{}' is not a value of enum '{}', falling back to untagged",
+                            discriminatorValue, cm.getSchemaName(), var.complexType);
+                    ++countNonString;
+                }
+            } else
+                ++countNonString;
         }
 
         if (countString > 0 && (countNonString > 0 || countString > 1)) {
@@ -812,7 +846,25 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private static void resetDiscriminatorProperty(final CodegenModel cm) {
         for (final CodegenProperty var : cm.vars) {
             var.isDiscriminator = false;
+            var.vendorExtensions.remove("x-discriminator-enum-variant");
         }
+    }
+
+    private String findEnumVariant(final CodegenModel enumModel, final String value) {
+        if (enumModel == null || enumModel.allowableValues == null) {
+            return null;
+        }
+        final List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumModel.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return null;
+        }
+        // enumVars values are quoted string literals
+        final String quoted = toEnumValue(value, "String");
+        return enumVars.stream()
+                .filter(v -> quoted.equals(v.get("value")))
+                .map(v -> (String) v.get("name"))
+                .findFirst()
+                .orElse(null);
     }
 
     private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {
