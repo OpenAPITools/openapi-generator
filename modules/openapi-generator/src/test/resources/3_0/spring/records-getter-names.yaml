@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Records with property names that look like getters
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Getter:
+      type: object
+      required:
+        - getName
+      properties:
+        getName:
+          type: string
+          minLength: 2
+    Tiny:
+      type: object
+      required:
+        - get
+      properties:
+        get:
+          type: string
+    Upper:
+      type: object
+      required:
+        - Get
+      properties:
+        Get:
+          type: string
+    Working:
+      type: object
+      required:
+        - geT
+        - isActive
+        - hasX
+        - setY
+        - GET
+      properties:
+        geT:
+          type: string
+          minLength: 2
+        isActive:
+          type: string
+        hasX:
+          type: string
+        setY:
+          type: string
+        GET:
+          type: string

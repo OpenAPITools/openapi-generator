@@ -10249,4 +10249,453 @@ public class SpringCodegenTest {
                 "private List<@NotNull @NotEmpty @Valid Stubb> listRef",
                 "private List<@NotNull @NotEmpty @Valid SampleModelListInlineInner>");
     }
+
+    private static final String RECORDS_SPEC = "src/test/resources/3_0/spring/records.yaml";
+    private static final String RECORDS_FIELDS_SPEC = "src/test/resources/3_0/spring/records-fields.yaml";
+
+    private Map<String, File> generateRecords(String spec, Map<String, Object> extraProperties) throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_RECORDS, "true");
+        additionalProperties.putAll(extraProperties);
+        return generateFromContract(spec, SPRING_BOOT, additionalProperties);
+    }
+
+    private static String sourceOf(File file) throws IOException {
+        return Files.readString(file.toPath());
+    }
+
+    private static org.assertj.core.api.AbstractStringAssert<?> assertSource(Map<String, File> files, String name) throws IOException {
+        // JavaFileAssert parses with the shared JavaParser language level, which cannot read records
+        assertThat(files).containsKey(name);
+        return assertThat(sourceOf(files.get(name)));
+    }
+
+    @Test
+    public void useRecordsOffGeneratesClasses() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_SPEC, SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .isNormalClass()
+                .fileContains("public class Pet {", "private JsonNullable<String> nickname = JsonNullable.<String>undefined();")
+                .fileDoesNotContain("public record Pet(");
+    }
+
+    @Test
+    public void useRecordsGeneratesPlainModelsAsRecords() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        assertSource(files, "Pet.java")
+                .contains(
+                        "public record Pet(",
+                        "@NotNull @Size(min = 2)",
+                        "@Schema(name = \"name\", requiredMode = Schema.RequiredMode.REQUIRED)",
+                        "@JsonProperty(\"name\")",
+                        "String name,",
+                        "@JsonInclude(JsonInclude.Include.NON_NULL)",
+                        "@Nullable String tag,",
+                        "@Schema(name = \"nickname\", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)",
+                        "JsonNullable<String> nickname,",
+                        "Integer age,",
+                        "@Valid",
+                        "@Nullable Owner owner,",
+                        "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)",
+                        "@Nullable OffsetDateTime born",
+                        "* @param name Get name",
+                        "@Schema(name = \"Pet\", description = \"A pet with an owner\")")
+                .doesNotContain("public class Pet", "public Pet()", "setName(", "getName(", "toIndentedString",
+                        "serialVersionUID");
+        assertSource(files, "Owner.java")
+                .contains("public record Owner(", "@jakarta.validation.constraints.Email", "Long id,");
+        // enums are not touched
+        JavaFileAssert.assertThat(files.get("PetKind.java")).fileContains("public enum PetKind");
+        // the nested inline enum stays inside the record
+        assertSource(files, "Pet.java")
+                .contains("public enum StatusEnum {", "StatusEnum status,");
+    }
+
+    @Test
+    public void useRecordsCompactConstructorMirrorsFieldInitialisers() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of());
+        String defaults = sourceOf(files.get("Defaults.java"));
+
+        // every branch of the field declaration in pojo.mustache, as the compact constructor line
+        Map<String, String> expected = new java.util.LinkedHashMap<>();
+        expected.put("reqString", "reqString = \"x\";");
+        expected.put("reqNullable", "reqNullable = JsonNullable.<String>undefined();");
+        expected.put("reqList", "reqList = new ArrayList<>();");
+        expected.put("optInt", "optInt = 7;");
+        expected.put("optLong", "optLong = 8l;");
+        expected.put("optBool", "optBool = true;");
+        expected.put("optDouble", "optDouble = 1.5d;");
+        expected.put("optDecimal", "optDecimal = new BigDecimal(\"2.5\");");
+        expected.put("optString", "optString = \"abc\";");
+        expected.put("optDate", "optDate = LocalDate.parse(");
+        expected.put("optInline", "optInline = OptInlineEnum.TWO;");
+        expected.put("nullablePlain", "nullablePlain = JsonNullable.<String>undefined();");
+        expected.put("nullableDefault", "nullableDefault = JsonNullable.<String>undefined();");
+        expected.put("nullableList", "nullableList = JsonNullable.<List<String>>undefined();");
+        expected.put("listPlain", "listPlain = new ArrayList<>();");
+        expected.put("listDefault", "listDefault = new ArrayList<>(Arrays.asList(\"a\", \"b\"));");
+        expected.put("listEmptyDefault", "listEmptyDefault = new ArrayList<>();");
+        expected.put("setUnique", "setUnique = new LinkedHashSet<>();");
+        expected.put("mapPlain", "mapPlain = new HashMap<>();");
+        expected.put("inlineEnumList", "inlineEnumList = new ArrayList<>();");
+        expected.forEach((name, line) -> {
+            assertThat(defaults).as(name).contains("if (" + name + " == null) {");
+            assertThat(defaults).as(name).contains("      " + line);
+        });
+        // no initialiser in the class: no branch in the record
+        assertThat(defaults).doesNotContain("if (plain == null)", "if (optColor == null)");
+        assertThat(defaults).contains("implements Marker {");
+        // the setter annotation of the class moves to the component
+        assertThat(defaults).contains("@JsonDeserialize(as = LinkedHashSet.class)");
+    }
+
+    @Test
+    public void useRecordsContainerDefaultToNull() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of(CONTAINER_DEFAULT_TO_NULL, "true"));
+        String defaults = sourceOf(files.get("Defaults.java"));
+
+        assertThat(defaults).doesNotContain("if (listPlain == null)", "if (setUnique == null)", "if (mapPlain == null)");
+        assertThat(defaults).contains("if (listDefault == null)", "listDefault = new ArrayList<>(Arrays.asList(\"a\", \"b\"));");
+        assertThat(defaults).contains("if (nullableList == null)");
+    }
+
+    @Test
+    public void useRecordsWithoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        assertSource(files, "Pet.java")
+                .contains("@Nullable String nickname,", "if (age == null) {")
+                .doesNotContain("JsonNullable", "if (nickname == null)");
+    }
+
+    @Test
+    public void useRecordsHasOnlyTheCanonicalConstructor() throws IOException {
+        for (Map<String, Object> options : List.<Map<String, Object>>of(
+                Map.of(),
+                Map.of(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, "true", GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "true"),
+                Map.of(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, "false", GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false"))) {
+            Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, options);
+            for (String name : List.of("Defaults.java", "AllRequired.java", "NoneRequired.java")) {
+                assertThat(sourceOf(files.get(name)))
+                        .as(name + " with " + options)
+                        .doesNotContain("Constructor with only required parameters", "Constructor with all args")
+                        .doesNotContainPattern("public " + name.replace(".java", "") + "\\(");
+            }
+            assertThat(sourceOf(generateRecords(RECORDS_SPEC, options).get("Pet.java")))
+                    .doesNotContainPattern("public Pet\\(");
+        }
+    }
+
+    private static String specWithProperties(int count) {
+        StringBuilder spec = new StringBuilder("openapi: 3.0.3\ninfo:\n  title: many\n  version: 1.0.0\n"
+                + "paths:\n  /many:\n    post:\n      operationId: many\n      requestBody:\n"
+                + "        content:\n          application/json:\n            schema:\n"
+                + "              $ref: '#/components/schemas/Many'\n      responses:\n        '200':\n          description: ok\n"
+                + "components:\n  schemas:\n    Many:\n      type: object\n      properties:\n");
+        for (int i = 0; i < count; i++) {
+            spec.append("        p").append(i).append(":\n          type: string\n");
+        }
+        return spec.toString();
+    }
+
+    @Test
+    public void useRecordsLimitsTheNumberOfComponents() throws IOException {
+        Path spec = Files.createTempFile("many", ".yaml");
+        Files.writeString(spec, specWithProperties(250));
+        assertThat(sourceOf(generateRecords(spec.toString(), Map.of()).get("Many.java"))).contains("public record Many(");
+
+        Files.writeString(spec, specWithProperties(251));
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertThat(sourceOf(generateRecords(spec.toString(), Map.of()).get("Many.java")))
+                        .contains("public class Many {").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Many' is generated as a class: it has more than 250 properties");
+    }
+
+    @Test
+    public void useRecordsFollowsAliasesOfParameterSchemas() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-aliases.yaml", Map.of());
+                // direct alias, two-link chain, array items, map value, content, header, allOf member,
+                // array property of a parameter model, additionalProperties, alias of an array alias
+                for (String name : List.of("RA", "RB", "RC", "RD", "RE", "RF", "RG", "RH", "RI", "RJ", "ParamModel")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // same shape, reachable only through a request body
+                assertThat(sourceOf(files.get("Ctl.java"))).contains("public record Ctl(");
+                // aliases are not models: no file
+                assertThat(files).doesNotContainKeys("AliasA.java", "AliasB1.java", "AliasB2.java", "ArrAliasJ.java");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'RA' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RB' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RJ' is generated as a class: it is bound from request parameters");
+        // aliases get no decision and no log line
+        assertThat(messages).noneMatch(m -> m.contains("model 'Alias") || m.contains("model 'ArrAlias")
+                || m.contains("model 'ArrBase") || m.contains("model 'ApHolder") || m.contains("model 'Ctl'"));
+    }
+
+    @Test
+    public void useRecordsKeepsModelsWithTheFailNullPolicyAsClasses() throws IOException {
+        // from the option: every optional non-nullable property gets FAIL
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of(
+                        GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+                JavaFileAssert.assertThat(files.get("Defaults.java")).isNormalClass();
+                // the explicit per-property SKIP wins over the option
+                assertThat(sourceOf(files.get("SkipExt.java"))).contains("public record SkipExt(", "@JsonSetter(nulls = Nulls.SKIP)");
+                JavaFileAssert.assertThat(files.get("FailExt.java")).isNormalClass();
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'FailExt' is generated as a class: property 's' uses the FAIL null policy");
+        assertThat(messages).anyMatch(m -> m.startsWith("useRecords: model 'Defaults' is generated as a class: property '")
+                && m.endsWith("' uses the FAIL null policy"));
+
+        // from the per-property extension alone
+        Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of());
+        JavaFileAssert.assertThat(files.get("FailExt.java")).isNormalClass();
+        assertThat(sourceOf(files.get("Defaults.java"))).contains("public record Defaults(");
+
+        // SKIP from the option keeps records
+        Map<String, File> skip = generateRecords(RECORDS_FIELDS_SPEC, Map.of(
+                GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+        assertThat(sourceOf(skip.get("Defaults.java"))).contains("public record Defaults(", "@JsonSetter(nulls = Nulls.SKIP)");
+    }
+
+    @Test
+    public void useRecordsKeepsParameterObjectsAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-parameters.yaml", Map.of());
+                for (String name : List.of("QDirect", "QNested", "QDeep", "QInArray", "QInMap", "QItem", "QComponent",
+                        "QWrapped", "QContent", "QPathLevel", "Both")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                assertThat(sourceOf(files.get("BodyOnly.java"))).contains("public record BodyOnly(");
+                assertThat(sourceOf(files.get("BodySub.java"))).contains("public record BodySub(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'QDirect' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'QNested' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Both' is generated as a class: it is bound from request parameters");
+        assertThat(messages).noneMatch(m -> m.contains("model 'BodyOnly'") || m.contains("model 'BodySub'"));
+    }
+
+    @Test
+    public void useRecordsKeepsOtherModelsAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of());
+                JavaFileAssert.assertThat(files.get("Car.java")).isNormalClass().extendsClass("Vehicle");
+                JavaFileAssert.assertThat(files.get("Vehicle.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("Counters.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("Circle.java")).isNormalClass().implementsInterfaces("Shape");
+                JavaFileAssert.assertThat(files.get("Shape.java")).isInterface();
+                JavaFileAssert.assertThat(files.get("Square.java")).isNormalClass();
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
+                "useRecords: model 'Vehicle' is generated as a class: it has child models",
+                "useRecords: model 'Counters' is generated as a class: it has additionalProperties",
+                "useRecords: model 'Circle' is generated as a class: it is a member of a oneOf interface",
+                "useRecords: model 'Square' is generated as a class: it is a member of a oneOf interface");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'"));
+    }
+
+    @Test
+    public void useRecordsKeepsByteArrayAndReservedNameModelsAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of());
+                JavaFileAssert.assertThat(files.get("Blob.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("Reserved.java")).isNormalClass();
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Blob' is generated as a class: property 'data' is a byte[]",
+                "useRecords: model 'Reserved' is generated as a class: property 'hashCode' cannot be a record component name");
+    }
+
+    @Test
+    public void useRecordsKeepsModelsWithGetterLikePropertyNamesAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-getter-names.yaml", Map.of());
+                JavaFileAssert.assertThat(files.get("Getter.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("Tiny.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("Upper.java")).isNormalClass();
+                // names that do not look like a getter to the bean validator stay records
+                assertSource(files, "Working.java").contains("public record Working(", "String geT,", "String isActive,", "String hasX,", "String setY,", "String GET")
+                        .doesNotContain("public class Working");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Getter' is generated as a class: property 'getName' has a Java name that starts with 'get'",
+                "useRecords: model 'Tiny' is generated as a class: property 'get' has a Java name that starts with 'get'",
+                "useRecords: model 'Upper' is generated as a class: property 'get' has a Java name that starts with 'get'");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Working'"));
+    }
+
+    @Test
+    public void useRecordsCarriesTheAnnotationsOnListItemsLikeTheClassField() throws IOException {
+        Map<String, File> files = generateRecords("src/test/resources/3_0/issue_23705.yaml",
+                Map.of(USE_BEANVALIDATION, "true"));
+
+        // the type arguments are rendered by the same code as the class's field, including x-items-x-field-extra-annotation
+        assertSource(files, "SampleModel.java").contains(
+                "public record SampleModel(",
+                "List<@NotNull @Size(max=50) String> listString,",
+                "List<@Min(0)Integer> listInteger,",
+                "List<@Valid Stubb> listSample,",
+                "List<@Size(max=10) String> listCode,",
+                "List<@NotEmpty @Valid Stubb> listRef,",
+                "List<@NotEmpty @Valid SampleModelListInlineInner> listInline");
+    }
+
+    @Test
+    public void useRecordsMasksPasswordInToString() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of());
+
+        assertSource(files, "Account.java")
+                .contains("public record Account(", "public String toString() {",
+                        "+ \", password=\" + \"*\"", "+ \"username=\" + username");
+        // no override when there is no password
+        assertSource(files, "Owner.java").doesNotContain("toString");
+    }
+
+    @Test
+    public void useRecordsSerializableModel() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(SERIALIZABLE_MODEL, "true"));
+
+        assertSource(files, "Owner.java")
+                .contains(") implements Serializable {", "private static final long serialVersionUID = 1L;");
+    }
+
+    @Test
+    public void useRecordsWithJspecify() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC,
+                Map.of(USE_SPRING_BOOT4, "true", USE_JSPECIFY, "true"));
+
+        assertSource(files, "Owner.java")
+                .contains("public record Owner(", "@Nullable String email")
+                .contains("import org.jspecify.annotations.Nullable;");
+    }
+
+    @Test
+    public void useRecordsWithSpringBoot4AndJackson3() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"));
+
+        assertSource(files, "Pet.java")
+                .contains("public record Pet(", "nickname = JsonNullable.<String>undefined();")
+                .contains("import jakarta.validation.Valid;");
+    }
+
+    @Test
+    public void useRecordsIsRefusedWithSpringBoot2() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(USE_RECORDS, "true");
+        codegen.additionalProperties().put(USE_SPRING_BOOT3, "false");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("useRecords requires Spring Boot 3 or 4");
+    }
+
+    @DataProvider(name = "useRecordsRefusedCombinations")
+    public Object[][] useRecordsRefusedCombinations() {
+        return new Object[][]{
+                {HATEOAS, "true", "hateoas"},
+                {GENERATE_BUILDERS, "true", "generateBuilders"},
+                {CodegenConstants.WITH_XML, "true", "withXml"},
+                {USE_OPTIONAL, "true", "useOptional"},
+        };
+    }
+
+    @Test(dataProvider = "useRecordsRefusedCombinations")
+    public void useRecordsIsRefusedWith(String option, String value, String messagePart) {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(USE_RECORDS, "true");
+        codegen.additionalProperties().put(option, value);
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("useRecords cannot be combined with")
+                .hasMessageContaining(messagePart);
+    }
+
+    @Test
+    public void useRecordsIsRefusedWithLombok() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(USE_RECORDS, "true");
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("useRecords cannot be combined with Lombok");
+    }
+
+    @Test
+    public void useRecordsIsAnOptionOfSpringButNotOfJavaCamel() {
+        assertThat(new SpringCodegen().cliOptions()).anyMatch(o -> USE_RECORDS.equals(o.getOpt()));
+        assertThat(new org.openapitools.codegen.languages.JavaCamelServerCodegen().cliOptions())
+                .noneMatch(o -> USE_RECORDS.equals(o.getOpt()));
+    }
+
+    @Test
+    public void useRecordsIsRefusedByJavaCamel() {
+        org.openapitools.codegen.languages.JavaCamelServerCodegen codegen =
+                new org.openapitools.codegen.languages.JavaCamelServerCodegen();
+        codegen.additionalProperties().put(USE_RECORDS, "true");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("useRecords is not supported by the java-camel generator");
+    }
+
+    @Test
+    public void javaCamelStillGeneratesClasses() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java-camel")
+                .setValidateSpec(false)
+                .setInputSpec(RECORDS_SPEC)
+                .setOutputDir(output.getAbsolutePath());
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity(), (a, b) -> a));
+
+        JavaFileAssert.assertThat(files.get("Pet.java")).isNormalClass().fileDoesNotContain("record");
+    }
 }

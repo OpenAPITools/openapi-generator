@@ -63,6 +63,11 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
     }
 
     @Override
+    protected boolean isRecordsSupported() {
+        return false;
+    }
+
+    @Override
     public String getHelp() {
         return "Generates a Java Camel server (beta).";
     }
@@ -71,6 +76,7 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
         super();
         templateDir = "java-camel-server";
         addCliOptions();
+        removeOption(USE_RECORDS);
         artifactId = "openapi-camel";
         annotationLibrary = AnnotationLibrary.SWAGGER2;
     }
