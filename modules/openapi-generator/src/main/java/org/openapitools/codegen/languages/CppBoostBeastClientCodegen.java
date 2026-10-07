@@ -1,45 +1,42 @@
 package org.openapitools.codegen.languages;
 
-
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
+public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
 
     public static final String DEFAULT_PACKAGE_NAME = "CppBoostBeastOpenAPIClient";
-    private static final String X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE =
-            "x-codegen-default-response-is-return-compatible";
-    private static final String X_CODEGEN_EMPTY_BODY_TOLERANT = "x-codegen-empty-body-tolerant";
-    private static final String X_CODEGEN_HAS_DEFAULT_RESPONSE = "x-codegen-has-default-response";
-    private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
-    private static final String X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER =
-            "x-codegen-is-optional-query-parameter";
-    private static final String X_CODEGEN_QUERY_COLLECTION_DELIMITER =
-            "x-codegen-query-collection-delimiter";
-    private static final String X_CODEGEN_QUERY_COLLECTION_MULTI =
-            "x-codegen-query-collection-multi";
-    private static final String X_CODEGEN_QUERY_MAP_EXPLODED =
-            "x-codegen-query-map-exploded";
-    private static final String X_CODEGEN_QUERY_MAP_DEEP_OBJECT =
-            "x-codegen-query-map-deep-object";
-    private static final String X_CODEGEN_RESPONSE_RANGE = "x-codegen-response-range";
-    private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
+    public static final String EXPORT_MACRO = "exportMacro";
+    private static final String HAS_EXPORT_MACRO = "hasExportMacro";
+
+
+    /** SSE schema interpretation mode. */
+    private String sseSchemaMode = "representation";
+    private static final String SSE_SCHEMA_MODE_REPRESENTATION = "representation";
+    private static final String SSE_SCHEMA_MODE_JSON_EVENT_DATA = "jsonEventData";
+    /** Explicit conditional-streaming contracts, keyed by operationId. */
+    private Set<String> sseOperationIds = Collections.emptySet();
+    private Map<String, String> sseRequestPropertyMappings = Collections.emptyMap();
+    private Map<String, String> sseEventTypeMappings = Collections.emptyMap();
+    private boolean inferConditionalSseOperations = true;
+
+
+
+
+
     protected String packageName = DEFAULT_PACKAGE_NAME;
+    private String exportMacro = "";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -53,26 +50,73 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return "Generates a cpp-boost-beast client.";
     }
 
+
+    // ========================================================================
+    // OAS 3.1 dialect and schema policy
+    // ========================================================================
+
+
+
     public CppBoostBeastClientCodegen() {
         super();
+        openapiNormalizer.put("NORMALIZER_CLASS", CppBoostBeastOpenAPINormalizer.class.getName());
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
+                .includeGlobalFeatures(
                         GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
+                        GlobalFeature.MultiServer,
+                        // Preserve callback, webhook, and link metadata visibly;
+                        // an outbound client does not generate inbound listeners.
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects
                 )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.not,
+                        SchemaSupportFeature.Union
                 )
                 .includeDataTypeFeatures(
-                        DataTypeFeature.AnyType,
-                        DataTypeFeature.Null
+                        // Destination numeric domains validated by the corpus.
+                        // Floating-point destinations narrow after exact validation;
+                        // non-finite destinations produce representation diagnostics.
+                        DataTypeFeature.Int32,
+                        DataTypeFeature.Int64,
+                        DataTypeFeature.Float,
+                        DataTypeFeature.Double,
+                        DataTypeFeature.String,
+                        DataTypeFeature.Boolean,
+                        DataTypeFeature.Enum,
+                        DataTypeFeature.Array,
+                        DataTypeFeature.Maps,
+                        DataTypeFeature.Object,
+                        DataTypeFeature.Null,
+                        DataTypeFeature.AnyType
                 )
-                .excludeParameterFeatures(
+                .excludeDataTypeFeatures(
+                        // No decimal destination domain exists (format:
+                        // decimal maps to double; exact decimals are not
+                        // a declared C++ type) — the base set lists it.
+                        DataTypeFeature.Decimal,
+                        // Formats are annotations by default. String-domain
+                        // formats map to std::string, so the generator does not
+                        // advertise format-specific destination types.
+                        DataTypeFeature.Date,
+                        DataTypeFeature.DateTime,
+                        DataTypeFeature.Uuid,
+                        DataTypeFeature.Byte,
+                        DataTypeFeature.Binary,
+                        DataTypeFeature.Password
+                )
+                // Form-style cookie parameters are joined into the Cookie header.
+                .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
         );
@@ -92,30 +136,115 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package and library name.", DEFAULT_PACKAGE_NAME);
+        addOption(EXPORT_MACRO,
+                "C++ export macro placed before public classes and functions. When non-empty,"
+                + " ApiExport.h is generated for Windows DLL export/import handling.",
+                exportMacro);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
                 this.apiPackage);
+        CliOption formatAssertionOption = new CliOption("formatAssertionPolicy",
+                "Format handling in composition branch matching. Only 'annotation'"
+                + " is supported: format metadata never affects match counts.");
+        formatAssertionOption.defaultValue(FORMAT_ASSERTION_POLICY_ANNOTATION);
+        formatAssertionOption.addEnum(FORMAT_ASSERTION_POLICY_ANNOTATION,
+                "Formats are annotations and do not affect validation");
+        cliOptions.add(formatAssertionOption);
+
+        CliOption sseSchemaModeOption = new CliOption("sseSchemaMode",
+                "SSE schema interpretation mode for text/event-stream responses."
+                + " 'representation' (default): the response schema describes the"
+                + " media representation; callbacks receive an owning SseEvent with"
+                + " raw data, event, id, and retry metadata. 'jsonEventData': decode"
+                + " each complete event data payload against the response schema and"
+                + " pass both the typed value and SseEvent metadata to the callback."
+                + " Use x-sse-event-data-schema for per-operation typed decoding.");
+        sseSchemaModeOption.defaultValue(SSE_SCHEMA_MODE_REPRESENTATION);
+        sseSchemaModeOption.addEnum(SSE_SCHEMA_MODE_REPRESENTATION,
+                "Schema describes the media representation; callback receives SseEvent");
+        sseSchemaModeOption.addEnum(SSE_SCHEMA_MODE_JSON_EVENT_DATA,
+                "Schema describes each JSON event data payload");
+        cliOptions.add(sseSchemaModeOption);
+        cliOptions.add(new CliOption("sseOperationIds",
+                "Comma-separated operationIds whose JSON request body conditionally"
+                + " selects text/event-stream (default request property: stream)."));
+        cliOptions.add(new CliOption("sseRequestPropertyMappings",
+                "Comma-separated operationId=property mappings for the boolean request"
+                + " property that selects SSE."));
+        cliOptions.add(new CliOption("sseEventTypeMappings",
+                "Comma-separated operationId=Model mappings for the JSON schema of each"
+                + " SSE event data payload."));
+        CliOption inferConditionalSseOption = CliOption.newBoolean(
+                "inferConditionalSseOperations",
+                "Infer conditional SSE for dual JSON/SSE operations only when the"
+                + " request selector and event model are unambiguous. Enabled by default.");
+        inferConditionalSseOption.defaultValue(Boolean.TRUE.toString());
+        cliOptions.add(inferConditionalSseOption);
+
+        CliOption compileWithValidationOption = new CliOption("compileWithValidation",
+                "Emit schema-validation IR and kValidateOnDecode=true in generated"
+                + " ValidationTypes.h (default). Set to false to omit the IR for"
+                + " high-throughput clients. Representation diagnostics (non-finite"
+                + " destinations, integer range, required properties) remain active.");
+
+        compileWithValidationOption.defaultValue(Boolean.TRUE.toString());
+        cliOptions.add(compileWithValidationOption);
+        CliOption tolerateNonNullableNullsOption = new CliOption(
+                "tolerateNonNullableNulls",
+                "Treat explicit JSON null values as absent for generated model properties"
+                + " whose schemas do not allow null. Enabled by default to tolerate"
+                + " non-conforming server responses while preserving required-key"
+                + " presence checks; set to false for strict schema decoding."
+                + " Non-null values remain fully validated.");
+        tolerateNonNullableNullsOption.defaultValue(Boolean.TRUE.toString());
+        cliOptions.add(tolerateNonNullableNullsOption);
+        CliOption preserveAdditionalPropertiesOption = new CliOption(
+                "preserveAdditionalProperties",
+                "Retain undeclared JSON object members in generated object models and"
+                + " re-emit them. Composition validation accepts such members while"
+                + " decoding; set to false for strict additionalProperties handling.");
+        preserveAdditionalPropertiesOption.defaultValue(Boolean.FALSE.toString());
+        cliOptions.add(preserveAdditionalPropertiesOption);
 
 
+        supportingFiles.add(new SupportingFile("validation-types.mustache", "model", "ValidationTypes.h"));
+        supportingFiles.add(new SupportingFile("NullableField.h.mustache", "model", "NullableField.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("http-client-header.mustache", "api", "HttpClient.h"));
         supportingFiles.add(new SupportingFile("http-client-impl-header.mustache", "api", "HttpClientImpl.h"));
         supportingFiles.add(new SupportingFile("http-client-impl-source.mustache", "api", "HttpClientImpl.cpp"));
         supportingFiles.add(new SupportingFile("anytype-header.mustache", "model", "AnyType.h"));
+        supportingFiles.add(new SupportingFile("MultipartWireTest.cpp.mustache", "test", "MultipartWireTest.cpp"));
+
+        // Header-only schema-validation support. The templates place their
+        // implementation types under the configured model namespace.
+        supportingFiles.add(new SupportingFile("oas31_exact_number.mustache", "model", "Oas31ExactNumber.h"));
+        supportingFiles.add(new SupportingFile(
+                "oas31_exact_number_source.mustache", "model", "Oas31ExactNumber.cpp"));
+        supportingFiles.add(new SupportingFile("oas31_schema_ir.mustache", "model", "Oas31SchemaIr.h"));
+        supportingFiles.add(new SupportingFile("oas31_deep_equal.mustache", "model", "Oas31DeepEqual.h"));
+        supportingFiles.add(new SupportingFile("oas31_exact_json.mustache", "model", "Oas31ExactJson.h"));
+        supportingFiles.add(new SupportingFile("oas31_validator.mustache", "model", "Oas31Validator.h"));
+        // Generation-time IR tables and optional bounded source chunks. Content
+        // is rendered from supporting-file data.
+        supportingFiles.add(new SupportingFile("oas31_schema_ir_header.mustache", "model", "Oas31SchemaRegistry.h"));
+        supportingFiles.add(new SupportingFile("oas31_schema_ir_source.mustache", "model", "schema_ir.generated.cpp"));
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
+                Arrays.asList("int", "char", "bool", "long", "float", "double", "std::int32_t", "std::int64_t"));
 
         super.typeMapping = new HashMap<String, String>();
         typeMapping.put("date", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("string", "std::string");
-        typeMapping.put("integer", "int32_t");
-        typeMapping.put("long", "int64_t");
+        typeMapping.put("integer", "std::int32_t");
+        typeMapping.put("long", "std::int64_t");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
+        // uniqueItems constrains JSON arrays; it does not change their ordered wire representation.
+        typeMapping.put("set", "std::vector");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "boost::json::value");
@@ -123,7 +252,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
-        
+
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
@@ -133,54 +262,73 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("boost::json::value", "#include <boost/json.hpp>");
         importMapping.put("std::nullptr_t", "#include <cstddef>");
         importMapping.put("Null", "#include <cstddef>");
+        importMapping.put("std::optional", "#include <optional>");
+        importMapping.put("std::variant", "#include <variant>");
+        importMapping.put("std::monostate", "#include <variant>");
+        importMapping.put("std::shared_ptr", "#include <memory>");
         importMapping.put("AnyType", "#include \"AnyType.h\"");
     }
 
 
-    @Override
-    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs)  {
-        // Index all CodegenModels by model name.
-        Map<String, CodegenModel> allModels = getAllModels(objs);
 
-        // Clean interfaces of ambiguity
-        for (Map.Entry<String, CodegenModel> cm : allModels.entrySet()) {
-            if (cm.getValue().interfaces != null && !cm.getValue().interfaces.isEmpty()) {
-                List<String> newIntf = new ArrayList<>(cm.getValue().interfaces);
 
-                for (String intf : allModels.get(cm.getKey()).interfaces) {
-                    if (allModels.get(intf).interfaces != null && !allModels.get(intf).interfaces.isEmpty()) {
-                        for (String intfInner : allModels.get(intf).interfaces) {
-                            newIntf.remove(intfInner);
-                        }
-                    }
-                }
-                cm.getValue().interfaces = newIntf;
-            }
+
+    private static Set<String> parseNameSet(Object rawValue, String optionName) {
+        if (rawValue == null || rawValue.toString().trim().isEmpty()) {
+            return Collections.emptySet();
         }
-
-        objs = super.updateAllModels(objs);
-        return objs;
+        Collection<?> values = rawValue instanceof Collection
+                ? (Collection<?>) rawValue
+                : Arrays.asList(rawValue.toString().split(",", -1));
+        Set<String> result = new LinkedHashSet<>();
+        for (Object value : values) {
+            String name = value == null ? "" : value.toString().trim();
+            if (name.isEmpty()) {
+                throw new IllegalArgumentException(optionName
+                        + " contains an empty operationId");
+            }
+            result.add(name);
+        }
+        return Collections.unmodifiableSet(result);
     }
 
-    /**
-     * Camelize the method name of the getter and setter, but keep underscores at the front
-     *
-     * @param name string to be camelized
-     * @return Camelized string
-     */
-    @Override
-    public String getterAndSetterCapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    private static Map<String, String> parseNameMappings(
+            Object rawValue, String optionName) {
+        if (rawValue == null || rawValue.toString().trim().isEmpty()) {
+            return Collections.emptyMap();
         }
-
-        name = toVarName(name);
-
-        if (name.startsWith("_")) {
-            return "_" + camelize(name);
+        Map<String, String> result = new LinkedHashMap<>();
+        if (rawValue instanceof Map) {
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) rawValue).entrySet()) {
+                putNameMapping(result, entry.getKey(), entry.getValue(), optionName);
+            }
+        } else {
+            for (String mapping : rawValue.toString().split(",", -1)) {
+                int separator = mapping.indexOf('=');
+                if (separator <= 0 || separator == mapping.length() - 1
+                        || mapping.indexOf('=', separator + 1) >= 0) {
+                    throw new IllegalArgumentException(optionName
+                            + " entries must use operationId=value syntax: " + mapping);
+                }
+                putNameMapping(result, mapping.substring(0, separator),
+                        mapping.substring(separator + 1), optionName);
+            }
         }
+        return Collections.unmodifiableMap(result);
+    }
 
-        return camelize(name);
+    private static void putNameMapping(Map<String, String> target,
+            Object rawKey, Object rawValue, String optionName) {
+        String key = rawKey == null ? "" : rawKey.toString().trim();
+        String value = rawValue == null ? "" : rawValue.toString().trim();
+        if (key.isEmpty() || value.isEmpty()) {
+            throw new IllegalArgumentException(optionName
+                    + " entries require non-empty operationId and value");
+        }
+        if (target.putIfAbsent(key, value) != null) {
+            throw new IllegalArgumentException(optionName
+                    + " contains duplicate operationId: " + key);
+        }
     }
 
     @Override
@@ -192,404 +340,90 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             throw new IllegalArgumentException("packageName must not be blank");
         }
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
-        additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-    }
-
-    /**
-     * Location to write model files. You can use the modelPackage() as defined
-     * when the class is instantiated
-     */
-    @Override
-    public String modelFileFolder() {
-        return (outputFolder + "/model").replace("/", File.separator);
-    }
-
-    /**
-     * Location to write api files. You can use the apiPackage() as defined when
-     * the class is instantiated
-     */
-    @Override
-    public String apiFileFolder() {
-        return (outputFolder + "/api").replace("/", File.separator);
-    }
-
-    @Override
-    public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
+        Object configuredExportMacro = additionalProperties.get(EXPORT_MACRO);
+        exportMacro = configuredExportMacro == null
+                ? "" : configuredExportMacro.toString().trim();
+        if (!exportMacro.isEmpty()
+                && !exportMacro.matches("[A-Za-z_][A-Za-z0-9_]*")) {
+            throw new IllegalArgumentException(
+                    "exportMacro must be empty or a valid C preprocessor identifier: "
+                            + exportMacro);
+        }
+        additionalProperties.put(EXPORT_MACRO, exportMacro);
+        additionalProperties.put(HAS_EXPORT_MACRO, !exportMacro.isEmpty());
+        supportingFiles.removeIf(file -> "ApiExport.h".equals(
+                file.getDestinationFilename()));
+        if (!exportMacro.isEmpty()) {
+            String exportPrefix = toPreprocessorIdentifier(packageName);
+            additionalProperties.put("exportDefine", exportPrefix + "_EXPORTS");
+            additionalProperties.put("exportHeaderGuard",
+                    exportPrefix.toUpperCase(Locale.ROOT) + "_API_EXPORT_H_");
+            supportingFiles.add(new SupportingFile(
+                    "api-export.mustache", "api", "ApiExport.h"));
         } else {
-            return "#include \"" + name + ".h\"";
+            additionalProperties.remove("exportDefine");
+            additionalProperties.remove("exportHeaderGuard");
         }
-    }
-
-    @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        CodegenModel codegenModel = super.fromModel(name, model);
-        if (codegenModel == null) {
-            return null;
-        }
-
-        Set<String> oldImports = codegenModel.imports;
-        codegenModel.imports = new HashSet<>();
-        for (String imp : oldImports) {
-            String newImp = toModelImport(imp);
-            if (!newImp.isEmpty()) {
-                codegenModel.imports.add(newImp);
-            }
-        }
-        // Every model header declares vector conversion helpers.
-        codegenModel.imports.add("#include <vector>");
-        addContainerPropertyNames(codegenModel.vars);
-        return codegenModel;
-    }
-
-    @Override
-    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
-        CodegenParameter codegenParameter = super.fromParameter(parameter, imports);
-        if (!codegenParameter.isQueryParam) {
-            return codegenParameter;
-        }
-
-        if (!codegenParameter.required) {
-            codegenParameter.vendorExtensions.put(X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER, true);
-        }
-        if (!codegenParameter.isArray && !codegenParameter.isMap) {
-            return codegenParameter;
-        }
-
-        // OAS 3 query parameters default to form/explode=true. DefaultCodegen
-        // currently represents an omitted style as CSV, so normalize it here.
-        boolean usesExplodedFormStyle = !Boolean.FALSE.equals(parameter.getExplode())
-                && (parameter.getStyle() == null || parameter.getStyle() == Parameter.StyleEnum.FORM);
-        if (codegenParameter.isMap) {
-            if (parameter.getStyle() == Parameter.StyleEnum.DEEPOBJECT) {
-                codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_MAP_DEEP_OBJECT, true);
-            } else if (usesExplodedFormStyle) {
-                codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_MAP_EXPLODED, true);
+        // Preserve the historical validation precedence: formatAssertion,
+        // then sseSchemaMode, then the remaining shared options.
+        validateFormatAssertionPolicyOption();
+        // Configure whether SSE schemas describe the wire representation or the
+        // parsed JSON event data. Unknown values use the documented default.
+        if (additionalProperties.containsKey("sseSchemaMode")) {
+            String raw = additionalProperties.get("sseSchemaMode").toString().trim();
+            if (raw.equalsIgnoreCase(SSE_SCHEMA_MODE_JSON_EVENT_DATA)) {
+                sseSchemaMode = SSE_SCHEMA_MODE_JSON_EVENT_DATA;
+            } else if (raw.equalsIgnoreCase(SSE_SCHEMA_MODE_REPRESENTATION)) {
+                sseSchemaMode = SSE_SCHEMA_MODE_REPRESENTATION;
             } else {
-                codegenParameter.vendorExtensions.put(
-                        X_CODEGEN_QUERY_COLLECTION_DELIMITER,
-                        queryCollectionDelimiter(parameter.getStyle()));
-            }
-            return codegenParameter;
-        }
-
-        boolean isMulti = codegenParameter.isCollectionFormatMulti || usesExplodedFormStyle;
-        if (isMulti) {
-            codegenParameter.isCollectionFormatMulti = true;
-            codegenParameter.collectionFormat = "multi";
-            codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_COLLECTION_MULTI, true);
-            return codegenParameter;
-        }
-
-        String collectionDelimiter;
-        switch (codegenParameter.collectionFormat) {
-            case "csv":
-                collectionDelimiter = ",";
-                break;
-            case "ssv":
-                collectionDelimiter = "%20";
-                break;
-            case "tsv":
-                collectionDelimiter = "%09";
-                break;
-            case "pipes":
-                collectionDelimiter = "%7C";
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        "Unsupported query collection format: " + codegenParameter.collectionFormat);
-        }
-        codegenParameter.vendorExtensions.put(
-                X_CODEGEN_QUERY_COLLECTION_DELIMITER, collectionDelimiter);
-        return codegenParameter;
-    }
-
-    private String queryCollectionDelimiter(Parameter.StyleEnum style) {
-        if (style == Parameter.StyleEnum.SPACEDELIMITED) {
-            return "%20";
-        }
-        if (style == Parameter.StyleEnum.PIPEDELIMITED) {
-            return "%7C";
-        }
-        return ",";
-    }
-
-    private void addContainerPropertyNames(List<CodegenProperty> properties) {
-        for (CodegenProperty property : properties) {
-            CodegenProperty item = property.items;
-            while (item != null) {
-                item.vendorExtensions.put("x-container-property-name", property.name);
-                item = item.items;
+                throw new IllegalArgumentException("sseSchemaMode must be '"
+                        + SSE_SCHEMA_MODE_REPRESENTATION + "' or '"
+                        + SSE_SCHEMA_MODE_JSON_EVENT_DATA + "': " + raw);
             }
         }
-    }
+        additionalProperties.put("sseSchemaMode", sseSchemaMode);
+        applySharedCppOptions();
 
-    @Override
-    public String toModelFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        return toApiName(name);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        List<CodegenOperation> newOpList = new ArrayList<>();
-
-        for (CodegenOperation op : operationList) {
-            addApiResponseMetadata(op);
-            String path = op.path;
-
-            String[] items = path.split("/", -1);
-            String resourceNameCamelCase = "";
-            for (String item : items) {
-                if (item.length() > 1) {
-                    if (item.matches("^\\{(.*)\\}$")) {
-                        String tmpResourceName = item.substring(1, item.length() - 1);
-                        resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
-                    } else {
-                        resourceNameCamelCase += Character.toUpperCase(item.charAt(0)) + item.substring(1);
-                    }
-                } else if (item.length() == 1) {
-                    resourceNameCamelCase += Character.toUpperCase(item.charAt(0));
-                }
-            }
-            op.path = path.replaceFirst("/$", "");
-
-            op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
-
-            boolean foundInNewList = false;
-            for (CodegenOperation op1 : newOpList) {
-                if (!foundInNewList) {
-                    if (op1.path.equals(op.path)) {
-                        foundInNewList = true;
-                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
-                        if (currentOtherMethodList == null) {
-                            currentOtherMethodList = new ArrayList<>();
-                        }
-                        op.operationIdCamelCase = op1.operationIdCamelCase;
-                        currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
-                    }
-                }
-            }
-            if (!foundInNewList) {
-                newOpList.add(op);
-            }
-        }
-        operations.put("operation", newOpList);
-        return objs;
-    }
-
-    private void addApiResponseMetadata(CodegenOperation operation) {
-        boolean hasDefaultResponse = false;
-        for (CodegenResponse response : operation.responses) {
-            response.vendorExtensions.put(X_CODEGEN_EMPTY_BODY_TOLERANT,
-                    response.isMap || response.isFreeFormObject || response.isAnyType);
-            if (response.isRange()) {
-                response.vendorExtensions.put(
-                        X_CODEGEN_RESPONSE_RANGE, response.code.substring(0, 1));
-            }
-
-            if (response.isDefault) {
-                hasDefaultResponse = true;
-                response.vendorExtensions.put(X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE,
-                        operation.returnType != null && Objects.equals(operation.returnType, response.dataType));
-            }
-        }
-        operation.vendorExtensions.put(X_CODEGEN_HAS_DEFAULT_RESPONSE, hasDefaultResponse);
-    }
-
-    /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
-     *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
-     */
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        String openAPIType = getSchemaType(p);
-
-        if (ModelUtils.isArraySchema(p)) {
-            // Use getItems() directly to handle both OpenAPI 3.0 and 3.1
-            Schema inner = p.getItems();
-            if (inner != null) {
-                return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-            }
-            return "std::vector<boost::json::value>";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            String innerType = inner == null ? "boost::json::value" : getTypeDeclaration(inner);
-            return getSchemaType(p) + "<std::string, " + innerType + ">";
-        } else if (ModelUtils.isByteArraySchema(p)) {
-            return "std::string";
-        } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p)
-                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
-                || languageSpecificPrimitives.contains(openAPIType)) {
-            return toModelName(openAPIType);
-        } else if (ModelUtils.isNullType(p)) {
-            // Handle OpenAPI 3.1 null type
-            return "std::nullptr_t";
-        } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
-            return "boost::json::value";
-        }
-
-        return "std::shared_ptr<" + openAPIType + ">";
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + p.getDefault().toString() + "\"";
+        sseOperationIds = parseNameSet(
+                additionalProperties.get("sseOperationIds"), "sseOperationIds");
+        sseRequestPropertyMappings = parseNameMappings(
+                additionalProperties.get("sseRequestPropertyMappings"),
+                "sseRequestPropertyMappings");
+        sseEventTypeMappings = parseNameMappings(
+                additionalProperties.get("sseEventTypeMappings"),
+                "sseEventTypeMappings");
+        if (additionalProperties.containsKey("inferConditionalSseOperations")) {
+            Object raw = additionalProperties.get("inferConditionalSseOperations");
+            if (raw instanceof Boolean) {
+                inferConditionalSseOperations = (Boolean) raw;
             } else {
-                return "\"\"";
-            }
-        } else if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            } else {
-                return "false";
-            }
-        } else if (ModelUtils.isDateSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + p.getDefault().toString() + "\"";
-            } else {
-                return "\"\"";
-            }
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + p.getDefault().toString() + "\"";
-            } else {
-                return "\"\"";
-            }
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) { // float
-                if (p.getDefault() != null) {
-                    return p.getDefault().toString() + "f";
-                } else {
-                    return "0.0f";
+                String value = raw.toString().trim();
+                if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+                    throw new IllegalArgumentException(
+                            "inferConditionalSseOperations must be true or false: " + value);
                 }
-            } else { // double
-                if (p.getDefault() != null) {
-                    return p.getDefault().toString();
-                } else {
-                    return "0.0";
-                }
-            }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) { // long
-                if (p.getDefault() != null) {
-                    return p.getDefault().toString() + "L";
-                } else {
-                    return "0L";
-                }
-            } else { // integer
-                if (p.getDefault() != null) {
-                    return p.getDefault().toString();
-                } else {
-                    return "0";
-                }
-            }
-        } else if (ModelUtils.isByteArraySchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + p.getDefault().toString() + "\"";
-            } else {
-                return "\"\"";
-            }
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            String innerType = inner == null ? "boost::json::value" : getTypeDeclaration(inner);
-            return "std::map<std::string, " + innerType + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
-            // Use getItems() directly to handle OpenAPI 3.1 JsonSchema
-            Schema inner = p.getItems();
-            String innerType = inner != null ? getTypeDeclaration(inner) : "boost::json::value";
-            return "std::vector<" + innerType + ">()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
-        } else if (ModelUtils.isNullType(p)) {
-            return "nullptr";
-        } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
-            return "boost::json::value()";
-        }
-
-        return "nullptr";
-    }
-    
-    @Override
-    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
-        if (codegenProperty != null) {
-            if (codegenProperty.dataType != null && codegenProperty.dataType.startsWith("std::shared_ptr<")) {
-                return "nullptr";
-            }
-            if ("boost::json::value".equals(codegenProperty.dataType)) {
-                return "boost::json::value()";
+                inferConditionalSseOperations = Boolean.parseBoolean(value);
             }
         }
-        return super.toDefaultValue(codegenProperty, schema);
+        additionalProperties.put("inferConditionalSseOperations",
+                inferConditionalSseOperations);
     }
 
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isArray = parameter.isArray == Boolean.TRUE;
-        boolean isMap = parameter.isMap == Boolean.TRUE;
-        boolean isString = parameter.isString == Boolean.TRUE;
-        parameter.vendorExtensions.put(X_CODEGEN_IS_RAW_BODY,
-                isPrimitiveType || isString || parameter.isByteArray || parameter.isBinary
-                        || "std::string".equals(parameter.dataType));
-
-        if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")
-                && !"boost::json::value".equals(parameter.dataType)
-                && !"std::nullptr_t".equals(parameter.dataType)) {
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
-            parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
-        }
-    }
-
-    /**
-     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
-     * a `Schema` into either language specific types via `typeMapping` or
-     * into complex models if there is not a mapping.
-     *
-     * @return a string value of the type or complex model for this property
-     */
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type = null;
-        String modelName;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-        } else {
-            type = openAPIType;
-        }
-
-        modelName = toModelName(type);
-        return modelName;
-    }
 
     @Override
-    public void updateCodegenPropertyEnum(CodegenProperty var) {
-        // Remove prefix added by DefaultCodegen
-        String originalDefaultValue = var.defaultValue;
-        super.updateCodegenPropertyEnum(var);
-        var.defaultValue = originalDefaultValue;
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
+        return new CppBoostBeastTemplateModelAssembler(
+                sourceOpenApi,
+                webhookPreservation,
+                operationCallbacks,
+                operationLinks,
+                composedKeywordsByModel,
+                sseSchemaMode,
+                sseOperationIds,
+                sseRequestPropertyMappings,
+                sseEventTypeMappings,
+                inferConditionalSseOperations,
+                hasExplicitRootServers).assemble(objs, allModels);
     }
 }

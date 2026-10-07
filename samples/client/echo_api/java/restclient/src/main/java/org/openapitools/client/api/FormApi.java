@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FormApi {
     private ApiClient apiClient;
 
@@ -55,7 +55,6 @@ public class FormApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testFormIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -64,12 +63,15 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integerForm != null)
+        if (integerForm != null) {
             formParams.add("integer_form", integerForm);
-        if (booleanForm != null)
+        }
+        if (booleanForm != null) {
             formParams.add("boolean_form", booleanForm);
-        if (stringForm != null)
+        }
+        if (stringForm != null) {
             formParams.add("string_form", stringForm);
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -83,7 +85,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/integer/boolean/string", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/integer/boolean/string", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -139,7 +141,6 @@ public class FormApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testFormObjectMultipartRequestCreation(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'marker' is set
         if (marker == null) {
             throw new RestClientResponseException("Missing the required parameter 'marker' when calling testFormObjectMultipart", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -152,8 +153,7 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (marker != null)
-            formParams.add("marker", marker);
+        formParams.add("marker", marker);
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -167,7 +167,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/object/multipart", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/object/multipart", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -222,7 +222,6 @@ public class FormApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testFormOneofRequestCreation(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -231,18 +230,24 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (form1 != null)
+        if (form1 != null) {
             formParams.add("form1", form1);
-        if (form2 != null)
+        }
+        if (form2 != null) {
             formParams.add("form2", form2);
-        if (form3 != null)
+        }
+        if (form3 != null) {
             formParams.add("form3", form3);
-        if (form4 != null)
+        }
+        if (form4 != null) {
             formParams.add("form4", form4);
-        if (id != null)
+        }
+        if (id != null) {
             formParams.add("id", id);
-        if (name != null)
+        }
+        if (name != null) {
             formParams.add("name", name);
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -256,7 +261,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/oneof", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/oneof", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

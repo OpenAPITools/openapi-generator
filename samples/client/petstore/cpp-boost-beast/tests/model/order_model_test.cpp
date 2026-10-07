@@ -135,8 +135,7 @@ BOOST_DATA_TEST_CASE(invalidStatusValues,
     order.setStatus(invalid_status);
   } catch (const std::runtime_error &excp) {
     exceptionCaught = true;
-    const auto expectedErrorMessage =
-        std::string("Value ") + invalid_status + " not allowed";
+    const auto expectedErrorMessage = std::string("Value not allowed");
     BOOST_TEST(excp.what() == expectedErrorMessage);
   }
   BOOST_TEST(exceptionCaught);

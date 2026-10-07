@@ -42,7 +42,7 @@ import javax.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -213,7 +213,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<@Valid Tag> getTags() {
     return tags;
   }

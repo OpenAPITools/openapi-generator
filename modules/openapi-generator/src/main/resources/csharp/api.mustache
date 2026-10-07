@@ -349,12 +349,12 @@ namespace {{packageName}}.{{apiPackage}}
             {{/queryParams}}
             {{#headerParams}}
             {{#required}}
-            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#headerIsJsonMimeType}}ParameterToJsonString{{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ParameterToString{{/headerIsJsonMimeType}}({{paramName}})); // header parameter
             {{/required}}
             {{^required}}
             if ({{paramName}} != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#headerIsJsonMimeType}}ParameterToJsonString{{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ParameterToString{{/headerIsJsonMimeType}}({{paramName}})); // header parameter
             }
             {{/required}}
             {{/headerParams}}
@@ -639,12 +639,12 @@ namespace {{packageName}}.{{apiPackage}}
             {{/constantParams}}
             {{#headerParams}}
             {{#required}}
-            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#headerIsJsonMimeType}}ParameterToJsonString{{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ParameterToString{{/headerIsJsonMimeType}}({{paramName}})); // header parameter
             {{/required}}
             {{^required}}
             if ({{paramName}} != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#headerIsJsonMimeType}}ParameterToJsonString{{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ParameterToString{{/headerIsJsonMimeType}}({{paramName}})); // header parameter
             }
             {{/required}}
             {{/headerParams}}

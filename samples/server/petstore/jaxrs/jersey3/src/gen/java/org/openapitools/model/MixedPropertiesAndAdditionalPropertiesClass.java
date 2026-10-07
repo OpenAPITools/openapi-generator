@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -46,7 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public static final String JSON_PROPERTY_MAP = "map";
   @JsonProperty(JSON_PROPERTY_MAP)
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, @Valid Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -88,7 +88,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }
@@ -107,12 +107,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map")
   @Schema(description = "")
-  @Valid 
-  public Map<String, Animal> getMap() {
+  
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 

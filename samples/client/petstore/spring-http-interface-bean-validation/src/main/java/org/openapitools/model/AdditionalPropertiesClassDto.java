@@ -28,7 +28,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -108,7 +108,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapNumber
    * @return mapNumber
    */
-  @Valid 
+  
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -192,7 +192,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @Valid 
+  
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -220,7 +220,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @Valid 
+  
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -248,7 +248,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapString
    * @return mapMapString
    */
-  @Valid 
+  
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -276,7 +276,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @Valid 
+  
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;

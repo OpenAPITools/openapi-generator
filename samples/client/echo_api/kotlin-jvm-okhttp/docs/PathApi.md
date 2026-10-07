@@ -39,11 +39,11 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **pathString** | **kotlin.String**|  | |
 | **pathInteger** | **kotlin.Int**|  | |
 | **enumNonrefStringPath** | **kotlin.String**|  | [enum: success, failure, unclassified] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringPath** | [**ApiStringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type

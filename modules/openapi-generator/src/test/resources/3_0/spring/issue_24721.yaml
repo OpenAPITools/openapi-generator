@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: Issue 24721 Pageable Operation ID Sanitization
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      tags:
+        - items
+      operationId: list-items
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            maximum: 50
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id,asc
+                - id,desc
+                - name,asc
+                - name,desc
+            default:
+              - name,desc
+      responses:
+        '200':
+          description: Successful response

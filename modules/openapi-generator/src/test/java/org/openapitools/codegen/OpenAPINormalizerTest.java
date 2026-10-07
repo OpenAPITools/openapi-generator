@@ -50,6 +50,41 @@ public class OpenAPINormalizerTest {
     private static final String X_INTERNAL = "x-internal";
 
     @Test
+    public void testAllOfMemberWithValidationAndPropertiesIsKept() {
+        // A schema carrying `properties` but omitting `type: object`, next to a validation keyword,
+        // is a model -- not "validation without a type". It used to be classified as unsupported and
+        // silently dropped from allOf, so every model inheriting it lost those properties.
+        OpenAPI openAPI = TestUtils.parseSpec(
+                "src/test/resources/3_0/allof-member-with-validation-and-properties.yaml");
+
+        Schema child = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(child.getAllOf());
+        assertTrue(refsParent(child), "precondition: Child starts out referencing Parent");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        openAPINormalizer.normalize();
+
+        Schema normalizedChild = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(normalizedChild.getAllOf(),
+                "the whole allOf was dropped, so Child lost the inherited properties");
+        assertTrue(refsParent(normalizedChild),
+                "the allOf member carrying alpha/beta was dropped, so Child lost those properties");
+    }
+
+    private static boolean refsParent(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return false;
+        }
+        for (Object item : schema.getAllOf()) {
+            String ref = ((Schema) item).get$ref();
+            if (ref != null && ref.endsWith("/Parent")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Test
     public void testOpenAPINormalizerOtherThanObjectWithProperties()
     {
         // to test the rule REF_AS_PARENT_IN_ALLOF
@@ -587,6 +622,52 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) newSchema.getProperties().get("isParent")).getType(), "boolean");
         assertEquals(((Schema) newSchema.getProperties().get("mum_or_dad")).getType(), "string");
         assertEquals(newSchema.getRequired().get(0), "isParent");
+    }
+
+    @Test
+    public void testOpenAPINormalizerRefactorAllOfWithPropertiesOnlyKeepsInheritedRequired() {
+        // to test the rule REFACTOR_ALLOF_WITH_PROPERTIES_ONLY with required properties declared in the referenced schema
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_inherited_required.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("MySchema");
+        assertEquals(schema.getAllOf().size(), 1);
+        assertEquals(schema.getProperties().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("MySchema");
+        assertEquals(schema2.getAllOf().size(), 2);
+        assertNull(schema2.getProperties());
+        // the required property inherited from the referenced schema stays on the parent schema
+        assertEquals(schema2.getRequired(), Arrays.asList("uuid"));
+
+        // the required property declared locally moves with its property
+        Schema newSchema = (Schema) (schema2.getAllOf().get(1));
+        assertEquals(((Schema) newSchema.getProperties().get("some_property")).getType(), "boolean");
+        assertEquals(newSchema.getRequired(), Arrays.asList("some_property"));
+    }
+
+    @Test
+    public void testOpenAPINormalizerRefactorAllOfWithPropertiesOnlyOnlyInheritedRequired() {
+        // to test the rule REFACTOR_ALLOF_WITH_PROPERTIES_ONLY when all required properties are inherited
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_inherited_required.yaml");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("MySchemaOnlyInheritedRequired");
+        assertEquals(schema.getAllOf().size(), 2);
+        assertNull(schema.getProperties());
+        assertEquals(schema.getRequired(), Arrays.asList("uuid"));
+
+        Schema newSchema = (Schema) (schema.getAllOf().get(1));
+        assertNotNull(newSchema.getProperties().get("some_property"));
+        assertNull(newSchema.getRequired());
     }
 
     @Test

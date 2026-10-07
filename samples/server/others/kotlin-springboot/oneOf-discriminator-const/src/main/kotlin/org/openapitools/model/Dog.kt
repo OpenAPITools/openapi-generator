@@ -27,12 +27,12 @@ data class Dog(
 
     @field:Valid
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("petType")
+    @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "dog",
 
     @get:Min(value=0)
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("packSize")
+    @param:JsonProperty("packSize", required = true)
     @get:JsonProperty("packSize", required = true) val packSize: kotlin.Int = 0
 ) : Pet {
 

@@ -26,11 +26,11 @@ import jakarta.validation.Valid
 data class Cat(
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("huntingSkill")
+    @param:JsonProperty("huntingSkill", required = true)
     @get:JsonProperty("huntingSkill", required = true) val huntingSkill: Cat.HuntingSkill,
 
     @field:Valid
-    @param:JsonProperty("petType")
+    @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "cat"
 ) : Pet {
 
@@ -44,12 +44,12 @@ data class Cat(
         lazy("lazy"),
         adventurous("adventurous"),
         aggressive("aggressive");
-
+    
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): HuntingSkill {
-                return values().firstOrNull{it -> it.value == value}
+                return values().firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'HuntingSkill'")
             }
         }

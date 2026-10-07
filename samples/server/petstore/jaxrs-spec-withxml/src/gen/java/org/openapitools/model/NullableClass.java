@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 @JsonTypeName("NullableClass")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "NullableClass", propOrder =
     { "integerProp", "numberProp", "booleanProp", "stringProp", "dateProp", "datetimeProp", "arrayNullableProp", "arrayAndItemsNullableProp", "arrayItemsNullable", "objectNullableProp", "objectAndItemsNullableProp", "objectItemsNullable"
     })
@@ -53,12 +53,12 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private String stringProp;
   private LocalDate dateProp;
   private Date datetimeProp;
-  private @Valid List<Object> arrayNullableProp;
-  private @Valid List<Object> arrayAndItemsNullableProp;
-  private @Valid List<Object> arrayItemsNullable = new ArrayList<>();
-  private @Valid Map<String, Object> objectNullableProp;
-  private @Valid Map<String, Object> objectAndItemsNullableProp;
-  private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+  private List<Object> arrayNullableProp;
+  private List<Object> arrayAndItemsNullableProp;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private Map<String, Object> objectNullableProp;
+  private Map<String, Object> objectAndItemsNullableProp;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
   }

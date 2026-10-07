@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -75,7 +75,7 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  @Valid 
+  
   @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {
     return files;

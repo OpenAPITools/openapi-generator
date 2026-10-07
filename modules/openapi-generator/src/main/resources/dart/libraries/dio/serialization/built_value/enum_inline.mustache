@@ -7,13 +7,15 @@
 class {{{enumName}}} extends EnumClass {
 
   {{#allowableValues}}
-    {{#enumVars}}
-      {{#enumDescription}}
-  /// {{{.}}}
-      {{/enumDescription}}
+  {{#enumVars}}
+  {{#enumDescription}}
+  /**
+   * {{#lambda.dartdoc_2}}{{{.}}}{{/lambda.dartdoc_2}}
+   */
+  {{/enumDescription}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isLong}}wireNumber: {{{value}}}{{/isLong}}{{^isInteger}}{{^isLong}}wireName: r{{{value}}}{{/isLong}}{{/isInteger}}{{#enumUnknownDefaultCase}}{{#-last}}, fallback: true{{/-last}}{{/enumUnknownDefaultCase}})
   static const {{{enumName}}} {{name}} = _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}_{{name}};
-    {{/enumVars}}
+  {{/enumVars}}
   {{/allowableValues}}
 
   static Serializer<{{{enumName}}}> get serializer => _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}Serializer;

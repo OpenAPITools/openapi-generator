@@ -15,8 +15,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -29,7 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BodyApi extends BaseApi {
 
     public BodyApi() {
@@ -59,13 +57,12 @@ public class BodyApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<File> testBinaryGifWithHttpInfo() throws RestClientException {
-        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "image/gif"
@@ -77,7 +74,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
-        return apiClient.invokeAPI("/binary/gif", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/binary/gif", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test body parameter(s)
@@ -87,7 +84,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyApplicationOctetstreamBinary(File body) throws RestClientException {
+    public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws RestClientException {
         return testBodyApplicationOctetstreamBinaryWithHttpInfo(body).getBody();
     }
 
@@ -99,14 +96,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -120,7 +116,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, body, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test array of binary in multipart mime
@@ -130,7 +126,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws RestClientException {
+    public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws RestClientException {
         return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files).getBody();
     }
 
@@ -142,8 +138,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files) throws RestClientException {
         
         // verify the required parameter 'files' is set
         if (files == null) {
@@ -151,13 +146,12 @@ public class BodyApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
-        if (files != null)
-            localVarFormParams.addAll("files", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
+        localVarFormParams.addAll("files", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -171,7 +165,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/array_of_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/array_of_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test single binary in multipart mime
@@ -181,7 +175,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataSingleBinary(File myFile) throws RestClientException {
+    public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws RestClientException {
         return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile).getBody();
     }
 
@@ -193,17 +187,17 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
-        if (myFile != null)
+        if (myFile != null) {
             localVarFormParams.add("my-file", new FileSystemResource(myFile));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -217,7 +211,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/body/application/octetstream/single_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/body/application/octetstream/single_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test body parameter(s)
@@ -227,7 +221,7 @@ public class BodyApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyAllOfPet(Pet pet) throws RestClientException {
+    public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws RestClientException {
         return testEchoBodyAllOfPetWithHttpInfo(pet).getBody();
     }
 
@@ -239,14 +233,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws RestClientException {
-        Object localVarPostBody = pet;
+    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -260,7 +253,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Pet> localReturnType = new ParameterizedTypeReference<Pet>() {};
-        return apiClient.invokeAPI("/echo/body/allOf/Pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/allOf/Pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, pet, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test free form object
@@ -270,7 +263,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyFreeFormObjectResponseString(Object body) throws RestClientException {
+    public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws RestClientException {
         return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body).getBody();
     }
 
@@ -282,14 +275,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -303,7 +295,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/echo/body/FreeFormObject/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/FreeFormObject/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, body, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test body parameter(s)
@@ -313,7 +305,7 @@ public class BodyApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyPet(Pet pet) throws RestClientException {
+    public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws RestClientException {
         return testEchoBodyPetWithHttpInfo(pet).getBody();
     }
 
@@ -325,14 +317,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws RestClientException {
-        Object localVarPostBody = pet;
+    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -346,7 +337,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Pet> localReturnType = new ParameterizedTypeReference<Pet>() {};
-        return apiClient.invokeAPI("/echo/body/Pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/Pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, pet, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test empty response body
@@ -356,7 +347,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyPetResponseString(Pet pet) throws RestClientException {
+    public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws RestClientException {
         return testEchoBodyPetResponseStringWithHttpInfo(pet).getBody();
     }
 
@@ -368,14 +359,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws RestClientException {
-        Object localVarPostBody = pet;
+    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -389,7 +379,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/echo/body/Pet/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/Pet/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, pet, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test string enum response body
@@ -399,7 +389,7 @@ public class BodyApi extends BaseApi {
      * @return StringEnumRef
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public StringEnumRef testEchoBodyStringEnum(String body) throws RestClientException {
+    public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws RestClientException {
         return testEchoBodyStringEnumWithHttpInfo(body).getBody();
     }
 
@@ -411,14 +401,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;StringEnumRef&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -432,7 +421,7 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<StringEnumRef> localReturnType = new ParameterizedTypeReference<StringEnumRef>() {};
-        return apiClient.invokeAPI("/echo/body/string_enum", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/string_enum", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, body, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test empty json (request body)
@@ -442,7 +431,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyTagResponseString(Tag tag) throws RestClientException {
+    public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws RestClientException {
         return testEchoBodyTagResponseStringWithHttpInfo(tag).getBody();
     }
 
@@ -454,14 +443,13 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws RestClientException {
-        Object localVarPostBody = tag;
+    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag) throws RestClientException {
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -475,19 +463,18 @@ public class BodyApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/echo/body/Tag/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/echo/body/Tag/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, tag, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -500,6 +487,6 @@ public class BodyApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

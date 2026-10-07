@@ -758,6 +758,13 @@ paths:
                     items:
                       "$ref": "#/components/schemas/myObject"
                   - type: 'null'
+  "/fake/path/backslash/GetPetById\\(\\)":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -1128,3 +1135,6 @@ components:
         second_property:
           description: just null type
           type: null
+        third_property:
+          description: null type declared as the OAS 3.1 quoted string
+          type: 'null'

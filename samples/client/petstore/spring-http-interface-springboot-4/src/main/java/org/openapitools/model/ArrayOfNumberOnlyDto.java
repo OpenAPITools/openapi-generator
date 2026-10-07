@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayOfNumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOfNumberOnlyDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -51,7 +51,7 @@ public class ArrayOfNumberOnlyDto {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @Valid 
+  
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

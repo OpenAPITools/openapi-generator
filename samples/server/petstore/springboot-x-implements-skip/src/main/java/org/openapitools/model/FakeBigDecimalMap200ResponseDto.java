@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeBigDecimalMap200ResponseDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -72,7 +72,7 @@ public class FakeBigDecimalMap200ResponseDto {
    * Get someMap
    * @return someMap
    */
-  @Valid 
+  
   @Schema(name = "someMap", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("someMap")
   public Map<String, BigDecimal> getSomeMap() {

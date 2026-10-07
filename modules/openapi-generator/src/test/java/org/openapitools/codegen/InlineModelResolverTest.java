@@ -401,6 +401,40 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveNestedDifferentSchemasWithSameTitleWithoutSelfReference() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        Schema nestedGrammar = new ObjectSchema()
+                .title("Grammar format")
+                .addProperty("definition", new StringSchema())
+                .addProperty("syntax", new StringSchema());
+        Schema enclosingGrammar = new ObjectSchema()
+                .title("Grammar format")
+                .addProperty("type", new StringSchema())
+                .addProperty("grammar", nestedGrammar);
+        Schema format = new ComposedSchema().addOneOfItem(enclosingGrammar);
+        openapi.getComponents().addSchemas("CustomToolParam",
+                new ObjectSchema().addProperty("format", format));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        Schema nestedComponent = schemas.get("Grammar_format");
+        Schema enclosingComponent = schemas.get("Grammar_format_1");
+        assertNotNull("Nested schema must keep the unsuffixed title", nestedComponent);
+        assertNotNull("Enclosing schema with the same title must be suffixed", enclosingComponent);
+        assertNotNull(nestedComponent.getProperties().get("definition"));
+        assertNotNull(nestedComponent.getProperties().get("syntax"));
+        assertNull(nestedComponent.getProperties().get("grammar"));
+        assertNotNull(enclosingComponent.getProperties().get("type"));
+        Schema grammarProperty = (Schema) enclosingComponent.getProperties().get("grammar");
+        assertEquals("#/components/schemas/Grammar_format", grammarProperty.get$ref());
+        Assert.assertNotSame(enclosingComponent, nestedComponent,
+                "Schemas with the same title must retain distinct identities");
+    }
+
+    @Test
     public void testInlineResponseModel() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
@@ -1440,6 +1474,45 @@ public class InlineModelResolverTest {
         assertNotNull("StorageBackend schema must exist", schemas.get("StorageBackend"));
         assertNull("Duplicate StorageBackend_1 must not exist — type-stripped structural match must fire",
                 schemas.get("StorageBackend_1"));
+    }
+
+    @Test
+    public void doNotMergeDistinctInlineEnumsSharingTheSameValues() {
+        // Regression test for #23978: two inline enum properties that share the same enum values
+        // but represent different things (distinguished only by their description) must each be
+        // promoted to their own schema.  The structural-signature fallback in matchGenerated()
+        // strips 'description', so without an enum guard it would wrongly unify them and the
+        // second property would silently reuse the first enum's type (regression in 7.23.0).
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        StringSchema statusEnum = new StringSchema();
+        statusEnum.setDescription("Lifecycle status of the order");
+        statusEnum.setEnum(java.util.Arrays.asList("ACTIVE", "INACTIVE"));
+
+        StringSchema visibilityEnum = new StringSchema();
+        visibilityEnum.setDescription("Whether the order is visible to the customer");
+        visibilityEnum.setEnum(java.util.Arrays.asList("ACTIVE", "INACTIVE"));
+
+        openapi.getComponents().addSchemas("Order", new ObjectSchema()
+                .title("Order")
+                .addProperty("status", statusEnum)
+                .addProperty("visibility", visibilityEnum));
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> options = new HashMap<>();
+        options.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(options);
+        resolver.flatten(openapi);
+
+        Schema order = openapi.getComponents().getSchemas().get("Order");
+        String statusRef = ((Schema) order.getProperties().get("status")).get$ref();
+        String visibilityRef = ((Schema) order.getProperties().get("visibility")).get$ref();
+        assertNotNull("status enum must be promoted to its own schema", statusRef);
+        assertNotNull("visibility enum must be promoted to its own schema", visibilityRef);
+        assertFalse("Distinct inline enums sharing the same values must not be merged (#23978)",
+                statusRef.equals(visibilityRef));
     }
 
     @Test

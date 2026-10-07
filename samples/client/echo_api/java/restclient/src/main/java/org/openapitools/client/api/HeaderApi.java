@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HeaderApi {
     private ApiClient apiClient;
 
@@ -57,7 +57,6 @@ public class HeaderApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testHeaderIntegerBooleanStringEnumsRequestCreation(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -66,16 +65,22 @@ public class HeaderApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integerHeader != null)
-        headerParams.add("integer_header", apiClient.parameterToString(integerHeader));
-        if (booleanHeader != null)
-        headerParams.add("boolean_header", apiClient.parameterToString(booleanHeader));
-        if (stringHeader != null)
-        headerParams.add("string_header", apiClient.parameterToString(stringHeader));
-        if (enumNonrefStringHeader != null)
-        headerParams.add("enum_nonref_string_header", apiClient.parameterToString(enumNonrefStringHeader));
-        if (enumRefStringHeader != null)
-        headerParams.add("enum_ref_string_header", apiClient.parameterToString(enumRefStringHeader));
+        if (integerHeader != null) {
+            headerParams.add("integer_header", apiClient.parameterToString(integerHeader));
+        }
+        if (booleanHeader != null) {
+            headerParams.add("boolean_header", apiClient.parameterToString(booleanHeader));
+        }
+        if (stringHeader != null) {
+            headerParams.add("string_header", apiClient.parameterToString(stringHeader));
+        }
+        if (enumNonrefStringHeader != null) {
+            headerParams.add("enum_nonref_string_header", apiClient.parameterToString(enumNonrefStringHeader));
+        }
+        if (enumRefStringHeader != null) {
+            headerParams.add("enum_ref_string_header", apiClient.parameterToString(enumRefStringHeader));
+        }
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -86,7 +91,7 @@ public class HeaderApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/header/integer/boolean/string/enums", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/header/integer/boolean/string/enums", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

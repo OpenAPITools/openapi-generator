@@ -20,7 +20,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ObjectWithDeprecatedFields")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
   @Deprecated
@@ -28,7 +28,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   @Deprecated
   private DeprecatedObject deprecatedRef;
   @Deprecated
-  private @Valid List<String> bars = new ArrayList<>();
+  private List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;

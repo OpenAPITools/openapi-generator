@@ -193,4 +193,98 @@ public class PythonFastAPIServerCodegenTest {
         assertFileContains(baseApi, "-> bytes");
         assertFileNotContains(baseApi, "-> file");
     }
+
+    /**
+     * Verifies that parameters arriving on the wire as strings (path, query, header, cookie)
+     * are typed with coercible Pydantic types ({@code int}/{@code bool}/{@code str}) instead of
+     * strict ones ({@code StrictInt}/{@code StrictBool}/{@code StrictStr}, {@code strict=True}),
+     * which would disable Pydantic's string coercion and make FastAPI reject valid requests
+     * with a 422 (#21905).
+     *
+     * <p>Schema constraints (e.g. {@code ge}/{@code le}) must be preserved, while JSON body
+     * model properties must keep strict typing since bodies carry real JSON types.
+     */
+    @Test(description = "path/query/header/cookie params use coercible types, not strict types (#21905)")
+    public void testWireStringParamsUseCoercibleTypes() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_21905.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/item_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/item_api_base.py");
+        final Path model = Paths.get(outputPath + "src/openapi_server/models/item.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+
+        // path param: coercible int
+        assertFileContains(api, "itemId: int = Path(..., description=\"\")");
+        // query param: coercible int, constraints kept but no strict=True
+        assertFileContains(api, "limit: Optional[Annotated[int, Field(le=100, ge=1)]] = Query(None, description=\"\", alias=\"limit\", ge=1, le=100)");
+        // header param: coercible bool
+        assertFileContains(api, "x_verbose: Optional[bool] = Header(None, description=\"\")");
+        // cookie params: values also arrive as strings on the wire, so they must be coercible too
+        assertFileContains(api, "session_id: Optional[int] = Cookie(None, description=\"\")");
+        assertFileContains(api, "dark_mode: Optional[bool] = Cookie(None, description=\"\")");
+
+        // no strict types anywhere in the endpoint signatures
+        assertFileNotContains(api, "StrictInt");
+        assertFileNotContains(api, "StrictBool");
+        assertFileNotContains(api, "StrictStr");
+        assertFileNotContains(api, "strict=True");
+        assertFileNotContains(baseApi, "StrictInt");
+        assertFileNotContains(baseApi, "StrictBool");
+        assertFileNotContains(baseApi, "StrictStr");
+        assertFileNotContains(baseApi, "strict=True");
+
+        // JSON body model properties keep strict typing (real JSON types, no wire-string coercion)
+        assertFileContains(model, "count: Optional[StrictInt] = None");
+    }
+
+    /**
+     * Verifies that endpoint argument commas stay at the end of the parameter line instead of
+     * being wrapped onto a line of their own. The {@code endpoint_argument_definition} partial
+     * is included inline (followed by {@code ,}) in api.mustache, so a trailing newline in the
+     * partial leaks into the output and produces the broken ")\n," style (#22494).
+     */
+    @Test(description = "endpoint argument commas stay at end of line, no newline before comma (#22494)")
+    public void testEndpointArgumentCommaStaysOnSameLine() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_21905.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/item_api.py");
+
+        assertFileExists(api);
+
+        // NOTE: assertFileContains linearizes away newlines, so raw content checks are required here
+        final String content = Files.readString(api);
+
+        // commas terminate the parameter line
+        Assert.assertTrue(content.contains("itemId: int = Path(..., description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+        Assert.assertTrue(content.contains("session_id: Optional[int] = Cookie(None, description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+        Assert.assertTrue(content.contains("dark_mode: Optional[bool] = Cookie(None, description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+
+        // the comma must never be wrapped onto its own line
+        Assert.assertFalse(content.contains("\n,\n"),
+                "comma wrapped onto its own line in: " + api);
+    }
+
+    @Test(description = "security imports are emitted only for APIs with authenticated operations (#23008)")
+    public void testSecurityImportsRequireAuthenticatedOperations() throws IOException {
+        final DefaultCodegen unauthenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String unauthenticatedOutputPath = generateFiles(unauthenticatedCodegen, "src/test/resources/bugs/issue_23008.yaml");
+        final Path unauthenticatedApi = Paths.get(unauthenticatedOutputPath + "src/openapi_server/apis/default_api.py");
+
+        assertFileExists(unauthenticatedApi);
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.security_api import");
+
+        final DefaultCodegen authenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String authenticatedOutputPath = generateFiles(authenticatedCodegen, "src/test/resources/3_0/python-fastapi/petstore.yaml");
+        final Path authenticatedApi = Paths.get(authenticatedOutputPath + "src/openapi_server/apis/pet_api.py");
+
+        assertFileExists(authenticatedApi);
+        assertFileContains(authenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileContains(authenticatedApi, "from openapi_server.security_api import get_token_");
+    }
 }

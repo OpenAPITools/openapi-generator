@@ -143,6 +143,26 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         {{/isContainer}}
         return value
     {{/isEnum}}
+    {{#vendorExtensions.x-python-not-string-enum-values.size}}
+    @field_validator('{{{name}}}')
+    def {{{name}}}_validate_not_enum(cls, value):
+        """Validates values excluded by not"""
+        {{^required}}
+        if value is None:
+            return value
+
+        {{/required}}
+        {{#required}}
+        {{#isNullable}}
+        if value is None:
+            return value
+
+        {{/isNullable}}
+        {{/required}}
+        if value in set([{{#vendorExtensions.x-python-not-string-enum-values}}{{#lambda.pythonStringLiteral}}{{{.}}}{{/lambda.pythonStringLiteral}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-python-not-string-enum-values}}]):
+            raise ValueError("must not be one of excluded enum values")
+        return value
+    {{/vendorExtensions.x-python-not-string-enum-values.size}}
 {{/vars}}
 
 {{#vendorExtensions.x-py-preprocesses-input-names}}

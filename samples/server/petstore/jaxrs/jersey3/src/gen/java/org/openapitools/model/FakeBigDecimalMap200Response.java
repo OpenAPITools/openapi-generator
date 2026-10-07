@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response   {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @JsonProperty(JSON_PROPERTY_SOME_ID)
@@ -81,7 +81,7 @@ public class FakeBigDecimalMap200Response   {
    **/
   @JsonProperty(value = "someMap")
   @Schema(description = "")
-  @Valid 
+  
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }

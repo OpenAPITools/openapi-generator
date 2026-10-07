@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * A plain list wrapper — has content array but no pagination metadata property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -52,7 +52,7 @@ public class UserList implements Serializable {
    * Get content
    * @return content
    */
-  @Valid 
+  
   @JsonProperty("content")
   public List<@Valid User> getContent() {
     return content;

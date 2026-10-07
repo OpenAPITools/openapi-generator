@@ -28,7 +28,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FooApi {
     private ApiClient apiClient;
 
@@ -185,16 +185,15 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
-        Object postBody = null;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("dtParam", dtParam);
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "color", color));
@@ -210,8 +209,8 @@ public class FooApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
-        return apiClient.invokeAPI("/foo/{dtParam}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/foo/{dtParam}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -226,7 +225,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<Foo> fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
-        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
+        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).bodyToMono(localVarReturnType);
     }
 
@@ -242,7 +241,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
-        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
+        ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).toEntity(localVarReturnType);
     }
 

@@ -65,6 +65,7 @@ BOOST_AUTO_TEST_CASE(addPet) {
     {
         "id": 0,
         "name": "doggie",
+        "photoUrls": [],
         "status": "available"
     })JSON";
 
@@ -83,6 +84,7 @@ BOOST_AUTO_TEST_CASE(updatePet_success) {
     {
         "id": 1,
         "name": "cat",
+        "photoUrls": [],
         "status": "available"
     })JSON";
 
@@ -211,6 +213,7 @@ BOOST_AUTO_TEST_CASE(uploadFile_serializes_multipart_body) {
     const std::string expectedBody =
         "--" + boundary + "\r\n"
         "Content-Disposition: form-data; name=\"additionalMetadata\"\r\n"
+        "Content-Type: text/plain\r\n"
         "\r\n"
         "some metadata\r\n"
         "--" + boundary + "\r\n"

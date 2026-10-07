@@ -19,7 +19,7 @@ import javax.validation.Valid;
 */
 @Path("/store")
 @Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public interface StoreApi {
 
     /**
@@ -35,7 +35,8 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    Response deleteOrder(@PathParam("orderId") @ApiParam("ID of the order that needs to be deleted") String orderId);
+    Response deleteOrder(@PathParam("orderId") @ApiParam("ID of the order that needs to be deleted") String orderId
+);
 
 
     /**
@@ -71,7 +72,8 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    Response getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId);
+    Response getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId
+);
 
 
     /**
@@ -89,6 +91,7 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Response placeOrder(@Valid @NotNull Order order);
+    Response placeOrder(@Valid @NotNull Order order
+);
 
 }

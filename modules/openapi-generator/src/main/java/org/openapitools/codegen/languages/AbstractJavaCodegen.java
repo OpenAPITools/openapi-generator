@@ -18,9 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
@@ -51,13 +49,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -87,7 +85,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
     private static final ZoneId UTC = ZoneId.of("UTC");
-
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String SUPPORT_ASYNC = "supportAsync";
@@ -96,6 +93,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String ADDITIONAL_ITEMS_ANNOTATIONS = "additionalItemsAnnotations";
     public static final String X_IMPLEMENTS_SKIP = "xImplementsSkip";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
@@ -197,6 +195,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
+    @Setter protected List<String> additionalItemsAnnotations = new LinkedList<>();
+    @Setter protected boolean itemsNotNullByDefault;
     @Getter @Setter
     protected boolean openApiNullable = true;
     @Setter protected String outputTestFolder = "";
@@ -229,6 +229,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -304,6 +306,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+        typeMapping.put("null", "Object");
+        typeMapping.put("enum", "Enum");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -362,6 +366,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newString(ADDITIONAL_ITEMS_ANNOTATIONS, "Additional annotations for list items. List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
@@ -465,15 +470,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(DISABLE_HTML_ESCAPING, this::setDisableHtmlEscaping);
         convertPropertyToStringAndWriteBack(BOOLEAN_GETTER_PREFIX, this::setBooleanGetterPrefix);
         convertPropertyToBooleanAndWriteBack(IGNORE_ANYOF_IN_ENUM, this::setIgnoreAnyOfInEnum);
-        convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
-                this::setAdditionalModelTypeAnnotations);
-        convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
-                this::setAdditionalOneOfTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalModelTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalOneOfTypeAnnotations);
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),
                 this::setAdditionalEnumTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ITEMS_ANNOTATIONS, AbstractJavaCodegen::multiLineSplit, this::setAdditionalItemsAnnotations);
         if (additionalProperties.containsKey(X_IMPLEMENTS_SKIP)) {
             this.setXImplementsSkip(getPropertyAsStringList(X_IMPLEMENTS_SKIP));
         }
@@ -698,6 +700,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             applyJavaxPackage();
         }
+        if (!additionalItemsAnnotations.isEmpty()) {
+            // detect if @NotNull is present in the additionalItemsAnnotations
+            setItemsNotNullByDefault(additionalItemsAnnotations.contains("@NotNull") ||
+                    additionalItemsAnnotations.contains("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull"));
+        }
 
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
@@ -713,6 +720,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
+    }
+
+    private static List<String> multiLineSplit(String value) {
+        return Arrays.asList(value.trim().split("\\s*(;|\\r?\\n)\\s*"));
     }
 
     /**
@@ -746,6 +757,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
+            }
+        }
+
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
+                .anyMatch(cm -> cm.vendorExtensions.containsKey(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName()))) {
+            for (CodegenModel cm : allModels.values()) {
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModels.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                    // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
+                    // against CodegenDiscriminator (not CodegenModel). Store there too.
+                    if (cm.discriminator != null) {
+                        cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    }
+                }
             }
         }
 
@@ -1099,8 +1130,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems(schema);
-            String typeDeclaration = getTypeDeclarationForArray(items);
-            return getSchemaType(target) + "<" + typeDeclaration + ">";
+            String typeDeclaration = getTypeDeclarationWithBeanValidation(items);
+            // add custom annotations on List<>
+            String extraAnnotation = getExtraListAnnotation(items);
+            String annotations = typeDeclaration;
+            if (!extraAnnotation.isEmpty()) {
+                annotations = extraAnnotation + " " + typeDeclaration;
+            }
+            return getSchemaType(target) + "<" + annotations + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -1110,12 +1147,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+            // Unlike arrays/sets, map values never received a type-argument bean
+            // validation before, so this is gated: only generators that have dropped the
+            // deprecated container-level @Valid (HV000271) opt in, to avoid silently adding
+            // new validation to generators that still cascade via the container.
+            String valueDeclaration = useBeanValidationOnMapValueType()
+                    ? getTypeDeclarationWithBeanValidation(inner)
+                    : getTypeDeclaration(inner);
+            return getSchemaType(target) + "<String, " + valueDeclaration + ">";
         }
         return super.getTypeDeclaration(target);
     }
 
-    private String getTypeDeclarationForArray(Schema<?> items) {
+    /**
+     * Whether bean validation of map values is expressed on the value type argument
+     * ({@code Map<String, @Valid V>}) instead of on the map itself. Generators that have migrated
+     * off the deprecated container-level {@code @Valid} (Hibernate Validator HV000271)
+     * override this to return {@code true}. Arrays/sets always place bean validation on the
+     * type argument, so they are not gated by this method.
+     *
+     * @return {@code true} to emit map-value bean validation on the type argument;
+     *         {@code false} by default
+     */
+    protected boolean useBeanValidationOnMapValueType() {
+        return false;
+    }
+
+    /**
+     * Renders the type declaration of a container element (array/set item or map value) with its
+     * bean validation applied to the type argument, e.g. {@code @Valid Pet} or
+     * {@code @Size(max = 3) String}. Hibernate Validator 9.1+ expects cascade/constraints on the
+     * type argument; a container-level {@code @Valid} is deprecated and logs HV000271, so the
+     * annotation is placed here instead of on the container.
+     *
+     * @param items the array/set item or map value schema
+     * @return the element type declaration prefixed with its bean validation (no prefix if none)
+     */
+    protected String getTypeDeclarationWithBeanValidation(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
 
         String beanValidation = getBeanValidation(items);
@@ -1139,13 +1207,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * This method stand for resolve bean validation for container(array, set).
+     * get the annotations for list items.
+     *
+     * @param items the Schema of the array items.
+     * @return a String with the concatened annotations, or empty if none
+     */
+    protected String getExtraListAnnotation(Schema<?> items) {
+        List<String> customAnnotations = getObjectAsStringList(VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
+        if (!additionalItemsAnnotations.isEmpty() || !customAnnotations.isEmpty()) {
+            Set<String> annotations = new LinkedHashSet<>(additionalItemsAnnotations);
+            if (items.getNullable() != null) {
+                if (items.getNullable() && itemsNotNullByDefault) {
+                    // remove the global @NotNull annotation if nullable: true
+                    // Caveat: does not work for space separated annotations. Use a list instead.
+                    annotations.remove("@NotNull");
+                    annotations.remove("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull");
+                }
+            }
+            annotations.addAll(customAnnotations);
+            return String.join(" ", annotations);
+        }
+        return "";
+    }
+
+    /**
+     * This method stand for resolve bean validation for a container element
+     * (array/set item or map value).
      * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
      *
      * @param items type
-     * @return BeanValidation for declared type in container(array, set)
+     * @return BeanValidation for declared element type of a container (array, set, map value)
      */
-    private String getBeanValidation(Schema<?> items) {
+    protected String getBeanValidation(Schema<?> items) {
         if (!isUseBeanValidation()) {
             return "";
         }
@@ -1160,7 +1253,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             String ref = ModelUtils.getSimpleRef(items.get$ref());
             if (ref != null) {
                 Schema<?> schema = schemas.get(ref);
-                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                // objects and oneOf/anyOf/allOf models cascade validation into their elements;
+                // a oneOf of constants generates an enum, which is not cascadable.
+                boolean composedModel = ModelUtils.isComposedSchema(schema)
+                        && !ModelUtils.isOneOfOfConsts(schema);
+                if (schema == null || ModelUtils.isObjectSchema(schema) || composedModel) {
                     return "@Valid ";
                 }
                 items = schema;
@@ -1382,7 +1479,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        Schema originalSchema = schema;
+        Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (hasOptionalNullableExplicitNullDefault(cp, originalSchema, resolvedSchema)) {
+            return null;
+        }
+        String complexDefault = renderComplexDefaultValue(cp, originalSchema, resolvedSchema);
+        if (complexDefault != null) {
+            return complexDefault;
+        }
+
+        schema = resolvedSchema;
         if (ModelUtils.isArraySchema(schema)) {
             if (defaultToEmptyContainer) {
                 // if default to empty container option is set, respect the default values provided in the spec
@@ -1504,7 +1611,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                return toObjectDefaultValue(cp, schema.getDefault(), schema.getProperties());
+                return renderComplexDefaultValue(cp, schema, schema);
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
@@ -1516,11 +1623,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
                 Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
                 if (!propertySchemas.isEmpty()) {
-                    return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
+                    return renderComplexDefaultValue(cp, schema, schema);
                 }
                 // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
                 // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
-                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // There is nothing to build via the complex default renderer, so defer to the base behavior,
                 // which emits the raw default for later enum var-name / scalar conversion. Returning
                 // null here dropped the default and regressed enum defaults (see #24384).
                 return super.toDefaultValue(schema);
@@ -1531,102 +1638,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(schema);
     }
 
-    /**
-     * Renders the default value of an object-typed property as a Java fluent builder expression, e.g.
-     * {@code new Pet().name("doggie").id(1l)}. Only scalar (value node) default properties for which a
-     * matching property schema is known are rendered; nested objects are skipped.
-     *
-     * @param cp              the codegen property carrying the target Java type ({@code datatypeWithEnum})
-     * @param defaultValue    the raw default value from the schema (a {@code Map}/{@code ObjectNode})
-     * @param propertySchemas the resolved property schemas used to type each default entry
-     * @return the Java expression, or {@code null} if it cannot be resolved
-     */
-    private String toObjectDefaultValue(CodegenProperty cp, Object defaultValue, Map<String, Schema> propertySchemas) {
-        try {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("new " + cp.datatypeWithEnum + "()");
-            if (propertySchemas != null) {
-                // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
-                // When not set, objects of any size are ObjectNode
-                ObjectMapper objectMapper = new ObjectMapper();
-                ObjectNode objectNode;
-                if(!(defaultValue instanceof ObjectNode)) {
-                    objectNode = objectMapper.valueToTree(defaultValue);
-                } else {
-                    objectNode = (ObjectNode) defaultValue;
+    private String renderComplexDefaultValue(CodegenProperty property, Schema schema, Schema resolvedSchema) {
+        JavaDefaultValueRenderer.Context context = new JavaDefaultValueRenderer.Context(
+                openAPI,
+                dateLibrary,
+                useOneOfInterfaces,
+                this::escapeText,
+                this::toVarName,
+                this::toEnumVarName,
+                this::fromProperty,
+                this::getDefaultCollectionType,
+                this::getComposedSchemaProperties);
+        return new JavaDefaultValueRenderer(context).render(property, schema, resolvedSchema);
+    }
 
-                }
-                Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
-                    String key = defaultProperty.getKey();
-                    JsonNode value = defaultProperty.getValue();
-                    Schema propertySchema = propertySchemas.get(key);
-                    if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
-                        continue;
-                    }
+    private boolean hasOptionalNullableExplicitNullDefault(CodegenProperty property, Schema originalSchema,
+                                                            Schema resolvedSchema) {
+        return openApiNullable && property != null && !property.required && property.isNullable
+                && isExplicitNullDefault(originalSchema, resolvedSchema);
+    }
 
-                    String defaultPropertyExpression = null;
-                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
-                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
-                        // rather than a raw quoted string, which would not compile (see #24298).
-                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
-                        String enumType = enumProperty.isEnum
-                                // an inline enum is generated as a nested class of the containing object type
-                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
-                                // a `$ref` to a named enum is a top-level type
-                                : enumProperty.datatypeWithEnum;
-                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
-                    } else if(ModelUtils.isLongSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"l";
-                    } else if(ModelUtils.isIntegerSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText();
-                    } else if(ModelUtils.isDoubleSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"d";
-                    } else if(ModelUtils.isFloatSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"f";
-                    } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
-                    } else if(ModelUtils.isURISchema(propertySchema)) {
-                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-                    } else if(ModelUtils.isDateSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                    value.asText(),
-                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
-                        }
-                    } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
-                    } else if(ModelUtils.isStringSchema(propertySchema)) {
-                        defaultPropertyExpression = "\"" + value.asText() + "\"";
-                    } else if(ModelUtils.isBooleanSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText();
-                    }
-                    if(defaultPropertyExpression != null) {
-                        stringBuilder
-//                                        .append(System.lineSeparator())
-                                .append(".")
-                                .append(toVarName(key))
-                                .append("(").append(defaultPropertyExpression).append(")");
-                    }
-                }
-            }
-            return stringBuilder.toString();
-        } catch (ClassCastException e) {
-            LOGGER.error("Can't resolve default value: "+defaultValue, e);
-            return null;
-        }
+    private boolean isExplicitNullDefault(Schema originalSchema, Schema resolvedSchema) {
+        return isNullNode(originalSchema == null ? null : originalSchema.getDefault())
+                || isNullNode(resolvedSchema == null ? null : resolvedSchema.getDefault());
+    }
+
+    private boolean isNullNode(Object defaultValue) {
+        return defaultValue instanceof JsonNode && ((JsonNode) defaultValue).isNull();
     }
 
     /**
@@ -1642,15 +1680,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (schema.getProperties() != null) {
             propertySchemas.putAll(schema.getProperties());
         }
-        if (schema.getAllOf() != null) {
-            for (Object member : schema.getAllOf()) {
-                Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, (Schema) member);
-                if (resolved != null && resolved.getProperties() != null) {
-                    propertySchemas.putAll(resolved.getProperties());
-                }
-            }
-        }
+        Set<Schema> visitedSchemas = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitedSchemas.add(schema);
+        addComposedSchemaProperties(propertySchemas, schema.getAllOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getOneOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getAnyOf(), visitedSchemas);
         return propertySchemas;
+    }
+
+    private void addComposedSchemaProperties(Map<String, Schema> propertySchemas, List<Schema> members,
+                                             Set<Schema> visitedSchemas) {
+        if (members == null) {
+            return;
+        }
+        for (Schema member : members) {
+            Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, member);
+            if (resolved == null || !visitedSchemas.add(resolved)) {
+                continue;
+            }
+            if (resolved.getProperties() != null) {
+                propertySchemas.putAll(resolved.getProperties());
+            }
+            addComposedSchemaProperties(propertySchemas, resolved.getAllOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getOneOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getAnyOf(), visitedSchemas);
+        }
     }
 
     private String getDefaultCollectionType(Schema schema) {
@@ -1802,7 +1856,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "\"" + escapeStringLiteral(example) + "\"";
         } else if ("Integer".equals(type) || "Short".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -1892,6 +1946,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         p.example = example;
+    }
+
+    private String escapeStringLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Escapes text for use inside a double-quoted Java string literal.
+        // Unlike escapeText(), this deliberately keeps "*/" and "/*" intact
+        // because they are harmless within a string literal (e.g. "*/*" media types).
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     @Override
@@ -2348,14 +2418,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
-                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
-                        String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                        operation.addExtension("x-content-type", contentType);
-                    }
-                    String[] accepts = getAccepts(openAPI, operation);
-                    operation.addExtension("x-accepts", accepts);
+                    addContentTypeExtensions(openAPI, operation);
                 }
             }
         }
@@ -2503,6 +2566,35 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+    /**
+     * Records on the operation the Content-Type ({@code x-content-type}) and Accept ({@code x-accepts}) the
+     * generated client sends for it, which the templates read.
+     */
+    private void addContentTypeExtensions(OpenAPI openAPI, Operation operation) {
+        if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+            String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+            List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+            String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
+            operation.addExtension(VendorExtension.X_CONTENT_TYPE.getName(), contentType);
+        }
+        String[] accepts = getAccepts(openAPI, operation);
+        operation.addExtension(VendorExtension.X_ACCEPTS.getName(), accepts);
+    }
+
+    /**
+     * A content-type variant is split off after {@link #preprocessOpenAPI} stamped the operation it comes
+     * from, so it carries that operation's Content-Type and Accept, for every media-type it declares: the
+     * variants are stamped again here, each with the single media-type it was narrowed to on each axis.
+     */
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        List<Operation> variants = super.divideOperationsByContentType(openAPI, path, httpMethod, operation);
+        if (variants.size() > 1) {
+            variants.forEach(variant -> addContentTypeExtensions(openAPI, variant));
+        }
+        return variants;
     }
 
     @Override
@@ -2894,9 +2986,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 writer.write(dataType);
             }
         };
+        Mustache.Lambda javaStringLiteralLambda = (fragment, writer) ->
+                writer.write(toEnumValue(fragment.execute(), "String"));
         return super.addMustacheLambdas()
+                .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
-                .put("jSpecifyNullable", jSpecifyNullableLambda);
+                .put("jSpecifyNullable", jSpecifyNullableLambda)
+                .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
     }
 

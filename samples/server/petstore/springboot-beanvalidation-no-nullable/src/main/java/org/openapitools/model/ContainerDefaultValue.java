@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   private @Nullable List<String> nullableArray;
@@ -141,7 +141,7 @@ public class ContainerDefaultValue {
 
   public ContainerDefaultValue addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
     if (this.nullableArrayWithDefault == null) {
-      this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
+      this.nullableArrayWithDefault = new ArrayList<>();
     }
     this.nullableArrayWithDefault.add(nullableArrayWithDefaultItem);
     return this;

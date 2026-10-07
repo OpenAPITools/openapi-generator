@@ -2,7 +2,7 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import Any, Optional
 from typing_extensions import Annotated
 
@@ -15,8 +15,8 @@ class BaseFakeApi:
         BaseFakeApi.subclasses = BaseFakeApi.subclasses + (cls,)
     async def fake_query_param_default(
         self,
-        has_default: Annotated[Optional[StrictStr], Field(description="has default value")],
-        no_default: Annotated[Optional[StrictStr], Field(description="no default value")],
+        has_default: Annotated[Optional[str], Field(description="has default value")],
+        no_default: Annotated[Optional[str], Field(description="no default value")],
     ) -> None:
         """"""
         ...

@@ -1,4 +1,4 @@
-Generator version: 7.25.0-SNAPSHOT
+Generator version: 7.27.0-SNAPSHOT
 
 ## Getting Started
 

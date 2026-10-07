@@ -303,7 +303,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -440,7 +440,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -547,7 +547,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -658,7 +658,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -794,7 +794,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }

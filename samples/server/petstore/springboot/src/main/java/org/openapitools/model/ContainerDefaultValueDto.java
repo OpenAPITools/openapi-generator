@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
@@ -145,7 +145,7 @@ public class ContainerDefaultValueDto {
 
   public ContainerDefaultValueDto addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
     if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent() || this.nullableArrayWithDefault.get() == null) {
-      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
+      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);
     return this;

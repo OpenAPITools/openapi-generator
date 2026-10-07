@@ -51,12 +51,17 @@ import org.openapitools.client.JSON;
 /**
  * NestedArrayWithDefaultValues
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NestedArrayWithDefaultValues {
   public static final String SERIALIZED_NAME_NESTED_ARRAY = "nestedArray";
   @SerializedName(SERIALIZED_NAME_NESTED_ARRAY)
   @javax.annotation.Nullable
-  private List<List<String>> nestedArray;
+  private List<List<String>> nestedArray = new ArrayList<>(Arrays.asList(
+        new ArrayList<>(Arrays.asList("h1", "Header 1")),
+        new ArrayList<>(Arrays.asList("h2", "Header 2")),
+        new ArrayList<>(Arrays.asList("h3", "Header 3")),
+        new ArrayList<>(Arrays.asList("h4", "Header 4"))
+      ));
 
   public NestedArrayWithDefaultValues() {
   }

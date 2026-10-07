@@ -216,10 +216,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class Triangle: triangleType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
+                throw new JsonException("Property is not nullable for class Triangle: triangleType.");
 
             if (equilateralTriangle != null)
                 return new Triangle(equilateralTriangle);
@@ -239,7 +239,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -272,7 +271,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
 

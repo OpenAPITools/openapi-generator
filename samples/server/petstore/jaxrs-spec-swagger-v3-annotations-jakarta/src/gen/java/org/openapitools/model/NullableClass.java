@@ -31,7 +31,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @Schema(description="")
 @JsonTypeName("NullableClass")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> implements Serializable {
   private Integer integerProp;
   private BigDecimal numberProp;
@@ -39,12 +39,12 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private String stringProp;
   private LocalDate dateProp;
   private Date datetimeProp;
-  private @Valid List<Object> arrayNullableProp;
-  private @Valid List<Object> arrayAndItemsNullableProp;
-  private @Valid List<Object> arrayItemsNullable = new ArrayList<>();
-  private @Valid Map<String, Object> objectNullableProp;
-  private @Valid Map<String, Object> objectAndItemsNullableProp;
-  private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+  private List<Object> arrayNullableProp;
+  private List<Object> arrayAndItemsNullableProp;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private Map<String, Object> objectNullableProp;
+  private Map<String, Object> objectAndItemsNullableProp;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
   }

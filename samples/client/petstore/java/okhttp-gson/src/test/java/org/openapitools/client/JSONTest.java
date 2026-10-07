@@ -41,6 +41,16 @@ public class JSONTest {
     }
 
     @Test
+    public void testAdditionalPropertiesRoundTripOnAllOfChild() {
+        Gson gson = json.getGson();
+
+        // Dog extends Animal and both allow additional properties; gson used to refuse Dog outright
+        Dog dog = gson.fromJson("{\"className\":\"Dog\",\"breed\":\"b\",\"extra\":\"e\"}", Dog.class);
+        assertEquals(Collections.singletonMap("extra", "e"), dog.getAdditionalProperties());
+        assertEquals("e", gson.toJsonTree(dog).getAsJsonObject().get("extra").getAsString());
+    }
+
+    @Test
     public void testAnyOfWithNullableRequiredFields() {
         Gson gson = json.getGson();
 

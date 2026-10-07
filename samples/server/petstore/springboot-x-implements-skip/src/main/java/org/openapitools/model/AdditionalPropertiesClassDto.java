@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -79,7 +79,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    */
-  @Valid 
+  
   @Schema(name = "map_of_map_property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {

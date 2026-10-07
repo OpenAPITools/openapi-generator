@@ -19,7 +19,7 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 {{#enumVars}}
 {{#-last}}
             .add({{modelPackage}}.{{classname}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}::class.java)
-                .withUnknownFallback({{modelPackage}}.{{classname}}.{{&name}}))
+                .withUnknownFallback({{modelPackage}}.{{classname}}.{{&name}}).nullSafe())
 {{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
@@ -33,7 +33,7 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 {{#enumVars}}
 {{#-last}}
             .add({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}::class.java)
-                .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}.{{&name}}))
+                .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}.{{&name}}).nullSafe())
 {{/-last}}
 {{/enumVars}}
 {{/allowableValues}}

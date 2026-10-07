@@ -27,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BarApi {
     private ApiClient apiClient;
 
@@ -56,18 +56,17 @@ public class BarApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createBarRequestCreation(@javax.annotation.Nonnull BarCreate barCreate) throws WebClientResponseException {
-        Object postBody = barCreate;
         // verify the required parameter 'barCreate' is set
         if (barCreate == null) {
             throw new WebClientResponseException("Missing the required parameter 'barCreate' when calling createBar", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -80,8 +79,8 @@ public class BarApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<Bar>() {};
-        return apiClient.invokeAPI("/bar", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/bar", HttpMethod.POST, pathParams, localVarQueryParams, barCreate, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -93,7 +92,7 @@ public class BarApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<Bar> createBar(@javax.annotation.Nonnull BarCreate barCreate) throws WebClientResponseException {
-        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<Bar>() {};
+        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createBarRequestCreation(barCreate).bodyToMono(localVarReturnType);
     }
 
@@ -106,7 +105,7 @@ public class BarApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<Bar>> createBarWithHttpInfo(@javax.annotation.Nonnull BarCreate barCreate) throws WebClientResponseException {
-        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<Bar>() {};
+        ParameterizedTypeReference<Bar> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createBarRequestCreation(barCreate).toEntity(localVarReturnType);
     }
 

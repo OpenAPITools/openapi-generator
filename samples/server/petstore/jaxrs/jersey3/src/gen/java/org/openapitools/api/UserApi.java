@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the user API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class UserApi  {
 
    private final UserApiService delegate;
@@ -79,7 +79,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithArrayInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
@@ -91,7 +91,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithListInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }

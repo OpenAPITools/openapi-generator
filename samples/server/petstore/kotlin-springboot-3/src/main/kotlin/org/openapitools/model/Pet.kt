@@ -31,11 +31,11 @@ import jakarta.validation.Valid
 data class Pet(
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("name")
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("photoUrls")
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @field:JsonSetter(nulls = Nulls.SKIP)
@@ -67,12 +67,12 @@ data class Pet(
         available("available"),
         pending("pending"),
         sold("sold");
-
+    
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().firstOrNull{it -> it.value == value}
+                return values().firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }

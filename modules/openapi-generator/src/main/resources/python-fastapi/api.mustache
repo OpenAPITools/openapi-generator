@@ -22,11 +22,13 @@ from fastapi import (  # noqa: F401
     status,
 )
 
-from {{modelPackage}}.extra_models import TokenModel  # noqa: F401
 {{#imports}}
 {{import}}
 {{/imports}}
-{{#securityImports.0}}from {{packageName}}.security_api import {{#securityImports}}get_token_{{.}}{{^-last}}, {{/-last}}{{/securityImports}}{{/securityImports.0}}
+{{#securityImports.0}}
+from {{modelPackage}}.extra_models import TokenModel  # noqa: F401
+from {{packageName}}.security_api import {{#securityImports}}get_token_{{.}}{{^-last}}, {{/-last}}{{/securityImports}}
+{{/securityImports.0}}
 
 router = APIRouter()
 

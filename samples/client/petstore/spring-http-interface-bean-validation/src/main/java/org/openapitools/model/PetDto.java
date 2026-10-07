@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PetDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -201,7 +201,7 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
     return tags;
