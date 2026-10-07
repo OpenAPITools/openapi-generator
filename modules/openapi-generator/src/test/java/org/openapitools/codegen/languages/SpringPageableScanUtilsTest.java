@@ -156,6 +156,103 @@ public class SpringPageableScanUtilsTest {
         assertThat(data.minSize).isEqualTo(1);
     }
 
+    // -------------------------------------------------------------------------
+    // 1-based page parameter (minimum: 1) — values shifted to Spring's 0-based page index
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void scanPageableDefaults_oneBasedPage_shiftsPageDefaultToZeroBased() {
+        Schema<?> pageSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                ._default(1);
+        Schema<?> sizeSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                ._default(20);
+
+        OpenAPI openAPI = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(pageSchema),
+                new Parameter().name("size").schema(sizeSchema)
+        ));
+
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> result =
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+
+        assertThat(result).containsKey("listItems");
+        assertThat(result.get("listItems").page).isEqualTo(0);
+        assertThat(result.get("listItems").size).isEqualTo(20);
+    }
+
+    @Test
+    public void scanPageableDefaults_oneBasedPageViaSchemaRef_shiftsPageDefaultToZeroBased() {
+        Components components = new Components()
+                .addSchemas("PageNumber", new IntegerSchema().minimum(BigDecimal.ONE)._default(3));
+        OpenAPI openAPI = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(new Schema<>().$ref("#/components/schemas/PageNumber"))
+        ));
+        openAPI.setComponents(components);
+
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> result =
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+
+        assertThat(result.get("listItems").page).isEqualTo(2);
+    }
+
+    @Test
+    public void scanPageableDefaults_oneBasedPageWithZeroDefault_doesNotGoNegative() {
+        Schema<?> pageSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                ._default(0);
+
+        OpenAPI openAPI = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(pageSchema)
+        ));
+
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> result =
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+
+        assertThat(result.get("listItems").page).isEqualTo(0);
+    }
+
+    @Test
+    public void scanPageableDefaults_zeroBasedPage_keepsPageDefault() {
+        Schema<?> pageSchema = new IntegerSchema()
+                .minimum(BigDecimal.ZERO)
+                ._default(1);
+
+        OpenAPI openAPI = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(pageSchema)
+        ));
+
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> result =
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+
+        assertThat(result.get("listItems").page).isEqualTo(1);
+    }
+
+    @Test
+    public void scanPageableConstraints_oneBasedPage_shiftsPageBoundsToZeroBased() {
+        Schema<?> pageSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                .maximum(BigDecimal.valueOf(100));
+        Schema<?> sizeSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                .maximum(BigDecimal.valueOf(50));
+
+        OpenAPI openAPI = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(pageSchema),
+                new Parameter().name("size").schema(sizeSchema)
+        ));
+
+        Map<String, SpringPageableScanUtils.PageableConstraintsData> result =
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+
+        SpringPageableScanUtils.PageableConstraintsData data = result.get("listItems");
+        assertThat(data.minPage).isEqualTo(0);
+        assertThat(data.maxPage).isEqualTo(99);
+        assertThat(data.minSize).isEqualTo(1);
+        assertThat(data.maxSize).isEqualTo(50);
+    }
+
     /**
      * Builds an OpenAPI doc with a single GET /items operation marked x-spring-paginated.
      */
