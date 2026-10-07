@@ -189,6 +189,8 @@ components:
           "$ref": "#/components/schemas/PetKind"
         meow:
           type: string
+      required:
+        - kind
     ShapeKind:
       type: string
       enum:
@@ -214,3 +216,30 @@ components:
           "$ref": "#/components/schemas/ShapeKind"
       required:
         - kind
+    RodentKind:
+      type: string
+      enum:
+        - hamster
+        - mouse
+    # Discriminator property of Mouse is optional -> untagged
+    Rodent:
+      discriminator:
+        propertyName: kind
+        mapping:
+          hamster: "#/components/schemas/Hamster"
+          mouse: "#/components/schemas/Mouse"
+      oneOf:
+        - "$ref": "#/components/schemas/Hamster"
+        - "$ref": "#/components/schemas/Mouse"
+    Hamster:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/RodentKind"
+      required:
+        - kind
+    Mouse:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/RodentKind"

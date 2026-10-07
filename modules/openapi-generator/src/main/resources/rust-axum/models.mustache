@@ -1083,25 +1083,25 @@ pub struct {{{classname}}} {
 {{#isDiscriminator}}
 {{#isString}}
 impl {{{classname}}} {
-    fn _name_for_{{{name}}}() -> {{^required}}Option<{{/required}}String{{^required}}>{{/required}} {
-        {{^required}}Some({{/required}}String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}"){{^required}}){{/required}}
+    fn _name_for_{{{name}}}() -> String {
+        String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
     }
 
-    fn _serialize_{{{name}}}<S>(_: &{{^required}}Option<{{/required}}String{{^required}}>{{/required}}, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
+        s.serialize_str(&Self::_name_for_{{{name}}}())
     }
 }
 {{/isString}}
 {{#vendorExtensions.x-discriminator-enum-variant}}
 impl {{{classname}}} {
-    fn _name_for_{{{name}}}() -> {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {
-        {{^required}}Some({{/required}}{{{dataType}}}::{{{.}}}{{^required}}){{/required}}
+    fn _name_for_{{{name}}}() -> {{{dataType}}} {
+        {{{dataType}}}::{{{.}}}
     }
 
-    fn _serialize_{{{name}}}<S>(_: &{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_{{{name}}}<S>(_: &{{{dataType}}}, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {

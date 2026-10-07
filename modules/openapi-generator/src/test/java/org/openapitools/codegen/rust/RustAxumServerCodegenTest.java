@@ -125,11 +125,13 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "models::PetKind::Dog");
         TestUtils.assertFileContains(modelsPath, "fn _serialize_kind<S>(_: &models::PetKind, s: S)");
         TestUtils.assertFileContains(modelsPath, "s.serialize_str(\"dog\")");
-        TestUtils.assertFileContains(modelsPath, "fn _name_for_kind() -> Option<models::PetKind> {");
-        TestUtils.assertFileContains(modelsPath, "Some(models::PetKind::Cat)");
+        TestUtils.assertFileContains(modelsPath, "models::PetKind::Cat");
         TestUtils.assertFileContains(modelsPath, "pub fn new() -> Dog {");
         TestUtils.assertFileContains(modelsPath, "kind: Self::_name_for_kind(),");
         // Discriminator value "Square" is not an enum value -> untagged
         TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Shape {");
+        // Discriminator property of "Mouse" is optional -> untagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Rodent {");
+        TestUtils.assertFileNotContains(modelsPath, "Mouse::_name_for_kind");
     }
 }

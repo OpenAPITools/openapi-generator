@@ -85,8 +85,7 @@ pub struct Cat {
     #[serde(serialize_with = "Cat::_serialize_kind")]
     #[serde(rename = "kind")]
     #[validate(nested)]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub kind: Option<models::PetKind>,
+    pub kind: models::PetKind,
 
     #[serde(rename = "meow")]
     #[validate(custom(function = "check_xss_string"))]
@@ -95,11 +94,11 @@ pub struct Cat {
 }
 
 impl Cat {
-    fn _name_for_kind() -> Option<models::PetKind> {
-        Some(models::PetKind::Cat)
+    fn _name_for_kind() -> models::PetKind {
+        models::PetKind::Cat
     }
 
-    fn _serialize_kind<S>(_: &Option<models::PetKind>, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_kind<S>(_: &models::PetKind, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
@@ -192,7 +191,11 @@ impl std::str::FromStr for Cat {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Cat {
-            kind: intermediate_rep.kind.into_iter().next(),
+            kind: intermediate_rep
+                .kind
+                .into_iter()
+                .next()
+                .ok_or_else(|| "kind missing in Cat".to_string())?,
             meow: intermediate_rep.meow.into_iter().next(),
         })
     }
@@ -557,7 +560,7 @@ impl Goodbye {
     where
         S: serde::Serializer,
     {
-        s.serialize_str("Goodbye")
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 
@@ -860,7 +863,7 @@ impl Greeting {
     where
         S: serde::Serializer,
     {
-        s.serialize_str("Greeting")
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 
@@ -1143,6 +1146,159 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GreetingD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Hamster {
+    #[serde(default = "Hamster::_name_for_kind")]
+    #[serde(serialize_with = "Hamster::_serialize_kind")]
+    #[serde(rename = "kind")]
+    #[validate(nested)]
+    pub kind: models::RodentKind,
+}
+
+impl Hamster {
+    fn _name_for_kind() -> models::RodentKind {
+        models::RodentKind::Hamster
+    }
+
+    fn _serialize_kind<S>(_: &models::RodentKind, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str("hamster")
+    }
+}
+
+impl Hamster {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> Hamster {
+        Hamster {
+            kind: Self::_name_for_kind(),
+        }
+    }
+}
+
+/// Converts the Hamster value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Hamster {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            // Skipping kind in query parameter serialization
+
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Hamster value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Hamster {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub kind: Vec<models::RodentKind>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Hamster".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "kind" => intermediate_rep.kind.push(
+                        <models::RodentKind as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Hamster".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Hamster {
+            kind: intermediate_rep
+                .kind
+                .into_iter()
+                .next()
+                .ok_or_else(|| "kind missing in Hamster".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Hamster> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Hamster>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Hamster>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Hamster - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Hamster> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <Hamster as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Hamster - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Hello {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(default = "Hello::_name_for_op")]
@@ -1165,7 +1321,7 @@ impl Hello {
     where
         S: serde::Serializer,
     {
-        s.serialize_str("Hello")
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 
@@ -1524,6 +1680,137 @@ impl From<models::YoMessage> for Message {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Mouse {
+    #[serde(rename = "kind")]
+    #[validate(nested)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kind: Option<models::RodentKind>,
+}
+
+impl Mouse {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> Mouse {
+        Mouse { kind: None }
+    }
+}
+
+/// Converts the Mouse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Mouse {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            // Skipping kind in query parameter serialization
+
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Mouse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Mouse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub kind: Vec<models::RodentKind>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Mouse".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "kind" => intermediate_rep.kind.push(
+                        <models::RodentKind as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Mouse".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Mouse {
+            kind: intermediate_rep.kind.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Mouse> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Mouse>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Mouse>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Mouse - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Mouse> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => match <Mouse as std::str::FromStr>::from_str(value) {
+                std::result::Result::Ok(value) => {
+                    std::result::Result::Ok(header::IntoHeaderValue(value))
+                }
+                std::result::Result::Err(err) => std::result::Result::Err(format!(
+                    r#"Unable to convert header value '{value}' into Mouse - {err}"#
+                )),
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "kind")]
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
@@ -1615,6 +1902,88 @@ impl std::str::FromStr for PetKind {
         match s {
             "dog" => std::result::Result::Ok(PetKind::Dog),
             "cat" => std::result::Result::Ok(PetKind::Cat),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum Rodent {
+    Hamster(models::Hamster),
+    Mouse(models::Mouse),
+}
+
+impl validator::Validate for Rodent {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        match self {
+            Self::Hamster(v) => v.validate(),
+            Self::Mouse(v) => v.validate(),
+        }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Rodent value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Rodent {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+impl From<models::Hamster> for Rodent {
+    fn from(value: models::Hamster) -> Self {
+        Self::Hamster(value)
+    }
+}
+impl From<models::Mouse> for Rodent {
+    fn from(value: models::Mouse) -> Self {
+        Self::Mouse(value)
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+#[repr(C)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
+)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum RodentKind {
+    #[serde(rename = "hamster")]
+    Hamster,
+    #[serde(rename = "mouse")]
+    Mouse,
+}
+
+impl validator::Validate for RodentKind {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::fmt::Display for RodentKind {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            RodentKind::Hamster => write!(f, "hamster"),
+            RodentKind::Mouse => write!(f, "mouse"),
+        }
+    }
+}
+
+impl std::str::FromStr for RodentKind {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "hamster" => std::result::Result::Ok(RodentKind::Hamster),
+            "mouse" => std::result::Result::Ok(RodentKind::Mouse),
             _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
         }
     }
@@ -1895,7 +2264,7 @@ impl YoMessage {
     where
         S: serde::Serializer,
     {
-        s.serialize_str("yo")
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 

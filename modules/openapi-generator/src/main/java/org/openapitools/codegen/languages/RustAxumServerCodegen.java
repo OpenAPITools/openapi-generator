@@ -808,7 +808,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 continue;
             }
 
-            if (var.isString) {
+            if (!var.required) {
+                // The serde tag is always present, an optional discriminator property cannot hold it
+                LOGGER.warn("Discriminator property '{}' of model '{}' is not required, falling back to untagged",
+                        var.baseName, cm.getSchemaName());
+                ++countNonString;
+            } else if (var.isString) {
                 var.isDiscriminator = true;
                 ++countString;
             } else if (var.isEnumRef) {

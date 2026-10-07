@@ -12,9 +12,9 @@ fn test_discriminator_referencing_enum() {
         r#"{"kind":"dog","bark":"woof"}"#
     );
 
-    // Optional discriminator property
+    // Second variant of the same union
     let cat: Pet = serde_json::from_str(r#"{"kind": "cat", "meow": "purr"}"#).unwrap();
-    assert!(matches!(&cat, Pet::Cat(c) if c.kind == Some(PetKind::Cat)));
+    assert!(matches!(&cat, Pet::Cat(c) if c.kind == PetKind::Cat));
     assert_eq!(
         serde_json::to_string(&cat).unwrap(),
         r#"{"kind":"cat","meow":"purr"}"#
