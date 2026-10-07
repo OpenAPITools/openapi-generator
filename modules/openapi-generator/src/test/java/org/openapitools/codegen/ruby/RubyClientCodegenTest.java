@@ -19,7 +19,9 @@ package org.openapitools.codegen.ruby;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
@@ -911,5 +913,29 @@ public class RubyClientCodegenTest {
                 "      return value if Type.all_vars.include?(value)\n" +
                 "      raise \"Invalid ENUM value #{value} for class #Type\"\n" +
                 "    end");
+    }
+
+    @Test(description = "a property named object_id must not override Object#object_id")
+    public void objectIdPropertyIsEscapedTest() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final Schema schema = new ObjectSchema().addProperty("ObjectId", new StringSchema());
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Association", schema);
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty objectId = codegen.fromModel("Association", schema).getVars().get(0);
+        Assert.assertEquals(objectId.name, "_object_id");
+        Assert.assertEquals(objectId.baseName, "ObjectId");
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path association = new File(output, "lib/openapi_client/models/association.rb").toPath();
+        TestUtils.assertFileContains(association, "attr_accessor :_object_id");
+        TestUtils.assertFileContains(association, ":'_object_id' => :'ObjectId'");
+        TestUtils.assertFileNotContains(association, "attr_accessor :object_id");
     }
 }
