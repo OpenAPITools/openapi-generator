@@ -161,7 +161,7 @@ impl std::str::FromStr for Cat {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Cat".to_string());
+                    return std::result::Result::Err("Missing value while parsing Cat".to_string())
                 }
             };
 
@@ -180,7 +180,7 @@ impl std::str::FromStr for Cat {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Cat".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -298,7 +298,7 @@ impl std::str::FromStr for Circle {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Circle".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -313,7 +313,7 @@ impl std::str::FromStr for Circle {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Circle".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -458,7 +458,7 @@ impl std::str::FromStr for Dog {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Dog".to_string());
+                    return std::result::Result::Err("Missing value while parsing Dog".to_string())
                 }
             };
 
@@ -477,7 +477,7 @@ impl std::str::FromStr for Dog {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Dog".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -612,7 +612,7 @@ impl std::str::FromStr for Hamster {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hamster".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -627,7 +627,7 @@ impl std::str::FromStr for Hamster {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hamster".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -749,7 +749,7 @@ impl std::str::FromStr for Mouse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Mouse".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -764,7 +764,7 @@ impl std::str::FromStr for Mouse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Mouse".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1135,7 +1135,7 @@ impl std::str::FromStr for Square {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Square".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1150,7 +1150,7 @@ impl std::str::FromStr for Square {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Square".to_string(),
-                        );
+                        )
                     }
                 }
             }
