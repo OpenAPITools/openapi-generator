@@ -329,6 +329,34 @@ public class PythonClientCodegenTest {
         }
     }
 
+    @Test(description = "inline object examples use the generated module and class names")
+    public void testExampleValueForInlineObjects() {
+        // The inline model resolver names this schema _holder_child; the generated file is
+        // holder_child.py with class HolderChild, so the example must use those names.
+        final Schema child = new ObjectSchema().addProperty("prop", new StringSchema());
+        child.setTitle("_holder_child");
+        final Schema holder = new ObjectSchema()
+                .addProperty("child", child)
+                // a free-form object has no model at all, it is a plain dict
+                .addProperty("aProperty", new ObjectSchema());
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertTrue(example.contains("child = openapi_client.models.holder_child.HolderChild("),
+                "inline model path wrong in:\n" + example);
+        Assert.assertTrue(example.contains("a_property = { }"),
+                "free-form object should be a dict in:\n" + example);
+        Assert.assertFalse(example.contains("models.a_property."), "free-form object got a model path in:\n" + example);
+
+        // the same holds for a free-form object that never got a title, e.g. bare array items
+        Assert.assertEquals(codegen.toExampleValue(new ObjectSchema()), "{ }");
+    }
+
     @Test(description = "test single quotes escape")
     public void testSingleQuotes() {
         final PythonClientCodegen codegen = new PythonClientCodegen();
