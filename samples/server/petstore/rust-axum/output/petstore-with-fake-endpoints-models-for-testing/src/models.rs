@@ -387,7 +387,7 @@ impl Animal {
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::_name_for_class_name())
+        s.serialize_str("Animal")
     }
 }
 
