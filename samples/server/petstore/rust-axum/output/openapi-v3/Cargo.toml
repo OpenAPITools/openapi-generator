@@ -13,6 +13,7 @@ server = [
     "async-trait",
     "axum",
     "axum-extra",
+    "bytes",
     "futures-util",
     "headers",
     "http",
@@ -38,7 +39,7 @@ axum-extra = { version = "0.12", features = [
   "typed-header",
 ], optional = true }
 base64 = "0.22"
-bytes = "1"
+bytes = { version = "1", optional = true }
 chrono = { version = "0.4", features = ["serde"] }
 frunk = { version = "0.4", optional = true }
 frunk-enum-core = { version = "0.3", optional = true }
