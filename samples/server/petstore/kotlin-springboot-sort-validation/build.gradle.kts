@@ -47,3 +47,7 @@ dependencies {
         exclude(module = "junit")
     }
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}

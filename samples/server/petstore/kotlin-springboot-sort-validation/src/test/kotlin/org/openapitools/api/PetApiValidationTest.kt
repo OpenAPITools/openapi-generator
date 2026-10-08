@@ -1,6 +1,9 @@
 package org.openapitools.api
 
 import org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.openapitools.configuration.ValidPageable
+import org.springframework.data.domain.Pageable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -21,12 +24,50 @@ import org.springframework.test.web.servlet.get
  * internal assertions about the received defaults passed.
  * HTTP 400 responses confirm that the constraint annotation rejected the invalid input.
  */
-@SpringBootTest
+// Annotation normalization and request resolution must use the same indexing convention.
+@SpringBootTest(properties = ["spring.data.web.pageable.one-indexed-parameters=true"])
 @AutoConfigureMockMvc
 class PetApiValidationTest {
 
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @Test
+    fun `One indexed page - generated bounds are zero based`() {
+        val bounds = PetApi::class.java.getMethod("findPetsWithPageSizeDefaultsOnly", Pageable::class.java)
+            .parameters[0].getAnnotation(ValidPageable::class.java)
+        assertThat(bounds).isNotNull()
+        assertThat(bounds.minPage).isZero()
+        assertThat(bounds.maxPage).isEqualTo(4)
+    }
+
+    @Test
+    fun `One indexed page - omitted page uses first page`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY}")
+            .andExpect {
+                status { isOk() }
+                header { string("X-Page-Number", "0") }
+            }
+    }
+
+    @Test
+    fun `One indexed page - explicit pages are normalized`() {
+        for ((external, internal) in listOf("1" to "0", "2" to "1", "5" to "4")) {
+            mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY}") {
+                param("page", external)
+            }.andExpect {
+                status { isOk() }
+                header { string("X-Page-Number", internal) }
+            }
+        }
+    }
+
+    @Test
+    fun `One indexed page - exceeding maximum returns 400`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY}") {
+            param("page", "6")
+        }.andExpect { status { isBadRequest() } }
+    }
 
     // ── @ValidSort ────────────────────────────────────────────────────────────
     // Endpoint: GET /pet/findWithArraySortEnum  allowed: id,asc | id,desc | name,asc | name,desc

@@ -50,7 +50,7 @@ interface PetApi {
     )
     fun findPetsAutoDetectedWithSort(
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
-        @Valid @RequestParam(value = "page", required = false, defaultValue = "0") page: kotlin.Int,
+        @Valid @RequestParam(value = "page", required = false, defaultValue = "1") page: kotlin.Int,
         @Valid @RequestParam(value = "size", required = false, defaultValue = "20") size: kotlin.Int,
         @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?
     ): ResponseEntity<List<Pet>> {
@@ -165,7 +165,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT],
         produces = ["application/json"]
     )
-    fun findPetsWithPageAndSizeConstraint(@ValidPageable(maxSize = 50, maxPage = 999) pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithPageAndSizeConstraint(@ValidPageable(maxSize = 50, maxPage = 998) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -176,7 +176,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY],
         produces = ["application/json"]
     )
-    fun findPetsWithPageSizeDefaultsOnly(@PageableDefault(page = 0, size = 25) pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithPageSizeDefaultsOnly(@ValidPageable(maxPage = 4, minPage = 0) @PageableDefault(page = 0, size = 25) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

@@ -77,9 +77,11 @@ class PetApiImpl : PetApi {
     // @PageableDefault(page = 0, size = 25)
 
     override fun findPetsWithPageSizeDefaultsOnly(pageable: Pageable): ResponseEntity<List<Pet>> {
-        check(pageable.pageNumber == 0) { "@PageableDefault page: expected 0, got ${pageable.pageNumber}" }
+        check(pageable.pageNumber in 0..4) { "@ValidPageable page: expected 0..4, got ${pageable.pageNumber}" }
         check(pageable.pageSize == 25) { "@PageableDefault size: expected 25, got ${pageable.pageSize}" }
-        return ResponseEntity.ok(emptyList())
+        return ResponseEntity.ok()
+            .header("X-Page-Number", pageable.pageNumber.toString())
+            .body(emptyList())
     }
 
     // ── @SortDefault ─────────────────────────────────────────────────────────

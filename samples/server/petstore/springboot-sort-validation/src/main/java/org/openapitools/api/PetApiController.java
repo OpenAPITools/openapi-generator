@@ -106,19 +106,21 @@ public class PetApiController implements PetApi {
     }
 
     // ── @PageableDefault ─────────────────────────────────────────────────────
-    // @PageableDefault(page = 0, size = 25)
+    // External pages 1..5 resolve to internal pages 0..4.
 
     @Override
     public ResponseEntity<List<Pet>> findPetsWithPageSizeDefaultsOnly(Pageable pageable) {
-        if (pageable.getPageNumber() != 0) {
+        if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > 4) {
             throw new IllegalStateException(
-                    "@PageableDefault page: expected 0, got " + pageable.getPageNumber());
+                    "@ValidPageable page: expected 0..4, got " + pageable.getPageNumber());
         }
         if (pageable.getPageSize() != 25) {
             throw new IllegalStateException(
                     "@PageableDefault size: expected 25, got " + pageable.getPageSize());
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok()
+                .header("X-Page-Number", Integer.toString(pageable.getPageNumber()))
+                .body(Collections.emptyList());
     }
 
     // ── @SortDefault ─────────────────────────────────────────────────────────
