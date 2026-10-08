@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects that hold other models
+  version: 1.0.0
+paths:
+  /parent:
+    get:
+      operationId: parent
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/HolderParent'
+      responses:
+        '200':
+          description: ok
+  /additional:
+    get:
+      operationId: additional
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/HolderAdditional'
+      responses:
+        '200':
+          description: ok
+  /fail:
+    get:
+      operationId: fail
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/HolderFail'
+      responses:
+        '200':
+          description: ok
+  /lists:
+    get:
+      operationId: lists
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/HolderLists'
+      responses:
+        '200':
+          description: ok
+  /base:
+    get:
+      operationId: base
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/Base'
+      responses:
+        '200':
+          description: ok
+  /alias:
+    get:
+      operationId: alias
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/HolderAlias'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    HolderParent:
+      type: object
+      properties:
+        label:
+          type: string
+        kid:
+          $ref: '#/components/schemas/KidParent'
+    KidParent:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            grand:
+              $ref: '#/components/schemas/GrandParent'
+    GrandParent:
+      type: object
+      properties:
+        value:
+          type: string
+    Base:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          kid: '#/components/schemas/KidParent'
+    HolderAdditional:
+      type: object
+      properties:
+        kid:
+          $ref: '#/components/schemas/KidAdditional'
+    KidAdditional:
+      type: object
+      properties:
+        grand:
+          $ref: '#/components/schemas/GrandAdditional'
+      additionalProperties:
+        type: string
+    GrandAdditional:
+      type: object
+      properties:
+        value:
+          type: string
+    HolderFail:
+      type: object
+      properties:
+        kid:
+          $ref: '#/components/schemas/KidFail'
+    KidFail:
+      type: object
+      properties:
+        s:
+          type: string
+          x-jackson-json-setter-nulls: FAIL
+        grand:
+          $ref: '#/components/schemas/GrandFail'
+    GrandFail:
+      type: object
+      properties:
+        value:
+          type: string
+    HolderLists:
+      type: object
+      properties:
+        label:
+          type: string
+        plain:
+          $ref: '#/components/schemas/Plain'
+        elements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Element'
+        byKey:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MapValue'
+    Plain:
+      type: object
+      properties:
+        value:
+          type: string
+    Element:
+      type: object
+      properties:
+        inner:
+          $ref: '#/components/schemas/ElementInner'
+    ElementInner:
+      type: object
+      properties:
+        value:
+          type: string
+    MapValue:
+      type: object
+      properties:
+        value:
+          type: string
+    HolderAlias:
+      type: object
+      properties:
+        tags:
+          $ref: '#/components/schemas/TagList'
+    TagList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tag'
+    Tag:
+      type: object
+      properties:
+        value:
+          type: string
