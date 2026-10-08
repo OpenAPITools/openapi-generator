@@ -29,7 +29,7 @@ The generated library has a few optional features that can be activated through 
 * `server`
     * This defaults to enabled and creates the basic skeleton of a server implementation based on Axum.
     * To create the server stack you'll need to provide an implementation of the API trait to provide the server function.
-    * Disabling it (`default-features = false`) leaves only `models` and `types`, without Axum, Tokio or other server dependencies, e.g. for sharing the models with a WASM frontend.
+    * Disabling it (`default-features = false`) leaves only `models` and `types`, without Axum, Tokio or other server dependencies (including `ammonia`, so the XSS check in model validation is skipped), e.g. for sharing the models with a WASM frontend.
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 

@@ -10,6 +10,7 @@ homepage = "https://github.com/openapitools/openapi-generator"
 [features]
 default = ["server"]
 server = [
+    "ammonia",
     "async-trait",
     "axum",
     "axum-extra",
@@ -29,7 +30,7 @@ conversion = [
 ]
 
 [dependencies]
-ammonia = "4"
+ammonia = { version = "4", optional = true }
 async-trait = { version = "0.1", optional = true }
 axum = { version = "0.8", features = ["multipart"], optional = true }
 axum-extra = { version = "0.12", features = [
