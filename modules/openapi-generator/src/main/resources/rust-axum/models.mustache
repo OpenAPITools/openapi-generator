@@ -788,8 +788,13 @@ impl std::str::FromStr for {{{classname}}} {
 {{! general struct}}
 {{#anyOf.size}}
 {{#discriminator}}
+{{#vendorExtensions.x-discriminator-deserialize}}
+#[derive(Debug, Clone, PartialEq)]
+{{/vendorExtensions.x-discriminator-deserialize}}
+{{^vendorExtensions.x-discriminator-deserialize}}
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "{{{propertyBaseName}}}")]
+{{/vendorExtensions.x-discriminator-deserialize}}
 {{/discriminator}}
 {{^discriminator}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -800,7 +805,9 @@ pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#anyOf}}
     {{#discriminator}}
+    {{^vendorExtensions.x-discriminator-deserialize}}
     #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/vendorExtensions.x-discriminator-deserialize}}
     {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/anyOf}}
@@ -849,6 +856,14 @@ impl serde::Serialize for {{{classname}}} {
             }
     }
 }
+{{#vendorExtensions.x-discriminator-deserialize}}
+
+crate::impl_deserialize_tagged!({{{classname}}}, "{{{propertyBaseName}}}", {
+    {{#vendorExtensions.x-discriminator-mappings}}
+    {{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}} => {{{variant}}},
+    {{/vendorExtensions.x-discriminator-mappings}}
+});
+{{/vendorExtensions.x-discriminator-deserialize}}
 {{/discriminator}}
 
 {{#composedSchemas}}
@@ -866,8 +881,13 @@ impl From<{{{dataType}}}> for {{{classname}}} {
 {{/anyOf.size}}
 {{#oneOf.size}}
 {{#discriminator}}
+{{#vendorExtensions.x-discriminator-deserialize}}
+#[derive(Debug, Clone, PartialEq)]
+{{/vendorExtensions.x-discriminator-deserialize}}
+{{^vendorExtensions.x-discriminator-deserialize}}
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "{{{propertyBaseName}}}")]
+{{/vendorExtensions.x-discriminator-deserialize}}
 {{/discriminator}}
 {{^discriminator}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -878,7 +898,9 @@ pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#oneOf}}
     {{#discriminator}}
+    {{^vendorExtensions.x-discriminator-deserialize}}
     #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/vendorExtensions.x-discriminator-deserialize}}
     {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/oneOf}}
@@ -927,6 +949,14 @@ impl serde::Serialize for {{{classname}}} {
             }
     }
 }
+{{#vendorExtensions.x-discriminator-deserialize}}
+
+crate::impl_deserialize_tagged!({{{classname}}}, "{{{propertyBaseName}}}", {
+    {{#vendorExtensions.x-discriminator-mappings}}
+    {{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}} => {{{variant}}},
+    {{/vendorExtensions.x-discriminator-mappings}}
+});
+{{/vendorExtensions.x-discriminator-deserialize}}
 {{/discriminator}}
 
 {{#composedSchemas}}
@@ -955,10 +985,12 @@ pub struct {{{classname}}} {
     /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
 {{#isDiscriminator}}
+{{^vendorExtensions.x-discriminator-multi}}
 {{#isString}}
     #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
     #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
 {{/isString}}
+{{/vendorExtensions.x-discriminator-multi}}
 {{#vendorExtensions.x-discriminator-enum-variant}}
     #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
     #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
@@ -1081,6 +1113,7 @@ pub struct {{{classname}}} {
 
 {{#vars}}
 {{#isDiscriminator}}
+{{^vendorExtensions.x-discriminator-multi}}
 {{#isString}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> String {
@@ -1095,6 +1128,7 @@ impl {{{classname}}} {
     }
 }
 {{/isString}}
+{{/vendorExtensions.x-discriminator-multi}}
 {{#vendorExtensions.x-discriminator-enum-variant}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> {{{dataType}}} {
@@ -1139,9 +1173,9 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{^isString}}{{^vendorExtensions.x-discriminator-enum-variant}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#vendorExtensions.x-discriminator-multi}}{{{name}}}: {{{dataType}}}, {{/vendorExtensions.x-discriminator-multi}}{{^vendorExtensions.x-discriminator-multi}}{{^isString}}{{^vendorExtensions.x-discriminator-enum-variant}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/vendorExtensions.x-discriminator-multi}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#vendorExtensions.x-discriminator-enum-variant}}{{{name}}}: Self::_name_for_{{{name}}}(){{/vendorExtensions.x-discriminator-enum-variant}}{{^vendorExtensions.x-discriminator-enum-variant}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/isDiscriminator}},
+{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#vendorExtensions.x-discriminator-multi}}{{{name}}}{{/vendorExtensions.x-discriminator-multi}}{{^vendorExtensions.x-discriminator-multi}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#vendorExtensions.x-discriminator-enum-variant}}{{{name}}}: Self::_name_for_{{{name}}}(){{/vendorExtensions.x-discriminator-enum-variant}}{{^vendorExtensions.x-discriminator-enum-variant}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/vendorExtensions.x-discriminator-multi}}{{/isDiscriminator}},
 {{/vars}}
         }
     }
