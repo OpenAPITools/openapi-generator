@@ -123,7 +123,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-          cache: gradle
       - uses: gradle/actions/setup-gradle@v6.4.0
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}

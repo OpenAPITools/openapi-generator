@@ -112,6 +112,54 @@ public class SpringPageableOptionsTest {
     }
 
     @Test(dataProvider = "generators")
+    public void fractionalSizeBoundsAreNormalized(boolean kotlin, String library) throws IOException {
+        for (boolean oneIndexed : List.of(false, true)) {
+            for (boolean exclusive : List.of(false, true)) {
+                DefaultCodegen generator = generator(kotlin, library);
+                generator.additionalProperties().put("oneIndexedPageParameters", oneIndexed);
+                OpenAPI spec = spec();
+                Schema<?> size = spec.getPaths().get("/items").getGet().getParameters().get(1).getSchema();
+                size.setMinimum(new BigDecimal("1.5"));
+                size.setMaximum(new BigDecimal("100.5"));
+                size.setExclusiveMinimum(exclusive);
+                size.setExclusiveMaximum(exclusive);
+                assertThat(generate(generator, spec, kotlin, true)).contains(
+                        "@ValidPageable(maxSize = 100, maxPage = " + (oneIndexed ? 4 : 5)
+                                + ", minSize = 2, minPage = " + (oneIndexed ? 0 : 1) + ")");
+            }
+        }
+    }
+
+    @Test(dataProvider = "generators")
+    public void fractionalDefaultsFailOnlyWhenEmitted(boolean kotlin, String library) throws IOException {
+        for (int parameterIndex : List.of(0, 1)) {
+            OpenAPI spec = spec();
+            spec.getPaths().get("/items").getGet().getParameters().get(parameterIndex)
+                    .setSchema(new io.swagger.v3.oas.models.media.NumberSchema()._default(new BigDecimal("1.5")));
+            DefaultCodegen enabled = generator(kotlin, library);
+            assertThatThrownBy(() -> generate(enabled, spec, kotlin, true))
+                    .hasStackTraceContaining(parameterIndex == 0 ? "page default 1.5" : "size default 1.5")
+                    .hasStackTraceContaining("listItems");
+            DefaultCodegen disabled = generator(kotlin, library);
+            disabled.additionalProperties().put("generatePageableDefaults", false);
+            assertThat(generate(disabled, spec, kotlin, true)).doesNotContain("@PageableDefault");
+        }
+    }
+
+    @Test(dataProvider = "generators")
+    public void disabledConstraintValidationDoesNotResolveOverflowingBounds(boolean kotlin, String library) throws IOException {
+        DefaultCodegen generator = generator(kotlin, library);
+        generator.additionalProperties().put("generatePageableConstraintValidation", false);
+        generator.additionalProperties().put("oneIndexedPageParameters", true);
+        OpenAPI spec = spec();
+        for (int parameterIndex : List.of(0, 1)) {
+            spec.getPaths().get("/items").getGet().getParameters().get(parameterIndex).getSchema()
+                    .setMaximum(new BigDecimal("2147483648"));
+        }
+        assertThat(generate(generator, spec, kotlin, false)).doesNotContain("@ValidPageable");
+    }
+
+    @Test(dataProvider = "generators")
     public void invalidOneIndexedDefaultFailsGeneration(boolean kotlin, String library) {
         DefaultCodegen generator = generator(kotlin, library);
         generator.additionalProperties().put("oneIndexedPageParameters", true);

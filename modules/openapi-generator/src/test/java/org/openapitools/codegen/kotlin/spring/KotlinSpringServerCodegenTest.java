@@ -1531,6 +1531,14 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generatedApiTestPlaceholdersAreExplicitlyDisabled() throws Exception {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml");
+        assertFileContains(files.get("PetApiTest.kt").toPath(),
+                "import org.junit.jupiter.api.Disabled",
+                "@Disabled(\"Provide test inputs and assertions before enabling this generated placeholder\")");
+    }
+
+    @Test
     public void springBootGradleBuildsUseJUnitPlatform() throws Exception {
         for (Map<String, Object> props : List.<Map<String, Object>>of(
                 new HashMap<>(),

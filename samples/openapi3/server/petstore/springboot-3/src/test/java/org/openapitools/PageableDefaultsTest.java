@@ -10,6 +10,11 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Isolates Spring's resolver semantics using handwritten annotations.
+ * Generator output is covered by SpringPageableOptionsTest and the Java/Kotlin
+ * sort-validation samples, which resolve requests against generated interfaces.
+ */
 class PageableDefaultsTest {
 
     static class Endpoints {

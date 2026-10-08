@@ -270,7 +270,7 @@ public class SpringPageableScanUtils {
      * @param autoPaginationMode   the auto-detection mode for pageable operations
      */
     public void scanAll(OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
-        scanAll(openAPI, autoPaginationMode, true, false, true, false);
+        scanAll(openAPI, autoPaginationMode, true, false, true, true);
     }
 
     /**
@@ -282,7 +282,7 @@ public class SpringPageableScanUtils {
             boolean generatePageableDefaults, boolean oneIndexedPageParameters,
             boolean indexingExplicitlyConfigured, boolean validatePageableConstraints) {
         sortValidationEnums = scanSortValidationEnums(openAPI, autoPaginationMode);
-        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoPaginationMode);
+        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoPaginationMode, generatePageableDefaults);
         pageableDefaultsRegistry.replaceAll((operationId, defaults) -> {
             if (!indexingExplicitlyConfigured && Integer.valueOf(1).equals(defaults.page)) {
                 LOGGER.warn("Operation '{}' has page default 1. @PageableDefault uses zero-based page numbers; "
@@ -300,8 +300,9 @@ public class SpringPageableScanUtils {
         if (!generatePageableDefaults) {
             pageableDefaultsRegistry.clear();
         }
-        pageableConstraintsRegistry = scanPageableConstraints(openAPI, autoPaginationMode,
-                oneIndexedPageParameters && validatePageableConstraints);
+        pageableConstraintsRegistry = validatePageableConstraints
+                ? scanPageableConstraints(openAPI, autoPaginationMode, oneIndexedPageParameters)
+                : Collections.emptyMap();
     }
 
     private static int toZeroBasedPage(int value, String operationId, String attribute) {
@@ -703,6 +704,11 @@ public class SpringPageableScanUtils {
      */
     public static Map<String, PageableDefaultsData> scanPageableDefaults(
             OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
+        return scanPageableDefaults(openAPI, autoPaginationMode, true);
+    }
+
+    private static Map<String, PageableDefaultsData> scanPageableDefaults(
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode, boolean validateDefaults) {
         Map<String, PageableDefaultsData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -735,12 +741,12 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (defaultValue instanceof Number) {
-                                pageDefault = ((Number) defaultValue).intValue();
+                                pageDefault = resolveDefault((Number) defaultValue, operationId, PAGE, validateDefaults);
                             }
                             break;
                         case SIZE:
                             if (defaultValue instanceof Number) {
-                                sizeDefault = ((Number) defaultValue).intValue();
+                                sizeDefault = resolveDefault((Number) defaultValue, operationId, SIZE, validateDefaults);
                             }
                             break;
                         case SORT:
@@ -817,13 +823,13 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (maxBound != null) {
-                                maxPage = resolvePageBound(maxBound.maxBound, maxBound.exclusive, true, operationId);
+                                maxPage = resolveIntegerBound(maxBound.maxBound, maxBound.exclusive, true, operationId, PAGE);
                                 if (oneIndexedPageParameters) {
                                     maxPage = toZeroBasedPage(maxPage, operationId, "effective maximum");
                                 }
                             }
                             if (minBound != null) {
-                                minPage = resolvePageBound(minBound.minBound, minBound.exclusive, false, operationId);
+                                minPage = resolveIntegerBound(minBound.minBound, minBound.exclusive, false, operationId, PAGE);
                                 if (oneIndexedPageParameters) {
                                     minPage = toZeroBasedPage(minPage, operationId, "effective minimum");
                                 }
@@ -831,10 +837,10 @@ public class SpringPageableScanUtils {
                             break;
                         case SIZE:
                             if (maxBound != null) {
-                                maxSize = toIntInclusiveMax(maxBound);
+                                maxSize = resolveIntegerBound(maxBound.maxBound, maxBound.exclusive, true, operationId, SIZE);
                             }
                             if (minBound != null) {
-                                minSize = toIntInclusiveMin(minBound);
+                                minSize = resolveIntegerBound(minBound.minBound, minBound.exclusive, false, operationId, SIZE);
                             }
                             break;
                         default:
@@ -854,7 +860,20 @@ public class SpringPageableScanUtils {
         return ModelUtils.getReferencedParameter(openAPI, parameter);
     }
 
-    private static int resolvePageBound(BigDecimal value, boolean exclusive, boolean maximum, String operationId) {
+    private static int resolveDefault(Number value, String operationId, String parameterName, boolean validateDefaults) {
+        if (!validateDefaults) {
+            return value.intValue();
+        }
+        try {
+            return new BigDecimal(value.toString()).intValueExact();
+        } catch (ArithmeticException | NumberFormatException e) {
+            throw new IllegalArgumentException("Operation '" + operationId + "' has " + parameterName
+                    + " default " + value + "; expected an integer in the supported integer range.", e);
+        }
+    }
+
+    private static int resolveIntegerBound(BigDecimal value, boolean exclusive, boolean maximum,
+            String operationId, String parameterName) {
         RoundingMode rounding = maximum == exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
         BigDecimal effective = value.setScale(0, rounding);
         if (exclusive) {
@@ -863,25 +882,9 @@ public class SpringPageableScanUtils {
         try {
             return effective.intValueExact();
         } catch (ArithmeticException e) {
-            throw new IllegalArgumentException("Operation '" + operationId + "' has page effective "
+            throw new IllegalArgumentException("Operation '" + operationId + "' has " + parameterName + " effective "
                     + (maximum ? "maximum" : "minimum") + " " + effective
                     + " outside the supported integer range.", e);
         }
     }
-
-    private static Integer toIntInclusiveMax(ModelUtils.ResolvedMaxBound maxBound) {
-        if (maxBound == null) {
-            return null;
-        }
-        return maxBound.exclusive ? maxBound.maxBound.intValue() - 1 : maxBound.maxBound.intValue();
-    }
-
-    private static Integer toIntInclusiveMin(ModelUtils.ResolvedMinBound minBound) {
-        if (minBound == null) {
-            return null;
-        }
-        return minBound.exclusive ? minBound.minBound.intValue() + 1 : minBound.minBound.intValue();
-    }
-
-
 }

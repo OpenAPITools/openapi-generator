@@ -923,6 +923,63 @@ public class SpringPageableScanUtilsTest {
     }
 
     @Test
+    public void sizeBoundsPreserveIntegerDomainRegardlessOfIndexing() {
+        for (boolean oneIndexed : List.of(false, true)) {
+            for (boolean exclusiveMinimum : List.of(false, true)) {
+                for (boolean exclusiveMaximum : List.of(false, true)) {
+                    for (boolean fractional : List.of(false, true)) {
+                        IntegerSchema size = new IntegerSchema();
+                        size.setMinimum(new BigDecimal(fractional ? "1.5" : "1"));
+                        size.setMaximum(new BigDecimal(fractional ? "5.5" : "5"));
+                        size.setExclusiveMinimum(exclusiveMinimum);
+                        size.setExclusiveMaximum(exclusiveMaximum);
+                        OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("size").schema(size)));
+                        SpringPageableScanUtils utils = new SpringPageableScanUtils();
+                        utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE,
+                                true, oneIndexed, true, true);
+                        SpringPageableScanUtils.PageableConstraintsData bounds = utils.pageableConstraintsRegistry.get("listItems");
+                        assertThat(bounds.minSize).isEqualTo(fractional || exclusiveMinimum ? 2 : 1);
+                        assertThat(bounds.maxSize).isEqualTo(!fractional && exclusiveMaximum ? 4 : 5);
+                        assertThat(bounds.minPage).isEqualTo(-1);
+                        assertThat(bounds.maxPage).isEqualTo(-1);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void absentSizeBoundsRemainUnconstrained() {
+        OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("size").schema(new IntegerSchema())));
+        for (boolean oneIndexed : List.of(false, true)) {
+            SpringPageableScanUtils utils = new SpringPageableScanUtils();
+            utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE, true, oneIndexed, true, true);
+            assertThat(utils.pageableConstraintsRegistry).isEmpty();
+        }
+    }
+
+    @Test
+    public void overflowingSizeBoundsIdentifyOperationParameterAndAttribute() {
+        for (boolean maximum : List.of(false, true)) {
+            IntegerSchema size = new IntegerSchema();
+            if (maximum) {
+                size.setMaximum(new BigDecimal("2147483648"));
+            } else {
+                size.setMinimum(new BigDecimal("2147483648"));
+            }
+            OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("size").schema(size)));
+            for (boolean oneIndexed : List.of(false, true)) {
+                SpringPageableScanUtils utils = new SpringPageableScanUtils();
+                assertThatThrownBy(() -> utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE,
+                        true, oneIndexed, true, true)).isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("listItems").hasMessageContaining("size")
+                        .hasMessageContaining(maximum ? "maximum" : "minimum")
+                        .hasMessageContaining("2147483648").hasMessageContaining("integer range");
+            }
+        }
+    }
+
+    @Test
     public void overflowingPageBoundsIdentifyOperationAndAttribute() {
         for (boolean maximum : List.of(false, true)) {
             IntegerSchema page = new IntegerSchema();
