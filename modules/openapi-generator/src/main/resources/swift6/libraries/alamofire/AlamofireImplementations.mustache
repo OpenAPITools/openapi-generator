@@ -123,7 +123,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                             case let number as NSNumber:
                                 mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                             case let data as Data:
-                                mpForm.append(data, withName: k)
+                                mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
                             case let uuid as UUID:
                                 mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
                             default:

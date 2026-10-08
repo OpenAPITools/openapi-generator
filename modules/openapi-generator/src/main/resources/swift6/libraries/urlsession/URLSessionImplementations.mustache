@@ -539,7 +539,9 @@ private class FormDataEncoding: ParameterEncoding {
                         urlRequest: urlRequest,
                         boundary: boundary,
                         name: key,
-                        data: data
+                        data: data,
+                        fileName: key,
+                        mimeType: "application/octet-stream"
                     )
 
                 case let uuid as UUID:
@@ -603,7 +605,7 @@ private class FormDataEncoding: ParameterEncoding {
         return urlRequest
     }
 
-    private func configureDataUploadRequest(urlRequest: URLRequest, boundary: String, name: String, data: Data) -> URLRequest {
+    private func configureDataUploadRequest(urlRequest: URLRequest, boundary: String, name: String, data: Data, fileName: String? = nil, mimeType: String? = nil) -> URLRequest {
 
         var urlRequest = urlRequest
 
@@ -618,7 +620,14 @@ private class FormDataEncoding: ParameterEncoding {
         body.append("--\(boundary)\r\n")
 
         // Value headers.
-        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        if let fileName {
+            body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n")
+        } else {
+            body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        }
+        if let mimeType {
+            body.append("Content-Type: \(mimeType)\r\n")
+        }
 
         // Separate headers and body.
         body.append("\r\n")
