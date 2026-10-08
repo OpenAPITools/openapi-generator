@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController
  * returned. If a default is missing or wrong, the assertion throws
  * [IllegalStateException] and the request fails with HTTP 500, which causes
  * any calling test to fail with a clear message.
+ * The page-size endpoint also accepts explicit pages; its response header lets
+ * integration tests assert the exact resolved page instead of checking a default here.
  *
  * Methods that only carry @ValidSort / @ValidPageable constraints need no body
  * logic — the constraint annotations reject invalid input before this code is
@@ -31,9 +33,7 @@ class PetApiImpl : PetApi {
 
     override fun findPetsAutoDetectedWithSort(
         status: String?,
-        page: Int,
-        size: Int,
-        sort: String?,
+        pageable: Pageable,
     ): ResponseEntity<List<Pet>> = ResponseEntity.ok(emptyList())
 
     override fun findPetsNonPaginatedWithSortEnum(
@@ -77,7 +77,6 @@ class PetApiImpl : PetApi {
     // @PageableDefault(page = 0, size = 25)
 
     override fun findPetsWithPageSizeDefaultsOnly(pageable: Pageable): ResponseEntity<List<Pet>> {
-        check(pageable.pageNumber in 0..4) { "@ValidPageable page: expected 0..4, got ${pageable.pageNumber}" }
         check(pageable.pageSize == 25) { "@PageableDefault size: expected 25, got ${pageable.pageSize}" }
         return ResponseEntity.ok()
             .header("X-Page-Number", pageable.pageNumber.toString())

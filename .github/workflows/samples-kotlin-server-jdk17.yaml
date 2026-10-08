@@ -124,12 +124,9 @@ jobs:
           distribution: 'temurin'
           java-version: 17
           cache: gradle
-      - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v3
+      - uses: gradle/actions/setup-gradle@v6.4.0
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
-          build-root-directory: ${{ matrix.sample }}
-          arguments: wrapper
       - name: Build and test
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build
+        run: gradle build

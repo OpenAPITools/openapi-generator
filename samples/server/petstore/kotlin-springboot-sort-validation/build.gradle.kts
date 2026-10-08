@@ -13,6 +13,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.bootJar {
     enabled = false
 }
@@ -46,8 +50,4 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

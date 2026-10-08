@@ -817,19 +817,13 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (maxBound != null) {
-                                maxPage = oneIndexedPageParameters
-                                        ? maxBound.maxBound.setScale(0, maxBound.exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR)
-                                                .subtract(maxBound.exclusive ? BigDecimal.ONE : BigDecimal.ZERO).intValueExact()
-                                        : toIntInclusiveMax(maxBound);
+                                maxPage = resolvePageBound(maxBound.maxBound, maxBound.exclusive, true, operationId);
                                 if (oneIndexedPageParameters) {
                                     maxPage = toZeroBasedPage(maxPage, operationId, "effective maximum");
                                 }
                             }
                             if (minBound != null) {
-                                minPage = oneIndexedPageParameters
-                                        ? minBound.minBound.setScale(0, minBound.exclusive ? RoundingMode.FLOOR : RoundingMode.CEILING)
-                                                .add(minBound.exclusive ? BigDecimal.ONE : BigDecimal.ZERO).intValueExact()
-                                        : toIntInclusiveMin(minBound);
+                                minPage = resolvePageBound(minBound.minBound, minBound.exclusive, false, operationId);
                                 if (oneIndexedPageParameters) {
                                     minPage = toZeroBasedPage(minPage, operationId, "effective minimum");
                                 }
@@ -858,6 +852,21 @@ public class SpringPageableScanUtils {
 
     private static Parameter resolveParameter(OpenAPI openAPI, Parameter parameter) {
         return ModelUtils.getReferencedParameter(openAPI, parameter);
+    }
+
+    private static int resolvePageBound(BigDecimal value, boolean exclusive, boolean maximum, String operationId) {
+        RoundingMode rounding = maximum == exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
+        BigDecimal effective = value.setScale(0, rounding);
+        if (exclusive) {
+            effective = maximum ? effective.subtract(BigDecimal.ONE) : effective.add(BigDecimal.ONE);
+        }
+        try {
+            return effective.intValueExact();
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Operation '" + operationId + "' has page effective "
+                    + (maximum ? "maximum" : "minimum") + " " + effective
+                    + " outside the supported integer range.", e);
+        }
     }
 
     private static Integer toIntInclusiveMax(ModelUtils.ResolvedMaxBound maxBound) {

@@ -37,9 +37,6 @@ public interface PetApi {
      * GET /pet/findAutoDetectedWithSort : Find pets with auto-detected pagination and sort enum
      *
      * @param status Status filter (optional)
-     * @param page  (optional, default to 1)
-     * @param size  (optional, default to 20)
-     * @param sort Sort order (optional)
      * @return successful operation (status code 200)
      */
     @RequestMapping(
@@ -49,9 +46,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsAutoDetectedWithSort(
          @Valid @RequestParam(value = "status", required = false) @Nullable String status,
-         @Valid @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-         @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
-         @Valid @RequestParam(value = "sort", required = false) @Nullable String sort
+        @ValidSort(allowedValues = {"id,asc", "id,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
 

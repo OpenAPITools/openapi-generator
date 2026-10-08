@@ -4,6 +4,7 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-sort-validation-one-indexed.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  autoXSpringPaginated: page-size
   oneIndexedPageParameters: "true"
   generateJsonIncludeAnnotations: "true"
   generateJsonSetterNullsAnnotations: "true"

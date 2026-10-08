@@ -50,9 +50,7 @@ interface PetApi {
     )
     fun findPetsAutoDetectedWithSort(
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
-        @Valid @RequestParam(value = "page", required = false, defaultValue = "1") page: kotlin.Int,
-        @Valid @RequestParam(value = "size", required = false, defaultValue = "20") size: kotlin.Int,
-        @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?
+        @ValidSort(allowedValues = ["id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable
     ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

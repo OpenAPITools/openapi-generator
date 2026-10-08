@@ -33,6 +33,21 @@ class PetApiValidationTest {
     lateinit var mockMvc: MockMvc
 
     @Test
+    fun `Auto detected pagination - normalized defaults and sort validation`() {
+        val defaults = PetApi::class.java
+            .getMethod("findPetsAutoDetectedWithSort", String::class.java, Pageable::class.java)
+            .parameters[1].getAnnotation(org.springframework.data.web.PageableDefault::class.java)
+        assertThat(defaults).isNotNull()
+        assertThat(defaults.page).isZero()
+        assertThat(defaults.size).isEqualTo(20)
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT}")
+            .andExpect { status { isOk() } }
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT}") {
+            param("sort", "name,asc")
+        }.andExpect { status { isBadRequest() } }
+    }
+
+    @Test
     fun `One indexed page - generated bounds are zero based`() {
         val bounds = PetApi::class.java.getMethod("findPetsWithPageSizeDefaultsOnly", Pageable::class.java)
             .parameters[0].getAnnotation(ValidPageable::class.java)

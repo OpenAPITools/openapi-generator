@@ -904,4 +904,42 @@ public class SpringPageableScanUtilsTest {
         assertThat(annotations.get(0)).isEqualTo("@ValidSort(allowedValues = {\"id,asc\"})");
         assertThat(op.imports).contains("ValidSort");
     }
+    @Test
+    public void zeroIndexedPageBoundsRoundAgainstIntegerDomain() {
+        for (boolean exclusiveMinimum : List.of(false, true)) {
+            for (boolean exclusiveMaximum : List.of(false, true)) {
+                IntegerSchema page = new IntegerSchema();
+                page.setMinimum(new BigDecimal("0.5"));
+                page.setMaximum(new BigDecimal("2.5"));
+                page.setExclusiveMinimum(exclusiveMinimum);
+                page.setExclusiveMaximum(exclusiveMaximum);
+                OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("page").schema(page)));
+                SpringPageableScanUtils.PageableConstraintsData bounds = SpringPageableScanUtils
+                        .scanPageableConstraints(spec, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+                assertThat(bounds.minPage).isEqualTo(1);
+                assertThat(bounds.maxPage).isEqualTo(2);
+            }
+        }
+    }
+
+    @Test
+    public void overflowingPageBoundsIdentifyOperationAndAttribute() {
+        for (boolean maximum : List.of(false, true)) {
+            IntegerSchema page = new IntegerSchema();
+            if (maximum) {
+                page.setMaximum(new BigDecimal("2147483648"));
+            } else {
+                page.setMinimum(new BigDecimal("2147483648"));
+            }
+            OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("page").schema(page)));
+            for (boolean oneIndexed : List.of(false, true)) {
+                SpringPageableScanUtils utils = new SpringPageableScanUtils();
+                assertThatThrownBy(() -> utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE,
+                        true, oneIndexed, true, true)).isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("listItems")
+                        .hasMessageContaining(maximum ? "maximum" : "minimum")
+                        .hasMessageContaining("2147483648").hasMessageContaining("integer range");
+            }
+        }
+    }
 }
