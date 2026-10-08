@@ -144,7 +144,7 @@ extension KeyedEncodingContainerProtocol {
     }
 
     public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
-        let formattedString = NSDecimalNumber(decimal: value).stringValue
+        let formattedString = NSDecimalNumber(decimal: value).description(withLocale: Locale(identifier: "en_US_POSIX"))
         try encode(formattedString, forKey: key)
     }
 
