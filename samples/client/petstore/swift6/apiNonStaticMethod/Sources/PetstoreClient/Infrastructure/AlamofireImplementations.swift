@@ -185,7 +185,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                 case .success:
                     completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -279,7 +279,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case let .success(value):
                     completion(.success(Response(response: stringResponse.response!, body: value as! T, bodyData: stringResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? -1, stringResponse.data, stringResponse.response, error)))
                 }
 
             })
@@ -291,8 +291,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                 do {
 
-                    guard case .success = dataResponse.result else {
-                        throw DownloadException.responseFailed
+                    if case let .failure(error) = dataResponse.result {
+                        completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
+                        return
                     }
 
                     guard let data = dataResponse.data else {
@@ -341,7 +342,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case .success:
                     completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -355,7 +356,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case .success:
                     completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T, bodyData: dataResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                 }
 
             })
@@ -366,7 +367,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                     return
                 }
 
