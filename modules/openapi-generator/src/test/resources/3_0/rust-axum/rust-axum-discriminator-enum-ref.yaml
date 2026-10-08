@@ -106,3 +106,71 @@ components:
       properties:
         kind:
           "$ref": "#/components/schemas/RodentKind"
+    # Several discriminator values map to the same variant, discriminator property is a $ref to an enum
+    # (from 3_0/oneOf_reuseRef.yaml)
+    FruitType:
+      type: string
+      enum:
+        - green_apple
+        - red_apple
+        - banana
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          green_apple: '#/components/schemas/Apple'
+          banana: '#/components/schemas/Banana'
+          red_apple: '#/components/schemas/Apple'
+    Apple:
+      type: object
+      properties:
+        fruitType:
+          $ref: '#/components/schemas/FruitType'
+        cultivar:
+          type: string
+      required:
+        - fruitType
+    Banana:
+      type: object
+      properties:
+        fruitType:
+          $ref: '#/components/schemas/FruitType'
+        lengthCm:
+          type: number
+      required:
+        - fruitType
+    # Several discriminator values map to the same variant, discriminator property is not defined in the variants
+    # (from 3_0/rust/test_duplicates.yaml)
+    PersonOrVehicle:
+      anyOf:
+        - $ref: '#/components/schemas/Person'
+        - $ref: '#/components/schemas/Vehicle'
+      discriminator:
+        propertyName: objectType
+        mapping:
+          student: '#/components/schemas/Person'
+          teacher: '#/components/schemas/Person'
+          car: '#/components/schemas/Vehicle'
+    Person:
+      type: object
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+      required:
+        - type
+        - name
+    Vehicle:
+      type: object
+      properties:
+        type:
+          type: string
+        speed:
+          type: number
+      required:
+        - type
+        - speed

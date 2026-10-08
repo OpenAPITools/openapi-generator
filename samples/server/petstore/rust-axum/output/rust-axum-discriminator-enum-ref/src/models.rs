@@ -80,6 +80,322 @@ pub fn check_xss_map<T>(
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Apple {
+    #[serde(rename = "fruitType")]
+    #[validate(nested)]
+    pub fruit_type: models::FruitType,
+
+    #[serde(rename = "cultivar")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cultivar: Option<String>,
+}
+
+impl Apple {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(fruit_type: models::FruitType) -> Apple {
+        Apple {
+            fruit_type,
+            cultivar: None,
+        }
+    }
+}
+
+/// Converts the Apple value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Apple {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            // Skipping fruitType in query parameter serialization
+            self.cultivar
+                .as_ref()
+                .map(|cultivar| ["cultivar".to_string(), cultivar.to_string()].join(",")),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Apple value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Apple {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub fruit_type: Vec<models::FruitType>,
+            pub cultivar: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Apple".to_string(),
+                    )
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "fruitType" => intermediate_rep.fruit_type.push(
+                        <models::FruitType as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "cultivar" => intermediate_rep.cultivar.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Apple".to_string(),
+                        )
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Apple {
+            fruit_type: intermediate_rep
+                .fruit_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "fruitType missing in Apple".to_string())?,
+            cultivar: intermediate_rep.cultivar.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Apple> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Apple>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Apple>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Apple - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Apple> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => match <Apple as std::str::FromStr>::from_str(value) {
+                std::result::Result::Ok(value) => {
+                    std::result::Result::Ok(header::IntoHeaderValue(value))
+                }
+                std::result::Result::Err(err) => std::result::Result::Err(format!(
+                    r#"Unable to convert header value '{value}' into Apple - {err}"#
+                )),
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Banana {
+    #[serde(default = "Banana::_name_for_fruit_type")]
+    #[serde(serialize_with = "Banana::_serialize_fruit_type")]
+    #[serde(rename = "fruitType")]
+    #[validate(nested)]
+    pub fruit_type: models::FruitType,
+
+    #[serde(rename = "lengthCm")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub length_cm: Option<f64>,
+}
+
+impl Banana {
+    fn _name_for_fruit_type() -> models::FruitType {
+        models::FruitType::Banana
+    }
+
+    fn _serialize_fruit_type<S>(_: &models::FruitType, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str("banana")
+    }
+}
+
+impl Banana {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> Banana {
+        Banana {
+            fruit_type: Self::_name_for_fruit_type(),
+            length_cm: None,
+        }
+    }
+}
+
+/// Converts the Banana value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Banana {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            // Skipping fruitType in query parameter serialization
+            self.length_cm
+                .as_ref()
+                .map(|length_cm| ["lengthCm".to_string(), length_cm.to_string()].join(",")),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Banana value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Banana {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub fruit_type: Vec<models::FruitType>,
+            pub length_cm: Vec<f64>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Banana".to_string(),
+                    )
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "fruitType" => intermediate_rep.fruit_type.push(
+                        <models::FruitType as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "lengthCm" => intermediate_rep.length_cm.push(
+                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Banana".to_string(),
+                        )
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Banana {
+            fruit_type: intermediate_rep
+                .fruit_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "fruitType missing in Banana".to_string())?,
+            length_cm: intermediate_rep.length_cm.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Banana> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Banana>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Banana>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Banana - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Banana> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <Banana as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Banana - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(default = "Cat::_name_for_kind")]
     #[serde(serialize_with = "Cat::_serialize_kind")]
@@ -536,6 +852,108 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Dog> {
     }
 }
 
+#[derive(Debug, Clone, PartialEq)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum Fruit {
+    Apple(models::Apple),
+    Banana(models::Banana),
+}
+
+impl validator::Validate for Fruit {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        match self {
+            Self::Apple(v) => v.validate(),
+            Self::Banana(v) => v.validate(),
+        }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Fruit value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Fruit {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+impl serde::Serialize for Fruit {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Apple(x) => x.serialize(serializer),
+            Self::Banana(x) => x.serialize(serializer),
+        }
+    }
+}
+
+crate::impl_deserialize_tagged!(Fruit, "fruitType", {
+    "green_apple" | "red_apple" => Apple,
+    "banana" => Banana,
+});
+
+impl From<models::Apple> for Fruit {
+    fn from(value: models::Apple) -> Self {
+        Self::Apple(value)
+    }
+}
+impl From<models::Banana> for Fruit {
+    fn from(value: models::Banana) -> Self {
+        Self::Banana(value)
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+#[repr(C)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
+)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum FruitType {
+    #[serde(rename = "green_apple")]
+    GreenApple,
+    #[serde(rename = "red_apple")]
+    RedApple,
+    #[serde(rename = "banana")]
+    Banana,
+}
+
+impl validator::Validate for FruitType {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::fmt::Display for FruitType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            FruitType::GreenApple => write!(f, "green_apple"),
+            FruitType::RedApple => write!(f, "red_apple"),
+            FruitType::Banana => write!(f, "banana"),
+        }
+    }
+}
+
+impl std::str::FromStr for FruitType {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "green_apple" => std::result::Result::Ok(FruitType::GreenApple),
+            "red_apple" => std::result::Result::Ok(FruitType::RedApple),
+            "banana" => std::result::Result::Ok(FruitType::Banana),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Hamster {
@@ -817,6 +1235,231 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Mouse> {
                 r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Person {
+    #[serde(rename = "type")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub r_type: String,
+
+    #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub name: String,
+
+    #[serde(rename = "objectType")]
+    pub object_type: String,
+}
+
+impl Person {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(r_type: String, name: String, object_type: String) -> Person {
+        Person {
+            r_type,
+            name,
+            object_type,
+        }
+    }
+}
+
+/// Converts the Person value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Person {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            Some("type".to_string()),
+            Some(self.r_type.to_string()),
+            Some("name".to_string()),
+            Some(self.name.to_string()),
+            Some("objectType".to_string()),
+            Some(self.object_type.to_string()),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Person value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Person {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub r_type: Vec<String>,
+            pub name: Vec<String>,
+            pub object_type: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Person".to_string(),
+                    )
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "type" => intermediate_rep.r_type.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "objectType" => intermediate_rep.object_type.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Person".to_string(),
+                        )
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Person {
+            r_type: intermediate_rep
+                .r_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "type missing in Person".to_string())?,
+            name: intermediate_rep
+                .name
+                .into_iter()
+                .next()
+                .ok_or_else(|| "name missing in Person".to_string())?,
+            object_type: intermediate_rep
+                .object_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "objectType missing in Person".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Person> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Person>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Person>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Person - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Person> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <Person as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Person - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum PersonOrVehicle {
+    Person(models::Person),
+    Vehicle(models::Vehicle),
+}
+
+impl validator::Validate for PersonOrVehicle {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        match self {
+            Self::Person(v) => v.validate(),
+            Self::Vehicle(v) => v.validate(),
+        }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a PersonOrVehicle value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for PersonOrVehicle {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+impl serde::Serialize for PersonOrVehicle {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Person(x) => x.serialize(serializer),
+            Self::Vehicle(x) => x.serialize(serializer),
+        }
+    }
+}
+
+crate::impl_deserialize_tagged!(PersonOrVehicle, "objectType", {
+    "student" | "teacher" => Person,
+    "car" => Vehicle,
+});
+
+impl From<models::Person> for PersonOrVehicle {
+    fn from(value: models::Person) -> Self {
+        Self::Person(value)
+    }
+}
+impl From<models::Vehicle> for PersonOrVehicle {
+    fn from(value: models::Vehicle) -> Self {
+        Self::Vehicle(value)
     }
 }
 
@@ -1202,6 +1845,190 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Square> {
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
                         r#"Unable to convert header value '{value}' into Square - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Vehicle {
+    #[serde(rename = "type")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub r_type: String,
+
+    #[serde(rename = "speed")]
+    pub speed: f64,
+
+    #[serde(default = "Vehicle::_name_for_object_type")]
+    #[serde(serialize_with = "Vehicle::_serialize_object_type")]
+    #[serde(rename = "objectType")]
+    pub object_type: String,
+}
+
+impl Vehicle {
+    fn _name_for_object_type() -> String {
+        String::from("car")
+    }
+
+    fn _serialize_object_type<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::_name_for_object_type())
+    }
+}
+
+impl Vehicle {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(r_type: String, speed: f64) -> Vehicle {
+        Vehicle {
+            r_type,
+            speed,
+            object_type: Self::_name_for_object_type(),
+        }
+    }
+}
+
+/// Converts the Vehicle value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for Vehicle {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            Some("type".to_string()),
+            Some(self.r_type.to_string()),
+            Some("speed".to_string()),
+            Some(self.speed.to_string()),
+            Some("objectType".to_string()),
+            Some(self.object_type.to_string()),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Vehicle value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Vehicle {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub r_type: Vec<String>,
+            pub speed: Vec<f64>,
+            pub object_type: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Vehicle".to_string(),
+                    )
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "type" => intermediate_rep.r_type.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "speed" => intermediate_rep.speed.push(
+                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "objectType" => intermediate_rep.object_type.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Vehicle".to_string(),
+                        )
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Vehicle {
+            r_type: intermediate_rep
+                .r_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "type missing in Vehicle".to_string())?,
+            speed: intermediate_rep
+                .speed
+                .into_iter()
+                .next()
+                .ok_or_else(|| "speed missing in Vehicle".to_string())?,
+            object_type: intermediate_rep
+                .object_type
+                .into_iter()
+                .next()
+                .ok_or_else(|| "objectType missing in Vehicle".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Vehicle> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vehicle>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Vehicle>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Vehicle - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Vehicle> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <Vehicle as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Vehicle - {err}"#
                     )),
                 }
             }
