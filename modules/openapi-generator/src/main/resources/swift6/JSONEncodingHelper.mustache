@@ -9,6 +9,8 @@ import Foundation
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class JSONEncodingHelper {
 
+    static let encodingErrorParameterKey = "{{projectName}}.RequestBuilderError"
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?, codableHelper: CodableHelper) -> [String: any Sendable]? {
         var params: [String: any Sendable]?
 
@@ -19,7 +21,7 @@ import Foundation
                 let data = try encodeResult.get()
                 params = JSONDataEncoding.encodingParameters(jsonData: data)
             } catch {
-                print(error.localizedDescription)
+                params = [encodingErrorParameterKey: RequestBuilderError.bodyEncodingFailed(error)]
             }
         }
 
