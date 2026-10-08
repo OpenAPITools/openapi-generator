@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  title: Built-value nullable collection item BuilderFactory test
+  version: "1.0.0"
+paths:
+  /items:
+    get:
+      operationId: getItems
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Container"
+components:
+  schemas:
+    Widget:
+      type: object
+      properties:
+        id:
+          type: integer
+    # A BuiltList whose item type is nullable (double?).
+    # Before the fix, serializers.dart emitted ListBuilder<double>() instead
+    # of ListBuilder<double?>(), causing a FullType mismatch at runtime.
+    Container:
+      type: object
+      properties:
+        scores:
+          type: array
+          items:
+            type: number
+            format: double
+            nullable: true
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            nullable: true
+        lookup:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+

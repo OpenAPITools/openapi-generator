@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/pet.dart';
 
@@ -114,7 +115,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -188,6 +189,12 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': status,
     };
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -271,6 +278,12 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     final _queryParameters = <String, dynamic>{
       r'tags': tags,
     };
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -332,7 +345,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -486,7 +499,7 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -512,6 +525,12 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
         if (name != null) r'name': name,
         if (status != null) r'status': status,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -564,7 +583,7 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -667,7 +686,7 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
