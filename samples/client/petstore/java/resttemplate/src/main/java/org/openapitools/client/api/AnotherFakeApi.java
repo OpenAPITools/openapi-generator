@@ -24,7 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnotherFakeApi extends BaseApi {
 
     public AnotherFakeApi() {
@@ -56,7 +56,6 @@ public class AnotherFakeApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws RestClientException {
-        Object localVarPostBody = client;
         
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -64,10 +63,10 @@ public class AnotherFakeApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -81,19 +80,18 @@ public class AnotherFakeApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Client> localReturnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, Collections.<String, Object>emptyMap(), localVarQueryParams, client, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -106,6 +104,6 @@ public class AnotherFakeApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

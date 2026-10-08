@@ -103,4 +103,35 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub small_positive: u8");
         TestUtils.assertFileContains(modelsPath, "pub struct GetIntegersQueryParams");
     }
+
+    @Test
+    public void testDiscriminatorReferencingEnum() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-discriminator-enum-ref.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        // Every discriminator value is an enum value -> tagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(tag = \"kind\")]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Pet {");
+        TestUtils.assertFileContains(modelsPath, "#[serde(default = \"Dog::_name_for_kind\")]");
+        TestUtils.assertFileContains(modelsPath, "#[serde(serialize_with = \"Dog::_serialize_kind\")]");
+        TestUtils.assertFileContains(modelsPath, "fn _name_for_kind() -> models::PetKind {");
+        TestUtils.assertFileContains(modelsPath, "models::PetKind::Dog");
+        TestUtils.assertFileContains(modelsPath, "fn _serialize_kind<S>(_: &models::PetKind, s: S)");
+        TestUtils.assertFileContains(modelsPath, "s.serialize_str(\"dog\")");
+        TestUtils.assertFileContains(modelsPath, "models::PetKind::Cat");
+        TestUtils.assertFileContains(modelsPath, "pub fn new() -> Dog {");
+        TestUtils.assertFileContains(modelsPath, "kind: Self::_name_for_kind(),");
+        // Discriminator value "Square" is not an enum value -> untagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Shape {");
+        // Discriminator property of "Mouse" is optional -> untagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Rodent {");
+        TestUtils.assertFileNotContains(modelsPath, "Mouse::_name_for_kind");
+    }
 }

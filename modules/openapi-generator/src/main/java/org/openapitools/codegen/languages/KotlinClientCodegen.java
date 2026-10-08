@@ -440,6 +440,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
 
+        // super.processOpts() always writes useJackson3 back, so remember whether the user set it
+        boolean useJackson3Configured = additionalProperties.containsKey(USE_JACKSON_3);
+
         super.processOpts();
 
         boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
@@ -499,7 +502,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
                 && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
-        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !isUseJackson3()) {
+        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !useJackson3Configured) {
             setUseJackson3(true);
             additionalProperties.put(USE_JACKSON_3, true);
             applyJackson3Package();

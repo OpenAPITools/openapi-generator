@@ -344,6 +344,22 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void exampleStringEscapesQuotesAndBackslashes() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/example-string-escaping.yaml");
+
+        assertFileContains(files.get("NotesApi.java").toPath(),
+                "String exampleString = \"{ \\\"note\\\" : \\\"has \\\\\\\"quote\\\\\\\" inside\\\" }\";");
+        assertFileContains(files.get("PathsApi.java").toPath(),
+                "String exampleString = \"{ \\\"windowsPath\\\" : \\\"C:\\\\\\\\temp\\\\\\\\file.txt\\\", \\\"pattern\\\" : \\\"\\\\\\\\d+\\\" }\";");
+        // #9976: array of a $ref object whose own example is a JSON string
+        assertFileContains(files.get("AdminsApi.java").toPath(),
+                "{ \\\"adminUser\\\" : \\\"{\\\\\\\"userName\\\\\\\":\\\\\\\"admin.user@example.com\\\\\\\"}\\\"");
+        assertFileContains(files.get("WrappersApi.java").toPath(),
+                "String exampleString = \"{ \\\"data\\\" : \\\"{\\\\\\\"someMeaningfulNumber\\\\\\\":25009779801}\\\", \\\"someProperty\\\" : \\\"someProperty\\\" }\";");
+    }
+
+    @Test
     public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -7505,6 +7521,32 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldRegisterJsonNullableModuleMatchingJacksonVersion() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        additionalProperties.put(SpringCodegen.USE_JACKSON_3, "true");
+        additionalProperties.put(SpringCodegen.OPENAPI_NULLABLE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import tools.jackson.databind.JacksonModule;")
+                .contains("public JacksonModule jsonNullableModule()")
+                .contains("return new JsonNullableJackson3Module();")
+                .doesNotContain("com.fasterxml.jackson");
+
+        additionalProperties.put(SpringCodegen.USE_JACKSON_3, "false");
+
+        files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import com.fasterxml.jackson.databind.Module;")
+                .contains("public Module jsonNullableModule()")
+                .contains("return new JsonNullableModule();")
+                .doesNotContain("tools.jackson.databind");
+    }
+
+    @Test
     public void shouldNotHaveDocumentationAnnotationWhenUsingLibrarySpringHttpInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -10384,7 +10426,9 @@ public class SpringCodegenTest {
                 .fileContains(
                         "private List<@NotNull @Size(max=50) String> listString",
                         "private List<@Min(0)Integer> listInteger",
-                        "private List<@Size(max=10) String> listCode"
+                        "private List<@Size(max=10) String> listCode",
+                        "private List<@NotEmpty @Valid Stubb> listRef",
+                        "private List<@NotEmpty @Valid SampleModelListInlineInner>"
                 );
     }
 
@@ -10400,6 +10444,8 @@ public class SpringCodegenTest {
                 "private List<@Size(max=50) String> listStringNullable",
                 "private List<@NotNull @Valid Stubb> listSample",
                 "private List<@NotNull @Min(0)Integer> listInteger",
-                "private List<@NotNull @Size(max=10) String> listCode");
+                "private List<@NotNull @Size(max=10) String> listCode",
+                "private List<@NotNull @NotEmpty @Valid Stubb> listRef",
+                "private List<@NotNull @NotEmpty @Valid SampleModelListInlineInner>");
     }
 }
