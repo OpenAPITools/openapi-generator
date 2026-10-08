@@ -76,6 +76,17 @@ import static org.testng.Assert.*;
 public class SpringCodegenTest {
 
     @Test
+    public void springBoot4ClientStarterIsDeclaredOnlyOnce() throws IOException {
+        for (boolean reactive : List.of(false, true)) {
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT,
+                    Map.of(SpringCodegen.USE_SPRING_BOOT4, true, SpringCodegen.REACTIVE, reactive));
+            String pom = Files.readString(files.get("pom.xml").toPath());
+            String artifact = "<artifactId>spring-boot-starter-" + (reactive ? "webclient" : "restclient") + "</artifactId>";
+            assertThat(pom).containsOnlyOnce(artifact);
+        }
+    }
+
+    @Test
     public void clientOptsUnicity() {
         SpringCodegen codegen = new SpringCodegen();
         codegen.cliOptions()
