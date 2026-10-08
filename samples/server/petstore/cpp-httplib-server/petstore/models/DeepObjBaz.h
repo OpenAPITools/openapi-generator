@@ -29,9 +29,25 @@ public:
     void setY(const int& Y);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(DeepObjBaz,
-         X, Y)
+friend void to_json(nlohmann::json& j, const DeepObjBaz& o)
+{
+    j["x"] = o.X;
+    j["y"] = o.Y;
+}
+
+friend void from_json(const nlohmann::json& j, DeepObjBaz& o)
+{
+
+    if (j.contains("x") && !j.at("x").is_null())
+    {
+        j.at("x").get_to(o.X);
+    }
+    if (j.contains("y") && !j.at("y").is_null())
+    {
+        j.at("y").get_to(o.Y);
+    }
+}
+
 
 private:
     std::string X;

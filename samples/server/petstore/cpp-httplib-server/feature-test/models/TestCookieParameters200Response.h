@@ -26,9 +26,20 @@ public:
     void setMessage(const std::string& message);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(TestCookieParameters200Response,
-         message)
+friend void to_json(nlohmann::json& j, const TestCookieParameters200Response& o)
+{
+    j["message"] = o.message;
+}
+
+friend void from_json(const nlohmann::json& j, TestCookieParameters200Response& o)
+{
+
+    if (j.contains("message") && !j.at("message").is_null())
+    {
+        j.at("message").get_to(o.message);
+    }
+}
+
 
 private:
     std::string message;

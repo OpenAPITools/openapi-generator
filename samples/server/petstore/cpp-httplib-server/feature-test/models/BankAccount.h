@@ -30,9 +30,21 @@ public:
     void setBankName(const std::string& bankName);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(BankAccount,
-         paymentType, accountNumber, bankName)
+friend void to_json(nlohmann::json& j, const BankAccount& o)
+{
+    j["paymentType"] = o.paymentType;
+    j["accountNumber"] = o.accountNumber;
+    j["bankName"] = o.bankName;
+}
+
+friend void from_json(const nlohmann::json& j, BankAccount& o)
+{
+    j.at("paymentType").get_to(o.paymentType);
+    j.at("accountNumber").get_to(o.accountNumber);
+    j.at("bankName").get_to(o.bankName);
+
+}
+
 
 private:
     std::string paymentType;

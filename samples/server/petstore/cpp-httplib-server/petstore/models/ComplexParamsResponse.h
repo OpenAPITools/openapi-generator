@@ -147,9 +147,45 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ComplexParamsResponse,
-         deepObj, enumParam, pipeArr, spaceArr, xEnumHeader, cookieEnum)
+friend void to_json(nlohmann::json& j, const ComplexParamsResponse& o)
+{
+    j["deepObj"] = o.deepObj;
+    j["enumParam"] = o.enumParam;
+    j["pipeArr"] = o.pipeArr;
+    j["spaceArr"] = o.spaceArr;
+    j["x-enum-header"] = o.xEnumHeader;
+    j["cookieEnum"] = o.cookieEnum;
+}
+
+friend void from_json(const nlohmann::json& j, ComplexParamsResponse& o)
+{
+
+    if (j.contains("deepObj") && !j.at("deepObj").is_null())
+    {
+        j.at("deepObj").get_to(o.deepObj);
+    }
+    if (j.contains("enumParam") && !j.at("enumParam").is_null())
+    {
+        j.at("enumParam").get_to(o.enumParam);
+    }
+    if (j.contains("pipeArr") && !j.at("pipeArr").is_null())
+    {
+        j.at("pipeArr").get_to(o.pipeArr);
+    }
+    if (j.contains("spaceArr") && !j.at("spaceArr").is_null())
+    {
+        j.at("spaceArr").get_to(o.spaceArr);
+    }
+    if (j.contains("x-enum-header") && !j.at("x-enum-header").is_null())
+    {
+        j.at("x-enum-header").get_to(o.xEnumHeader);
+    }
+    if (j.contains("cookieEnum") && !j.at("cookieEnum").is_null())
+    {
+        j.at("cookieEnum").get_to(o.cookieEnum);
+    }
+}
+
 
 private:
     DeepObj deepObj;

@@ -156,9 +156,30 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EnumTypes,
-         stringEnum, numericEnum, statusCode)
+friend void to_json(nlohmann::json& j, const EnumTypes& o)
+{
+    j["stringEnum"] = o.stringEnum;
+    j["numericEnum"] = o.numericEnum;
+    j["statusCode"] = o.statusCode;
+}
+
+friend void from_json(const nlohmann::json& j, EnumTypes& o)
+{
+
+    if (j.contains("stringEnum") && !j.at("stringEnum").is_null())
+    {
+        j.at("stringEnum").get_to(o.stringEnum);
+    }
+    if (j.contains("numericEnum") && !j.at("numericEnum").is_null())
+    {
+        j.at("numericEnum").get_to(o.numericEnum);
+    }
+    if (j.contains("statusCode") && !j.at("statusCode").is_null())
+    {
+        j.at("statusCode").get_to(o.statusCode);
+    }
+}
+
 
 private:
     std::optional<StringEnumEnum> stringEnum;

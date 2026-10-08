@@ -48,9 +48,40 @@ public:
     void setNestedArray(const std::vector<std::vector<int>>& nestedArray);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ArrayTypes,
-         stringArray, intArray, objectArray, enumArray, nestedArray)
+friend void to_json(nlohmann::json& j, const ArrayTypes& o)
+{
+    j["stringArray"] = o.stringArray;
+    j["intArray"] = o.intArray;
+    j["objectArray"] = o.objectArray;
+    j["enumArray"] = o.enumArray;
+    j["nestedArray"] = o.nestedArray;
+}
+
+friend void from_json(const nlohmann::json& j, ArrayTypes& o)
+{
+
+    if (j.contains("stringArray") && !j.at("stringArray").is_null())
+    {
+        j.at("stringArray").get_to(o.stringArray);
+    }
+    if (j.contains("intArray") && !j.at("intArray").is_null())
+    {
+        j.at("intArray").get_to(o.intArray);
+    }
+    if (j.contains("objectArray") && !j.at("objectArray").is_null())
+    {
+        j.at("objectArray").get_to(o.objectArray);
+    }
+    if (j.contains("enumArray") && !j.at("enumArray").is_null())
+    {
+        j.at("enumArray").get_to(o.enumArray);
+    }
+    if (j.contains("nestedArray") && !j.at("nestedArray").is_null())
+    {
+        j.at("nestedArray").get_to(o.nestedArray);
+    }
+}
+
 
 private:
     std::vector<std::string> stringArray;

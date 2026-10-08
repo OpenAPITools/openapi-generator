@@ -27,9 +27,20 @@ public:
     void setMaybeString(const std::string& maybeString);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(NullableExample,
-         maybeString)
+friend void to_json(nlohmann::json& j, const NullableExample& o)
+{
+    j["maybeString"] = o.maybeString;
+}
+
+friend void from_json(const nlohmann::json& j, NullableExample& o)
+{
+
+    if (j.contains("maybeString") && !j.at("maybeString").is_null())
+    {
+        j.at("maybeString").get_to(o.maybeString);
+    }
+}
+
 
 private:
     std::string maybeString;

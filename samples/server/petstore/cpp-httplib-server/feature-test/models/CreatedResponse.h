@@ -31,9 +31,24 @@ public:
     void setLocation(const std::string& location);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(CreatedResponse,
-         status, id, location)
+friend void to_json(nlohmann::json& j, const CreatedResponse& o)
+{
+    j["status"] = o.status;
+    j["id"] = o.id;
+    j["location"] = o.location;
+}
+
+friend void from_json(const nlohmann::json& j, CreatedResponse& o)
+{
+    j.at("status").get_to(o.status);
+    j.at("id").get_to(o.id);
+
+    if (j.contains("location") && !j.at("location").is_null())
+    {
+        j.at("location").get_to(o.location);
+    }
+}
+
 
 private:
     std::string status;

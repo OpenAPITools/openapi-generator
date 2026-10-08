@@ -31,9 +31,24 @@ public:
     void setDescription(const std::string& description);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(SimpleObject,
-         id, name, description)
+friend void to_json(nlohmann::json& j, const SimpleObject& o)
+{
+    j["id"] = o.id;
+    j["name"] = o.name;
+    j["description"] = o.description;
+}
+
+friend void from_json(const nlohmann::json& j, SimpleObject& o)
+{
+    j.at("id").get_to(o.id);
+    j.at("name").get_to(o.name);
+
+    if (j.contains("description") && !j.at("description").is_null())
+    {
+        j.at("description").get_to(o.description);
+    }
+}
+
 
 private:
     int id;

@@ -37,9 +37,31 @@ public:
     void setSkills(const std::vector<std::string>& skills);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Employee,
-         id, name, email, address, skills)
+friend void to_json(nlohmann::json& j, const Employee& o)
+{
+    j["id"] = o.id;
+    j["name"] = o.name;
+    j["email"] = o.email;
+    j["address"] = o.address;
+    j["skills"] = o.skills;
+}
+
+friend void from_json(const nlohmann::json& j, Employee& o)
+{
+    j.at("id").get_to(o.id);
+    j.at("name").get_to(o.name);
+    j.at("email").get_to(o.email);
+
+    if (j.contains("address") && !j.at("address").is_null())
+    {
+        j.at("address").get_to(o.address);
+    }
+    if (j.contains("skills") && !j.at("skills").is_null())
+    {
+        j.at("skills").get_to(o.skills);
+    }
+}
+
 
 private:
     int id;
