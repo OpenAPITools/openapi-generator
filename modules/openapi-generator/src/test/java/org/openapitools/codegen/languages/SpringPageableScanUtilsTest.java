@@ -34,6 +34,76 @@ public class SpringPageableScanUtilsTest {
     // Helpers
     // -------------------------------------------------------------------------
 
+    @Test
+    public void oneIndexedScanNormalizesEffectiveExclusiveBounds() {
+        IntegerSchema page = new IntegerSchema();
+        page.setDefault(3);
+        page.setMinimum(BigDecimal.ZERO);
+        page.setExclusiveMinimum(true);
+        page.setMaximum(BigDecimal.TEN);
+        page.setExclusiveMaximum(true);
+        OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("page").schema(page)));
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
+        utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE, true, true, true, true);
+
+        assertThat(utils.pageableDefaultsRegistry.get("listItems").page).isEqualTo(2);
+        SpringPageableScanUtils.PageableConstraintsData bounds = utils.pageableConstraintsRegistry.get("listItems");
+        assertThat(bounds.minPage).isZero();
+        assertThat(bounds.maxPage).isEqualTo(8);
+        assertThat(bounds.minSize).isEqualTo(-1);
+        assertThat(bounds.maxSize).isEqualTo(-1);
+    }
+
+    @Test
+    public void oneIndexedScanRoundsFractionalBoundsAgainstIntegerPages() {
+        for (boolean exclusive : List.of(false, true)) {
+            for (String minimum : List.of("0.5", "1.5")) {
+                IntegerSchema page = new IntegerSchema();
+                page.setMinimum(new BigDecimal(minimum));
+                page.setMaximum(new BigDecimal("5.5"));
+                page.setExclusiveMinimum(exclusive);
+                page.setExclusiveMaximum(exclusive);
+                OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("page").schema(page)));
+                SpringPageableScanUtils utils = new SpringPageableScanUtils();
+                utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE, true, true, true, true);
+
+                SpringPageableScanUtils.PageableConstraintsData bounds = utils.pageableConstraintsRegistry.get("listItems");
+                assertThat(bounds.minPage).isEqualTo(minimum.equals("0.5") ? 0 : 1);
+                assertThat(bounds.maxPage).isEqualTo(4);
+            }
+        }
+    }
+
+    @Test
+    public void oneIndexedScanLeavesAbsentPageBoundsUnconstrained() {
+        IntegerSchema page = new IntegerSchema();
+        page.setDefault(1);
+        IntegerSchema size = new IntegerSchema();
+        size.setMaximum(BigDecimal.TEN);
+        OpenAPI spec = buildPageableOperationWithParams(List.of(
+                new Parameter().name("page").schema(page), new Parameter().name("size").schema(size)));
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
+        utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE, true, true, true, true);
+
+        SpringPageableScanUtils.PageableConstraintsData bounds = utils.pageableConstraintsRegistry.get("listItems");
+        assertThat(bounds.minPage).isEqualTo(-1);
+        assertThat(bounds.maxPage).isEqualTo(-1);
+        assertThat(bounds.maxSize).isEqualTo(10);
+    }
+
+    @Test
+    public void oneIndexedScanRejectsExplicitNegativeBoundInsteadOfTreatingItAsAbsent() {
+        IntegerSchema page = new IntegerSchema();
+        page.setMinimum(BigDecimal.valueOf(-1));
+        OpenAPI spec = buildPageableOperationWithParams(List.of(new Parameter().name("page").schema(page)));
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
+        assertThatThrownBy(() -> utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE,
+                false, true, true, true)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("listItems").hasMessageContaining("effective minimum -1");
+        assertThatCode(() -> utils.scanAll(spec, SpringPageableScanUtils.AutoPaginationMode.NONE,
+                false, true, true, false)).doesNotThrowAnyException();
+    }
+
     /**
      * Builds an OpenAPI doc with a single GET /items operation marked x-spring-paginated,
      * accepting an arbitrary list of parameters.

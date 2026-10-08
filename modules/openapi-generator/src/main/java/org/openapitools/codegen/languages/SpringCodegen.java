@@ -130,6 +130,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
+    public static final String GENERATE_PAGEABLE_DEFAULTS = "generatePageableDefaults";
+    public static final String ONE_INDEXED_PAGE_PARAMETERS = "oneIndexedPageParameters";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
     public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
@@ -231,6 +233,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Setter protected boolean generateSortValidation = false;
     @Setter protected boolean generatePageableConstraintValidation = false;
+    @Setter protected boolean generatePageableDefaults = true;
+    protected TriStateBoolean oneIndexedPageParameters = TriStateBoolean.UNSET;
+
+    public void setOneIndexedPageParameters(boolean oneIndexedPageParameters) {
+        this.oneIndexedPageParameters = TriStateBoolean.fromNullableBoolean(oneIndexedPageParameters);
+    }
     @Setter protected boolean substituteGenericPagedModel = false;
     @Getter @Setter
     protected String clientRegistrationId = null;
@@ -451,6 +459,17 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generatePageableConstraintValidation));
+        cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_DEFAULTS,
+                "Generate @PageableDefault and @SortDefault from pagination defaults in the spec. "
+                        + "Disabling this does not disable pagination validation. Supported by spring-boot and spring-cloud.",
+                generatePageableDefaults));
+        cliOptions.add(CliOption.newBoolean(ONE_INDEXED_PAGE_PARAMETERS,
+                "Interpret spec page defaults and validation bounds as one-based and convert them to zero-based Pageable values. "
+                        + "Applies globally to pageable operations. Explicit true or false silences generation warnings for page default 1, "
+                        + "which are also emitted when generatePageableDefaults=false. Configure spring.data.web.pageable.one-indexed-parameters separately. "
+                        + "One-based page defaults and effective bounds below 1 fail generation when their annotations are enabled. "
+                        + "Does not change outgoing Feign page encoding. Supported by spring-boot and spring-cloud.",
+                oneIndexedPageParameters.isTrue()));
         cliOptions.add(CliOption.newBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
@@ -731,6 +750,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
+            if (additionalProperties.containsKey(GENERATE_PAGEABLE_DEFAULTS)) {
+                setGeneratePageableDefaults(convertPropertyToBoolean(GENERATE_PAGEABLE_DEFAULTS));
+            }
+            writePropertyBack(GENERATE_PAGEABLE_DEFAULTS, generatePageableDefaults);
+            // Do not write an implicit false back: it would look explicit on a subsequent processOpts call.
+            if (additionalProperties.containsKey(ONE_INDEXED_PAGE_PARAMETERS)) {
+                setOneIndexedPageParameters(convertPropertyToBoolean(ONE_INDEXED_PAGE_PARAMETERS));
+                writePropertyBack(ONE_INDEXED_PAGE_PARAMETERS, oneIndexedPageParameters.isTrue());
+            }
         }
 
         // override parent one
@@ -1024,7 +1052,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (isPageableSupported()) {
-            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode);
+            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode, generatePageableDefaults,
+                    oneIndexedPageParameters.isTrue(), !oneIndexedPageParameters.isUnset(),
+                    generatePageableConstraintValidation && useBeanValidation);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
