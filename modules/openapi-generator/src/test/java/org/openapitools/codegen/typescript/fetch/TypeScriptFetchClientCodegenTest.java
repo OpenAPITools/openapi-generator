@@ -17,6 +17,7 @@ import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -33,6 +34,100 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
+    @Test
+    public void testJsonContentHeaders() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
+                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Vendor-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "filePath?: string;",
+                "'file_path': value['filePath'],",
+                "if (value == null) {",
+                "return value;");
+        TestUtils.assertFileNotContains(api,
+                "headerParameters['X-Json-Arg'] = String(",
+                "headerParameters['X-Optional-Json-Arg'] = String(",
+                "headerParameters['X-Vendor-Arg'] = String(");
+    }
+
+    @Test
+    public void testJsonContentHeadersWithoutRuntimeChecks() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("withoutRuntimeChecks", true);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
+                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Vendor-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);",
+                "import { HeaderArgToJSON } from '../models/HeaderArg';");
+        TestUtils.assertFileNotContains(api,
+                "JSON.stringify(requestParameters['xJsonArg'])",
+                "JSON.stringify(requestParameters['xOptionalJsonArg'])");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "'file_path': value['filePath'],");
+    }
+
+    @Test
+    public void testJsonContentHeaderWebhook() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header-webhook").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header-webhook.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "type HeaderArg,",
+                "HeaderArgToJSON,",
+                "} from '../models/HeaderArg';");
+        TestUtils.assertFileNotContains(api, "type ,");
+    }
+
+    @Test
+    public void testJsonContentHeaderWebhookWithoutRuntimeChecks() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header-webhook").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header-webhook.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("withoutRuntimeChecks", true);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "import { HeaderArgToJSON } from '../models/HeaderArg';");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "'file_path': value['filePath'],");
+    }
+
     @Test
     public void testSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
@@ -124,7 +219,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(api,
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept?: 'application/json' }",
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }",
-                "Promise<runtime.ApiResponse<Receipt | Blob>>");
+                "Promise<runtime.ApiResponse<Receipt | runtime.HttpFile>>");
 
         // Content-Type is set inside the branch that builds the body, Accept defaults to the response
         // content-type declared first, and deserialisation dispatches on what the server actually returned
@@ -218,7 +313,7 @@ public class TypeScriptFetchClientCodegenTest {
         Path api = Paths.get(output + "/apis/ReportApi.ts");
         TestUtils.assertFileContains(api,
                 "async getReport(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | null | undefined>;",
-                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob | null | undefined>;",
+                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile | null | undefined>;",
                 "switch (response.raw.status) {",
                 "            case 204:",
                 "                return null;");
@@ -752,6 +847,38 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
     }
 
+    @DataProvider
+    public Object[][] nullableOneOfRuntimeCheckModes() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "nullableOneOfRuntimeCheckModes")
+    public void testNullablePrimitiveOneOfTypes(boolean withoutRuntimeChecks) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, withoutRuntimeChecks);
+        File output = generate(properties,
+                "src/test/resources/3_0/typescript-fetch/oneof-nullable-primitives.yaml");
+
+        for (String model : List.of("InlineNullableValue", "ReferencedNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = null | number | string;");
+        }
+
+        // Null must match exactly one branch, rather than none or both branches.
+        for (String model : List.of("NonNullableValue", "MultipleNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = number | string;");
+        }
+
+        Path arrayItems = Paths.get(output + (withoutRuntimeChecks
+                ? "/models/index.ts" : "/models/NullableArrayItems.ts"));
+        TestUtils.assertFileContains(arrayItems, "export type NullableArrayItems = Array<string | null> | number;");
+
+        Path values = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/Values.ts"));
+        TestUtils.assertFileContains(values, "array: Array<InlineNullableValue>;",
+                "map: { [key: string]: InlineNullableValue; };");
+    }
+
     /**
      * Issue #21587
      * When using oneOf, the Typescript Fetch generator should import modelled types except for
@@ -814,6 +941,32 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(apiDocs, "metadata: 'metadata_example',");
         TestUtils.assertFileNotContains(apiDocs, "files: /path/to/file.txt");
         TestUtils.assertFileNotContains(apiDocs, "metadata: metadata_example");
+    }
+
+    @Test(description = "Verify instanceOf excludes values from not: enum")
+    public void testNotEnumExclusionInTypeGuard() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_1/typescript-fetch/oneof-not-enum.yaml");
+
+        TestUtils.assertFileContains(Paths.get(output + "/models/Known.ts"),
+                "if (value['kind'] !== 'known') return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/Other.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/TaggedUnion.ts"),
+                "if (instanceOfOther(json)) {");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "kind?: string;",
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === \"a\\\"b\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "if (!('kind' in value)");
+        TestUtils.assertFileContains(Paths.get(output + "/models/SanitizedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"filePath\"] === \"known\" || (value as Record<string, unknown>)[\"file-path\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/NullableExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === null) return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "[\"kind\"] === 42",
+                "[\"kind\"] === true");
     }
 
     @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
@@ -1232,6 +1385,36 @@ public class TypeScriptFetchClientCodegenTest {
         // date-time keeps the full timestamp.
         TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/exploded-object-query-param.yaml");
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. A free-form object is isMap but not isContainer, so it used to fall
+        // through to a whole-object assignment and end up bracketed by the runtime.
+        TestUtils.assertFileContains(api,
+                "for (let key of Object.keys(requestParameters['filter'])) {",
+                "const value = (requestParameters['filter'] as any)[key];");
+        TestUtils.assertFileNotContains(api, "queryParameters['filter'] = requestParameters['filter'];");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(api,
+                "for (let key of Object.keys(requestParameters['typedFilter'])) {",
+                "const value = (requestParameters['typedFilter'] as any)[key];");
+
+        // pins the emitted loop: a null or undefined entry is skipped, and the entry is defined rather than assigned so a key named __proto__ survives
+        TestUtils.assertFileContains(api, "if (value != null) { Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true }); }");
+
+        // deepObject nests under the parameter name, which the runtime does for a whole object
+        TestUtils.assertFileContains(api, "queryParameters['deepFilter'] = requestParameters['deepFilter'];");
+        TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['deepFilter'])");
+
+        // without explode the object stays a single parameter
+        TestUtils.assertFileContains(api, "queryParameters['flatFilter'] = requestParameters['flatFilter'];");
+        TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

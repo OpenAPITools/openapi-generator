@@ -27,7 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BasApi {
     private ApiClient apiClient;
 
@@ -59,7 +59,6 @@ public class BasApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createMessageRequestCreation(@jakarta.annotation.Nonnull File fileContent, @jakarta.annotation.Nonnull String idempotencyKey, @jakarta.annotation.Nonnull DataDirection dataDirection, @jakarta.annotation.Nonnull DataChannel dataChannel) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'fileContent' is set
         if (fileContent == null) {
             throw new RestClientResponseException("Missing the required parameter 'fileContent' when calling createMessage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -84,14 +83,10 @@ public class BasApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (fileContent != null)
-            formParams.add("fileContent", new FileSystemResource(fileContent));
-        if (idempotencyKey != null)
-            formParams.add("idempotencyKey", idempotencyKey);
-        if (dataDirection != null)
-            formParams.add("dataDirection", dataDirection);
-        if (dataChannel != null)
-            formParams.add("dataChannel", dataChannel);
+        formParams.add("fileContent", new FileSystemResource(fileContent));
+        formParams.add("idempotencyKey", idempotencyKey);
+        formParams.add("dataDirection", dataDirection);
+        formParams.add("dataChannel", dataChannel);
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -105,7 +100,7 @@ public class BasApi {
         String[] localVarAuthNames = new String[] { "basicAuth" };
 
         ParameterizedTypeReference<InlineObject> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/messages", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/messages", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

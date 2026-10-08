@@ -20,6 +20,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.antlr4.KotlinLexer;
 import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.testng.Assert;
@@ -75,6 +76,32 @@ public class KotlinServerCodegenTest {
                 "Mercury is the first planet from the Sun and the smallest in the Solar System",
                 "The planet we all live on"
         );
+    }
+
+    @Test
+    public void additionalModelTypeAnnotationsAreNotAppliedToEnums() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@ClassOnlyAnnotation");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "@EnumOnlyAnnotation");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/enum-description.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path enumClass = Paths.get(outputPath + "/models/Type.kt");
+        assertFileContains(enumClass, "@EnumOnlyAnnotation");
+        assertFileNotContains(enumClass, "@ClassOnlyAnnotation");
+
+        Path dataClass = Paths.get(outputPath + "/models/Pony.kt");
+        assertFileContains(dataClass, "@ClassOnlyAnnotation");
+        assertFileNotContains(dataClass, "@EnumOnlyAnnotation");
     }
 
     @Test
@@ -857,5 +884,32 @@ public class KotlinServerCodegenTest {
         // All operations must still be reachable with their full paths
         assertFileContains(tagOneApi, "@Path(\"/foo/bar/one\")", "@Path(\"/foo/bar/two\")");
         assertFileContains(tagTwoApi, "@Path(\"/foo/bar/three\")", "@Path(\"/baz/bar/four\")");
+    }
+
+    @Test
+    public void ktorResources_keepsOriginalParameterNames() throws IOException {
+        // Ktor binds @Resource properties by (serial) name, so the spec's wire name
+        // (e.g. page_size) must be preserved even though the Kotlin property is camelized.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        var codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/ktor-resources-snake-case-params.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path paths = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/Paths.kt");
+        assertFileContains(
+                paths,
+                "@Resource(\"/items/{item_id}\") class getItem(@SerialName(\"item_id\") val itemId: kotlin.String, "
+                        + "@SerialName(\"page_size\") val pageSize: kotlin.Int? = null, "
+                        + "@SerialName(\"a&b\") val aAmpersandB: kotlin.String? = null, "
+                        + "@SerialName(\"sortOrder\") val sortOrder: kotlin.String? = null)",
+                "@Resource(\"/ping\") class ping"
+        );
     }
 }

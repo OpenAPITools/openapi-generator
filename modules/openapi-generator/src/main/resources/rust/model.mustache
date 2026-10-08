@@ -84,6 +84,11 @@ pub enum {{{classname}}} {
     {{^oneOf}}
     {{#mappedModels}}
     #[serde(rename="{{mappingName}}")]
+    {{^vendorExtensions.x-rust-inline-variants}}
+    {{!-- newtype variant: the child's own fields survive; named by modelName (unique per mapping), wraps the real classname --}}
+    {{{modelName}}}({{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}models::{{#model}}{{{classname}}}{{/model}}{{^model}}{{{modelName}}}{{/model}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}),
+    {{/vendorExtensions.x-rust-inline-variants}}
+    {{#vendorExtensions.x-rust-inline-variants}}
     {{{modelName}}} {
     {{#vars}}
         {{#description}}
@@ -93,6 +98,7 @@ pub enum {{{classname}}} {
         {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}{{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}{{{dataType}}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
+    {{/vendorExtensions.x-rust-inline-variants}}
     {{/mappedModels}}
     {{/oneOf}}
     {{^oneOf.isEmpty}}
@@ -110,11 +116,11 @@ pub enum {{{classname}}} {
 
 impl Default for {{classname}} {
     fn default() -> Self {
-        {{^oneOf}}{{#mappedModels}}{{#-first}}Self::{{modelName}} {
+        {{^oneOf}}{{#mappedModels}}{{#-first}}{{^vendorExtensions.x-rust-inline-variants}}Self::{{modelName}}(Default::default()){{/vendorExtensions.x-rust-inline-variants}}{{#vendorExtensions.x-rust-inline-variants}}Self::{{modelName}} {
         {{#vars}}
             {{{name}}}: Default::default(),
         {{/vars}}
-        }{{/-first}}{{/mappedModels}}
+        }{{/vendorExtensions.x-rust-inline-variants}}{{/-first}}{{/mappedModels}}
         {{/oneOf}}{{^oneOf.isEmpty}}{{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Default::default()){{/-first}}{{/composedSchemas.oneOf}}{{/oneOf.isEmpty}}
     }
 }
@@ -133,7 +139,8 @@ pub struct {{{classname}}} {
     {{#isByteArray}}
     {{#vendorExtensions.isMandatory}}#[serde_as(as = "serde_with::base64::Base64")]{{/vendorExtensions.isMandatory}}{{^vendorExtensions.isMandatory}}#[serde_as(as = "{{^serdeAsDoubleOption}}Option{{/serdeAsDoubleOption}}{{#serdeAsDoubleOption}}super::DoubleOption{{/serdeAsDoubleOption}}<serde_with::base64::Base64>")]{{/vendorExtensions.isMandatory}}
     {{/isByteArray}}
-    #[serde(rename = "{{{baseName}}}"{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}, deserialize_with = "Option::deserialize"{{/isNullable}}{{/required}})]
+    {{!-- a mapped child's discriminator is the union's consumed serde tag: default it, skip it while unset --}}
+    #[serde(rename = "{{{baseName}}}"{{#isDiscriminator}}{{#required}}, default{{#isNullable}}, skip_serializing_if = "Option::is_none"{{/isNullable}}{{^isNullable}}{{#isString}}{{^isEnum}}, skip_serializing_if = "String::is_empty"{{/isEnum}}{{/isString}}{{/isNullable}}{{/required}}{{/isDiscriminator}}{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}{{^isDiscriminator}}, deserialize_with = "Option::deserialize"{{/isDiscriminator}}{{/isNullable}}{{/required}})]
     pub {{{name}}}: {{!
     ### Option Start
     }}{{#isNullable}}Option<{{/isNullable}}{{^required}}Option<{{/required}}{{!

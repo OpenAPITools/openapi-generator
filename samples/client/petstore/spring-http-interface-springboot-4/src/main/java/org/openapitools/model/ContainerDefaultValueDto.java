@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
   private @Nullable List<String> nullableArray;
@@ -132,7 +132,7 @@ public class ContainerDefaultValueDto {
 
   public ContainerDefaultValueDto addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
     if (this.nullableArrayWithDefault == null) {
-      this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
+      this.nullableArrayWithDefault = new ArrayList<>();
     }
     this.nullableArrayWithDefault.add(nullableArrayWithDefaultItem);
     return this;

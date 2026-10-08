@@ -232,7 +232,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="zeroBasedEnumClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -247,7 +246,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="zeroBasedEnumClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (zeroBasedEnumClass.ZeroBasedEnumOption.IsSet && zeroBasedEnumClass.ZeroBasedEnum == null)

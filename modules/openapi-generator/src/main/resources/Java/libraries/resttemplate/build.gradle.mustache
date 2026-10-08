@@ -27,14 +27,14 @@ ext {
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
     {{#useJackson3}}
-    jackson_version = "3.1.5"
+    jackson_version = "3.1.6"
     {{/useJackson3}}
     {{^useJackson3}}
-    jackson_version = "2.21.5"
+    jackson_version = "2.21.6"
     {{/useJackson3}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.11"
+    jackson_databind_nullable_version = "0.2.12"
     {{/openApiNullable}}
     {{#useSpringBoot4}}
     spring_web_version = "7.0.8"
@@ -70,14 +70,14 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 22
         }
         compileOptions {
-            {{#useJakartaEe}}
+            {{#java17}}
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17
-            {{/useJakartaEe}}
-            {{^useJakartaEe}}
+            {{/java17}}
+            {{^java17}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/useJakartaEe}}
+            {{/java17}}
         }
 
         // Rename the aar correctly
@@ -123,14 +123,14 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'maven-publish'
 
     java {
-    {{#useJakartaEe}}
+    {{#java17}}
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    {{/useJakartaEe}}
-    {{^useJakartaEe}}
+    {{/java17}}
+    {{^java17}}
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    {{/useJakartaEe}}
+    {{/java17}}
     }
 
     publishing {

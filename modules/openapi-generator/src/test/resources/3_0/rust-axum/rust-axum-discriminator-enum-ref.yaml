@@ -1,0 +1,108 @@
+openapi: "3.0.4"
+info:
+  title: "test"
+  version: "0.0.1"
+paths:
+  "/":
+    post:
+      operationId: foo
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Shape"
+components:
+  schemas:
+    PetKind:
+      type: string
+      enum:
+        - dog
+        - cat
+    # Discriminator property is a $ref to an enum, every mapping value is an enum value
+    Pet:
+      discriminator:
+        propertyName: kind
+        mapping:
+          dog: "#/components/schemas/Dog"
+          cat: "#/components/schemas/Cat"
+      oneOf:
+        - "$ref": "#/components/schemas/Dog"
+        - "$ref": "#/components/schemas/Cat"
+    Dog:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/PetKind"
+        bark:
+          type: string
+      required:
+        - kind
+    Cat:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/PetKind"
+        meow:
+          type: string
+      required:
+        - kind
+    ShapeKind:
+      type: string
+      enum:
+        - circle
+    # Discriminator value of Square is not an enum value -> untagged
+    Shape:
+      discriminator:
+        propertyName: kind
+      oneOf:
+        - "$ref": "#/components/schemas/Circle"
+        - "$ref": "#/components/schemas/Square"
+    Circle:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/ShapeKind"
+      required:
+        - kind
+    Square:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/ShapeKind"
+      required:
+        - kind
+    RodentKind:
+      type: string
+      enum:
+        - hamster
+        - mouse
+    # Discriminator property of Mouse is optional -> untagged
+    Rodent:
+      discriminator:
+        propertyName: kind
+        mapping:
+          hamster: "#/components/schemas/Hamster"
+          mouse: "#/components/schemas/Mouse"
+      oneOf:
+        - "$ref": "#/components/schemas/Hamster"
+        - "$ref": "#/components/schemas/Mouse"
+    Hamster:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/RodentKind"
+      required:
+        - kind
+    Mouse:
+      type: object
+      properties:
+        kind:
+          "$ref": "#/components/schemas/RodentKind"

@@ -1,4 +1,5 @@
 {{#isAdditionalPropertiesTrue}}
+{{^vendorExtensions.x-inherits-additional-properties}}
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with
@@ -43,4 +44,21 @@
     }
     return this.additionalProperties.get(key);
   }
+{{/vendorExtensions.x-inherits-additional-properties}}
+{{#vendorExtensions.x-inherits-additional-properties}}
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   * The bag is inherited from the superclass.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the {{classname}} instance itself
+   */
+  @Override
+  public {{classname}} putAdditionalProperty(String key, Object value) {
+    super.putAdditionalProperty(key, value);
+    return this;
+  }
+{{/vendorExtensions.x-inherits-additional-properties}}
 {{/isAdditionalPropertiesTrue}}
