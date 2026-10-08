@@ -342,6 +342,11 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         throw DownloadException.responseDataMissing
                     }
 
+                    guard let httpResponse = dataResponse.response else {
+                        completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                        return
+                    }
+
                     guard let request = request.request else {
                         throw DownloadException.requestMissing
                     }
@@ -353,7 +358,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                     var requestPath = try self.getPath(from: requestURL)
 
-                    if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
+                    if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                         requestPath = requestPath.appending("/\(headerFileName)")
                     } else {
                         requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
@@ -365,11 +370,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    if let httpResponse = dataResponse.response {
-                        completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
-                    } else {
-                        completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
-                    }
+                    completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
