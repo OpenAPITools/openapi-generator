@@ -47,7 +47,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonDeserialize(using = CountsOrName.CountsOrNameDeserializer.class)
 @JsonSerialize(using = CountsOrName.CountsOrNameSerializer.class)
 public class CountsOrName extends AbstractOpenApiSchema {

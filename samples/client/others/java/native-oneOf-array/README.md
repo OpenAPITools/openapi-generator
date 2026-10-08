@@ -4,7 +4,7 @@ oneOf/anyOf with array and map members
 
 - API version: 1.0.0
 
-- Generator version: 7.26.0-SNAPSHOT
+- Generator version: 7.27.0-SNAPSHOT
 
 Generic container types as oneOf/anyOf members in the native client (see issues 22249 and 22304)
 

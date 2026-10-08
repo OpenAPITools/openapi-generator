@@ -36,7 +36,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ProjectsRequest.JSON_PROPERTY_PROJECTS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ProjectsRequest {
   public static final String JSON_PROPERTY_PROJECTS = "projects";
   @javax.annotation.Nullable
