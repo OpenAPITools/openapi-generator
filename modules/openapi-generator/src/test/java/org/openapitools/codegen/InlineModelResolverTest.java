@@ -1259,6 +1259,26 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineSchemaNameMappingManyToOne() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_schema_name_mapping_many_to_one.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNames = new HashMap<>();
+        inlineSchemaNames.put("Preview_balance", "Money");
+        inlineSchemaNames.put("Preview_interest", "Money");
+        resolver.setInlineSchemaNameMapping(inlineSchemaNames);
+        resolver.flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertTrue(schemas.containsKey("Money"));
+        assertFalse(schemas.containsKey("Money1"));
+        assertFalse(schemas.containsKey("Money_1"));
+
+        Schema preview = schemas.get("Preview");
+        assertEquals("#/components/schemas/Money", ((Schema) preview.getProperties().get("balance")).get$ref());
+        assertEquals("#/components/schemas/Money", ((Schema) preview.getProperties().get("interest")).get$ref());
+    }
+
+    @Test
     public void testInlineSchemaOptions() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
