@@ -18,14 +18,14 @@ final class DecimalEncodingTests: XCTestCase {
     }
 
     func testDecimalIsEncodedExactly() throws {
-        let cases = [
-            "12.34567": "12.34567",
-            "123.456789": "123.456789",
-            "1500.22": "1500.22",
-            "-0.0001": "-0.0001",
-            "0.0000001": "0.0000001",
-            "123456789012345678901234567890": "123456789012345678901234567890",
-            "42": "42",
+        let cases: [(input: String, expected: String)] = [
+            ("12.34567", "12.34567"),
+            ("123.456789", "123.456789"),
+            ("1500.22", "1500.22"),
+            ("-0.0001", "-0.0001"),
+            ("0.0000001", "0.0000001"),
+            ("123456789012345678901234567890", "123456789012345678901234567890"),
+            ("42", "42"),
         ]
         for (input, expected) in cases {
             let decimal = try XCTUnwrap(Decimal(string: input, locale: Locale(identifier: "en_US_POSIX")))
