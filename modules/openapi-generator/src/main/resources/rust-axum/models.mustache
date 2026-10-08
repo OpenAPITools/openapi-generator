@@ -1,5 +1,6 @@
 #![allow(unused_qualifications)]
 
+#[cfg(feature = "server")]
 use http::HeaderValue;
 use validator::Validate;
 
@@ -7,6 +8,7 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[cfg(feature = "server")]
 #[allow(dead_code)]
 pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
 
