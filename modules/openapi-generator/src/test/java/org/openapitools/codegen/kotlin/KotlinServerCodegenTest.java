@@ -885,4 +885,31 @@ public class KotlinServerCodegenTest {
         assertFileContains(tagOneApi, "@Path(\"/foo/bar/one\")", "@Path(\"/foo/bar/two\")");
         assertFileContains(tagTwoApi, "@Path(\"/foo/bar/three\")", "@Path(\"/baz/bar/four\")");
     }
+
+    @Test
+    public void ktorResources_keepsOriginalParameterNames() throws IOException {
+        // Ktor binds @Resource properties by (serial) name, so the spec's wire name
+        // (e.g. page_size) must be preserved even though the Kotlin property is camelized.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        var codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/ktor-resources-snake-case-params.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path paths = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/Paths.kt");
+        assertFileContains(
+                paths,
+                "@Resource(\"/items/{item_id}\") class getItem(@SerialName(\"item_id\") val itemId: kotlin.String, "
+                        + "@SerialName(\"page_size\") val pageSize: kotlin.Int? = null, "
+                        + "@SerialName(\"a&b\") val aAmpersandB: kotlin.String? = null, "
+                        + "@SerialName(\"sortOrder\") val sortOrder: kotlin.String? = null)",
+                "@Resource(\"/ping\") class ping"
+        );
+    }
 }

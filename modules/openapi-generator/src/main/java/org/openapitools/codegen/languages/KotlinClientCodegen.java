@@ -440,6 +440,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
 
+        // super.processOpts() always writes useJackson3 back, so remember whether the user set it
+        boolean useJackson3Configured = additionalProperties.containsKey(USE_JACKSON_3);
+
         super.processOpts();
 
         boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
@@ -499,7 +502,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
                 && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
-        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !isUseJackson3()) {
+        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !useJackson3Configured) {
             setUseJackson3(true);
             additionalProperties.put(USE_JACKSON_3, true);
             applyJackson3Package();
@@ -1157,6 +1160,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .filter(isSerializable)
                             .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
+
+                    // form style with explode puts a map-typed query parameter on the wire as one parameter
+                    // per entry; api.mustache adds those after the declared query parameters
+                    for (CodegenParameter param : operation.queryParams) {
+                        if (param.isMap && param.isExplode && !param.isDeepObject) {
+                            param.vendorExtensions.put("x-kotlin-explode-form-object", true);
+                        }
+                    }
                 }
 
                 // set multipart against all relevant operations

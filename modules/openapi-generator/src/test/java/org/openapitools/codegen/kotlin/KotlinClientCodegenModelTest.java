@@ -991,6 +991,33 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
+  public void testMoshiEnumUnknownDefaultCaseAdaptersAreNullSafe() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName(KOTLIN_GENERATOR)
+              .setLibrary("jvm-okhttp4")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "moshi");
+                put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+              }})
+              .setInputSpec("src/test/resources/3_0/enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path helperKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt");
+
+      // EnumJsonAdapter is not null-safe, so every registered fallback adapter must be wrapped
+      TestUtils.assertFileContains(helperKt, ".nullSafe())");
+      TestUtils.assertFileNotContains(helperKt, "unknown_default_open_api))");
+  }
+
+  @Test
   public void testJacksonEnumsWithUnknownDefaultCase() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
@@ -1370,6 +1397,38 @@ public class KotlinClientCodegenModelTest {
         Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
         TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
         TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+    }
+
+    @Test(description = "regression test for #24842: an explicit useJackson3=false must be honored with useSpringBoot4 "
+            + "on jvm-spring-restclient instead of being overridden to Jackson 3")
+    public void shouldRespectExplicitJackson3FalseWithSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-restclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "MappingJackson2HttpMessageConverter");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonHttpMessageConverter");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "spring_boot_version = \"4.1.0\"");
+        TestUtils.assertFileContains(buildGradlePath, "com.fasterxml.jackson.module:jackson-module-kotlin");
+        TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
     }
 
     @Test(description = "regression test: useJackson3=true with useSpringBoot3 (not 4) on jvm-spring-restclient "

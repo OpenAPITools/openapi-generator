@@ -272,7 +272,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -287,7 +286,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
             if (capitalization.ATT_NAMEOption.IsSet && capitalization.ATT_NAME == null)

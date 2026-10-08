@@ -154,7 +154,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -169,7 +168,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", shapeInterface.ShapeType);

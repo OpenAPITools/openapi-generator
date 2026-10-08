@@ -1141,7 +1141,37 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeArraySchema(Schema schema) {
         Schema result = processNormalize31Spec(schema, new HashSet<>());
+
+        processExtensionsInRefItems(result);
         return processSetArraytoNullable(result);
+    }
+
+    /**
+     * Move the extensions starting with x-items to the items.extensions.
+     *
+     * @param schema the array schema to process
+     */
+    protected void processExtensionsInRefItems(Schema schema) {
+        if (schema == null || schema.getItems() == null) {
+            return;
+        }
+
+        Map<String, Object> extensions = schema.getExtensions();
+        if (extensions != null) {
+            Map<String, Object> itemsExtensions = schema.getItems().getExtensions();
+            for  (Iterator<String> it = extensions.keySet().iterator(); it.hasNext(); ) {
+                String key = it.next();
+                if (key.startsWith("x-items-")) {
+                    if (itemsExtensions == null) {
+                        itemsExtensions = new LinkedHashMap<>();
+                        schema.getItems().setExtensions(itemsExtensions);
+                    }
+                    String newKey = key.substring("x-items-".length());
+                    itemsExtensions.put(newKey, extensions.get(key));
+                    it.remove();
+                }
+            }
+        }
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
@@ -2179,10 +2209,12 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        Map<String, Schema> originalProperties = schema.getProperties();
+        List<String> originalRequired = schema.getRequired();
+
         ObjectSchema os = new ObjectSchema();
         // set the properties, etc of the new schema to the properties of schema
-        os.setProperties(schema.getProperties());
-        os.setRequired(schema.getRequired());
+        os.setProperties(originalProperties);
         os.setAdditionalProperties(schema.getAdditionalProperties());
         os.setNullable(schema.getNullable());
         os.setDescription(schema.getDescription());
@@ -2190,10 +2222,36 @@ public class OpenAPINormalizer {
         os.setExample(schema.getExample());
         os.setExamples(schema.getExamples());
         os.setTitle(schema.getTitle());
-        schema.getAllOf().add(os); // move new schema as a child schema of allOf
-        // clean up by removing properties, etc
+
+        // Schema#setRequired only keeps names present in properties, so clear them first to retain inherited required names
         schema.setProperties(null);
-        schema.setRequired(null);
+
+        // Split required properties between local and inherited
+        if (originalRequired != null) {
+            List<String> localRequired = new ArrayList<>();
+            List<String> inheritedRequired = new ArrayList<>();
+            
+            for (String req : originalRequired) {
+                if (originalProperties != null && originalProperties.containsKey(req)) {
+                    localRequired.add(req);
+                } else {
+                    inheritedRequired.add(req);
+                }
+            }
+            
+            if (!localRequired.isEmpty()) {
+                os.setRequired(localRequired);
+            }
+            
+            if (!inheritedRequired.isEmpty()) {
+                schema.setRequired(inheritedRequired);
+            } else {
+                schema.setRequired(null);
+            }
+        }
+
+        schema.getAllOf().add(os);  // move new schema as a child schema of allOf
+        // clean up by removing properties, etc
         schema.setAdditionalProperties(null);
         schema.setNullable(null);
         schema.setDescription(null);

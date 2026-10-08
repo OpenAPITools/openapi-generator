@@ -212,7 +212,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person is Adult adult){
@@ -237,7 +236,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)

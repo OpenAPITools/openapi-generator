@@ -26,7 +26,7 @@ from multiprocessing.pool import ThreadPool
 from threading import Lock
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union, Any
+from typing import Any, Tuple, Optional, List, Dict, Union
 from pydantic import SecretStr
 
 from legacy_model_dict_client.configuration import Configuration
@@ -208,15 +208,35 @@ class ApiClient:
     @property
     def user_agent(self):
         """User agent for this API client"""
-        return self.default_headers['User-Agent']
+        for name, value in reversed(self.default_headers.items()):
+            if name.lower() == 'user-agent':
+                return value
+        raise KeyError('User-Agent')
 
     @user_agent.setter
     def user_agent(self, value):
-        self.default_headers['User-Agent'] = value
+        self._set_header(self.default_headers, 'User-Agent', value)
 
     def set_default_header(self, header_name, header_value):
-        self.default_headers[header_name] = header_value
+        self._set_header(self.default_headers, header_name, header_value)
 
+
+    @staticmethod
+    def _set_header(headers: Dict[str, Any], name: str, value: Any) -> None:
+        """Replace a header case-insensitively, retaining the winning spelling."""
+        for key in list(headers):
+            if key.lower() == name.lower():
+                del headers[key]
+        headers[name] = value
+
+    @classmethod
+    def _merge_headers(cls, *sources: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+        """Copy headers; later sources and later entries in each dict win."""
+        headers: Dict[str, Any] = {}
+        for source in sources:
+            for name, value in (source or {}).items():
+                cls._set_header(headers, name, value)
+        return headers
 
     _default = None
 
@@ -284,10 +304,9 @@ class ApiClient:
         config = self.configuration
 
         # header parameters
-        header_params = header_params or {}
-        header_params.update(self.default_headers)
+        header_params = self._merge_headers(header_params, self.default_headers)
         if self.cookie:
-            header_params['Cookie'] = self.cookie
+            self._set_header(header_params, 'Cookie', self.cookie)
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
             header_params = dict(
@@ -628,6 +647,13 @@ class ApiClient:
                 new_params.append((k, v))
         return new_params
 
+    def explode_query_object(self, name, obj):
+        """form style, explode: one query parameter per entry, keyed by the property name; a list repeats the name, None is left out"""
+        obj = self.sanitize_for_serialization(obj)
+        if not isinstance(obj, dict):
+            obj = {name: obj}
+        return [(k, item) for k, v in obj.items() for item in (v if isinstance(v, (list, tuple)) else [v]) if item is not None]
+
     def parameters_to_url_query(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.
 
@@ -646,11 +672,12 @@ class ApiClient:
             if isinstance(v, dict):
                 v = json.dumps(v)
 
-            if k in collection_formats:
+            # a collection format applies only to a list; an exploded entry may share a declared array parameter's name
+            if k in collection_formats and isinstance(v, (list, tuple)):
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
                     new_params.extend(
-                        (k, quote(str(value).lower() if isinstance(value, bool) else str(value)))
+                        (quote(str(k)), quote(str(value).lower() if isinstance(value, bool) else str(value)))
                         for value in v
                     )
                 else:
@@ -663,12 +690,13 @@ class ApiClient:
                     else:  # csv is the default
                         delimiter = ','
                     new_params.append(
-                        (k, delimiter.join(
+                        (quote(str(k)), delimiter.join(
                             quote(str(value).lower() if isinstance(value, bool) else str(value))
                             for value in v))
                     )
             else:
-                new_params.append((k, quote(str(v))))
+                # names are quoted too: an exploded object's names are runtime data
+                new_params.append((quote(str(k)), quote(str(v))))
 
         return "&".join(["=".join(map(str, item)) for item in new_params])
 
@@ -804,7 +832,11 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            if not 'Cookie' in headers:
+            for key in list(headers):
+                if key.lower() == 'cookie':
+                    self._set_header(headers, 'Cookie', headers[key])
+                    break
+            if not headers.get('Cookie'):
                 headers['Cookie'] = ""
             else:
                 headers['Cookie'] += "; "
@@ -813,7 +845,7 @@ class ApiClient:
             headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
-                headers[auth_setting['key']] = auth_setting['value']
+                self._set_header(headers, auth_setting['key'], auth_setting['value'])
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
         else:

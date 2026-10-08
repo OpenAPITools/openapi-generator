@@ -58,6 +58,14 @@
             {{/isArray}}
             {{/parent}}
             {{#vars}}
+            {{#vendorExtensions.x-csharp-not-enum-comparison}}
+            // {{{name}}} ({{{dataType}}}) not enum
+            if ({{{vendorExtensions.x-csharp-not-enum-comparison}}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must not be a value excluded by the 'not' schema.", new [] { "{{{name}}}" });
+            }
+
+            {{/vendorExtensions.x-csharp-not-enum-comparison}}
             {{#hasValidation}}
             {{^isEnum}}
             {{^isDateTime}}

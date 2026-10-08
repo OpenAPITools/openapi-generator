@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -53,7 +53,6 @@ public class StoreApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec deleteOrderRequestCreation(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new RestClientResponseException("Missing the required parameter 'orderId' when calling deleteOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -76,7 +75,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -126,7 +125,6 @@ public class StoreApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec getInventoryRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -145,7 +143,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -194,7 +192,6 @@ public class StoreApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec getOrderByIdRequestCreation(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new RestClientResponseException("Missing the required parameter 'orderId' when calling getOrderById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -219,7 +216,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -276,7 +273,6 @@ public class StoreApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec placeOrderRequestCreation(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
-        Object postBody = order;
         // verify the required parameter 'order' is set
         if (order == null) {
             throw new RestClientResponseException("Missing the required parameter 'order' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -301,7 +297,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, localVarQueryParams, order, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

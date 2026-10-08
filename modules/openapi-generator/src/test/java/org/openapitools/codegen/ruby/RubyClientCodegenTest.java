@@ -19,7 +19,9 @@ package org.openapitools.codegen.ruby;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
@@ -857,5 +859,83 @@ public class RubyClientCodegenTest {
                 "def self.acceptable_openapi_types\n      openapi_types\n    end",
                 "def self.acceptable_openapi_nullable\n      openapi_nullable\n    end");
         TestUtils.assertFileNotContains(arrayAlias, "superclass.", "super(attributes)");
+    }
+
+    @Test(description = "enumUnknownDefaultCase=true makes build_from_hash fall back to the unknown default member")
+    public void testEnumUnknownDefaultCaseBuildFromHashFallback() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath(); 
+        TestUtils.assertFileContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API = \"unknown_default_open_api\".freeze");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      UNKNOWN_DEFAULT_OPEN_API\n" +
+                "    end");
+        TestUtils.assertFileNotContains(stringEnum, "raise \"Invalid ENUM value");
+
+        // the integer enum's unknown-default member keeps its (pre-existing) numeric-prefixed name
+        Path integerEnum = new File(output, "lib/openapi_client/models/integer_enum.rb").toPath();
+        TestUtils.assertFileContains(integerEnum, "Nunknown_default_open_api = 11184809.freeze");
+        TestUtils.assertFileContains(integerEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if IntegerEnum.all_vars.include?(value)\n" +
+                "      Nunknown_default_open_api\n" +
+                "    end");
+        TestUtils.assertFileNotContains(integerEnum, "raise \"Invalid ENUM value");
+    }
+
+    @Test(description = "without enumUnknownDefaultCase build_from_hash still raises on unknown values")
+    public void testEnumBuildFromHashRaisesByDefault() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        TestUtils.assertFileNotContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      raise \"Invalid ENUM value #{value} for class #Type\"\n" +
+                "    end");
+    }
+
+    @Test(description = "a property named object_id must not override Object#object_id")
+    public void objectIdPropertyIsEscapedTest() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final Schema schema = new ObjectSchema().addProperty("ObjectId", new StringSchema());
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Association", schema);
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty objectId = codegen.fromModel("Association", schema).getVars().get(0);
+        Assert.assertEquals(objectId.name, "_object_id");
+        Assert.assertEquals(objectId.baseName, "ObjectId");
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path association = new File(output, "lib/openapi_client/models/association.rb").toPath();
+        TestUtils.assertFileContains(association, "attr_accessor :_object_id");
+        TestUtils.assertFileContains(association, ":'_object_id' => :'ObjectId'");
+        TestUtils.assertFileNotContains(association, "attr_accessor :object_id");
     }
 }

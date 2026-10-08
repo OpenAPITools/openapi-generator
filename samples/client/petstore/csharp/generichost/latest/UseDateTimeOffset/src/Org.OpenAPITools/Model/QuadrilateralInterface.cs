@@ -146,7 +146,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="quadrilateralInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,7 +160,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="quadrilateralInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);

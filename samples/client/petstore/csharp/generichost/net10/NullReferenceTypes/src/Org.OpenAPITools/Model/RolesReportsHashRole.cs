@@ -158,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="rolesReportsHashRole"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -173,7 +172,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="rolesReportsHashRole"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             if (rolesReportsHashRole.NameOption.IsSet && rolesReportsHashRole.Name == null)

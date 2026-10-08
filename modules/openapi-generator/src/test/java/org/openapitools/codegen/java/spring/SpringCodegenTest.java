@@ -35,6 +35,7 @@ import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.SpringPageableScanUtils;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -61,6 +62,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
@@ -80,6 +82,31 @@ public class SpringCodegenTest {
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
                 .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+    }
+
+    @Test
+    public void testComplexDefaultsGenerateValidJava() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24993.yaml", SPRING_BOOT);
+
+        validateJavaSourceFiles(List.copyOf(files.values()));
+        assertThat(files).containsKey("ComplexDefaults.java");
+        assertThat(files.get("ComplexDefaults.java").toPath())
+                .content()
+                .contains(
+                        "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
+                                + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
+                        "new ArrayList<>(Arrays.asList(10l, 20l))",
+                        "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
+                        "new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE)",
+                        "new ComplexDefaultsObjectAnyOf().name(\"any-of\").count(5).status(Status.INACTIVE)",
+                        "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
+                        "private org.springframework.core.io.Resource binaryValue = new org.springframework.core.io.ByteArrayResource")
+                .containsPattern("new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h2\\\"\\s*,\\s*\\\"Header 2\\\"\\s*\\)\\s*\\)\\s*\\)\\s*\\)")
+                .doesNotContain("Arrays.asList(, )", "= {", "[B@");
     }
 
     @Test
@@ -314,6 +341,22 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PandasApi.java"), "@RequestParam");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java"), "@RequestParam");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java"), "@RequestParam");
+    }
+
+    @Test
+    public void exampleStringEscapesQuotesAndBackslashes() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/example-string-escaping.yaml");
+
+        assertFileContains(files.get("NotesApi.java").toPath(),
+                "String exampleString = \"{ \\\"note\\\" : \\\"has \\\\\\\"quote\\\\\\\" inside\\\" }\";");
+        assertFileContains(files.get("PathsApi.java").toPath(),
+                "String exampleString = \"{ \\\"windowsPath\\\" : \\\"C:\\\\\\\\temp\\\\\\\\file.txt\\\", \\\"pattern\\\" : \\\"\\\\\\\\d+\\\" }\";");
+        // #9976: array of a $ref object whose own example is a JSON string
+        assertFileContains(files.get("AdminsApi.java").toPath(),
+                "{ \\\"adminUser\\\" : \\\"{\\\\\\\"userName\\\\\\\":\\\\\\\"admin.user@example.com\\\\\\\"}\\\"");
+        assertFileContains(files.get("WrappersApi.java").toPath(),
+                "String exampleString = \"{ \\\"data\\\" : \\\"{\\\\\\\"someMeaningfulNumber\\\\\\\":25009779801}\\\", \\\"someProperty\\\" : \\\"someProperty\\\" }\";");
     }
 
     @Test
@@ -7280,6 +7323,32 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldRegisterJsonNullableModuleMatchingJacksonVersion() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        additionalProperties.put(SpringCodegen.USE_JACKSON_3, "true");
+        additionalProperties.put(SpringCodegen.OPENAPI_NULLABLE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import tools.jackson.databind.JacksonModule;")
+                .contains("public JacksonModule jsonNullableModule()")
+                .contains("return new JsonNullableJackson3Module();")
+                .doesNotContain("com.fasterxml.jackson");
+
+        additionalProperties.put(SpringCodegen.USE_JACKSON_3, "false");
+
+        files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import com.fasterxml.jackson.databind.Module;")
+                .contains("public Module jsonNullableModule()")
+                .contains("return new JsonNullableModule();")
+                .doesNotContain("tools.jackson.databind");
+    }
+
+    @Test
     public void shouldNotHaveDocumentationAnnotationWhenUsingLibrarySpringHttpInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -7943,6 +8012,106 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPetsNoParams")
                 .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSort")
+                .doesNotHaveParameter("page")
+                .doesNotHaveParameter("size")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_alsoDetectsPageSizeAndSortOperation() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect has page+size+sort → 'page-size' mode must also detect it
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        SpringCodegen codegen = new SpringCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        SpringCodegen codegen = new SpringCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(SpringCodegen.AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
+            SpringCodegen codegen = new SpringCodegen();
+            codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+            codegen.processOpts();
+        });
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
+        long deprecationWarnings = countDeprecationWarnings(() -> new SpringCodegen().processOpts());
+        assertThat(deprecationWarnings).isZero();
+    }
+
+    @Test
+    public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "bogus");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus");
+    }
+
+    @Test
+    public void autoXSpringPaginatedValidValue_isNotWrittenBackForUnsupportedLibrary() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties().get(SpringCodegen.AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
+    }
+
+    private static long countDeprecationWarnings(Runnable action) {
+        return TestUtils.captureLogMessages(SpringPageableScanUtils.class, action).stream()
+                .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
+                .count();
     }
 
     // -------------------------------------------------------------------------
@@ -10049,4 +10218,35 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    void listItems_annotated_with_x_field_extra_annotation() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true"));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java"))
+                .fileContains(
+                        "private List<@NotNull @Size(max=50) String> listString",
+                        "private List<@Min(0)Integer> listInteger",
+                        "private List<@Size(max=10) String> listCode",
+                        "private List<@NotEmpty @Valid Stubb> listRef",
+                        "private List<@NotEmpty @Valid SampleModelListInlineInner>"
+                );
+    }
+
+    @Test
+    void listItems_with_additionalItemsAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true",
+                        ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull"
+                        ));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java")).fileContains(
+                "private List<@NotNull @Size(max=50) String> listString",
+                "private List<@Size(max=50) String> listStringNullable",
+                "private List<@NotNull @Valid Stubb> listSample",
+                "private List<@NotNull @Min(0)Integer> listInteger",
+                "private List<@NotNull @Size(max=10) String> listCode",
+                "private List<@NotNull @NotEmpty @Valid Stubb> listRef",
+                "private List<@NotNull @NotEmpty @Valid SampleModelListInlineInner>");
+    }
 }

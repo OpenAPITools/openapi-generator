@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class RequiredAndNullableApi {
     private ApiClient apiClient;
 
@@ -55,18 +55,17 @@ public class RequiredAndNullableApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec requiredAndNullablePostRequestCreation(RequiredAndNullable requiredAndNullable) throws WebClientResponseException {
-        Object postBody = requiredAndNullable;
         // verify the required parameter 'requiredAndNullable' is set
         if (requiredAndNullable == null) {
             throw new WebClientResponseException("Missing the required parameter 'requiredAndNullable' when calling requiredAndNullablePost", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -79,8 +78,8 @@ public class RequiredAndNullableApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<RequiredAndNullable>() {};
-        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.POST, pathParams, localVarQueryParams, requiredAndNullable, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -92,7 +91,7 @@ public class RequiredAndNullableApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<RequiredAndNullable> requiredAndNullablePost(RequiredAndNullable requiredAndNullable) throws WebClientResponseException {
-        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<RequiredAndNullable>() {};
+        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<>() {};
         return requiredAndNullablePostRequestCreation(requiredAndNullable).bodyToMono(localVarReturnType);
     }
 
@@ -105,7 +104,7 @@ public class RequiredAndNullableApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<RequiredAndNullable>> requiredAndNullablePostWithHttpInfo(RequiredAndNullable requiredAndNullable) throws WebClientResponseException {
-        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<RequiredAndNullable>() {};
+        ParameterizedTypeReference<RequiredAndNullable> localVarReturnType = new ParameterizedTypeReference<>() {};
         return requiredAndNullablePostRequestCreation(requiredAndNullable).toEntity(localVarReturnType);
     }
 
