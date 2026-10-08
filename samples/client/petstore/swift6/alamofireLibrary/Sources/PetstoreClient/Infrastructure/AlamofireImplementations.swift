@@ -338,13 +338,13 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         throw DownloadException.responseFailed
                     }
 
-                    guard let data = dataResponse.data else {
-                        throw DownloadException.responseDataMissing
-                    }
-
                     guard let httpResponse = dataResponse.response else {
                         completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                         return
+                    }
+
+                    guard let data = dataResponse.data else {
+                        throw DownloadException.responseDataMissing
                     }
 
                     guard let request = request.request else {
