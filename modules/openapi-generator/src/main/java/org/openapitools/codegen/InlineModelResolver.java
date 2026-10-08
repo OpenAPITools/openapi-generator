@@ -1182,13 +1182,12 @@ public class InlineModelResolver {
     private String addSchemas(String name, Schema schema) {
         //check inlineSchemaNameMapping
         if (inlineSchemaNameMapping.containsKey(name)) {
+            // use the name chosen by the user as is, even if several inline schemas map to it
             name = inlineSchemaNameMapping.get(name);
-        }
-
-        // Recursive flattening can add a nested schema after its parent's name
-        // was chosen. Re-check here so the parent cannot overwrite that child.
-        if (openAPI.getComponents().getSchemas().containsKey(name)
+        } else if (openAPI.getComponents().getSchemas().containsKey(name)
                 || uniqueNames.contains(name)) {
+            // Recursive flattening can add a nested schema after its parent's name
+            // was chosen. Re-check here so the parent cannot overwrite that child.
             name = uniqueName(name);
         }
 
