@@ -89,7 +89,8 @@ public class JavaClientCodegenTest {
         JERSEY_3("jersey3", Serializer.JACKSON),
         MICROPROFILE("microprofile", Serializer.JSONB, Set.of(Serializer.JACKSON)),
         NATIVE("native", Serializer.JACKSON),
-        OKHTTP("okhttp-gson", Serializer.GSON),
+        OKHTTP("okhttp", Serializer.GSON, Set.of(Serializer.JACKSON, Serializer.JSONB)),
+        OKHTTP_GSON("okhttp-gson", Serializer.GSON),
         REST_ASSURED("rest-assured", Serializer.GSON, Set.of(Serializer.JACKSON)),
         RESTEASY("resteasy", Serializer.JACKSON),
         REST_CLIENT("restclient", Serializer.JACKSON),
@@ -559,6 +560,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testNestedArrayDefaultDoesNotSeedAddItemWithDefaultOkHttp() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("NestedArrayWithDefaultValues.java").toPath()).content()
+                .containsPattern("private\\s+List\\s*<\\s*List\\s*<\\s*String\\s*>\\s*>\\s+nestedArray\\s*=\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,")
+                .containsPattern("if\\s*\\(\\s*this\\.nestedArray\\s*==\\s*null\\s*\\)\\s*\\{\\s*"
+                        + "this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*\\)\\s*;")
+                .doesNotContainPattern("this\\.nestedArray\\s*=\\s*new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(");
+    }
+
+    @Test
     public void testJersey3NullableContainerDefaultIsDeclared() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
@@ -633,6 +650,62 @@ public class JavaClientCodegenTest {
                 .content()
                 .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
                 .contains("public String parameterToJsonString(Object param) {\n        if (param == null) {\n            return \"\";\n        }")
+                .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
+                .contains("headerParams.put(param.getName(), parameterToString(value));");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("paramMap.put(\"X-Json-Arg\", xJsonArg);")
+                .contains("paramMap.put(\"X-Plain-Arg\", xPlainArg);");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerializationOkHttp() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("public String parameterToJsonString(Object param)");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToJsonString(xJsonArg));"
+                )
+                .doesNotContain(
+                        "localVarHeaderParams.put(\"X-Json-Arg\", localVarApiClient.parameterToString(xJsonArg));"
+                )
+                .contains(
+                        "localVarHeaderParams.put(\"X-Plain-Arg\", localVarApiClient.parameterToString(xPlainArg));"
+                );
+    }
+
+    @Test
+    public void testDynamicJsonContentHeaderUsesJsonSerializationOkHttp() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_1/java/json-header-content.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("if (param.getContent() != null && param.getContent().containsKey(\"application/json\")) {")
                 .contains("headerParams.put(param.getName(), parameterToJsonString(value));")
                 .contains("headerParams.put(param.getName(), parameterToString(value));");
 
@@ -3077,6 +3150,46 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpBinaryResponseDetectionIndependentOfSerializer() {
+        // Jackson's TypeReference and JSON-B's GenericType resolve byte[] to the raw class (toString() "class [B"),
+        // so the binary-response check in ApiClient must not rely on Gson's TypeToken.toString() == "byte[]" alone.
+        for (String serializer : List.of("gson", "jackson", "jsonb")) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(JavaClientCodegen.OKHTTP)
+                    .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializer)
+                    .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            validateJavaSourceFiles(files);
+
+            assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                    .content()
+                    .contains("if (byte[].class.equals(returnType) || \"byte[]\".equals(returnType.toString())) {");
+        }
+    }
+
+    @Test
+    public void testOkHttpBuilderAdditionalPropertiesHelperDoesNotShadowSetters() {
+        // the builder's additional-properties helper must not share its name with a generated
+        // property setter, otherwise a declared property named `additionalProperties` of type
+        // Map<String, Object> on an additionalProperties:true schema produces an uncompilable Builder
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, Boolean.FALSE));
+
+        assertThat(files.get("AdditionalPropertiesClass.java").toPath()).content()
+                .contains("public AdditionalPropertiesClass.Builder putAdditionalProperties(Map<String, Object> additionalProperties) {")
+                .contains(".putAdditionalProperties(getAdditionalProperties())")
+                .doesNotContain("Builder additionalProperties(Map<String, Object>");
+    }
+
+    @Test
     public void testOkHttpGsonHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
@@ -3117,6 +3230,7 @@ public class JavaClientCodegenTest {
     public void testHandleURIEnumWithXml() {
         for (String library : List.of(
                 JavaClientCodegen.OKHTTP_GSON,
+                JavaClientCodegen.OKHTTP,
                 JavaClientCodegen.RESTTEMPLATE,
                 JavaClientCodegen.NATIVE)) {
             final Path output = newTempFolder();
@@ -5640,6 +5754,277 @@ public class JavaClientCodegenTest {
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
         codegen.additionalProperties().putAll(properties);
         return codegen;
+    }
+
+    private static JavaClientCodegen newOkhttpCodegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.additionalProperties().putAll(properties);
+        codegen.processOpts();
+        return codegen;
+    }
+
+    @Test(description = "the okhttp library drives Gson, Jackson and JSON-B from one template set, so it "
+            + "must expose the resolved serialization library as three mutually exclusive mustache flags")
+    public void testOkhttpDefaultsToGson() {
+        JavaClientCodegen codegen = newOkhttpCodegen(Map.of());
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_GSON);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", true), entry("isJackson", false), entry("isJsonb", false));
+    }
+
+    @Test
+    public void testOkhttpWithJackson() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON));
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JACKSON);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", false), entry("isJackson", true), entry("isJsonb", false));
+    }
+
+    @Test(description = "openApiNullable is jackson-databind-nullable, which the okhttp pom omits for "
+            + "JSON-B; leaving the flag on would emit JsonNullable references that cannot resolve")
+    public void testOkhttpWithJsonbForcesOpenApiNullableOff() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JSONB);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", false), entry("isJackson", false), entry("isJsonb", true),
+                        entry(JavaClientCodegen.OPENAPI_NULLABLE, false));
+    }
+
+    @Test
+    public void testOkhttpWithJackson3() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        USE_JACKSON_3, true));
+
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isJackson", true), entry(USE_JACKSON_3, true),
+                        entry("jacksonPackage", "tools.jackson"));
+    }
+
+    @Test(description = "useJspecify must be accepted by the okhttp library")
+    public void testOkhttpWithJspecify() {
+        JavaClientCodegen codegen = newOkhttpCodegen(Map.of(USE_JSPECIFY, true));
+
+        assertThat(codegen.additionalProperties()).contains(entry(USE_JSPECIFY, true));
+    }
+
+    @Test(description = "okhttp's RetryingOAuth is self-contained, so it must not pull in "
+            + "OAuthOkHttpClient or the Apache Oltu dependency that okhttp-gson needs")
+    public void testOkhttpOAuthDoesNotUseOltu() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP);
+
+        assertThat(files).containsKey("RetryingOAuth.java");
+        assertThat(files).doesNotContainKey("OAuthOkHttpClient.java");
+        assertThat(files.get("RetryingOAuth.java")).content()
+                .contains("public static class TokenRequestBuilder")
+                .doesNotContain("org.apache.oltu");
+        assertThat(files.get("pom.xml")).content()
+                .contains("<artifactId>okhttp-bom</artifactId>")
+                .doesNotContain("oltu");
+    }
+
+    @DataProvider(name = "okhttpSerializers")
+    public Object[][] okhttpSerializers() {
+        return new Object[][]{
+                {SERIALIZATION_LIBRARY_GSON}, {SERIALIZATION_LIBRARY_JACKSON}, {SERIALIZATION_LIBRARY_JSONB}
+        };
+    }
+
+    @Test(dataProvider = "okhttpSerializers",
+            description = "every serialization library must produce a compilable client from the same templates")
+    public void testOkhttpGeneratesForEverySerializer(String serializationLibrary) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary));
+
+        assertThat(files).containsKeys("ApiClient.java", "JSON.java", "ApiCallback.java", "Pet.java");
+        // JsonNullable and JsonIgnore are Jackson types; they must not leak into Gson or JSON-B output
+        if (!SERIALIZATION_LIBRARY_JACKSON.equals(serializationLibrary)) {
+            assertThat(files.get("Pet.java")).content().doesNotContain("JsonNullable");
+        }
+    }
+
+    @Test(description = "the okhttp templates never emit JsonNullable fields, so openApiNullable "
+            + "must be forced off for every serializer instead of emitting dead helpers")
+    public void testOkhttpForcesOpenApiNullableOff() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertThat(codegen.additionalProperties()).contains(entry(JavaClientCodegen.OPENAPI_NULLABLE, false));
+    }
+
+    @Test(description = "okhttp+Jackson3 must keep the lenient RFC3339 date handling the Jackson2 "
+            + "variant has, instead of silently falling back to stock jsr310 parsing")
+    public void testOkhttpJackson3GetsRfc3339Module() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        USE_JACKSON_3, true));
+
+        assertThat(files).containsKeys("RFC3339JavaTimeModule.java", "RFC3339InstantDeserializer.java");
+        assertThat(files.get("JSON.java")).content().contains("new RFC3339JavaTimeModule()");
+    }
+
+    @Test(description = "JSON-B has no workable native polymorphism for discriminators that are "
+            + "also bean properties (Yasson rejects the key collision), so hierarchy roots need "
+            + "generated TypeSelector-style (de)serializers wired into the Jsonb config")
+    public void testOkhttpJsonbEmitsPolymorphismSerializers() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("Animal.java")).content()
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<Animal>")
+                .contains("if (\"Cat\".equals(discriminatorValue)) {")
+                .doesNotContain("@JsonbTypeInfo");
+        assertThat(files.get("JSON.java")).content()
+                .contains("plainJsonb = JsonbBuilder.create(config);")
+                .contains("config.withDeserializers(new org.openapitools.client.model.Animal.CustomJsonbDeserializer());");
+        // subtypes must not run the discriminator dispatch, or root delegation would recurse
+        assertThat(files.get("Cat.java")).content().doesNotContain("discriminatorValue");
+    }
+
+    @Test(description = "a JSON-B parent without a discriminator (x-parent) gets the delegating root "
+            + "(de)serializers, since the leaf ones are skipped for every model with children")
+    public void testOkhttpJsonbParentWithoutDiscriminator() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allOf_extension_parent.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("Person.java")).content()
+                .contains("public static class CustomJsonbSerializer implements JsonbSerializer<Person>")
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<Person>")
+                .contains("validateRequiredFields(jsonObj, openapiRequiredFields, \"Person\");")
+                .doesNotContain("discriminatorValue");
+        assertThat(files.get("JSON.java")).content()
+                .contains("config.withSerializers(new org.openapitools.client.model.Person.CustomJsonbSerializer());")
+                .contains("config.withDeserializers(new org.openapitools.client.model.Person.CustomJsonbDeserializer());");
+    }
+
+    @Test(description = "okhttp Gson and JSON-B reject a string value excluded by `not: enum`, so a oneOf "
+            + "with a complementary branch resolves unambiguously (port of #25066)")
+    public void testOkhttpValidatesStringEnumExcludedByNot() {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP);
+        for (String model : List.of("Other.java", "OtherWithEnumRef.java")) {
+            assertThat(files.get(model)).content()
+                    .contains("\"known\".equals(jsonElement.getAsJsonObject().get(\"kind\").getAsString())",
+                            "matches a value disallowed by `not`");
+        }
+
+        // a child model enforces the `not` constraint of an inherited property too
+        files = generateFromContract("src/test/resources/3_1/java/not-enum-inherited.yaml", JavaClientCodegen.OKHTTP);
+        assertThat(files.get("Derived.java")).content()
+                .contains("public class Derived extends Base")
+                .contains("\"known\".equals(jsonElement.getAsJsonObject().get(\"kind\").getAsString())");
+        files = generateFromContract("src/test/resources/3_1/java/not-enum-inherited.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+        assertThat(files.get("Derived.java")).content()
+                .contains("\"known\".equals(((jakarta.json.JsonString) jsonObj.get(\"kind\")).getString())");
+
+        files = generateFromContract("src/test/resources/3_1/java/oneof-not-enum.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+        for (String model : List.of("Other.java", "OtherWithEnumRef.java")) {
+            assertThat(files.get(model)).content()
+                    .contains("\"known\".equals(((jakarta.json.JsonString) jsonObj.get(\"kind\")).getString())",
+                            "matches a value disallowed by `not`");
+        }
+    }
+
+    @Test(description = "okhttp Jackson models import Arrays and Map only when the template uses them")
+    public void testOkhttpJacksonModelImportsArraysAndMapOnlyWhenUsed() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON));
+
+        assertThat(files.get("Category.java")).content()
+                .doesNotContain("import java.util.Arrays;")
+                .doesNotContain("import java.util.Map;");
+        // byte[] equals/hashCode
+        assertThat(files.get("FormatTest.java")).content().contains("import java.util.Arrays;");
+        // JsonNullable hashCodeNullable helper
+        assertThat(files.get("NullableClass.java")).content().contains("import java.util.Arrays;");
+    }
+
+    @Test(description = "composed oneOf models must keep okhttp-gson's fromJson/toJson helpers "
+            + "so migrating consumers do not lose API surface")
+    public void testOkhttpOneOfModelsKeepJsonHelpers() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("Fruit.java")).content()
+                .contains("public static Fruit fromJson(String jsonString) throws IOException {")
+                .contains("public String toJson() {");
+    }
+
+    @Test(description = "serializing a free-form additional property whose value is null must emit "
+            + "JSON null instead of crashing on JsonNull.getAsJsonObject()")
+    public void testOkhttpGsonAdditionalPropertiesNullSafe() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("NullableClass.java")).content()
+                .contains("if (jsonElement.isJsonNull()) {")
+                .contains("obj.add(entry.getKey(), JsonNull.INSTANCE);");
+        // null is not an instance of anything: non-nullable oneOf must reject it
+        assertThat(files.get("JSON.java")).content()
+                .doesNotContain("if (instance == null) {\n            return true;");
+    }
+
+    @Test(description = "JSON-B has no any-getter/any-setter, so additionalProperties=true models "
+            + "need generated custom (de)serializers wired into the Jsonb config to round-trip "
+            + "undeclared fields")
+    public void testOkhttpJsonbAdditionalPropertiesRoundTrip() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("NullableClass.java")).content()
+                .contains("public static class CustomJsonbSerializer implements JsonbSerializer<NullableClass>")
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<NullableClass>");
+        assertThat(files.get("JSON.java")).content()
+                .contains("config.withSerializers(new org.openapitools.client.model.NullableClass.CustomJsonbSerializer());")
+                .contains("config.withDeserializers(new org.openapitools.client.model.NullableClass.CustomJsonbDeserializer());");
+        // a model without additionalProperties must not get the custom (de)serializers
+        assertThat(files.get("Pet.java")).content().doesNotContain("CustomJsonbSerializer");
+    }
+
+    @Test(description = "the setVerifyingSsl(false) insecure-TLS hook is generated unless opted out")
+    public void testOkhttpInsecureTlsHookGeneratedByDefault() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("ApiClient.java")).content()
+                .contains("public ApiClient setVerifyingSsl(boolean verifyingSsl)")
+                .contains("checkClientTrusted");
+    }
+
+    @Test(description = "generateInsecureTlsHook=false must omit setVerifyingSsl and the trust-all "
+            + "TrustManager, e.g. for consumers whose static analysis flags that code")
+    public void testOkhttpInsecureTlsHookOmittedWhenDisabled() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(GENERATE_INSECURE_TLS_HOOK, false));
+
+        assertThat(files.get("ApiClient.java")).content()
+                .doesNotContain("verifyingSsl")
+                .doesNotContain("checkClientTrusted")
+                .doesNotContain("import java.security.cert.CertificateException;");
     }
 
     @DataProvider(name = "jerseyLibraries")

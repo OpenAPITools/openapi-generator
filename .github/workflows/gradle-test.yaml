@@ -28,6 +28,8 @@ jobs:
           - samples/client/petstore/java/jersey2-java8
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-group-parameter
+          - samples/client/petstore/java/okhttp
+          - samples/client/petstore/java/okhttp-group-parameter
           - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-jakarta
