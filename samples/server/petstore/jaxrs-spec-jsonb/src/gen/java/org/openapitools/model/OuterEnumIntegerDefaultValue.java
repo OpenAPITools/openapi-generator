@@ -16,7 +16,7 @@ import jakarta.json.stream.JsonParser;
 /**
  * Gets or Sets OuterEnumIntegerDefaultValue
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonbTypeSerializer(OuterEnumIntegerDefaultValue.Serializer.class)
 @JsonbTypeDeserializer(OuterEnumIntegerDefaultValue.Deserializer.class)
 public enum OuterEnumIntegerDefaultValue {

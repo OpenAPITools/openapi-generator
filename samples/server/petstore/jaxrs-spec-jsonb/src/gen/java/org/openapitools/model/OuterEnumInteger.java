@@ -16,7 +16,7 @@ import jakarta.json.stream.JsonParser;
 /**
  * Gets or Sets OuterEnumInteger
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonbTypeSerializer(OuterEnumInteger.Serializer.class)
 @JsonbTypeDeserializer(OuterEnumInteger.Deserializer.class)
 public enum OuterEnumInteger {

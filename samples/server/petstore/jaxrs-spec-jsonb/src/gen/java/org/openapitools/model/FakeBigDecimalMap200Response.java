@@ -16,7 +16,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
   private Map<String, BigDecimal> someMap = new HashMap<>();

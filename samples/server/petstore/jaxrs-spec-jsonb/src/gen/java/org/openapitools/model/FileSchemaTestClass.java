@@ -17,7 +17,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
   private List<@Valid ModelFile> files = new ArrayList<>();

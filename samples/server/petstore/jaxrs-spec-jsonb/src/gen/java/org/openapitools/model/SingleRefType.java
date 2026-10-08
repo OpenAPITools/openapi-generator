@@ -16,7 +16,7 @@ import jakarta.json.stream.JsonParser;
 /**
  * Gets or Sets SingleRefType
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonbTypeSerializer(SingleRefType.Serializer.class)
 @JsonbTypeDeserializer(SingleRefType.Deserializer.class)
 public enum SingleRefType {

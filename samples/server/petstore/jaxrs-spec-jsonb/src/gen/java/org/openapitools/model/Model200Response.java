@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  * Model for testing model name starting with number
  **/
 @ApiModel(description = "Model for testing model name starting with number")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Model200Response  implements Serializable {
   private Integer name;
   private String propertyClass;

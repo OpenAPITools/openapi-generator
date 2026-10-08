@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  * Model for testing reserved words
  **/
 @ApiModel(description = "Model for testing reserved words")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
   private Integer _return;
 

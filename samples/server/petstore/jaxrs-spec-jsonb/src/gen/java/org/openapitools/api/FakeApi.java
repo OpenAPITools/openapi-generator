@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 */
 @Path("/fake")
 @Api(description = "the fake API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeApi {
 
     @GET

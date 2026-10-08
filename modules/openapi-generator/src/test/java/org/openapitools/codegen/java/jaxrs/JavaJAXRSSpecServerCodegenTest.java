@@ -2812,7 +2812,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         Path pom = output.resolve("pom.xml");
         assertFileContains(pom, "<artifactId>jakarta.json.bind-api</artifactId>", "<artifactId>jakarta.json-api</artifactId>");
-        assertFileNotContains(pom, "com.fasterxml.jackson", "jackson-databind-nullable");
+        assertFileNotContains(pom, "com.fasterxml.jackson", "jackson-databind-nullable", "joda-time");
     }
 
     @Test
@@ -2913,6 +2913,23 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void testSerializationLibraryJsonbRejectsUnsupportedDateLibrary(String dateLibrary) {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
         codegen.additionalProperties().put(AbstractJavaJAXRSServerCodegen.DATE_LIBRARY, dateLibrary);
+        codegen.processOpts();
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbKeepsDateLibraryFromSetter() {
+        codegen.setDateLibrary("java8-localdatetime");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getDateLibrary(), "java8-localdatetime");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "'dateLibrary=joda' is not supported with 'serializationLibrary=jsonb'.*")
+    public void testSerializationLibraryJsonbRejectsUnsupportedDateLibraryFromSetter() {
+        codegen.setDateLibrary("joda");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
         codegen.processOpts();
     }
 

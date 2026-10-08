@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  * Must be named &#x60;File&#x60; for test.
  **/
 @ApiModel(description = "Must be named `File` for test.")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelFile  implements Serializable {
   private String sourceURI;
 

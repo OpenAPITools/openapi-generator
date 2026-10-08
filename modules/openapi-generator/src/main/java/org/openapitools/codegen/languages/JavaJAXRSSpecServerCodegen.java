@@ -249,7 +249,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
         // JSON-B cannot map the Joda types of the legacy default; select java8 before super.processOpts() applies the date type mappings
-        if (isJsonb() && !additionalProperties.containsKey(DATE_LIBRARY)) {
+        if (isJsonb() && !additionalProperties.containsKey(DATE_LIBRARY) && "legacy".equals(getDateLibrary())) {
             setDateLibrary("java8");
         }
 

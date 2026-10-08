@@ -18,7 +18,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   private UUID uuid;
   private OffsetDateTime dateTime;

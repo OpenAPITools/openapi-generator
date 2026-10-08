@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  **/
 @ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HealthCheckResult  implements Serializable {
   private String nullableMessage;
 

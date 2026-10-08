@@ -129,11 +129,13 @@
     </dependency>
     {{/useJakartaEe}}
     {{/jsonb}}
+    {{^jsonb}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${joda-version}</version>
     </dependency>
+    {{/jsonb}}
     {{#useJakartaEe}}
     <dependency>
       <groupId>jakarta.annotation</groupId>
@@ -237,7 +239,9 @@
     <json-bind-api-version>{{#useJakartaEe}}3.0.1{{/useJakartaEe}}{{^useJakartaEe}}1.0{{/useJakartaEe}}</json-bind-api-version>
     {{/jsonb}}
     <junit-version>5.14.4</junit-version>
+    {{^jsonb}}
     <joda-version>2.10.13</joda-version>
+    {{/jsonb}}
 {{#useJakartaEe}}
     <javax.annotation-api-version>2.1.1</javax.annotation-api-version>
 {{/useJakartaEe}}

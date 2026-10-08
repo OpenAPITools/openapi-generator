@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Name  implements Serializable {
   private Integer name;
   private Integer snakeCase;
