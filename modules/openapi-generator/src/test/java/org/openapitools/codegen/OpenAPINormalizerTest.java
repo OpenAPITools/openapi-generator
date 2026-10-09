@@ -2263,5 +2263,95 @@ public class OpenAPINormalizerTest {
         assertNotNull(errorsValue.getItems());
     }
 
+    @Test
+    public void testOpenAPINormalizer31SpecBareNullProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ParentBareNull");
+        Schema dyn = (Schema) schema.getProperties().get("dyn");
+        assertNull(dyn.getType());
+        assertNull(dyn.getTypes());
+        assertNull(dyn.get$ref());
+        assertTrue(dyn.getNullable());
+
+        Schema dynList = (Schema) schema.getProperties().get("dynList");
+        assertEquals(dynList.getType(), "array");
+        Schema dynListItems = dynList.getItems();
+        assertNull(dynListItems.getType());
+        assertNull(dynListItems.getTypes());
+        assertNull(dynListItems.get$ref());
+        assertTrue(dynListItems.getNullable());
+
+        Schema dynRef = (Schema) schema.getProperties().get("dynRef");
+        assertNull(dynRef.getType());
+        assertNull(dynRef.getTypes());
+        assertNull(dynRef.get$ref());
+        assertTrue(dynRef.getNullable());
+
+        Schema dynRefWithDesc = (Schema) schema.getProperties().get("dynRefWithDesc");
+        assertNull(dynRefWithDesc.getType());
+        assertNull(dynRefWithDesc.getTypes());
+        assertNull(dynRefWithDesc.get$ref());
+        assertTrue(dynRefWithDesc.getNullable());
+        assertEquals(dynRefWithDesc.getDescription(), "Sibling description for bare null ref");
+
+        Schema dynRefExplicitNotNullable = (Schema) schema.getProperties().get("dynRefExplicitNotNullable");
+        assertNull(dynRefExplicitNotNullable.getType());
+        assertNull(dynRefExplicitNotNullable.getTypes());
+        assertNull(dynRefExplicitNotNullable.get$ref());
+        assertTrue(dynRefExplicitNotNullable.getNullable());
+
+        Schema patternProp = (Schema) schema.getProperties().get("patternProp");
+        assertEquals(patternProp.getPattern(), "^[a-z]+$");
+        assertNull(patternProp.getNullable());
+
+        Schema dynRefToAllOfWrapper = (Schema) schema.getProperties().get("dynRefToAllOfWrapper");
+        assertNull(dynRefToAllOfWrapper.getType());
+        assertNull(dynRefToAllOfWrapper.getTypes());
+        assertNull(dynRefToAllOfWrapper.get$ref());
+        assertTrue(dynRefToAllOfWrapper.getNullable());
+        assertEquals(dynRefToAllOfWrapper.getDescription(), "Wrapper description on allOf schema");
+        assertNotNull(dynRefToAllOfWrapper.getExtensions());
+        assertEquals(dynRefToAllOfWrapper.getExtensions().get("x-wrapper-ext"), "wrapper-extension-value");
+
+        Schema dynRefToAllOfWrapperWithSiblingDesc = (Schema) schema.getProperties().get("dynRefToAllOfWrapperWithSiblingDesc");
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.getType());
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.getTypes());
+        assertNull(dynRefToAllOfWrapperWithSiblingDesc.get$ref());
+        assertTrue(dynRefToAllOfWrapperWithSiblingDesc.getNullable());
+        assertEquals(dynRefToAllOfWrapperWithSiblingDesc.getDescription(), "Overridden description on property");
+        assertNotNull(dynRefToAllOfWrapperWithSiblingDesc.getExtensions());
+        assertEquals(dynRefToAllOfWrapperWithSiblingDesc.getExtensions().get("x-wrapper-ext"), "wrapper-extension-value");
+
+        Schema child = (Schema) schema.getProperties().get("child");
+        assertEquals(child.get$ref(), "#/components/schemas/Child");
+    }
+
+    @Test
+    public void testOpenAPINormalizer31SpecBareNullPropertiesDisabled() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24520.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZE_31SPEC", "true",
+                "NORMALIZE_BARE_NULL_SCHEMAS", "false"
+        );
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ParentBareNull");
+        Schema dyn = (Schema) schema.getProperties().get("dyn");
+        assertEquals(ModelUtils.getType(dyn), "null");
+
+        Schema dynList = (Schema) schema.getProperties().get("dynList");
+        assertEquals(dynList.getType(), "array");
+        Schema dynListItems = dynList.getItems();
+        assertEquals(ModelUtils.getType(dynListItems), "null");
+
+        Schema dynRef = (Schema) schema.getProperties().get("dynRef");
+        assertEquals(dynRef.get$ref(), "#/components/schemas/NullAlias");
+    }
+
 }
 

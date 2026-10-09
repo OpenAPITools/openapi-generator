@@ -89,6 +89,7 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         super();
         openapiNormalizer.put("NORMALIZER_CLASS",
                 CppBoostBeastClientCodegen.CppBoostBeastOpenAPINormalizer.class.getName());
+        openapiNormalizer.put("NORMALIZE_BARE_NULL_SCHEMAS", "false");
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
