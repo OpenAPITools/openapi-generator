@@ -165,6 +165,7 @@ class Configuration:
       values before.
     :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
       when calling API from https server.
+    :param disable_strict_ssl_verification: bool - Set this to true to disable strict X.509 certificate verification.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
     :param retries: int - Retry configuration.
@@ -292,6 +293,7 @@ conf = petstore_api.Configuration(
         socket_options: Optional[Any]=None,
         datetime_format: str="%Y-%m-%dT%H:%M:%S.%f%z",
         date_format: str="%Y-%m-%d",
+        disable_strict_ssl_verification: bool=False,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -366,6 +368,7 @@ conf = petstore_api.Configuration(
         """
 
         self.verify_ssl = verify_ssl
+        self.disable_strict_ssl_verification = disable_strict_ssl_verification
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
