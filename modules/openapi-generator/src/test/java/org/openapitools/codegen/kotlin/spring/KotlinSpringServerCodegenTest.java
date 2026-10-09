@@ -1531,6 +1531,27 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generatedApiTestPlaceholdersAreExplicitlyDisabled() throws Exception {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml");
+        assertFileContains(files.get("PetApiTest.kt").toPath(),
+                "import org.junit.jupiter.api.Disabled",
+                "@Disabled(\"Provide test inputs and assertions before enabling this generated placeholder\")");
+    }
+
+    @Test
+    public void springBootGradleBuildsUseJUnitPlatform() throws Exception {
+        for (Map<String, Object> props : List.<Map<String, Object>>of(
+                new HashMap<>(),
+                new HashMap<>(Map.of(USE_SPRING_BOOT3, "true")),
+                new HashMap<>(Map.of(USE_SPRING_BOOT4, "true")))) {
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml",
+                    props, new HashMap<>(), configurator -> configurator.setLibrary("spring-boot"));
+            assertFileContains(files.get("build.gradle.kts").toPath(),
+                    "tasks.withType<Test> {\n    useJUnitPlatform()\n}");
+        }
+    }
+
+    @Test
     public void generateHttpInterfaceWithClientRegistrationIdAddsOAuth2ClientDependencyWithoutAuthMethods() throws Exception {
         Map<String, Object> props = new HashMap<>();
         props.put(USE_SPRING_BOOT4, "true");

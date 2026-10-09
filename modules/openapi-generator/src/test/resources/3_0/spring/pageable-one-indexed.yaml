@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: One-based pagination
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      tags:
+        - items
+      operationId: listItems
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 5
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: name,desc
+            enum:
+              - name,asc
+              - name,desc
+      responses:
+        '200':
+          description: Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string

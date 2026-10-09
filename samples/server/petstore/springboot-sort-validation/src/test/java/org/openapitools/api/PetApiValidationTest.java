@@ -1,13 +1,17 @@
 package org.openapitools.api;
 
 import org.junit.jupiter.api.Test;
+import org.openapitools.configuration.ValidPageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Verifies the runtime behaviour of the annotations generated onto {@link PetApi}:
@@ -26,11 +30,61 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * HTTP 400 responses confirm that the constraint annotation rejected the invalid input.
  */
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class PetApiValidationTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Test
+    void autoDetectedPagination_hasNormalizedDefaultsAndSortValidation() throws Exception {
+        org.springframework.data.web.PageableDefault defaults = PetApi.class
+                .getMethod("findPetsAutoDetectedWithSort", String.class, org.springframework.data.domain.Pageable.class)
+                .getParameters()[1].getAnnotation(org.springframework.data.web.PageableDefault.class);
+        assertThat(defaults).isNotNull();
+        assertThat(defaults.page()).isZero();
+        assertThat(defaults.size()).isEqualTo(20);
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT))
+                .andExpect(status().isOk());
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT).param("sort", "name,asc"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void oneIndexedPage_generatedBoundsAreZeroBased() throws Exception {
+        ValidPageable bounds = PetApi.class.getMethod("findPetsWithPageSizeDefaultsOnly",
+                org.springframework.data.domain.Pageable.class).getParameters()[0].getAnnotation(ValidPageable.class);
+        assertThat(bounds).isNotNull();
+        assertThat(bounds.minPage()).isZero();
+        assertThat(bounds.maxPage()).isEqualTo(4);
+    }
+
+    @Test
+    void oneIndexedPage_omittedPageUsesFirstPage() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Page-Number", "0"));
+    }
+
+    @Test
+    void oneIndexedPage_explicitPagesAreNormalized() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY).param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Page-Number", "0"));
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY).param("page", "2"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Page-Number", "1"));
+    }
+
+    @Test
+    void oneIndexedPage_maximumIsAppliedToNormalizedPage() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY).param("page", "5"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Page-Number", "4"));
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY).param("page", "6"))
+                .andExpect(status().isBadRequest());
+    }
 
     // ── @ValidSort ────────────────────────────────────────────────────────────
     // Endpoint: GET /pet/findWithArraySortEnum  allowed: id,asc | id,desc | name,asc | name,desc

@@ -19,6 +19,8 @@ import java.util.List;
  * correctly, the assertions pass and HTTP 200 is returned. If a default is missing or wrong,
  * the assertion throws {@link IllegalStateException} and the request fails with HTTP 500,
  * causing any calling test to fail with a clear message.
+ * The page-size endpoint also accepts explicit pages; its response header lets
+ * integration tests assert the exact resolved page rather than a default here.
  *
  * Methods that only carry {@code @ValidSort} / {@code @ValidPageable} constraints need no body
  * logic — the constraint annotations reject invalid input before this code is ever reached,
@@ -32,7 +34,7 @@ public class PetApiController implements PetApi {
 
     @Override
     public ResponseEntity<List<Pet>> findPetsAutoDetectedWithSort(
-            String status, Integer page, Integer size, String sort) {
+            String status, Pageable pageable) {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
@@ -106,19 +108,17 @@ public class PetApiController implements PetApi {
     }
 
     // ── @PageableDefault ─────────────────────────────────────────────────────
-    // @PageableDefault(page = 0, size = 25)
+    // External pages 1..5 resolve to internal pages 0..4.
 
     @Override
     public ResponseEntity<List<Pet>> findPetsWithPageSizeDefaultsOnly(Pageable pageable) {
-        if (pageable.getPageNumber() != 0) {
-            throw new IllegalStateException(
-                    "@PageableDefault page: expected 0, got " + pageable.getPageNumber());
-        }
         if (pageable.getPageSize() != 25) {
             throw new IllegalStateException(
                     "@PageableDefault size: expected 25, got " + pageable.getPageSize());
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok()
+                .header("X-Page-Number", Integer.toString(pageable.getPageNumber()))
+                .body(Collections.emptyList());
     }
 
     // ── @SortDefault ─────────────────────────────────────────────────────────

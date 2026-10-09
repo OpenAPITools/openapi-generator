@@ -20,6 +20,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 plugins {
     val kotlinVersion = "1.9.25"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion

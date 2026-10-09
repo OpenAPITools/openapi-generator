@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  description: Test spec for generateSortValidation feature
+  description: "Sample spec for one-indexed page defaults, bounds and sort validation"
   title: OpenAPI Petstore - Sort Validation Test
   version: 1.0.0
 servers:
@@ -26,7 +26,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -84,7 +84,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -122,6 +122,7 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+      x-spring-paginated: true
   /pet/findWithRefSort:
     get:
       operationId: findPetsWithRefSort
@@ -131,7 +132,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -176,7 +177,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -388,7 +389,9 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
+          maximum: 5
+          minimum: 1
           type: integer
         style: form
       - explode: true
@@ -432,7 +435,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -568,7 +571,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -621,7 +624,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -669,7 +672,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
@@ -717,7 +720,7 @@ paths:
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           type: integer
         style: form
       - explode: true
