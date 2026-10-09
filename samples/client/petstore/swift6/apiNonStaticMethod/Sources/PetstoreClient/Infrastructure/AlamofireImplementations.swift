@@ -19,6 +19,8 @@ public final class AlamofireRequestBuilderFactory: RequestBuilderFactory, Sendab
     }
 }
 
+private let responseProcessingQueue = DispatchQueue(label: "PetstoreClient.responseProcessing", qos: .userInitiated, attributes: .concurrent)
+
 fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     private init() {}
     static let shared = AlamofireRequestBuilderConfiguration()
@@ -284,9 +286,14 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+            let responseQueue = apiConfiguration.apiResponseQueue
+            let deliver = completion
+            validatedRequest.response(queue: responseProcessingQueue,
                           responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
+                let completion: @Sendable (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void = { result in
+                    responseQueue.async { deliver(result) }
+                }
                 cleanupRequest()
 
                 do {
@@ -360,9 +367,14 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
             })
         default:
-            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+            let responseQueue = apiConfiguration.apiResponseQueue
+            let deliver = completion
+            validatedRequest.response(queue: responseProcessingQueue,
                           responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
+                let completion: @Sendable (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void = { result in
+                    responseQueue.async { deliver(result) }
+                }
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {
