@@ -486,7 +486,8 @@ namespace Org.OpenAPITools.Client
             }
 
             using (RestClient client = new RestClient(clientOptions,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)),
+                useClientFactory: true))
             {
                 InterceptRequest(request);
 

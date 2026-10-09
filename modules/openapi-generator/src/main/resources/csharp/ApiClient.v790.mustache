@@ -480,7 +480,8 @@ namespace {{packageName}}.Client
 
             {{/hasOAuthMethods}}
             using (RestClient client = new RestClient(clientOptions,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)){{#useClientFactory}},
+                useClientFactory: true{{/useClientFactory}}))
             {
                 InterceptRequest(request);
 

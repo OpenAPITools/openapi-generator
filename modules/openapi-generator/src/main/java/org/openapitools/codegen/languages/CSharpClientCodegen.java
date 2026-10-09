@@ -126,6 +126,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsDateOnly = Boolean.FALSE;
     protected boolean useIntForTimeout = Boolean.FALSE;
     protected boolean throwOnAnyError = Boolean.FALSE;
+    protected boolean useClientFactory = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -137,6 +138,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
     private static final String USE_INT_FOR_TIMEOUT = "useIntForTimeout";
     private static final String THROW_ON_ANY_ERROR = "throwOnAnyError";
+    private static final String USE_CLIENT_FACTORY = "useClientFactory";
 
     enum SortingMethod {
         DEFAULT,
@@ -249,6 +251,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CSharpClientCodegen.THROW_ON_ANY_ERROR,
                 "Throw ApiException on deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). HTTP error statuses keep going through ExceptionFactory. Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
                 this.throwOnAnyError);
+
+        addSwitch(USE_CLIENT_FACTORY,
+                "Construct RestClient with useClientFactory: true so a shared HttpClient is reused across requests. (restsharp only)",
+                this.useClientFactory);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -912,6 +918,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
         syncBooleanProperty(additionalProperties, "useIntForTimeout", this::setUseIntForTimeout, this.useIntForTimeout);
         syncBooleanProperty(additionalProperties, "throwOnAnyError", this::setThrowOnAnyError, this.throwOnAnyError);
+        syncBooleanProperty(additionalProperties, USE_CLIENT_FACTORY, this::setUseClientFactory, this.useClientFactory);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -1289,6 +1296,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setThrowOnAnyError(Boolean throwOnAnyError) {
         this.throwOnAnyError = throwOnAnyError;
+    }
+
+    public void setUseClientFactory(Boolean useClientFactory) {
+        this.useClientFactory = useClientFactory;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {
