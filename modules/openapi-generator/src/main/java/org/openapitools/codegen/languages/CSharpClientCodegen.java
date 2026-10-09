@@ -255,7 +255,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 String.valueOf(this.useIntForTimeout));
 
         addSwitch(CSharpClientCodegen.THROW_ON_ANY_ERROR,
-                "Configure RestSharp to rethrow deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
+                "Throw ApiException on deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). HTTP error statuses keep going through ExceptionFactory. Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
                 this.throwOnAnyError);
 
         CliOption framework = new CliOption(

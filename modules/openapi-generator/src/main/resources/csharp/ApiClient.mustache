@@ -467,8 +467,7 @@ namespace {{packageName}}.Client
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
-                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback{{#throwOnAnyError}},
-                ThrowOnAnyError = true{{/throwOnAnyError}}
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
             setOptions(clientOptions);
             
@@ -495,6 +494,14 @@ namespace {{packageName}}.Client
                 InterceptRequest(request);
 
                 RestResponse<T> response = await getResponse(client).ConfigureAwait(false);
+                {{#throwOnAnyError}}
+
+                // 4xx/5xx also carry ErrorException; those go through ExceptionFactory so the body is kept
+                if (response.ErrorException != null && (int)response.StatusCode < 400)
+                {
+                    throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, response.ErrorMessage), response.Content, ToApiResponse(response).Headers);
+                }
+                {{/throwOnAnyError}}
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
@@ -567,15 +574,10 @@ namespace {{packageName}}.Client
             }
             else
             {
-                {{#throwOnAnyError}}
-                throw policyResult.FinalException ?? new InvalidOperationException("The retry policy failed without an exception.");
-                {{/throwOnAnyError}}
-                {{^throwOnAnyError}}
                 return new RestResponse<T>(request)
                 {
                     ErrorException = policyResult.FinalException
                 };
-                {{/throwOnAnyError}}
             }
         }
                 
