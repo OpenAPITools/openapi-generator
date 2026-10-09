@@ -1177,6 +1177,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+                convertByteArrayParamsToStringType(operation);
+                markMultipartFormDataParameters(operation);
                 normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
                 normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
 
@@ -1207,6 +1209,99 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    /**
+     * Converts parameters of type {@code byte[]} (i.e., OpenAPI {@code type: string, format: byte}) to {@code String}.
+     * <p>
+     * In OpenAPI, {@code type: string, format: byte} is a base64-encoded string. However, Spring does not automatically
+     * decode base64-encoded request parameters into {@code byte[]} for query, path, header, cookie, or form parameters.
+     * Therefore, these parameters are mapped to {@code String} to avoid incorrect type handling and to ensure the
+     * application receives the raw base64 string as provided by the client.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be checked and converted if necessary
+     **/
+    private void convertByteArrayParamsToStringType(CodegenOperation operation) {
+        var convertedParams = operation.allParams.stream()
+                .filter(param -> param.isQueryParam || param.isPathParam || param.isHeaderParam || param.isCookieParam || param.isFormParam)
+                .filter(param -> {
+                    if (param.getIsByteArray()) {
+                        param.dataType = "String";
+                        return true;
+                    } else if (param.isArray && param.items != null && param.items.getIsByteArray()) {
+                        param.items.dataType = "String";
+                        param.dataType = param.dataType.replace("byte[]", "String");
+                        param.isByteArray = true;
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+        if (!convertedParams.isEmpty()) {
+            LOGGER.debug("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
+        }
+    }
+
+    /**
+     * Marks form parameters that are in multipart/form-data operations for special handling in reactive mode.
+     * <p>
+     * In reactive Spring WebFlux, multipart/form-data parameters must use @RequestPart instead of @RequestParam,
+     * and non-model parameters (primitives, enums, strings) must be received as String or Flux&lt;String&gt; and
+     * converted manually in the implementation.
+     * </p>
+     * <p>
+     * The {@code dataType} (and, for arrays, {@code items.dataType}) of affected parameters is mutated in place,
+     * mirroring {@link #convertByteArrayParamsToStringType(CodegenOperation)}. This keeps every template that
+     * renders a parameter's Java type from {@code dataType} (e.g. {@code formParams.mustache},
+     * {@code optionalDataType.mustache}, {@code apiDelegate.mustache}) in sync, so the generated annotated
+     * bridge method and the overridable/delegate method it calls always declare the same parameter type.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be marked if necessary
+     **/
+    private void markMultipartFormDataParameters(CodegenOperation operation) {
+        if (!reactive) {
+            return; // Only applies to reactive mode
+        }
+
+        // Check if this operation consumes multipart/form-data
+        boolean isMultipartFormData = false;
+        if (operation.hasConsumes) {
+            for (Map<String, String> consume : operation.consumes) {
+                if ("multipart/form-data".equalsIgnoreCase(consume.get("mediaType"))) {
+                    isMultipartFormData = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isMultipartFormData) {
+            return;
+        }
+
+        // Mark all form parameters as multipart form data
+        for (CodegenParameter param : operation.allParams) {
+            if (!param.isFormParam) {
+                continue;
+            }
+            param.vendorExtensions.put("x-isMultipartFormData", true);
+
+            if (param.isFile || param.isModel) {
+                continue;
+            }
+
+            if (param.isArray && param.items != null && !param.items.isModel) {
+                // A repeated non-model multipart part is bound as a Flux of raw String values in WebFlux;
+                // callers must parse each element themselves.
+                param.items.dataType = "String";
+                param.dataType = "Flux<String>";
+            } else if (!param.isArray) {
+                // @RequestPart cannot resolve an arbitrary scalar type from a non-model multipart part in
+                // WebFlux; receive the raw String value and let callers parse it.
+                param.dataType = "String";
+            }
+        }
     }
 
     /**
