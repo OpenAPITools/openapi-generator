@@ -9,6 +9,9 @@ import org.openapitools.codegen.api.TemplateFileType;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -245,5 +248,255 @@ public class DynamicSettingsTest {
         assertEquals(mapped.get("LICENSE").getFolder(), "");
         assertEquals(mapped.get("LICENSE").getDestinationFilename(), "LICENSE");
         assertEquals(mapped.get("LICENSE").getTemplateType(), TemplateFileType.SupportingFiles);
+    }
+
+    @Test
+    public void testFilesDirWithNestedStructure() throws IOException, JsonProcessingException {
+        // Create a temp directory structure:
+        // filesDir/
+        //   README.md                     -> SupportingFiles, folder=""
+        //   LICENSE.mustache              -> SupportingFiles, folder="", dest="LICENSE"
+        //   api/
+        //     custom_api.mustache         -> API, dest="custom_api"
+        //   model/
+        //     validators.mustache         -> Model, dest="validators"
+        //   apiDocs/
+        //     api_readme.mustache         -> APIDocs
+        //   modelDocs/
+        //     model_readme.mustache       -> ModelDocs
+        //   apiTests/
+        //     api_test.mustache           -> APITests
+        //   modelTests/
+        //     model_test.mustache         -> ModelTests
+        //   supportingFiles/
+        //     build.gradle.mustache       -> SupportingFiles, folder=""
+        //     scripts/
+        //       check.sh                  -> SupportingFiles, folder="scripts"
+        //   custom_scripts/
+        //     deploy.sh                   -> SupportingFiles, folder="custom_scripts" (unrecognized dir)
+
+        Path tempDir = Files.createTempDirectory("filesDir_test");
+        try {
+            // Root files
+            Files.writeString(tempDir.resolve("README.md"), "readme");
+            Files.writeString(tempDir.resolve("LICENSE.mustache"), "license template");
+
+            // api/
+            Files.createDirectories(tempDir.resolve("api"));
+            Files.writeString(tempDir.resolve("api/custom_api.mustache"), "api template");
+
+            // model/
+            Files.createDirectories(tempDir.resolve("model"));
+            Files.writeString(tempDir.resolve("model/validators.mustache"), "model template");
+
+            // apiDocs/
+            Files.createDirectories(tempDir.resolve("apiDocs"));
+            Files.writeString(tempDir.resolve("apiDocs/api_readme.mustache"), "api docs");
+
+            // modelDocs/
+            Files.createDirectories(tempDir.resolve("modelDocs"));
+            Files.writeString(tempDir.resolve("modelDocs/model_readme.mustache"), "model docs");
+
+            // apiTests/
+            Files.createDirectories(tempDir.resolve("apiTests"));
+            Files.writeString(tempDir.resolve("apiTests/api_test.mustache"), "api test");
+
+            // modelTests/
+            Files.createDirectories(tempDir.resolve("modelTests"));
+            Files.writeString(tempDir.resolve("modelTests/model_test.mustache"), "model test");
+
+            // supportingFiles/
+            Files.createDirectories(tempDir.resolve("supportingFiles/scripts"));
+            Files.writeString(tempDir.resolve("supportingFiles/build.gradle.mustache"), "build file");
+            Files.writeString(tempDir.resolve("supportingFiles/scripts/check.sh"), "check script");
+
+            // custom_scripts/ (unrecognized dir name)
+            Files.createDirectories(tempDir.resolve("custom_scripts"));
+            Files.writeString(tempDir.resolve("custom_scripts/deploy.sh"), "deploy script");
+
+            // Parse config with filesDir
+            ObjectMapper mapper = Yaml.mapper();
+            mapper.registerModule(new GuavaModule());
+
+            String spec = new StringJoiner(System.lineSeparator(), "", "")
+                    .add("generatorName: java")
+                    .add("filesDir: '" + tempDir.toString().replace('\\', '/') + "'")
+                    .toString();
+
+            DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
+            List<TemplateDefinition> files = dynamicSettings.getFiles();
+            assertNotNull(files);
+
+            Map<String, TemplateDefinition> mapped = files.stream()
+                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (a, b) -> a, TreeMap::new));
+
+            // Root files -> SupportingFiles
+            assertTrue(mapped.containsKey("README.md"), "Should discover README.md at root");
+            assertEquals(mapped.get("README.md").getTemplateType(), TemplateFileType.SupportingFiles);
+            assertEquals(mapped.get("README.md").getFolder(), "");
+            assertEquals(mapped.get("README.md").getDestinationFilename(), "README.md");
+
+            assertTrue(mapped.containsKey("LICENSE.mustache"), "Should discover LICENSE.mustache at root");
+            assertEquals(mapped.get("LICENSE.mustache").getTemplateType(), TemplateFileType.SupportingFiles);
+            assertEquals(mapped.get("LICENSE.mustache").getDestinationFilename(), "LICENSE");
+
+            // api/ -> API
+            assertTrue(mapped.containsKey("api/custom_api.mustache"), "Should discover api/custom_api.mustache");
+            assertEquals(mapped.get("api/custom_api.mustache").getTemplateType(), TemplateFileType.API);
+            assertEquals(mapped.get("api/custom_api.mustache").getDestinationFilename(), "custom_api");
+            assertEquals(mapped.get("api/custom_api.mustache").getFolder(), "");
+
+            // model/ -> Model
+            assertTrue(mapped.containsKey("model/validators.mustache"), "Should discover model/validators.mustache");
+            assertEquals(mapped.get("model/validators.mustache").getTemplateType(), TemplateFileType.Model);
+
+            // apiDocs/ -> APIDocs
+            assertTrue(mapped.containsKey("apiDocs/api_readme.mustache"));
+            assertEquals(mapped.get("apiDocs/api_readme.mustache").getTemplateType(), TemplateFileType.APIDocs);
+
+            // modelDocs/ -> ModelDocs
+            assertTrue(mapped.containsKey("modelDocs/model_readme.mustache"));
+            assertEquals(mapped.get("modelDocs/model_readme.mustache").getTemplateType(), TemplateFileType.ModelDocs);
+
+            // apiTests/ -> APITests
+            assertTrue(mapped.containsKey("apiTests/api_test.mustache"));
+            assertEquals(mapped.get("apiTests/api_test.mustache").getTemplateType(), TemplateFileType.APITests);
+
+            // modelTests/ -> ModelTests
+            assertTrue(mapped.containsKey("modelTests/model_test.mustache"));
+            assertEquals(mapped.get("modelTests/model_test.mustache").getTemplateType(), TemplateFileType.ModelTests);
+
+            // supportingFiles/ -> SupportingFiles
+            assertTrue(mapped.containsKey("supportingFiles/build.gradle.mustache"));
+            assertEquals(mapped.get("supportingFiles/build.gradle.mustache").getTemplateType(), TemplateFileType.SupportingFiles);
+            assertEquals(mapped.get("supportingFiles/build.gradle.mustache").getFolder(), "");
+            assertEquals(mapped.get("supportingFiles/build.gradle.mustache").getDestinationFilename(), "build.gradle");
+
+            // supportingFiles/scripts/ -> SupportingFiles with folder="scripts"
+            assertTrue(mapped.containsKey("supportingFiles/scripts/check.sh"));
+            assertEquals(mapped.get("supportingFiles/scripts/check.sh").getTemplateType(), TemplateFileType.SupportingFiles);
+            assertEquals(mapped.get("supportingFiles/scripts/check.sh").getFolder(), "scripts");
+            assertEquals(mapped.get("supportingFiles/scripts/check.sh").getDestinationFilename(), "check.sh");
+
+            // custom_scripts/ (unrecognized) -> SupportingFiles with folder="custom_scripts"
+            assertTrue(mapped.containsKey("custom_scripts/deploy.sh"));
+            assertEquals(mapped.get("custom_scripts/deploy.sh").getTemplateType(), TemplateFileType.SupportingFiles);
+            assertEquals(mapped.get("custom_scripts/deploy.sh").getFolder(), "custom_scripts");
+            assertEquals(mapped.get("custom_scripts/deploy.sh").getDestinationFilename(), "deploy.sh");
+        } finally {
+            // Cleanup temp directory
+            deleteRecursively(tempDir);
+        }
+    }
+
+    @Test
+    public void testFilesDirMergedWithFiles() throws IOException, JsonProcessingException {
+        // When both files and filesDir are specified, explicit files entries should take precedence
+
+        Path tempDir = Files.createTempDirectory("filesDir_merge_test");
+        try {
+            Files.createDirectories(tempDir.resolve("api"));
+            Files.writeString(tempDir.resolve("api/custom_api.mustache"), "api from dir");
+            Files.writeString(tempDir.resolve("README.md"), "readme from dir");
+
+            ObjectMapper mapper = Yaml.mapper();
+            mapper.registerModule(new GuavaModule());
+
+            // Explicit files entry for api/custom_api.mustache with a custom destinationFilename
+            String spec = new StringJoiner(System.lineSeparator(), "", "")
+                    .add("generatorName: java")
+                    .add("filesDir: '" + tempDir.toString().replace('\\', '/') + "'")
+                    .add("files:")
+                    .add("  api/custom_api.mustache:")
+                    .add("    templateType: API")
+                    .add("    destinationFilename: CustomApi.java")
+                    .toString();
+
+            DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
+            List<TemplateDefinition> files = dynamicSettings.getFiles();
+            assertNotNull(files);
+
+            Map<String, TemplateDefinition> mapped = files.stream()
+                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (a, b) -> a, TreeMap::new));
+
+            // Explicit entry should win over auto-discovered
+            assertEquals(mapped.get("api/custom_api.mustache").getDestinationFilename(), "CustomApi.java");
+            assertEquals(mapped.get("api/custom_api.mustache").getTemplateType(), TemplateFileType.API);
+
+            // Auto-discovered file that doesn't conflict should still be present
+            assertTrue(mapped.containsKey("README.md"));
+            assertEquals(mapped.get("README.md").getTemplateType(), TemplateFileType.SupportingFiles);
+        } finally {
+            deleteRecursively(tempDir);
+        }
+    }
+
+    @Test
+    public void testFilesDirEmptyDirectory() throws IOException, JsonProcessingException {
+        Path tempDir = Files.createTempDirectory("filesDir_empty_test");
+        try {
+            ObjectMapper mapper = Yaml.mapper();
+            mapper.registerModule(new GuavaModule());
+
+            String spec = new StringJoiner(System.lineSeparator(), "", "")
+                    .add("generatorName: java")
+                    .add("filesDir: '" + tempDir.toString().replace('\\', '/') + "'")
+                    .toString();
+
+            DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
+            List<TemplateDefinition> files = dynamicSettings.getFiles();
+            assertNotNull(files);
+            assertEquals(files.size(), 0, "Empty directory should produce no template definitions");
+        } finally {
+            deleteRecursively(tempDir);
+        }
+    }
+
+    @Test
+    public void testFilesDirNonExistentDirectory() throws JsonProcessingException {
+        ObjectMapper mapper = Yaml.mapper();
+        mapper.registerModule(new GuavaModule());
+
+        String spec = new StringJoiner(System.lineSeparator(), "", "")
+                .add("generatorName: java")
+                .add("filesDir: '/nonexistent/path/that/should/not/exist'")
+                .toString();
+
+        DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
+        List<TemplateDefinition> files = dynamicSettings.getFiles();
+        assertNotNull(files);
+        assertEquals(files.size(), 0, "Non-existent directory should produce no template definitions");
+    }
+
+    @Test
+    public void testDiscoverFilesFromDirectoryCaseInsensitive() throws IOException {
+        // Verify that directory name matching is case-insensitive
+        Path tempDir = Files.createTempDirectory("filesDir_case_test");
+        try {
+            Files.createDirectories(tempDir.resolve("API"));
+            Files.writeString(tempDir.resolve("API/upper.mustache"), "upper");
+            Files.createDirectories(tempDir.resolve("Model"));
+            Files.writeString(tempDir.resolve("Model/mixed.mustache"), "mixed");
+
+            List<TemplateDefinition> discovered = DynamicSettings.discoverFilesFromDirectory(tempDir.toString());
+            Map<String, TemplateDefinition> mapped = discovered.stream()
+                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity()));
+
+            assertEquals(mapped.get("API/upper.mustache").getTemplateType(), TemplateFileType.API);
+            assertEquals(mapped.get("Model/mixed.mustache").getTemplateType(), TemplateFileType.Model);
+        } finally {
+            deleteRecursively(tempDir);
+        }
+    }
+
+    private static void deleteRecursively(Path path) throws IOException {
+        if (Files.isDirectory(path)) {
+            try (var entries = Files.list(path)) {
+                for (Path entry : entries.collect(Collectors.toList())) {
+                    deleteRecursively(entry);
+                }
+            }
+        }
+        Files.deleteIfExists(path);
     }
 }
