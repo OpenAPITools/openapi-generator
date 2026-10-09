@@ -51,7 +51,8 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 		return ev, nil
 	}
 
-	return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
+	noValue := new({{{classname}}})
+	return *noValue, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 }
 
 {{/isEnum}}{{^isEnum}}{{#description}}
