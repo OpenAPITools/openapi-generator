@@ -112,34 +112,31 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = nil
 
-                if let key = Self.firstUnsupportedMultipartKey(in: self.parameters) {
-                    return failBeforeSending(.unsupportedParameterValue(key: key), managerId: managerId, completion: completion)
-                }
-
-                let upload = manager.upload(multipartFormData: { mpForm in
-                    for (k, v) in self.parameters ?? [:] {
-                        for v in (v as? Array ?? [v]) {
-                            switch v {
-                            case let fileURL as URL:
-                                if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
-                                    mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
-                                } else {
-                                    mpForm.append(fileURL, withName: k)
-                                }
-                            case let string as String:
-                                mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
-                            case let number as NSNumber:
-                                mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
-                            case let data as Data:
-                                mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
-                            case let uuid as UUID:
-                                mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
-                            default:
-                                break
+                let mpForm = MultipartFormData()
+                for (k, v) in self.parameters ?? [:] {
+                    for v in (v as? Array ?? [v]) {
+                        switch v {
+                        case let fileURL as URL:
+                            if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
+                                mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+                            } else {
+                                mpForm.append(fileURL, withName: k)
                             }
+                        case let string as String:
+                            mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
+                        case let number as NSNumber:
+                            mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
+                        case let uuid as UUID:
+                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
+                        default:
+                            return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
                         }
                     }
-                }, to: URLString, method: xMethod, headers: nil)
+                }
+
+                let upload = manager.upload(multipartFormData: mpForm, to: URLString, method: xMethod, headers: nil)
                 .uploadProgress { progress in
                     if let onProgressReady = self.onProgressReady {
                         onProgressReady(progress)
@@ -217,20 +214,6 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
             completion(.failure(ErrorResponse.error(415, nil, nil, error)))
         }
         return requestTask
-    }
-
-    fileprivate static func firstUnsupportedMultipartKey(in parameters: [String: any Sendable]?) -> String? {
-        for (key, value) in parameters ?? [:] {
-            for element in (value as? [Any] ?? [value]) {
-                switch element {
-                case is URL, is String, is NSNumber, is Data, is UUID:
-                    continue
-                default:
-                    return key
-                }
-            }
-        }
-        return nil
     }
 
     open func buildHeaders() -> [String: String] {
