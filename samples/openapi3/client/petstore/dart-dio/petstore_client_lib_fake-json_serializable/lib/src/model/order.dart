@@ -17,19 +17,13 @@ part 'order.g.dart';
   explicitToJson: true,
 )
 class Order {
-  /// Returns a new [Order] instance.
+/// Returns a new [Order] instance.
   Order({
-
      this.id,
-
      this.petId,
-
      this.quantity,
-
      this.shipDate,
-
      this.status,
-
      this.complete = false,
   });
 
@@ -111,6 +105,7 @@ class Order {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Order &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.petId == petId &&
       other.quantity == quantity &&

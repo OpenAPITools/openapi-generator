@@ -610,6 +610,52 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        // For json_serializable, properly set up parent variables for inheritance
+        if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+            // Build a map of all models for quick lookup
+            Map<String, CodegenModel> allModelsMap = new HashMap<>();
+            for (ModelsMap modelsEntries : objs.values()) {
+                for (ModelMap modelsMap : modelsEntries.getModels()) {
+                    allModelsMap.put(modelsMap.getModel().getClassname(), modelsMap.getModel());
+                }
+            }
+
+            // Process models with inheritance
+            for (ModelsMap modelsEntries : objs.values()) {
+                for (ModelMap mo : modelsEntries.getModels()) {
+                    CodegenModel cm = mo.getModel();
+
+                    if (cm.getParent() != null && !cm.getParent().isEmpty()) {
+                        LOGGER.debug("Processing inheritance for model: {} (extends: {})", cm.getClassname(), cm.getParent());
+
+                        CodegenModel parentModel = allModelsMap.get(cm.getParent());
+
+                        if (parentModel != null && parentModel.getVars() != null && !parentModel.getVars().isEmpty()) {
+                            // Set parent variables
+                            cm.setParentVars(parentModel.getVars());
+
+                            // Remove parent properties from child's vars to avoid duplication
+                            Set<String> parentVarNames = cm.getParentVars().stream()
+                                    .map(CodegenProperty::getName)
+                                    .collect(Collectors.toSet());
+
+                            cm.setVars(cm.getVars().stream()
+                                    .filter(p -> !parentVarNames.contains(p.getName()))
+                                    .collect(Collectors.toList())
+                            );
+
+                            LOGGER.debug("Inheritance setup complete for {}: {} parent properties moved to parentVars",
+                                    cm.getClassname(), parentModel.getVars().size());
+                        } else {
+                            LOGGER.warn("Parent model '{}' not found or has no properties for child model '{}'",
+                                    cm.getParent(), cm.getClassname());
+                        }
+                    }
+                }
+            }
+        }
+
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);

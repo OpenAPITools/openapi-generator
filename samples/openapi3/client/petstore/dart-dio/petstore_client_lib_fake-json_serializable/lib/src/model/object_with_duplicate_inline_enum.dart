@@ -17,9 +17,8 @@ part 'object_with_duplicate_inline_enum.g.dart';
   explicitToJson: true,
 )
 class ObjectWithDuplicateInlineEnum {
-  /// Returns a new [ObjectWithDuplicateInlineEnum] instance.
+/// Returns a new [ObjectWithDuplicateInlineEnum] instance.
   ObjectWithDuplicateInlineEnum({
-
      this.attribute,
   });
 
@@ -41,6 +40,7 @@ class ObjectWithDuplicateInlineEnum {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ObjectWithDuplicateInlineEnum &&
+    runtimeType == other.runtimeType &&
       other.attribute == attribute;
 
     @override

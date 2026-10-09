@@ -18,15 +18,11 @@ part 'object_with_deprecated_fields.g.dart';
   explicitToJson: true,
 )
 class ObjectWithDeprecatedFields {
-  /// Returns a new [ObjectWithDeprecatedFields] instance.
+/// Returns a new [ObjectWithDeprecatedFields] instance.
   ObjectWithDeprecatedFields({
-
      this.uuid,
-
      this.id,
-
      this.deprecatedRef,
-
      this.bars,
   });
 
@@ -85,6 +81,7 @@ class ObjectWithDeprecatedFields {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
+    runtimeType == other.runtimeType &&
       other.uuid == uuid &&
       other.id == id &&
       other.deprecatedRef == deprecatedRef &&
