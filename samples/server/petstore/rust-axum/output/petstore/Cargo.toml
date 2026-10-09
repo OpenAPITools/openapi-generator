@@ -9,7 +9,19 @@ homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]
-server = []
+server = [
+    "ammonia",
+    "async-trait",
+    "axum",
+    "axum-extra",
+    "bytes",
+    "futures-util",
+    "headers",
+    "http",
+    "serde_html_form",
+    "tokio",
+    "tracing",
+]
 conversion = [
     "frunk",
     "frunk_derives",
@@ -19,35 +31,35 @@ conversion = [
 ]
 
 [dependencies]
-ammonia = "4"
-async-trait = "0.1"
-axum = { version = "0.8", features = ["multipart"] }
+ammonia = { version = "4", optional = true }
+async-trait = { version = "0.1", optional = true }
+axum = { version = "0.8", features = ["multipart"], optional = true }
 axum-extra = { version = "0.12", features = [
   "cookie",
   "query",
   "typed-header",
-] }
+], optional = true }
 base64 = "0.22"
-bytes = "1"
+bytes = { version = "1", optional = true }
 chrono = { version = "0.4", features = ["serde"] }
 frunk = { version = "0.4", optional = true }
 frunk-enum-core = { version = "0.3", optional = true }
 frunk-enum-derive = { version = "0.3", optional = true }
 frunk_core = { version = "0.4", optional = true }
 frunk_derives = { version = "0.4", optional = true }
-futures-util = "0.3"
-headers = "0.4"
-http = "1"
+futures-util = { version = "0.3", optional = true }
+headers = { version = "0.4", optional = true }
+http = { version = "1", optional = true }
 lazy_static = "1"
 regex = "1"
 serde = { version = "1", features = ["derive"] }
-serde_html_form = "0.2"
+serde_html_form = { version = "0.2", optional = true }
 serde_json = { version = "1", features = ["raw_value"] }
 tokio = { version = "1", default-features = false, features = [
     "signal",
     "rt-multi-thread",
-] }
-tracing = { version = "0.1", features = ["attributes"] }
+], optional = true }
+tracing = { version = "0.1", features = ["attributes"], optional = true }
 uuid = { version = "1", features = ["serde"] }
 validator = { version = "0.20", features = ["derive"] }
 

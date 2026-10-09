@@ -14,6 +14,7 @@
     clippy::too_many_arguments
 )]
 
+#[cfg(feature = "server")]
 extern crate futures_util;
 
 pub const BASE_PATH: &str = "{{{basePathWithoutHost}}}";
@@ -26,6 +27,7 @@ pub mod server;
 
 pub mod models;
 pub mod types;
+#[cfg(feature = "server")]
 pub mod apis;
 
 #[cfg(feature = "server")]

@@ -14,6 +14,7 @@
     clippy::too_many_arguments
 )]
 
+#[cfg(feature = "server")]
 extern crate futures_util;
 
 pub const BASE_PATH: &str = "";
@@ -22,6 +23,7 @@ pub const API_VERSION: &str = "2.3.4";
 #[cfg(feature = "server")]
 pub mod server;
 
+#[cfg(feature = "server")]
 pub mod apis;
 pub mod models;
 pub mod types;
