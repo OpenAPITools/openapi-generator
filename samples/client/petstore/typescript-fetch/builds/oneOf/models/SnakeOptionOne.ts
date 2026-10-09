@@ -65,8 +65,8 @@ export function SnakeOptionOneFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function SnakeOptionOneToJSON(json: any): SnakeOptionOne {
-    return SnakeOptionOneToJSONTyped(json, false);
+export function SnakeOptionOneToJSON(value?: SnakeOptionOne | null): any {
+    return SnakeOptionOneToJSONTyped(value, false);
 }
 
 export function SnakeOptionOneToJSONTyped(value?: SnakeOptionOne | null, ignoreDiscriminator: boolean = false): any {

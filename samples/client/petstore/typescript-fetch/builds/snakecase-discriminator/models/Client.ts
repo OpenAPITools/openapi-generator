@@ -46,8 +46,8 @@ export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cl
     };
 }
 
-export function ClientToJSON(json: any): Client {
-    return ClientToJSONTyped(json, false);
+export function ClientToJSON(value?: Client | null): any {
+    return ClientToJSONTyped(value, false);
 }
 
 export function ClientToJSONTyped(value?: Client | null, ignoreDiscriminator: boolean = false): any {

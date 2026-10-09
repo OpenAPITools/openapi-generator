@@ -44,10 +44,10 @@ export function SingleRefTypeFromJSONTyped(json: any, ignoreDiscriminator: boole
 }
 
 export function SingleRefTypeToJSON(value?: SingleRefType | null): any {
-    return value as any;
+    return SingleRefTypeToJSONTyped(value, false);
 }
 
-export function SingleRefTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): SingleRefType {
-    return value as SingleRefType;
+export function SingleRefTypeToJSONTyped(value?: SingleRefType | null, ignoreDiscriminator: boolean = false): any {
+    return value as any;
 }
 

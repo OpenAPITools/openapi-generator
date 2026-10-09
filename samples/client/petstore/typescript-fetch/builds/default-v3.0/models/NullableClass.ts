@@ -103,8 +103,8 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function NullableClassToJSON(json: any): NullableClass {
-    return NullableClassToJSONTyped(json, false);
+export function NullableClassToJSON(value?: NullableClass | null): any {
+    return NullableClassToJSONTyped(value, false);
 }
 
 export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {

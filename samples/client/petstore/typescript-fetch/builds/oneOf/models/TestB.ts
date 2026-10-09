@@ -47,8 +47,8 @@ export function TestBFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tes
     };
 }
 
-export function TestBToJSON(json: any): TestB {
-    return TestBToJSONTyped(json, false);
+export function TestBToJSON(value?: TestB | null): any {
+    return TestBToJSONTyped(value, false);
 }
 
 export function TestBToJSONTyped(value?: TestB | null, ignoreDiscriminator: boolean = false): any {
