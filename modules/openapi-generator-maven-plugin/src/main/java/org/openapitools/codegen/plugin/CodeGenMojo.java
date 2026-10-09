@@ -518,7 +518,11 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateSupportingFiles = true;
 
     /**
-     * A comma separated list of models to generate. All models is the default.
+     * A comma separated list of supporting files to generate. All supporting files are the default.
+     * <p>
+     * The list is a fixed allow-list: supporting files added by a later version of the generator are
+     * not generated unless they are added here, which can leave the generated sources uncompilable.
+     * Prefer {@code .openapi-generator-ignore} to exclude the few files you do not want.
      */
     @Parameter(name = "supportingFilesToGenerate", property = "openapi.generator.maven.plugin.supportingFilesToGenerate")
     private String supportingFilesToGenerate = "";

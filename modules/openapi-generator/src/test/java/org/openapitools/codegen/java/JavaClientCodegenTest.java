@@ -37,6 +37,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -4065,6 +4066,57 @@ public class JavaClientCodegenTest {
         );
     }
 
+
+    @Test(description = "Regression test for the premise of issue #22238: the restclient ApiClient refers to"
+            + " ServerConfiguration, ServerVariable and ExceptionProvider, which live in the invoker"
+            + " package, so a default run must generate them next to it.")
+    public void testRestClientDefaultGenerationIncludesCompanionFiles() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileExists(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"));
+        assertFileExists(output.resolve("src/main/java/xyz/abcdef/ServerConfiguration.java"));
+        assertFileExists(output.resolve("src/main/java/xyz/abcdef/ServerVariable.java"));
+        assertFileExists(output.resolve("src/main/java/xyz/abcdef/ExceptionProvider.java"));
+    }
+
+    @Test(description = "Issue #22238: the supportingFiles global property is an allow-list, so asking for"
+            + " ApiClient.java alone silently skips the ServerConfiguration, ServerVariable and"
+            + " ExceptionProvider it references, leaving sources that do not compile.")
+    public void testRestClientSupportingFilesAllowListSkipsApiClientCompanions_issue_22238() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, "ApiClient.java");
+        try {
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        } finally {
+            GlobalSettings.reset();
+        }
+
+        assertFileExists(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"));
+        assertFileNotExists(output.resolve("src/main/java/xyz/abcdef/ServerConfiguration.java"));
+        assertFileNotExists(output.resolve("src/main/java/xyz/abcdef/ServerVariable.java"));
+        assertFileNotExists(output.resolve("src/main/java/xyz/abcdef/ExceptionProvider.java"));
+        assertThat(output.resolve("src/main/java/xyz/abcdef/ApiClient.java")).content()
+                .contains("List<ServerConfiguration> servers")
+                .contains("ExceptionProvider");
+    }
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
