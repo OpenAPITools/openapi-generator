@@ -13,7 +13,6 @@ import org.openapitools.model.FileDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -42,7 +41,6 @@ public class FileSchemaTestClassDto {
    * Get file
    * @return file
    */
-  
   @JsonProperty("file")
   public @Nullable FileDto getFile() {
     return file;
@@ -70,7 +68,6 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  
   @JsonProperty("files")
   public List<FileDto> getFiles() {
     return files;

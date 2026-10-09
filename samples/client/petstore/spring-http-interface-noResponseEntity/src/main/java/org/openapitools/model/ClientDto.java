@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -35,7 +34,6 @@ public class ClientDto {
    * Get client
    * @return client
    */
-  
   @JsonProperty("client")
   public @Nullable String getClient() {
     return client;

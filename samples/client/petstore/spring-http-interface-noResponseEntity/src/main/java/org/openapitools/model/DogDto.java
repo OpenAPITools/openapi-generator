@@ -13,7 +13,6 @@ import org.openapitools.model.AnimalDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -44,7 +43,6 @@ public class DogDto extends AnimalDto {
    * Get breed
    * @return breed
    */
-  
   @JsonProperty("breed")
   public @Nullable String getBreed() {
     return breed;

@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -40,7 +39,6 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  
   @JsonProperty("my_number")
   public @Nullable BigDecimal getMyNumber() {
     return myNumber;
@@ -60,7 +58,6 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  
   @JsonProperty("my_string")
   public @Nullable String getMyString() {
     return myString;
@@ -80,7 +77,6 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  
   @JsonProperty("my_boolean")
   public @Nullable Boolean getMyBoolean() {
     return myBoolean;

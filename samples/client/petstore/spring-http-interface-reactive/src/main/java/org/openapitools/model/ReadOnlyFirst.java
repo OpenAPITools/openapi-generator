@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -36,7 +35,6 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  
   @JsonProperty("bar")
   public @Nullable String getBar() {
     return bar;
@@ -56,7 +54,6 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  
   @JsonProperty("baz")
   public @Nullable String getBaz() {
     return baz;

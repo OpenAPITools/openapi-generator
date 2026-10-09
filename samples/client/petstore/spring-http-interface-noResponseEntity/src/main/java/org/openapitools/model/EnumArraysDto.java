@@ -13,7 +13,6 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -112,7 +111,6 @@ public class EnumArraysDto {
    * Get justSymbol
    * @return justSymbol
    */
-  
   @JsonProperty("just_symbol")
   public @Nullable JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -140,7 +138,6 @@ public class EnumArraysDto {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

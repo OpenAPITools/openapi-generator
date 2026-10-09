@@ -33,6 +33,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaCamelServerCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.SpringPageableScanUtils;
@@ -3234,7 +3235,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void requiredFieldShouldIncludeNotNullAnnotation_issue13365() throws IOException {
+    public void requiredFieldShouldNotIncludeNotNullAnnotationWhenBeanValidationFalse_issue13365() throws IOException {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
@@ -3251,19 +3252,14 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        //Assert that NotNull annotation exists alone with no other BeanValidation annotations
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
-                .containsWithName("NotNull").anyMatch(annotation ->
-                        !annotation.getNameAsString().equals("Valid") ||
-                                !annotation.getNameAsString().equals("Pattern") ||
-                                !annotation.getNameAsString().equals("Email") ||
-                                !annotation.getNameAsString().equals("Size"));
-        javaFileAssert.hasImports("javax.validation.constraints.NotNull");
+                .doesNotContainWithName("NotNull");
+        javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
     }
 
     @Test
-    public void requiredFieldShouldIncludeNotNullAnnotationJakarta_issue13365_issue13885() throws IOException {
+    public void requiredFieldShouldNotIncludeNotNullAnnotationJakartaWhenBeanValidationFalse_issue13365_issue13885() throws IOException {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
@@ -3280,15 +3276,55 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        //Assert that NotNull annotation exists alone with no other BeanValidation annotations
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
-                .containsWithName("NotNull").anyMatch(annotation ->
-                        !annotation.getNameAsString().equals("Valid") ||
-                                !annotation.getNameAsString().equals("Pattern") ||
-                                !annotation.getNameAsString().equals("Email") ||
-                                !annotation.getNameAsString().equals("Size"));
-        javaFileAssert.hasImports("jakarta.validation.constraints.NotNull");
+                .doesNotContainWithName("NotNull");
+        javaFileAssert.hasNoImports("jakarta.validation.constraints.NotNull");
+    }
+
+    @Test
+    public void requiredFieldShouldNotIncludeNotNullAnnotationWhenBeanValidationFalse_issue23751() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+                .doesNotContainWithName("NotNull");
+        javaFileAssert.hasNoImports("jakarta.validation.constraints.NotNull");
+    }
+
+    @Test
+    public void requiredFieldShouldNotIncludeNotNullAnnotationWhenBeanValidationFalseSpringHttpInterface_issue23751() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+                .doesNotContainWithName("NotNull");
+        javaFileAssert.hasNoImports("jakarta.validation.constraints.NotNull");
+    }
+
+    @Test
+    public void requiredFieldShouldNotIncludeNotNullAnnotationWhenBeanValidationFalseJavaCamel_issue23751() throws IOException {
+        JavaCamelServerCodegen codegen = new JavaCamelServerCodegen();
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+                .doesNotContainWithName("NotNull");
+        javaFileAssert.hasNoImports("jakarta.validation.constraints.NotNull");
     }
 
     @Test
