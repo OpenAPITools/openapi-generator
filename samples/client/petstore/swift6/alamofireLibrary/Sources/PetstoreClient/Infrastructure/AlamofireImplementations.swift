@@ -131,7 +131,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                             case let number as NSNumber:
                                 mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                             case let data as Data:
-                                mpForm.append(data, withName: k)
+                                mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
                             case let uuid as UUID:
                                 mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
                             default:
@@ -197,7 +197,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                         completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                     }
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -322,7 +322,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         completion(.failure(ErrorResponse.error(-2, stringResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                     }
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? -1, stringResponse.data, stringResponse.response, error)))
                 }
 
             })
@@ -334,8 +334,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                 do {
 
-                    guard case .success = dataResponse.result else {
-                        throw DownloadException.responseFailed
+                    if case let .failure(error) = dataResponse.result {
+                        completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
+                        return
                     }
 
                     guard let httpResponse = dataResponse.response else {
@@ -393,7 +394,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                     }
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -411,7 +412,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                     }
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                 }
 
             })
@@ -422,7 +423,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                     return
                 }
 
