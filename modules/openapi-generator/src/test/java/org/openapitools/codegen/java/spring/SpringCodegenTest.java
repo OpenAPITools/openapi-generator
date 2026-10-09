@@ -10249,4 +10249,17 @@ public class SpringCodegenTest {
                 "private List<@NotNull @NotEmpty @Valid Stubb> listRef",
                 "private List<@NotNull @NotEmpty @Valid SampleModelListInlineInner>");
     }
+
+    @Test
+    public void shouldRenderOas31SchemaExamples() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_1/issue_24755.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains(
+                        "example = \"Fluffy-\\\\s;]\\\"a\"",
+                        "examples = { \"Fluffy-\\\\s;]\\\"a\", \"Rex\" }",
+                        "examples = { \"3\" }",
+                        "examples = { \"[a\\\"c, b]\" }"
+                ).fileDoesNotContain("examples = {  }");
+    }
 }
