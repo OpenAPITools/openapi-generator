@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -60,6 +61,41 @@ namespace Org.OpenAPITools.Test.Model
         public void ColorTest()
         {
             // TODO unit test for the property 'Color'
+        }
+
+        [Fact]
+        public void SerializeOneOfReferencedObject()
+        {
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new AppleJsonConverter());
+            options.Converters.Add(new BananaJsonConverter());
+            options.Converters.Add(new FruitJsonConverter());
+            options.Converters.Add(new OrangeJsonConverter());
+
+            Fruit fruit = new Fruit(new Apple("red"));
+
+            string json = JsonSerializer.Serialize(fruit, options);
+
+            Assert.Equal("{\"kind\":\"red\"}", json);
+        }
+
+        [Fact]
+        public void SerializeOneOfReferencedObjectWithSiblingProperty()
+        {
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new AppleJsonConverter());
+            options.Converters.Add(new BananaJsonConverter());
+            options.Converters.Add(new FruitJsonConverter());
+            options.Converters.Add(new OrangeJsonConverter());
+
+            Fruit fruit = new Fruit(
+                new Apple("red"),
+                new Option<string?>("green")
+            );
+
+            string json = JsonSerializer.Serialize(fruit, options);
+
+            Assert.Equal("{\"kind\":\"red\",\"color\":\"green\"}", json);
         }
     }
 }
