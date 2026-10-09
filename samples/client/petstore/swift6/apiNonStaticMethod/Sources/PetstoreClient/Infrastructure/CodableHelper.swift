@@ -22,7 +22,6 @@ open class CodableHelper: @unchecked Sendable {
         var defaultJSONEncoder: JSONEncoder = JSONEncoder()
 
         init() {
-            defaultJSONEncoder.outputFormatting = .prettyPrinted
             rebuildDefaultCoders()
         }
 
