@@ -38,6 +38,13 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        // The microprofile library renders models through its own model.mustache,
+        // which does not implement Optional getters.
+        return false;
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
