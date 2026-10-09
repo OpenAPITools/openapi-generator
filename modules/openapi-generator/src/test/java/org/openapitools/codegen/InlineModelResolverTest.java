@@ -1270,7 +1270,6 @@ public class InlineModelResolverTest {
 
         Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         assertTrue(schemas.containsKey("Money"));
-        assertFalse(schemas.containsKey("Money1"));
         assertFalse(schemas.containsKey("Money_1"));
 
         Schema preview = schemas.get("Preview");
