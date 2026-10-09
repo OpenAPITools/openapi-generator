@@ -2761,4 +2761,194 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         }
     }
 
+    private Path generateWithSerializationLibrary(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output.toPath();
+    }
+
+    @Test
+    public void testSerializationLibraryDefaultsToJackson() throws Exception {
+        Path output = generateWithSerializationLibrary(new HashMap<>());
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet, "import com.fasterxml.jackson.annotation.JsonProperty;", "@JsonProperty(\"id\")");
+        assertFileNotContains(pet, "Jsonb");
+        assertFileNotContains(output.resolve("pom.xml"), "json.bind-api");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbWithJakartaEe() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet,
+                "import jakarta.json.bind.annotation.JsonbProperty;",
+                "@JsonbProperty(\"id\")",
+                "@JsonbCreator",
+                "@JsonbProperty(\"name\") String name",
+                "@JsonbTypeSerializer(StatusEnum.Serializer.class)",
+                "@JsonbTypeDeserializer(StatusEnum.Deserializer.class)",
+                "ctx.serialize(obj.value, generator);");
+        assertFileNotContains(pet, "com.fasterxml.jackson", "JsonNullable", "@JsonTypeName");
+
+        Path outerEnum = output.resolve("src/gen/java/org/openapitools/model/OuterEnumInteger.java");
+        assertFileContains(outerEnum,
+                "@JsonbTypeSerializer(OuterEnumInteger.Serializer.class)",
+                "implements JsonbDeserializer<OuterEnumInteger>");
+        assertFileNotContains(outerEnum, "com.fasterxml.jackson");
+
+        Path pom = output.resolve("pom.xml");
+        assertFileContains(pom, "<artifactId>jakarta.json.bind-api</artifactId>", "<artifactId>jakarta.json-api</artifactId>");
+        assertFileNotContains(pom, "com.fasterxml.jackson", "jackson-databind-nullable", "joda-time");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbKeepsEnumFromValue() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet, "public static StatusEnum fromValue(String value) {");
+        assertFileNotContains(pet, "@JsonCreator");
+
+        Path outerEnum = output.resolve("src/gen/java/org/openapitools/model/OuterEnum.java");
+        assertFileContains(outerEnum, "public static OuterEnum fromValue(String value) {");
+        assertFileNotContains(outerEnum, "@JsonCreator");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbWithJavax() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        Path output = generateWithSerializationLibrary(properties);
+
+        assertFileContains(output.resolve("src/gen/java/org/openapitools/model/Pet.java"),
+                "import javax.json.bind.annotation.JsonbProperty;", "import javax.json.stream.JsonParser;");
+        assertFileContains(output.resolve("pom.xml"), "<artifactId>javax.json.bind-api</artifactId>");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbDisablesJacksonAndOpenApiNullable() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "JsonB");
+        codegen.processOpts();
+
+        JavaJAXRSSpecServerCodegen jaxrsCodegen = (JavaJAXRSSpecServerCodegen) codegen;
+        Assert.assertEquals(jaxrsCodegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JSONB);
+        Assert.assertFalse(jaxrsCodegen.isJackson());
+        Assert.assertFalse(jaxrsCodegen.isOpenApiNullable());
+        Assert.assertEquals(codegen.additionalProperties().get(SERIALIZATION_LIBRARY_JSONB), true);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.OPENAPI_NULLABLE), false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Unexpected serializationLibrary value: 'gson'.*")
+    public void testSerializationLibraryRejectsUnknownValue() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "gson");
+        codegen.processOpts();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = ".*only supported by the library '<default>', not by 'quarkus'.*")
+    public void testSerializationLibraryJsonbRejectsNonDefaultLibrary() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = ".*mutually exclusive.*")
+    public void testSerializationLibraryJsonbRejectsExplicitJackson() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.additionalProperties().put(AbstractJavaJAXRSServerCodegen.JACKSON, true);
+        codegen.processOpts();
+    }
+
+    @DataProvider
+    public Object[][] jsonbJava8DateLibraries() {
+        return new Object[][]{
+                {null, "OffsetDateTime"},
+                {"java8", "OffsetDateTime"},
+                {"java8-localdatetime", "LocalDateTime"}
+        };
+    }
+
+    @Test(dataProvider = "jsonbJava8DateLibraries")
+    public void testSerializationLibraryJsonbUsesJava8Dates(String dateLibrary, String dateTimeType) throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        if (dateLibrary != null) {
+            properties.put(AbstractJavaJAXRSServerCodegen.DATE_LIBRARY, dateLibrary);
+        }
+        Path formatTest = generateWithSerializationLibrary(properties).resolve("src/gen/java/org/openapitools/model/FormatTest.java");
+
+        assertFileContains(formatTest,
+                "import java.time.LocalDate;", "private LocalDate date;",
+                "import java.time." + dateTimeType + ";", "private " + dateTimeType + " dateTime;");
+        assertFileNotContains(formatTest, "org.joda.time", "java.util.Date");
+    }
+
+    @DataProvider
+    public Object[][] jsonbUnsupportedDateLibraries() {
+        return new Object[][]{{"joda"}, {"legacy"}};
+    }
+
+    @Test(dataProvider = "jsonbUnsupportedDateLibraries", expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "'dateLibrary=(joda|legacy)' is not supported with 'serializationLibrary=jsonb'.*")
+    public void testSerializationLibraryJsonbRejectsUnsupportedDateLibrary(String dateLibrary) {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.additionalProperties().put(AbstractJavaJAXRSServerCodegen.DATE_LIBRARY, dateLibrary);
+        codegen.processOpts();
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbKeepsDateLibraryFromSetter() {
+        codegen.setDateLibrary("java8-localdatetime");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getDateLibrary(), "java8-localdatetime");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "'dateLibrary=joda' is not supported with 'serializationLibrary=jsonb'.*")
+    public void testSerializationLibraryJsonbRejectsUnsupportedDateLibraryFromSetter() {
+        codegen.setDateLibrary("joda");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+    }
+
+    @DataProvider
+    public Object[][] jacksonSerializationLibraries() {
+        return new Object[][]{{null}, {SERIALIZATION_LIBRARY_JACKSON}};
+    }
+
+    @Test(dataProvider = "jacksonSerializationLibraries")
+    public void testSerializationLibraryJacksonKeepsLegacyDates(String serializationLibrary) throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        if (serializationLibrary != null) {
+            properties.put(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+        }
+        Path formatTest = generateWithSerializationLibrary(properties).resolve("src/gen/java/org/openapitools/model/FormatTest.java");
+
+        assertFileContains(formatTest,
+                "import org.joda.time.LocalDate;", "private LocalDate date;",
+                "import java.util.Date;", "private Date dateTime;");
+    }
+
 }

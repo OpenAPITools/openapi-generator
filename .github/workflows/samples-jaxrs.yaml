@@ -24,6 +24,7 @@ jobs:
           - samples/server/petstore/jaxrs-spec-interface
           - samples/server/petstore/jaxrs-spec-interface-response
           - samples/server/petstore/jaxrs-spec-oneof-interface
+          - samples/server/petstore/jaxrs-spec-jsonb
           - samples/server/petstore/jaxrs-datelib-j8
           - samples/server/petstore/jaxrs-resteasy/default
           - samples/server/petstore/jaxrs-resteasy/eap
@@ -38,6 +39,10 @@ jobs:
           - samples/server/petstore/jaxrs-spec-swagger-annotations
           - samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
           - samples/server/petstore/jaxrs-spec-swagger-v3-annotations
+        include:
+          # quarkus-maven-plugin 1.13.x needs Maven Resolver 1.x, which Maven 3.10 no longer ships
+          - sample: samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
+            mvn: $GITHUB_WORKSPACE/mvnw
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
@@ -54,4 +59,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package --no-transfer-progress
+        run: ${{ matrix.mvn || 'mvn' }} clean package --no-transfer-progress

@@ -5,10 +5,13 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen;
+import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -95,5 +98,14 @@ public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
                 .assertParameter("queryBoolean").hasType("Boolean")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
+    }
+
+    @Test
+    public void testSerializationLibraryIsIgnored() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaJAXRSSpecServerCodegen.SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.isJackson());
+        Assert.assertFalse(codegen.additionalProperties().containsKey(JavaJAXRSSpecServerCodegen.SERIALIZATION_LIBRARY_JSONB));
     }
 }
