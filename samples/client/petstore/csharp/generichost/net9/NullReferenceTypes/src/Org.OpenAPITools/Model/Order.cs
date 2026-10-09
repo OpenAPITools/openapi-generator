@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Order
     /// </summary>
-    public partial class Order : IValidatableObject
+    public partial class Order : IEquatable<Order?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
@@ -238,6 +238,59 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Order).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Order instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Order to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Order? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Complete != null)
+                    hashCode = (hashCode * 59) + Complete.GetHashCode();
+
+                if (Id != null)
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
+
+                if (PetId != null)
+                    hashCode = (hashCode * 59) + PetId.GetHashCode();
+
+                if (Quantity != null)
+                    hashCode = (hashCode * 59) + Quantity.GetHashCode();
+
+                if (ShipDate != null)
+                    hashCode = (hashCode * 59) + ShipDate.GetHashCode();
+
+                if (Status != null)
+                    hashCode = (hashCode * 59) + Status.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

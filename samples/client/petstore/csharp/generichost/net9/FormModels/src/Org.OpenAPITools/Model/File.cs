@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Must be named &#x60;File&#x60; for test.
     /// </summary>
-    public partial class File : IValidatableObject
+    public partial class File : IEquatable<File>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="File" /> class.
@@ -74,6 +74,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as File).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if File instances are equal
+        /// </summary>
+        /// <param name="input">Instance of File to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(File input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (SourceURI != null)
+                    hashCode = (hashCode * 59) + SourceURI.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
