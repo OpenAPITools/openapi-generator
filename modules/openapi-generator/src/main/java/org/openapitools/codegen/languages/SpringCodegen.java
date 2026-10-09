@@ -121,6 +121,15 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
+
+    /** Default importMapping value registered by {@link AbstractJavaCodegen} for the swagger2 annotation. */
+    private static final String SWAGGER2_ANNOTATION_SCHEMA_IMPORT = "io.swagger.v3.oas.annotations.media.Schema";
+
+    /** Simple or fully-qualified name to use at swagger2 {@code @Schema} annotation usage sites. */
+    private static final String SCHEMA_ANNOTATION = "swagger2SchemaAnnotation";
+
+    /** Whether templates should emit the single-type import for the swagger2 {@code @Schema} annotation. */
+    private static final String IMPORT_SCHEMA_ANNOTATION = "importSwagger2SchemaAnnotation";
     public static final String SPRING_API_VERSION = "springApiVersion";
     public static final String USE_JACKSON_3 = "useJackson3";
     public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
@@ -1014,9 +1023,60 @@ public class SpringCodegen extends AbstractJavaCodegen
         return basePath.isEmpty() ? "default" : basePath;
     }
 
+    /**
+     * Whether any schema in the document produces the given generated model name.
+     * Compared against {@link #toModelName(String)} so modelNamePrefix/modelNameSuffix are honoured.
+     */
+    private boolean hasModelNamed(OpenAPI openAPI, String modelName) {
+        if (openAPI == null || openAPI.getComponents() == null || openAPI.getComponents().getSchemas() == null) {
+            return false;
+        }
+        return openAPI.getComponents().getSchemas().keySet().stream()
+                .anyMatch(schemaName -> modelName.equals(toModelName(schemaName)));
+    }
+
+    /**
+     * Resolves a collision between a generated model's simple name and an import that
+     * {@link AbstractJavaCodegen} registers for the same simple name.
+     *
+     * <p>{@code AbstractJavaCodegen} maps several simple names (e.g. the swagger annotations) to a
+     * fixed FQN in {@code importMapping}, and that mapping is consulted before {@code toModelImport()}.
+     * When a schema produces a model whose simple name equals such a key, the model import is silently
+     * replaced by the annotation import, and a bare use of that name binds to the annotation instead of
+     * the model. If both imports were emitted the file would not compile (two single-type imports of the
+     * same simple name, JLS 7.5.1).
+     *
+     * <p>When a model with {@code schemaName} exists and {@code importMapping[schemaName]} still holds the
+     * default {@code defaultImportValue} (an explicit {@code --import-mappings} entry carries a different
+     * value and is left untouched), the default mapping is removed so the model import survives, and
+     * {@code annotationKey} is set to the fully-qualified {@code defaultImportValue} so templates qualify
+     * the annotation at its usage sites instead of importing it. Otherwise the model is imported under its
+     * simple name and {@code annotationKey} stays simple with {@code importAnnotationKey} enabled.
+     *
+     * @param schemaName         the model simple name that collides (e.g. {@code "Schema"})
+     * @param defaultImportValue the default {@code importMapping} value for that name, i.e. the annotation FQN
+     * @param annotationKey      additional-properties key templates read for the annotation usage-site name
+     * @param importAnnotationKey additional-properties key templates read for whether to import the annotation
+     */
+    private void handleSchemaNameCollision(OpenAPI openAPI, String schemaName, String defaultImportValue,
+            String annotationKey, String importAnnotationKey) {
+        additionalProperties.put(annotationKey, schemaName);
+        additionalProperties.put(importAnnotationKey, true);
+        if (hasModelNamed(openAPI, schemaName)) {
+            if (defaultImportValue.equals(importMapping.get(schemaName))) {
+                importMapping.remove(schemaName);
+            }
+            additionalProperties.put(annotationKey, defaultImportValue);
+            additionalProperties.put(importAnnotationKey, false);
+        }
+    }
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
+
+        handleSchemaNameCollision(openAPI, "Schema", SWAGGER2_ANNOTATION_SCHEMA_IMPORT,
+                SCHEMA_ANNOTATION, IMPORT_SCHEMA_ANNOTATION);
 
         if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
             supportingFiles.add(new SupportingFile("converter.mustache",
