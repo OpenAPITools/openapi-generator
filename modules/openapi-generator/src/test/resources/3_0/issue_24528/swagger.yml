@@ -1,0 +1,43 @@
+openapi: 3.0.4
+info:
+  version: "1.0"
+  title: Open API Ref Test
+paths:
+  '/simple':
+    get:
+      responses:
+        '200':
+          description: Simple return
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleType'
+  '/arr':
+    get:
+      responses:
+        '200':
+          description: description
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfComplexTypes'
+  '/null':
+    get:
+      responses:
+        '200':
+          description: description
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableComplexType'
+
+components:
+  schemas:
+    ComplexType:
+      $ref: "./schemas/ComplexType.yml"
+    SimpleType:
+      $ref: "./schemas/SimpleType.yml"
+    ArrayOfComplexTypes:
+      $ref: "./schemas/ArrayOfComplexTypes.yml"
+    NullableComplexType:
+      $ref: "./schemas/NullableComplexType.yml"
