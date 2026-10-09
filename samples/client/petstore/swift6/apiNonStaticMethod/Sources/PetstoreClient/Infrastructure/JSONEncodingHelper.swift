@@ -9,6 +9,8 @@ import Foundation
 
 open class JSONEncodingHelper {
 
+    static let encodingErrorParameterKey = "PetstoreClient.RequestBuilderError"
+
     open class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?, codableHelper: CodableHelper) -> [String: any Sendable]? {
         var params: [String: any Sendable]?
 
@@ -19,7 +21,7 @@ open class JSONEncodingHelper {
                 let data = try encodeResult.get()
                 params = JSONDataEncoding.encodingParameters(jsonData: data)
             } catch {
-                print(error.localizedDescription)
+                params = [encodingErrorParameterKey: RequestBuilderError.bodyEncodingFailed(error)]
             }
         }
 

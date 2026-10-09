@@ -59,7 +59,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
             encoding = JSONDataEncoding()
 
         default:
-            fatalError("Unsupported HTTPMethod - \(xMethod.rawValue)")
+            return nil
         }
 
         guard let originalRequest = try? URLRequest(url: URLString, method: xMethod, headers: HTTPHeaders(buildHeaders())) else { return nil }
@@ -92,6 +92,10 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
         let manager = createAlamofireSession()
         AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = manager
 
+        if let bodyEncodingError = parameters?[JSONEncodingHelper.encodingErrorParameterKey] as? RequestBuilderError {
+            return failBeforeSending(bodyEncodingError, managerId: managerId, completion: completion)
+        }
+
         let xMethod = Alamofire.HTTPMethod(rawValue: method)
 
         let encoding: ParameterEncoding?
@@ -108,30 +112,31 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = nil
 
-                let upload = manager.upload(multipartFormData: { mpForm in
-                    for (k, v) in self.parameters! {
-                        for v in (v as? Array ?? [v]) {
-                            switch v {
-                            case let fileURL as URL:
-                                if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
-                                    mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
-                                } else {
-                                    mpForm.append(fileURL, withName: k)
-                                }
-                            case let string as String:
-                                mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
-                            case let number as NSNumber:
-                                mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
-                            case let data as Data:
-                                mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
-                            case let uuid as UUID:
-                                mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
-                            default:
-                                fatalError("Unprocessable value \(v) with key \(k)")
+                let mpForm = MultipartFormData()
+                for (k, v) in self.parameters ?? [:] {
+                    for v in (v as? Array ?? [v]) {
+                        switch v {
+                        case let fileURL as URL:
+                            if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
+                                mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+                            } else {
+                                mpForm.append(fileURL, withName: k)
                             }
+                        case let string as String:
+                            mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
+                        case let number as NSNumber:
+                            mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
+                        case let uuid as UUID:
+                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
+                        default:
+                            return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
                         }
                     }
-                }, to: URLString, method: xMethod, headers: nil)
+                }
+
+                let upload = manager.upload(multipartFormData: mpForm, to: URLString, method: xMethod, headers: nil)
                 .uploadProgress { progress in
                     if let onProgressReady = self.onProgressReady {
                         onProgressReady(progress)
@@ -144,11 +149,11 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
-                fatalError("Unsupported Media Type - \(contentType)")
+                return failBeforeSending(.unsupportedMediaType(contentType), managerId: managerId, completion: completion)
             }
 
         default:
-            fatalError("Unsupported HTTPMethod - \(xMethod.rawValue)")
+            return failBeforeSending(.unsupportedHTTPMethod(xMethod.rawValue), managerId: managerId, completion: completion)
         }
 
         if let encoding = encoding {
@@ -183,15 +188,32 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
+                    if let httpResponse = voidResponse.response {
+                        completion(.success(Response(response: httpResponse, body: () as! T, bodyData: voidResponse.data)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                    }
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
         default:
-            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
+            request.cancel()
+            cleanupRequest()
+            let error = RequestBuilderError.unsupportedResponseType(String(describing: T.self))
+            apiConfiguration.apiResponseQueue.async {
+                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+            }
         }
+    }
+
+    fileprivate func failBeforeSending(_ error: RequestBuilderError, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
+        apiConfiguration.apiResponseQueue.async {
+            completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+        }
+        return requestTask
     }
 
     open func buildHeaders() -> [String: String] {
@@ -277,7 +299,11 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                 switch stringResponse.result {
                 case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as! T, bodyData: stringResponse.data)))
+                    if let httpResponse = stringResponse.response {
+                        completion(.success(Response(response: httpResponse, body: value as! T, bodyData: stringResponse.data)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(-2, stringResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                    }
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? -1, stringResponse.data, stringResponse.response, error)))
                 }
@@ -296,6 +322,11 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                         return
                     }
 
+                    guard let httpResponse = dataResponse.response else {
+                        completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                        return
+                    }
+
                     guard let data = dataResponse.data else {
                         throw DownloadException.responseDataMissing
                     }
@@ -311,7 +342,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                     var requestPath = try self.getPath(from: requestURL)
 
-                    if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
+                    if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                         requestPath = requestPath.appending("/\(headerFileName)")
                     } else {
                         requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
@@ -323,7 +354,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T, bodyData: data)))
+                    completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
@@ -340,7 +371,11 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
+                    if let httpResponse = voidResponse.response {
+                        completion(.success(Response(response: httpResponse, body: () as! T, bodyData: voidResponse.data)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                    }
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
@@ -354,7 +389,11 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
 
                 switch dataResponse.result {
                 case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T, bodyData: dataResponse.data)))
+                    if let httpResponse = dataResponse.response {
+                        completion(.success(Response(response: httpResponse, body: (dataResponse.data ?? Data()) as! T, bodyData: dataResponse.data)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(-2, dataResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                    }
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                 }
