@@ -47,7 +47,7 @@ open class StoreAPI {
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/store/order/{order_id}"
-        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
+        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId.encodeToJSON()))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -151,7 +151,7 @@ open class StoreAPI {
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var localVariablePath = "/store/order/{order_id}"
-        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
+        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId.encodeToJSON()))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
