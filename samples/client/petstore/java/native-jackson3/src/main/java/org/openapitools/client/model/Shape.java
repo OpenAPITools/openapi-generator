@@ -93,32 +93,6 @@ public class Shape extends AbstractOpenApiSchema {
             boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize Quadrilateral
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class) || Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class) || Quadrilateral.class.equals(Boolean.class) || Quadrilateral.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Quadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Quadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, Quadrilateral.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
-            }
-
             // deserialize Triangle
             try {
                 boolean attemptParsing = true;
@@ -145,6 +119,32 @@ public class Shape extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
             }
 
+            // deserialize Quadrilateral
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class) || Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class) || Quadrilateral.class.equals(Boolean.class) || Quadrilateral.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Quadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Quadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, Quadrilateral.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
+            }
+
             if (match == 1) {
                 Shape ret = new Shape();
                 ret.setActualInstance(deserialized);
@@ -169,19 +169,19 @@ public class Shape extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Shape(Quadrilateral o) {
-        super("oneOf", Boolean.FALSE);
+    public Shape(Triangle o) {
+        this();
         setActualInstance(o);
     }
 
-    public Shape(Triangle o) {
-        super("oneOf", Boolean.FALSE);
+    public Shape(Quadrilateral o) {
+        this();
         setActualInstance(o);
     }
 
     static {
-        schemas.put("Quadrilateral", Quadrilateral.class);
         schemas.put("Triangle", Triangle.class);
+        schemas.put("Quadrilateral", Quadrilateral.class);
         JSON.registerDescendants(Shape.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -206,12 +206,12 @@ public class Shape extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -231,17 +231,6 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Quadrilateral`
-     * @throws ClassCastException if the instance is not `Quadrilateral`
-     */
-    public Quadrilateral getQuadrilateral() throws ClassCastException {
-        return (Quadrilateral)super.getActualInstance();
-    }
-
-    /**
      * Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
      * the ClassCastException will be thrown.
      *
@@ -250,6 +239,17 @@ public class Shape extends AbstractOpenApiSchema {
      */
     public Triangle getTriangle() throws ClassCastException {
         return (Triangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Quadrilateral`
+     * @throws ClassCastException if the instance is not `Quadrilateral`
+     */
+    public Quadrilateral getQuadrilateral() throws ClassCastException {
+        return (Quadrilateral)super.getActualInstance();
     }
 
 
