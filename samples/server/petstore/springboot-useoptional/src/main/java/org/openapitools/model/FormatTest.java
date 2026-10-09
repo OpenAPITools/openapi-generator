@@ -276,7 +276,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
-  @Valid 
+  
   @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
   public Optional<org.springframework.core.io.Resource> getBinary() {
@@ -318,7 +318,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
-  @Valid 
+  
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public Optional<OffsetDateTime> getDateTime() {
@@ -339,7 +339,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
-  @Valid 
+  
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public Optional<UUID> getUuid() {
@@ -381,7 +381,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    */
-  @Valid 
+  
   @Schema(name = "BigDecimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("BigDecimal")
   public Optional<BigDecimal> getBigDecimal() {
