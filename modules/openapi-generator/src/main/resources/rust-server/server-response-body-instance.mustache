@@ -23,7 +23,7 @@
     {{/x-produces-json}}
     {{#x-produces-bytes}}
                                                     // Binary Body
-                                                    let body = String::from_utf8(body.0).expect("Error converting octet stream to string");
+                                                    *response.body_mut() = BoxBody::new(Full::new(Bytes::from(body.0)));
     {{/x-produces-bytes}}
     {{#x-produces-plain-text}}
                                                     // Plain text Body
@@ -42,7 +42,12 @@
                                                             &["multipart/related; boundary=".as_bytes(), &boundary].concat())
                                                         .expect("Unable to create Content-Type header for multipart/related"));
       {{/formParams}}
+                                                    *response.body_mut() = BoxBody::new(Full::new(Bytes::from(body.0)));
     {{/x-produces-multipart-related}}
-  {{/exts}}
+  {{^x-produces-bytes}}
+  {{^x-produces-multipart-related}}
                                                     *response.body_mut() = body_from_string(body);
+  {{/x-produces-multipart-related}}
+  {{/x-produces-bytes}}
+  {{/exts}}
 {{/dataType}}

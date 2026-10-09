@@ -38,8 +38,10 @@ use crate::{Api,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
+     QueryExampleGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
+     RequiredBinaryStreamPutResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
      Rfc7807GetResponse,
@@ -83,10 +85,12 @@ mod paths {
             r"^/operation-two-first-letter-headers$",
             r"^/override-server$",
             r"^/paramget$",
+            r"^/query-example$",
             r"^/readonly_auth_scheme$",
             r"^/register-callback$",
             r"^/repos$",
             r"^/repos/(?P<repoId>[^/?#]*)$",
+            r"^/required_binary_stream$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
             r"^/rfc7807$",
@@ -127,24 +131,26 @@ mod paths {
     pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 14;
     pub(crate) static ID_OVERRIDE_SERVER: usize = 15;
     pub(crate) static ID_PARAMGET: usize = 16;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 17;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 18;
-    pub(crate) static ID_REPOS: usize = 19;
-    pub(crate) static ID_REPOS_REPOID: usize = 20;
+    pub(crate) static ID_QUERY_EXAMPLE: usize = 17;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 18;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 19;
+    pub(crate) static ID_REPOS: usize = 20;
+    pub(crate) static ID_REPOS_REPOID: usize = 21;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 21;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 22;
-    pub(crate) static ID_RFC7807: usize = 23;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 24;
-    pub(crate) static ID_UUID: usize = 25;
-    pub(crate) static ID_XML: usize = 26;
-    pub(crate) static ID_XML_EXTRA: usize = 27;
-    pub(crate) static ID_XML_OTHER: usize = 28;
+    pub(crate) static ID_REQUIRED_BINARY_STREAM: usize = 22;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 23;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 24;
+    pub(crate) static ID_RFC7807: usize = 25;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 26;
+    pub(crate) static ID_UUID: usize = 27;
+    pub(crate) static ID_XML: usize = 28;
+    pub(crate) static ID_XML_EXTRA: usize = 29;
+    pub(crate) static ID_XML_OTHER: usize = 30;
 }
 
 pub struct MakeService<T, C> where
@@ -1007,6 +1013,87 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
+            // QueryExampleGet - GET /query-example
+            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_required_no_example = query_params.iter().filter(|e| e.0 == "required_no_example").map(|e| e.1.clone())
+                    .next();
+                let param_required_no_example = match param_required_no_example {
+                    Some(param_required_no_example) => {
+                        let param_required_no_example =
+                            <String as std::str::FromStr>::from_str
+                                (&param_required_no_example);
+                        match param_required_no_example {
+                            Ok(param_required_no_example) => Some(param_required_no_example),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter required_no_example - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter required_no_example")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_required_no_example = match param_required_no_example {
+                    Some(param_required_no_example) => param_required_no_example,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter required_no_example"))
+                        .expect("Unable to create Bad Request response for missing query parameter required_no_example")),
+                };
+                let param_required_with_example = query_params.iter().filter(|e| e.0 == "required_with_example").map(|e| e.1.clone())
+                    .next();
+                let param_required_with_example = match param_required_with_example {
+                    Some(param_required_with_example) => {
+                        let param_required_with_example =
+                            <i32 as std::str::FromStr>::from_str
+                                (&param_required_with_example);
+                        match param_required_with_example {
+                            Ok(param_required_with_example) => Some(param_required_with_example),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter required_with_example - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter required_with_example")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_required_with_example = match param_required_with_example {
+                    Some(param_required_with_example) => param_required_with_example,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter required_with_example"))
+                        .expect("Unable to create Bad Request response for missing query parameter required_with_example")),
+                };
+
+                                let result = api_impl.query_example_get(
+                                            param_required_no_example,
+                                            param_required_with_example,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                QueryExampleGetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
                 {
@@ -1119,6 +1206,58 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         }
 
                                         Ok(response)
+            },
+            // RequiredBinaryStreamPut - PUT /required_binary_stream
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => {
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = body.into_raw().await;
+                match result {
+                     Ok(body) => {
+                                let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
+                                } else {
+                                    None
+                                };
+                                let param_body = match param_body {
+                                    Some(param_body) => param_body,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body")),
+                                };
+                                let result = api_impl.required_binary_stream_put(
+                                            param_body,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                RequiredBinaryStreamPutResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Unable to read body: {e}")))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
             },
             // RequiredOctetStreamPut - PUT /required_octet_stream
             hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
@@ -2119,10 +2258,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => method_not_allowed(),
             _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_QUERY_EXAMPLE) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
             _ if path.matched(paths::ID_REPOS) => method_not_allowed(),
             _ if path.matched(paths::ID_REPOS_REPOID) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => method_not_allowed(),
             _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
             _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
             _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
@@ -2176,10 +2317,14 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Some("OverrideServerGet"),
             // ParamgetGet - GET /paramget
             hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Some("ParamgetGet"),
+            // QueryExampleGet - GET /query-example
+            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => Some("QueryExampleGet"),
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Some("ReadonlyAuthSchemeGet"),
             // RegisterCallbackPost - POST /register-callback
             hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Some("RegisterCallbackPost"),
+            // RequiredBinaryStreamPut - PUT /required_binary_stream
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => Some("RequiredBinaryStreamPut"),
             // RequiredOctetStreamPut - PUT /required_octet_stream
             hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Some("RequiredOctetStreamPut"),
             // ResponsesWithHeadersGet - GET /responses_with_headers

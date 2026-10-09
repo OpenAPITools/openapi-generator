@@ -1,9 +1,10 @@
 package org.openapitools.model
 
-import java.util.Locale
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -23,15 +24,24 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class ModelApiResponse(
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("code")
     @get:JsonProperty("code") var code: kotlin.Int? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("type")
     @get:JsonProperty("type") var type: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("message")
     @get:JsonProperty("message") var message: kotlin.String? = null
-) : Serializable {
+) : java.io.Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

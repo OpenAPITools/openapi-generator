@@ -135,10 +135,8 @@ class EnumTest {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "EnumTest[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "EnumTest[$key]" has a null value in JSON.');
-        });
+        assert(json.containsKey(r'enum_string_required'), 'Required key "EnumTest[enum_string_required]" is missing from JSON.');
+        assert(json[r'enum_string_required'] != null, 'Required key "EnumTest[enum_string_required]" has a null value in JSON.');
         return true;
       }());
 
@@ -203,31 +201,30 @@ class EnumTest {
 }
 
 
-class EnumTestEnumStringEnum {
-  /// Instantiate a new enum with the provided [value].
-  const EnumTestEnumStringEnum._(this.value);
+enum EnumTestEnumStringEnum {
+  UPPER._(r'UPPER'),
+  lower._(r'lower'),
+  empty._(r''),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const EnumTestEnumStringEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const UPPER = EnumTestEnumStringEnum._(r'UPPER');
-  static const lower = EnumTestEnumStringEnum._(r'lower');
-  static const empty = EnumTestEnumStringEnum._(r'');
-
-  /// List of all possible values in this [enum][EnumTestEnumStringEnum].
-  static const values = <EnumTestEnumStringEnum>[
-    UPPER,
-    lower,
-    empty,
-  ];
-
+  /// Returns the instance of [EnumTestEnumStringEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static EnumTestEnumStringEnum? fromJson(dynamic value) => EnumTestEnumStringEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [EnumTestEnumStringEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<EnumTestEnumStringEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumStringEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -249,9 +246,10 @@ class EnumTestEnumStringEnumTypeTransformer {
 
   const EnumTestEnumStringEnumTypeTransformer._();
 
-  String encode(EnumTestEnumStringEnum data) => data.value;
+  String encode(EnumTestEnumStringEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a EnumTestEnumStringEnum.
+  /// Returns the instance of [EnumTestEnumStringEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -260,6 +258,9 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is EnumTestEnumStringEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'UPPER': return EnumTestEnumStringEnum.UPPER;
@@ -274,37 +275,36 @@ class EnumTestEnumStringEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [EnumTestEnumStringEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static EnumTestEnumStringEnumTypeTransformer? _instance;
 }
 
 
 
-class EnumTestEnumStringRequiredEnum {
-  /// Instantiate a new enum with the provided [value].
-  const EnumTestEnumStringRequiredEnum._(this.value);
+enum EnumTestEnumStringRequiredEnum {
+  UPPER._(r'UPPER'),
+  lower._(r'lower'),
+  empty._(r''),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const EnumTestEnumStringRequiredEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const UPPER = EnumTestEnumStringRequiredEnum._(r'UPPER');
-  static const lower = EnumTestEnumStringRequiredEnum._(r'lower');
-  static const empty = EnumTestEnumStringRequiredEnum._(r'');
-
-  /// List of all possible values in this [enum][EnumTestEnumStringRequiredEnum].
-  static const values = <EnumTestEnumStringRequiredEnum>[
-    UPPER,
-    lower,
-    empty,
-  ];
-
+  /// Returns the instance of [EnumTestEnumStringRequiredEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static EnumTestEnumStringRequiredEnum? fromJson(dynamic value) => EnumTestEnumStringRequiredEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [EnumTestEnumStringRequiredEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<EnumTestEnumStringRequiredEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumStringRequiredEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -326,9 +326,10 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
 
   const EnumTestEnumStringRequiredEnumTypeTransformer._();
 
-  String encode(EnumTestEnumStringRequiredEnum data) => data.value;
+  String encode(EnumTestEnumStringRequiredEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a EnumTestEnumStringRequiredEnum.
+  /// Returns the instance of [EnumTestEnumStringRequiredEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -337,6 +338,9 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is EnumTestEnumStringRequiredEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
@@ -351,35 +355,35 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [EnumTestEnumStringRequiredEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static EnumTestEnumStringRequiredEnumTypeTransformer? _instance;
 }
 
 
 
-class EnumTestEnumIntegerEnum {
-  /// Instantiate a new enum with the provided [value].
-  const EnumTestEnumIntegerEnum._(this.value);
+enum EnumTestEnumIntegerEnum {
+  number1._(1),
+  numberNegative1._(-1),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const EnumTestEnumIntegerEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final int value;
+  final int _value;
 
   @override
-  String toString() => value.toString();
+  String toString() => _value.toString();
 
-  int toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  int toJson() => _value;
 
-  static const number1 = EnumTestEnumIntegerEnum._(1);
-  static const numberNegative1 = EnumTestEnumIntegerEnum._(-1);
-
-  /// List of all possible values in this [enum][EnumTestEnumIntegerEnum].
-  static const values = <EnumTestEnumIntegerEnum>[
-    number1,
-    numberNegative1,
-  ];
-
+  /// Returns the instance of [EnumTestEnumIntegerEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static EnumTestEnumIntegerEnum? fromJson(dynamic value) => EnumTestEnumIntegerEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [EnumTestEnumIntegerEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<EnumTestEnumIntegerEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumIntegerEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -401,9 +405,10 @@ class EnumTestEnumIntegerEnumTypeTransformer {
 
   const EnumTestEnumIntegerEnumTypeTransformer._();
 
-  int encode(EnumTestEnumIntegerEnum data) => data.value;
+  int encode(EnumTestEnumIntegerEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a EnumTestEnumIntegerEnum.
+  /// Returns the instance of [EnumTestEnumIntegerEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -412,6 +417,9 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is EnumTestEnumIntegerEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case 1: return EnumTestEnumIntegerEnum.number1;
@@ -425,35 +433,35 @@ class EnumTestEnumIntegerEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [EnumTestEnumIntegerEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static EnumTestEnumIntegerEnumTypeTransformer? _instance;
 }
 
 
 
-class EnumTestEnumNumberEnum {
-  /// Instantiate a new enum with the provided [value].
-  const EnumTestEnumNumberEnum._(this.value);
+enum EnumTestEnumNumberEnum {
+  number1Period1._('1.1'),
+  numberNegative1Period2._('-1.2'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const EnumTestEnumNumberEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final double value;
+  final double _value;
 
   @override
-  String toString() => value.toString();
+  String toString() => _value.toString();
 
-  double toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  double toJson() => _value;
 
-  static const number1Period1 = EnumTestEnumNumberEnum._('1.1');
-  static const numberNegative1Period2 = EnumTestEnumNumberEnum._('-1.2');
-
-  /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
-  static const values = <EnumTestEnumNumberEnum>[
-    number1Period1,
-    numberNegative1Period2,
-  ];
-
+  /// Returns the instance of [EnumTestEnumNumberEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static EnumTestEnumNumberEnum? fromJson(dynamic value) => EnumTestEnumNumberEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [EnumTestEnumNumberEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<EnumTestEnumNumberEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumNumberEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -475,9 +483,10 @@ class EnumTestEnumNumberEnumTypeTransformer {
 
   const EnumTestEnumNumberEnumTypeTransformer._();
 
-  double encode(EnumTestEnumNumberEnum data) => data.value;
+  double encode(EnumTestEnumNumberEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a EnumTestEnumNumberEnum.
+  /// Returns the instance of [EnumTestEnumNumberEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -486,6 +495,9 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is EnumTestEnumNumberEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case '1.1': return EnumTestEnumNumberEnum.number1Period1;
@@ -499,7 +511,7 @@ class EnumTestEnumNumberEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [EnumTestEnumNumberEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static EnumTestEnumNumberEnumTypeTransformer? _instance;
 }
 

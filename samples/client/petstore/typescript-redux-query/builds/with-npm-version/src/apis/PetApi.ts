@@ -131,7 +131,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace('{petId}', encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -288,7 +288,7 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
 
     meta.authType = ['api_key', 'header'];
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace('{petId}', encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -393,7 +393,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
     }
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace('{petId}', encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -448,7 +448,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
     }
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}/uploadImage`.replace('{petId}', encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

@@ -33,7 +33,7 @@
 {{>generatedAnnotation}}
 
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
 {{#serializableModel}}
@@ -72,11 +72,21 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#jackson}}
+  {{#vendorExtensions.x-jackson-json-include-policy}}
+  @JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}})
+  {{/vendorExtensions.x-jackson-json-include-policy}}
+  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+  @JsonSetter(nulls = Nulls.SKIP)
+  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+  {{#vendorExtensions.x-has-json-setter-nulls-fail}}
+  @JsonSetter(nulls = Nulls.FAIL)
+  {{/vendorExtensions.x-has-json-setter-nulls-fail}}
+  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
   {{#isContainer}}
-  {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
   private {{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}
@@ -169,13 +179,13 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
     }
     this.{{name}}.add({{name}}Item);
     {{/openApiNullable}}
@@ -187,13 +197,13 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.put(key, {{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     {{/openApiNullable}}
@@ -355,10 +365,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
   {{#generateBuilders}}

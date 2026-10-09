@@ -14,7 +14,7 @@ import org.openapitools.model.Animal;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid;
@@ -23,7 +23,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   private Date dateTime;
 
   @JsonProperty("map")
-  private Map<String, Animal> map = null;
+  private Map<String, @Valid Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -61,7 +61,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }
@@ -79,11 +79,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return map
   **/
   @ApiModelProperty(value = "")
-  public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 
@@ -124,10 +124,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -80,7 +88,7 @@ import java.text.DateFormat
          * @param status2 number type (optional)
          * @return void
         */
-        open suspend fun updatePetWithFormNumber(petId: kotlin.Long, name: kotlin.String?, status: kotlin.Int?, status2: java.math.BigDecimal?): HttpResponse<Unit> {
+        open suspend fun updatePetWithFormNumber(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.Int? = null, status2: java.math.BigDecimal? = null): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 

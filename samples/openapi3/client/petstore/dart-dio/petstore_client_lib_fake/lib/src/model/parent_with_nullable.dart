@@ -107,6 +107,7 @@ class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNu
   }
 }
 
+
 /// a concrete implementation of [ParentWithNullable], since [ParentWithNullable] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $ParentWithNullable implements ParentWithNullable, Built<$ParentWithNullable, $ParentWithNullableBuilder> {
@@ -152,8 +153,9 @@ class _$$ParentWithNullableSerializer implements PrimitiveSerializer<$ParentWith
         case r'type':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.type = valueDes;
           break;
         case r'nullableProperty':

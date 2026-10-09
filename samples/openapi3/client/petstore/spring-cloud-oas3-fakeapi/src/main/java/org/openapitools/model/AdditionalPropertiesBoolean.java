@@ -2,18 +2,19 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -23,9 +24,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesBoolean
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
 
   public AdditionalPropertiesBoolean name(@Nullable String name) {
@@ -44,6 +46,7 @@ public class AdditionalPropertiesBoolean {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -118,11 +121,8 @@ public class AdditionalPropertiesBoolean {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

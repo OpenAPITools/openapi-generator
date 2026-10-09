@@ -1,4 +1,4 @@
-# # NumberOnly
+# NumberOnly
 
 ## Properties
 

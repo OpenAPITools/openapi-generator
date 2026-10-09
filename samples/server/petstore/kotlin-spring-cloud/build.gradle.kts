@@ -58,6 +58,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
 
     implementation("javax.validation:validation-api")
+
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
 }

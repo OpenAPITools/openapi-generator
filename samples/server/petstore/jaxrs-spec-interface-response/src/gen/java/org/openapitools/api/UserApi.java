@@ -19,48 +19,63 @@ import javax.validation.Valid;
 */
 @Path("/user")
 @Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public interface UserApi {
 
     /**
      * This can only be done by the logged in user.
      *
-     * @param body Created user object
+     * @param user Created user object
      * @return successful operation
      */
     @POST
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUser(@Valid @NotNull User body);
+    Response createUser(@Valid @NotNull User user
+);
 
 
     /**
      * 
      *
-     * @param body List of user object
+     * @param user List of user object
      * @return successful operation
      */
     @POST
     @Path("/createWithArray")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body);
+    Response createUsersWithArrayInput(@NotNull List<@Valid User> user
+);
 
 
     /**
      * 
      *
-     * @param body List of user object
+     * @param user List of user object
      * @return successful operation
      */
     @POST
     @Path("/createWithList")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body);
+    Response createUsersWithListInput(@NotNull List<@Valid User> user
+);
 
 
     /**
@@ -72,11 +87,15 @@ public interface UserApi {
      */
     @DELETE
     @Path("/{username}")
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username);
+    Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username
+);
 
 
     /**
@@ -95,7 +114,8 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username);
+    Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username
+);
 
 
     /**
@@ -113,7 +133,9 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    Response loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password);
+    Response loginUser(@QueryParam("username") @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @ApiParam("The user name for login")  String username
+,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password
+);
 
 
     /**
@@ -123,7 +145,10 @@ public interface UserApi {
      */
     @GET
     @Path("/logout")
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user" })
+    @ApiOperation(value = "Logs out current logged in user session", notes = "", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     Response logoutUser();
@@ -133,16 +158,22 @@ public interface UserApi {
      * This can only be done by the logged in user.
      *
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      * @return Invalid user supplied
      * @return User not found
      */
     @PUT
     @Path("/{username}")
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", authorizations = {
+        
+        @Authorization(value = "api_key")
+         }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid @NotNull User body);
+    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username
+,@Valid @NotNull User user
+);
 
 }

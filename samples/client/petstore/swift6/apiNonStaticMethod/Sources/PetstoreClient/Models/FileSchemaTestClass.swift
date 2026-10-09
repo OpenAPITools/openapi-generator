@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FileSchemaTestClass: Sendable, Codable, ParameterConvertible, Hashable {
+public struct FileSchemaTestClass: Sendable, Codable, Hashable {
 
     public var file: File?
     public var files: [File]?

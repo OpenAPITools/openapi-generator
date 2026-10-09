@@ -22,12 +22,16 @@ int main() {
 	char *shipdate = malloc(strlen(SHIP_DATE) + 1);
 	strcpy(shipdate, SHIP_DATE);
 
-	order_t *neworder = order_create(ORDER_ID,
-	                                 PET_ID,
-	                                 QUANTITY,
+	long orderId = ORDER_ID;
+	long petId = PET_ID;
+	int quantity = QUANTITY;
+	int complete = COMPLETE;
+	order_t *neworder = order_create(&orderId,
+	                                 &petId,
+	                                 &quantity,
 	                                 shipdate,
 	                                 openapi_petstore_order_STATUS_placed,
-	                                 COMPLETE);
+	                                 &complete);
 
 	order_t *returnorder = StoreAPI_placeOrder(apiClient, neworder);
 

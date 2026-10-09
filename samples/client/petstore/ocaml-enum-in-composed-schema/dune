@@ -1,0 +1,9 @@
+(include_subdirs unqualified)
+(library
+   (name petstore_client)
+   (public_name petstore_client)
+   (flags (:standard -w -27))
+   (libraries str cohttp-lwt-unix lwt yojson ppx_deriving_yojson.runtime)
+   (preprocess (pps ppx_deriving_yojson ppx_deriving.std))
+   (wrapped true)
+)

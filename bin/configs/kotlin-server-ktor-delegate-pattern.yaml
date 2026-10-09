@@ -1,0 +1,9 @@
+generatorName: kotlin-server
+outputDir: samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated
+library: ktor
+inputSpec: modules/openapi-generator/src/test/resources/3_1/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  serializableModel: "true"
+  delegatePattern: "true"

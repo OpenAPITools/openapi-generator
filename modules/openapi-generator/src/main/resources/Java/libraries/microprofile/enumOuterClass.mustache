@@ -61,7 +61,7 @@ import java.net.URI;
 {{/jackson}}
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue(String text) {
     for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (String.valueOf(b.value).equals{{#useEnumCaseInsensitive}}IgnoreCase{{/useEnumCaseInsensitive}}(text)) {
         return b;
       }
     }

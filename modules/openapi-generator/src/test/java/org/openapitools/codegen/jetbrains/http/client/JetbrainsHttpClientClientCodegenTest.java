@@ -387,19 +387,19 @@ public class JetbrainsHttpClientClientCodegenTest {
                 "Accept: application/json\n" +
                 "Authorization: Bearer {{bearerToken}}");
 
-        TestUtils.assertFileContains(path, "### Get payment methods\n" +
-                "## Get payment methods\n" +
-                "GET https://checkout-test.adyen.com/v71/paymentMethods\n" +
-                "Accept: application/json\n" +
-                "Authorization: Basic: {{username-password}}\n" +
+        TestUtils.assertFileContains(path, "### Get payment methods",
+                "## Get payment methods",
+                "GET https://checkout-test.adyen.com/v71/paymentMethods",
+                "Accept: application/json",
+                "Authorization: Basic: {{username-password}}",
                 "Authorization: Bearer {{bearerToken}}");
 
-        TestUtils.assertFileContains(path, "### Make a payment\n" +
-                "## Example with a merchant account that doesn&#39;t exist\n" +
-                "POST https://checkout-test.adyen.com/v71/payments\n" +
-                "Content-Type: application/json\n" +
-                "Accept: application/json\n" +
-                "Cookie: X-API-Key={{cookieKey}}\n" +
+        TestUtils.assertFileContains(path, "### Make a payment",
+                "## Example with a merchant account that doesn&#39;t exist",
+                "POST https://checkout-test.adyen.com/v71/payments",
+                "Content-Type: application/json",
+                "Accept: application/json",
+                "Cookie: X-API-Key={{cookieKey}}",
                 "Authorization: Bearer {{bearerToken}}");
     }
 

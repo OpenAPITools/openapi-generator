@@ -1,0 +1,15 @@
+README.md
+build.gradle.kts
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+pom.xml
+settings.gradle
+src/main/kotlin/org/openapitools/api/ApiUtil.kt
+src/main/kotlin/org/openapitools/api/Exceptions.kt
+src/main/kotlin/org/openapitools/configuration/EnumConverterConfiguration.kt
+src/main/kotlin/org/openapitools/model/Car.kt
+src/main/kotlin/org/openapitools/model/Truck.kt
+src/main/kotlin/org/openapitools/model/Vehicle.kt
+src/main/kotlin/org/openapitools/model/VehicleType.kt

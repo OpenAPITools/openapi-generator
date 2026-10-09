@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -108,6 +107,34 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     Object deserialized = null;
                     JsonElement jsonElement = elementAdapter.read(in);
 
+                    {{#useOneOfDiscriminatorLookup}}
+                    {{#discriminator}}
+                    // non-object payloads can still match a non-object anyOf schema below
+                    if (jsonElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        JsonElement discriminatorElement = jsonObject.get("{{{propertyBaseName}}}");
+
+                        // use discriminator value for faster anyOf lookup
+                        {{classname}} new{{classname}} = new {{classname}}();
+                        if (discriminatorElement == null || !discriminatorElement.isJsonPrimitive()) {
+                            log.log(Level.WARNING, "Failed to lookup discriminator value for {{classname}} as `{{{propertyBaseName}}}` is missing or is not a primitive type in the payload.");
+                        } else  {
+                            // look up the discriminator value in the field `{{{propertyBaseName}}}`
+                            switch (discriminatorElement.getAsString()) {
+                            {{#mappedModels}}
+                                case "{{{mappingName}}}":
+                                    deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
+                                    new{{classname}}.setActualInstance(deserialized);
+                                    return new{{classname}};
+                            {{/mappedModels}}
+                                default:
+                                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorElement.getAsString()));
+                            }
+                        }
+                    }
+
+                    {{/discriminator}}
+                    {{/useOneOfDiscriminatorLookup}}
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
@@ -121,14 +148,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{^isArray}}
                     {{#isNumber}}
                         if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isNumber}}
                     {{^isNumber}}
                     {{#isPrimitiveType}}
                         if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isPrimitiveType}}
@@ -147,7 +174,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/isArray}}
                     {{#isArray}}
                         if (!jsonElement.isJsonArray()) {
-                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
                         }
 
                         JsonArray array = jsonElement.getAsJsonArray();
@@ -156,13 +183,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         {{#items}}
                         {{#isNumber}}
                             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                             }
                         {{/isNumber}}
                         {{^isNumber}}
                         {{#isPrimitiveType}}
                             if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                             }
                         {{/isPrimitiveType}}
                         {{/isNumber}}
@@ -180,7 +207,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
                     }
                     {{/hasVars}}
@@ -195,7 +222,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
                     }
                     {{/hasVars}}
@@ -203,7 +230,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/anyOf}}
                     {{/composedSchemas}}
 
-                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for {{classname}}: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -239,7 +266,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
      * It could be an instance of the 'anyOf' schemas.
      */
@@ -277,9 +304,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     /**
      * Get the actual instance, which can be the following:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
-     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     * @return The actual instance ({{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}})
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -291,11 +318,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{#anyOf}}
     {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
+     * Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{dataType}}}`
-     * @throws ClassCastException if the instance is not `{{{dataType}}}`
+     * @return The actual instance of `{{dataType}}`
+     * @throws ClassCastException if the instance is not `{{dataType}}`
      */
     public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
@@ -322,13 +349,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{^isArray}}
         {{#isNumber}}
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
         {{/isNumber}}
         {{^isNumber}}
         {{#isPrimitiveType}}
             if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
             }
         {{/isPrimitiveType}}
         {{/isNumber}}
@@ -345,7 +372,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isArray}}
         {{#isArray}}
             if (!jsonElement.isJsonArray()) {
-                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
             }
             JsonArray array = jsonElement.getAsJsonArray();
             // validate array items
@@ -353,13 +380,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#items}}
             {{#isNumber}}
                 if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                    throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                    throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                 }
             {{/isNumber}}
             {{^isNumber}}
             {{#isPrimitiveType}}
                 if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                    throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                    throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                 }
             {{/isPrimitiveType}}
             {{/isNumber}}
@@ -378,13 +405,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/hasVars}}
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
         {{/composedSchemas}}
-        throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+        throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     }
 
     /**

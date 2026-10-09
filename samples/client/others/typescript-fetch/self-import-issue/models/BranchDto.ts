@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface BranchDto {
     /**
      * 
-     * @type {string}
-     * @memberof BranchDto
      */
     name?: string;
 }

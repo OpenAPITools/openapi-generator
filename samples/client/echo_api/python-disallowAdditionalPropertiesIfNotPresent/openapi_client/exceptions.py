@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Echo Server API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 from typing import Any, Optional
 from typing_extensions import Self
@@ -129,7 +128,7 @@ class ApiException(OpenApiException):
                     self.body = http_resp.data.decode('utf-8')
                 except Exception:
                     pass
-            self.headers = http_resp.getheaders()
+            self.headers = http_resp.headers
 
     @classmethod
     def from_response(

@@ -1,0 +1,11 @@
+generatorName: terraform-provider
+outputDir: samples/client/others/terraform/allof-discriminator
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/terraform-provider
+gitHost: github.com
+gitUserId: example
+gitRepoId: terraform-provider-allof
+additionalProperties:
+  providerName: "allof"
+  providerAddress: "registry.terraform.io/example/allof"
+  hideGenerationTimestamp: "true"

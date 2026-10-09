@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -36,11 +44,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost")
         }
     }
 
@@ -216,11 +224,12 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
         headerDefault?.apply { localVariableHeaders["header_default"] = this.toString() }
         headerDefaultEnum?.apply { localVariableHeaders["header_default_enum"] = this.toString() }
         headerDefaultInt?.apply { localVariableHeaders["header_default_int"] = this.toString() }
         headerNullable?.apply { localVariableHeaders["header_nullable"] = this.toString() }
-        
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/test/parameters/{path_default}/{path_nullable}".replace("{"+"path_default"+"}", encodeURIComponent(pathDefault.toString())).replace("{"+"path_nullable"+"}", encodeURIComponent(pathNullable.toString())),

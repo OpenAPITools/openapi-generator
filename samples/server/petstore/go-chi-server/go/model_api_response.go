@@ -23,7 +23,8 @@ type ApiResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
-// AssertApiResponseRequired checks if the required fields are not zero-ed
+// AssertApiResponseRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
 func AssertApiResponseRequired(obj ApiResponse) error {
 	return nil
 }

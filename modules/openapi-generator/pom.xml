@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.18.0-SNAPSHOT</version>
+        <version>7.27.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -281,6 +281,12 @@
     </reporting>
     <dependencies>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>${swagger-parser-groupid.version}</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser.version}</version>
@@ -385,7 +391,6 @@
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
             <version>3.24.9</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>
@@ -433,7 +438,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jackson-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
@@ -483,12 +488,12 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>2.9.3</version>
+            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
+            <version>3.27.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>

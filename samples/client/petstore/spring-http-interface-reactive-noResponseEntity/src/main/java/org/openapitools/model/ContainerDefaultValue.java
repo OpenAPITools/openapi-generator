@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -22,19 +23,17 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> requiredArray = new ArrayList<>();
 
-  
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {
@@ -55,7 +54,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayItem(String nullableArrayItem) {
-    if (this.nullableArray == null || !this.nullableArray.isPresent()) {
+    if (this.nullableArray == null || !this.nullableArray.isPresent() || this.nullableArray.get() == null) {
       this.nullableArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArray.get().add(nullableArrayItem);
@@ -82,7 +81,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
-    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent()) {
+    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent() || this.nullableRequiredArray.get() == null) {
       this.nullableRequiredArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableRequiredArray.get().add(nullableRequiredArrayItem);
@@ -93,12 +92,13 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull
+  /* @Present */
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
   }
 
+  @JsonProperty("nullable_required_array")
   public void setNullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
@@ -126,6 +126,7 @@ public class ContainerDefaultValue {
     return requiredArray;
   }
 
+  @JsonProperty("required_array")
   public void setRequiredArray(List<String> requiredArray) {
     this.requiredArray = requiredArray;
   }
@@ -136,8 +137,8 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
-    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent()) {
-      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
+    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent() || this.nullableArrayWithDefault.get() == null) {
+      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);
     return this;
@@ -204,11 +205,8 @@ public class ContainerDefaultValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

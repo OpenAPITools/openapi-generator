@@ -40,8 +40,8 @@ function Initialize-PSReadOnlyFirst {
 
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
-            "baz" = ${Baz}
+            'bar' = ${Bar}
+            'baz' = ${Baz}
         }
 
 
@@ -79,28 +79,28 @@ function ConvertFrom-PSJsonToReadOnlyFirst {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSReadOnlyFirst
-        $AllProperties = ("bar", "baz")
+        $AllProperties = ('bar', 'baz')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "bar"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'bar'))) { #optional property not found
             $Bar = $null
         } else {
-            $Bar = $JsonParameters.PSobject.Properties["bar"].value
+            $Bar = $JsonParameters.PSobject.Properties['bar'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "baz"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'baz'))) { #optional property not found
             $Baz = $null
         } else {
-            $Baz = $JsonParameters.PSobject.Properties["baz"].value
+            $Baz = $JsonParameters.PSobject.Properties['baz'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
-            "baz" = ${Baz}
+            'bar' = ${Bar}
+            'baz' = ${Baz}
         }
 
         return $PSO

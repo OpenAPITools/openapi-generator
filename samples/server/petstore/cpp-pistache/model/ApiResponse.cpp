@@ -30,6 +30,8 @@ ApiResponse::ApiResponse()
     
 }
 
+ApiResponse::~ApiResponse() = default;
+
 void ApiResponse::validate() const
 {
     std::stringstream msg;

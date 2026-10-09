@@ -1,0 +1,15 @@
+{{>licenseInfo}}
+#ifndef {{exportHeaderGuard}}
+#define {{exportHeaderGuard}}
+
+#if defined(_WIN32)
+#  if defined({{exportDefine}})
+#    define {{exportMacro}} __declspec(dllexport)
+#  else
+#    define {{exportMacro}} __declspec(dllimport)
+#  endif
+#else
+#  define {{exportMacro}}
+#endif
+
+#endif /* {{exportHeaderGuard}} */

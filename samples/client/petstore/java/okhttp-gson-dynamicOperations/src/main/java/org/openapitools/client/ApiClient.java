@@ -471,6 +471,17 @@ public class ApiClient {
     }
 
     /**
+     * <p>Set LocalDateTimeFormat.</p>
+     *
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
+    public ApiClient setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        JSON.setLocalDateTimeFormat(dateFormat);
+        return this;
+    }
+
+    /**
      * <p>Set LenientOnJson.</p>
      *
      * @param lenientOnJson a boolean
@@ -800,6 +811,46 @@ public class ApiClient {
     }
 
     /**
+     * Format the given parameter object as an ASCII-safe JSON string.
+     *
+     * @param param Parameter
+     * @return JSON representation of the parameter
+     */
+    public String parameterToJsonString(Object param) {
+        if (param == null) {
+            return "";
+        }
+        String json = JSON.serialize(param);
+        int firstUnsafe = -1;
+        for (int i = 0; i < json.length(); i++) {
+            if (json.charAt(i) >= 0x7f) {
+                firstUnsafe = i;
+                break;
+            }
+        }
+        if (firstUnsafe == -1) {
+            return json;
+        }
+
+        StringBuilder escaped = new StringBuilder(json.length());
+        escaped.append(json, 0, firstUnsafe);
+        for (int i = firstUnsafe; i < json.length(); i++) {
+            char c = json.charAt(i);
+            if (c >= 0x7f) {
+                escaped.append("\\u");
+                escaped.append(Character.forDigit((c >> 12) & 0xf, 16));
+                escaped.append(Character.forDigit((c >> 8) & 0xf, 16));
+                escaped.append(Character.forDigit((c >> 4) & 0xf, 16));
+                escaped.append(Character.forDigit(c & 0xf, 16));
+            } else {
+                escaped.append(c);
+            }
+        }
+
+        return escaped.toString();
+    }
+
+    /**
      * Formats the specified query parameter to a list containing a single {@code Pair} object.
      *
      * Note that {@code value} must not be a collection.
@@ -1047,7 +1098,17 @@ public class ApiClient {
         }
         try {
             if (isJsonMime(contentType)) {
-                return JSON.deserialize(respBody.byteStream(), returnType);
+                if (returnType.equals(String.class)) {
+                    String respBodyString = respBody.string();
+                    if (respBodyString.isEmpty()) {
+                        return null;
+                    }
+                    // Use String-based deserialize for String return type with fallback
+                    return JSON.deserialize(respBodyString, returnType);
+                } else {
+                    // Use InputStream-based deserialize which supports responses > 2GB
+                    return JSON.deserialize(respBody.byteStream(), returnType);
+                }
             } else if (returnType.equals(String.class)) {
                 String respBodyString = respBody.string();
                 if (respBodyString.isEmpty()) {
@@ -1390,7 +1451,7 @@ public class ApiClient {
             if (serverIndex != null) {
                 if (serverIndex < 0 || serverIndex >= servers.size()) {
                     throw new ArrayIndexOutOfBoundsException(String.format(
-                        Locale.ROOT,
+                        java.util.Locale.ROOT,
                         "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
                     ));
                 }
@@ -1463,11 +1524,11 @@ public class ApiClient {
      */
     public void processCookieParams(Map<String, String> cookieParams, Request.Builder reqBuilder) {
         for (Entry<String, String> param : cookieParams.entrySet()) {
-            reqBuilder.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
+            reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
         }
         for (Entry<String, String> param : defaultCookieMap.entrySet()) {
             if (!cookieParams.containsKey(param.getKey())) {
-                reqBuilder.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
+                reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
             }
         }
     }
@@ -1752,7 +1813,11 @@ public class ApiClient {
                             }
                             break;
                         case "header":
-                            headerParams.put(param.getName(), parameterToString(value));
+                            if (param.getContent() != null && param.getContent().containsKey("application/json")) {
+                                headerParams.put(param.getName(), parameterToJsonString(value));
+                            } else {
+                                headerParams.put(param.getName(), parameterToString(value));
+                            }
                             break;
                         case "cookie":
                             cookieParams.put(param.getName(), parameterToString(value));

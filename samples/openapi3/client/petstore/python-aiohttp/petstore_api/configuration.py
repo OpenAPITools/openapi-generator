@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -12,6 +10,8 @@
 """  # noqa: E501
 
 
+import aiohttp
+import aiohttp_retry
 import base64
 import copy
 import http.client as httplib
@@ -165,13 +165,34 @@ class Configuration:
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum
       values before.
+    :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
+      when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: Number of retries for API requests.
+    :param retries: int | aiohttp_retry.RetryOptionsBase - Retry configuration.
+    :param trace_configs: list of aiohttp.TraceConfig instances forwarded to
+      aiohttp.ClientSession for tracing/instrumentation (e.g. OpenTelemetry).
+    :param tcp_connector_limit_per_host: Per-host concurrency cap forwarded to
+      aiohttp.TCPConnector(limit_per_host=...). None leaves aiohttp's default (0 = unlimited).
+    :param client_session_kwargs: Extra keyword arguments merged into
+      aiohttp.ClientSession(**kwargs) (e.g. json_serialize=orjson.dumps,
+      cookie_jar=aiohttp.DummyCookieJar()).
+      A non-None connector remains caller-owned because copied configurations
+      may share it.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
     :param key_file: the path to a client key file, for mTLS.
+    :param assert_hostname: Set this to True/False to enable/disable SSL hostname verification.
+    :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
+    :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
+    :param proxy: Proxy URL.
+    :param proxy_headers: Proxy headers.
+    :param safe_chars_for_path_param: Safe characters for path parameter encoding.
+    :param client_side_validation: Enable client-side validation. Default True.
+    :param socket_options: Options to pass down to the underlying urllib3 socket.
+    :param datetime_format: Datetime format string for serialization.
+    :param date_format: Date format string for serialization.
 
     :Example:
 
@@ -267,10 +288,24 @@ conf = petstore_api.Configuration(
         server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
-        retries: Optional[int] = None,
+        retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
+        trace_configs: Optional[List[aiohttp.TraceConfig]] = None,
+        tcp_connector_limit_per_host: Optional[int] = None,
+        client_session_kwargs: Optional[Dict[str, Any]] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str]=None,
         key_file: Optional[str]=None,
+        verify_ssl: bool=True,
+        assert_hostname: Optional[bool]=None,
+        tls_server_name: Optional[str]=None,
+        connection_pool_maxsize: Optional[int]=None,
+        proxy: Optional[str]=None,
+        proxy_headers: Optional[Any]=None,
+        safe_chars_for_path_param: str='',
+        client_side_validation: bool=True,
+        socket_options: Optional[Any]=None,
+        datetime_format: str="%Y-%m-%dT%H:%M:%S.%f%z",
+        date_format: str="%Y-%m-%d",
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -344,7 +379,7 @@ conf = petstore_api.Configuration(
         """Debug switch
         """
 
-        self.verify_ssl = True
+        self.verify_ssl = verify_ssl
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
@@ -362,43 +397,54 @@ conf = petstore_api.Configuration(
         self.key_file = key_file
         """client key file
         """
-        self.assert_hostname = None
+        self.assert_hostname = assert_hostname
         """Set this to True/False to enable/disable SSL hostname verification.
         """
-        self.tls_server_name = None
+        self.tls_server_name = tls_server_name
         """SSL/TLS Server Name Indication (SNI)
            Set this to the SNI value expected by the server.
         """
 
-        self.connection_pool_maxsize = 100
+        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else 100
         """This value is passed to the aiohttp to limit simultaneous connections.
-           Default values is 100, None means no-limit.
+           None in the constructor is coerced to default 100.
         """
 
-        self.proxy: Optional[str] = None
+        self.proxy = proxy
         """Proxy URL
         """
-        self.proxy_headers = None
+        self.proxy_headers = proxy_headers
         """Proxy headers
         """
-        self.safe_chars_for_path_param = ''
+        self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
         self.retries = retries
-        """Adding retries to override urllib3 default value 3
+        """Retry configuration
+        """
+        self.trace_configs = trace_configs
+        """aiohttp.TraceConfig list forwarded to ClientSession for tracing.
+        """
+        self.tcp_connector_limit_per_host = tcp_connector_limit_per_host
+        """Per-host concurrency cap forwarded to TCPConnector.
+        """
+        self.client_session_kwargs = client_session_kwargs
+        """Extra kwargs merged into aiohttp.ClientSession(**kwargs).
+
+        A non-None connector remains caller-owned.
         """
         # Enable client side validation
-        self.client_side_validation = True
+        self.client_side_validation = client_side_validation
 
-        self.socket_options = None
+        self.socket_options = socket_options
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+        self.datetime_format = datetime_format
         """datetime format
         """
 
-        self.date_format = "%Y-%m-%d"
+        self.date_format = date_format
         """date format
         """
 
@@ -407,13 +453,32 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
-            if k not in ('logger', 'logger_file_handler'):
-                setattr(result, k, copy.deepcopy(v, memo))
-        # shallow copy of loggers
+            if k in ('logger', 'logger_file_handler', 'logger_stream_handler'):
+                continue
+            if k == 'proxy_headers':
+                # MultiDictProxy rejects generic copying, but copy() returns an
+                # independent mutable multidict and preserves duplicate headers:
+                # https://multidict.aio-libs.org/en/stable/multidict/
+                copy_method = getattr(v, 'copy', None)
+                if callable(copy_method):
+                    setattr(result, k, copy_method())
+                    continue
+            if k in ('client_session_kwargs', 'trace_configs'):
+                setattr(result, k, copy.copy(v))
+                continue
+            if k == 'retries':
+                setattr(result, k, v)
+                continue
+            setattr(result, k, copy.deepcopy(v, memo))
+
+        # Loggers and their handlers are process-global.
+        # Aiohttp retry, trace, and session extension objects may contain
+        # event-loop state. Their containers are copied above, but the objects
+        # remain caller-owned.
         result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
-        result.logger_file = self.logger_file
-        result.debug = self.debug
+        result.logger_file_handler = self.logger_file_handler
+        result.logger_stream_handler = self.logger_stream_handler
+
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -425,32 +490,26 @@ conf = petstore_api.Configuration(
 
     @classmethod
     def set_default(cls, default: Optional[Self]) -> None:
-        """Set default instance of configuration.
+        """Store a copy as the default configuration.
 
-        It stores default configuration, which can be
-        returned by get_default_copy method.
+        Later changes to ``default`` do not affect the stored configuration.
+        ``get_default`` returns the stored object, while ``get_default_copy``
+        returns a copy of it.
 
         :param default: object of Configuration
         """
-        cls._default = default
+        cls._default = copy.deepcopy(default)
 
     @classmethod
     def get_default_copy(cls) -> Self:
-        """Deprecated. Please use `get_default` instead.
-
-        Deprecated. Please use `get_default` instead.
-
-        :return: The configuration object.
-        """
-        return cls.get_default()
+        """Return a copy of the configured default, or a new configuration."""
+        if cls._default is not None:
+            return copy.deepcopy(cls._default)
+        return cls()
 
     @classmethod
     def get_default(cls) -> Self:
-        """Return the default configuration.
-
-        This method returns newly created, based on default constructor,
-        object of Configuration class or returns a copy of default
-        configuration.
+        """Return the shared default configuration, creating it if needed.
 
         :return: The configuration object.
         """
@@ -554,7 +613,8 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:

@@ -205,7 +205,7 @@ Pet::getId()
 }
 
 void
-Pet::setId(long  id)
+Pet::setId(long id)
 {
 	this->id = id;
 }
@@ -217,7 +217,7 @@ Pet::getCategory()
 }
 
 void
-Pet::setCategory(Category  category)
+Pet::setCategory(Category category)
 {
 	this->category = category;
 }
@@ -229,7 +229,7 @@ Pet::getName()
 }
 
 void
-Pet::setName(std::string  name)
+Pet::setName(std::string name)
 {
 	this->name = name;
 }
@@ -241,7 +241,7 @@ Pet::getPhotoUrls()
 }
 
 void
-Pet::setPhotoUrls(std::list <std::string> photoUrls)
+Pet::setPhotoUrls(std::list<std::string> photoUrls)
 {
 	this->photoUrls = photoUrls;
 }
@@ -253,7 +253,7 @@ Pet::getTags()
 }
 
 void
-Pet::setTags(std::list <Tag> tags)
+Pet::setTags(std::list<Tag> tags)
 {
 	this->tags = tags;
 }
@@ -265,7 +265,7 @@ Pet::getStatus()
 }
 
 void
-Pet::setStatus(std::string  status)
+Pet::setStatus(std::string status)
 {
 	this->status = status;
 }

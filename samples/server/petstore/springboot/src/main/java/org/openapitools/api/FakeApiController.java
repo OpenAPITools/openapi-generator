@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClassDto;
 import java.time.LocalDate;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
@@ -38,7 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class FakeApiController implements FakeApi {

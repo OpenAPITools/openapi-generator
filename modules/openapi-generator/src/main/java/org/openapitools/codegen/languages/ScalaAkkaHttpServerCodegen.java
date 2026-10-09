@@ -36,6 +36,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-akka-http-server/}.
+ */
 public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String groupId;
     protected String artifactId;
@@ -241,6 +244,8 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             supportingFiles.add(new SupportingFile("controller.mustache",
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+            supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         }
         supportingFiles.add(new SupportingFile("helper.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "AkkaHttpHelper.scala"));

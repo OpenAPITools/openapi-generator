@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  FooGetDefaultResponse,
-} from '../models/index';
 import {
+    type FooGetDefaultResponse,
     FooGetDefaultResponseFromJSON,
     FooGetDefaultResponseToJSON,
-} from '../models/index';
+} from '../models/FooGetDefaultResponse';
 
 /**
  * 
@@ -28,8 +25,9 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for fooGet without sending the request
      */
-    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
+    async fooGetRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -37,12 +35,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/foo`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
+        const requestOptions = await this.fooGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FooGetDefaultResponseFromJSON(jsonValue));
     }

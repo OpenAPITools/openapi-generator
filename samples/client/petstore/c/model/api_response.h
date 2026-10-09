@@ -19,7 +19,7 @@ typedef struct api_response_t api_response_t;
 
 
 typedef struct api_response_t {
-    int code; //numeric
+    int *code; //numeric
     char *type; // string
     char *message; // string
 
@@ -27,7 +27,7 @@ typedef struct api_response_t {
 } api_response_t;
 
 __attribute__((deprecated)) api_response_t *api_response_create(
-    int code,
+    int *code,
     char *type,
     char *message
 );

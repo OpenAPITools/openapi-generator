@@ -6,44 +6,44 @@
 
 import Foundation
 
-public struct StringRule: Sendable {
+public nonisolated struct StringRule: Sendable {
     public var minLength: Int?
     public var maxLength: Int?
     public var pattern: String?
 }
 
-public struct NumericRule<T: Comparable & Numeric> {
+public nonisolated struct NumericRule<T: Comparable & Numeric> {
     public var minimum: T?
     public var exclusiveMinimum = false
     public var maximum: T?
     public var exclusiveMaximum = false
     public var multipleOf: T?
 }
-extension NumericRule: Sendable where T: Sendable {}
+nonisolated extension NumericRule: Sendable where T: Sendable {}
 
-public struct ArrayRule: Sendable {
+public nonisolated struct ArrayRule: Sendable {
     public var minItems: Int?
     public var maxItems: Int?
     public var uniqueItems: Bool
 }
 
-public enum StringValidationErrorKind: Error {
+public enum StringValidationErrorKind: Error, Sendable {
     case minLength, maxLength, pattern
 }
 
-public enum NumericValidationErrorKind: Error {
+public enum NumericValidationErrorKind: Error, Sendable {
     case minimum, maximum, multipleOf
 }
 
-public enum ArrayValidationErrorKind: Error {
+public enum ArrayValidationErrorKind: Error, Sendable {
     case minItems, maxItems, uniqueItems
 }
 
-public struct ValidationError<T: Error & Hashable>: Error {
+public struct ValidationError<T: Error & Hashable & Sendable>: Error, Sendable {
     public fileprivate(set) var kinds: Set<T>
 }
 
-public struct Validator {
+public struct Validator: Sendable {
     /// Validate a string against a rule.
     /// - Parameter string: The String you wish to validate.
     /// - Parameter rule: The StringRule you wish to use for validation.

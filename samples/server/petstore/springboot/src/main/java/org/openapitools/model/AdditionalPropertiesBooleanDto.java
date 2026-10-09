@@ -2,16 +2,16 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -26,9 +26,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("AdditionalPropertiesBoolean")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesBooleanDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
 
   public AdditionalPropertiesBooleanDto name(@Nullable String name) {
@@ -41,12 +42,13 @@ public class AdditionalPropertiesBooleanDto {
    * @return name
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public @Nullable String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -121,11 +123,8 @@ public class AdditionalPropertiesBooleanDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

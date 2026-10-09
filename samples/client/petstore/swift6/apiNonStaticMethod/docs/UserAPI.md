@@ -16,6 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
+    open func createUser(body: User) async throws(ErrorResponse)
     open class func createUser( body: User) -> Promise<Void>
     open class func createUser(body: User) -> Observable<Void>
 ```
@@ -31,6 +32,12 @@ import PetstoreClient
 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Created user object
 
+// Create user
+do {
+    try await UserAPI().createUser(body: body)
+} catch {
+    print(error)
+}
 // Create user
 UserAPI.createUser(body: body).then {
          // when the promise is fulfilled
@@ -65,6 +72,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
+    open func createUsersWithArrayInput(body: [User]) async throws(ErrorResponse)
     open class func createUsersWithArrayInput( body: [User]) -> Promise<Void>
     open class func createUsersWithArrayInput(body: [User]) -> Observable<Void>
 ```
@@ -78,6 +86,12 @@ import PetstoreClient
 
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
+// Creates list of users with given input array
+do {
+    try await UserAPI().createUsersWithArrayInput(body: body)
+} catch {
+    print(error)
+}
 // Creates list of users with given input array
 UserAPI.createUsersWithArrayInput(body: body).then {
          // when the promise is fulfilled
@@ -112,6 +126,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
+    open func createUsersWithListInput(body: [User]) async throws(ErrorResponse)
     open class func createUsersWithListInput( body: [User]) -> Promise<Void>
     open class func createUsersWithListInput(body: [User]) -> Observable<Void>
 ```
@@ -125,6 +140,12 @@ import PetstoreClient
 
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
+// Creates list of users with given input array
+do {
+    try await UserAPI().createUsersWithListInput(body: body)
+} catch {
+    print(error)
+}
 // Creates list of users with given input array
 UserAPI.createUsersWithListInput(body: body).then {
          // when the promise is fulfilled
@@ -159,6 +180,7 @@ No authorization required
 
 # **deleteUser**
 ```swift
+    open func deleteUser(username: String) async throws(ErrorResponse)
     open class func deleteUser( username: String) -> Promise<Void>
     open class func deleteUser(username: String) -> Observable<Void>
 ```
@@ -174,6 +196,12 @@ import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be deleted
 
+// Delete user
+do {
+    try await UserAPI().deleteUser(username: username)
+} catch {
+    print(error)
+}
 // Delete user
 UserAPI.deleteUser(username: username).then {
          // when the promise is fulfilled
@@ -208,6 +236,7 @@ No authorization required
 
 # **getUserByName**
 ```swift
+    open func getUserByName(username: String) async throws(ErrorResponse) -> User
     open class func getUserByName( username: String) -> Promise<User>
     open class func getUserByName(username: String) -> Observable<User>
 ```
@@ -221,6 +250,13 @@ import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be fetched. Use user1 for testing.
 
+// Get user by user name
+do {
+    let response = try await UserAPI().getUserByName(username: username)
+    dump(response)
+} catch {
+    print(error)
+}
 // Get user by user name
 UserAPI.getUserByName(username: username).then {
          // when the promise is fulfilled
@@ -255,6 +291,7 @@ No authorization required
 
 # **loginUser**
 ```swift
+    open func loginUser(username: String, password: String) async throws(ErrorResponse) -> String
     open class func loginUser( username: String,  password: String) -> Promise<String>
     open class func loginUser(username: String, password: String) -> Observable<String>
 ```
@@ -269,6 +306,13 @@ import PetstoreClient
 let username = "username_example" // String | The user name for login
 let password = "password_example" // String | The password for login in clear text
 
+// Logs user into the system
+do {
+    let response = try await UserAPI().loginUser(username: username, password: password)
+    dump(response)
+} catch {
+    print(error)
+}
 // Logs user into the system
 UserAPI.loginUser(username: username, password: password).then {
          // when the promise is fulfilled
@@ -304,6 +348,7 @@ No authorization required
 
 # **logoutUser**
 ```swift
+    open func logoutUser() async throws(ErrorResponse)
     open class func logoutUser() -> Promise<Void>
     open class func logoutUser() -> Observable<Void>
 ```
@@ -316,6 +361,12 @@ Logs out current logged in user session
 import PetstoreClient
 
 
+// Logs out current logged in user session
+do {
+    try await UserAPI().logoutUser()
+} catch {
+    print(error)
+}
 // Logs out current logged in user session
 UserAPI.logoutUser().then {
          // when the promise is fulfilled
@@ -347,6 +398,7 @@ No authorization required
 
 # **updateUser**
 ```swift
+    open func updateUser(username: String, body: User) async throws(ErrorResponse)
     open class func updateUser( username: String,  body: User) -> Promise<Void>
     open class func updateUser(username: String, body: User) -> Observable<Void>
 ```
@@ -363,6 +415,12 @@ import PetstoreClient
 let username = "username_example" // String | name that need to be deleted
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Updated user object
 
+// Updated user
+do {
+    try await UserAPI().updateUser(username: username, body: body)
+} catch {
+    print(error)
+}
 // Updated user
 UserAPI.updateUser(username: username, body: body).then {
          // when the promise is fulfilled

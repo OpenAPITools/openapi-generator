@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct User: Sendable, Codable, ParameterConvertible {
+internal struct User: Sendable, Codable {
 
     internal private(set) var id: Int64?
     internal private(set) var username: String?
@@ -57,5 +57,4 @@ internal struct User: Sendable, Codable, ParameterConvertible {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension User: Identifiable {}

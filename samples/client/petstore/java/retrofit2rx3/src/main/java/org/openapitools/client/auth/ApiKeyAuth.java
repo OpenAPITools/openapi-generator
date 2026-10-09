@@ -16,7 +16,6 @@ package org.openapitools.client.auth;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -78,7 +77,7 @@ public class ApiKeyAuth implements Interceptor {
                     .build();
         } else if ("cookie".equals(location)) {
             request = request.newBuilder()
-                    .addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", paramName, apiKey))
+                    .addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", paramName, apiKey))
                     .build();
         }
         return chain.proceed(request);

@@ -66,8 +66,8 @@ describe("ObjectSerializer", () => {
         });
 
         it ("Enum", () => {
-            const input = "available"
-            expect(ObjectSerializer.serialize(input, "Pet.StatusEnum", "")).to.equal("available")
+            const input = petstore.PetStatusEnum.Available
+            expect(ObjectSerializer.serialize(input, "Pet.StatusEnum", "")).to.equal(petstore.PetStatusEnum.Available)
         })
 
         it("Complex Class", () => {
@@ -103,7 +103,7 @@ describe("ObjectSerializer", () => {
                     "name": category.name
                 },
                 "photoUrls": [ "url", "other url"],
-                "status": "available",
+                "status": petstore.PetStatusEnum.Available,
                 "tags": tagResult
             })
         })
@@ -173,8 +173,8 @@ describe("ObjectSerializer", () => {
         });
 
         it ("Enum", () => {
-            const input = "available"
-            expect(ObjectSerializer.deserialize("available", "Pet.StatusEnum", "")).to.equal(input)
+            const input = petstore.PetStatusEnum.Available
+            expect(ObjectSerializer.deserialize(petstore.PetStatusEnum.Available, "Pet.StatusEnum", "")).to.equal(input)
         })
 
         it("Complex Class", () => {
@@ -210,7 +210,7 @@ describe("ObjectSerializer", () => {
                     "name": category.name
                 },
                 "photoUrls": [ "url", "other url"],
-                "status": "available",
+                "status": petstore.PetStatusEnum.Available,
                 "tags": tagResult
             }, "Pet", "") as petstore.Pet
 

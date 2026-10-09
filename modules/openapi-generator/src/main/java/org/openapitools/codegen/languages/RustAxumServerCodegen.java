@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -52,6 +53,9 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/rust-axum/}.
+ */
 public class RustAxumServerCodegen extends AbstractRustCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "openapi-server";
 
@@ -82,6 +86,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private static final String textXmlMimeType = "text/xml";
     private static final String formUrlEncodedMimeType = "application/x-www-form-urlencoded";
     private static final String jsonMimeType = "application/json";
+    private static final String eventStreamMimeType = "text/event-stream";
+    // Multipart
+    private static final String multipartFormData = "multipart/form-data";
+    private static final String multipartRelated = "multipart/related";
     // RFC 7386 support
     private static final String mergePatchJsonMimeType = "application/merge-patch+json";
     // RFC 7807 Support
@@ -283,7 +291,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+    public Mustache.Compiler processCompiler(final Mustache.Compiler compiler) {
         return compiler
                 .emptyStringIsFalse(true)
                 .zeroIsFalse(true);
@@ -353,14 +361,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private void setPackageName(String packageName) {
+    private void setPackageName(final String packageName) {
         this.packageName = packageName;
 
         // Also set the extern crate name, which has any '-' replace with a '_'.
         this.externCrateName = packageName.replace('-', '_');
     }
 
-    private void setPackageVersion(String packageVersion) {
+    private void setPackageVersion(final String packageVersion) {
         this.packageVersion = packageVersion;
     }
 
@@ -370,7 +378,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI(final OpenAPI openAPI) {
         Info info = openAPI.getInfo();
 
         if (packageVersion == null || packageVersion.isEmpty()) {
@@ -389,14 +397,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public String toApiName(String name) {
+    public String toApiName(final String name) {
         return name.isEmpty() ?
                 "default" :
                 sanitizeIdentifier(name, CasingType.SNAKE_CASE, "api", "API", true);
     }
 
     @Override
-    public String toApiFilename(String name) {
+    public String toApiFilename(final String name) {
         return toApiName(name);
     }
 
@@ -410,57 +418,64 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public String toOperationId(String operationId) {
+    public String toOperationId(final String operationId) {
         return sanitizeIdentifier(operationId, CasingType.CAMEL_CASE, "call", "method", true);
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
+    public String toEnumValue(final String value, final String datatype) {
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
-    private boolean isObjectType(String type) {
+    private boolean isObjectType(final String type) {
         return "object".equals(type);
     }
 
-    private boolean isMimetypeXml(String mimetype) {
+    private boolean isMimetypeXml(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
     }
 
-    private boolean isMimetypeJson(String mimetype) {
+    private boolean isMimetypeJson(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
-    private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
+    private boolean isMimetypeWwwFormUrlEncoded(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(formUrlEncodedMimeType);
     }
 
-    private boolean isMimetypeMultipartFormData(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
+    private boolean isMimetypeMultipartFormData(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(multipartFormData);
     }
 
-    private boolean isMimetypeMultipartRelated(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/related");
+    private boolean isMimetypeMultipartRelated(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(multipartRelated);
     }
 
-    private boolean isMimetypeUnknown(String mimetype) {
+    private boolean isMimetypeEventStream(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(eventStreamMimeType);
+    }
+
+    private boolean isMimetypeUnknown(final String mimetype) {
         return "*/*".equals(mimetype);
     }
 
-    boolean isMimetypePlain(String mimetype) {
+    boolean isMimetypePlain(final String mimetype) {
         return !(isMimetypeUnknown(mimetype) ||
                 isMimetypeJson(mimetype) ||
                 isMimetypeWwwFormUrlEncoded(mimetype) ||
                 isMimetypeMultipartFormData(mimetype) ||
-                isMimetypeMultipartRelated(mimetype));
+                isMimetypeMultipartRelated(mimetype) ||
+                isMimetypeEventStream(mimetype)
+        );
     }
 
+
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(final String path, final String httpMethod, final Operation operation, final List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
@@ -496,20 +511,23 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         // Determine the types that this operation produces. `getProducesInfo`
         // simply lists all the types, and then we add the correct imports to
         // the generated library.
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        final Set<String> producesInfo = getProducesInfo(openAPI, operation);
         boolean producesPlainText = false;
         boolean producesFormUrlEncoded = false;
+        boolean producesSSE = false; // Server-Sent Events
         if (producesInfo != null && !producesInfo.isEmpty()) {
             List<Map<String, String>> produces = new ArrayList<>(producesInfo.size());
 
             for (String mimeType : producesInfo) {
                 if (isMimetypeWwwFormUrlEncoded(mimeType)) {
                     producesFormUrlEncoded = true;
+                } else if (isMimetypeEventStream(mimeType)) {
+                    producesSSE = true;
                 } else if (isMimetypePlain(mimeType)) {
                     producesPlainText = true;
                 }
 
-                Map<String, String> mediaType = new HashMap<>();
+                final Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", mimeType);
 
                 produces.add(mediaType);
@@ -520,7 +538,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Set for deduplication of response IDs
-        for (CodegenResponse rsp : op.responses) {
+        for (final CodegenResponse rsp : op.responses) {
             // Get the original API response, so we get process the schema
             // directly.
             ApiResponse original;
@@ -548,10 +566,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // that although in general responses produces a set of
                 // different mimetypes currently we only support 1 per
                 // response.
-                String firstProduces = null;
+                String targetProduce = null;
 
                 if (original.getContent() != null) {
-                    firstProduces = original.getContent().keySet().stream().findFirst().orElse(null);
+                    targetProduce = original.getContent().keySet().stream().findFirst().orElse(null);
                 }
 
                 // The output mime type. This allows us to do sensible fallback
@@ -559,9 +577,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // mimetype.
                 String outputMime;
 
-                if (firstProduces == null) {
+                if (targetProduce == null) {
                     if (producesFormUrlEncoded) {
                         outputMime = formUrlEncodedMimeType;
+                    } else if (producesSSE) {
+                        outputMime = eventStreamMimeType;
                     } else if (producesPlainText) {
                         if (bytesType.equals(rsp.dataType)) {
                             outputMime = octetMimeType;
@@ -572,31 +592,36 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         outputMime = jsonMimeType;
                     }
                 } else {
-                    if (isMimetypeWwwFormUrlEncoded(firstProduces)) {
+                    producesFormUrlEncoded = false;
+                    producesPlainText = false;
+                    producesSSE = false;
+
+                    if (isMimetypeWwwFormUrlEncoded(targetProduce)) {
                         producesFormUrlEncoded = true;
-                        producesPlainText = false;
-                    } else if (isMimetypePlain(firstProduces)) {
-                        producesFormUrlEncoded = false;
+                    } else if (isMimetypeEventStream(targetProduce)) {
+                        producesSSE = true;
+                    } else if (isMimetypePlain(targetProduce)) {
                         producesPlainText = true;
-                    } else {
-                        producesFormUrlEncoded = false;
-                        producesPlainText = false;
                     }
 
-                    outputMime = firstProduces;
+                    outputMime = targetProduce;
+                }
 
+                if (isMimetypeXml(outputMime)) {
                     // As we don't support XML, fallback to plain text
-                    if (isMimetypeXml(outputMime)) {
-                        outputMime = plainTextMimeType;
-                    }
+                    producesPlainText = true;
+                    outputMime = plainTextMimeType;
                 }
 
                 rsp.vendorExtensions.put("x-mime-type", outputMime);
 
                 if (producesFormUrlEncoded) {
                     rsp.vendorExtensions.put("x-produces-form-urlencoded", true);
+                } else if (producesSSE) {
+                    rsp.vendorExtensions.put("x-produces-sse", true);
+                    op.vendorExtensions.put("x-produces-sse", true);
                 } else if (producesPlainText) {
-                    // Plain text means that there is not structured data in
+                    // Plain text means that there is no structured data in
                     // this response. So it'll either be a UTF-8 encoded string
                     // 'plainText' or some generic 'bytes'.
                     //
@@ -611,9 +636,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     }
                 } else {
                     rsp.vendorExtensions.put("x-produces-json", true);
-                    if (isObjectType(rsp.dataType)) {
-                        rsp.dataType = objectType;
-                    }
+                }
+
+                if (isObjectType(rsp.dataType)) {
+                    rsp.dataType = objectType;
                 }
             }
 
@@ -687,14 +713,29 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        final Map<String, CodegenModel> enumModels = new HashMap<>();
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.isEnum) {
+                enumModels.put(cm.getClassname(), cm);
+            }
+        }
+
         final var blocking = new HashSet<String>();
+        // Models mapped by several discriminator values
+        final var multiValued = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getClassname());
             if (discriminators != null) {
+                final List<String> values = discriminatorValues(cm.getClassname(), discriminators);
+                if (values.size() > 1) {
+                    multiValued.add(cm.getClassname());
+                }
+
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
-                if (!discriminating(discriminators, cm)) {
+                if (!discriminating(discriminators, cm, enumModels, values)) {
                     final CodegenDiscriminator discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
@@ -723,15 +764,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     // Attributes based on the model name
                     property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
-                    property.discriminatorValue = getDiscriminatorValue(cm.getClassname(), discriminator);
                     property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+                    setDiscriminatorValues(property, values, enumModels);
 
                     cm.vars.add(property);
                 }
             }
 
             if (cm.vars.stream().noneMatch(v -> v.isDiscriminator)) {
-                blocking.add(cm.getSchemaName());
+                blocking.add(cm.getClassname());
             }
         }
 
@@ -741,9 +782,46 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // if no discriminator in any of variant -> disable discriminator
                 if (cm.oneOf.stream().anyMatch(blocking::contains) || cm.anyOf.stream().anyMatch(blocking::contains)) {
                     cm.discriminator = null;
+                } else if (cm.oneOf.stream().anyMatch(multiValued::contains) || cm.anyOf.stream().anyMatch(multiValued::contains)) {
+                    setTaggedDeserialize(cm);
                 }
             }
         }
+    }
+
+    /**
+     * serde consumes the tag before deserializing a variant of an internally tagged enum,
+     * so the discriminator field of a variant mapped by several discriminator values cannot be restored.
+     * Such a union is deserialized by `impl_deserialize_tagged!` instead, which mimics `#[serde(tag = "...")]`
+     * but keeps the tag in the content the variant is deserialized from.
+     */
+    private void setTaggedDeserialize(final CodegenModel cm) {
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        final List<CodegenProperty> variants = cs.getOneOf() != null && !cs.getOneOf().isEmpty() ? cs.getOneOf() : cs.getAnyOf();
+        final List<Map<String, Object>> mappings = variants.stream()
+                .map(variant -> Map.<String, Object>of(
+                        "values", discriminatorValues(toModelName(variant.complexType), List.of(cm.discriminator)),
+                        "variant", variant.datatypeWithEnum))
+                .collect(Collectors.toList());
+
+        cm.discriminator.getVendorExtensions().put("x-discriminator-deserialize", true);
+        cm.discriminator.getVendorExtensions().put("x-discriminator-mappings", mappings);
+        // Renders impl_deserialize_tagged! in types.rs
+        additionalProperties.put("usesTaggedDeserialize", true);
+    }
+
+    /**
+     * @return the discriminator values mapped to the model over all the discriminators, or its name if none
+     */
+    private static List<String> discriminatorValues(final String modelName, final List<CodegenDiscriminator> discriminators) {
+        final List<String> values = discriminators.stream()
+                .filter(d -> d.getMappedModels() != null)
+                .flatMap(d -> d.getMappedModels().stream())
+                .filter(m -> m.getModelName().equals(modelName) && m.getMappingName() != null)
+                .map(CodegenDiscriminator.MappedModel::getMappingName)
+                .distinct()
+                .collect(Collectors.toList());
+        return values.isEmpty() ? List.of(modelName) : values;
     }
 
     private static String getDiscriminatorValue(String modelName, CodegenDiscriminator discriminator) {
@@ -759,19 +837,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .orElse(modelName);
     }
 
-    private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
+    private boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm,
+                                   final Map<String, CodegenModel> enumModels, final List<String> values) {
         resetDiscriminatorProperty(cm);
 
         // Discriminator will be presented as enum tag -> One and only one tag is allowed
         int countString = 0;
         int countNonString = 0;
         for (final CodegenProperty var : cm.vars) {
-            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
-                if (var.isString) {
-                    var.isDiscriminator = true;
-                    ++countString;
-                } else
-                    ++countNonString;
+            if (discriminatorsForModel.stream().noneMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
+                continue;
+            }
+
+            if (canHoldTag(cm, var, values, enumModels)) {
+                var.isDiscriminator = true;
+                setDiscriminatorValues(var, values, enumModels);
+                ++countString;
+            } else {
+                ++countNonString;
             }
         }
 
@@ -783,10 +866,76 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return countNonString > 0 || countString > 0;
     }
 
+    /**
+     * Whether the discriminator property can hold the serde tag, which is always present and one of the given values.
+     */
+    private boolean canHoldTag(final CodegenModel cm, final CodegenProperty var, final List<String> values,
+                               final Map<String, CodegenModel> enumModels) {
+        final String reason;
+        if (!var.required) {
+            reason = "it is not required";
+        } else if (var.isNullable) {
+            reason = "it is nullable";
+        } else if (var.isString) {
+            return true;
+        } else if (!var.isEnumRef) {
+            reason = "it is neither a string nor a string enum";
+        } else {
+            final Optional<String> invalid = values.stream()
+                    .filter(value -> findEnumVariant(enumModels.get(var.complexType), value) == null)
+                    .findFirst();
+            if (invalid.isEmpty()) {
+                return true;
+            }
+            reason = String.format(Locale.ROOT, "'%s' is not a value of enum '%s'", invalid.get(), var.complexType);
+        }
+
+        LOGGER.warn("Discriminator property '{}' of model '{}' cannot hold the serde tag ({}), falling back to untagged",
+                var.baseName, cm.getSchemaName(), reason);
+        return false;
+    }
+
+    /**
+     * A discriminator property mapped by a single value is fixed to it,
+     * otherwise it keeps the value it is deserialized from.
+     */
+    private void setDiscriminatorValues(final CodegenProperty var, final List<String> values,
+                                        final Map<String, CodegenModel> enumModels) {
+        if (values.size() > 1) {
+            var.vendorExtensions.put("x-discriminator-multi", true);
+            return;
+        }
+
+        var.discriminatorValue = values.get(0);
+        if (var.isEnumRef) {
+            var.vendorExtensions.put("x-discriminator-enum-variant",
+                    findEnumVariant(enumModels.get(var.complexType), var.discriminatorValue));
+        }
+    }
+
     private static void resetDiscriminatorProperty(final CodegenModel cm) {
         for (final CodegenProperty var : cm.vars) {
             var.isDiscriminator = false;
+            var.vendorExtensions.remove("x-discriminator-enum-variant");
+            var.vendorExtensions.remove("x-discriminator-multi");
         }
+    }
+
+    private String findEnumVariant(final CodegenModel enumModel, final String value) {
+        if (enumModel == null || enumModel.allowableValues == null) {
+            return null;
+        }
+        final List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumModel.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return null;
+        }
+        // enumVars values are quoted string literals
+        final String quoted = toEnumValue(value, "String");
+        return enumVars.stream()
+                .filter(v -> quoted.equals(v.get("value")))
+                .map(v -> (String) v.get("name"))
+                .findFirst()
+                .orElse(null);
     }
 
     private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {
@@ -1024,6 +1173,72 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return codegenParameter;
     }
 
+    private String getIntegerDataType(String format,
+                                      BigInteger minimum,
+                                      boolean exclusiveMinimum,
+                                      final BigInteger maximum,
+                                      final boolean exclusiveMaximum) {
+        final boolean unsigned = canFitIntoUnsigned(minimum, exclusiveMinimum);
+
+        if (StringUtils.isEmpty(format)) {
+            return bestFittingIntegerType(
+                    minimum,
+                    exclusiveMinimum,
+                    maximum,
+                    exclusiveMaximum,
+                    unsigned);
+        }
+
+        switch (format) {
+            // custom integer formats (legacy)
+            case "uint32":
+                return "u32";
+            case "uint64":
+                return "u64";
+            case "int32":
+                return unsigned ? "u32" : "i32";
+            case "int64":
+                return unsigned ? "u64" : "i64";
+            default:
+                LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", format);
+                return bestFittingIntegerType(
+                        minimum,
+                        exclusiveMinimum,
+                        maximum,
+                        exclusiveMaximum,
+                        unsigned);
+        }
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (Objects.equals(p.getType(), "integer")) {
+            final boolean hasNoFormat = StringUtils.isEmpty(p.getFormat());
+            final boolean hasNoBounds = p.getMinimum() == null
+                    && p.getMaximum() == null
+                    && p.getExclusiveMinimum() == null
+                    && p.getExclusiveMaximum() == null;
+
+            // Preserve legacy schema typing for unconstrained integers so alias models
+            // keep their expected model resolution flow.
+            if (hasNoFormat && hasNoBounds) {
+                return super.getSchemaType(p);
+            }
+
+            final BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
+
+            return getIntegerDataType(
+                    p.getFormat(),
+                    minimum,
+                    Optional.ofNullable(p.getExclusiveMinimum()).orElse(false),
+                    maximum,
+                    Optional.ofNullable(p.getExclusiveMaximum()).orElse(false));
+        }
+
+        return super.getSchemaType(p);
+    }
+
     @Override
     public String toInstantiationType(final Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -1035,6 +1250,45 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else {
             return null;
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty property = super.fromProperty(name, p, required);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    private void ensureArrayComplexType(CodegenProperty property) {
+        if (property == null || !property.isArray || StringUtils.isNotBlank(property.complexType) || property.items == null) {
+            return;
+        }
+
+        String candidate = StringUtils.defaultIfBlank(property.items.complexType, property.items.baseType);
+        if (StringUtils.isBlank(candidate)) {
+            candidate = property.items.dataType;
+        }
+        if (StringUtils.isBlank(candidate)) {
+            return;
+        }
+
+        property.complexType = reverseTypeMapping(candidate);
+    }
+
+    private String reverseTypeMapping(String rustType) {
+        for (Map.Entry<String, String> entry : typeMapping.entrySet()) {
+            if (Objects.equals(entry.getValue(), rustType)) {
+                return entry.getKey();
+            }
+        }
+        return rustType;
     }
 
     @Override
@@ -1113,13 +1367,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Integer type fitting
-        if (Objects.equals(property.baseType, "integer")) {
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-            property.dataType = bestFittingIntegerType(
-                    minimum, property.getExclusiveMinimum(),
-                    maximum, property.getExclusiveMaximum(),
-                    true);
+        if (property.isInteger || property.isLong || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
+            final BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+            property.dataType = getIntegerDataType(
+                    property.dataFormat,
+                    minimum,
+                    property.getExclusiveMinimum(),
+                    maximum,
+                    property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);

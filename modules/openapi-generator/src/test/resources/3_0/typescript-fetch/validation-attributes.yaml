@@ -675,6 +675,9 @@ components:
           maxLength: 256
         phone:
           type: string
+        nickname:
+          type: string
+          pattern: '^[a-z&]+$'
         userStatus:
           type: integer
           format: int32

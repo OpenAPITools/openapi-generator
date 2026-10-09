@@ -39,8 +39,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -61,6 +59,12 @@ import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 
 import static java.util.Collections.sort;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-client/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-client/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
@@ -88,6 +92,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String USE_RESPONSE_AS_RETURN_TYPE = "useResponseAsReturnType";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -106,6 +111,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
 
+    public static final String COMPANION_OBJECT = "companionObject";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
 
@@ -123,6 +130,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean mapFileBinaryToByteArray = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean companionObject = false;
+
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     protected String authFolder;
 
@@ -245,10 +255,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
-        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 RestClient. JSON processing: Jackson.");
+        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 (or 7 with useSpringBoot4 enabled) RestClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
-        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
+        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9 (Deprecated)");
         supportedLibraries.put(JVM_VERTX, "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
@@ -268,6 +278,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3, "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Whether to use the Spring Boot 4 with the jvm-spring-restclient library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
         cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
@@ -286,13 +297,38 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
+        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS,
+                "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). "
+                        + "For kotlin-client this applies to discriminator-based oneOf interfaces only "
+                        + "(deduction-based oneOf is not supported by the kotlin-client templates). "
+                        + "Overrides x-jackson-default-impl when both are set for the same schema. "
+                        + "Requires the jackson serialization library. "
+                        + "Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`")
+                .defaultValue("empty map"));
+
+        cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
+
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
+
+        // AbstractKotlinCodegen calls cliOptions.clear(), dropping DefaultCodegen's registration.
+        // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
+        CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
+                "Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`(serializationLibrary) decodes every unknown value to it: `jackson` skips nullable enums, `kotlinx_serialization` skips non-string enums, and neither `gson`(serializationLibrary) nor `multiplatform`(library) decodes to it at all.");
+        Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
+        enumUnknownDefaultCaseOpts.put("false",
+                "No changes to the enums are made, this is the default option.");
+        enumUnknownDefaultCaseOpts.put("true",
+                "Each enum gains an `unknown_default_open_api` case.");
+        enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
+        cliOptions.add(enumUnknownDefaultCaseOpt);
     }
 
     @Override
@@ -320,6 +356,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getGenerateOneOfAnyOfWrappers() {
         return generateOneOfAnyOfWrappers;
+    }
+
+    public boolean getCompanionObject() {
+        return companionObject;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -400,6 +440,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
 
+        // super.processOpts() always writes useJackson3 back, so remember whether the user set it
+        boolean useJackson3Configured = additionalProperties.containsKey(USE_JACKSON_3);
+
         super.processOpts();
 
         boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
@@ -417,10 +460,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx3) {
-            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+            setUseRxJava3(convertPropertyToBoolean(USE_RX_JAVA3));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
+            setUseCoroutines(convertPropertyToBoolean(USE_COROUTINES));
         }
+
+        additionalProperties.put(USE_RX_JAVA3, useRxJava3);
+        additionalProperties.put(USE_COROUTINES, useCoroutines);
 
         if (!hasRx3 && !hasCoroutines) {
             setDoNotUseRxAndCoroutines(true);
@@ -447,7 +493,19 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
-            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
+            setOmitGradleWrapper(convertPropertyToBooleanAndWriteBack(OMIT_GRADLE_WRAPPER));
+        }
+
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
+        }
+
+        boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
+                && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
+        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !useJackson3Configured) {
+            setUseJackson3(true);
+            additionalProperties.put(USE_JACKSON_3, true);
+            applyJackson3Package();
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -455,6 +513,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         } else {
             additionalProperties.put(this.serializationLibrary.name(), true);
+        }
+
+        if (isUseJackson3()) {
+            if (this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
+                throw new IllegalArgumentException("useJackson3 requires serializationLibrary=jackson");
+            }
+            if (additionalProperties.containsKey("openApiNullable")
+                    && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
+                throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+            }
+            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary())) {
+                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4 and jvm-spring-restclient libraries at this time.");
+            }
+            if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && !useSpringBoot4) {
+                throw new IllegalArgumentException("useJackson3 with jvm-spring-restclient requires useSpringBoot4=true.");
+            }
         }
 
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_BYTE_ARRAY)) {
@@ -467,14 +541,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
-            setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
+            setGenerateOneOfAnyOfWrappers(convertPropertyToBooleanAndWriteBack(GENERATE_ONEOF_ANYOF_WRAPPERS));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS));
         }
 
         if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
-            setFailOnUnknownProperties(Boolean.parseBoolean(additionalProperties.get(FAIL_ON_UNKNOWN_PROPERTIES).toString()));
+            setFailOnUnknownProperties(convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES));
         } else {
             additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
             setFailOnUnknownProperties(false);
+        }
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
 
         commonSupportingFiles();
@@ -560,6 +644,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // We replace paths like `/v1/foo/*` with `/v1/foo/<*>` to avoid this
         additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
         additionalProperties.put("fnToOneOfWrapperName", new ToOneOfWrapperName());
+        additionalProperties.put("fnToValueClassName", new ToValueClassName());
     }
 
     private void processDateLibrary() {
@@ -833,8 +918,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
-        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
-            throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)
+                && additionalProperties.getOrDefault(USE_SPRING_BOOT4, false).equals(false)) {
+            throw new RuntimeException("This library requires Spring Boot 3 or 4. Try adding '--additional-properties useSpringBoot3=true' or '--additional-properties useSpringBoot4=true' to your command.");
         }
 
         processJvmSpring(infrastructureFolder);
@@ -928,7 +1014,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers() || getCompanionObject()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 
@@ -956,6 +1042,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        // Resolve x-jackson-default-impl / typeInfoDefaultImpls into x-jackson-resolved-default-impl.
+        // kotlin-client only supports discriminator-based oneOf (via @JsonTypeInfo + @JsonSubTypes);
+        // deduction-based is not supported by these templates.
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.jackson) {
+            Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+            for (CodegenModel cm : allModelsMap.values()) {
+                if (cm.discriminator == null) {
+                    continue;
+                }
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModelsMap.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    // typeInfoAnnotation.mustache is rendered inside {{#discriminator}},
+                    // so JMustache resolves 'vendorExtensions' against CodegenDiscriminator.
+                    cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                }
+            }
+        }
+
         if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization || getLibrary().equals(MULTIPLATFORM)) {
             // The loop removes unneeded variables so commas are handled correctly in the related templates
             for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
@@ -1054,6 +1160,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .filter(isSerializable)
                             .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
+
+                    // form style with explode puts a map-typed query parameter on the wire as one parameter
+                    // per entry; api.mustache adds those after the declared query parameters
+                    for (CodegenParameter param : operation.queryParams) {
+                        if (param.isMap && param.isExplode && !param.isDeepObject) {
+                            param.vendorExtensions.put("x-kotlin-explode-form-object", true);
+                        }
+                    }
                 }
 
                 // set multipart against all relevant operations
@@ -1109,7 +1223,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             }
         }
         objs.put("isResponseFile", isResponseFile);
+        removeEnumUnknownDefaultCaseFromOperationParameters(objs);
         return objs;
+    }
+
+    /**
+     * Removes any injected unknown default enum value that stem from {@link DefaultCodegen#enumUnknownDefaultCase}
+     * from an operation's enum parameters.
+     * Applies to the {@value KotlinClientCodegen#MULTIPLATFORM} library since it generates enums locally within the api,
+     * and there we have no need for a defined fallback, since it is values that we only send.
+     * 
+     * @param objs the map containing all the defined operations
+     */
+    private void removeEnumUnknownDefaultCaseFromOperationParameters(OperationsMap objs) {
+        if (enumUnknownDefaultCase && library.equals(MULTIPLATFORM)) {
+            for (CodegenOperation operation : objs.getOperations().getOperation()) {
+                removeEnumUnknownDefaultCase(operation);
+            }
+        }
     }
 
     private static boolean isMultipartType(List<Map<String, String>> consumes) {
@@ -1124,6 +1255,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         adjustEnumRefDefault(parameter);
+        propagateParamBaseNameToVars(parameter);
+    }
+
+    /**
+     * For query parameters with `type: object, properties: ...`, expose the
+     * parameter's OAS baseName on each generated field via the
+     * `x-kotlin-param-base-name` vendor extension. Templates that iterate
+     * `vars` (e.g. jvm-ktor) need the outer baseName to build URL keys like
+     * `paramBaseName[fieldBaseName]` per the OAS deepObject style, and
+     * Mustache provides no access to the outer scope from inside `{{#vars}}`.
+     */
+    private void propagateParamBaseNameToVars(CodegenParameter param) {
+        if (!param.isQueryParam || !param.isModel || param.vars == null) {
+            return;
+        }
+        for (CodegenProperty v : param.vars) {
+            v.vendorExtensions.put("x-kotlin-param-base-name", param.baseName);
+        }
     }
 
     /**
@@ -1132,7 +1281,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * @param param codegen parameter
      */
     private void adjustEnumRefDefault(CodegenParameter param) {
-        if (StringUtils.isEmpty(param.defaultValue) || !(param.isEnum || param.isEnumRef)) {
+        if (StringUtils.isEmpty(param.defaultValue) || param.isContainer || !(param.isEnum || param.isEnumRef)) {
             return;
         }
 
@@ -1148,16 +1297,40 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
+    private static class ToValueClassName extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            // Strip generic type parameters and extract simple class names
+            // e.g. "kotlin.collections.List<kotlin.String>" -> "ListStringValue"
+            // e.g. "kotlin.String" -> "StringValue"
+            // e.g. "User" -> "UserValue"
+            StringBuilder sb = new StringBuilder();
+            for (String part : fragment.split("[<>,]")) {
+                String trimmed = part.trim();
+                if (trimmed.isEmpty()) continue;
+                String simpleName = trimmed.contains(".")
+                    ? trimmed.substring(trimmed.lastIndexOf('.') + 1)
+                    : trimmed;
+                sb.append(Character.toUpperCase(simpleName.charAt(0)));
+                sb.append(simpleName.substring(1));
+            }
+            sb.append("Value");
+            return sb.toString();
+        }
+    }
+
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override
@@ -1165,6 +1338,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         var extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 }

@@ -33,7 +33,7 @@
                 
                 
                 ; [@key "shipDate"]
-                                      status: Enums.order_status
+                                      status: Enums.status
                            option [@default
                     
                     None

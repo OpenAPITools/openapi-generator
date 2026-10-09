@@ -16,7 +16,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await addPetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
@@ -60,7 +59,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, apiConfiguration: apiConfiguration).execute().body
     }
@@ -101,8 +99,11 @@ open class PetAPI {
      * enum for parameter status
      */
     public enum Status_findPetsByStatus: String, Sendable, CaseIterable {
+        /** Label for available status */
         case available = "available"
+        /** Other label for pending status */
         case pending = "pending"
+        /** Another label for sold status */
         case sold = "sold"
     }
 
@@ -113,7 +114,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [Pet]
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [Pet] {
         return try await findPetsByStatusWithRequestBuilder(status: status, apiConfiguration: apiConfiguration).execute().body
     }
@@ -135,9 +135,10 @@ open class PetAPI {
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "status": (wrappedValue: status.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -158,7 +159,6 @@ open class PetAPI {
      - returns: [Pet]
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [Pet] {
         return try await findPetsByTagsWithRequestBuilder(tags: tags, apiConfiguration: apiConfiguration).execute().body
     }
@@ -181,9 +181,10 @@ open class PetAPI {
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "tags": (wrappedValue: tags.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -203,7 +204,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Pet
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Pet {
         return try await getPetByIdWithRequestBuilder(petId: petId, apiConfiguration: apiConfiguration).execute().body
     }
@@ -247,7 +247,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updatePetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
@@ -289,7 +288,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, apiConfiguration: apiConfiguration).execute().body
     }
@@ -342,7 +340,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ApiResponse
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, apiConfiguration: apiConfiguration).execute().body
     }
@@ -395,7 +392,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ApiResponse
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, apiConfiguration: apiConfiguration).execute().body
     }

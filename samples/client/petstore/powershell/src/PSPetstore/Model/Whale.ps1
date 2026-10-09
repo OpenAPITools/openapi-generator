@@ -49,9 +49,9 @@ function Initialize-PSWhale {
 
 
         $PSO = [PSCustomObject]@{
-            "hasBaleen" = ${HasBaleen}
-            "hasTeeth" = ${HasTeeth}
-            "className" = ${ClassName}
+            'hasBaleen' = ${HasBaleen}
+            'hasTeeth' = ${HasTeeth}
+            'className' = ${ClassName}
         }
 
 
@@ -89,7 +89,7 @@ function ConvertFrom-PSJsonToWhale {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSWhale
-        $AllProperties = ("hasBaleen", "hasTeeth", "className")
+        $AllProperties = ('hasBaleen', 'hasTeeth', 'className')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -100,28 +100,28 @@ function ConvertFrom-PSJsonToWhale {
             throw "Error! Empty JSON cannot be serialized due to the required property 'className' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "className"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'className'))) {
             throw "Error! JSON cannot be serialized due to the required property 'className' missing."
         } else {
-            $ClassName = $JsonParameters.PSobject.Properties["className"].value
+            $ClassName = $JsonParameters.PSobject.Properties['className'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "hasBaleen"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'hasBaleen'))) { #optional property not found
             $HasBaleen = $null
         } else {
-            $HasBaleen = $JsonParameters.PSobject.Properties["hasBaleen"].value
+            $HasBaleen = $JsonParameters.PSobject.Properties['hasBaleen'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "hasTeeth"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'hasTeeth'))) { #optional property not found
             $HasTeeth = $null
         } else {
-            $HasTeeth = $JsonParameters.PSobject.Properties["hasTeeth"].value
+            $HasTeeth = $JsonParameters.PSobject.Properties['hasTeeth'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "hasBaleen" = ${HasBaleen}
-            "hasTeeth" = ${HasTeeth}
-            "className" = ${ClassName}
+            'hasBaleen' = ${HasBaleen}
+            'hasTeeth' = ${HasTeeth}
+            'className' = ${ClassName}
         }
 
         return $PSO

@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: Multipart File Upload Test
+  description: Regression test for async multipart file uploads with tokio::fs
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /upload/single:
+    post:
+      operationId: uploadSingleFile
+      summary: Upload a single file (required parameter)
+      description: Tests async multipart file upload with required file parameter
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - description
+              properties:
+                description:
+                  type: string
+                  description: File description metadata
+                file:
+                  type: string
+                  format: binary
+                  description: File to upload
+      responses:
+        '200':
+          description: Upload successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: Bad request
+
+  /upload/optional:
+    post:
+      operationId: uploadOptionalFile
+      summary: Upload an optional file
+      description: Tests async multipart file upload with optional file parameter
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  type: string
+                  description: Optional metadata string
+                file:
+                  type: string
+                  format: binary
+                  description: Optional file to upload
+      responses:
+        '200':
+          description: Upload successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+
+  /upload/multiple-fields:
+    post:
+      operationId: uploadMultipleFields
+      summary: Upload with multiple form fields
+      description: Tests async multipart with multiple files and text fields
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - primaryFile
+              properties:
+                title:
+                  type: string
+                  description: Upload title
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: Tags for the upload
+                primaryFile:
+                  type: string
+                  format: binary
+                  description: Primary file (required)
+                thumbnail:
+                  type: string
+                  format: binary
+                  description: Optional thumbnail file
+      responses:
+        '200':
+          description: Upload successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: Bad request
+
+components:
+  schemas:
+    UploadResponse:
+      type: object
+      required:
+        - success
+        - fileCount
+      properties:
+        success:
+          type: boolean
+          description: Whether the upload was successful
+        fileCount:
+          type: integer
+          format: int32
+          description: Number of files uploaded
+        message:
+          type: string
+          description: Optional message about the upload

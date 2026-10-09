@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
+};
 use bytes::Bytes;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use headers::Host;
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -75,7 +77,7 @@ fn op10_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op10_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -98,11 +100,10 @@ where
 
     let result = api_impl.as_ref().op10_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op10GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -131,7 +132,7 @@ fn op11_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op11_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -154,11 +155,10 @@ where
 
     let result = api_impl.as_ref().op11_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op11GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -187,7 +187,7 @@ fn op12_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op12_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -210,11 +210,10 @@ where
 
     let result = api_impl.as_ref().op12_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op12GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -243,7 +242,7 @@ fn op13_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op13_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -266,11 +265,10 @@ where
 
     let result = api_impl.as_ref().op13_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op13GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -299,7 +297,7 @@ fn op14_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op14_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -322,11 +320,10 @@ where
 
     let result = api_impl.as_ref().op14_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op14GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -355,7 +352,7 @@ fn op15_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op15_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -378,11 +375,10 @@ where
 
     let result = api_impl.as_ref().op15_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op15GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -411,7 +407,7 @@ fn op16_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op16_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -434,11 +430,10 @@ where
 
     let result = api_impl.as_ref().op16_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op16GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -467,7 +462,7 @@ fn op17_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op17_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -490,11 +485,10 @@ where
 
     let result = api_impl.as_ref().op17_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op17GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -523,7 +517,7 @@ fn op18_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op18_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -546,11 +540,10 @@ where
 
     let result = api_impl.as_ref().op18_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op18GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -579,7 +572,7 @@ fn op19_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op19_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -602,11 +595,10 @@ where
 
     let result = api_impl.as_ref().op19_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op19GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -635,7 +627,7 @@ fn op1_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op1_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -658,11 +650,10 @@ where
 
     let result = api_impl.as_ref().op1_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op1GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -691,7 +682,7 @@ fn op20_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op20_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -714,11 +705,10 @@ where
 
     let result = api_impl.as_ref().op20_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op20GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -747,7 +737,7 @@ fn op21_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op21_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -770,11 +760,10 @@ where
 
     let result = api_impl.as_ref().op21_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op21GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -803,7 +792,7 @@ fn op22_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op22_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -826,11 +815,10 @@ where
 
     let result = api_impl.as_ref().op22_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op22GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -859,7 +847,7 @@ fn op23_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op23_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -882,11 +870,10 @@ where
 
     let result = api_impl.as_ref().op23_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op23GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -915,7 +902,7 @@ fn op24_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op24_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -938,11 +925,10 @@ where
 
     let result = api_impl.as_ref().op24_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op24GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -971,7 +957,7 @@ fn op25_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op25_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -994,11 +980,10 @@ where
 
     let result = api_impl.as_ref().op25_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op25GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1027,7 +1012,7 @@ fn op26_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op26_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1050,11 +1035,10 @@ where
 
     let result = api_impl.as_ref().op26_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op26GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1083,7 +1067,7 @@ fn op27_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op27_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1106,11 +1090,10 @@ where
 
     let result = api_impl.as_ref().op27_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op27GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1139,7 +1122,7 @@ fn op28_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op28_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1162,11 +1145,10 @@ where
 
     let result = api_impl.as_ref().op28_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op28GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1195,7 +1177,7 @@ fn op29_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op29_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1218,11 +1200,10 @@ where
 
     let result = api_impl.as_ref().op29_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op29GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1251,7 +1232,7 @@ fn op2_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op2_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1274,11 +1255,10 @@ where
 
     let result = api_impl.as_ref().op2_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op2GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1307,7 +1287,7 @@ fn op30_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op30_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1330,11 +1310,10 @@ where
 
     let result = api_impl.as_ref().op30_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op30GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1363,7 +1342,7 @@ fn op31_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op31_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1386,11 +1365,10 @@ where
 
     let result = api_impl.as_ref().op31_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op31GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1419,7 +1397,7 @@ fn op32_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op32_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1442,11 +1420,10 @@ where
 
     let result = api_impl.as_ref().op32_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op32GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1475,7 +1452,7 @@ fn op33_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op33_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1498,11 +1475,10 @@ where
 
     let result = api_impl.as_ref().op33_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op33GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1531,7 +1507,7 @@ fn op34_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op34_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1554,11 +1530,10 @@ where
 
     let result = api_impl.as_ref().op34_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op34GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1587,7 +1562,7 @@ fn op35_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op35_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1610,11 +1585,10 @@ where
 
     let result = api_impl.as_ref().op35_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op35GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1643,7 +1617,7 @@ fn op36_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op36_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1666,11 +1640,10 @@ where
 
     let result = api_impl.as_ref().op36_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op36GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1699,7 +1672,7 @@ fn op37_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op37_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1722,11 +1695,10 @@ where
 
     let result = api_impl.as_ref().op37_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op37GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1755,7 +1727,7 @@ fn op3_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op3_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1778,11 +1750,10 @@ where
 
     let result = api_impl.as_ref().op3_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op3GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1811,7 +1782,7 @@ fn op4_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op4_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1834,11 +1805,10 @@ where
 
     let result = api_impl.as_ref().op4_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op4GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1867,7 +1837,7 @@ fn op5_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op5_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1890,11 +1860,10 @@ where
 
     let result = api_impl.as_ref().op5_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op5GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1923,7 +1892,7 @@ fn op6_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op6_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1946,11 +1915,10 @@ where
 
     let result = api_impl.as_ref().op6_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op6GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1979,7 +1947,7 @@ fn op7_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op7_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2002,11 +1970,10 @@ where
 
     let result = api_impl.as_ref().op7_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op7GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -2035,7 +2002,7 @@ fn op8_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op8_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2058,11 +2025,10 @@ where
 
     let result = api_impl.as_ref().op8_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op8GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -2091,7 +2057,7 @@ fn op9_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op9_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2114,11 +2080,10 @@ where
 
     let result = api_impl.as_ref().op9_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Op9GetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

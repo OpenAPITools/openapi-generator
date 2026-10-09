@@ -55,6 +55,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.STRING_ENUMS));
         verify(clientCodegen).setFileNaming(TypeScriptFetchClientOptionsProvider.FILE_NAMING_VALUE);
+        verify(clientCodegen).setDateLibrary(TypeScriptFetchClientOptionsProvider.DATE_LIBRARY_VALUE);
     }
 
     @Test(description = "Verify if an exception is thrown when invalid values are used with fileNaming option")

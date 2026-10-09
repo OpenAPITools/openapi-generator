@@ -17,11 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict, List, Optional
+from collections.abc import Mapping as _Mapping
+from pydantic import ConfigDict, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictBool, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from petstore_api.models.animal import Animal
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class Cat(Animal):
     """
@@ -31,8 +33,52 @@ class Cat(Animal):
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["className", "color", "declawed"]
 
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if (
+            "className" in obj
+            and "_class_name" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "className",
+                    "_class_name",
+                )
+            )
+        if "className" not in obj and "_class_name" in obj:
+            obj["className"] = obj["_class_name"]
+        obj.pop("_class_name", None)
+        if remove_hidden_storage_names:
+            obj.pop("class_name", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
+
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -44,8 +90,7 @@ class Cat(Animal):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -87,6 +132,14 @@ class Cat(Animal):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=True,
+            ),
+        )
 
         _obj = cls.model_validate({
             "className": obj.get("className"),

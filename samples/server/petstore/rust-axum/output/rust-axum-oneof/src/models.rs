@@ -1,11 +1,23 @@
 #![allow(unused_qualifications)]
 
+#[cfg(feature = "server")]
 use http::HeaderValue;
 use validator::Validate;
 
 #[cfg(feature = "server")]
 use crate::header;
 use crate::{models, types::*};
+
+#[cfg(feature = "server")]
+#[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
@@ -14,9 +26,21 @@ fn from_validation_error(e: validator::ValidationError) -> validator::Validation
     errs
 }
 
+/// XSS detection relies on `ammonia`, which is only pulled in by the `server` feature.
+/// Without it (e.g. models-only WASM builds), values are never flagged as HTML.
+#[cfg(feature = "server")]
+fn contains_html(v: &str) -> bool {
+    ammonia::is_html(v)
+}
+
+#[cfg(not(feature = "server"))]
+fn contains_html(_v: &str) -> bool {
+    false
+}
+
 #[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
-    if ammonia::is_html(v) {
+    if contains_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -25,7 +49,7 @@ pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::Validatio
 
 #[allow(dead_code)]
 pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
-    if v.iter().any(|i| ammonia::is_html(i)) {
+    if v.iter().any(|i| contains_html(i)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -36,7 +60,7 @@ pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::
 pub fn check_xss_map_string(
     v: &std::collections::HashMap<String, String>,
 ) -> std::result::Result<(), validator::ValidationError> {
-    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+    if v.keys().any(|k| contains_html(k)) || v.values().any(|v| contains_html(v)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -50,7 +74,7 @@ pub fn check_xss_map_nested<T>(
 where
     T: validator::Validate,
 {
-    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+    if v.keys().any(|k| contains_html(k)) || v.values().any(|v| v.validate().is_err()) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -61,7 +85,7 @@ where
 pub fn check_xss_map<T>(
     v: &std::collections::HashMap<String, T>,
 ) -> std::result::Result<(), validator::ValidationError> {
-    if v.keys().any(|k| ammonia::is_html(k)) {
+    if v.keys().any(|k| contains_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -152,7 +176,7 @@ impl std::str::FromStr for Goodbye {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Goodbye".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -171,7 +195,7 @@ impl std::str::FromStr for Goodbye {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Goodbye".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -297,7 +321,7 @@ impl std::str::FromStr for GoodbyeD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GoodbyeD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -311,7 +335,7 @@ impl std::str::FromStr for GoodbyeD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GoodbyeD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -455,7 +479,7 @@ impl std::str::FromStr for Greeting {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Greeting".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -474,7 +498,7 @@ impl std::str::FromStr for Greeting {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Greeting".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -600,7 +624,7 @@ impl std::str::FromStr for GreetingD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GreetingD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -614,7 +638,7 @@ impl std::str::FromStr for GreetingD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GreetingD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -760,7 +784,7 @@ impl std::str::FromStr for Hello {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hello".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -779,7 +803,7 @@ impl std::str::FromStr for Hello {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hello".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -903,7 +927,7 @@ impl std::str::FromStr for HelloD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HelloD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -917,7 +941,7 @@ impl std::str::FromStr for HelloD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HelloD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1180,7 +1204,7 @@ impl std::str::FromStr for YoMessage {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessage".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1199,7 +1223,7 @@ impl std::str::FromStr for YoMessage {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessage".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1325,7 +1349,7 @@ impl std::str::FromStr for YoMessageD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessageD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1339,7 +1363,7 @@ impl std::str::FromStr for YoMessageD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessageD".to_string(),
-                        );
+                        )
                     }
                 }
             }

@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: inline enum on a non-default content-type variant (issue 6708)
+  version: 1.0.0
+paths:
+  /convert:
+    post:
+      operationId: convert
+      tags: [files]
+      requestBody:
+        content:
+          # declared first: this variant survives the merge, and it has no `mode` parameter
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                # inline enum: its type only exists on the dropped variant's parameters
+                mode:
+                  type: string
+                  enum: [fast, thorough]
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+components:
+  schemas:
+    Receipt:
+      type: object
+      properties:
+        reference:
+          type: string

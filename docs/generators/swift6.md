@@ -18,13 +18,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalModelEnumAttributes|Additional Swift attributes prepended to generated model enum declarations (e.g. @CasePathable, @dynamicMemberLookup, custom @attached macros). List separated by semicolon (;) or new line (Linux or Windows).| |null|
+|additionalModelImports|Additional Swift modules to import in every generated model file. List separated by semicolon (;) or new line (Linux or Windows).| |null|
+|additionalModelObjectAttributes|Additional Swift attributes prepended to generated model struct/class declarations (e.g. @MainActor, custom @attached macros). List separated by semicolon (;) or new line (Linux or Windows).| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
 |apiStaticMethod|Make api calls using a static method (default: true)| |true|
 |combineDeferred|Make combine usages deferred (default: true)| |true|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateModelAdditionalProperties|Generate model additional properties (default: true)| |true|
 |hashableModels|Make hashable models (default: true)| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
@@ -33,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dt>**vapor**</dt><dd>HTTP client: Vapor</dd></dl>|urlsession|
 |mapFileBinaryToData|Map File and Binary to Data (default: false)| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
+|nonisolatedModels|Mark generated models, and the supporting protocols, extensions and helper types they rely on, as nonisolated so they stay usable off the main actor in modules built with default MainActor isolation (SE-0466). Requires a Swift 6.1+ toolchain (default: false)| |false|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |oneOfUnknownDefaultCase|Add unknownDefault case to oneOf enum (default: false)| |false|
 |podAuthors|Authors used for Podspec| |null|
@@ -112,45 +116,95 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>#line</li>
 <li>#selector</li>
 <li>#sourceLocation</li>
+<li>APIHelper</li>
+<li>AlamofireDecodableRequestBuilder</li>
+<li>AlamofireRequestBuilder</li>
+<li>AlamofireRequestBuilderFactory</li>
 <li>Any</li>
+<li>AnyHashable</li>
 <li>AnyObject</li>
+<li>AnyResponseSerializer</li>
 <li>Array</li>
+<li>ArrayRule</li>
+<li>ArrayValidationErrorKind</li>
 <li>Bool</li>
 <li>COLUMN</li>
+<li>Calendar</li>
+<li>CaseIterableDefaultsLast</li>
 <li>Character</li>
 <li>Class</li>
 <li>ClosedRange</li>
 <li>Codable</li>
+<li>CodableHelper</li>
 <li>CountableClosedRange</li>
 <li>CountableRange</li>
 <li>Data</li>
+<li>DateFormatter</li>
 <li>Decodable</li>
+<li>DecodableRequestBuilderError</li>
+<li>DefaultOpenAPIInterceptor</li>
 <li>Dictionary</li>
+<li>DispatchQueue</li>
 <li>Double</li>
+<li>DownloadException</li>
 <li>Encodable</li>
 <li>Error</li>
 <li>ErrorResponse</li>
 <li>FILE</li>
 <li>FUNCTION</li>
+<li>FileManager</li>
 <li>Float</li>
 <li>Float32</li>
 <li>Float64</li>
 <li>Float80</li>
+<li>HTTPMethod</li>
+<li>HTTPURLResponse</li>
 <li>Int</li>
 <li>Int16</li>
 <li>Int32</li>
 <li>Int64</li>
 <li>Int8</li>
+<li>JSONDataEncoding</li>
+<li>JSONDecoder</li>
+<li>JSONEncoder</li>
+<li>JSONEncodingHelper</li>
+<li>KeyedDecodingContainerProtocol</li>
+<li>KeyedEncodingContainerProtocol</li>
 <li>LINE</li>
+<li>Locale</li>
+<li>NSCoder</li>
+<li>NSDecimalNumber</li>
+<li>NSNumber</li>
+<li>NSObject</li>
+<li>NSRecursiveLock</li>
+<li>NSRegularExpression</li>
+<li>NSString</li>
+<li>NullEncodable</li>
+<li>NumericRule</li>
+<li>NumericValidationErrorKind</li>
+<li>OpenAPIInterceptor</li>
+<li>OpenAPIInterceptorRetry</li>
+<li>OpenAPIMutex</li>
+<li>OpenISO8601DateFormatter</li>
 <li>OptionSet</li>
 <li>Optional</li>
+<li>ParameterConvertible</li>
+<li>ParameterEncoding</li>
+<li>Progress</li>
 <li>Protocol</li>
 <li>Range</li>
+<li>RequestBuilder</li>
+<li>RequestBuilderFactory</li>
+<li>RequestTask</li>
 <li>Response</li>
 <li>Self</li>
 <li>Set</li>
 <li>StaticString</li>
 <li>String</li>
+<li>StringRule</li>
+<li>StringValidationErrorKind</li>
+<li>SynchronizedDictionary</li>
+<li>TimeZone</li>
 <li>Type</li>
 <li>UInt</li>
 <li>UInt16</li>
@@ -158,7 +212,26 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>UInt64</li>
 <li>UInt8</li>
 <li>URL</li>
+<li>URLAuthenticationChallenge</li>
+<li>URLComponents</li>
+<li>URLCredential</li>
+<li>URLQueryItem</li>
+<li>URLRequest</li>
+<li>URLResponse</li>
+<li>URLSession</li>
+<li>URLSessionConfiguration</li>
+<li>URLSessionDataTask</li>
+<li>URLSessionDataTaskProtocol</li>
+<li>URLSessionDecodableRequestBuilder</li>
+<li>URLSessionProtocol</li>
+<li>URLSessionRequestBuilder</li>
+<li>URLSessionRequestBuilderFactory</li>
+<li>URLSessionTask</li>
+<li>URLSessionTaskDelegate</li>
 <li>Unicode</li>
+<li>UnknownCaseCheckable</li>
+<li>ValidationError</li>
+<li>Validator</li>
 <li>Void</li>
 <li>_</li>
 <li>as</li>

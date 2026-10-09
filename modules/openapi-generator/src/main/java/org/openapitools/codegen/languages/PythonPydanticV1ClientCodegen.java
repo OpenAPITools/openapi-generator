@@ -36,6 +36,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-pydantic-v1/}.
+ */
 public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonPydanticV1ClientCodegen.class);
 
@@ -162,8 +165,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
-        supportedLibraries.put("tornado", "tornado-based client (deprecated)");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -336,9 +338,6 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("asyncio", "true");
-        } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
-            additionalProperties.put("tornado", "true");
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }

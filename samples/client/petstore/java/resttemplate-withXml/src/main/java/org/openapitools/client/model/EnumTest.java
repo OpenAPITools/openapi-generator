@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,6 +30,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -50,7 +50,7 @@ import io.github.threetenjaxb.core.*;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @XmlRootElement(name = "EnumTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumTest")
@@ -156,10 +156,10 @@ public class EnumTest {
   @XmlEnum(Integer.class)
   public enum EnumIntegerEnum {
     @XmlEnumValue("1")
-    NUMBER_1(Integer.valueOf(1)),
+    NUMBER_1(1),
     
     @XmlEnumValue("-1")
-    NUMBER_MINUS_1(Integer.valueOf(-1));
+    NUMBER_MINUS_1(-1);
 
     private Integer value;
 
@@ -200,10 +200,10 @@ public class EnumTest {
   @XmlEnum(Double.class)
   public enum EnumNumberEnum {
     @XmlEnumValue("1.1")
-    NUMBER_1_DOT_1(Double.valueOf(1.1)),
+    NUMBER_1_DOT_1(1.1),
     
     @XmlEnumValue("-1.2")
-    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
+    NUMBER_MINUS_1_DOT_2(-1.2);
 
     private Double value;
 
@@ -540,10 +540,7 @@ public class EnumTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

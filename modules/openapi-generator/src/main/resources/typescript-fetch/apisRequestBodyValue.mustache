@@ -1,0 +1,3 @@
+{{! Serialised value of a body parameter. Context: a bodyParam. Used by the content-type variant switch,
+    which needs the same expression once per request content-type. }}
+{{#isContainer}}requestParameters['{{paramName}}']{{^withoutRuntimeChecks}}{{#isArray}}{{#items}}{{^isPrimitiveType}}!.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}}{{/withoutRuntimeChecks}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}requestParameters['{{paramName}}'] as any{{/isPrimitiveType}}{{^isPrimitiveType}}{{^withoutRuntimeChecks}}{{dataType}}ToJSON(requestParameters['{{paramName}}']){{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}requestParameters['{{paramName}}']{{/withoutRuntimeChecks}}{{/isPrimitiveType}}{{/isContainer}}

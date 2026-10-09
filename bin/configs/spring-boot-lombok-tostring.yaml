@@ -3,6 +3,8 @@ outputDir: samples/server/petstore/springboot-lombok-tostring
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
   artifactId: springboot-lombok-tostring
   hideGenerationTimestamp: "true"

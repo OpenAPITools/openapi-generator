@@ -13,11 +13,14 @@ package petstoreserver
 
 import (
 	"time"
+	"encoding/json"
+	"fmt"
 )
 
 
 
 type Order struct {
+	SpecialInfo
 
 	PetId int64 `json:"petId,omitempty"`
 
@@ -34,16 +37,112 @@ type Order struct {
 
 	Comment *string `json:"comment"`
 }
-
-// AssertOrderRequired checks if the required fields are not zero-ed
-func AssertOrderRequired(obj Order) error {
-	elements := map[string]interface{}{
-		"comment": obj.Comment,
+// UnmarshalJSON validates required property keys then unmarshals into Order
+func (o *Order) UnmarshalJSON(data []byte) (err error) {
+	// Presence is checked against required fields that exist on this struct,
+	// including fields promoted from embedded allOf parents.
+	requiredProperties := []string{
+		"comment",
 	}
-	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
+
+	requiredNullableProperties := map[string]bool{
+		"comment": true,
+	}
+
+	allowedJsonKeys := map[string]struct{}{
+		"petId": {},
+		"quantity": {},
+		"shipDate": {},
+		"promotion": {},
+		"type": {},
+		"id": {},
+		"status": {},
+		"complete": {},
+		"comment": {},
+	}
+
+	allProperties := make(map[string]json.RawMessage)
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		value, exists := allProperties[requiredProperty]
+		if !exists {
+			return &RequiredError{Field: requiredProperty}
 		}
+		if string(value) == "null" && !requiredNullableProperties[requiredProperty] {
+			return &RequiredError{Field: requiredProperty}
+		}
+	}
+
+	for key := range allProperties {
+		if _, exists := allowedJsonKeys[key]; !exists {
+			return fmt.Errorf("json: unknown field %q", key)
+		}
+	}
+
+	var decoded Order
+
+	if value, exists := allProperties["petId"]; exists {
+		if err = json.Unmarshal(value, &decoded.PetId); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["quantity"]; exists {
+		if err = json.Unmarshal(value, &decoded.Quantity); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["shipDate"]; exists {
+		if err = json.Unmarshal(value, &decoded.ShipDate); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["promotion"]; exists {
+		if err = json.Unmarshal(value, &decoded.Promotion); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["type"]; exists {
+		if err = json.Unmarshal(value, &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["id"]; exists {
+		if err = json.Unmarshal(value, &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["status"]; exists {
+		if err = json.Unmarshal(value, &decoded.Status); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["complete"]; exists {
+		if err = json.Unmarshal(value, &decoded.Complete); err != nil {
+			return err
+		}
+	}
+	if value, exists := allProperties["comment"]; exists {
+		if err = json.Unmarshal(value, &decoded.Comment); err != nil {
+			return err
+		}
+	}
+
+	*o = decoded
+
+	return nil
+}
+
+// AssertOrderRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
+func AssertOrderRequired(obj Order) error {
+	if err := AssertSpecialInfoRequired(obj.SpecialInfo); err != nil {
+		return err
 	}
 
 	return nil

@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 */
 @Path("/fake_classname_test")
 @Tag(name = "fake_classname_test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeClassnameTestApi {
 
     @PATCH
@@ -31,7 +31,8 @@ public class FakeClassnameTestApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response testClassname(@Valid @NotNull Client client) {
+    public Response testClassname(@Valid @NotNull Client client
+) {
         return Response.ok().entity("magic!").build();
     }
 }

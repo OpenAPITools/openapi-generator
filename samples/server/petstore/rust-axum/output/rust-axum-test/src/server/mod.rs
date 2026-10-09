@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
+};
 use bytes::Bytes;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use headers::Host;
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -49,7 +51,7 @@ fn all_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn all_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -72,11 +74,10 @@ where
 
     let result = api_impl.as_ref().all_of_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::AllOfGetResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -118,7 +119,7 @@ fn dummy_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn dummy_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -141,11 +142,10 @@ where
 
     let result = api_impl.as_ref().dummy_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::DummyGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -186,7 +186,7 @@ fn dummy_put_validation(
 #[tracing::instrument(skip_all)]
 async fn dummy_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::FooDummyPutRequest>,
@@ -213,11 +213,10 @@ where
         .dummy_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::DummyPutResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -246,7 +245,7 @@ fn file_response_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn file_response_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -272,11 +271,10 @@ where
         .file_response_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::FileResponseGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -319,7 +317,7 @@ fn get_structured_yaml_validation() -> std::result::Result<(), ValidationErrors>
 #[tracing::instrument(skip_all)]
 async fn get_structured_yaml<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -345,11 +343,10 @@ where
         .get_structured_yaml(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::GetStructuredYamlResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -392,7 +389,7 @@ fn html_post_validation(body: String) -> std::result::Result<(String,), Validati
 #[tracing::instrument(skip_all)]
 async fn html_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: String,
@@ -419,11 +416,10 @@ where
         .html_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::HtmlPostResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -465,7 +461,7 @@ fn post_yaml_validation(body: String) -> std::result::Result<(String,), Validati
 #[tracing::instrument(skip_all)]
 async fn post_yaml<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: String,
@@ -492,11 +488,10 @@ where
         .post_yaml(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::PostYamlResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -525,7 +520,7 @@ fn raw_json_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn raw_json_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -551,11 +546,10 @@ where
         .raw_json_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::RawJsonGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -608,7 +602,7 @@ fn solo_object_post_validation(
 #[tracing::instrument(skip_all)]
 async fn solo_object_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<crate::types::Object>,
@@ -635,11 +629,10 @@ where
         .solo_object_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::SoloObjectPostResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

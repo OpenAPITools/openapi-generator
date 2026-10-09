@@ -37,6 +37,7 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_json_header_content**](FakeApi.md#test_json_header_content) | **POST** /test/json-header-content | 
 [**test_object_for_multipart_requests**](FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
@@ -131,7 +132,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    enum_ref = -efg # EnumClass | enum reference (optional) (default to -efg)
+    enum_ref = '-efg' # EnumClass | enum reference (optional) (default to '-efg')
 
     try:
         # test enum reference query parameter
@@ -147,7 +148,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] [default to -efg]
+ **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
@@ -816,7 +817,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_return_byte_like_json**
-> bytearray fake_return_byte_like_json()
+> bytes fake_return_byte_like_json()
 
 test byte like json
 
@@ -857,7 +858,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**bytearray**
+**bytes**
 
 ### Authorization
 
@@ -1456,7 +1457,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = None # bytearray | image to upload
+    body = None # bytes | image to upload
 
     try:
         api_instance.test_body_with_binary(body)
@@ -1471,7 +1472,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bytearray**| image to upload | 
+ **body** | **bytes**| image to upload | 
 
 ### Return type
 
@@ -1856,14 +1857,14 @@ with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = None # bytearray | None
+    byte = None # bytes | None
     integer = 56 # int | None (optional)
     int32 = 56 # int | None (optional)
     int64 = 56 # int | None (optional)
     var_float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
-    binary = None # bytearray | None (optional)
-    byte_with_max_length = None # bytearray | None (optional)
+    binary = None # bytes | None (optional)
+    byte_with_max_length = None # bytes | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
@@ -1886,14 +1887,14 @@ Name | Type | Description  | Notes
  **number** | **float**| None | 
  **double** | **float**| None | 
  **pattern_without_delimiter** | **str**| None | 
- **byte** | **bytearray**| None | 
+ **byte** | **bytes**| None | 
  **integer** | **int**| None | [optional] 
  **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
  **var_float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
- **binary** | **bytearray**| None | [optional] 
- **byte_with_max_length** | **bytearray**| None | [optional] 
+ **binary** | **bytes**| None | [optional] 
+ **byte_with_max_length** | **bytes**| None | [optional] 
  **var_date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 
@@ -2265,6 +2266,69 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **test_json_header_content**
+> test_json_header_content(x_json_arg, x_plain_arg=x_plain_arg)
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.models.header_arg import HeaderArg
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    x_json_arg = petstore_api.HeaderArg() # HeaderArg | 
+    x_plain_arg = 'x_plain_arg_example' # str |  (optional)
+
+    try:
+        api_instance.test_json_header_content(x_json_arg, x_plain_arg=x_plain_arg)
+    except Exception as e:
+        print("Exception when calling FakeApi->test_json_header_content: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **x_json_arg** | [**HeaderArg**](.md)|  | 
+ **x_plain_arg** | **str**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_object_for_multipart_requests**
 > test_object_for_multipart_requests(marker)
 
@@ -2493,7 +2557,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    file = None # bytearray | file to upload
+    file = None # bytes | file to upload
     object = petstore_api.UploadFileWithAdditionalPropertiesRequestObject() # UploadFileWithAdditionalPropertiesRequestObject |  (optional)
     count = 56 # int | Integer count (optional)
 
@@ -2513,7 +2577,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **bytearray**| file to upload | 
+ **file** | **bytes**| file to upload | 
  **object** | [**UploadFileWithAdditionalPropertiesRequestObject**](UploadFileWithAdditionalPropertiesRequestObject.md)|  | [optional] 
  **count** | **int**| Integer count | [optional] 
 

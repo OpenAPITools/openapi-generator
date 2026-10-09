@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 */
 @Path("/pet")
 @Tag(name = "pet")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PetApi {
 
     @POST
@@ -34,7 +34,8 @@ public class PetApi {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "405", description = "Invalid input")
     })
-    public Response addPet(@Valid @NotNull Pet pet) {
+    public Response addPet(@Valid @NotNull Pet pet
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -45,7 +46,8 @@ public class PetApi {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid pet value")
     })
-    public Response deletePet(@PathParam("petId") Long petId) {
+    public Response deletePet(@PathParam("petId") Long petId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -57,19 +59,22 @@ public class PetApi {
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid status value")
     })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull   List<String> status) {
+    public Response findPetsByStatus(@Deprecated @QueryParam("status") @NotNull   List<String> status
+) {
         return Response.ok().entity("magic!").build();
     }
 
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
-    @Operation(summary = "Finds Pets by tags", description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.")
+    @Operation(summary = "Finds Pets by tags", description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", deprecated = true)
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid tag value")
     })
-    public Response findPetsByTags(@QueryParam("tags") @NotNull   Set<String> tags) {
+    public Response findPetsByTags(@QueryParam("tags") @NotNull   Set<String> tags
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -82,7 +87,8 @@ public class PetApi {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Pet not found")
     })
-    public Response getPetById(@PathParam("petId") Long petId) {
+    public Response getPetById(@PathParam("petId") Long petId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -95,7 +101,8 @@ public class PetApi {
         @ApiResponse(responseCode = "404", description = "Pet not found"),
         @ApiResponse(responseCode = "405", description = "Validation exception")
     })
-    public Response updatePet(@Valid @NotNull Pet pet) {
+    public Response updatePet(@Valid @NotNull Pet pet
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -107,7 +114,10 @@ public class PetApi {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "405", description = "Invalid input")
     })
-    public Response updatePetWithForm(@PathParam("petId") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {
+    public Response updatePetWithForm(@PathParam("petId") Long petId
+,
+@FormParam(value = "name")  String name,
+@FormParam(value = "status")  String status) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -119,7 +129,10 @@ public class PetApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response uploadFile(@PathParam("petId") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
+    public Response uploadFile(@PathParam("petId") Long petId
+,
+@FormParam(value = "additionalMetadata")  String additionalMetadata,
+@FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
 }

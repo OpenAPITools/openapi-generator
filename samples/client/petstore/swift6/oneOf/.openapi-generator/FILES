@@ -12,6 +12,7 @@ PetstoreClient/Classes/OpenAPIs/Infrastructure/JSONDataEncoding.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/JSONEncodingHelper.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/JSONValue.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/Models.swift
+PetstoreClient/Classes/OpenAPIs/Infrastructure/OpenAPIMutex.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/Infrastructure/URLSessionImplementations.swift

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prepublish": "npm install ../../builds/with-npm-version && npm run build --prefix ../../builds/with-npm-version && npm run build && npm run webpack && npm run browserify",
-    "test": "mocha test/*.ts --compilers ts:ts-node/register --require mocks.ts --timeout 10000",
+    "test": "mocha test/*.ts --require ts-node/register --require mocks.ts --timeout 10000",
     "build": "tsc",
     "webpack": "webpack",
     "browserify": "browserify test -p [ tsify ] > ./dist/test.browserify-bundle.js"
@@ -22,7 +22,7 @@
     "@types/node-fetch": "^2.1.2",
     "browserify": "^14.4.0",
     "form-data": "^2.3.2",
-    "mocha": "^3.4.2",
+    "mocha": "^11.7.5",
     "node-fetch": "^2.2.0",
     "ts-loader": "^2.3.0",
     "tsify": "^3.0.4",

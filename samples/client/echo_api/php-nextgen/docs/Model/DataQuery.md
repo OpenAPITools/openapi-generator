@@ -1,4 +1,4 @@
-# # DataQuery
+# DataQuery
 
 ## Properties
 

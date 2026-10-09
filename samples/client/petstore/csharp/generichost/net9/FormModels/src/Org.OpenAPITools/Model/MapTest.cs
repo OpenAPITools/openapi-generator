@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool> DirectMap { get { return this.DirectMapOption; } set { this.DirectMapOption = new(value); } }
+        public Dictionary<string, bool> DirectMap { get { return this.DirectMapOption.Value; } set { this.DirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IndirectMap
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool> IndirectMap { get { return this.IndirectMapOption; } set { this.IndirectMapOption = new(value); } }
+        public Dictionary<string, bool> IndirectMap { get { return this.IndirectMapOption.Value; } set { this.IndirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapMapOfString
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this.MapMapOfStringOption; } set { this.MapMapOfStringOption = new(value); } }
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this.MapMapOfStringOption.Value; } set { this.MapMapOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfEnumString
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTestMapOfEnumStringValue> MapOfEnumString { get { return this.MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new(value); } }
+        public Dictionary<string, MapTestMapOfEnumStringValue> MapOfEnumString { get { return this.MapOfEnumStringOption.Value; } set { this.MapOfEnumStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,8 +137,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MapTest" />
     /// </summary>
-    public class MapTestJsonConverter : JsonConverter<MapTest>
+    public partial class MapTestJsonConverter : JsonConverter<MapTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTestJsonConverter" /> class.
+        /// </summary>
+        public MapTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MapTest" />
         /// </summary>
@@ -195,16 +205,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (directMap.IsSet && directMap.Value == null)
-                throw new ArgumentNullException(nameof(directMap), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: direct_map.");
 
             if (indirectMap.IsSet && indirectMap.Value == null)
-                throw new ArgumentNullException(nameof(indirectMap), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: indirect_map.");
 
             if (mapMapOfString.IsSet && mapMapOfString.Value == null)
-                throw new ArgumentNullException(nameof(mapMapOfString), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: map_map_of_string.");
 
             if (mapOfEnumString.IsSet && mapOfEnumString.Value == null)
-                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: map_of_enum_string.");
 
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
@@ -215,7 +225,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mapTest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -230,20 +239,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mapTest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mapTest.DirectMapOption.IsSet && mapTest.DirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.DirectMap to non-nullable JSON property 'direct_map'.");
 
             if (mapTest.IndirectMapOption.IsSet && mapTest.IndirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.IndirectMap), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.IndirectMap to non-nullable JSON property 'indirect_map'.");
 
             if (mapTest.MapMapOfStringOption.IsSet && mapTest.MapMapOfString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapMapOfString), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.MapMapOfString to non-nullable JSON property 'map_map_of_string'.");
 
             if (mapTest.MapOfEnumStringOption.IsSet && mapTest.MapOfEnumString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.MapOfEnumString to non-nullable JSON property 'map_of_enum_string'.");
 
             if (mapTest.DirectMapOption.IsSet)
             {

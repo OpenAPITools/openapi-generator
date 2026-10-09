@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [JsonPropertyName("anyTypeProp")]
-        public Object AnyTypeProp { get { return this.AnyTypePropOption; } set { this.AnyTypePropOption = new Option<Object>(value); } }
+        public Object AnyTypeProp { get { return this.AnyTypePropOption.Value; } set { this.AnyTypePropOption = new Option<Object>(value); } }
 
         /// <summary>
         /// Used to track the state of AnyTypePropNullable
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [JsonPropertyName("anyTypePropNullable")]
-        public Object AnyTypePropNullable { get { return this.AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new Option<Object>(value); } }
+        public Object AnyTypePropNullable { get { return this.AnyTypePropNullableOption.Value; } set { this.AnyTypePropNullableOption = new Option<Object>(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Email
         /// </summary>
         [JsonPropertyName("email")]
-        public string Email { get { return this.EmailOption; } set { this.EmailOption = new Option<string>(value); } }
+        public string Email { get { return this.EmailOption.Value; } set { this.EmailOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string>(value); } }
+        public string FirstName { get { return this.FirstNameOption.Value; } set { this.FirstNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string LastName { get { return this.LastNameOption; } set { this.LastNameOption = new Option<string>(value); } }
+        public string LastName { get { return this.LastNameOption.Value; } set { this.LastNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredProps
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredProps")]
-        public Object ObjectWithNoDeclaredProps { get { return this.ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new Option<Object>(value); } }
+        public Object ObjectWithNoDeclaredProps { get { return this.ObjectWithNoDeclaredPropsOption.Value; } set { this.ObjectWithNoDeclaredPropsOption = new Option<Object>(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredPropsNullable
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
-        public Object ObjectWithNoDeclaredPropsNullable { get { return this.ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new Option<Object>(value); } }
+        public Object ObjectWithNoDeclaredPropsNullable { get { return this.ObjectWithNoDeclaredPropsNullableOption.Value; } set { this.ObjectWithNoDeclaredPropsNullableOption = new Option<Object>(value); } }
 
         /// <summary>
         /// Used to track the state of Password
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get { return this.PasswordOption; } set { this.PasswordOption = new Option<string>(value); } }
+        public string Password { get { return this.PasswordOption.Value; } set { this.PasswordOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Phone
         /// </summary>
         [JsonPropertyName("phone")]
-        public string Phone { get { return this.PhoneOption; } set { this.PhoneOption = new Option<string>(value); } }
+        public string Phone { get { return this.PhoneOption.Value; } set { this.PhoneOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of UserStatus
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [JsonPropertyName("userStatus")]
-        public int? UserStatus { get { return this.UserStatusOption; } set { this.UserStatusOption = new Option<int?>(value); } }
+        public int? UserStatus { get { return this.UserStatusOption.Value; } set { this.UserStatusOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Username
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Username
         /// </summary>
         [JsonPropertyName("username")]
-        public string Username { get { return this.UsernameOption; } set { this.UsernameOption = new Option<string>(value); } }
+        public string Username { get { return this.UsernameOption.Value; } set { this.UsernameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -270,8 +270,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="User" />
     /// </summary>
-    public class UserJsonConverter : JsonConverter<User>
+    public partial class UserJsonConverter : JsonConverter<User>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserJsonConverter" /> class.
+        /// </summary>
+        public UserJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="User" />
         /// </summary>
@@ -360,31 +370,31 @@ namespace Org.OpenAPITools.Model
             }
 
             if (email.IsSet && email.Value == null)
-                throw new ArgumentNullException(nameof(email), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: email.");
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: firstName.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: id.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: lastName.");
 
             if (objectWithNoDeclaredProps.IsSet && objectWithNoDeclaredProps.Value == null)
-                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: objectWithNoDeclaredProps.");
 
             if (password.IsSet && password.Value == null)
-                throw new ArgumentNullException(nameof(password), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: password.");
 
             if (phone.IsSet && phone.Value == null)
-                throw new ArgumentNullException(nameof(phone), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: phone.");
 
             if (userStatus.IsSet && userStatus.Value == null)
-                throw new ArgumentNullException(nameof(userStatus), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: userStatus.");
 
             if (username.IsSet && username.Value == null)
-                throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: username.");
 
             return new User(anyTypeProp, anyTypePropNullable, email, firstName, id, lastName, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, password, phone, userStatus, username);
         }
@@ -395,7 +405,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="user"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -410,29 +419,34 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="user"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             if (user.EmailOption.IsSet && user.Email == null)
-                throw new ArgumentNullException(nameof(user.Email), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.Email to non-nullable JSON property 'email'.");
 
             if (user.FirstNameOption.IsSet && user.FirstName == null)
-                throw new ArgumentNullException(nameof(user.FirstName), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.FirstName to non-nullable JSON property 'firstName'.");
+
+            if (user.IdOption.IsSet && user.Id == null)
+                throw new JsonException("Cannot write null property User.Id to non-nullable JSON property 'id'.");
 
             if (user.LastNameOption.IsSet && user.LastName == null)
-                throw new ArgumentNullException(nameof(user.LastName), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.LastName to non-nullable JSON property 'lastName'.");
 
             if (user.ObjectWithNoDeclaredPropsOption.IsSet && user.ObjectWithNoDeclaredProps == null)
-                throw new ArgumentNullException(nameof(user.ObjectWithNoDeclaredProps), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.ObjectWithNoDeclaredProps to non-nullable JSON property 'objectWithNoDeclaredProps'.");
 
             if (user.PasswordOption.IsSet && user.Password == null)
-                throw new ArgumentNullException(nameof(user.Password), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.Password to non-nullable JSON property 'password'.");
 
             if (user.PhoneOption.IsSet && user.Phone == null)
-                throw new ArgumentNullException(nameof(user.Phone), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.Phone to non-nullable JSON property 'phone'.");
+
+            if (user.UserStatusOption.IsSet && user.UserStatus == null)
+                throw new JsonException("Cannot write null property User.UserStatus to non-nullable JSON property 'userStatus'.");
 
             if (user.UsernameOption.IsSet && user.Username == null)
-                throw new ArgumentNullException(nameof(user.Username), "Property is required for class User.");
+                throw new JsonException("Cannot write null property User.Username to non-nullable JSON property 'username'.");
 
             if (user.AnyTypePropOption.IsSet)
                 if (user.AnyTypePropOption.Value != null)

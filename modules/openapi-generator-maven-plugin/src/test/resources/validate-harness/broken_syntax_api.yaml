@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: Broken Structural API
+  version: 1.0.0
+  description: This file fails basic descriptor parsing due to missing structural schema bindings.
+paths:
+  /configuration:
+    get:
+      summary: Get system configuration
+      operationId: getConfig
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuratio'
+components:
+  schemas:
+    Configuration:
+      type: object
+      properties:
+        activeProfile:
+          type: string

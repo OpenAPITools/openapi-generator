@@ -24,8 +24,6 @@ import {{packageName}}.infrastructure.ApiPrincipal
 {{#operations}}
 fun Route.{{classname}}() {
     val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
 {{#operation}}
     {{#hasAuthMethods}}
         {{#authMethods}}

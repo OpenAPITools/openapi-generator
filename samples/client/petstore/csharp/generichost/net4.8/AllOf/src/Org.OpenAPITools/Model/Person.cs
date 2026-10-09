@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string>(value); } }
+        public string FirstName { get { return this.FirstNameOption.Value; } set { this.FirstNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string LastName { get { return this.LastNameOption; } set { this.LastNameOption = new Option<string>(value); } }
+        public string LastName { get { return this.LastNameOption.Value; } set { this.LastNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// The discriminator
@@ -123,8 +123,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Person" />
     /// </summary>
-    public class PersonJsonConverter : JsonConverter<Person>
+    public partial class PersonJsonConverter : JsonConverter<Person>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonJsonConverter" /> class.
+        /// </summary>
+        public PersonJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Person" />
         /// </summary>
@@ -185,13 +195,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: $_type.");
 
             return new Person(firstName, lastName);
         }
@@ -202,7 +212,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person is Adult adult){
@@ -227,14 +236,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)
-                throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.FirstName to non-nullable JSON property 'firstName'.");
 
             if (person.LastNameOption.IsSet && person.LastName == null)
-                throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.LastName to non-nullable JSON property 'lastName'.");
 
             if (person.FirstNameOption.IsSet)
                 writer.WriteString("firstName", person.FirstName);

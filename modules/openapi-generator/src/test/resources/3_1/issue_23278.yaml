@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  title: oneOf with object arrays
+  description: Support object types in oneOf array enums.
+  version: 1.0.0
+components:
+  schemas:
+    ObjectArrays:
+      type: object
+      properties:
+        Options:
+          oneOf:
+            - type: array
+              items:
+                $ref: '#/components/schemas/TestObject'
+            - type: array
+              items:
+                $ref: '#/components/schemas/TestArray'
+    TestObject:
+      type: object
+      properties:
+        test:
+          type: string
+    TestArray:
+      properties:
+        test:
+          type: array
+          items:
+            type: string

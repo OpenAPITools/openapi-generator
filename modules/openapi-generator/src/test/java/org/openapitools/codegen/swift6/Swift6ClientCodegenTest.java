@@ -19,6 +19,7 @@ package org.openapitools.codegen.swift6;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.Swift6ClientCodegen;
@@ -34,6 +35,131 @@ import java.util.List;
 public class Swift6ClientCodegenTest {
 
     Swift6ClientCodegen swiftCodegen = new Swift6ClientCodegen();
+
+    @Test(enabled = true)
+    public void testToRegularExpressionRemainsValidInSwiftStringLiteral() throws Exception {
+        // patterns are passed verbatim to NSRegularExpression at runtime, so no
+        // "/.../" delimiters are added and, in particular, no "\/" escape is
+        // produced ("\/" is not a valid escape sequence in a Swift string
+        // literal, see issue #15604)
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?://x"), "http(s)?://x");
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z/]+"), "[a-z/]+");
+        // "\/" in the spec (a JSON-style escaped slash) is normalized to "/"
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?:\\/\\/x"), "http(s)?://x");
+        // backslashes are escaped for the Swift string literal
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z0-9\\-]+\\.[a-z]{2,63}"), "[a-z0-9\\\\-]+\\\\.[a-z]{2,63}");
+        // a pattern that already carries delimiters is left untouched
+        Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
+    }
+
+    @Test(description = "models on an inline reference cycle become classes, everything else stays a struct")
+    public void testRecursiveModelsBecomeClasses() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift6")
+                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path models = target.resolve("Sources/OpenAPIClient/Models");
+        // a struct that stores itself inline has infinite size and does not compile (#15240):
+        // the self-referencing model and both halves of the mutual cycle become final classes
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public final class ContactInfo: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("NodeA.swift"), "public final class NodeA: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("NodeB.swift"), "public final class NodeB: @unchecked Sendable,");
+        // embedding a cyclic class costs nothing, and containers already give heap
+        // indirection - these stay structs
+        TestUtils.assertFileContains(models.resolve("DomainInfo.swift"), "public struct DomainInfo: Sendable,");
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public struct Category: Sendable,");
+        // allOf is flattened rather than stored, so it is not an edge: only Derived is on a cycle
+        TestUtils.assertFileContains(models.resolve("Derived.swift"), "public final class Derived: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("Base.swift"), "public struct Base: Sendable,");
+    }
+
+    @Test(description = "nonisolatedModels marks models and their supporting declarations nonisolated")
+    public void testNonisolatedModels() throws IOException {
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true);
+        Path models = sources.resolve("Models");
+        Path infrastructure = sources.resolve("Infrastructure");
+        // structs, classes and the extensions emitted next to them
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public nonisolated struct Category: Sendable,");
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public nonisolated final class ContactInfo: @unchecked Sendable,");
+        // the protocols and helper types that models conform to or store
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated protocol ParameterConvertible {");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated protocol CaseIterableDefaultsLast:");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "public nonisolated enum NullEncodable<Wrapped> {");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated extension NullEncodable: Codable where Wrapped: Codable {");
+        TestUtils.assertFileContains(infrastructure.resolve("JSONValue.swift"), "public nonisolated enum JSONValue: Sendable, Codable, Hashable {");
+        TestUtils.assertFileContains(infrastructure.resolve("Validation.swift"), "public nonisolated struct StringRule: Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("Extensions.swift"), "nonisolated extension String: @retroactive CodingKey {");
+        TestUtils.assertFileContains(infrastructure.resolve("Extensions.swift"), "nonisolated extension RawRepresentable where RawValue: ParameterConvertible {");
+        TestUtils.assertFileContains(infrastructure.resolve("CodableHelper.swift"), "open nonisolated class CodableHelper: @unchecked Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("OpenAPIMutex.swift"), "internal nonisolated final class OpenAPIMutex<Value>: @unchecked Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("OpenISO8601DateFormatter.swift"), "public nonisolated class OpenISO8601DateFormatter: DateFormatter, @unchecked Sendable {");
+
+        // the extensions emitted next to models (Identifiable, UnknownCaseCheckable)
+        Path petstoreSources = generateSwift6("src/test/resources/3_0/petstore.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
+        Path pet = petstoreSources.resolve("Models/Pet.swift");
+        TestUtils.assertFileContains(pet, "public nonisolated struct Pet: Sendable,");
+        TestUtils.assertFileContains(pet, "nonisolated extension Pet: Identifiable {}");
+        TestUtils.assertFileContains(pet, "nonisolated extension Pet: UnknownCaseCheckable {");
+        TestUtils.assertFileContains(petstoreSources.resolve("Infrastructure/Models.swift"), "nonisolated protocol UnknownCaseCheckable {");
+        TestUtils.assertFileContains(petstoreSources.resolve("Infrastructure/Models.swift"), "nonisolated extension CaseIterableDefaultsLast {");
+        // inline enums are nested in the model and inherit its isolation, so they are not marked
+        TestUtils.assertFileContains(pet, "    public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {");
+        TestUtils.assertFileNotContains(pet, "nonisolated enum");
+
+        // top-level enum models and their UnknownCaseCheckable extension
+        Path enumModels = generateSwift6("src/test/resources/3_0/enum-description.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true).resolve("Models");
+        TestUtils.assertFileContains(enumModels.resolve("ModelType.swift"),
+                "public nonisolated enum ModelType: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {");
+        TestUtils.assertFileContains(enumModels.resolve("ModelType.swift"), "nonisolated extension ModelType: UnknownCaseCheckable {");
+
+        // oneOf models are generated as enums
+        Path oneOfModels = generateSwift6("src/test/resources/3_0/oneOf.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true).resolve("Models");
+        TestUtils.assertFileContains(oneOfModels.resolve("Fruit.swift"), "public nonisolated enum Fruit: Sendable, Codable, Hashable {");
+    }
+
+    @Test(description = "nonisolatedModels also marks objcCompatible model classes nonisolated")
+    public void testNonisolatedModelsObjcCompatible() throws IOException {
+        Path models = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                Swift6ClientCodegen.OBJC_COMPATIBLE, true).resolve("Models");
+        TestUtils.assertFileContains(models.resolve("Category.swift"),
+                "@objcMembers public nonisolated final class Category: NSObject, Codable, @unchecked Sendable {");
+    }
+
+    private static Path generateSwift6(String inputSpec, Object... additionalProperties) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift6")
+                .setInputSpec(inputSpec)
+                .setOutputDir(target.toAbsolutePath().toString());
+        for (int i = 0; i < additionalProperties.length; i += 2) {
+            configurator.addAdditionalProperty((String) additionalProperties[i], additionalProperties[i + 1]);
+        }
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return target.resolve("Sources/OpenAPIClient");
+    }
+
+    @Test(description = "nonisolatedModels is off by default")
+    public void testNonisolatedModelsDefaultsOff() throws IOException {
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml");
+        Path infrastructure = sources.resolve("Infrastructure");
+        TestUtils.assertFileNotContains(sources.resolve("Models/Category.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("Models.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("JSONValue.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("Extensions.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("CodableHelper.swift"), "nonisolated");
+    }
 
     @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
@@ -168,6 +294,31 @@ public class Swift6ClientCodegenTest {
 
         Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
+    }
+
+    @Test(description = "model names colliding with types declared by the generated client are renamed", enabled = true)
+    public void reservedTypeNamesDeclaredByClientTest() {
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+
+        // Names declared by the generated support files (Validation.swift, Models.swift, ...):
+        // a model with such a name would be an invalid redeclaration of the client's own type.
+        Assert.assertEquals(codegen.toModelName("ValidationError"), "ModelValidationError");
+        Assert.assertEquals(codegen.toModelName("Validator"), "ModelValidator");
+        Assert.assertEquals(codegen.toModelName("OpenAPIMutex"), "ModelOpenAPIMutex");
+        Assert.assertEquals(codegen.toModelName("RequestBuilder"), "ModelRequestBuilder");
+    }
+
+    @Test(description = "model names shadowing Foundation types used by the generated client are renamed", enabled = true)
+    public void reservedFoundationTypeNamesTest() {
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+
+        // Foundation types the generated support files reference unqualified
+        // (e.g. OpenISO8601DateFormatter.swift assigns `formatter.locale = Locale(...)`):
+        // a model with such a name would shadow the Foundation type inside the module.
+        Assert.assertEquals(codegen.toModelName("Locale"), "ModelLocale");
+        Assert.assertEquals(codegen.toModelName("DateFormatter"), "ModelDateFormatter");
+        Assert.assertEquals(codegen.toModelName("TimeZone"), "ModelTimeZone");
+        Assert.assertEquals(codegen.toModelName("URLSession"), "ModelURLSession");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
@@ -362,5 +513,176 @@ public class Swift6ClientCodegenTest {
         } finally {
             output.deleteOnExit();
         }
+    }
+
+    @Test(description = "test oneOf with enumUnknownDefaultCase generates UnknownCaseCheckable guard", enabled = true)
+    public void oneOfEnumUnknownDefaultCaseGuardTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setInputSpec("src/test/resources/3_0/oneOf.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addAdditionalProperty("enumUnknownDefaultCase", true);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            String oneOfContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Fruit.swift")).findFirst().get().toPath());
+            Assert.assertTrue(oneOfContent.contains("as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true"),
+                    "oneOf decoder should guard against unknown default enum cases");
+
+            String modelsContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Models.swift")).findFirst().get().toPath());
+            Assert.assertTrue(modelsContent.contains("protocol UnknownCaseCheckable"));
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test(description = "test oneOf with discriminator generates discriminator-first decoding", enabled = true)
+    public void oneOfDiscriminatorFirstDecodingTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setInputSpec("src/test/resources/3_0/oneOfDiscriminator.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File modelFile = files.stream()
+                    .filter(f -> f.getName().equals("FruitOneOfEnumMappingDisc.swift"))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("FruitOneOfEnumMappingDisc.swift not found"));
+
+            String content = Files.readString(modelFile.toPath());
+
+            // Verify discriminator-first decoding pattern
+            Assert.assertTrue(content.contains("private enum DiscriminatorCodingKey: String, CodingKey"));
+            Assert.assertTrue(content.contains("let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)"));
+            Assert.assertTrue(content.contains("switch discriminatorValue"));
+            Assert.assertTrue(content.contains("case \"APPLE\":"));
+            Assert.assertTrue(content.contains("self = .typeAppleOneOfEnumMappingDisc(try AppleOneOfEnumMappingDisc(from: decoder))"));
+            Assert.assertFalse(content.contains("if let value = try? container.decode(AppleOneOfEnumMappingDisc.self)"));
+
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test
+    public void testAdditionalModelObjectAttributesParsing() {
+        Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift6ClientCodegen.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES,
+                "@MainActor;@dynamicMemberLookup\n@MyCustomMacro");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelObjectAttributes();
+        Assert.assertEquals(attributes.size(), 3);
+        Assert.assertEquals(attributes.get(0), "@MainActor");
+        Assert.assertEquals(attributes.get(1), "@dynamicMemberLookup");
+        Assert.assertEquals(attributes.get(2), "@MyCustomMacro");
+    }
+
+    @Test
+    public void testAdditionalModelEnumAttributesParsing() {
+        Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift6ClientCodegen.ADDITIONAL_MODEL_ENUM_ATTRIBUTES,
+                "@CasePathable;@dynamicMemberLookup\n@MyCustomMacro");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelEnumAttributes();
+        Assert.assertEquals(attributes.size(), 3);
+        Assert.assertEquals(attributes.get(0), "@CasePathable");
+        Assert.assertEquals(attributes.get(1), "@dynamicMemberLookup");
+        Assert.assertEquals(attributes.get(2), "@MyCustomMacro");
+    }
+
+    @Test
+    public void testAdditionalModelOptionsFilterBlankTokens() {
+        Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift6ClientCodegen.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES,
+                " ;@MainActor;;\n\n  @Sendable ;");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelObjectAttributes();
+        Assert.assertEquals(attributes.size(), 2);
+        Assert.assertEquals(attributes.get(0), "@MainActor");
+        Assert.assertEquals(attributes.get(1), "@Sendable");
+    }
+
+    @Test
+    public void testAdditionalModelImportsParsing() {
+        Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift6ClientCodegen.ADDITIONAL_MODEL_IMPORTS,
+                "FooKit;BarKit\nBazKit");
+        codegen.processOpts();
+        List<String> imports = codegen.getAdditionalModelImports();
+        Assert.assertEquals(imports.size(), 3);
+        Assert.assertEquals(imports.get(0), "FooKit");
+        Assert.assertEquals(imports.get(1), "BarKit");
+        Assert.assertEquals(imports.get(2), "BazKit");
+    }
+
+    @Test(description = "Issue #17996")
+    public void testNullableMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6/issue17996-nullable-map.yaml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullMapNotNullMap");
+        CodegenModel cm1 = swiftCodegen.fromModel("NullMapNotNullMap", test1);
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableMap = cm1.vars.get(0);
+        CodegenProperty notNullableMap = cm1.vars.get(1);
+        CodegenProperty defaultMap = cm1.vars.get(2);
+        Assert.assertEquals(nullableMap.getDataType(), "[String: String?]");
+        Assert.assertEquals(notNullableMap.getDataType(), "[String: String]");
+        Assert.assertEquals(defaultMap.getDataType(), "[String: String]");
+    }
+
+    @Test(description = "Issue #22355")
+    public void testNullableArrayItems() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6/issue22355-nullable-array-items.yaml");
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullItemsNotNullItems");
+        CodegenModel cm1 = codegen.fromModel("NullItemsNotNullItems", test1);
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableItems = cm1.vars.get(0);
+        CodegenProperty notNullableItems = cm1.vars.get(1);
+        CodegenProperty defaultItems = cm1.vars.get(2);
+        CodegenProperty nullableDoubleItems = cm1.vars.get(3);
+        CodegenProperty xNullableItems = cm1.vars.get(4);
+        CodegenProperty aliasedNullableItems = cm1.vars.get(5);
+        CodegenProperty nullableItemsSet = cm1.vars.get(6);
+        CodegenProperty nestedNullableItems = cm1.vars.get(7);
+        CodegenProperty modelRefNullableItems = cm1.vars.get(8);
+        Assert.assertEquals(nullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(notNullableItems.getDataType(), "[String]");
+        Assert.assertEquals(defaultItems.getDataType(), "[String]");
+        Assert.assertEquals(nullableDoubleItems.getDataType(), "[Double?]");
+        Assert.assertEquals(xNullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(aliasedNullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(nullableItemsSet.getDataType(), "Set<String?>");
+        Assert.assertEquals(nestedNullableItems.getDataType(), "[[String?]]");
+        Assert.assertEquals(modelRefNullableItems.getDataType(), "[NullablePet?]");
     }
 }

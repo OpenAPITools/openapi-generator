@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  description: |
+    Test for direct recursive types in OCaml generator.
+
+    This spec only tests direct recursion (A -> A) and NOT mutual recursion (A -> B -> A).
+
+    The OCaml generator does not support mutual recursion because OCaml requires mutually
+    recursive types to be declared together in the same file using "type a = ... and b = ..."
+    syntax. The generator's architecture uses one model per file, making this infeasible.
+
+    Note: The generic test file modules/openapi-generator/src/test/resources/3_0/recursion.yaml
+    contains both Foo (direct recursion) and Bar/Baz (mutual recursion), which is why we
+    cannot use it for OCaml testing.
+  version: 1.0.0
+  title: OCaml Direct Recursion Test
+paths: {}
+components:
+  schemas:
+    ArrayRecursion:
+      type: object
+      description: Test recursive type within an array (optional)
+      properties:
+        value:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrayRecursion'
+      required:
+        - value
+
+    DirectRecursion:
+      type: object
+      description: Test direct self-reference (not in container, optional)
+      properties:
+        id:
+          type: string
+        next:
+          $ref: '#/components/schemas/DirectRecursion'
+      required:
+        - id
+
+    MapRecursion:
+      type: object
+      description: Test recursive type within a map (optional)
+      properties:
+        name:
+          type: string
+        childMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MapRecursion'
+      required:
+        - name
+
+    RequiredRecursion:
+      type: object
+      description: Test required self-reference field
+      properties:
+        value:
+          type: string
+        parent:
+          $ref: '#/components/schemas/RequiredRecursion'
+      required:
+        - value
+        - parent
+
+    RequiredArrayRecursion:
+      type: object
+      description: Test required array of self-references
+      properties:
+        id:
+          type: integer
+        siblings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequiredArrayRecursion'
+      required:
+        - id
+        - siblings
+
+    MultipleRecursiveFields:
+      type: object
+      description: Test multiple recursive fields in the same model
+      properties:
+        name:
+          type: string
+        left:
+          $ref: '#/components/schemas/MultipleRecursiveFields'
+        right:
+          $ref: '#/components/schemas/MultipleRecursiveFields'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleRecursiveFields'
+      required:
+        - name

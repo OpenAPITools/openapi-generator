@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -42,15 +42,15 @@ public class Pet {
 
   private String name;
 
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -210,7 +210,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
@@ -291,10 +291,7 @@ public class Pet {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

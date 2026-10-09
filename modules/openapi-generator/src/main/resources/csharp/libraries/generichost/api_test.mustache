@@ -35,14 +35,14 @@ namespace {{packageName}}.Test.{{apiPackage}}
         public async Task {{operationId}}AsyncTest()
         {
             {{#allParams}}
-            {{^required}}Client.Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
+            {{^required}}Client.Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
             {{/allParams}}
             {{#responses}}
             {{#-first}}
             {{#dataType}}
             var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             var model = response.{{vendorExtensions.x-http-status}}();
-            Assert.IsType<{{{.}}}>(model);
+            Assert.IsType<{{#isModel}}{{packageName}}.{{modelPackage}}.{{/isModel}}{{{.}}}>(model);
             {{/dataType}}
             {{^dataType}}
             await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});

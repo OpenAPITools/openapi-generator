@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface SpecialModelName {
     /**
      * 
-     * @type {number}
-     * @memberof SpecialModelName
      */
     $specialPropertyName?: number;
 }

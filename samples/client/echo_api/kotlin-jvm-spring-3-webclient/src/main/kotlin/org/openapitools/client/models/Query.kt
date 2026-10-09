@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -18,6 +26,7 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * 
@@ -30,9 +39,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Query (
 
     /* Query */
+    @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
+    @param:JsonProperty("outcomes")
     @get:JsonProperty("outcomes")
     val outcomes: kotlin.collections.List<Query.Outcomes>? = null
 
@@ -43,7 +54,7 @@ data class Query (
      *
      * Values: SUCCESS,FAILURE,SKIPPED,unknown_default_open_api
      */
-    enum class Outcomes(val value: kotlin.String) {
+    enum class Outcomes(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "SUCCESS") SUCCESS("SUCCESS"),
         @JsonProperty(value = "FAILURE") FAILURE("FAILURE"),
         @JsonProperty(value = "SKIPPED") SKIPPED("SKIPPED"),

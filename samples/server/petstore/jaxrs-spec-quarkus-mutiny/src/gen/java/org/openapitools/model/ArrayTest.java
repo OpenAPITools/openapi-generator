@@ -13,16 +13,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<String> arrayOfString = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   protected ArrayTest(ArrayTestBuilder<?, ?> b) {
     this.arrayOfString = b.arrayOfString;
@@ -113,7 +114,7 @@ public class ArrayTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("array_array_of_model")
-  @Valid public List<@Valid List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
@@ -175,10 +176,7 @@ public class ArrayTest  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -221,4 +219,3 @@ public class ArrayTest  implements Serializable {
     }
   }
 }
-

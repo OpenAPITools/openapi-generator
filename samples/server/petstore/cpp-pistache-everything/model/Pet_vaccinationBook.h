@@ -33,7 +33,7 @@ class  Pet_vaccinationBook
 {
 public:
     Pet_vaccinationBook();
-    virtual ~Pet_vaccinationBook() = default;
+    virtual ~Pet_vaccinationBook();
 
 
     /// <summary>

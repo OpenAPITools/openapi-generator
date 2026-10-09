@@ -11,7 +11,7 @@
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
@@ -50,7 +50,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
     }
     this.{{name}}.add({{name}}Item);
     return this;
@@ -60,7 +60,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+      this.{{name}} = new HashMap<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     return this;
@@ -88,7 +88,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#jackson}}
   @JsonProperty(value = "{{baseName}}"{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
   {{/jackson}}
-  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}")
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}requiredMode = Schema.RequiredMode.REQUIRED, {{/required}}description = "{{{description}}}")
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
@@ -134,9 +134,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }

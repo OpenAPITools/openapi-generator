@@ -16,7 +16,7 @@
 * ======================
 * == Building Locally ==
 * ======================
-* This project can be built using [[scala-clit][https://scala-cli.virtuslab.org]]
+* This project can be built using [[scala-cli][https://scala-cli.virtuslab.org]]
 *
 * To simply run the project
 * ```

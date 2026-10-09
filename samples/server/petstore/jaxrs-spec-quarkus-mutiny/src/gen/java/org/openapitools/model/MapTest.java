@@ -11,14 +11,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MapTest  implements Serializable {
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
@@ -66,9 +67,9 @@ public class MapTest  implements Serializable {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   protected MapTest(MapTestBuilder<?, ?> b) {
     this.mapMapOfString = b.mapMapOfString;
@@ -259,10 +260,7 @@ public class MapTest  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -310,4 +308,3 @@ public class MapTest  implements Serializable {
     }
   }
 }
-

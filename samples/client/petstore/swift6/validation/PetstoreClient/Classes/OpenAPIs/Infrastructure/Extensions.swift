@@ -9,51 +9,53 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension Bool: ParameterConvertible {
+nonisolated extension Bool: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Float: ParameterConvertible {
+nonisolated extension Float: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int: ParameterConvertible {
+nonisolated extension Int: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int32: ParameterConvertible {
+nonisolated extension Int32: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int64: ParameterConvertible {
+nonisolated extension Int64: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Double: ParameterConvertible {
+nonisolated extension Double: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Decimal: ParameterConvertible {
+nonisolated extension Decimal: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension String: ParameterConvertible {
+nonisolated extension String: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension URL: ParameterConvertible {
+nonisolated extension URL: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension UUID: ParameterConvertible {
+nonisolated extension UUID: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension RawRepresentable where RawValue: ParameterConvertible, RawValue: Sendable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable { return self.rawValue }
+nonisolated extension RawRepresentable where RawValue: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        rawValue.asParameter(codableHelper: codableHelper)
+    }
 }
 
-private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
+private nonisolated func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
     if let encodableObject = object as? ParameterConvertible {
         return encodableObject.asParameter(codableHelper: codableHelper)
     } else {
@@ -61,19 +63,19 @@ private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHe
     }
 }
 
-extension Array where Element: Sendable {
+nonisolated extension Array where Element: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return self.map { encodeIfPossible($0, codableHelper: codableHelper) }
     }
 }
 
-extension Set where Element: Sendable {
+nonisolated extension Set where Element: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return Array(self).asParameter(codableHelper: codableHelper)
     }
 }
 
-extension Dictionary where Key: Sendable, Value: Sendable {
+nonisolated extension Dictionary where Key: Sendable, Value: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         var dictionary = [Key: any Sendable]()
         for (key, value) in self {
@@ -83,26 +85,17 @@ extension Dictionary where Key: Sendable, Value: Sendable {
     }
 }
 
-extension Data: ParameterConvertible {
+nonisolated extension Data: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Date: ParameterConvertible {
+nonisolated extension Date: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return codableHelper.dateFormatter.string(from: self)
     }
 }
 
-extension ParameterConvertible where Self: Encodable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.asParameter(codableHelper: codableHelper)
-    }
-}
-
-extension String: @retroactive CodingKey {
+nonisolated extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self
@@ -122,7 +115,7 @@ extension String: @retroactive CodingKey {
 
 }
 
-extension KeyedEncodingContainerProtocol {
+nonisolated extension KeyedEncodingContainerProtocol {
 
     public mutating func encodeArray<T>(_ values: [T], forKey key: Self.Key) throws where T: Encodable {
         var arrayContainer = nestedUnkeyedContainer(forKey: key)
@@ -148,11 +141,7 @@ extension KeyedEncodingContainerProtocol {
     }
 
     public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
-        let decimalNumber = NSDecimalNumber(decimal: value)
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.locale = Locale(identifier: "en_US")
-        let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
+        let formattedString = NSDecimalNumber(decimal: value).description(withLocale: Locale(identifier: "en_US_POSIX"))
         try encode(formattedString, forKey: key)
     }
 
@@ -163,7 +152,7 @@ extension KeyedEncodingContainerProtocol {
     }
 }
 
-extension KeyedDecodingContainerProtocol {
+nonisolated extension KeyedDecodingContainerProtocol {
 
     public func decodeArray<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T] where T: Decodable {
         var tmpArray = [T]()

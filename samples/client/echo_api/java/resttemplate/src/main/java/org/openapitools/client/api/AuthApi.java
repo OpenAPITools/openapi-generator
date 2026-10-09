@@ -11,8 +11,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -25,7 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AuthApi extends BaseApi {
 
     public AuthApi() {
@@ -55,13 +53,12 @@ public class AuthApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<String> testAuthHttpBasicWithHttpInfo() throws RestClientException {
-        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -73,7 +70,7 @@ public class AuthApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "http_auth" };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/auth/http/basic", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/auth/http/basic", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * To test HTTP bearer authentication
@@ -94,13 +91,12 @@ public class AuthApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<String> testAuthHttpBearerWithHttpInfo() throws RestClientException {
-        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -112,19 +108,18 @@ public class AuthApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "http_bearer_auth" };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/auth/http/bearer", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/auth/http/bearer", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -135,6 +130,6 @@ public class AuthApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] { "http_bearer_auth" };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

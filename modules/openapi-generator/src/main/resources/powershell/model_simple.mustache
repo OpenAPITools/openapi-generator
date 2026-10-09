@@ -122,7 +122,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>
-            "<<baseName>>" = ${<<name>>}
+            '<<baseName>>' = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
         }
@@ -184,7 +184,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
             {{=<< >>=}}
             <<#allVars>>
             <<^isReadOnly>>
-            "<<baseName>>" = ${<<name>>}
+            '<<baseName>>' = ${<<name>>}
             <</isReadOnly>>
             <</allVars>>
             <<={{ }}=>>
@@ -228,7 +228,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         {{/isAdditionalPropertiesTrue}}
 
         # check if Json contains properties not defined in {{{apiNamePrefix}}}{{{classname}}}
-        $AllProperties = ({{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}})
+        $AllProperties = ({{#allVars}}'{{{baseName}}}'{{^-last}}, {{/-last}}{{/allVars}})
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             {{^isAdditionalPropertiesTrue}}
             if (!($AllProperties.Contains($name))) {
@@ -250,29 +250,29 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         }
 
         {{/-first}}
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match '{{{baseName}}}'))) {
             throw "Error! JSON cannot be serialized due to the required property '{{{baseName}}}' missing."
         } else {
-            ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
+            ${{name}} = $JsonParameters.PSobject.Properties['{{{baseName}}}'].value
         }
 
         {{/requiredVars}}
         {{#optionalVars}}
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match '{{{baseName}}}'))) { #optional property not found
             ${{name}} = $null
         } else {
-            ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
+            ${{name}} = $JsonParameters.PSobject.Properties['{{{baseName}}}'].value
         }
 
         {{/optionalVars}}
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>
-            "<<baseName>>" = ${<<name>>}
+            '<<baseName>>' = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
             {{#isAdditionalPropertiesTrue}}
-            "AdditionalProperties" = ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties
+            'AdditionalProperties' = ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties
             {{/isAdditionalPropertiesTrue}}
         }
 

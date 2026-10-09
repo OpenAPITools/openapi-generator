@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string? VarClient { get { return this.VarClientOption; } set { this.VarClientOption = new(value); } }
+        public string? VarClient { get { return this.VarClientOption.Value; } set { this.VarClientOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ModelClient" />
     /// </summary>
-    public class ModelClientJsonConverter : JsonConverter<ModelClient>
+    public partial class ModelClientJsonConverter : JsonConverter<ModelClient>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModelClientJsonConverter" /> class.
+        /// </summary>
+        public ModelClientJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ModelClient" />
         /// </summary>
@@ -137,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varClient.IsSet && varClient.Value == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
+                throw new JsonException("Property is not nullable for class ModelClient: client.");
 
             return new ModelClient(varClient);
         }
@@ -148,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="modelClient"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -163,11 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="modelClient"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
-                throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
+                throw new JsonException("Cannot write null property ModelClient.VarClient to non-nullable JSON property 'client'.");
 
             if (modelClient.VarClientOption.IsSet)
                 writer.WriteString("client", modelClient.VarClient);

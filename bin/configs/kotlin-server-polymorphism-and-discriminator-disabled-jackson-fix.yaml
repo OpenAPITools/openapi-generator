@@ -1,0 +1,10 @@
+generatorName: kotlin-server
+outputDir: samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
+inputSpec: modules/openapi-generator/src/test/resources/3_1/polymorphism-and-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  artifactId: kotlin-server-polymorphism-and-discriminator-disabled-jackson-fix
+  library: javalin6
+  # This is set to "true" by default, but we also want to test the case where it's set to false.
+  # See KotlinServerCodegen.java for more details about this property.
+  fixJacksonJsonTypeInfoInheritance: false

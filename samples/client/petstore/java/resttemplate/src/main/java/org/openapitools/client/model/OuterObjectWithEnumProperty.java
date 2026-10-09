@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * OuterObjectWithEnumProperty
@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   @javax.annotation.Nonnull
@@ -43,7 +43,7 @@ public class OuterObjectWithEnumProperty {
   /**
    * Constructor with all args parameters
    */
-  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) @javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 
@@ -104,10 +104,7 @@ public class OuterObjectWithEnumProperty {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

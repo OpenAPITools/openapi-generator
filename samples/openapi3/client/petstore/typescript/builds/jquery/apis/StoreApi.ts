@@ -31,7 +31,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
@@ -93,7 +93,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);

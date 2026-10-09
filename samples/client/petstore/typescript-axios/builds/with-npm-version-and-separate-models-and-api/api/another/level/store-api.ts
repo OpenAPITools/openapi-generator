@@ -18,7 +18,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../../../common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from '../../../common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../../../base';
 // @ts-ignore
@@ -39,7 +39,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('deleteOrder', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
-                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+                .replace('{orderId}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -105,7 +105,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('getOrderById', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
-                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+                .replace('{orderId}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -36,11 +44,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost")
         }
     }
 
@@ -214,6 +222,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
                 put("qn3", listOf(qn3.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        
         hi0?.apply { localVariableHeaders["hi0"] = this.toString() }
         hi1.apply { localVariableHeaders["hi1"] = this.toString() }
         hi2?.apply { localVariableHeaders["hi2"] = this.toString() }
@@ -222,7 +231,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
         hn1.apply { localVariableHeaders["hn1"] = this.toString() }
         hn2?.apply { localVariableHeaders["hn2"] = this.toString() }
         hn3.apply { localVariableHeaders["hn3"] = this.toString() }
-        
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/test".replace("{"+"pi0"+"}", encodeURIComponent(pi0.toString())).replace("{"+"pi1"+"}", encodeURIComponent(pi1.toString())).replace("{"+"pn0"+"}", encodeURIComponent(pn0.toString())).replace("{"+"pn1"+"}", encodeURIComponent(pn1.toString())),

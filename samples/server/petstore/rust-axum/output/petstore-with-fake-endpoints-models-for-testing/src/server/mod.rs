@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
+};
 use bytes::Bytes;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use headers::Host;
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -154,7 +156,7 @@ fn test_special_tags_validation(
 #[tracing::instrument(skip_all)]
 async fn test_special_tags<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -181,11 +183,10 @@ where
         .test_special_tags(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::another_fake::TestSpecialTagsResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -228,7 +229,7 @@ fn call123example_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn call123example<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -254,11 +255,10 @@ where
         .call123example(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::Call123exampleResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -301,7 +301,7 @@ fn fake_outer_boolean_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_boolean_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterBoolean>>,
@@ -329,11 +329,10 @@ where
         .fake_outer_boolean_serialize(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::FakeOuterBooleanSerializeResponse::Status200_OutputBoolean(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -389,7 +388,7 @@ fn fake_outer_composite_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_composite_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterComposite>>,
@@ -417,11 +416,10 @@ where
         .fake_outer_composite_serialize(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::FakeOuterCompositeSerializeResponse::Status200_OutputComposite(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -477,7 +475,7 @@ fn fake_outer_number_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_number_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterNumber>>,
@@ -505,11 +503,10 @@ where
         .fake_outer_number_serialize(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::FakeOuterNumberSerializeResponse::Status200_OutputNumber(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -565,7 +562,7 @@ fn fake_outer_string_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_string_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterString>>,
@@ -593,11 +590,10 @@ where
         .fake_outer_string_serialize(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::FakeOuterStringSerializeResponse::Status200_OutputString(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -640,7 +636,7 @@ fn fake_response_with_numerical_description_validation() -> std::result::Result<
 #[tracing::instrument(skip_all)]
 async fn fake_response_with_numerical_description<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -667,11 +663,10 @@ where
         .fake_response_with_numerical_description(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::FakeResponseWithNumericalDescriptionResponse::Status200 => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -704,7 +699,7 @@ fn hyphen_param_validation(
 #[tracing::instrument(skip_all)]
 async fn hyphen_param<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::HyphenParamPathParams>,
     State(api_impl): State<I>,
@@ -731,11 +726,10 @@ where
         .hyphen_param(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::HyphenParamResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -779,7 +773,7 @@ fn test_body_with_query_params_validation(
 #[tracing::instrument(skip_all)]
 async fn test_body_with_query_params<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::TestBodyWithQueryParamsQueryParams>,
     State(api_impl): State<I>,
@@ -809,11 +803,10 @@ where
         .test_body_with_query_params(&method, &host, &cookies, &query_params, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestBodyWithQueryParamsResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -854,7 +847,7 @@ fn test_client_model_validation(
 #[tracing::instrument(skip_all)]
 async fn test_client_model<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -881,11 +874,10 @@ where
         .test_client_model(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestClientModelResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -940,7 +932,7 @@ fn test_endpoint_parameters_validation(
 #[tracing::instrument(skip_all)]
 async fn test_endpoint_parameters<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -978,15 +970,15 @@ where
         .test_endpoint_parameters(&method, &host, &cookies, &claims, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestEndpointParametersResponse::Status400_InvalidUsernameSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::fake::TestEndpointParametersResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1040,7 +1032,7 @@ fn test_enum_parameters_validation(
 #[tracing::instrument(skip_all)]
 async fn test_enum_parameters<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     QueryExtra(query_params): QueryExtra<models::TestEnumParametersQueryParams>,
@@ -1126,15 +1118,15 @@ where
         )
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestEnumParametersResponse::Status400_InvalidRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::fake::TestEnumParametersResponse::Status404_NotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1175,7 +1167,7 @@ fn test_inline_additional_properties_validation(
 #[tracing::instrument(skip_all)]
 async fn test_inline_additional_properties<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<std::collections::HashMap<String, String>>,
@@ -1203,11 +1195,10 @@ where
         .test_inline_additional_properties(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestInlineAdditionalPropertiesResponse::Status200_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1248,7 +1239,7 @@ fn test_json_form_data_validation(
 #[tracing::instrument(skip_all)]
 async fn test_json_form_data<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Form(body): Form<models::TestJsonFormDataRequest>,
@@ -1275,11 +1266,10 @@ where
         .test_json_form_data(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake::TestJsonFormDataResponse::Status200_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1320,7 +1310,7 @@ fn test_classname_validation(
 #[tracing::instrument(skip_all)]
 async fn test_classname<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -1347,13 +1337,12 @@ where
         .test_classname(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::fake_classname_tags123::TestClassnameResponse::Status200_SuccessfulOperation(
                 body,
             ) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1406,7 +1395,7 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -1433,11 +1422,10 @@ where
         .add_pet(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::AddPetResponse::Status405_InvalidInput => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1475,7 +1463,7 @@ fn delete_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::DeletePetPathParams>,
@@ -1529,11 +1517,10 @@ where
         .delete_pet(&method, &host, &cookies, &header_params, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::DeletePetResponse::Status400_InvalidPetValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1566,7 +1553,7 @@ fn find_pets_by_status_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByStatusQueryParams>,
     State(api_impl): State<I>,
@@ -1594,11 +1581,10 @@ where
         .find_pets_by_status(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1609,6 +1595,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByStatusResponse::Status400_InvalidStatusValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1641,7 +1628,7 @@ fn find_pets_by_tags_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByTagsQueryParams>,
     State(api_impl): State<I>,
@@ -1669,11 +1656,10 @@ where
         .find_pets_by_tags(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1684,6 +1670,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByTagsResponse::Status400_InvalidTagValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1716,7 +1703,7 @@ fn get_pet_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::GetPetByIdPathParams>,
@@ -1754,11 +1741,10 @@ where
         .get_pet_by_id(&method, &host, &cookies, &claims, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1769,10 +1755,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::GetPetByIdResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::pet::GetPetByIdResponse::Status404_PetNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1813,7 +1801,7 @@ fn update_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -1840,19 +1828,20 @@ where
         .update_pet(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UpdatePetResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::pet::UpdatePetResponse::Status404_PetNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
             apis::pet::UpdatePetResponse::Status405_ValidationException => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1903,7 +1892,7 @@ fn update_pet_with_form_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
@@ -1932,11 +1921,10 @@ where
         .update_pet_with_form(&method, &host, &cookies, &path_params, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UpdatePetWithFormResponse::Status405_InvalidInput => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1969,7 +1957,7 @@ fn upload_file_validation(
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UploadFilePathParams>,
     State(api_impl): State<I>,
@@ -1997,11 +1985,10 @@ where
         .upload_file(&method, &host, &cookies, &path_params, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UploadFileResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2048,7 +2035,7 @@ fn delete_order_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::DeleteOrderPathParams>,
     State(api_impl): State<I>,
@@ -2075,15 +2062,15 @@ where
         .delete_order(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::DeleteOrderResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::store::DeleteOrderResponse::Status404_OrderNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2112,7 +2099,7 @@ fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -2149,11 +2136,10 @@ where
         .get_inventory(&method, &host, &cookies, &claims)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::GetInventoryResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2200,7 +2186,7 @@ fn get_order_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetOrderByIdPathParams>,
     State(api_impl): State<I>,
@@ -2227,11 +2213,10 @@ where
         .get_order_by_id(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2242,10 +2227,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::store::GetOrderByIdResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::store::GetOrderByIdResponse::Status404_OrderNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2286,7 +2273,7 @@ fn place_order_validation(
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Order>,
@@ -2313,11 +2300,10 @@ where
         .place_order(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2328,6 +2314,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::store::PlaceOrderResponse::Status400_InvalidOrder => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2368,7 +2355,7 @@ fn create_user_validation(
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::User>,
@@ -2395,11 +2382,10 @@ where
         .create_user(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUserResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2440,7 +2426,7 @@ fn create_users_with_array_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
@@ -2468,11 +2454,10 @@ where
         .create_users_with_array_input(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2513,7 +2498,7 @@ fn create_users_with_list_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
@@ -2541,11 +2526,10 @@ where
         .create_users_with_list_input(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2578,7 +2562,7 @@ fn delete_user_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::DeleteUserPathParams>,
     State(api_impl): State<I>,
@@ -2605,15 +2589,15 @@ where
         .delete_user(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::DeleteUserResponse::Status400_InvalidUsernameSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::DeleteUserResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2646,7 +2630,7 @@ fn get_user_by_name_validation(
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetUserByNamePathParams>,
     State(api_impl): State<I>,
@@ -2673,11 +2657,10 @@ where
         .get_user_by_name(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2688,10 +2671,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::user::GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::GetUserByNameResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2724,7 +2709,7 @@ fn login_user_validation(
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::LoginUserQueryParams>,
     State(api_impl): State<I>,
@@ -2751,8 +2736,6 @@ where
         .login_user(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::LoginUserResponse::Status200_SuccessfulOperation {
@@ -2760,21 +2743,19 @@ where
                 x_rate_limit,
                 x_expires_after,
             } => {
+                let mut response = Response::builder();
                 if let Some(x_rate_limit) = x_rate_limit {
                     let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
                 }
                 if let Some(x_expires_after) = x_expires_after {
                     let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into()
@@ -2782,16 +2763,14 @@ where
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
                 }
                 let mut response = response.status(200);
                 {
@@ -2803,6 +2782,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::user::LoginUserResponse::Status400_InvalidUsername => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2831,7 +2811,7 @@ fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2857,11 +2837,10 @@ where
         .logout_user(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::LogoutUserResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2904,7 +2883,7 @@ fn update_user_validation(
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UpdateUserPathParams>,
     State(api_impl): State<I>,
@@ -2932,15 +2911,15 @@ where
         .update_user(&method, &host, &cookies, &path_params, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::UpdateUserResponse::Status400_InvalidUserSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::UpdateUserResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }

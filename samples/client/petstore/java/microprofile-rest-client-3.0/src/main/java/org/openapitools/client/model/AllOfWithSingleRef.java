@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import org.openapitools.client.model.SingleRefType;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
@@ -37,10 +36,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class AllOfWithSingleRef  {
   
   @JsonbProperty("username")
-  private String username;
+  protected String username;
 
   @JsonbProperty("SingleRefType")
-  private SingleRefType singleRefType;
+  protected SingleRefType singleRefType;
 
 
   /**
@@ -120,10 +119,7 @@ public class AllOfWithSingleRef  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

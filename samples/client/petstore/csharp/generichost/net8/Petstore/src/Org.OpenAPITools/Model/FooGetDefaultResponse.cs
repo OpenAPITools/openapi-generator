@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public Foo String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="FooGetDefaultResponse" />
     /// </summary>
-    public class FooGetDefaultResponseJsonConverter : JsonConverter<FooGetDefaultResponse>
+    public partial class FooGetDefaultResponseJsonConverter : JsonConverter<FooGetDefaultResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FooGetDefaultResponseJsonConverter" /> class.
+        /// </summary>
+        public FooGetDefaultResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="FooGetDefaultResponse" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
+                throw new JsonException("Property is not nullable for class FooGetDefaultResponse: string.");
 
             return new FooGetDefaultResponse(varString);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fooGetDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fooGetDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fooGetDefaultResponse.StringOption.IsSet && fooGetDefaultResponse.String == null)
-                throw new ArgumentNullException(nameof(fooGetDefaultResponse.String), "Property is required for class FooGetDefaultResponse.");
+                throw new JsonException("Cannot write null property FooGetDefaultResponse.String to non-nullable JSON property 'string'.");
 
             if (fooGetDefaultResponse.StringOption.IsSet)
             {

@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.model.PetDto;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {

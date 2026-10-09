@@ -10,6 +10,8 @@ docs/FooArrayItemRefTest.md
 docs/FooBaz.md
 docs/FooCategory.md
 docs/FooEnumArrayTesting.md
+docs/FooModelWithInlineEnum.md
+docs/FooModelWithInlineEnumMetadata.md
 docs/FooNullableArray.md
 docs/FooNumericEnumTesting.md
 docs/FooOptionalTesting.md
@@ -47,6 +49,8 @@ src/models/foo_array_item_ref_test.rs
 src/models/foo_baz.rs
 src/models/foo_category.rs
 src/models/foo_enum_array_testing.rs
+src/models/foo_model_with_inline_enum.rs
+src/models/foo_model_with_inline_enum_metadata.rs
 src/models/foo_nullable_array.rs
 src/models/foo_numeric_enum_testing.rs
 src/models/foo_optional_testing.rs

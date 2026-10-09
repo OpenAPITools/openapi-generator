@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [JsonPropertyName("content")]
-        public MixedOneOfContent Content { get { return this.ContentOption; } set { this.ContentOption = new(value); } }
+        public MixedOneOfContent Content { get { return this.ContentOption.Value; } set { this.ContentOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedOneOf" />
     /// </summary>
-    public class MixedOneOfJsonConverter : JsonConverter<MixedOneOf>
+    public partial class MixedOneOfJsonConverter : JsonConverter<MixedOneOf>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedOneOfJsonConverter" /> class.
+        /// </summary>
+        public MixedOneOfJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedOneOf" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedOneOf.");
+                throw new JsonException("Property is not nullable for class MixedOneOf: content.");
 
             return new MixedOneOf(content);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedOneOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedOneOf mixedOneOf, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedOneOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedOneOf mixedOneOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedOneOf.ContentOption.IsSet && mixedOneOf.Content == null)
-                throw new ArgumentNullException(nameof(mixedOneOf.Content), "Property is required for class MixedOneOf.");
+                throw new JsonException("Cannot write null property MixedOneOf.Content to non-nullable JSON property 'content'.");
 
             if (mixedOneOf.ContentOption.IsSet)
             {

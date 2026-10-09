@@ -23,8 +23,7 @@ const std::string StoreApi::base = "/v2";
 
 StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void StoreApi::init() {
     setupRoutes();
@@ -42,14 +41,12 @@ void StoreApi::setupRoutes() {
     router->addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
 }
 
-void StoreApi::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
-{
+void StoreApi::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept {
     std::pair<Pistache::Http::Code, std::string> codeAndError = handleParsingException(ex);
     response.send(codeAndError.first, codeAndError.second);
 }
 
-std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(const std::exception& ex) const noexcept
-{
+std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(const std::exception& ex) const noexcept {
     try {
         throw;
     } catch (nlohmann::detail::exception &e) {
@@ -61,109 +58,172 @@ std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(co
     }
 }
 
-void StoreApi::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
-{
+void StoreApi::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept {
     std::pair<Pistache::Http::Code, std::string> codeAndError = handleOperationException(ex);
     response.send(codeAndError.first, codeAndError.second);
 }
 
-std::pair<Pistache::Http::Code, std::string> StoreApi::handleOperationException(const std::exception& ex) const noexcept
-{
+std::pair<Pistache::Http::Code, std::string> StoreApi::handleOperationException(const std::exception& ex) const noexcept {
     return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
 }
 
-void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void StoreApi::delete_order_handler(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response) {
     try {
 
-    // Getting the path params
-    auto orderId = request.param(":orderId").as<std::string>();
+        // Getting the path params
+        auto orderId = request.param(":orderId").as<std::string>();
+        
+        
     
-    try {
-        this->delete_order(orderId, response);
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        this->handleOperationException(e, response);
-        return;
-    }
+
+
+        try {
+
+
+
+
+
+            this->delete_order(orderId, response);
+            } catch (Pistache::Http::HttpError &e) {
+                response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+                return;
+            } catch (std::exception &e) {
+                this->handleOperationException(e, response);
+                return;
+            }
 
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
+
 }
-void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
+
+void StoreApi::get_inventory_handler(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response) {
     try {
 
+        
+        
+    
 
-    try {
-        this->get_inventory(response);
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        this->handleOperationException(e, response);
-        return;
-    }
+
+        try {
+#ifndef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 0
+#endif
+#ifndef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 0
+#endif
+
+
+
+
+
+            this->get_inventory(response);
+            } catch (Pistache::Http::HttpError &e) {
+                response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+                return;
+            } catch (std::exception &e) {
+                this->handleOperationException(e, response);
+                return;
+            }
 
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
+#ifndef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 0
+#endif
+#ifndef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 0
+#endif
+#define REST_PATH "/store/inventory" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that.");
+#undef REST_PATH
+#ifdef HTTP_BEARER_AUTH_DEFINED
+#undef HTTP_BEARER_AUTH_DEFINED
+#endif
+#ifdef HTTP_BASIC_AUTH_DEFINED
+#undef HTTP_BASIC_AUTH_DEFINED
+#endif
+
 }
-void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+
+void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response) {
     try {
 
-    // Getting the path params
-    auto orderId = request.param(":orderId").as<int64_t>();
+        // Getting the path params
+        auto orderId = request.param(":orderId").as<int64_t>();
+        
+        
     
-    try {
-        this->get_order_by_id(orderId, response);
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        this->handleOperationException(e, response);
-        return;
-    }
+
+
+        try {
+
+
+
+
+
+            this->get_order_by_id(orderId, response);
+            } catch (Pistache::Http::HttpError &e) {
+                response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+                return;
+            } catch (std::exception &e) {
+                this->handleOperationException(e, response);
+                return;
+            }
 
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
+
 }
-void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+
+void StoreApi::place_order_handler(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response) {
     try {
 
-
-    // Getting the body param
+        
+        // Getting the body param
+        
+        Order order;
+        
+        
+        
     
-    Order order;
-    
-    try {
-        nlohmann::json::parse(request.body()).get_to(order);
-        order.validate();
-    } catch (std::exception &e) {
-        this->handleParsingException(e, response);
-        return;
-    }
 
-    try {
-        this->place_order(order, response);
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        this->handleOperationException(e, response);
-        return;
-    }
+        try {
+            nlohmann::json::parse(request.body()).get_to(order);
+            order.validate();
+        } catch (std::exception& e) {
+            this->handleParsingException(e, response);
+            return;
+        }
+
+        try {
+
+
+
+
+
+            this->place_order(order, response);
+            } catch (Pistache::Http::HttpError &e) {
+                response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+                return;
+            } catch (std::exception &e) {
+                this->handleOperationException(e, response);
+                return;
+            }
 
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
+
 }
+
 
 void StoreApi::store_api_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");

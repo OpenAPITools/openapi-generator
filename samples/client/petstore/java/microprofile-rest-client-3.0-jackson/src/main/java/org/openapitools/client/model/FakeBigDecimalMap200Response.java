@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,11 +39,11 @@ public class FakeBigDecimalMap200Response  {
   
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   
-  private BigDecimal someId;
+  protected BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   
-  private Map<String, BigDecimal> someMap = null;
+  protected Map<String, BigDecimal> someMap = null;
 
 
   /**
@@ -132,10 +131,7 @@ public class FakeBigDecimalMap200Response  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

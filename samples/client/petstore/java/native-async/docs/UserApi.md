@@ -90,7 +90,7 @@ No authorization required
 
 ## createUserWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> createUser createUserWithHttpInfo(user)
+> CompletableFuture<ApiResponse<Void>> createUserWithHttpInfo(user)
 
 Create user
 
@@ -231,7 +231,7 @@ No authorization required
 
 ## createUsersWithArrayInputWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> createUsersWithArrayInput createUsersWithArrayInputWithHttpInfo(user)
+> CompletableFuture<ApiResponse<Void>> createUsersWithArrayInputWithHttpInfo(user)
 
 Creates list of users with given input array
 
@@ -372,7 +372,7 @@ No authorization required
 
 ## createUsersWithListInputWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> createUsersWithListInput createUsersWithListInputWithHttpInfo(user)
+> CompletableFuture<ApiResponse<Void>> createUsersWithListInputWithHttpInfo(user)
 
 Creates list of users with given input array
 
@@ -514,7 +514,7 @@ No authorization required
 
 ## deleteUserWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> deleteUser deleteUserWithHttpInfo(username)
+> CompletableFuture<ApiResponse<Void>> deleteUserWithHttpInfo(username)
 
 Delete user
 
@@ -659,7 +659,7 @@ No authorization required
 
 ## getUserByNameWithHttpInfo
 
-> CompletableFuture<ApiResponse<User>> getUserByName getUserByNameWithHttpInfo(username)
+> CompletableFuture<ApiResponse<User>> getUserByNameWithHttpInfo(username)
 
 Get user by user name
 
@@ -807,7 +807,7 @@ No authorization required
 
 ## loginUserWithHttpInfo
 
-> CompletableFuture<ApiResponse<String>> loginUser loginUserWithHttpInfo(username, password)
+> CompletableFuture<ApiResponse<String>> loginUserWithHttpInfo(username, password)
 
 Logs user into the system
 
@@ -948,7 +948,7 @@ No authorization required
 
 ## logoutUserWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> logoutUser logoutUserWithHttpInfo()
+> CompletableFuture<ApiResponse<Void>> logoutUserWithHttpInfo()
 
 Logs out current logged in user session
 
@@ -1088,7 +1088,7 @@ No authorization required
 
 ## updateUserWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> updateUser updateUserWithHttpInfo(username, user)
+> CompletableFuture<ApiResponse<Void>> updateUserWithHttpInfo(username, user)
 
 Updated user
 

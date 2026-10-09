@@ -70,14 +70,14 @@ function Initialize-PSAdditionalPropertiesClass {
 
 
         $PSO = [PSCustomObject]@{
-            "map_property" = ${MapProperty}
-            "map_of_map_property" = ${MapOfMapProperty}
-            "anytype_1" = ${Anytype1}
-            "map_with_undeclared_properties_anytype_1" = ${MapWithUndeclaredPropertiesAnytype1}
-            "map_with_undeclared_properties_anytype_2" = ${MapWithUndeclaredPropertiesAnytype2}
-            "map_with_undeclared_properties_anytype_3" = ${MapWithUndeclaredPropertiesAnytype3}
-            "empty_map" = ${EmptyMap}
-            "map_with_undeclared_properties_string" = ${MapWithUndeclaredPropertiesString}
+            'map_property' = ${MapProperty}
+            'map_of_map_property' = ${MapOfMapProperty}
+            'anytype_1' = ${Anytype1}
+            'map_with_undeclared_properties_anytype_1' = ${MapWithUndeclaredPropertiesAnytype1}
+            'map_with_undeclared_properties_anytype_2' = ${MapWithUndeclaredPropertiesAnytype2}
+            'map_with_undeclared_properties_anytype_3' = ${MapWithUndeclaredPropertiesAnytype3}
+            'empty_map' = ${EmptyMap}
+            'map_with_undeclared_properties_string' = ${MapWithUndeclaredPropertiesString}
         }
 
 
@@ -115,70 +115,70 @@ function ConvertFrom-PSJsonToAdditionalPropertiesClass {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSAdditionalPropertiesClass
-        $AllProperties = ("map_property", "map_of_map_property", "anytype_1", "map_with_undeclared_properties_anytype_1", "map_with_undeclared_properties_anytype_2", "map_with_undeclared_properties_anytype_3", "empty_map", "map_with_undeclared_properties_string")
+        $AllProperties = ('map_property', 'map_of_map_property', 'anytype_1', 'map_with_undeclared_properties_anytype_1', 'map_with_undeclared_properties_anytype_2', 'map_with_undeclared_properties_anytype_3', 'empty_map', 'map_with_undeclared_properties_string')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_property"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_property'))) { #optional property not found
             $MapProperty = $null
         } else {
-            $MapProperty = $JsonParameters.PSobject.Properties["map_property"].value
+            $MapProperty = $JsonParameters.PSobject.Properties['map_property'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_of_map_property"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_of_map_property'))) { #optional property not found
             $MapOfMapProperty = $null
         } else {
-            $MapOfMapProperty = $JsonParameters.PSobject.Properties["map_of_map_property"].value
+            $MapOfMapProperty = $JsonParameters.PSobject.Properties['map_of_map_property'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "anytype_1"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'anytype_1'))) { #optional property not found
             $Anytype1 = $null
         } else {
-            $Anytype1 = $JsonParameters.PSobject.Properties["anytype_1"].value
+            $Anytype1 = $JsonParameters.PSobject.Properties['anytype_1'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_with_undeclared_properties_anytype_1"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_with_undeclared_properties_anytype_1'))) { #optional property not found
             $MapWithUndeclaredPropertiesAnytype1 = $null
         } else {
-            $MapWithUndeclaredPropertiesAnytype1 = $JsonParameters.PSobject.Properties["map_with_undeclared_properties_anytype_1"].value
+            $MapWithUndeclaredPropertiesAnytype1 = $JsonParameters.PSobject.Properties['map_with_undeclared_properties_anytype_1'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_with_undeclared_properties_anytype_2"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_with_undeclared_properties_anytype_2'))) { #optional property not found
             $MapWithUndeclaredPropertiesAnytype2 = $null
         } else {
-            $MapWithUndeclaredPropertiesAnytype2 = $JsonParameters.PSobject.Properties["map_with_undeclared_properties_anytype_2"].value
+            $MapWithUndeclaredPropertiesAnytype2 = $JsonParameters.PSobject.Properties['map_with_undeclared_properties_anytype_2'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_with_undeclared_properties_anytype_3"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_with_undeclared_properties_anytype_3'))) { #optional property not found
             $MapWithUndeclaredPropertiesAnytype3 = $null
         } else {
-            $MapWithUndeclaredPropertiesAnytype3 = $JsonParameters.PSobject.Properties["map_with_undeclared_properties_anytype_3"].value
+            $MapWithUndeclaredPropertiesAnytype3 = $JsonParameters.PSobject.Properties['map_with_undeclared_properties_anytype_3'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "empty_map"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'empty_map'))) { #optional property not found
             $EmptyMap = $null
         } else {
-            $EmptyMap = $JsonParameters.PSobject.Properties["empty_map"].value
+            $EmptyMap = $JsonParameters.PSobject.Properties['empty_map'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_with_undeclared_properties_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_with_undeclared_properties_string'))) { #optional property not found
             $MapWithUndeclaredPropertiesString = $null
         } else {
-            $MapWithUndeclaredPropertiesString = $JsonParameters.PSobject.Properties["map_with_undeclared_properties_string"].value
+            $MapWithUndeclaredPropertiesString = $JsonParameters.PSobject.Properties['map_with_undeclared_properties_string'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "map_property" = ${MapProperty}
-            "map_of_map_property" = ${MapOfMapProperty}
-            "anytype_1" = ${Anytype1}
-            "map_with_undeclared_properties_anytype_1" = ${MapWithUndeclaredPropertiesAnytype1}
-            "map_with_undeclared_properties_anytype_2" = ${MapWithUndeclaredPropertiesAnytype2}
-            "map_with_undeclared_properties_anytype_3" = ${MapWithUndeclaredPropertiesAnytype3}
-            "empty_map" = ${EmptyMap}
-            "map_with_undeclared_properties_string" = ${MapWithUndeclaredPropertiesString}
+            'map_property' = ${MapProperty}
+            'map_of_map_property' = ${MapOfMapProperty}
+            'anytype_1' = ${Anytype1}
+            'map_with_undeclared_properties_anytype_1' = ${MapWithUndeclaredPropertiesAnytype1}
+            'map_with_undeclared_properties_anytype_2' = ${MapWithUndeclaredPropertiesAnytype2}
+            'map_with_undeclared_properties_anytype_3' = ${MapWithUndeclaredPropertiesAnytype3}
+            'empty_map' = ${EmptyMap}
+            'map_with_undeclared_properties_string' = ${MapWithUndeclaredPropertiesString}
         }
 
         return $PSO

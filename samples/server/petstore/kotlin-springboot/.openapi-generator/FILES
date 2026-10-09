@@ -18,6 +18,7 @@ src/main/kotlin/org/openapitools/api/StoreApiServiceImpl.kt
 src/main/kotlin/org/openapitools/api/UserApiController.kt
 src/main/kotlin/org/openapitools/api/UserApiService.kt
 src/main/kotlin/org/openapitools/api/UserApiServiceImpl.kt
+src/main/kotlin/org/openapitools/configuration/ValuedEnum.kt
 src/main/kotlin/org/openapitools/model/Category.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt

@@ -1,5 +1,5 @@
 generatorName: csharp-functions
-outputDir: samples/client/petstore/csharp-functions
+outputDir: samples/server/petstore/csharp-functions
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp-functions
 additionalProperties:

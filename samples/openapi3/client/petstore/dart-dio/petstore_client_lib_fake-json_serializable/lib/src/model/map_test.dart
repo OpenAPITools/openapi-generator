@@ -46,7 +46,6 @@ class MapTest {
     name: r'map_of_enum_string',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: Map<String, MapTestMapOfEnumStringEnum>.unknownDefaultOpenApi,
   )
 
 
@@ -104,7 +103,6 @@ class MapTest {
   }
 
 }
-
 
 enum MapTestMapOfEnumStringEnum {
 @JsonValue(r'UPPER')

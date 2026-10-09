@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Apple: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Apple: Sendable, Codable, Hashable {
 
     public var kind: String?
 

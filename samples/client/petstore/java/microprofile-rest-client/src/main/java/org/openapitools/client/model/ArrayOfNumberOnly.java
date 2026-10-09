@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +36,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ArrayOfNumberOnly  {
   
   @JsonbProperty("ArrayNumber")
-  private List<BigDecimal> arrayNumber = null;
+  protected List<BigDecimal> arrayNumber = null;
 
 
   /**
@@ -103,10 +102,7 @@ public class ArrayOfNumberOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

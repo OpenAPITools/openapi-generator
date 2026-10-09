@@ -1,3 +1,4 @@
+.scalafmt.conf
 README.md
 build.sbt
 docs/ApiResponse.md
@@ -11,6 +12,7 @@ docs/User.md
 docs/UserApi.md
 pom.xml
 project/build.properties
+project/plugins.sbt
 src/main/resources/reference.conf
 src/main/scala/org/openapitools/client/api/EnumsSerializers.scala
 src/main/scala/org/openapitools/client/api/PetApi.scala

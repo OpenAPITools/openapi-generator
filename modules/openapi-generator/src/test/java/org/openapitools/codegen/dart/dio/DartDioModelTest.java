@@ -492,4 +492,32 @@ public class DartDioModelTest {
         Assert.assertEquals(dateTimeDefault.name, "dateTime");
         Assert.assertNull(dateTimeDefault.defaultValue);
     }
+
+    @Test(description = "array items can be nullable")
+    public void arrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "BuiltList<String?>");
+    }
+
+    @Test(description = "nested array items can be nullable")
+    public void nestedArrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/nested-array-nullable-items.yaml");
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("NestedArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "BuiltList<BuiltList<String?>>");
+    }
 }

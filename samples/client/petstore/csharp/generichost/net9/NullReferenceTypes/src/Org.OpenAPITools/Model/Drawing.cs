@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape? MainShape { get { return this.MainShapeOption; } set { this.MainShapeOption = new(value); } }
+        public Shape? MainShape { get { return this.MainShapeOption.Value; } set { this.MainShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NullableShape
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape? NullableShape { get { return this.NullableShapeOption; } set { this.NullableShapeOption = new(value); } }
+        public NullableShape? NullableShape { get { return this.NullableShapeOption.Value; } set { this.NullableShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ShapeOrNull
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull? ShapeOrNull { get { return this.ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } }
+        public ShapeOrNull? ShapeOrNull { get { return this.ShapeOrNullOption.Value; } set { this.ShapeOrNullOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Shapes
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
-        public List<Shape>? Shapes { get { return this.ShapesOption; } set { this.ShapesOption = new(value); } }
+        public List<Shape>? Shapes { get { return this.ShapesOption.Value; } set { this.ShapesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,8 +139,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Drawing" />
     /// </summary>
-    public class DrawingJsonConverter : JsonConverter<Drawing>
+    public partial class DrawingJsonConverter : JsonConverter<Drawing>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrawingJsonConverter" /> class.
+        /// </summary>
+        public DrawingJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Drawing" />
         /// </summary>
@@ -197,10 +207,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (mainShape.IsSet && mainShape.Value == null)
-                throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: mainShape.");
 
             if (shapes.IsSet && shapes.Value == null)
-                throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: shapes.");
 
             return new Drawing(mainShape, nullableShape, shapeOrNull, shapes);
         }
@@ -211,7 +221,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="drawing"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -226,14 +235,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="drawing"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
             if (drawing.MainShapeOption.IsSet && drawing.MainShape == null)
-                throw new ArgumentNullException(nameof(drawing.MainShape), "Property is required for class Drawing.");
+                throw new JsonException("Cannot write null property Drawing.MainShape to non-nullable JSON property 'mainShape'.");
 
             if (drawing.ShapesOption.IsSet && drawing.Shapes == null)
-                throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
+                throw new JsonException("Cannot write null property Drawing.Shapes to non-nullable JSON property 'shapes'.");
 
             if (drawing.MainShapeOption.IsSet)
             {

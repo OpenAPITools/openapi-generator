@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Must be named &#x60;File&#x60; for test. */
-public final class File: Content, Hashable {
+public struct File: Sendable, Content, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?
@@ -27,16 +27,6 @@ public final class File: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
-    }
-
-    public static func == (lhs: File, rhs: File) -> Bool {
-        lhs.sourceURI == rhs.sourceURI
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(sourceURI?.hashValue)
-        
     }
 }
 

@@ -1,0 +1,55 @@
+#![allow(
+    missing_docs,
+    trivial_casts,
+    unused_variables,
+    unused_mut,
+    unused_extern_crates,
+    non_camel_case_types,
+    unused_imports,
+    unused_attributes
+)]
+#![allow(
+    clippy::derive_partial_eq_without_eq,
+    clippy::disallowed_names,
+    clippy::too_many_arguments
+)]
+
+pub const BASE_PATH: &str = "{{{basePathWithoutHost}}}";
+{{#appVersion}}
+pub const API_VERSION: &str = "{{{.}}}";
+{{/appVersion}}
+
+pub mod handlers;
+pub mod models;
+pub mod routes;
+{{#enableAuthMiddleware}}
+pub mod middleware;
+{{/enableAuthMiddleware}}
+
+pub use handlers::*;
+pub use models::*;
+pub use routes::*;
+
+use salvo::prelude::*;
+
+{{#enableAuthMiddleware}}
+use middleware::*;
+{{/enableAuthMiddleware}}
+
+/// Create and configure the Salvo service.
+///
+/// Authentication middleware is attached per route (see `routes.rs`) so that
+/// public operations are not blocked by a global auth hoop.
+pub fn create_service() -> Service {
+    let router = create_router();
+
+    Service::new(router)
+        {{#enableCorsMiddleware}}
+        .hoop(salvo::cors::Cors::new())
+        {{/enableCorsMiddleware}}
+}
+
+/// Create the main router with all API routes
+pub fn create_router() -> Router {
+    routes::create_router()
+}

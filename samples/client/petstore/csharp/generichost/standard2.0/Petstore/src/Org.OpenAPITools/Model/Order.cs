@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new Option<StatusEnum?>(value); } }
+        public StatusEnum? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new Option<StatusEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of Complete
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool? Complete { get { return this.CompleteOption; } set { this.CompleteOption = new Option<bool?>(value); } }
+        public bool? Complete { get { return this.CompleteOption.Value; } set { this.CompleteOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of PetId
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long? PetId { get { return this.PetIdOption; } set { this.PetIdOption = new Option<long?>(value); } }
+        public long? PetId { get { return this.PetIdOption.Value; } set { this.PetIdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Quantity
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int? Quantity { get { return this.QuantityOption; } set { this.QuantityOption = new Option<int?>(value); } }
+        public int? Quantity { get { return this.QuantityOption.Value; } set { this.QuantityOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of ShipDate
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>2020-02-02T20:20:20.000222Z</example> */
         [JsonPropertyName("shipDate")]
-        public DateTime? ShipDate { get { return this.ShipDateOption; } set { this.ShipDateOption = new Option<DateTime?>(value); } }
+        public DateTime? ShipDate { get { return this.ShipDateOption.Value; } set { this.ShipDateOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -252,12 +252,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Order" />
     /// </summary>
-    public class OrderJsonConverter : JsonConverter<Order>
+    public partial class OrderJsonConverter : JsonConverter<Order>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderJsonConverter" /> class.
+        /// </summary>
+        public OrderJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize ShipDate
         /// </summary>
-        public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string ShipDateFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="Order" />
@@ -316,7 +326,12 @@ namespace Org.OpenAPITools.Model
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
                             if (statusRawValue != null)
-                                status = new Option<Order.StatusEnum?>(Order.StatusEnumFromStringOrDefault(statusRawValue));
+                            {
+                                Order.StatusEnum? statusValue = Order.StatusEnumFromStringOrDefault(statusRawValue);
+                                if (statusValue == null)
+                                    throw new JsonException();
+                                status = new Option<Order.StatusEnum?>(statusValue);
+                            }
                             break;
                         default:
                             break;
@@ -325,22 +340,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: complete.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: id.");
 
             if (petId.IsSet && petId.Value == null)
-                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: petId.");
 
             if (quantity.IsSet && quantity.Value == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: quantity.");
 
             if (shipDate.IsSet && shipDate.Value == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: shipDate.");
 
             if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: status.");
 
             return new Order(complete, id, petId, quantity, shipDate, status);
         }
@@ -351,7 +366,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="order"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -366,9 +380,26 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="order"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (order.CompleteOption.IsSet && order.Complete == null)
+                throw new JsonException("Cannot write null property Order.Complete to non-nullable JSON property 'complete'.");
+
+            if (order.IdOption.IsSet && order.Id == null)
+                throw new JsonException("Cannot write null property Order.Id to non-nullable JSON property 'id'.");
+
+            if (order.PetIdOption.IsSet && order.PetId == null)
+                throw new JsonException("Cannot write null property Order.PetId to non-nullable JSON property 'petId'.");
+
+            if (order.QuantityOption.IsSet && order.Quantity == null)
+                throw new JsonException("Cannot write null property Order.Quantity to non-nullable JSON property 'quantity'.");
+
+            if (order.ShipDateOption.IsSet && order.ShipDate == null)
+                throw new JsonException("Cannot write null property Order.ShipDate to non-nullable JSON property 'shipDate'.");
+
+            if (order.StatusOption.IsSet && order.Status == null)
+                throw new JsonException("Cannot write null property Order.Status to non-nullable JSON property 'status'.");
+
             if (order.CompleteOption.IsSet)
                 writer.WriteBoolean("complete", order.CompleteOption.Value.Value);
 

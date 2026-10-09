@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get { return this.SweetOption; } set { this.SweetOption = new(value); } }
+        public bool? Sweet { get { return this.SweetOption.Value; } set { this.SweetOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Orange" />
     /// </summary>
-    public class OrangeJsonConverter : JsonConverter<Orange>
+    public partial class OrangeJsonConverter : JsonConverter<Orange>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrangeJsonConverter" /> class.
+        /// </summary>
+        public OrangeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Orange" />
         /// </summary>
@@ -137,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class Orange.");
+                throw new JsonException("Property is not nullable for class Orange: sweet.");
 
             return new Orange(sweet);
         }
@@ -148,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="orange"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Orange orange, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -163,9 +172,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="orange"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Orange orange, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (orange.SweetOption.IsSet && orange.Sweet == null)
+                throw new JsonException("Cannot write null property Orange.Sweet to non-nullable JSON property 'sweet'.");
+
             if (orange.SweetOption.IsSet)
                 writer.WriteBoolean("sweet", orange.SweetOption.Value!.Value);
         }

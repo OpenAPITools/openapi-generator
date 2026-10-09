@@ -34,6 +34,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Javascript-Flowtyped/}.
+ */
 @Getter
 @Setter
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {

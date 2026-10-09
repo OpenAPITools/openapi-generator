@@ -40,6 +40,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 // This code was almost entirely based on MySqlSchemaCodegen.
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ktorm-schema/}.
+ */
 @SuppressWarnings("unchecked")
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
@@ -224,7 +227,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
-        removeOption(CodegenConstants.API_SUFFIX);
         removeOption(CodegenConstants.PARCELIZE_MODELS);
         removeOption(CodegenConstants.SERIALIZABLE_MODEL);
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);

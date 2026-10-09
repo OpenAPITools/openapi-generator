@@ -1,0 +1,79 @@
+---
+openapi: 3.0.1
+info:
+  title: Mukul
+  version: '2.0'
+paths:
+  "/catalog/{id}":
+    get:
+      operationId: getCatalogItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CatalogEntity"
+components:
+  schemas:
+    CatalogEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        entityType:
+          type: string
+      discriminator:
+        propertyName: entityType
+        mapping:
+          folder: "#/components/schemas/Folder"
+          source: "#/components/schemas/Source"
+      oneOf:
+        - "$ref": "#/components/schemas/Folder"
+        - "$ref": "#/components/schemas/Source"
+    Folder:
+      type: object
+      properties:
+        path:
+          type: array
+          items:
+            type: string
+        tag:
+          type: string
+        children:
+          type: array
+          items:
+            "$ref": "#/components/schemas/CatalogItem"
+      allOf:
+        - "$ref": "#/components/schemas/CatalogEntity"
+    CatalogItem:
+      type: object
+      properties:
+        name:
+          type: string
+    Source:
+      type: object
+      properties:
+        tag:
+          type: string
+        type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        children:
+          type: array
+          items:
+            "$ref": "#/components/schemas/CatalogItem"
+      allOf:
+        - "$ref": "#/components/schemas/CatalogEntity"

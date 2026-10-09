@@ -49,7 +49,7 @@ class Tag
      * @var int|null
      * @SerializedName("id")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $id = null;
 
@@ -57,7 +57,7 @@ class Tag
      * @var string|null
      * @SerializedName("name")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $name = null;
 
@@ -84,12 +84,12 @@ class Tag
     }
 
     /**
-    * Sets id.
-    *
-    * @param int|null $id
-    *
-    * @return $this
-    */
+     * Sets id.
+     *
+     * @param int|null $id
+     *
+     * @return $this
+     */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
@@ -111,12 +111,12 @@ class Tag
     }
 
     /**
-    * Sets name.
-    *
-    * @param string|null $name
-    *
-    * @return $this
-    */
+     * Sets name.
+     *
+     * @param string|null $name
+     *
+     * @return $this
+     */
     public function setName(?string $name = null): self
     {
         $this->name = $name;

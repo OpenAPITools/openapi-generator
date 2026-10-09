@@ -26,7 +26,8 @@ namespace {{apiNamespace}}
 {
 
 {{#hasModelImport}}
-using namespace {{modelNamespace}};{{/hasModelImport}}
+using namespace {{modelNamespace}};
+{{/hasModelImport}}
 
 class {{declspec}} {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
@@ -35,7 +36,7 @@ public:
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
+    void {{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const HttpBasicCredentials &credentials,{{/isBasicBasic}}{{#isBasicBearer}}const HttpBearerToken &bearerToken, {{/isBasicBearer}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);

@@ -9,14 +9,14 @@ namespace {{apiNamespace}}
 
 using namespace {{helpersNamespace}};
 {{#hasModelImport}}
-using namespace {{modelNamespace}};{{/hasModelImport}}
+using namespace {{modelNamespace}};
+{{/hasModelImport}}
 
 const std::string {{classname}}::base = "{{basePathWithoutHost}}";
 
 {{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void {{classname}}::init() {
     setupRoutes();
@@ -33,14 +33,12 @@ void {{classname}}::setupRoutes() {
     router->addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
 }
 
-void {{classname}}::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
-{
+void {{classname}}::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept {
     std::pair<Pistache::Http::Code, std::string> codeAndError = handleParsingException(ex);
     response.send(codeAndError.first, codeAndError.second);
 }
 
-std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingException(const std::exception& ex) const noexcept
-{
+std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingException(const std::exception& ex) const noexcept {
     try {
         throw;
     } catch (nlohmann::detail::exception &e) {
@@ -52,94 +50,187 @@ std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingExcepti
     }
 }
 
-void {{classname}}::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
-{
+void {{classname}}::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept {
     std::pair<Pistache::Http::Code, std::string> codeAndError = handleOperationException(ex);
     response.send(codeAndError.first, codeAndError.second);
 }
 
-std::pair<Pistache::Http::Code, std::string> {{classname}}::handleOperationException(const std::exception& ex) const noexcept
-{
+std::pair<Pistache::Http::Code, std::string> {{classname}}::handleOperationException(const std::exception& ex) const noexcept {
     return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
 }
 
 {{#operation}}
-void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &{{#hasParams}}request{{/hasParams}}, Pistache::Http::ResponseWriter response) {
+void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response) {
     try {
+        {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 
-    {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    {{#hasPathParams}}
-    // Getting the path params
-    {{#pathParams}}
-    auto {{paramName}} = request.param(":{{paramName}}").as<{{dataType}}>();
-    {{/pathParams}}
-    {{/hasPathParams}}{{#hasBodyParam}}
-    // Getting the body param
-    {{#bodyParam}}
-    {{^isPrimitiveType}}{{^isContainer}}
-    {{baseType}} {{paramName}};{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}> {{paramName}};{{/isArray}}{{#isMap}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMap}}{{/isPrimitiveType}}
-    {{#isPrimitiveType}}
-    {{dataType}} {{paramName}};
-    {{/isPrimitiveType}}
-    {{/bodyParam}}
-    {{/hasBodyParam}}{{#hasQueryParams}}
-    // Getting the query params
-    {{#queryParams}}
-    auto {{paramName}}Query = request.query().get("{{baseName}}");
-    std::optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
-    if({{paramName}}Query.has_value()){
-        {{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}} valueQuery_instance;
-        if(fromStringValue({{paramName}}Query.value(), valueQuery_instance)){
-            {{paramName}} = valueQuery_instance;
+        {{#hasPathParams}}
+        // Getting the path params
+        {{#pathParams}}
+        auto {{paramName}} = request.param(":{{paramName}}").as<{{dataType}}>();
+        {{/pathParams}}
+        {{/hasPathParams}}
+        
+        {{#hasBodyParam}}
+        // Getting the body param
+        {{#bodyParam}}
+        {{^isPrimitiveType}}{{^isContainer}}
+        {{baseType}} {{paramName}};
+        {{/isContainer}}
+        {{#isArray}}std::vector<{{items.baseType}}> {{paramName}};{{/isArray}}
+        {{#isMap}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMap}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        {{dataType}} {{paramName}};
+        {{/isPrimitiveType}}
+        {{/bodyParam}}
+        {{/hasBodyParam}}
+        
+        {{#hasQueryParams}}
+        // Getting the query params
+        {{#queryParams}}
+        auto {{paramName}}Query = request.query().get("{{baseName}}");
+        std::optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
+        if ({{paramName}}Query.has_value()) {
+            {{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}} valueQuery_instance;
+            if (fromStringValue({{paramName}}Query.value(), valueQuery_instance)) {
+                {{paramName}} = valueQuery_instance;
+            }
         }
-    }
-    {{/queryParams}}
-    {{/hasQueryParams}}{{#hasHeaderParams}}
-    // Getting the header params
-    {{#headerParams}}
-    auto {{paramName}} = request.headers().tryGetRaw("{{baseName}}");
-    {{/headerParams}}
-    {{/hasHeaderParams}}
+        {{/queryParams}}
+        {{/hasQueryParams}}
+    
+        {{#hasHeaderParams}}
+        // Getting the header params
+        {{#headerParams}}
+        auto {{paramName}} = request.headers().tryGetRaw("{{baseName}}");
+        {{/headerParams}}
+        {{/hasHeaderParams}}
 
-    try {
-    {{#hasBodyParam}}
-    {{#bodyParam}}
-    {{^isPrimitiveType}}
-        nlohmann::json::parse(request.body()).get_to({{paramName}});{{#isArray}}
-        for (const auto& validationParam : {{paramName}})
-             validationParam.validate();{{/isArray}}{{^isArray}}
-        {{paramName}}.validate();{{/isArray}}
-    {{/isPrimitiveType}}
-    {{#isPrimitiveType}}
-        {{paramName}} = request.body();
-    {{/isPrimitiveType}}
-    } catch (std::exception &e) {
-        this->handleParsingException(e, response);
-        return;
-    }
+        {{#hasBodyParam}}
+        try {
+            {{#bodyParam}}
+            {{^isPrimitiveType}}
+            nlohmann::json::parse(request.body()).get_to({{paramName}});
+            {{#isArray}}
+            for (const auto& validationParam : {{paramName}}) 
+                validationParam.validate();
+            {{/isArray}}
+            {{^isArray}}
+            {{paramName}}.validate();
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{#isPrimitiveType}}
+            {{paramName}} = request.body();
+            {{/isPrimitiveType}}
+            {{/bodyParam}}
+        } catch (std::exception& e) {
+            this->handleParsingException(e, response);
+            return;
+        }
+        {{/hasBodyParam}}
 
-    try {
-    {{/bodyParam}}
-    {{/hasBodyParam}}
-        this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
-    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    try {
-      this->{{operationIdSnakeCase}}(request, response);
-    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        this->handleOperationException(e, response);
-        return;
-    }
+        try {
+{{#authMethods}}
+#ifndef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 0
+#endif
+#ifndef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 0
+#endif
+{{/authMethods}}
+
+
+
+{{#authMethods}}{{#isBasicBasic}}
+#undef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 1
+
+            auto basicAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
+
+            if(!basicAuthHeader || (basicAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Basic))
+            {
+                response.send(Pistache::Http::Code::Unauthorized, "");
+                return;
+            }
+
+            HttpBasicCredentials credentials{basicAuthHeader->getBasicUser(), basicAuthHeader->getBasicPassword()};
+            
+            if (!this->basicCredentialsAuthenticator.has_value() || !this->basicCredentialsAuthenticator.value()(credentials))
+            {
+                response.send(Pistache::Http::Code::Unauthorized, "");
+                return;
+            }
+
+{{/isBasicBasic}}
+{{/authMethods}}
+
+{{#authMethods}}
+{{#isBasicBearer}}
+#undef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 1
+
+            auto bearerAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
+
+            if (!bearerAuthHeader || (bearerAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Bearer))
+            {
+                response.send(Pistache::Http::Code::Unauthorized, "");
+                return;
+            }
+
+            std::string completeHeaderValue = bearerAuthHeader->value();
+            const std::string tokenAsString(completeHeaderValue.begin() + std::string("Bearer ").length(), completeHeaderValue.end());
+
+            HttpBearerToken bearerToken{tokenAsString};
+
+            if (!this->bearerTokenAuthenticator.has_value() || !this->bearerTokenAuthenticator.value()(bearerToken))
+            {
+                response.send(Pistache::Http::Code::Unauthorized, "");
+                return;
+            }
+{{/isBasicBearer}}
+{{/authMethods}}
+
+            this->{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}credentials,{{/isBasicBasic}}{{#isBasicBearer}}bearerToken,{{/isBasicBearer}}{{/authMethods}}{{#allParams}}{{paramName}}, {{/allParams}}response);
+            {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+            {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+            
+            try {
+                this->{{operationIdSnakeCase}}(request, response);
+            {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+            } catch (Pistache::Http::HttpError &e) {
+                response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+                return;
+            } catch (std::exception &e) {
+                this->handleOperationException(e, response);
+                return;
+            }
 
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
+    {{#hasAuthMethods}}
+#ifndef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 0
+#endif
+#ifndef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 0
+#endif
+#define REST_PATH "{{{vendorExtensions.x-codegen-pistache-path}}}" {{! this is nessecary, because the path does not exist in the authMethods scope.}}
+    {{! This static assert may be rendered more that once, so the compilation will fail even harder!}}
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that.");
+#undef REST_PATH
+#ifdef HTTP_BEARER_AUTH_DEFINED
+#undef HTTP_BEARER_AUTH_DEFINED
+#endif
+#ifdef HTTP_BASIC_AUTH_DEFINED
+#undef HTTP_BASIC_AUTH_DEFINED
+#endif
+    {{/hasAuthMethods}}
+
 }
+
 {{/operation}}
 
 void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {

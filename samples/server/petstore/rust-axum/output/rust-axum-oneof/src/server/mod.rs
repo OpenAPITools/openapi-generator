@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
+};
 use bytes::Bytes;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use headers::Host;
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -54,7 +56,7 @@ fn foo_validation(
 #[tracing::instrument(skip_all)]
 async fn foo<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Message>,
@@ -78,11 +80,10 @@ where
 
     let result = api_impl.as_ref().foo(&method, &host, &cookies, &body).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::FooResponse::Status200_Re(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -134,7 +135,7 @@ fn i211431_validation(body: Vec<i32>) -> std::result::Result<(Vec<i32>,), Valida
 #[tracing::instrument(skip_all)]
 async fn i211431<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<i32>>,
@@ -161,11 +162,10 @@ where
         .i211431(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::I211431Response::Status200_Re(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -218,7 +218,7 @@ fn i211432_validation(body: String) -> std::result::Result<(String,), Validation
 #[tracing::instrument(skip_all)]
 async fn i211432<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<String>,
@@ -245,11 +245,10 @@ where
         .i211432(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::I211432Response::Status200_Re(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -301,7 +300,7 @@ fn i211433_validation(body: i32) -> std::result::Result<(i32,), ValidationErrors
 #[tracing::instrument(skip_all)]
 async fn i211433<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<i32>,
@@ -328,11 +327,10 @@ where
         .i211433(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::I211433Response::Status200_Re(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

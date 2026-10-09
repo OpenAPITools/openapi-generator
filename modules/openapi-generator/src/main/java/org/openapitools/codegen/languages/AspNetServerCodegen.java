@@ -39,6 +39,9 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/aspnetcore/}.
+ */
 public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
@@ -55,6 +58,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
     public static final String TARGET_FRAMEWORK = "targetFramework";
     public static final String NET_60_OR_LATER = "net60OrLater";
+    public static final String NET_10_OR_LATER = "net10OrLater";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -83,7 +87,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 10.0, 8.0, 7.0, 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -196,7 +200,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
         aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
         aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
-        aspnetCoreVersion.setDefault("8.0");
+        aspnetCoreVersion.addEnum("10.0", "ASP.NET Core 10.0");
+        aspnetCoreVersion.setDefault("10.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -464,7 +469,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
                     packageFolder + File.separator + "Properties", "launchSettings.json"));
             // wwwroot files.
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
                     packageFolder + File.separator + "wwwroot", "openapi-original.json"));
@@ -486,6 +490,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
 
         setCentralizedPackageManagementOption();
+        if ("true".equals(additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT))) {
+            supportingFiles.add(new SupportingFile("Directory.Packages.props.mustache", packageFolder, "Directory.Packages.props"));
+        }
     }
 
     private void setCentralizedPackageManagementOption() {
@@ -673,15 +680,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setClassModifier() {
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         setCliOption(classModifier);
-
-        // If class modifier is abstract then the methods need to be abstract too.
-        if ("abstract".equals(classModifier.getOptValue())) {
-            operationModifier.setOptValue(classModifier.getOptValue());
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
-        }
     }
 
     private void setOperationModifier() {
@@ -744,6 +744,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "10.0":
             case "8.0":
             case "7.0":
             case "6.0":
@@ -839,6 +840,13 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("10.")) {
+            LOGGER.warn(
+                "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net10.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -855,8 +863,12 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         String targetFramework = ((String) additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
                 targetFramework.startsWith("net7.0") ||
-                targetFramework.startsWith("net8.0")) {
+            targetFramework.startsWith("net8.0") ||
+            targetFramework.startsWith("net10.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
+        }
+        if (targetFramework.startsWith("net10.0")) {
+            additionalProperties.put(NET_10_OR_LATER, true);
         }
     }
 

@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class XmlItem: Content, Hashable {
+public struct XmlItem: Sendable, Content, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?
@@ -137,72 +137,6 @@ public final class XmlItem: Content, Hashable {
         try container.encodeIfPresent(prefixNsBoolean, forKey: .prefixNsBoolean)
         try container.encodeIfPresent(prefixNsArray, forKey: .prefixNsArray)
         try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
-    }
-
-    public static func == (lhs: XmlItem, rhs: XmlItem) -> Bool {
-        lhs.attributeString == rhs.attributeString &&
-        lhs.attributeNumber == rhs.attributeNumber &&
-        lhs.attributeInteger == rhs.attributeInteger &&
-        lhs.attributeBoolean == rhs.attributeBoolean &&
-        lhs.wrappedArray == rhs.wrappedArray &&
-        lhs.nameString == rhs.nameString &&
-        lhs.nameNumber == rhs.nameNumber &&
-        lhs.nameInteger == rhs.nameInteger &&
-        lhs.nameBoolean == rhs.nameBoolean &&
-        lhs.nameArray == rhs.nameArray &&
-        lhs.nameWrappedArray == rhs.nameWrappedArray &&
-        lhs.prefixString == rhs.prefixString &&
-        lhs.prefixNumber == rhs.prefixNumber &&
-        lhs.prefixInteger == rhs.prefixInteger &&
-        lhs.prefixBoolean == rhs.prefixBoolean &&
-        lhs.prefixArray == rhs.prefixArray &&
-        lhs.prefixWrappedArray == rhs.prefixWrappedArray &&
-        lhs.namespaceString == rhs.namespaceString &&
-        lhs.namespaceNumber == rhs.namespaceNumber &&
-        lhs.namespaceInteger == rhs.namespaceInteger &&
-        lhs.namespaceBoolean == rhs.namespaceBoolean &&
-        lhs.namespaceArray == rhs.namespaceArray &&
-        lhs.namespaceWrappedArray == rhs.namespaceWrappedArray &&
-        lhs.prefixNsString == rhs.prefixNsString &&
-        lhs.prefixNsNumber == rhs.prefixNsNumber &&
-        lhs.prefixNsInteger == rhs.prefixNsInteger &&
-        lhs.prefixNsBoolean == rhs.prefixNsBoolean &&
-        lhs.prefixNsArray == rhs.prefixNsArray &&
-        lhs.prefixNsWrappedArray == rhs.prefixNsWrappedArray
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(attributeString?.hashValue)
-        hasher.combine(attributeNumber?.hashValue)
-        hasher.combine(attributeInteger?.hashValue)
-        hasher.combine(attributeBoolean?.hashValue)
-        hasher.combine(wrappedArray?.hashValue)
-        hasher.combine(nameString?.hashValue)
-        hasher.combine(nameNumber?.hashValue)
-        hasher.combine(nameInteger?.hashValue)
-        hasher.combine(nameBoolean?.hashValue)
-        hasher.combine(nameArray?.hashValue)
-        hasher.combine(nameWrappedArray?.hashValue)
-        hasher.combine(prefixString?.hashValue)
-        hasher.combine(prefixNumber?.hashValue)
-        hasher.combine(prefixInteger?.hashValue)
-        hasher.combine(prefixBoolean?.hashValue)
-        hasher.combine(prefixArray?.hashValue)
-        hasher.combine(prefixWrappedArray?.hashValue)
-        hasher.combine(namespaceString?.hashValue)
-        hasher.combine(namespaceNumber?.hashValue)
-        hasher.combine(namespaceInteger?.hashValue)
-        hasher.combine(namespaceBoolean?.hashValue)
-        hasher.combine(namespaceArray?.hashValue)
-        hasher.combine(namespaceWrappedArray?.hashValue)
-        hasher.combine(prefixNsString?.hashValue)
-        hasher.combine(prefixNsNumber?.hashValue)
-        hasher.combine(prefixNsInteger?.hashValue)
-        hasher.combine(prefixNsBoolean?.hashValue)
-        hasher.combine(prefixNsArray?.hashValue)
-        hasher.combine(prefixNsWrappedArray?.hashValue)
-        
     }
 }
 

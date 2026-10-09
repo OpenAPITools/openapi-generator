@@ -115,6 +115,13 @@ class Configuration
     protected string $tempFolderPath;
 
     /**
+     * Ignore operation specific hosts
+     * 
+     * @var bool
+     */
+    protected bool $ignoreOperationHosts = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -125,14 +132,18 @@ class Configuration
     /**
      * Sets API key
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $key              API key or token
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $key              API key or token
      *
      * @return $this
      */
-    public function setApiKey(string $apiKeyIdentifier, string $key): static
+    public function setApiKey(string $apiKeyIdentifier, ?string $key): static
     {
-        $this->apiKeys[$apiKeyIdentifier] = $key;
+        if ($key === null) {
+            unset($this->apiKeys[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeys[$apiKeyIdentifier] = $key;
+        }
         return $this;
     }
 
@@ -151,14 +162,18 @@ class Configuration
     /**
      * Sets the prefix for API key (e.g. Bearer)
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $prefix           API key prefix, e.g. Bearer
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $prefix           API key prefix, e.g. Bearer
      *
      * @return $this
      */
-    public function setApiKeyPrefix(string $apiKeyIdentifier, string $prefix): static
+    public function setApiKeyPrefix(string $apiKeyIdentifier, ?string $prefix): static
     {
-        $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        if ($prefix === null) {
+            unset($this->apiKeyPrefixes[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        }
         return $this;
     }
 
@@ -384,6 +399,29 @@ class Configuration
     }
 
     /**
+     * Sets the ignore operation specific hosts flag
+     *
+     * @param bool $ignoreOperationHosts Ignore operation specific hosts flag
+     *
+     * @return $this
+     */
+    public function setIgnoreOperationHosts(bool $ignoreOperationHosts): static
+    {
+        $this->ignoreOperationHosts = $ignoreOperationHosts;
+        return $this;
+    }
+
+    /**
+     * Gets the ignore operation specific hosts flag
+     *
+     * @return bool Ignore operation specific hosts flag
+     */
+    public function getIgnoreOperationHosts(): bool
+    {
+        return $this->ignoreOperationHosts;
+    }
+
+    /**
      * Gets the default configuration instance
      *
      * @return Configuration
@@ -492,13 +530,13 @@ class Configuration
     }
 
     /**
-    * Returns URL based on host settings, index and variables
-    *
-    * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
-    * @param int        $hostIndex    index of the host settings
-    * @param array|null $variables    hash of variable and the corresponding value (optional)
-    * @return string URL based on host settings
-    */
+     * Returns URL based on host settings, index and variables
+     *
+     * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
+     * @param int        $hostIndex    index of the host settings
+     * @param array|null $variables    hash of variable and the corresponding value (optional)
+     * @return string URL based on host settings
+     */
     public static function getHostString(array $hostSettings, int $hostIndex, ?array $variables = null): string
     {
         if (null === $variables) {

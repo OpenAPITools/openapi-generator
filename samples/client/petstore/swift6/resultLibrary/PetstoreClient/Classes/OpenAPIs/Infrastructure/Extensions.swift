@@ -49,8 +49,10 @@ extension UUID: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension RawRepresentable where RawValue: ParameterConvertible, RawValue: Sendable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable { return self.rawValue }
+extension RawRepresentable where RawValue: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        rawValue.asParameter(codableHelper: codableHelper)
+    }
 }
 
 private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
@@ -90,15 +92,6 @@ extension Data: ParameterConvertible {
 extension Date: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return codableHelper.dateFormatter.string(from: self)
-    }
-}
-
-extension ParameterConvertible where Self: Encodable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.asParameter(codableHelper: codableHelper)
     }
 }
 
@@ -148,11 +141,7 @@ extension KeyedEncodingContainerProtocol {
     }
 
     internal mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
-        let decimalNumber = NSDecimalNumber(decimal: value)
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.locale = Locale(identifier: "en_US")
-        let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
+        let formattedString = NSDecimalNumber(decimal: value).description(withLocale: Locale(identifier: "en_US_POSIX"))
         try encode(formattedString, forKey: key)
     }
 

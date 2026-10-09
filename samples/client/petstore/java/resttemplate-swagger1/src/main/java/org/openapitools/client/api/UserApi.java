@@ -13,8 +13,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -27,7 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class UserApi extends BaseApi {
 
     public UserApi() {
@@ -45,7 +43,7 @@ public class UserApi extends BaseApi {
      * @param user Created user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUser(User user) throws RestClientException {
+    public void createUser(@javax.annotation.Nonnull User user) throws RestClientException {
         createUserWithHttpInfo(user);
     }
 
@@ -57,8 +55,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUserWithHttpInfo(User user) throws RestClientException {
-        Object localVarPostBody = user;
+    public ResponseEntity<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User user) throws RestClientException {
         
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -66,10 +63,10 @@ public class UserApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -81,7 +78,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, user, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Creates list of users with given input array
@@ -90,7 +87,7 @@ public class UserApi extends BaseApi {
      * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(List<User> user) throws RestClientException {
+    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws RestClientException {
         createUsersWithArrayInputWithHttpInfo(user);
     }
 
@@ -102,8 +99,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws RestClientException {
-        Object localVarPostBody = user;
+    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws RestClientException {
         
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -111,10 +107,10 @@ public class UserApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -126,7 +122,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, user, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Creates list of users with given input array
@@ -135,7 +131,7 @@ public class UserApi extends BaseApi {
      * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(List<User> user) throws RestClientException {
+    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws RestClientException {
         createUsersWithListInputWithHttpInfo(user);
     }
 
@@ -147,8 +143,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws RestClientException {
-        Object localVarPostBody = user;
+    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws RestClientException {
         
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -156,10 +151,10 @@ public class UserApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -171,7 +166,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, user, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Delete user
@@ -181,7 +176,7 @@ public class UserApi extends BaseApi {
      * @param username The name that needs to be deleted (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void deleteUser(String username) throws RestClientException {
+    public void deleteUser(@javax.annotation.Nonnull String username) throws RestClientException {
         deleteUserWithHttpInfo(username);
     }
 
@@ -194,8 +189,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deleteUserWithHttpInfo(String username) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<Void> deleteUserWithHttpInfo(@javax.annotation.Nonnull String username) throws RestClientException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -203,13 +197,13 @@ public class UserApi extends BaseApi {
         }
         
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final Map<String, Object> uriVariables = new HashMap<>();
         uriVariables.put("username", username);
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -219,7 +213,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, uriVariables, localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Get user by user name
@@ -231,7 +225,7 @@ public class UserApi extends BaseApi {
      * @return User
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public User getUserByName(String username) throws RestClientException {
+    public User getUserByName(@javax.annotation.Nonnull String username) throws RestClientException {
         return getUserByNameWithHttpInfo(username).getBody();
     }
 
@@ -245,8 +239,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<User> getUserByNameWithHttpInfo(String username) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<User> getUserByNameWithHttpInfo(@javax.annotation.Nonnull String username) throws RestClientException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -254,13 +247,13 @@ public class UserApi extends BaseApi {
         }
         
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final Map<String, Object> uriVariables = new HashMap<>();
         uriVariables.put("username", username);
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -272,7 +265,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<User> localReturnType = new ParameterizedTypeReference<User>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, uriVariables, localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Logs user into the system
@@ -284,7 +277,7 @@ public class UserApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String loginUser(String username, String password) throws RestClientException {
+    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws RestClientException {
         return loginUserWithHttpInfo(username, password).getBody();
     }
 
@@ -298,8 +291,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> loginUserWithHttpInfo(String username, String password) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<String> loginUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws RestClientException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -312,10 +304,10 @@ public class UserApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
@@ -331,7 +323,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/user/login", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/login", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Logs out current logged in user session
@@ -351,13 +343,12 @@ public class UserApi extends BaseApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> logoutUserWithHttpInfo() throws RestClientException {
-        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -367,7 +358,7 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Updated user
@@ -378,7 +369,7 @@ public class UserApi extends BaseApi {
      * @param user Updated user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(String username, User user) throws RestClientException {
+    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws RestClientException {
         updateUserWithHttpInfo(username, user);
     }
 
@@ -392,8 +383,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updateUserWithHttpInfo(String username, User user) throws RestClientException {
-        Object localVarPostBody = user;
+    public ResponseEntity<Void> updateUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws RestClientException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -406,13 +396,13 @@ public class UserApi extends BaseApi {
         }
         
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final Map<String, Object> uriVariables = new HashMap<>();
         uriVariables.put("username", username);
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -424,19 +414,18 @@ public class UserApi extends BaseApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, uriVariables, localVarQueryParams, user, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -447,6 +436,6 @@ public class UserApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] { "api_key" };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

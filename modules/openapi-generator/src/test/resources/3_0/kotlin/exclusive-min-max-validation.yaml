@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: Kotlin Spring exclusive bounds validation
+  version: 1.0.0
+paths:
+  /bounds:
+    post:
+      operationId: checkBounds
+      parameters:
+        - name: exclusiveValue
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 0.0
+            exclusiveMinimum: true
+            maximum: 100.0
+            exclusiveMaximum: true
+        - name: inclusiveValue
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 0.0
+            maximum: 100.0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bounds'
+      responses:
+        '204':
+          description: Accepted
+components:
+  schemas:
+    ExclusiveBounds:
+      type: number
+      minimum: 0.0
+      exclusiveMinimum: true
+      maximum: 100.0
+      exclusiveMaximum: true
+    Bounds:
+      type: object
+      required:
+        - exclusiveValue
+        - inclusiveValue
+      properties:
+        exclusiveValue:
+          allOf:
+            - $ref: '#/components/schemas/ExclusiveBounds'
+        inclusiveValue:
+          type: number
+          minimum: 0.0
+          maximum: 100.0

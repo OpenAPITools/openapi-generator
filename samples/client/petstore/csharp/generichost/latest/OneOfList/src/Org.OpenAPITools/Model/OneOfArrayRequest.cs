@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfArrayRequest" /> class.
         /// </summary>
         /// <param name="list"></param>
-        internal OneOfArrayRequest(List<string> list)
+        public OneOfArrayRequest(List<string> list)
         {
             List = list;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfArrayRequest" /> class.
         /// </summary>
         /// <param name="list1"></param>
-        internal OneOfArrayRequest(List<TestObject> list1)
+        public OneOfArrayRequest(List<TestObject> list1)
         {
             List1 = list1;
             OnCreated();
@@ -88,8 +88,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfArrayRequest" />
     /// </summary>
-    public class OneOfArrayRequestJsonConverter : JsonConverter<OneOfArrayRequest>
+    public partial class OneOfArrayRequestJsonConverter : JsonConverter<OneOfArrayRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfArrayRequestJsonConverter" /> class.
+        /// </summary>
+        public OneOfArrayRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfArrayRequest" />
         /// </summary>
@@ -165,7 +175,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfArrayRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfArrayRequest oneOfArrayRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -180,7 +189,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfArrayRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfArrayRequest oneOfArrayRequest, JsonSerializerOptions jsonSerializerOptions)
         {
 

@@ -19,6 +19,9 @@ package org.openapitools.codegen.php;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PhpClientCodegen;
@@ -133,6 +136,15 @@ public class PhpClientCodegenTest {
 
         Assert.assertListContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListNotContains(modelContent, a -> a.equals("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> serializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(serializerContent, a -> a.equals("if (defined(\"$class::UNKNOWN_DEFAULT_OPEN_API\")) {"), "");
+        Assert.assertListContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
     }
 
     @Test
@@ -161,5 +173,40 @@ public class PhpClientCodegenTest {
 
         Assert.assertListNotContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListContains(modelContent, a -> a.equalsIgnoreCase("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> serializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListNotContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
+    }
+    @Test
+    public void testDateTimeLengthValidationIsNotGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        ObjectSchema model = new ObjectSchema();
+        model.addProperties("startsAt", new DateTimeSchema().minLength(20).maxLength(25));
+        model.addProperties("title", new StringSchema().minLength(2).maxLength(10));
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("ProductDeal", model);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String modelPhp = String.join("\n", Files.readAllLines(files.get("ProductDeal.php").toPath()));
+
+        Assert.assertFalse(modelPhp.contains("mb_strlen($this->container['starts_at'])"), modelPhp);
+        Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
+        Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
+        Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
     }
 }

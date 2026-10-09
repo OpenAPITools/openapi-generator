@@ -45,6 +45,9 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-angular/}.
+ */
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
@@ -77,6 +80,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String USE_DOT_NOTATION_FOR_FORM_OBJECTS = "useDotNotationForFormObjects";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String TS_VERSION = "tsVersion";
@@ -84,7 +88,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zonejsVersion";
 
-    protected String ngVersion = "20.0.0";
+    protected String ngVersion = "22.0.0";
     @Getter @Setter
     protected String npmRepository = null;
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
@@ -149,6 +153,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(CliOption.newBoolean(USE_DOT_NOTATION_FOR_FORM_OBJECTS, "Use parameter-prefixed dot notation for exploded form query objects instead of the OpenAPI standard unprefixed property names. Enable only for servers requiring this convention.", false));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
         this.cliOptions.add(CliOption.newBoolean(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", false));
         this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
@@ -170,7 +175,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (9.x - 20.x) client library.";
+        return "Generates a TypeScript Angular (9.x - 22.x) client library.";
     }
 
     @Override
@@ -204,6 +209,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("queryParams.mustache", getIndexDirectory(), "query.params.ts"));
 
         if(ngVersionAtLeast_17) {
             supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
@@ -301,6 +307,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        additionalProperties.put(USE_DOT_NOTATION_FOR_FORM_OBJECTS, additionalProperties.containsKey(USE_DOT_NOTATION_FOR_FORM_OBJECTS)
+                && convertPropertyToBoolean(USE_DOT_NOTATION_FOR_FORM_OBJECTS));
 
         if (additionalProperties.containsKey(QUERY_PARAM_OBJECT_FORMAT)) {
             setQueryParamObjectFormat((String) additionalProperties.get(QUERY_PARAM_OBJECT_FORMAT));

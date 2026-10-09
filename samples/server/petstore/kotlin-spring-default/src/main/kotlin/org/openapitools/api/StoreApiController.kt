@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.StoreApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -31,7 +30,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class StoreApiController() {
 
     @Operation(
@@ -44,7 +43,8 @@ class StoreApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
+        // "/store/order/{orderId}"
+        value = [PATH_DELETE_ORDER]
     )
     fun deleteOrder(
         @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
@@ -62,7 +62,8 @@ class StoreApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        // "/store/inventory"
+        value = [PATH_GET_INVENTORY],
         produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
@@ -80,7 +81,8 @@ class StoreApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        // "/store/order/{orderId}"
+        value = [PATH_GET_ORDER_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
@@ -99,7 +101,8 @@ class StoreApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        // "/store/order"
+        value = [PATH_PLACE_ORDER],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json"]
     )

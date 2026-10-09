@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -19,13 +20,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ApiResponseDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer code;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String type;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String message;
 
   public ApiResponseDto code(@Nullable Integer code) {
@@ -43,6 +47,7 @@ public class ApiResponseDto {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -62,6 +67,7 @@ public class ApiResponseDto {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -81,6 +87,7 @@ public class ApiResponseDto {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }
@@ -119,11 +126,8 @@ public class ApiResponseDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -13,31 +14,34 @@ import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -77,6 +81,7 @@ public class Pet {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable StatusEnum status;
 
   public Pet() {
@@ -107,6 +112,7 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -127,6 +133,7 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
   }
@@ -147,6 +154,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -175,6 +183,7 @@ public class Pet {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -196,13 +205,14 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -223,6 +233,7 @@ public class Pet {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -267,11 +278,8 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -22,6 +22,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -284,6 +285,36 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (property.getAllowableValues() != null && !property.getAllowableValues().isEmpty()) {
             property.isModel = true;
         }
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // patch to work around the fix to set isArray, isMap in response objects
+        // ref: https://github.com/OpenAPITools/openapi-generator/pull/24566/
+        CodegenResponse cr = super.fromResponse(responseCode, response);
+
+        Schema responseSchema;
+        if (this.openAPI != null && this.openAPI.getComponents() != null) {
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
+        }
+
+        if (ModelUtils.isTypeObjectSchema(responseSchema)) {
+            CodegenProperty cp = fromProperty("response", responseSchema, false);
+
+            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+                cr.isFreeFormObject = true;
+            } else {
+                cr.isModel = true;
+            }
+            cr.simpleType = false;
+            cr.containerType = cp.containerType;
+            cr.containerTypeMapped = cp.containerTypeMapped;
+            addVarsRequiredVarsAdditionalProps(responseSchema, cr);
+        }
+
+        return cr;
     }
 
     @Override

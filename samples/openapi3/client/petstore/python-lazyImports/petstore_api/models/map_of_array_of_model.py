@@ -22,6 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class MapOfArrayOfModel(BaseModel):
     """
@@ -32,7 +33,8 @@ class MapOfArrayOfModel(BaseModel):
     __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -44,8 +46,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -76,10 +77,9 @@ class MapOfArrayOfModel(BaseModel):
         _field_dict_of_array = {}
         if self.shop_id_to_org_online_lip_map:
             for _key_shop_id_to_org_online_lip_map in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None:
-                    _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
-                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
-                    ]
+                _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
+                    _item.to_dict() if _item is not None else None for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
+                ] if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None else None
             _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -98,14 +98,12 @@ class MapOfArrayOfModel(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "shopIdToOrgOnlineLipMap": dict(
-                (_k,
-                        [Tag.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("shopIdToOrgOnlineLipMap", {}).items()
-            )
+            "shopIdToOrgOnlineLipMap": {
+                _k: [Tag.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["shopIdToOrgOnlineLipMap"].items()
+            }
+            if obj.get("shopIdToOrgOnlineLipMap") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

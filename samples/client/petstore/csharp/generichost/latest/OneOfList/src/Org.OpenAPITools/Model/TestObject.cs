@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption.Value; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestObject" />
     /// </summary>
-    public class TestObjectJsonConverter : JsonConverter<TestObject>
+    public partial class TestObjectJsonConverter : JsonConverter<TestObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestObjectJsonConverter" /> class.
+        /// </summary>
+        public TestObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestObject" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class TestObject.");
+                throw new JsonException("Property is not nullable for class TestObject: name.");
 
             return new TestObject(name);
         }
@@ -140,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testObject"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TestObject testObject, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -155,11 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testObject"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestObject testObject, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testObject.NameOption.IsSet && testObject.Name == null)
-                throw new ArgumentNullException(nameof(testObject.Name), "Property is required for class TestObject.");
+                throw new JsonException("Cannot write null property TestObject.Name to non-nullable JSON property 'name'.");
 
             if (testObject.NameOption.IsSet)
                 writer.WriteString("name", testObject.Name);

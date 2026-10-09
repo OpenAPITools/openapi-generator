@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Collision Test Spec
+servers:
+  - url: api.my-domain.com/my-context-root/v1
+paths:
+  /spec1:
+    post:
+      tags:
+        - spec1
+      summary: create spec1
+      operationId: createSpec1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spec1Model'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spec1Model'
+  /collision:
+    get:
+      tags:
+        - collision
+      summary: collision endpoint
+      operationId: collisionOperation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollisionModel'
+
+components:
+  schemas:
+    CollisionModel:
+      type: object
+      properties:
+        collisionField:
+          type: string
+    Spec1Model:
+      type: object
+      properties:
+        spec1Field:
+          type: string

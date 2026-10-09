@@ -37,6 +37,9 @@ import java.util.function.Predicate;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-pistache-server/}.
+ */
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
 
@@ -191,6 +194,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     private void setupSupportingFiles() {
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("api-base-header.mustache", "api", "ApiBase.h"));
+        supportingFiles.add(new SupportingFile("api-base-source.mustache", "api", "ApiBase.cpp"));
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));

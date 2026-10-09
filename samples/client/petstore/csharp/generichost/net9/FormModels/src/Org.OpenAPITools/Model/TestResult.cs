@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public TestResultCode? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public TestResultCode? Code { get { return this.CodeOption.Value; } set { this.CodeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Data
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>list of named parameters for current message</value>
         [JsonPropertyName("data")]
-        public Dictionary<string, string> Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public Dictionary<string, string> Data { get { return this.DataOption.Value; } set { this.DataOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Result unique identifier</value>
         [JsonPropertyName("uuid")]
-        public string Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
+        public string Uuid { get { return this.UuidOption.Value; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -123,8 +123,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestResult" />
     /// </summary>
-    public class TestResultJsonConverter : JsonConverter<TestResult>
+    public partial class TestResultJsonConverter : JsonConverter<TestResult>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestResultJsonConverter" /> class.
+        /// </summary>
+        public TestResultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestResult" />
         /// </summary>
@@ -162,9 +172,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "code":
-                            string codeRawValue = utf8JsonReader.GetString();
-                            if (codeRawValue != null)
-                                code = new Option<TestResultCode?>(TestResultCodeValueConverter.FromStringOrDefault(codeRawValue));
+                            code = new Option<TestResultCode?>(JsonSerializer.Deserialize<TestResultCode?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "data":
                             data = new Option<Dictionary<string, string>>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
@@ -179,13 +187,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class TestResult.");
+                throw new JsonException("Property is not nullable for class TestResult: code.");
 
             if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class TestResult.");
+                throw new JsonException("Property is not nullable for class TestResult: data.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class TestResult.");
+                throw new JsonException("Property is not nullable for class TestResult: uuid.");
 
             return new TestResult(code, data, uuid);
         }
@@ -196,7 +204,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testResult"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TestResult testResult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -211,14 +218,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testResult"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestResult testResult, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (testResult.CodeOption.IsSet && testResult.Code == null)
+                throw new JsonException("Cannot write null property TestResult.Code to non-nullable JSON property 'code'.");
+
             if (testResult.DataOption.IsSet && testResult.Data == null)
-                throw new ArgumentNullException(nameof(testResult.Data), "Property is required for class TestResult.");
+                throw new JsonException("Cannot write null property TestResult.Data to non-nullable JSON property 'data'.");
 
             if (testResult.UuidOption.IsSet && testResult.Uuid == null)
-                throw new ArgumentNullException(nameof(testResult.Uuid), "Property is required for class TestResult.");
+                throw new JsonException("Cannot write null property TestResult.Uuid to non-nullable JSON property 'uuid'.");
 
             if (testResult.CodeOption.IsSet)
             {

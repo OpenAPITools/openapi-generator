@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Demo
+  version: v1
+
+components:
+  schemas:
+    Code:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+
+paths:
+  /do:
+    get:
+      summary: Do something
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                properties:
+                  code:
+                    $ref: '#/components/schemas/Code'

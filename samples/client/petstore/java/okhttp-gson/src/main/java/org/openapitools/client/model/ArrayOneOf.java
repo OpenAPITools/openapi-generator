@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Locale;
 import java.util.List;
 
 
@@ -29,7 +28,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOneOf extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ArrayOneOf.class.getName());
 
@@ -106,28 +104,28 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Integer'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
                     }
                     // deserialize List<String>
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.isJsonArray()) {
-                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
                         }
 
                         JsonArray array = jsonElement.getAsJsonArray();
                         // validate array items
                         for(JsonElement element : array) {
                             if (!element.getAsJsonPrimitive().isString()) {
-                                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                             }
                         }
                         actualAdapter = adapterListString;
@@ -135,7 +133,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'List<String>'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
                     }
 
@@ -145,7 +143,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for ArrayOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for ArrayOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -176,7 +174,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Integer, List<String>
+     * Integer, List&lt;String&gt;
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -200,9 +198,9 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
     /**
      * Get the actual instance, which can be the following:
-     * Integer, List<String>
+     * Integer, List&lt;String&gt;
      *
-     * @return The actual instance (Integer, List<String>)
+     * @return The actual instance (Integer, List&lt;String&gt;)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -217,17 +215,19 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
+     * Get the actual instance of `List&lt;String&gt;`. If the actual instance is not `List&lt;String&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<String>`
-     * @throws ClassCastException if the instance is not `List<String>`
+     * @return The actual instance of `List&lt;String&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;String&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }
@@ -245,32 +245,32 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         // validate the json string with Integer
         try {
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with List<String>
         try {
             if (!jsonElement.isJsonArray()) {
-                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
             }
             JsonArray array = jsonElement.getAsJsonArray();
             // validate array items
             for(JsonElement element : array) {
                 if (!element.getAsJsonPrimitive().isString()) {
-                    throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                    throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                 }
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for ArrayOneOf with oneOf schemas: Integer, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for ArrayOneOf with oneOf schemas: Integer, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

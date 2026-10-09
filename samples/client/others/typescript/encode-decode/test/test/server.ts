@@ -26,6 +26,7 @@ class TestServerStub implements PromiseHttpLibrary {
             const body: ResponseBody = {
                 binary: async () => { throw new Error('not implemented') },
                 text: async () => JSON.stringify(value),
+                stream: () => null,
             };
             const headers = { 'content-type': 'application/json' };
             return new ResponseContext(200, headers, body);
@@ -35,6 +36,7 @@ class TestServerStub implements PromiseHttpLibrary {
             const body: ResponseBody = {
                 binary: async () => { throw new Error('not implemented') },
                 text: async () => "",
+                stream: () => null,
             };
             return new ResponseContext(200, {}, body);
         } else {

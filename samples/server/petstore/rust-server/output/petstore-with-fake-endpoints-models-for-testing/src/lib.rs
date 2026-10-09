@@ -8,11 +8,10 @@ use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
 
-
+#[cfg(any(feature = "client", feature = "server"))]
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "/v2";
@@ -138,7 +137,7 @@ pub enum AddPetResponse {
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>)
     ,
     /// Invalid status value
     InvalidStatusValue
@@ -149,7 +148,7 @@ pub enum FindPetsByStatusResponse {
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>)
     ,
     /// Invalid tag value
     InvalidTagValue
@@ -179,7 +178,7 @@ pub enum DeletePetResponse {
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Pet)
+    (swagger::OneOf2::<models::Pet, models::Pet>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -213,7 +212,7 @@ pub enum GetInventoryResponse {
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2::<models::Order, models::Order>)
     ,
     /// Invalid Order
     InvalidOrder
@@ -234,7 +233,7 @@ pub enum DeleteOrderResponse {
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2::<models::Order, models::Order>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -267,7 +266,7 @@ pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
     {
-        body: String,
+        body: swagger::OneOf2::<String, String>,
         x_rate_limit:
         Option<
         i32
@@ -304,7 +303,7 @@ pub enum DeleteUserResponse {
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::User)
+    (swagger::OneOf2::<models::User, models::User>)
     ,
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -381,8 +380,8 @@ pub trait Api<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -502,7 +501,7 @@ pub trait Api<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -621,8 +620,8 @@ pub trait ApiNoContext<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -742,7 +741,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -904,8 +903,8 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -1093,7 +1092,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>
     {
         let context = self.context().clone();

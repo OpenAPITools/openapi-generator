@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Query.JSON_PROPERTY_ID,
   Query.JSON_PROPERTY_OUTCOMES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -117,7 +116,7 @@ public class Query {
 
   public Query addOutcomesItem(OutcomesEnum outcomesItem) {
     if (this.outcomes == null) {
-      this.outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+      this.outcomes = new ArrayList<>();
     }
     this.outcomes.add(outcomesItem);
     return this;
@@ -141,6 +140,7 @@ public class Query {
   public void setOutcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -175,10 +175,7 @@ public class Query {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

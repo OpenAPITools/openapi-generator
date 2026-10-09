@@ -23,6 +23,7 @@ const (
 	ENUMCLASS_ABC EnumClass = "_abc"
 	ENUMCLASS_EFG EnumClass = "-efg"
 	ENUMCLASS_XYZ EnumClass = "(xyz)"
+	ENUMCLASS_UNKNOWN_DEFAULT_OPEN_API EnumClass = "unknown_default_open_api"
 )
 
 // All allowed values of EnumClass enum
@@ -30,6 +31,7 @@ var AllowedEnumClassEnumValues = []EnumClass{
 	"_abc",
 	"-efg",
 	"(xyz)",
+	"unknown_default_open_api",
 }
 
 func (v *EnumClass) UnmarshalJSON(src []byte) error {
@@ -46,7 +48,8 @@ func (v *EnumClass) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumClass", value)
+	*v = ENUMCLASS_UNKNOWN_DEFAULT_OPEN_API
+	return nil
 }
 
 // NewEnumClassFromValue returns a pointer to a valid EnumClass

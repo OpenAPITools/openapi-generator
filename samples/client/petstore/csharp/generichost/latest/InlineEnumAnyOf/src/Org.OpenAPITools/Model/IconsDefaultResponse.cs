@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public Foo? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="IconsDefaultResponse" />
     /// </summary>
-    public class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
+    public partial class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconsDefaultResponseJsonConverter" /> class.
+        /// </summary>
+        public IconsDefaultResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="IconsDefaultResponse" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class IconsDefaultResponse.");
+                throw new JsonException("Property is not nullable for class IconsDefaultResponse: string.");
 
             return new IconsDefaultResponse(varString);
         }
@@ -140,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -155,11 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (iconsDefaultResponse.StringOption.IsSet && iconsDefaultResponse.String == null)
-                throw new ArgumentNullException(nameof(iconsDefaultResponse.String), "Property is required for class IconsDefaultResponse.");
+                throw new JsonException("Cannot write null property IconsDefaultResponse.String to non-nullable JSON property 'string'.");
 
             if (iconsDefaultResponse.StringOption.IsSet)
             {

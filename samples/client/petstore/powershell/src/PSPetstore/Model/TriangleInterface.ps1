@@ -39,7 +39,7 @@ function Initialize-PSTriangleInterface {
 
 
         $PSO = [PSCustomObject]@{
-            "triangleType" = ${TriangleType}
+            'triangleType' = ${TriangleType}
         }
 
 
@@ -77,7 +77,7 @@ function ConvertFrom-PSJsonToTriangleInterface {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSTriangleInterface
-        $AllProperties = ("triangleType")
+        $AllProperties = ('triangleType')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -88,14 +88,14 @@ function ConvertFrom-PSJsonToTriangleInterface {
             throw "Error! Empty JSON cannot be serialized due to the required property 'triangleType' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "triangleType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'triangleType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'triangleType' missing."
         } else {
-            $TriangleType = $JsonParameters.PSobject.Properties["triangleType"].value
+            $TriangleType = $JsonParameters.PSobject.Properties['triangleType'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "triangleType" = ${TriangleType}
+            'triangleType' = ${TriangleType}
         }
 
         return $PSO

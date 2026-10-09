@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.PetApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -32,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
     @Operation(
@@ -45,7 +44,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ADD_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_ADD_PET],
         consumes = ["application/json", "application/xml"]
     )
     fun addPet(
@@ -62,15 +62,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             ApiResponse(responseCode = "400", description = "Invalid pet value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
+    @Parameters(value = [
+        Parameter(name = "api_key", description = "", `in` = ParameterIn.HEADER)
+    ])
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
+        // "/pet/{petId}"
+        value = [PATH_DELETE_PET]
     )
     fun deletePet(
-        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long
     ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+        return ResponseEntity(service.deletePet(petId), HttpStatus.valueOf(400))
     }
 
     @Operation(
@@ -84,7 +87,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        // "/pet/findByStatus"
+        value = [PATH_FIND_PETS_BY_STATUS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -102,9 +106,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        // "/pet/findByTags"
+        value = [PATH_FIND_PETS_BY_TAGS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -125,7 +131,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_GET_PET_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
@@ -146,7 +153,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_UPDATE_PET],
         consumes = ["application/json", "application/xml"]
     )
     fun updatePet(
@@ -165,7 +173,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_UPDATE_PET_WITH_FORM],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
@@ -186,7 +195,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        // "/pet/{petId}/uploadImage"
+        value = [PATH_UPLOAD_FILE],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )

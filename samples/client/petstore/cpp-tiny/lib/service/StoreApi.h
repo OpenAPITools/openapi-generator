@@ -8,8 +8,8 @@
 #include "Helpers.h"
 #include <list>
 
-#include <map>
 #include "Order.h"
+#include <map>
 
 namespace Tiny {
 
@@ -22,7 +22,7 @@ class StoreApi : public Service {
 public:
     StoreApi() = default;
 
-    virtual ~StoreApi() = default;
+    virtual ~StoreApi();
 
     /**
     * Delete purchase order by ID.

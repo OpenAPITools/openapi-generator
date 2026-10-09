@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,13 +39,13 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ArrayTest  {
   
   @JsonbProperty("array_of_string")
-  private List<String> arrayOfString = null;
+  protected List<String> arrayOfString = null;
 
   @JsonbProperty("array_array_of_integer")
-  private List<List<Long>> arrayArrayOfInteger = null;
+  protected List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonbProperty("array_array_of_model")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  protected List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
 
   /**
@@ -172,10 +171,7 @@ public class ArrayTest  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

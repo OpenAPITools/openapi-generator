@@ -1,0 +1,33 @@
+openapi: "3.1.0"
+info:
+  title: Example
+  version: "1.0.0"
+paths:
+  /orders:
+    get:
+      operationId: getOrders
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderOut"
+components:
+  schemas:
+    Address:
+      type: object
+      required: [street, city]
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+    OrderOut:
+      type: object
+      required: [id, shippingAddress]
+      properties:
+        id:
+          type: integer
+        shippingAddress:
+          $ref: "#/components/schemas/Address"

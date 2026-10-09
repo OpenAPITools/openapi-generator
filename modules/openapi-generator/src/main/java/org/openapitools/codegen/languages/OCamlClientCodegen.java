@@ -28,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -41,9 +42,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VALUES;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ocaml/}.
+ */
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(OCamlClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
@@ -51,16 +58,18 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     static final String X_MODEL_MODULE = "x-model-module";
 
-    @Setter protected String packageName = "openapi";
-    @Setter protected String packageVersion = "1.0.0";
+    @Setter
+    protected String packageName = "openapi";
+    @Setter
+    protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
-    private Map<String, List<String>> enumNames = new HashMap<>();
-    private Map<String, Schema> enumHash = new HashMap<>();
-    private Map<String, String> enumUniqNames;
+    private Map<Set<String>, List<String>> enumNames = new HashMap<>();
+    private Map<Set<String>, Schema> enumHash = new HashMap<>();
+    private Map<Set<String>, String> enumUniqNames;
 
     @Override
     public CodegenType getTag() {
@@ -74,7 +83,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates an OCaml client library (beta).";
+        return "Generates an OCaml client library.";
     }
 
     public OCamlClientCodegen() {
@@ -214,11 +223,11 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     enrichPropertiesWithEnumDefaultValues(cm.getParentVars());
                 }
 
-                if (!cm.oneOf.isEmpty()) {
+                if (hasOneOf(cm)) {
                     // Add a boolean if it is a `oneOf`, because Mustache does not let us check if a list is non-empty
                     cm.getVendorExtensions().put("x-ocaml-isOneOf", true);
                 }
-                if (!cm.anyOf.isEmpty()) {
+                if (hasAnyOf(cm)) {
                     // Add a boolean if it is a `anyOf`, because Mustache does not let us check if a list is non-empty
                     cm.getVendorExtensions().put("x-ocaml-isAnyOf", true);
                 }
@@ -231,6 +240,105 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         return superobjs;
 
+    }
+
+    /**
+     * Add support for direct recursive types (e.g., A -> A).
+     * This does *not* support mutually recursive types (e.g., A -> B -> A), as this is a much more complex beast in OCaml (since mutually recursive types must live in the same file).
+     */
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+
+            // Check if any property is a self-reference
+            boolean hasSelfRef = cm.allVars.stream()
+                    .anyMatch(prop -> prop.isSelfReference);
+
+            if (hasSelfRef) {
+                // Collect names of self-referencing properties
+                Set<String> selfRefPropNames = cm.allVars.stream()
+                        .filter(p -> p.isSelfReference)
+                        .map(p -> p.name)
+                        .collect(Collectors.toSet());
+
+                // The property lists (vars, allVars, etc.) contain DIFFERENT objects
+                // Match by name since isSelfReference might only be set in allVars
+                List<List<CodegenProperty>> allPropertyLists = Arrays.asList(
+                        cm.allVars, cm.vars, cm.requiredVars, cm.optionalVars,
+                        cm.readOnlyVars, cm.readWriteVars, cm.parentVars
+                );
+
+                for (List<CodegenProperty> propList : allPropertyLists) {
+                    for (CodegenProperty prop : propList) {
+                        if (selfRefPropNames.contains(prop.name)) {
+                            if (prop.isContainer && prop.items != null) {
+                                // For containers, update items and reconstruct the container type
+                                prop.items.dataType = "t";
+                                prop.items.datatypeWithEnum = "t";
+                                if (prop.items.baseType != null) {
+                                    prop.items.baseType = "t";
+                                }
+                                if (prop.items.complexType != null) {
+                                    prop.items.complexType = "t";
+                                }
+
+                                // Reconstruct the container type based on the updated items
+                                if (prop.isArray) {
+                                    prop.dataType = "t list";
+                                    prop.datatypeWithEnum = "t list";
+                                } else if (prop.isMap) {
+                                    prop.dataType = "(string * t) list";
+                                    prop.datatypeWithEnum = "(string * t) list";
+                                }
+                            } else {
+                                // For non-containers, just replace the type directly
+                                prop.dataType = "t";
+                                prop.datatypeWithEnum = "t";
+                            }
+
+                            // Update baseType and complexType for all cases
+                            if (prop.baseType != null) {
+                                prop.baseType = "t";
+                            }
+                            if (prop.complexType != null) {
+                                prop.complexType = "t";
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Fix enum references in composed schemas (anyOf, oneOf, allOf)
+            if (cm.getComposedSchemas() != null) {
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getAnyOf());
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getOneOf());
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getAllOf());
+            }
+        }
+
+        return objs;
+    }
+
+    private void fixEnumReferencesInComposedSchemas(List<CodegenProperty> schemas) {
+        if (schemas == null) {
+            return;
+        }
+
+        for (CodegenProperty schema : schemas) {
+            // If this schema is an enum, add Enums. prefix to datatypeWithEnum
+            if (schema.isEnum) {
+                if (!schema.datatypeWithEnum.startsWith("Enums.")) {
+                    schema.datatypeWithEnum = "Enums." + schema.datatypeWithEnum;
+                }
+                // Also update dataType for the variant constructor
+                if (!schema.dataType.startsWith("Enums.")) {
+                    schema.dataType = "Enums." + schema.dataType;
+                }
+            }
+        }
     }
 
     private void enrichPropertiesWithEnumDefaultValues(List<CodegenProperty> properties) {
@@ -276,8 +384,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @SuppressWarnings("unchecked")
-    private String hashEnum(Schema schema) {
-        return ((List<Object>) schema.getEnum()).stream().map(String::valueOf).collect(Collectors.joining(","));
+    private Set<String> hashEnum(Schema schema) {
+        return ((List<Object>) schema.getEnum()).stream()
+                .map(String::valueOf)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     private boolean isEnumSchema(Schema schema) {
@@ -290,7 +400,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         } else if (ModelUtils.isMapSchema(schema) && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
-            String h = hashEnum(schema);
+            Set<String> h = hashEnum(schema);
             if (!enumHash.containsKey(h)) {
                 enumHash.put(h, schema);
                 enumNames.computeIfAbsent(h, k -> new ArrayList<>()).add(sName.toLowerCase(Locale.ROOT));
@@ -299,6 +409,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 }
             }
         }
+        // Note: Composed schemas (anyOf, allOf, oneOf) are handled in the Map-based method
+        // via collectEnumSchemasFromComposed() which properly processes their structure
     }
 
     private void collectEnumSchemas(String sName, Schema schema) {
@@ -327,6 +439,47 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     collectEnumSchemas(pName, ModelUtils.getSchemaItems(schema));
                 }
             }
+
+            // Handle composed schemas (anyOf, allOf, oneOf) - recursively process their structure
+            collectEnumSchemasFromComposed(pName, schema);
+        }
+    }
+
+    private void collectEnumSchemasFromComposed(String parentName, Schema schema) {
+        if (schema.getAnyOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getAnyOf());
+        }
+
+        if (schema.getAllOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getAllOf());
+        }
+
+        if (schema.getOneOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getOneOf());
+        }
+    }
+
+    private void collectEnumSchemasFromList(String parentName, List<Schema> schemas) {
+        int index = 0;
+        for (Schema composedSchema : schemas) {
+            // Check if the composed schema itself is an enum
+            if (isEnumSchema(composedSchema)) {
+                String enumName = composedSchema.getName() != null ? composedSchema.getName() : "any_of_" + index;
+                collectEnumSchemas(parentName, enumName, composedSchema);
+            }
+
+            if (composedSchema.getProperties() != null) {
+                collectEnumSchemas(parentName, composedSchema.getProperties());
+            }
+            if (composedSchema.getAdditionalProperties() != null && composedSchema.getAdditionalProperties() instanceof Schema) {
+                collectEnumSchemas(parentName, composedSchema.getName(), (Schema) composedSchema.getAdditionalProperties());
+            }
+            if (ModelUtils.isArraySchema(composedSchema) && ModelUtils.getSchemaItems(composedSchema) != null) {
+                collectEnumSchemas(parentName, composedSchema.getName(), ModelUtils.getSchemaItems(composedSchema));
+            }
+            // Recursively handle nested composed schemas
+            collectEnumSchemasFromComposed(parentName, composedSchema);
+            index++;
         }
     }
 
@@ -378,8 +531,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void computeEnumUniqNames() {
-        Map<String, String> definitiveNames = new HashMap<>();
-        for (String h : enumNames.keySet()) {
+        Map<String, Set<String>> definitiveNames = new HashMap<>();
+        for (Set<String> h : enumNames.keySet()) {
             boolean hasDefName = false;
             List<String> nameCandidates = enumNames.get(h);
             for (String name : nameCandidates) {
@@ -600,13 +753,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             String prefix = inner.getEnum() != null ? "Enums." : "";
             return "(string * " + prefix + getTypeDeclaration(inner) + ") list";
         } else if (p.getEnum() != null) {
-            String h = hashEnum(p);
+            Set<String> h = hashEnum(p);
             return enumUniqNames.get(h);
         }
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
         if (referencedSchema != null && referencedSchema.getEnum() != null) {
-            String h = hashEnum(referencedSchema);
+            Set<String> h = hashEnum(referencedSchema);
             return "Enums." + enumUniqNames.get(h);
         }
 
@@ -655,17 +808,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     private Map<String, Object> allowableValues(String valueString) {
         Map<String, Object> result = new HashMap<>();
-        result.put("values", buildEnumValues(valueString));
+        result.put(ENUM_VALUES, buildEnumValues(valueString));
         return result;
     }
 
-    private List<Map<String, Object>> buildEnumValues(String valueString) {
-        List<Map<String, Object>> result = new ArrayList<>();
+    private List<EnumVarMap> buildEnumValues(String valueString) {
+        List<EnumVarMap> result = new ArrayList<>();
 
         for (String v : valueString.split(",")) {
-            Map<String, Object> m = new HashMap<>();
+            EnumVarMap m = new EnumVarMap();
             String value = v.isEmpty() ? "empty" : v;
-            m.put("name", value);
+            m.setEnumName(value);
             m.put("camlEnumValueName", ocamlizeEnumValue(value));
             result.add(m);
         }
@@ -739,8 +892,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
 
-        for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
-            allModels.add(buildEnumModelWrapper(e.getValue(), e.getKey()));
+        for (Map.Entry<Set<String>, String> e : enumUniqNames.entrySet()) {
+            allModels.add(buildEnumModelWrapper(e.getValue(), String.join(",", e.getKey())));
         }
 
         enumUniqNames.clear();
@@ -770,7 +923,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String hash = String.join(",", property.get_enum());
+        Set<String> hash = new TreeSet<>(property.get_enum());
 
         if (enumUniqNames.containsKey(hash)) {
             return enumUniqNames.get(hash);

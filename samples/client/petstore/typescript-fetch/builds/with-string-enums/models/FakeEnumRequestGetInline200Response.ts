@@ -21,26 +21,18 @@ import { mapValues } from '../runtime';
 export interface FakeEnumRequestGetInline200Response {
     /**
      * 
-     * @type {string}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     stringEnum?: FakeEnumRequestGetInline200ResponseStringEnumEnum;
     /**
      * 
-     * @type {string}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum;
     /**
      * 
-     * @type {number}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     numberEnum?: FakeEnumRequestGetInline200ResponseNumberEnumEnum;
     /**
      * 
-     * @type {number}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum;
 }

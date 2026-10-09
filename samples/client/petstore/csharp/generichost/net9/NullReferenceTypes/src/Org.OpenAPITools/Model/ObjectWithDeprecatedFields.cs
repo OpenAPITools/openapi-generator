@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string>? Bars { get { return this.BarsOption; } set { this.BarsOption = new(value); } }
+        public List<string>? Bars { get { return this.BarsOption.Value; } set { this.BarsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DeprecatedRef
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject? DeprecatedRef { get { return this.DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } }
+        public DeprecatedObject? DeprecatedRef { get { return this.DeprecatedRefOption.Value; } set { this.DeprecatedRefOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public decimal? Id { get { return this.IdOption.Value; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string? Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
+        public string? Uuid { get { return this.UuidOption.Value; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -142,8 +142,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ObjectWithDeprecatedFields" />
     /// </summary>
-    public class ObjectWithDeprecatedFieldsJsonConverter : JsonConverter<ObjectWithDeprecatedFields>
+    public partial class ObjectWithDeprecatedFieldsJsonConverter : JsonConverter<ObjectWithDeprecatedFields>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFieldsJsonConverter" /> class.
+        /// </summary>
+        public ObjectWithDeprecatedFieldsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ObjectWithDeprecatedFields" />
         /// </summary>
@@ -200,16 +210,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bars.IsSet && bars.Value == null)
-                throw new ArgumentNullException(nameof(bars), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: bars.");
 
             if (deprecatedRef.IsSet && deprecatedRef.Value == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: deprecatedRef.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: id.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Property is not nullable for class ObjectWithDeprecatedFields: uuid.");
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
         }
@@ -220,7 +230,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -235,17 +244,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
             if (objectWithDeprecatedFields.BarsOption.IsSet && objectWithDeprecatedFields.Bars == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Bars), "Property is required for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.Bars to non-nullable JSON property 'bars'.");
 
             if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet && objectWithDeprecatedFields.DeprecatedRef == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.DeprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.DeprecatedRef to non-nullable JSON property 'deprecatedRef'.");
+
+            if (objectWithDeprecatedFields.IdOption.IsSet && objectWithDeprecatedFields.Id == null)
+                throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.Id to non-nullable JSON property 'id'.");
 
             if (objectWithDeprecatedFields.UuidOption.IsSet && objectWithDeprecatedFields.Uuid == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
+                throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.Uuid to non-nullable JSON property 'uuid'.");
 
             if (objectWithDeprecatedFields.BarsOption.IsSet)
             {

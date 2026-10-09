@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -29,7 +37,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.openapitools.client.models.Order
 import org.openapitools.client.infrastructure.*
 
-class StoreApi(client: WebClient) : ApiClient(client) {
+open class StoreApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -60,6 +68,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
             "orderId" to orderId,
         )
@@ -79,7 +88,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getInventory(): Mono<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
         return getInventoryWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -114,7 +123,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getOrderById(orderId: kotlin.Long): Mono<Order> {
         return getOrderByIdWithHttpInfo(orderId = orderId)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -150,7 +159,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun placeOrder(order: Order): Mono<Order> {
         return placeOrderWithHttpInfo(order = order)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

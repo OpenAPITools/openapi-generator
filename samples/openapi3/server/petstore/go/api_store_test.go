@@ -35,7 +35,7 @@ func TestPlaceOrderOK(t *testing.T) {
 			"shipDate": "2000-01-23T04:56:07.000+00:00",
 			"complete": false,
 			"status": "placed",
-			"RequireTest": "required"
+			"requireTest": "required"
 		  }`
 		status = http.StatusOK
 	)
@@ -78,8 +78,7 @@ func TestPlaceOrderOK(t *testing.T) {
 	assert.Empty(t, data)
 }
 
-// TestPlaceOrderFailEmbeddedRequired tests PlaceOrder operation. This operation contains Order which has an
-// embedding struct that will be tested as well.
+// TestPlaceOrderFailEmbeddedRequired tests PlaceOrder rejects a request body missing an inherited allOf required field.
 func TestPlaceOrderFailEmbeddedRequired(t *testing.T) {
 	const (
 		payload = `{
@@ -121,5 +120,5 @@ func TestPlaceOrderFailEmbeddedRequired(t *testing.T) {
 	// Check the response
 	data, err := io.ReadAll(res.Body)
 	require.NoError(t, err)
-	assert.Equal(t, "\"required field 'requireTest' is zero value.\"\n", string(data))
+	assert.Equal(t, "\"field 'requireTest' is required.\"\n", string(data))
 }

@@ -8,8 +8,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -62,7 +60,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE
@@ -78,9 +76,11 @@ public class StoreApi {
                 
             })
         })
-    public Response deleteOrder(@PathParam("order_id") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId) {
+    public Response deleteOrder(@PathParam("order_id") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId
+) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/inventory")
@@ -98,6 +98,7 @@ public class StoreApi {
     public Response getInventory() {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/order/{order_id}")
@@ -119,9 +120,11 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId) {
+    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId
+) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/order")
@@ -140,7 +143,9 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response placeOrder(@Valid @NotNull Order order) {
+    public Response placeOrder(@Valid @NotNull Order order
+) {
         return Response.ok().entity("magic!").build();
     }
+
 }

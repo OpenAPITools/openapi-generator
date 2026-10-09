@@ -235,5 +235,31 @@ public class JavaMicroprofileServerCodegenTest {
                 .assertTypeAnnotations()
                 .doesNotContainWithName("Provider");
     }
+
+    @Test
+    public void testClientCanAccessFieldInParent() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_23034.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "false");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("Parent.java"))
+                .fileContains("protected String parentField;");
+    }
 }
 

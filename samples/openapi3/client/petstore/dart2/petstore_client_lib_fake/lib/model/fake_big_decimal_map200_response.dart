@@ -63,15 +63,13 @@ class FakeBigDecimalMap200Response {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "FakeBigDecimalMap200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "FakeBigDecimalMap200Response[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
       return FakeBigDecimalMap200Response(
-        someId: num.parse('${json[r'someId']}'),
+        someId: json[r'someId'] == null
+            ? null
+            : num.parse('${json[r'someId']}'),
         someMap: mapCastOfType<String, num>(json, r'someMap') ?? const {},
       );
     }

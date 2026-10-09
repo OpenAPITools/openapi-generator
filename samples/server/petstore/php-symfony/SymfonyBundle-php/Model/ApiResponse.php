@@ -49,7 +49,7 @@ class ApiResponse
      * @var int|null
      * @SerializedName("code")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $code = null;
 
@@ -57,7 +57,7 @@ class ApiResponse
      * @var string|null
      * @SerializedName("type")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $type = null;
 
@@ -65,7 +65,7 @@ class ApiResponse
      * @var string|null
      * @SerializedName("message")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $message = null;
 
@@ -93,12 +93,12 @@ class ApiResponse
     }
 
     /**
-    * Sets code.
-    *
-    * @param int|null $code
-    *
-    * @return $this
-    */
+     * Sets code.
+     *
+     * @param int|null $code
+     *
+     * @return $this
+     */
     public function setCode(?int $code = null): self
     {
         $this->code = $code;
@@ -120,12 +120,12 @@ class ApiResponse
     }
 
     /**
-    * Sets type.
-    *
-    * @param string|null $type
-    *
-    * @return $this
-    */
+     * Sets type.
+     *
+     * @param string|null $type
+     *
+     * @return $this
+     */
     public function setType(?string $type = null): self
     {
         $this->type = $type;
@@ -147,12 +147,12 @@ class ApiResponse
     }
 
     /**
-    * Sets message.
-    *
-    * @param string|null $message
-    *
-    * @return $this
-    */
+     * Sets message.
+     *
+     * @param string|null $message
+     *
+     * @return $this
+     */
     public function setMessage(?string $message = null): self
     {
         $this->message = $message;

@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PathApi {
     private ApiClient apiClient;
 
@@ -56,7 +56,6 @@ public class PathApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'pathString' is set
         if (pathString == null) {
             throw new RestClientResponseException("Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -81,7 +80,7 @@ public class PathApi {
         pathParams.put("enum_nonref_string_path", enumNonrefStringPath);
         pathParams.put("enum_ref_string_path", enumRefStringPath);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -96,7 +95,7 @@ public class PathApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

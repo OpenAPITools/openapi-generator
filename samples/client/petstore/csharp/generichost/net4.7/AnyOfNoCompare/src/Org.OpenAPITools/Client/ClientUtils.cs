@@ -17,6 +17,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Org.OpenAPITools.Model;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
 
@@ -216,6 +217,26 @@ namespace Org.OpenAPITools.Client
             return string.Join(",", accepts);
         }
 
+        
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them.
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header values to use.</returns>
+        public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                    return Enumerable.Empty<MediaTypeWithQualityHeaderValue>();
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                    return new [] { MediaTypeWithQualityHeaderValue.Parse("application/json") };
+
+            return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
+        }
+
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
@@ -274,6 +295,35 @@ namespace Org.OpenAPITools.Client
 
             throw new JsonException("The specified discriminator was not found.");
         }
+
+        /// <summary>
+        /// Determines if the provided header is a content header
+        /// </summary>
+        /// <param name="header">The header to check</param>
+        /// <returns>True if a content header; False otherwise</returns>
+        public static bool IsContentHeader(string header)
+        {
+            return ContentHeaders.Contains(header.ToLowerInvariant());
+        }
+
+        /// <summary>
+        /// The collection of content headers as per
+        /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.headers
+        /// </summary>
+        private static readonly string[] ContentHeaders = new String[] 
+        {
+            "allow",
+            "content-encoding",
+            "content-disposition",
+            "content-language",
+            "content-length",
+            "content-location",
+            "content-md5",
+            "content-range",
+            "content-type",
+            "expires",
+            "last-modified"
+        };
 
         /// <summary>
         /// The base path of the API

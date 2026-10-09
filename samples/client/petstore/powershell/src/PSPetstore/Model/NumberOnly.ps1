@@ -35,7 +35,7 @@ function Initialize-PSNumberOnly {
 
 
         $PSO = [PSCustomObject]@{
-            "JustNumber" = ${JustNumber}
+            'JustNumber' = ${JustNumber}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToNumberOnly {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSNumberOnly
-        $AllProperties = ("JustNumber")
+        $AllProperties = ('JustNumber')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "JustNumber"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'JustNumber'))) { #optional property not found
             $JustNumber = $null
         } else {
-            $JustNumber = $JsonParameters.PSobject.Properties["JustNumber"].value
+            $JustNumber = $JsonParameters.PSobject.Properties['JustNumber'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "JustNumber" = ${JustNumber}
+            'JustNumber' = ${JustNumber}
         }
 
         return $PSO

@@ -67,3 +67,14 @@ components:
           maxItems: 3
           minItems: 3
         - type: array
+    OneOfArrayWithTitle:
+      oneOf:
+        - title: dog_array
+          type: array
+          items:
+            type: string
+        - title: cat_object
+          type: object
+          properties:
+            name:
+              type: string

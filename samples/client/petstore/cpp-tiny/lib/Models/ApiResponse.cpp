@@ -106,7 +106,7 @@ ApiResponse::getCode()
 }
 
 void
-ApiResponse::setCode(int  code)
+ApiResponse::setCode(int code)
 {
 	this->code = code;
 }
@@ -118,7 +118,7 @@ ApiResponse::getType()
 }
 
 void
-ApiResponse::setType(std::string  type)
+ApiResponse::setType(std::string type)
 {
 	this->type = type;
 }
@@ -130,7 +130,7 @@ ApiResponse::getMessage()
 }
 
 void
-ApiResponse::setMessage(std::string  message)
+ApiResponse::setMessage(std::string message)
 {
 	this->message = message;
 }

@@ -9,6 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
+    open func call123testSpecialTags(body: Client) async throws(ErrorResponse) -> Client
     open class func call123testSpecialTags( body: Client) -> Promise<Client>
     open class func call123testSpecialTags(body: Client) -> Observable<Client>
 ```
@@ -24,6 +25,13 @@ import PetstoreClient
 
 let body = Client(client: "client_example") // Client | client model
 
+// To test special tags
+do {
+    let response = try await AnotherFakeAPI().call123testSpecialTags(body: body)
+    dump(response)
+} catch {
+    print(error)
+}
 // To test special tags
 AnotherFakeAPI.call123testSpecialTags(body: body).then {
          // when the promise is fulfilled

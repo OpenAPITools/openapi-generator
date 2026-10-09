@@ -49,7 +49,7 @@ class Pet
      * @var int|null
      * @SerializedName("id")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $id = null;
 
@@ -57,7 +57,7 @@ class Pet
      * @var Category|null
      * @SerializedName("category")
      * @Type("OpenAPI\Server\Model\Category")
-    */
+     */
     #[Assert\Type("OpenAPI\Server\Model\Category")]
     protected ?Category $category = null;
 
@@ -65,7 +65,7 @@ class Pet
      * @var string|null
      * @SerializedName("name")
      * @Type("string")
-    */
+     */
     #[Assert\NotNull]
     #[Assert\Type("string")]
     protected ?string $name = null;
@@ -74,7 +74,7 @@ class Pet
      * @var string[]|null
      * @SerializedName("photoUrls")
      * @Type("array<string>")
-    */
+     */
     #[Assert\NotNull]
     #[Assert\All([
         new Assert\Type("string"),
@@ -85,7 +85,7 @@ class Pet
      * @var Tag[]|null
      * @SerializedName("tags")
      * @Type("array<OpenAPI\Server\Model\Tag>")
-    */
+     */
     #[Assert\All([
         new Assert\Type("OpenAPI\Server\Model\Tag"),
     ])]
@@ -97,7 +97,7 @@ class Pet
      * @var string|null
      * @SerializedName("status")
      * @Type("string")
-    */
+     */
     #[Assert\Choice(['available', 'pending', 'sold'])]
     #[Assert\Type("string")]
     protected ?string $status = null;
@@ -129,12 +129,12 @@ class Pet
     }
 
     /**
-    * Sets id.
-    *
-    * @param int|null $id
-    *
-    * @return $this
-    */
+     * Sets id.
+     *
+     * @param int|null $id
+     *
+     * @return $this
+     */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
@@ -156,12 +156,12 @@ class Pet
     }
 
     /**
-    * Sets category.
-    *
-    * @param Category|null $category
-    *
-    * @return $this
-    */
+     * Sets category.
+     *
+     * @param Category|null $category
+     *
+     * @return $this
+     */
     public function setCategory(?Category $category = null): self
     {
         $this->category = $category;
@@ -183,12 +183,12 @@ class Pet
     }
 
     /**
-    * Sets name.
-    *
-    * @param string|null $name
-    *
-    * @return $this
-    */
+     * Sets name.
+     *
+     * @param string|null $name
+     *
+     * @return $this
+     */
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -210,12 +210,12 @@ class Pet
     }
 
     /**
-    * Sets photoUrls.
-    *
-    * @param string[]|null $photoUrls
-    *
-    * @return $this
-    */
+     * Sets photoUrls.
+     *
+     * @param string[]|null $photoUrls
+     *
+     * @return $this
+     */
     public function setPhotoUrls(?array $photoUrls): self
     {
         $this->photoUrls = $photoUrls;
@@ -237,12 +237,12 @@ class Pet
     }
 
     /**
-    * Sets tags.
-    *
-    * @param Tag[]|null $tags
-    *
-    * @return $this
-    */
+     * Sets tags.
+     *
+     * @param Tag[]|null $tags
+     *
+     * @return $this
+     */
     public function setTags(?array $tags = null): self
     {
         $this->tags = $tags;
@@ -264,12 +264,12 @@ class Pet
     }
 
     /**
-    * Sets status.
-    *
-    * @param string|null $status  pet status in the store
-    *
-    * @return $this
-    */
+     * Sets status.
+     *
+     * @param string|null $status  pet status in the store
+     *
+     * @return $this
+     */
     public function setStatus(?string $status = null): self
     {
         $this->status = $status;

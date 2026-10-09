@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**MultipartArray**](MultipartApi.md#multipartarray) | **POST** /multipart-array |  |
+| [**MultipartExtraAnnotation**](MultipartApi.md#multipartextraannotation) | **POST** /extra-annotation |  |
 | [**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed |  |
 | [**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single |  |
 
@@ -71,6 +72,91 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **files** | **List&lt;System.IO.Stream&gt;** | Many files | [optional]  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="multipartextraannotation"></a>
+# **MultipartExtraAnnotation**
+> void MultipartExtraAnnotation (System.IO.Stream file)
+
+
+
+MultipartFile extra annotation test
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class MultipartExtraAnnotationExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost";
+            var apiInstance = new MultipartApi(config);
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | The file to upload.
+
+            try
+            {
+                apiInstance.MultipartExtraAnnotation(file);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling MultipartApi.MultipartExtraAnnotation: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the MultipartExtraAnnotationWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    apiInstance.MultipartExtraAnnotationWithHttpInfo(file);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling MultipartApi.MultipartExtraAnnotationWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **file** | **System.IO.Stream****System.IO.Stream** | The file to upload. |  |
 
 ### Return type
 

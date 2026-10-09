@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class TypeHolderExample: Content, Hashable {
+public struct TypeHolderExample: Sendable, Content, Hashable {
 
     public var stringItem: String
     public var numberItem: Double
@@ -45,26 +45,6 @@ public final class TypeHolderExample: Content, Hashable {
         try container.encode(integerItem, forKey: .integerItem)
         try container.encode(boolItem, forKey: .boolItem)
         try container.encode(arrayItem, forKey: .arrayItem)
-    }
-
-    public static func == (lhs: TypeHolderExample, rhs: TypeHolderExample) -> Bool {
-        lhs.stringItem == rhs.stringItem &&
-        lhs.numberItem == rhs.numberItem &&
-        lhs.floatItem == rhs.floatItem &&
-        lhs.integerItem == rhs.integerItem &&
-        lhs.boolItem == rhs.boolItem &&
-        lhs.arrayItem == rhs.arrayItem
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(stringItem.hashValue)
-        hasher.combine(numberItem.hashValue)
-        hasher.combine(floatItem.hashValue)
-        hasher.combine(integerItem.hashValue)
-        hasher.combine(boolItem.hashValue)
-        hasher.combine(arrayItem.hashValue)
-        
     }
 }
 

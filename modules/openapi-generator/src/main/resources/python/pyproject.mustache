@@ -29,96 +29,105 @@ repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 {{/poetry1}}
 keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
 {{#poetry1}}
-include = ["{{packageName}}/py.typed"]
+{{#sourceFolder}}
+packages = [
+  { include = "{{{packageName}}}", from = "{{{sourceFolder}}}" },
+]
+{{/sourceFolder}}
+include = ["{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 {{^async}}
-urllib3 = ">= 2.1.0, < 3.0.0"
+urllib3 = ">= 2.7.0, < 3.0.0"
 {{/async}}
 python-dateutil = ">= 2.8.2"
 {{#asyncio}}
-aiohttp = ">= 3.8.4"
+aiohttp = ">= 3.14.1"
 aiohttp-retry = ">= 2.8.3"
 {{/asyncio}}
 {{#httpx}}
 httpx = ">= 0.28.1"
 {{/httpx}}
-{{#tornado}}
-tornado = ">=4.2, <5"
-{{/tornado}}
+{{#httpx2}}
+httpx2 = ">= 2.13.0, < 3"
+{{/httpx2}}
 {{#hasHttpSignatureMethods}}
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
-pydantic = ">= 2"
+pydantic = ">= 2.11"
 typing-extensions = ">= 4.7.1"
-{{#lazyImports}}
-lazy-imports = ">= 1, < 2"
-{{/lazyImports}}
 {{/poetry1}}
 {{^poetry1}}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 dependencies = [
 {{^async}}
-  "urllib3 (>=2.1.0,<3.0.0)",
+  "urllib3 (>=2.7.0,<3.0.0)",
 {{/async}}
   "python-dateutil (>=2.8.2)",
 {{#httpx}}
   "httpx (>=0.28.1)",
 {{/httpx}}
+{{#httpx2}}
+  "httpx2 (>=2.13.0,<3)",
+{{/httpx2}}
 {{#asyncio}}
-  "aiohttp (>=3.8.4)",
+  "aiohttp (>=3.14.1)",
   "aiohttp-retry (>=2.8.3)",
 {{/asyncio}}
-{{#tornado}}
-  "tornado (>=4.2,<5)",
-{{/tornado}}
 {{#hasHttpSignatureMethods}}
   "pem (>=19.3.0)",
   "pycryptodome (>=3.9.0)",
 {{/hasHttpSignatureMethods}}
-  "pydantic (>=2)",
+  "pydantic (>=2.11)",
   "typing-extensions (>=4.7.1)",
-{{#lazyImports}}
-  "lazy-imports (>=1,<2)"
-{{/lazyImports}}
 ]
 
 [project.urls]
 Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 
 {{/poetry1}}
-{{^poetry1}}
-[tool.poetry]
-requires-poetry = ">=2.0"
-{{/poetry1}}
-
 {{#poetry1}}
+# Deprecated by Poetry; retained for compatibility with legacy Poetry 1 releases.
 [tool.poetry.dev-dependencies]
-{{/poetry1}}
-{{^poetry1}}
-[tool.poetry.group.dev.dependencies]
-{{/poetry1}}
-pytest = ">= 7.2.1"
+pytest = ">= 9.0.3"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"
 types-python-dateutil = ">= 2.8.19.14"
 mypy = ">= 1.5"
+{{/poetry1}}
+{{^poetry1}}
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+  "pytest-cov>=2.8.1",
+  "tox>=3.9.0",
+  "flake8>=4.0.0",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+]
+{{/poetry1}}
 
 
 [build-system]
+{{#hatchling}}
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+{{/hatchling}}
+{{^hatchling}}
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+{{/hatchling}}
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "{{{packageName}}}",
+  "{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{{packageName}}}",
   #"test",  # auto-generated tests
   "tests", # hand-written tests
 ]

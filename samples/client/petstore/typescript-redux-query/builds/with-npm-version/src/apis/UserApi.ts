@@ -212,7 +212,7 @@ function deleteUserRaw<T>(requestParameters: DeleteUserRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace('{username}', encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -258,7 +258,7 @@ function getUserByNameRaw<T>(requestParameters: GetUserByNameRequest, requestCon
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace('{username}', encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -413,7 +413,7 @@ function updateUserRaw<T>(requestParameters: UpdateUserRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace('{username}', encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

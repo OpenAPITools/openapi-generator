@@ -16,14 +16,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
-  private @Valid Map<String, BigDecimal> someMap = new HashMap<>();
+  private Map<String, BigDecimal> someMap = new HashMap<>();
 
   protected FakeBigDecimalMap200Response(FakeBigDecimalMap200ResponseBuilder<?, ?> b) {
     this.someId = b.someId;
@@ -62,7 +63,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("someMap")
-  @Valid public Map<String, BigDecimal> getSomeMap() {
+  public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }
 
@@ -122,10 +123,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -163,4 +161,3 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     }
   }
 }
-

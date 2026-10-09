@@ -497,7 +497,7 @@ require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-outer_object_with_enum_property = Petstore::OuterObjectWithEnumProperty.new({value: Petstore::OuterEnumInteger::N0}) # OuterObjectWithEnumProperty | Input enum (int) as post body
+outer_object_with_enum_property = Petstore::OuterObjectWithEnumProperty.new({value: Petstore::OuterEnumInteger::NMINUS_1}) # OuterObjectWithEnumProperty | Input enum (int) as post body
 
 begin
   

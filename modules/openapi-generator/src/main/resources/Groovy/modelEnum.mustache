@@ -1,3 +1,6 @@
+{{#withXml}}
+@XmlEnum
+{{/withXml}}
 enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
 {{#allowableValues}}{{#enumVars}}
     {{#enumDescription}}
@@ -5,6 +8,9 @@ enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEn
         * {{.}}
         */
     {{/enumDescription}}
+    {{#withXml}}
+    @XmlEnumValue({{#lambda.javaStringLiteral}}{{{rawValue}}}{{/lambda.javaStringLiteral}})
+    {{/withXml}}
     {{{name}}}({{{value}}}){{^-last}},
     {{/-last}}{{/enumVars}}{{/allowableValues}}
 

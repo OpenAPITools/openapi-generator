@@ -20,6 +20,36 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    {{#swagger1AnnotationLibrary}}
+    swagger_annotations_version = "1.6.6"
+    {{/swagger1AnnotationLibrary}}
+    {{#swagger2AnnotationLibrary}}
+    swagger_annotations_version = "2.2.15"
+    {{/swagger2AnnotationLibrary}}
+    jackson_version = "2.21.6"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.6"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.12"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
+    {{#useBeanValidation}}
+    bean_validation_version = "3.0.2"
+    {{/useBeanValidation}}
+    jersey_version = "2.35"
+    junit_version = "5.8.2"
+    {{#hasOAuthMethods}}
+    scribejava_apis_version = "8.3.1"
+    {{/hasOAuthMethods}}
+    {{#hasHttpSignatureMethods}}
+    tomitribe_http_signatures_version = "1.7"
+    {{/hasHttpSignatureMethods}}
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -78,8 +108,10 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -92,38 +124,9 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    {{#swagger1AnnotationLibrary}}
-    swagger_annotations_version = "1.6.6"
-    {{/swagger1AnnotationLibrary}}
-    {{#swagger2AnnotationLibrary}}
-    swagger_annotations_version = "2.2.15"
-    {{/swagger2AnnotationLibrary}}
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.8"
-    {{/openApiNullable}}
-    jakarta_annotation_version = "1.3.5"
-    {{#useBeanValidation}}
-    bean_validation_version = "3.0.2"
-    {{/useBeanValidation}}
-    jersey_version = "2.35"
-    junit_version = "5.8.2"
-    {{#hasOAuthMethods}}
-    scribejava_apis_version = "8.3.1"
-    {{/hasOAuthMethods}}
-    {{#hasHttpSignatureMethods}}
-    tomitribe_http_signatures_version = "1.7"
-    {{/hasHttpSignatureMethods}}
-    {{#useReflectionEqualsHashCode}}
-    commons_lang3_version = "3.17.0"
-    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
@@ -140,7 +143,7 @@ dependencies {
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     implementation "org.glassfish.jersey.connectors:jersey-apache-connector:$jersey_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"

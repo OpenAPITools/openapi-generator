@@ -18,7 +18,7 @@ import javax.validation.Valid;
 */
 @Path("/another-fake/dummy")
 @Api(description = "the another-fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     @PATCH
@@ -28,7 +28,8 @@ public class AnotherFakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
+    public Response call123testSpecialTags(@Valid @NotNull Client client
+) {
         return Response.ok().entity("magic!").build();
     }
 }

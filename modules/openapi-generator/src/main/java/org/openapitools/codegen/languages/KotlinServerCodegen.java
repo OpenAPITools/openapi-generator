@@ -17,14 +17,37 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.models.Operation;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
@@ -32,9 +55,19 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-server/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-server/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
@@ -63,48 +96,33 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
+    private boolean useTags = true;
+    /**
+     * All resource paths seen across every tag, collected during the first pass
+     * ({@link #addOperationToGroup}).  Used in {@link #postProcessOperationsWithModels} to
+     * detect cross-tag path shadowing for the jaxrs-spec library.
+     */
+    private final Set<String> allResourcePaths = new HashSet<>();
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
     @Setter
     private boolean omitGradleWrapper = false;
-
-    // This is here to potentially warn the user when an option is not supported by the target framework.
-    private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
-            .put(Constants.KTOR, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.KTOR2, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.JAXRS_SPEC, Arrays.asList(
-                    USE_BEANVALIDATION,
-                    Constants.USE_COROUTINES,
-                    Constants.USE_MUTINY,
-                    Constants.RETURN_RESPONSE,
-                    Constants.INTERFACE_ONLY
-            ))
-            .build();
+    @Getter
+    @Setter
+    private boolean fixJacksonJsonTypeInfoInheritance = true;
+    @Getter
+    @Setter
+    private Boolean delegatePatternEnabled = false;
 
     /**
      * Constructs an instance of `KotlinServerCodegen`.
      */
     public KotlinServerCodegen() {
         super();
+
+        // Enable proper oneOf/anyOf discriminator handling for polymorphism
+        legacyDiscriminatorBehavior = false;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -120,7 +138,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeatures(
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
                         SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
@@ -159,13 +179,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
-        addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
+        addSwitch(INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
+        addSwitch(USE_TAGS, Constants.USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
         addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
         addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
+        addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
+        addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getDelegatePatternEnabled());
     }
 
     @Override
@@ -199,10 +222,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
-        if (additionalProperties.containsKey(Constants.INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(Constants.INTERFACE_ONLY).toString());
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
-                additionalProperties.remove(Constants.INTERFACE_ONLY);
+                additionalProperties.remove(INTERFACE_ONLY);
             }
         }
 
@@ -231,9 +254,18 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            useTags = Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString());
+        }
+
         if (additionalProperties.containsKey(Constants.OMIT_GRADLE_WRAPPER)) {
             setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(Constants.OMIT_GRADLE_WRAPPER).toString()));
         }
+
+        if (additionalProperties.containsKey(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE)) {
+            setFixJacksonJsonTypeInfoInheritance(Boolean.parseBoolean(additionalProperties.get(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE).toString()));
+        }
+        additionalProperties.put(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, fixJacksonJsonTypeInfoInheritance);
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
@@ -290,6 +322,17 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         } else {
             additionalProperties.put(Constants.METRICS, getMetricsFeatureEnabled());
         }
+        if(isKtor()){
+            if (additionalProperties.containsKey(Constants.DELEGATE_PATTERN)) {
+                setDelegatePatternEnabled(convertPropertyToBooleanAndWriteBack(Constants.DELEGATE_PATTERN));
+            } else {
+                additionalProperties.put(Constants.DELEGATE_PATTERN, getDelegatePatternEnabled());
+            }
+            if (delegatePatternEnabled) {
+                typeMapping.put("file", "io.ktor.http.content.PartData.FileItem");
+                importMapping.put("io.ktor.http.content.PartData.FileItem", "io.ktor.http.content.PartData.FileItem");
+            }
+        }
 
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
@@ -313,9 +356,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (isKtor2Or3()) {
             additionalProperties.put(Constants.IS_KTOR, true);
 
-            supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
-            supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
-
+            if(!delegatePatternEnabled) {
+                supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
+                supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
+            }
             if (generateApis && resourcesFeatureEnabled) {
                 supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
             }
@@ -329,6 +373,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
             if (!getOmitGradleWrapper()) {
                 supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+            if(isKtor()){
+                supportingFiles.add(new SupportingFile("AllApis.kt.mustache", packageFolder, "AllApis.kt"));
+                if(delegatePatternEnabled){
+                    apiTemplateFiles.put("apiDelegate.mustache", "Delegate.kt");
+                    supportingFiles.add(new SupportingFile("Delegates.kt.mustache", infrastructureFolder, "Delegates.kt"));
+                    supportingFiles.add(new SupportingFile("AppDelegates.kt.mustache", infrastructureFolder, "AppDelegates.kt"));
+                    supportingFiles.add(new SupportingFile("BadParameterException.kt.mustache", infrastructureFolder, "BadParameterException.kt"));
+                    supportingFiles.add(new SupportingFile("APINotImplementedException.kt.mustache", infrastructureFolder, "APINotImplementedException.kt"));
+                }
             }
 
         } else if (isJavalin()) {
@@ -368,7 +422,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
-        public static final String INTERFACE_ONLY = "interfaceOnly";
         public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_COROUTINES = "useCoroutines";
@@ -381,23 +434,339 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
         public static final String IS_KTOR = "isKtor";
+        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
+        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String USE_TAGS = "useTags";
+        public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
+        public static final String DELEGATE_PATTERN = "delegatePattern";
+        public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // For libraries that use Jackson, set up parent-child relationships for discriminator children
+        // This enables proper polymorphism support with @JsonTypeInfo and @JsonSubTypes annotations
+        if (usesJacksonSerialization()) {
+            // Build a map of model name -> model for easy lookup
+            Map<String, CodegenModel> allModelsMap = new HashMap<>();
+            for (ModelsMap modelsMap : objs.values()) {
+                for (ModelMap modelMap : modelsMap.getModels()) {
+                    CodegenModel model = modelMap.getModel();
+                    allModelsMap.put(model.getClassname(), model);
+                }
+            }
+
+            // First pass: collect all discriminator parent -> children mappings
+            // Also identify the "true" discriminator owners (not inherited via allOf)
+            Map<String, String> childToParentMap = new HashMap<>();
+            Set<String> trueDiscriminatorOwners = new HashSet<>();
+
+            for (ModelsMap modelsMap : objs.values()) {
+                for (ModelMap modelMap : modelsMap.getModels()) {
+                    CodegenModel model = modelMap.getModel();
+                    if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null
+                            && !model.getDiscriminator().getMappedModels().isEmpty()) {
+                        String discriminatorPropBaseName = model.getDiscriminator().getPropertyBaseName();
+
+                        for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
+                            childToParentMap.put(mappedModel.getModelName(), model.getClassname());
+
+                            // If the mapping name equals the model name, check if we can derive
+                            // a better mapping name from the child's discriminator property enum value
+                            if (mappedModel.getMappingName().equals(mappedModel.getModelName())) {
+                                CodegenModel childModel = allModelsMap.get(mappedModel.getModelName());
+                                if (childModel != null) {
+                                    // Find the discriminator property in the child model
+                                    for (CodegenProperty prop : childModel.getAllVars()) {
+                                        if (prop.getBaseName().equals(discriminatorPropBaseName) && prop.isEnum) {
+                                            // If it's an enum with exactly one value, use that as the mapping name
+                                            Map<String, Object> allowableValues = prop.getAllowableValues();
+                                            if (hasEnumValues(allowableValues)) {
+                                                List<Object> values = getEnumValues(allowableValues);
+                                                if (values != null && values.size() == 1) {
+                                                    mappedModel.setMappingName(String.valueOf(values.get(0)));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // This model owns its discriminator (has mapped models)
+                        trueDiscriminatorOwners.add(model.getClassname());
+                    }
+                }
+            }
+
+            // Second pass: process child models
+            for (ModelsMap modelsMap : objs.values()) {
+                for (ModelMap modelMap : modelsMap.getModels()) {
+                    CodegenModel model = modelMap.getModel();
+                    String parentName = childToParentMap.get(model.getClassname());
+
+                    if (parentName != null) {
+                        // This model is a child of a discriminator parent
+                        CodegenModel parentModel = allModelsMap.get(parentName);
+
+                        // Set parent if not already set
+                        if (model.getParent() == null) {
+                            model.setParent(parentName);
+                        }
+
+                        // If this child has a discriminator but it's inherited (not a true owner),
+                        // remove it - only the parent should have the discriminator annotations
+                        if (model.getDiscriminator() != null && !trueDiscriminatorOwners.contains(model.getClassname())) {
+                            model.setDiscriminator(null);
+                        }
+
+                        // For allOf pattern: if parent has properties, mark child's inherited properties
+                        // Skip this for oneOf/anyOf patterns where parent properties are merged from children
+                        boolean parentIsOneOfOrAnyOf = parentModel != null
+                                && (hasOneOf(parentModel) || (hasAnyOf(parentModel)));
+
+                        if (parentModel != null && parentModel.getHasVars() && !parentIsOneOfOrAnyOf) {
+                            Set<String> parentPropNames = new HashSet<>();
+                            List<String> inheritedPropNamesList = new ArrayList<>();
+                            for (CodegenProperty parentProp : parentModel.getAllVars()) {
+                                parentPropNames.add(parentProp.getBaseName());
+                                inheritedPropNamesList.add(parentProp.getName());
+                            }
+
+                            // Mark properties inherited from parent
+                            for (CodegenProperty prop : model.getAllVars()) {
+                                if (parentPropNames.contains(prop.getBaseName())) {
+                                    prop.isInherited = true;
+                                }
+                            }
+                            for (CodegenProperty prop : model.getVars()) {
+                                if (parentPropNames.contains(prop.getBaseName())) {
+                                    prop.isInherited = true;
+                                }
+                            }
+                            for (CodegenProperty prop : model.getRequiredVars()) {
+                                if (parentPropNames.contains(prop.getBaseName())) {
+                                    prop.isInherited = true;
+                                }
+                            }
+                            for (CodegenProperty prop : model.getOptionalVars()) {
+                                if (parentPropNames.contains(prop.getBaseName())) {
+                                    prop.isInherited = true;
+                                }
+                            }
+
+                            // Set vendor extension for parent constructor call with inherited properties
+                            if (!inheritedPropNamesList.isEmpty()) {
+                                String parentCtorArgs = String.join(", ", inheritedPropNamesList.stream()
+                                        .map(name -> name + " = " + name)
+                                        .toArray(String[]::new));
+                                model.getVendorExtensions().put("x-parent-ctor-args", parentCtorArgs);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Third pass: set vendor extension for discriminator style and handle fixJacksonJsonTypeInfoInheritance
+            for (String ownerName : trueDiscriminatorOwners) {
+                CodegenModel owner = allModelsMap.get(ownerName);
+                if (owner != null && owner.getDiscriminator() != null) {
+                    String discriminatorPropBaseName = owner.getDiscriminator().getPropertyBaseName();
+                    boolean isOneOfOrAnyOfPattern = hasOneOf(owner) || hasAnyOf(owner);
+
+                    // hasParentProperties controls whether the sealed class has properties in its constructor
+                    // This should be false for oneOf/anyOf patterns (parent is a type union, no direct properties)
+                    // and true for allOf patterns (parent has properties that children inherit)
+                    boolean hasParentProperties = !isOneOfOrAnyOfPattern;
+
+                    // visibleTrue controls whether visible=true is set on @JsonTypeInfo
+                    // When fixJacksonJsonTypeInfoInheritance is true, we always set visible=true
+                    // When false, we only set visible=true if the parent has properties (allOf pattern)
+                    boolean visibleTrue;
+
+                    if (fixJacksonJsonTypeInfoInheritance) {
+                        // When fixJacksonJsonTypeInfoInheritance is true:
+                        // 1. Always set visible=true so Jackson can read the discriminator
+                        // 2. For oneOf/anyOf patterns: add discriminator property to parent and children
+                        visibleTrue = true;
+
+                        // For oneOf/anyOf patterns, add the discriminator property to the parent sealed class
+                        // This allows accessing the discriminator value from the parent type directly
+                        if (isOneOfOrAnyOfPattern) {
+                            String discriminatorVarName = toVarName(discriminatorPropBaseName);
+
+                            // Clear all merged properties from the oneOf parent - they belong to children only
+                            // We'll add back just the discriminator property
+                            owner.getVars().clear();
+                            owner.getRequiredVars().clear();
+                            owner.getOptionalVars().clear();
+                            owner.getAllVars().clear();
+
+                            // Add discriminator property to parent
+                            CodegenProperty parentDiscriminatorProp = new CodegenProperty();
+                            parentDiscriminatorProp.baseName = discriminatorPropBaseName;
+                            parentDiscriminatorProp.name = discriminatorVarName;
+                            parentDiscriminatorProp.dataType = "kotlin.String";
+                            parentDiscriminatorProp.datatypeWithEnum = "kotlin.String";
+                            parentDiscriminatorProp.required = true;
+                            parentDiscriminatorProp.isNullable = false;
+                            parentDiscriminatorProp.isReadOnly = false;
+
+                            owner.getVars().add(parentDiscriminatorProp);
+                            owner.getRequiredVars().add(parentDiscriminatorProp);
+                            owner.getAllVars().add(parentDiscriminatorProp);
+
+                            // Parent now has properties (just the discriminator)
+                            hasParentProperties = true;
+
+                            // Process children: mark discriminator as inherited and set default values
+                            for (CodegenDiscriminator.MappedModel mappedModel : owner.getDiscriminator().getMappedModels()) {
+                                CodegenModel childModel = allModelsMap.get(mappedModel.getModelName());
+                                if (childModel != null) {
+                                    boolean hasDiscriminatorProp = false;
+                                    String discriminatorDefault = "\"" + mappedModel.getMappingName() + "\"";
+
+                                    // Update existing discriminator property in all lists - mark as inherited
+                                    for (CodegenProperty prop : childModel.getVars()) {
+                                        if (prop.getBaseName().equals(discriminatorPropBaseName)) {
+                                            hasDiscriminatorProp = true;
+                                            prop.defaultValue = discriminatorDefault;
+                                            prop.dataType = "kotlin.String";
+                                            prop.datatypeWithEnum = "kotlin.String";
+                                            prop.required = true;
+                                            prop.isNullable = false;
+                                            prop.isInherited = true;
+                                        }
+                                    }
+                                    for (CodegenProperty prop : childModel.getAllVars()) {
+                                        if (prop.getBaseName().equals(discriminatorPropBaseName)) {
+                                            prop.defaultValue = discriminatorDefault;
+                                            prop.dataType = "kotlin.String";
+                                            prop.datatypeWithEnum = "kotlin.String";
+                                            prop.required = true;
+                                            prop.isNullable = false;
+                                            prop.isInherited = true;
+                                        }
+                                    }
+
+                                    // Move discriminator from optionalVars to requiredVars if needed
+                                    CodegenProperty propToMove = null;
+                                    for (CodegenProperty prop : childModel.getOptionalVars()) {
+                                        if (prop.getBaseName().equals(discriminatorPropBaseName)) {
+                                            prop.defaultValue = discriminatorDefault;
+                                            prop.dataType = "kotlin.String";
+                                            prop.datatypeWithEnum = "kotlin.String";
+                                            prop.required = true;
+                                            prop.isNullable = false;
+                                            prop.isInherited = true;
+                                            propToMove = prop;
+                                            break;
+                                        }
+                                    }
+                                    if (propToMove != null) {
+                                        childModel.getOptionalVars().remove(propToMove);
+                                        childModel.getRequiredVars().add(propToMove);
+                                    }
+
+                                    // Also update if it's already in requiredVars
+                                    for (CodegenProperty prop : childModel.getRequiredVars()) {
+                                        if (prop.getBaseName().equals(discriminatorPropBaseName)) {
+                                            prop.defaultValue = discriminatorDefault;
+                                            prop.dataType = "kotlin.String";
+                                            prop.datatypeWithEnum = "kotlin.String";
+                                            prop.isNullable = false;
+                                            prop.isInherited = true;
+                                        }
+                                    }
+
+                                    // If child doesn't have the discriminator property, add it as required and inherited
+                                    if (!hasDiscriminatorProp) {
+                                        CodegenProperty discriminatorProp = new CodegenProperty();
+                                        discriminatorProp.baseName = discriminatorPropBaseName;
+                                        discriminatorProp.name = discriminatorVarName;
+                                        discriminatorProp.dataType = "kotlin.String";
+                                        discriminatorProp.datatypeWithEnum = "kotlin.String";
+                                        discriminatorProp.defaultValue = discriminatorDefault;
+                                        discriminatorProp.required = true;
+                                        discriminatorProp.isNullable = false;
+                                        discriminatorProp.isReadOnly = false;
+                                        discriminatorProp.isInherited = true;
+
+                                        childModel.getVars().add(discriminatorProp);
+                                        childModel.getRequiredVars().add(discriminatorProp);
+                                        childModel.getAllVars().add(discriminatorProp);
+                                    }
+
+                                    // Set parent constructor args for the discriminator property
+                                    childModel.getVendorExtensions().put("x-parent-ctor-args",
+                                            discriminatorVarName + " = " + discriminatorVarName);
+                                }
+                            }
+                        }
+                    } else {
+                        // When fixJacksonJsonTypeInfoInheritance is false:
+                        // visible=true only for allOf pattern (parent has properties)
+                        visibleTrue = hasParentProperties;
+                    }
+
+                    // Set on both model and discriminator so it's accessible in different template contexts
+                    owner.getVendorExtensions().put("x-discriminator-has-parent-properties", hasParentProperties);
+                    owner.getDiscriminator().getVendorExtensions().put("x-discriminator-has-parent-properties", hasParentProperties);
+                    owner.getVendorExtensions().put("x-discriminator-visible-true", visibleTrue);
+                    owner.getDiscriminator().getVendorExtensions().put("x-discriminator-visible-true", visibleTrue);
+                }
+            }
+        }
+
+        return objs;
     }
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
+            System.out.println("################################################################################");
+        }
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (useTags) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        } else {
+            String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
+            if (StringUtils.isEmpty(basePath) || basePath.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
+                basePath = "default";
+            }
+            super.addOperationToGroup(basePath, resourcePath, operation, co, operations);
+        }
+
+        allResourcePaths.add(resourcePath);
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
+        if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
+            List<CodegenOperation> ops = operations.getOperation();
+
+            String commonPath = computeCommonPath(ops);
+
+            if (commonPath != null && !commonPath.isEmpty() && !"/".equals(commonPath)
+                    && wouldShadowOtherTags(commonPath, ops, allResourcePaths)) {
+                commonPath = null;
+            }
+
+            applyCommonPath(ops, commonPath, objs);
+        }
+
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -455,11 +824,23 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             });
         }
 
+        handleImplicitHeaders(objs);
+
         return objs;
     }
 
     private boolean isJavalin() {
         return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
+    }
+
+    /**
+     * Returns true if the current library uses Jackson for JSON serialization.
+     * This is used to determine if Jackson-specific features like polymorphism annotations should be enabled.
+     */
+    private boolean usesJacksonSerialization() {
+        return Constants.JAVALIN5.equals(library) ||
+                Constants.JAVALIN6.equals(library) ||
+                Constants.JAXRS_SPEC.equals(library);
     }
 
     private boolean isKtor2Or3() {
@@ -477,5 +858,67 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     private boolean isKtor2() {
         return Constants.KTOR2.equals(library);
+    }
+
+    /** Computes the longest common path prefix shared by all operations. */
+    private static String computeCommonPath(List<CodegenOperation> ops) {
+        String commonPath = null;
+        for (CodegenOperation operation : ops) {
+            if (commonPath == null) {
+                commonPath = operation.path;
+            } else {
+                commonPath = getCommonPath(commonPath, operation.path);
+            }
+        }
+        return commonPath;
+    }
+
+    /** Strips {@code commonPath} from operation paths and writes it to {@code objs}; null means shadowing was detected. */
+    private static void applyCommonPath(List<CodegenOperation> ops, String commonPath, OperationsMap objs) {
+        if (commonPath == null) {
+            for (CodegenOperation co : ops) {
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", StringUtils.EMPTY);
+        } else {
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+        }
+    }
+
+    /** Returns {@code true} if using {@code commonPath} as the class-level {@code @Path} would shadow routes of another tag. */
+    private static boolean wouldShadowOtherTags(String commonPath, List<CodegenOperation> ops, Set<String> allResourcePaths) {
+        if (allResourcePaths == null || allResourcePaths.isEmpty()) {
+            return false;
+        }
+        Set<String> currentTagPaths = new HashSet<>();
+        for (CodegenOperation co : ops) {
+            currentTagPaths.add(co.path);
+        }
+        for (String path : allResourcePaths) {
+            if (currentTagPaths.contains(path)) {
+                continue;
+            }
+            if (path.startsWith(commonPath + "/") || path.equals(commonPath)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getCommonPath(String path1, String path2) {
+        final String[] parts1 = StringUtils.split(path1, "/");
+        final String[] parts2 = StringUtils.split(path2, "/");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.min(parts1.length, parts2.length); i++) {
+            if (!parts1[i].equals(parts2[i])) {
+                break;
+            }
+            builder.append("/").append(parts1[i]);
+        }
+        return builder.toString();
     }
 }

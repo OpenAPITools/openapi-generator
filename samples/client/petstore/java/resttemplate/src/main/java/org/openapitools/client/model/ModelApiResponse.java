@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ModelApiResponse
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   @javax.annotation.Nullable
@@ -53,7 +53,7 @@ public class ModelApiResponse {
   /**
    * Constructor with all args parameters
    */
-  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) Integer code, @JsonProperty(JSON_PROPERTY_TYPE) String type, @JsonProperty(JSON_PROPERTY_MESSAGE) String message) {
+  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) @javax.annotation.Nullable Integer code, @JsonProperty(JSON_PROPERTY_TYPE) @javax.annotation.Nullable String type, @JsonProperty(JSON_PROPERTY_MESSAGE) @javax.annotation.Nullable String message) {
     this.code = code;
     this.type = type;
     this.message = message;
@@ -170,10 +170,7 @@ public class ModelApiResponse {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

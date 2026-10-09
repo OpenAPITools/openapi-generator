@@ -108,11 +108,11 @@ class ObjectSerializer
                     }
                 }
             } else {
-                foreach($data as $property => $value) {
+                foreach ($data as $property => $value) {
                     $values[$property] = self::sanitizeForSerialization($value);
                 }
             }
-            return (object)$values;
+            return (object) $values;
         } else {
             return (string)$data;
         }
@@ -170,32 +170,57 @@ class ObjectSerializer
      */
     private static function isEmptyValue(mixed $value, string $openApiType): bool
     {
-        # If empty() returns false, it is not empty regardless of its type.
+        // If empty() returns false, it is not empty regardless of its type.
         if (!empty($value)) {
             return false;
         }
 
-        # Null is always empty, as we cannot send a real "null" value in a query parameter.
+        // Null is always empty, as we cannot send a real "null" value in a query parameter.
         if ($value === null) {
             return true;
         }
 
         return match ($openApiType) {
-            # For numeric values, false and '' are considered empty.
-            # This comparison is safe for floating point values, since the previous call to empty() will
-            # filter out values that don't match 0.
+            // For numeric values, false and '' are considered empty.
+            // This comparison is safe for floating point values, since the previous call to empty() will
+            // filter out values that don't match 0.
             'int','integer' => $value !== 0,
             'number'|'float' => $value !== 0 && $value !== 0.0,
 
-            # For boolean values, '' is considered empty
+            // For boolean values, '' is considered empty
             'bool','boolean' => !in_array($value, [false, 0], true),
 
-            # For string values, '' is considered empty.
+            // For string values, '' is considered empty.
             'string' => $value === '',
 
-            # For all the other types, any value at this point can be considered empty.
+            // For all the other types, any value at this point can be considered empty.
             default => true
         };
+    }
+
+    /**
+     * Convert objects into arrays, recursively.
+     *
+     * sanitizeForSerialization() returns an object per model, but query parameters
+     * are flattened from arrays.
+     *
+     * @param mixed $data
+     *
+     * @return mixed the data with every object converted to an array
+     */
+    private static function toArrayRecursive(mixed $data): mixed
+    {
+        if (is_array($data) || is_object($data)) {
+            $result = [];
+
+            foreach ($data as $key => $value) {
+                $result[$key] = self::toArrayRecursive($value);
+            }
+
+            return $result;
+        }
+
+        return $data;
     }
 
     /**
@@ -220,10 +245,10 @@ class ObjectSerializer
         bool $required = true
     ): array {
 
-        # Check if we should omit this parameter from the query. This should only happen when:
-        #  - Parameter is NOT required; AND
-        #  - its value is set to a value that is equivalent to "empty", depending on its OpenAPI type. For
-        #    example, 0 as "int" or "boolean" is NOT an empty value.
+        // Check if we should omit this parameter from the query. This should only happen when:
+        //  - Parameter is NOT required; AND
+        //  - its value is set to a value that is equivalent to "empty", depending on its OpenAPI type. For
+        //    example, 0 as "int" or "boolean" is NOT an empty value.
         if (self::isEmptyValue($value, $openApiType)) {
             if ($required) {
                 return ["{$paramName}" => ''];
@@ -232,18 +257,31 @@ class ObjectSerializer
             }
         }
 
-        # Handle DateTime objects in query
-        if($openApiType === "\DateTime" && $value instanceof DateTime) {
+        // Handle DateTime objects in query
+        if ($openApiType === "string" && $value instanceof DateTime) {
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
+        // A model is typed with its class name rather than "object", but serializes as one.
+        if ($value instanceof ModelInterface) {
+            $openApiType = 'object';
+        }
+
         $query = [];
-        $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
+        if ($openApiType === 'object' && is_object($value)) {
+            // Read the model's values through its getters; a plain (array) cast
+            // would expose only the protected $container holding them.
+            $value = self::toArrayRecursive(self::sanitizeForSerialization($value));
+        } elseif (in_array($openApiType, ['object', 'array'], true)) {
+            $value = (array) $value;
+        }
 
         // since \GuzzleHttp\Psr7\Query::build fails with nested arrays
         // need to flatten array first
         $flattenArray = function ($arr, $name, &$result = []) use (&$flattenArray, $style, $explode) {
-            if (!is_array($arr)) return $arr;
+            if (!is_array($arr)) {
+                return $arr;
+            }
 
             foreach ($arr as $k => $v) {
                 $prop = ($style === 'deepObject') ? "{$name}[{$k}]" : $k;
@@ -488,16 +526,29 @@ class ObjectSerializer
             }
             return $data;
         } else {
-            $data = is_string($data) ? json_decode($data) : $data;
+            if (is_string($data)) {
+                $decoded = json_decode($data);
+                // Keep the original string if decode fails (nested values are already PHP strings).
+                $data = ($decoded !== null || $data === 'null') ? $decoded : $data;
+            }
+
+            // A oneOf/anyOf schema is not a value object: dispatch here, after json_decode (so
+            // members get the decoded value) but before the array-to-object cast (which breaks arrays).
+            if (is_subclass_of($class, '\{{modelPackage}}\OneOfInterface')) {
+                return self::deserializeOneOf($data, $class, $httpHeaders);
+            }
+            if (is_subclass_of($class, '\{{modelPackage}}\AnyOfInterface')) {
+                return self::deserializeAnyOf($data, $class, $httpHeaders);
+            }
 
             if (is_array($data)) {
-                $data = (object)$data;
+                $data = (object) $data;
             }
 
             // If a discriminator is defined and points to a valid subclass, use it.
             $discriminator = $class::DISCRIMINATOR;
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
-                $subclass = '\{{invokerPackage}}\Model\\' . $data->{$discriminator};
+                $subclass = '\{{modelPackage}}\\' . $data->{$discriminator};
                 if (is_subclass_of($subclass, $class)) {
                     $class = $subclass;
                 }
@@ -530,17 +581,142 @@ class ObjectSerializer
     }
 
     /**
-    * Build a query string from an array of key value pairs.
-    *
-    * This function can use the return value of `parse()` to build a query
-    * string. This function does not modify the provided keys when an array is
-    * encountered (like `http_build_query()` would).
-    *
-    * @param array     $params              Query string parameters.
-    * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
-    *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
-    *                                       to encode using RFC1738.
-    */
+     * Returns true when $data's PHP type is compatible with the OpenAPI primitive $type.
+     * Prevents settype() coercion (e.g. "abc" → 0 for integer) from producing a false match
+     * when iterating over oneOf/anyOf candidate types.
+     * Non-primitive types always return true and are validated downstream by ModelInterface::valid().
+     */
+    private static function isPrimitiveTypeCompatible(mixed $data, string $type): bool
+    {
+        return match($type) {
+            'int', 'integer' => is_int($data),
+            'float', 'double', 'number' => is_int($data) || is_float($data),
+            'bool', 'boolean' => is_bool($data),
+            'string' => is_string($data),
+            'array' => is_array($data),
+            'object' => is_object($data),
+            default => true,
+        };
+    }
+
+    /**
+     * Deserialize data into one of the member types of a `oneOf` schema.
+     *
+     * When the schema declares a discriminator, its value selects the member type directly.
+     * Otherwise each member type is tried in turn and the first one that yields a valid model
+     * (or a non-null primitive) is returned.
+     *
+     * @param mixed         $data        the decoded data to resolve to a member type
+     * @param string        $class       a class name implementing OneOfInterface
+     * @param string[]|null $httpHeaders HTTP headers
+     *
+     * @return mixed an instance of one of the `oneOf` member types
+     */
+    private static function deserializeOneOf(mixed $data, string $class, ?array $httpHeaders): mixed
+    {
+        // $data is already decoded (see deserialize()). Read the discriminator from an object view
+        // of it, but deserialize each member from the original $data so array and scalar members
+        // keep their own type handling instead of being coerced to an object here.
+        $probe = is_array($data) ? (object) $data : $data;
+
+        $discriminator = $class::getOneOfDiscriminator();
+        if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
+            $mappings = $class::getOneOfDiscriminatorMappings();
+            if (isset($mappings[$probe->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$probe->{$discriminator}], $httpHeaders);
+            }
+        }
+
+        foreach ($class::getOneOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
+            try {
+                $instance = self::deserialize($data, $type, $httpHeaders);
+            } catch (\Throwable $e) {
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
+                continue;
+            }
+
+            if ($instance instanceof ModelInterface) {
+                if ($instance->valid()) {
+                    return $instance;
+                }
+            } elseif ($instance !== null) {
+                return $instance;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('No matching schema in oneOf %s for the given data', $class));
+    }
+
+    /**
+     * Deserialize data into one of the member types of an `anyOf` schema.
+     *
+     * When the schema declares a discriminator, its value selects the member type directly.
+     * Otherwise each member type is tried in turn and the first one that yields a valid model
+     * (or a non-null primitive) is returned.
+     *
+     * @param mixed         $data        the decoded data to resolve to a member type
+     * @param string        $class       a class name implementing AnyOfInterface
+     * @param string[]|null $httpHeaders HTTP headers
+     *
+     * @return mixed an instance of one of the `anyOf` member types
+     */
+    private static function deserializeAnyOf(mixed $data, string $class, ?array $httpHeaders): mixed
+    {
+        // $data is already decoded (see deserialize()). Read the discriminator from an object view
+        // of it, but deserialize each member from the original $data so array and scalar members
+        // keep their own type handling instead of being coerced to an object here.
+        $probe = is_array($data) ? (object) $data : $data;
+
+        $discriminator = $class::getAnyOfDiscriminator();
+        if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
+            $mappings = $class::getAnyOfDiscriminatorMappings();
+            if (isset($mappings[$probe->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$probe->{$discriminator}], $httpHeaders);
+            }
+        }
+
+        foreach ($class::getAnyOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
+            try {
+                $instance = self::deserialize($data, $type, $httpHeaders);
+            } catch (\Throwable $e) {
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
+                continue;
+            }
+
+            if ($instance instanceof ModelInterface) {
+                if ($instance->valid()) {
+                    return $instance;
+                }
+            } elseif ($instance !== null) {
+                return $instance;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('No matching schema in anyOf %s for the given data', $class));
+    }
+
+    /**
+     * Build a query string from an array of key value pairs.
+     *
+     * This function can use the return value of `parse()` to build a query
+     * string. This function does not modify the provided keys when an array is
+     * encountered (like `http_build_query()` would).
+     *
+     * @param array     $params              Query string parameters.
+     * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
+     *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
+     *                                       to encode using RFC1738.
+     */
     public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986): string
     {
         if (!$params) {

@@ -48,8 +48,8 @@ function Initialize-PSScaleneTriangle {
 
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
-            "triangleType" = ${TriangleType}
+            'shapeType' = ${ShapeType}
+            'triangleType' = ${TriangleType}
         }
 
 
@@ -87,7 +87,7 @@ function ConvertFrom-PSJsonToScaleneTriangle {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSScaleneTriangle
-        $AllProperties = ("shapeType", "triangleType")
+        $AllProperties = ('shapeType', 'triangleType')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -98,21 +98,21 @@ function ConvertFrom-PSJsonToScaleneTriangle {
             throw "Error! Empty JSON cannot be serialized due to the required property 'shapeType' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shapeType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'shapeType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'shapeType' missing."
         } else {
-            $ShapeType = $JsonParameters.PSobject.Properties["shapeType"].value
+            $ShapeType = $JsonParameters.PSobject.Properties['shapeType'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "triangleType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'triangleType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'triangleType' missing."
         } else {
-            $TriangleType = $JsonParameters.PSobject.Properties["triangleType"].value
+            $TriangleType = $JsonParameters.PSobject.Properties['triangleType'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
-            "triangleType" = ${TriangleType}
+            'shapeType' = ${ShapeType}
+            'triangleType' = ${TriangleType}
         }
 
         return $PSO

@@ -2,6 +2,8 @@ package org.openapitools.api
 
 import org.openapitools.model.Order
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.ApiResponse
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.StoreApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -34,7 +35,7 @@ import kotlin.collections.Map
 @RestController
 @Validated
 @Api(value = "store", description = "The store API")
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
 
@@ -46,7 +47,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
+        // "/store/order/{orderId}"
+        value = [PATH_DELETE_ORDER]
     )
     fun deleteOrder(
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
@@ -66,7 +68,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        // "/store/inventory"
+        value = [PATH_GET_INVENTORY],
         produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
@@ -83,7 +86,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        // "/store/order/{orderId}"
+        value = [PATH_GET_ORDER_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
@@ -102,7 +106,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        // "/store/order"
+        value = [PATH_PLACE_ORDER],
         produces = ["application/xml", "application/json"]
     )
     fun placeOrder(

@@ -27,12 +27,15 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class GoClientCodegenTest {
@@ -142,6 +145,199 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("go-json-header").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterToJSONHeaderValue(r.xJsonArg)",
+                "parameterToJSONHeaderValue(r.xVendorJson)",
+                "parameterToJSONHeaderValue(r.xOptionalJson)",
+                "localVarHeaderParams[\"X-Json-Arg\"] = jsonHeaderValue",
+                "localVarHeaderParams[\"X-Vendor-Json\"] = jsonHeaderValue",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Required-Plain\", r.xRequiredPlain");
+        TestUtils.assertFileNotContains(api,
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Vendor-Json\", r.xVendorJson");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
+    }
+
+    @Test
+    public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
+        GoClientCodegen codegen = new GoClientCodegen();
+        File firstOutput = Files.createTempDirectory("go-json-header-first").toFile();
+        firstOutput.deleteOnExit();
+        ClientOptInput firstInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(firstOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(firstOutput.getAbsolutePath());
+        new DefaultGenerator().opts(firstInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(Paths.get(firstOutput.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
+
+        File secondOutput = Files.createTempDirectory("go-json-header-second").toFile();
+        secondOutput.deleteOnExit();
+        ClientOptInput secondInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(secondOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(secondOutput.getAbsolutePath());
+        new DefaultGenerator().opts(secondInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileNotContains(Paths.get(secondOutput.getAbsolutePath(), "client.go"),
+                "parameterToJSONHeaderValue");
+    }
+
+    @Test
+    public void testStringNotEnumValidation() throws IOException, InterruptedException {
+        File output = Files.createTempDirectory("go-not-enum").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_known.go"),
+                "if value != \"known\"",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "strings.EqualFold(name, requiredProperty)",
+                "if raw := fields.Kind; raw != nil",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_other.go"),
+                "if value == \"known\"",
+                "excluded value %v for property %s",
+                "strings.EqualFold(name, requiredProperty)",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_other.go"),
+                "if value == \"known\" || value == \"a\\\"b\"",
+                "Kind json.RawMessage `json:\"kind,omitempty\"`",
+                "value := _OptionalOther(*o)",
+                "func (o *OptionalOther) UnmarshalJSON(data []byte) error",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_any_other.go"),
+                "var value interface{}",
+                "if value == \"known\"");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum.go"),
+                "if raw := fields.Kind; raw != nil",
+                "if string(raw) != \"null\" && (value != \"known\")");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nullable_excluded_enum.go"),
+                "if value == \"known\" || value == nil",
+                "if err := o.validateStringEnumValues(data); err != nil");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_nullable_enum_without_null_value.go"),
+                "validateStringEnumValues");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_ordinary_enum.go"),
+                "validateStringEnumValues", "func (o *OrdinaryEnum) UnmarshalJSON");
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_optional_enum_parent.go"),
+                "validateStringEnumValues");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_optional_enum_child.go"),
+                "func (o *OptionalEnumChild) validateStringEnumValues(data []byte) error",
+                "Kind json.RawMessage `json:\"kind\"`",
+                "if value != \"allowed\"",
+                "decoded.Kind = o.Kind",
+                "o.Kind = decoded.Kind",
+                "o.Label = decoded.Label",
+                "Dash *string `json:\"dash,omitempty\"`",
+                "o.Dash = decoded.Dash");
+
+        File allOfOutput = Files.createTempDirectory("go-inherited-enum").toFile();
+        allOfOutput.deleteOnExit();
+        final CodegenConfigurator allOfConfigurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml")
+                .setOutputDir(allOfOutput.getAbsolutePath());
+        new DefaultGenerator().opts(allOfConfigurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileNotContains(Paths.get(allOfOutput.getAbsolutePath(), "model_final_item.go"),
+                "validateStringEnumValues");
+
+        try {
+            Process goVersion = new ProcessBuilder("go", "version").start();
+            if (goVersion.waitFor() != 0) {
+                return;
+            }
+            Matcher version = Pattern.compile("go(\\d+)\\.(\\d+)")
+                    .matcher(new String(goVersion.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+            if (!version.find() || Integer.parseInt(version.group(1)) < 1
+                    || (Integer.parseInt(version.group(1)) == 1 && Integer.parseInt(version.group(2)) < 23)) {
+                return;
+            }
+        } catch (IOException ignored) {
+            return;
+        }
+        Files.copy(Paths.get("src/test/resources/3_1/go/oneof-not-enum_test.go"),
+                Paths.get(output.getAbsolutePath(), "oneof-not-enum_test.go")).toFile().deleteOnExit();
+        Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestStringEnumScope$", ".")
+                .directory(output).redirectErrorStream(true).start();
+        String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(goTest.waitFor(), 0, goOutput);
+    }
+
+    @Test
+    public void testNullableStringEnumRefValidation() throws IOException {
+        File output = Files.createTempDirectory("go-nullable-enum-ref").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "model_enum_test_.go");
+        TestUtils.assertFileNotContains(model, "validateStringEnumValues");
+    }
+
+    @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/client.go"),
+                "keyPrefixForMapEntry = k.String()",
+                "if !ok { continue } if entry.Kind() == reflect.Slice {",
+                "case reflect.Ptr: if v.IsNil() { return }",
+                "styleForElement = \"\"");
+        TestUtils.assertFileNotContains(Paths.get(output + "/client.go"),
+                "parameterToJSONHeaderValue", "unicode/utf16");
+
+        // the api passes the declared style through
+        Path api = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
+    }
+
+    @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -196,6 +392,37 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetAPIAddPetRequest struct");
+    }
+
+    @Test
+    public void testEnumUnknownDefaultCaseUsesModelSpecificNamesWhenEnumClassPrefixDisabled() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
+        properties.put(CodegenConstants.ENUM_CLASS_PREFIX, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/go/enum_unknown_default_case_multiple_models.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path statusA = Paths.get(output + "/model_status_a.go");
+        Path statusB = Paths.get(output + "/model_status_b.go");
+        TestUtils.assertFileContains(statusA,
+                "STATUSA_UNKNOWN_DEFAULT_OPEN_API StatusA = \"unknown_default_open_api\"",
+                "*v = STATUSA_UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileContains(statusB,
+                "STATUSB_UNKNOWN_DEFAULT_OPEN_API StatusB = \"unknown_default_open_api\"",
+                "*v = STATUSB_UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileNotContains(statusA, "\n\tUNKNOWN_DEFAULT_OPEN_API StatusA =");
+        TestUtils.assertFileNotContains(statusB, "\n\tUNKNOWN_DEFAULT_OPEN_API StatusB =");
     }
 
     @Test
@@ -355,6 +582,27 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testNoImportsWithoutUnmarshal() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/model_pet.go"), "bytes");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -433,9 +681,81 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
         Path apiPath = Paths.get(output + "/api_default.go");
-        String defaultArrayString = "var defaultValue []interface{} = []interface{}{\"test1\", \"test2\", 1}";
+        String defaultStringArrayString = "var defaultValue []string = []string{\"test1\", \"test2\"}";
+        String defaultEnumArrayString = "var defaultValue []ExampleEnum = []ExampleEnum{\"example1\"}";
         String defaultValueString = "var defaultValue string = \"test3\"";
-        TestUtils.assertFileContains(apiPath, defaultArrayString);
+        TestUtils.assertFileContains(apiPath, defaultStringArrayString);
+        TestUtils.assertFileContains(apiPath, defaultEnumArrayString);
         TestUtils.assertFileContains(apiPath, defaultValueString);
+    }
+
+    @Test
+    public void testEscapingInExamples() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/petstore-with-special-chars-in-examples.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path docPath = Paths.get(output + "/docs/TestAPI.md");
+        // Verify that quotes are properly escaped in parameter examples
+        TestUtils.assertFileContains(docPath, "stringWithQuotes := \"John \\\"Johnny\\\" Doe\"");
+        // Verify that backslashes are properly escaped in parameter examples
+        TestUtils.assertFileContains(docPath, "stringWithBackslash := \"C:\\\\path\\\\to\\\\file\"");
+        // Verify that quotes are properly escaped in email parameter examples
+        TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
+    }
+
+    @Test(description = "generateUnmarshalJSON=false must also suppress the oneOf UnmarshalJSON so the generated code does not reference the validator import that is no longer added (#24053)")
+    public void testOneOfUnmarshalJSONHonorsGenerateUnmarshalJSONFlag() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // With the flag disabled the validator import is not added, so the oneOf model must not
+        // emit UnmarshalJSON (which would reference the missing validator package and fail to compile).
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileNotContains(oneOfModel, "func (dst *Object) UnmarshalJSON");
+        TestUtils.assertFileNotContains(oneOfModel, "validator.Validate");
+        TestUtils.assertFileNotContains(oneOfModel, "gopkg.in/validator.v2");
+    }
+
+    @Test(description = "with the default generateUnmarshalJSON=true the oneOf UnmarshalJSON and the validator import are still generated")
+    public void testOneOfUnmarshalJSONGeneratedByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileContains(oneOfModel,
+                "func (dst *Object) UnmarshalJSON",
+                "validator.Validate",
+                "gopkg.in/validator.v2");
     }
 }

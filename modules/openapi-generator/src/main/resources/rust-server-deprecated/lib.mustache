@@ -6,10 +6,8 @@ use futures::Stream;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
-
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 

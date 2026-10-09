@@ -54,42 +54,42 @@ public:
 
 	/*! \brief Set 
 	 */
-	void setId(long  id);
+	void setId(long id);
 	/*! \brief Get 
 	 */
 	Category getCategory();
 
 	/*! \brief Set 
 	 */
-	void setCategory(Category  category);
+	void setCategory(Category category);
 	/*! \brief Get 
 	 */
 	std::string getName();
 
 	/*! \brief Set 
 	 */
-	void setName(std::string  name);
+	void setName(std::string name);
 	/*! \brief Get 
 	 */
 	std::list<std::string> getPhotoUrls();
 
 	/*! \brief Set 
 	 */
-	void setPhotoUrls(std::list <std::string> photoUrls);
+	void setPhotoUrls(std::list<std::string> photoUrls);
 	/*! \brief Get 
 	 */
 	std::list<Tag> getTags();
 
 	/*! \brief Set 
 	 */
-	void setTags(std::list <Tag> tags);
+	void setTags(std::list<Tag> tags);
 	/*! \brief Get pet status in the store
 	 */
 	std::string getStatus();
 
 	/*! \brief Set pet status in the store
 	 */
-	void setStatus(std::string  status);
+	void setStatus(std::string status);
 
 
     private:

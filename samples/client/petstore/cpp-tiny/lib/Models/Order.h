@@ -51,42 +51,42 @@ public:
 
 	/*! \brief Set 
 	 */
-	void setId(long  id);
+	void setId(long id);
 	/*! \brief Get 
 	 */
 	long getPetId();
 
 	/*! \brief Set 
 	 */
-	void setPetId(long  petId);
+	void setPetId(long petId);
 	/*! \brief Get 
 	 */
 	int getQuantity();
 
 	/*! \brief Set 
 	 */
-	void setQuantity(int  quantity);
+	void setQuantity(int quantity);
 	/*! \brief Get 
 	 */
 	std::string getShipDate();
 
 	/*! \brief Set 
 	 */
-	void setShipDate(std::string  shipDate);
+	void setShipDate(std::string shipDate);
 	/*! \brief Get Order Status
 	 */
 	std::string getStatus();
 
 	/*! \brief Set Order Status
 	 */
-	void setStatus(std::string  status);
+	void setStatus(std::string status);
 	/*! \brief Get 
 	 */
 	bool isComplete();
 
 	/*! \brief Set 
 	 */
-	void setComplete(bool  complete);
+	void setComplete(bool complete);
 
 
     private:

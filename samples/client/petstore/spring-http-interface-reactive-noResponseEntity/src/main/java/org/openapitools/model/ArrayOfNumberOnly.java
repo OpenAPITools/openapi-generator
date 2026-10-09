@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -21,10 +22,10 @@ import jakarta.annotation.Generated;
  * ArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -50,6 +51,7 @@ public class ArrayOfNumberOnly {
     return arrayNumber;
   }
 
+  @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
@@ -84,11 +86,8 @@ public class ArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

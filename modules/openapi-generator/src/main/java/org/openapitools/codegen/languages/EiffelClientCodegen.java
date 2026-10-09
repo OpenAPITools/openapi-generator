@@ -31,6 +31,9 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.UUID;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Eiffel/}.
+ */
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 

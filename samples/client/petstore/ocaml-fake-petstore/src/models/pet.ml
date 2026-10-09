@@ -35,7 +35,7 @@
                  [@default []]
                 
                 ; [@key "tags"]
-                                      status: Enums.status
+                                      status: Enums.pet_status
                            option [@default
                     
                     None

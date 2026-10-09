@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: API with URI enum.
+  version: 1.0.0
+paths:
+  /resources:
+    get:
+      summary: Returns resources.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resource'
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ExampleUriEnum'
+    ExampleUriEnum:
+      type: string
+      format: uri
+      description: Example of an Enum with URI values
+      enum:
+        - "https://another-example.com"
+        - "https://example.com"
+

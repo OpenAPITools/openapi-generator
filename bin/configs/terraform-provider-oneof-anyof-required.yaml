@@ -1,0 +1,11 @@
+generatorName: terraform-provider
+outputDir: samples/client/others/terraform/oneof-anyof-required
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml
+templateDir: modules/openapi-generator/src/main/resources/terraform-provider
+gitHost: github.com
+gitUserId: example
+gitRepoId: terraform-provider-oneof-anyof
+additionalProperties:
+  providerName: "oneof"
+  providerAddress: "registry.terraform.io/example/oneof-anyof"
+  hideGenerationTimestamp: "true"

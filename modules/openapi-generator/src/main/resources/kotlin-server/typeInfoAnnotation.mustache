@@ -1,0 +1,6 @@
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = {{#vendorExtensions.x-discriminator-visible-true}}true{{/vendorExtensions.x-discriminator-visible-true}}{{^vendorExtensions.x-discriminator-visible-true}}false{{/vendorExtensions.x-discriminator-visible-true}})
+@com.fasterxml.jackson.annotation.JsonSubTypes(
+{{#discriminator.mappedModels}}
+    com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = {{modelName}}::class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"){{^-last}},{{/-last}}
+{{/discriminator.mappedModels}}
+)

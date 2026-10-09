@@ -40,6 +40,9 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/bash/}.
+ */
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
 

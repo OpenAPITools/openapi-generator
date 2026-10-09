@@ -716,7 +716,7 @@ paths:
                 string:
                   description: None
                   type: string
-                  pattern: /[a-z]/i
+                  pattern: "[a-zA-Z]"
                 pattern_without_delimiter:
                   description: None
                   type: string
@@ -1438,7 +1438,7 @@ components:
           minimum: 67.8
         string:
           type: string
-          pattern: /[a-z]/i
+          pattern: "[a-zA-Z]"
         byte:
           type: string
           format: byte

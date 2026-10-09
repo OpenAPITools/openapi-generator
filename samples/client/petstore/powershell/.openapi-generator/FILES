@@ -54,6 +54,7 @@ docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterEnumStringStartingWithNumber.md
 docs/PSAnotherFakeApi.md
 docs/PSDefaultApi.md
 docs/PSFakeApi.md
@@ -144,6 +145,7 @@ src/PSPetstore/Model/OuterEnum.ps1
 src/PSPetstore/Model/OuterEnumDefaultValue.ps1
 src/PSPetstore/Model/OuterEnumInteger.ps1
 src/PSPetstore/Model/OuterEnumIntegerDefaultValue.ps1
+src/PSPetstore/Model/OuterEnumStringStartingWithNumber.ps1
 src/PSPetstore/Model/ParentPet.ps1
 src/PSPetstore/Model/Pet.ps1
 src/PSPetstore/Model/PetWithRequiredTags.ps1

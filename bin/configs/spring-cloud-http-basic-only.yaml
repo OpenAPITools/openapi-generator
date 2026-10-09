@@ -4,6 +4,8 @@ outputDir: samples/openapi3/client/petstore/spring-cloud-http-basic
 inputSpec: modules/openapi-generator/src/test/resources/3_0/http-basic-test.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
   documentationProvider: springdoc
   artifactId: spring-cloud-http-basic

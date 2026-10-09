@@ -21,7 +21,7 @@ object Paths {
      * 
      * @param pet Pet object that needs to be added to the store 
      */
-    @Serializable @Resource("/pet") class addPet(val pet: Pet)
+    @Serializable @Resource("/pet") class addPet(@SerialName("Pet") val pet: Pet)
 
     /**
      * Deletes a pet
@@ -29,35 +29,35 @@ object Paths {
      * @param petId Pet id to delete 
      * @param apiKey  (optional)
      */
-    @Serializable @Resource("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String? = null)
+    @Serializable @Resource("/pet/{petId}") class deletePet(@SerialName("petId") val petId: kotlin.Long, @SerialName("api_key") val apiKey: kotlin.String? = null)
 
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
      */
-    @Serializable @Resource("/pet/findByStatus") class findPetsByStatus(val status: kotlin.collections.List<kotlin.String>)
+    @Serializable @Resource("/pet/findByStatus") class findPetsByStatus(@SerialName("status") val status: kotlin.collections.List<kotlin.String>)
 
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
      */
-    @Serializable @Resource("/pet/findByTags") class findPetsByTags(val tags: kotlin.collections.List<kotlin.String>)
+    @Serializable @Resource("/pet/findByTags") class findPetsByTags(@SerialName("tags") val tags: kotlin.collections.List<kotlin.String>)
 
     /**
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return 
      */
-    @Serializable @Resource("/pet/{petId}") class getPetById(val petId: kotlin.Long)
+    @Serializable @Resource("/pet/{petId}") class getPetById(@SerialName("petId") val petId: kotlin.Long)
 
     /**
      * Update an existing pet
      * 
      * @param pet Pet object that needs to be added to the store 
      */
-    @Serializable @Resource("/pet") class updatePet(val pet: Pet)
+    @Serializable @Resource("/pet") class updatePet(@SerialName("Pet") val pet: Pet)
 
     /**
      * Updates a pet in the store with form data
@@ -66,7 +66,7 @@ object Paths {
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
      */
-    @Serializable @Resource("/pet/{petId}") class updatePetWithForm(val petId: kotlin.Long, val name: kotlin.String? = null, val status: kotlin.String? = null)
+    @Serializable @Resource("/pet/{petId}") class updatePetWithForm(@SerialName("petId") val petId: kotlin.Long, @SerialName("name") val name: kotlin.String? = null, @SerialName("status") val status: kotlin.String? = null)
 
     /**
      * uploads an image
@@ -75,14 +75,14 @@ object Paths {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
      */
-    @Serializable @Resource("/pet/{petId}/uploadImage") class uploadFile(val petId: kotlin.Long, val additionalMetadata: kotlin.String? = null, val file: java.io.File? = null)
+    @Serializable @Resource("/pet/{petId}/uploadImage") class uploadFile(@SerialName("petId") val petId: kotlin.Long, @SerialName("additionalMetadata") val additionalMetadata: kotlin.String? = null, @SerialName("file") val file: java.io.File? = null)
 
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted 
      */
-    @Serializable @Resource("/store/order/{orderId}") class deleteOrder(val orderId: kotlin.String)
+    @Serializable @Resource("/store/order/{orderId}") class deleteOrder(@SerialName("orderId") val orderId: kotlin.String)
 
     /**
      * Returns pet inventories by status
@@ -95,49 +95,49 @@ object Paths {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched 
      */
-    @Serializable @Resource("/store/order/{orderId}") class getOrderById(val orderId: kotlin.Long)
+    @Serializable @Resource("/store/order/{orderId}") class getOrderById(@SerialName("orderId") val orderId: kotlin.Long)
 
     /**
      * Place an order for a pet
      * 
      * @param order order placed for purchasing the pet 
      */
-    @Serializable @Resource("/store/order") class placeOrder(val order: Order)
+    @Serializable @Resource("/store/order") class placeOrder(@SerialName("Order") val order: Order)
 
     /**
      * Create user
      * This can only be done by the logged in user.
      * @param user Created user object 
      */
-    @Serializable @Resource("/user") class createUser(val user: User)
+    @Serializable @Resource("/user") class createUser(@SerialName("User") val user: User)
 
     /**
      * Creates list of users with given input array
      * 
      * @param user List of user object 
      */
-    @Serializable @Resource("/user/createWithArray") class createUsersWithArrayInput(val user: kotlin.collections.List<User>)
+    @Serializable @Resource("/user/createWithArray") class createUsersWithArrayInput(@SerialName("User") val user: kotlin.collections.List<User>)
 
     /**
      * Creates list of users with given input array
      * 
      * @param user List of user object 
      */
-    @Serializable @Resource("/user/createWithList") class createUsersWithListInput(val user: kotlin.collections.List<User>)
+    @Serializable @Resource("/user/createWithList") class createUsersWithListInput(@SerialName("User") val user: kotlin.collections.List<User>)
 
     /**
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted 
      */
-    @Serializable @Resource("/user/{username}") class deleteUser(val username: kotlin.String)
+    @Serializable @Resource("/user/{username}") class deleteUser(@SerialName("username") val username: kotlin.String)
 
     /**
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    @Serializable @Resource("/user/{username}") class getUserByName(val username: kotlin.String)
+    @Serializable @Resource("/user/{username}") class getUserByName(@SerialName("username") val username: kotlin.String)
 
     /**
      * Logs user into the system
@@ -145,7 +145,7 @@ object Paths {
      * @param username The user name for login 
      * @param password The password for login in clear text 
      */
-    @Serializable @Resource("/user/login") class loginUser(val username: kotlin.String, val password: kotlin.String)
+    @Serializable @Resource("/user/login") class loginUser(@SerialName("username") val username: kotlin.String, @SerialName("password") val password: kotlin.String)
 
     /**
      * Logs out current logged in user session
@@ -159,6 +159,6 @@ object Paths {
      * @param username name that need to be deleted 
      * @param user Updated user object 
      */
-    @Serializable @Resource("/user/{username}") class updateUser(val username: kotlin.String, val user: User)
+    @Serializable @Resource("/user/{username}") class updateUser(@SerialName("username") val username: kotlin.String, @SerialName("User") val user: User)
 
 }

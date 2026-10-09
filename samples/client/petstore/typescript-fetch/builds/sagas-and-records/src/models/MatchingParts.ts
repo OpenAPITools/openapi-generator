@@ -29,14 +29,10 @@ import {
 export interface MatchingParts {
     /**
      * List of all the connected parts
-     * @type {Array<Part>}
-     * @memberof MatchingParts
      */
     connected: Array<Part>;
     /**
      * List of all the related parts
-     * @type {Array<Part>}
-     * @memberof MatchingParts
      */
     related: Array<Part>;
 }

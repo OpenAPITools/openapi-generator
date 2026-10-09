@@ -1,11 +1,23 @@
 #![allow(unused_qualifications)]
 
+#[cfg(feature = "server")]
 use http::HeaderValue;
 use validator::Validate;
 
 #[cfg(feature = "server")]
 use crate::header;
 use crate::{models, types::*};
+
+#[cfg(feature = "server")]
+#[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
@@ -14,9 +26,21 @@ fn from_validation_error(e: validator::ValidationError) -> validator::Validation
     errs
 }
 
+/// XSS detection relies on `ammonia`, which is only pulled in by the `server` feature.
+/// Without it (e.g. models-only WASM builds), values are never flagged as HTML.
+#[cfg(feature = "server")]
+fn contains_html(v: &str) -> bool {
+    ammonia::is_html(v)
+}
+
+#[cfg(not(feature = "server"))]
+fn contains_html(_v: &str) -> bool {
+    false
+}
+
 #[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
-    if ammonia::is_html(v) {
+    if contains_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -25,7 +49,7 @@ pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::Validatio
 
 #[allow(dead_code)]
 pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
-    if v.iter().any(|i| ammonia::is_html(i)) {
+    if v.iter().any(|i| contains_html(i)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -36,7 +60,7 @@ pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::
 pub fn check_xss_map_string(
     v: &std::collections::HashMap<String, String>,
 ) -> std::result::Result<(), validator::ValidationError> {
-    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+    if v.keys().any(|k| contains_html(k)) || v.values().any(|v| contains_html(v)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -50,7 +74,7 @@ pub fn check_xss_map_nested<T>(
 where
     T: validator::Validate,
 {
-    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+    if v.keys().any(|k| contains_html(k)) || v.values().any(|v| v.validate().is_err()) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -61,7 +85,7 @@ where
 pub fn check_xss_map<T>(
     v: &std::collections::HashMap<String, T>,
 ) -> std::result::Result<(), validator::ValidationError> {
-    if v.keys().any(|k| ammonia::is_html(k)) {
+    if v.keys().any(|k| contains_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
@@ -130,8 +154,8 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1i64, max = 5i64))]
-    pub order_id: i64,
+    #[validate(range(min = 1u64, max = 5u64))]
+    pub order_id: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -256,7 +280,7 @@ impl std::str::FromStr for ApiResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ApiResponse".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -278,7 +302,7 @@ impl std::str::FromStr for ApiResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ApiResponse".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -418,7 +442,7 @@ impl std::str::FromStr for Category {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Category".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -436,7 +460,7 @@ impl std::str::FromStr for Category {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Category".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -604,7 +628,7 @@ impl std::str::FromStr for Order {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Order".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -639,7 +663,7 @@ impl std::str::FromStr for Order {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Order".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -811,7 +835,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
                 }
             };
 
@@ -834,12 +858,12 @@ impl std::str::FromStr for Pet {
                     "photoUrls" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        );
+                        )
                     }
                     "tags" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        );
+                        )
                     }
                     #[allow(clippy::redundant_clone)]
                     "status" => intermediate_rep.status.push(
@@ -848,7 +872,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -986,7 +1010,7 @@ impl std::str::FromStr for Tag {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
+                    return std::result::Result::Err("Missing value while parsing Tag".to_string())
                 }
             };
 
@@ -1004,7 +1028,7 @@ impl std::str::FromStr for Tag {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Tag".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1134,7 +1158,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1152,7 +1176,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1290,7 +1314,7 @@ impl std::str::FromStr for UploadFileRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UploadFileRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1308,7 +1332,7 @@ impl std::str::FromStr for UploadFileRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UploadFileRequest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1498,9 +1522,7 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing User".to_string(),
-                    );
+                    return std::result::Result::Err("Missing value while parsing User".to_string())
                 }
             };
 
@@ -1542,7 +1564,7 @@ impl std::str::FromStr for User {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing User".to_string(),
-                        );
+                        )
                     }
                 }
             }

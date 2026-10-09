@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
   @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
@@ -56,7 +56,7 @@ public class Animal   {
    * @return className
    **/
   @JsonProperty(value = "className")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public String getClassName() {
     return className;
@@ -121,10 +121,7 @@ public class Animal   {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -1,5 +1,7 @@
+.scalafmt.conf
 README.md
 build.sbt
+project/plugins.sbt
 src/main/scala/org/openapitools/server/AkkaHttpHelper.scala
 src/main/scala/org/openapitools/server/Controller.scala
 src/main/scala/org/openapitools/server/MultipartDirectives.scala

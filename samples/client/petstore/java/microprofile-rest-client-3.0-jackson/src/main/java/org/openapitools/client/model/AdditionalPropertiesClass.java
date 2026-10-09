@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,11 +37,11 @@ public class AdditionalPropertiesClass  {
   
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   
-  private Map<String, String> mapProperty = null;
+  protected Map<String, String> mapProperty = null;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  protected Map<String, Map<String, String>> mapOfMapProperty = null;
 
 
   /**
@@ -138,10 +137,7 @@ public class AdditionalPropertiesClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -37,11 +37,11 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **underscoreType** | **kotlin.Long**| _type | |
 | **type** | **kotlin.String**| type | |
 | **typeWithUnderscore** | **kotlin.String**| type_ | |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) | |
 
 ### Return type

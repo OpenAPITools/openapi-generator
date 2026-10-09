@@ -84,7 +84,7 @@ CompletableFuture<[**Client**](Client.md)>
 
 ## testClassnameWithHttpInfo
 
-> CompletableFuture<ApiResponse<Client>> testClassname testClassnameWithHttpInfo(client)
+> CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(client)
 
 To test class name in snake case
 

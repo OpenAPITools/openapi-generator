@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayNumber")]
-        public List<decimal> ArrayNumber { get { return this.ArrayNumberOption; } set { this.ArrayNumberOption = new Option<List<decimal>>(value); } }
+        public List<decimal> ArrayNumber { get { return this.ArrayNumberOption.Value; } set { this.ArrayNumberOption = new Option<List<decimal>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ArrayOfNumberOnly" />
     /// </summary>
-    public class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
+    public partial class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayOfNumberOnlyJsonConverter" /> class.
+        /// </summary>
+        public ArrayOfNumberOnlyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ArrayOfNumberOnly" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayNumber.IsSet && arrayNumber.Value == null)
-                throw new ArgumentNullException(nameof(arrayNumber), "Property is not nullable for class ArrayOfNumberOnly.");
+                throw new JsonException("Property is not nullable for class ArrayOfNumberOnly: ArrayNumber.");
 
             return new ArrayOfNumberOnly(arrayNumber);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="arrayOfNumberOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="arrayOfNumberOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet && arrayOfNumberOnly.ArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
+                throw new JsonException("Cannot write null property ArrayOfNumberOnly.ArrayNumber to non-nullable JSON property 'ArrayNumber'.");
 
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet)
             {

@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 22355 Nullable array items'
+  version: latest
+components:
+  schemas:
+    NullItemsNotNullItems:
+      properties:
+        nullableItems:
+          type: array
+          items:
+            type: string
+            nullable: true
+        notNullableItems:
+          type: array
+          items:
+            type: string
+            nullable: false
+        defaultItems:
+          type: array
+          items:
+            type: string
+        nullableDoubleItems:
+          type: array
+          items:
+            type: number
+            format: double
+            nullable: true
+        xNullableItems:
+          type: array
+          items:
+            type: string
+            x-nullable: true
+        aliasedNullableItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/NullableString'
+        nullableItemsSet:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            nullable: true
+        nestedNullableItems:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              nullable: true
+        modelRefNullableItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/NullablePet'
+    NullableString:
+      type: string
+      nullable: true
+    NullablePet:
+      type: object
+      nullable: true
+      properties:
+        name:
+          type: string

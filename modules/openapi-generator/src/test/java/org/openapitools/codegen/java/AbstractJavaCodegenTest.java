@@ -20,6 +20,7 @@ package org.openapitools.codegen.java;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -28,6 +29,7 @@ import org.mockito.Mockito;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -38,14 +40,13 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 
 public class AbstractJavaCodegenTest {
 
@@ -530,6 +531,24 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault(LocalTime.parse("10:15:30"));
+        defaultValue = codegen.toDefaultValue(timeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "10:15:30");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault(LocalDateTime.parse("2007-12-03T10:15:30"));
+        defaultValue = codegen.toDefaultValue(dateTimeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "2007-12-03T10:15:30");
     }
 
     @Test
@@ -592,6 +611,176 @@ public class AbstractJavaCodegenTest {
         numberSchema.setFormat("double");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault("10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", timeLocalSchema), timeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalTime.parse(\"10:15:30\")");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
+    public void toDefaultValueForComposedObjectWithDefaultTest() {
+        // A `$ref` to an object schema combined with a sibling `default` is parsed as a composed (allOf)
+        // schema, so the object's properties live in the `allOf` members. The default must still be rendered
+        // as a compilable fluent builder expression rather than the raw JSON object (see #23795).
+        codegen.setDateLibrary("java8");
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("Nested", new ObjectSchema()
+                        .addProperty("one", new StringSchema())
+                        .addProperty("two", new StringSchema()))));
+
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("one", "one");
+        defaultValue.put("two", "two");
+
+        Schema<?> composed = new ComposedSchema()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/Nested"));
+        composed.setDefault(defaultValue);
+
+        CodegenProperty cp = codegen.fromProperty("test", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertEquals(rendered, "new " + cp.datatypeWithEnum + "().one(\"one\").two(\"two\")");
+    }
+
+    @Test
+    public void toDefaultValueForComposedOneOfSelectsMatchingMemberTest() {
+        ObjectSchema first = new ObjectSchema();
+        first.addProperty("firstOnly", new StringSchema());
+        ObjectSchema later = new ObjectSchema();
+        later.addProperty("laterOnly", new StringSchema());
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("First", first)
+                .addSchemas("Later", later));
+        codegen.setOpenAPI(openAPI);
+
+        ComposedSchema composed = new ComposedSchema();
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/First"));
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/Later"));
+        composed.setDefault(Map.of("laterOnly", "later"));
+
+        CodegenProperty cp = codegen.fromProperty("choice", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertTrue(rendered.contains("new Later().laterOnly(\"later\")"), rendered);
+        Assert.assertFalse(rendered.contains("new First()"), rendered);
+    }
+
+    @Test
+    public void toDefaultValueForRecursiveComposedSchemaDoesNotOverflow() {
+        ComposedSchema recursive = new ComposedSchema();
+        recursive.addProperty("name", new StringSchema());
+        recursive.addAllOfItem(new Schema<>().$ref("#/components/schemas/Recursive"));
+        recursive.setDefault(Map.of("name", "recursive"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Recursive", recursive)));
+
+        CodegenProperty property = codegen.fromProperty("recursive", recursive);
+        String rendered = codegen.toDefaultValue(property, recursive);
+
+        Assert.assertEquals(rendered, "new " + property.datatypeWithEnum + "().name(\"recursive\")");
+    }
+
+    @Test
+    public void toDefaultValueForNestedDatesUsesConfiguredDateLibraryTest() {
+        ObjectSchema nested = new ObjectSchema();
+        nested.addProperty("date", new DateSchema());
+        nested.addProperty("dateTime", new DateTimeSchema());
+        StringSchema timeLocal = new StringSchema();
+        timeLocal.setFormat("time-local");
+        nested.addProperty("timeLocal", timeLocal);
+        StringSchema dateTimeLocal = new StringSchema();
+        dateTimeLocal.setFormat("date-time-local");
+        nested.addProperty("dateTimeLocal", dateTimeLocal);
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("date", "2019-02-15");
+        defaultValue.put("dateTime", "1984-12-19T03:39:57-08:00");
+        defaultValue.put("timeLocal", "10:15:30");
+        defaultValue.put("dateTimeLocal", "2007-12-03T10:15:30");
+        nested.setDefault(defaultValue);
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Nested", nested)));
+
+        codegen.setDateLibrary("java8");
+        CodegenProperty java8Property = codegen.fromProperty("nested", nested);
+        String java8Rendered = codegen.toDefaultValue(java8Property, nested);
+        Assert.assertTrue(java8Rendered.contains(".date(java.time.LocalDate.parse(\"2019-02-15\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\""),
+                java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".timeLocal(java.time.LocalTime.parse(\"10:15:30\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTimeLocal(java.time.LocalDateTime.parse(\"2007-12-03T10:15:30\"))"),
+                java8Rendered);
+
+        codegen.setDateLibrary("java8-localdatetime");
+        CodegenProperty localDateTimeProperty = codegen.fromProperty("nested", nested);
+        String localDateTimeRendered = codegen.toDefaultValue(localDateTimeProperty, nested);
+        Assert.assertTrue(localDateTimeRendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\").toLocalDateTime())"),
+                localDateTimeRendered);
+
+        codegen.setDateLibrary("joda");
+        CodegenProperty jodaProperty = codegen.fromProperty("nested", nested);
+        String jodaRendered = codegen.toDefaultValue(jodaProperty, nested);
+        Assert.assertTrue(jodaRendered.contains(".date(org.joda.time.LocalDate.parse(\"2019-02-15\"))"), jodaRendered);
+        Assert.assertTrue(jodaRendered.contains(".dateTime(org.joda.time.DateTime.parse(\"1984-12-19T03:39:57-08:00\"))"),
+                jodaRendered);
+        Assert.assertFalse(jodaRendered.contains("java.time"), jodaRendered);
+
+        codegen.setDateLibrary("legacy");
+        CodegenProperty legacyProperty = codegen.fromProperty("nested", nested);
+        String legacyRendered = codegen.toDefaultValue(legacyProperty, nested);
+        Assert.assertFalse(legacyRendered.contains("java.time"), legacyRendered);
+        Assert.assertFalse(legacyRendered.contains("org.joda.time"), legacyRendered);
+        Assert.assertEquals(legacyRendered, "new " + legacyProperty.datatypeWithEnum
+                + "().timeLocal(\"10:15:30\").dateTimeLocal(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
+    public void toDefaultValueForObjectWithEnumPropertyDefaultTest() {
+        // An object default that contains an enum property must render the enum constant
+        // (e.g. `OutputFormat.OrderEnum.SIMILARITY`) rather than a raw quoted string, which
+        // would not compile (see #24298).
+        ObjectSchema outputFormat = new ObjectSchema();
+        outputFormat.addProperty("order", new StringSchema()._enum(java.util.Arrays.asList("IMPORTANCE", "SIMILARITY")));
+        outputFormat.addProperty("limit", new IntegerSchema());
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("order", "SIMILARITY");
+        defaultValue.put("limit", 10);
+        outputFormat.setDefault(defaultValue);
+
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("OutputFormat", outputFormat)));
+
+        CodegenProperty cp = codegen.fromProperty("format", new Schema<>().$ref("#/components/schemas/OutputFormat"));
+        String rendered = codegen.toDefaultValue(cp, outputFormat);
+
+        Assert.assertEquals(rendered, "new " + cp.datatypeWithEnum + "().order("
+                + cp.datatypeWithEnum + ".OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
+    public void toDefaultValueForComposedEnumWithDefaultTest() {
+        // A `$ref` to an enum schema combined with a sibling `default` is parsed as a composed (allOf)
+        // schema that wraps a non-object, so getComposedSchemaProperties resolves no properties. The raw
+        // enum default must still be preserved (for later enum var-name conversion, e.g. `CurrencyCode.EUR`)
+        // rather than dropped to null, which regressed the standard `allOf` + sibling-`default` idiom (see #24384).
+        codegen.setDateLibrary("java8");
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("CurrencyCode", new StringSchema()._enum(Arrays.asList("EUR", "USD")))));
+
+        Schema<?> composed = new ComposedSchema()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/CurrencyCode"));
+        composed.setDefault("EUR");
+
+        CodegenProperty cp = codegen.fromProperty("currency", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertEquals(rendered, "EUR");
     }
 
     @Test
@@ -969,6 +1158,30 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void annotationsContainerPatternMessageTest() {
+        codegen.setUseBeanValidation(true);
+
+        Schema<?> itemSchema = new Schema<>()
+                .type("string")
+                .pattern("^[a-z]$");
+        itemSchema.addExtension("x-pattern-message", "Custom message for list");
+
+        Schema<?> schema = new ArraySchema().items(itemSchema);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue,
+                "List<@Pattern(regexp = \"^[a-z]$\", message=\"Custom message for list\")String>");
+    }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesFlagTest() {
+        codegen.additionalProperties().put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, true);
+
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
+
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES));
+    }
+
+    @Test
     public void removeAnnotationsTest() {
         Assert.assertEquals(codegen.removeAnnotations("@Min(0) @Max(10)Integer"), "Integer");
         Assert.assertEquals(codegen.removeAnnotations("@Pattern(regexp = \"^[a-z]$\")String"), "String");
@@ -991,5 +1204,51 @@ public class AbstractJavaCodegenTest {
     @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
     public void testSanitizedDataType() {
         assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
+    }
+
+    @Test
+    public void contentTypeVariantsCarryTheirOwnAcceptAndContentType() {
+        // x-accepts and x-content-type are computed in preprocessOpenAPI, before the operations are split by
+        // content-type; the variants are stamped again as they are split, so none inherits the media-types
+        // of the operation it was split from
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get))
+                .extracting(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .extracting(op -> op.operationId, op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+
+        // POST /reports: request json | xml, 200 json | pdf, 400 json
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> op.vendorExtensions.get("x-content-type"),
+                        op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", "application/json", List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", "application/json", List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", "application/xml", List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", "application/xml", List.of("application/pdf")));
+
+        // not split: the Accept computed from every response, as before
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        assertThat((String[]) codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).vendorExtensions.get("x-accepts"))
+                .containsExactly("application/json", "application/pdf");
+    }
+
+    @Test(description = "the OAS 3.1 null type maps to Object instead of a never-generated ModelNull (issue 24520)")
+    public void testNullTypeMapsToObject() {
+        Schema<?> nullSchema = new Schema<>().type("null");
+
+        assertThat(codegen.getSchemaType(nullSchema)).isEqualTo("Object");
+        assertThat(codegen.getTypeDeclaration(nullSchema)).isEqualTo("Object");
+        assertThat(codegen.getTypeDeclaration(new ArraySchema().items(nullSchema))).isEqualTo("List<Object>");
     }
 }

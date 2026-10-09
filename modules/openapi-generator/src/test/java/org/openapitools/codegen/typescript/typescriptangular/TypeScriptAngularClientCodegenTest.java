@@ -40,6 +40,18 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void toVarNameWithAtSign() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "at_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "atId");
+    }
+
+    @Test
     public void toEnumVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to PascalCase
@@ -466,6 +478,29 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void testFormObjectDotNotationOption() throws IOException {
+        for (Object option : new Object[]{null, false, "false", true, "true"}) {
+            File output = Files.createTempDirectory("angular-form-dot").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/query-param-form.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptAngularClientCodegen.USE_DOT_NOTATION_FOR_FORM_OBJECTS, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String service = Files.readString(output.toPath().resolve("api.base.service.ts"));
+            if (Boolean.parseBoolean(String.valueOf(option))) {
+                assertThat(service).contains("this.addToHttpParams(httpParams, `${key}.${k}`, value[k], paramStyle, explode)");
+            } else {
+                assertThat(service).contains("this.addToHttpParams(httpParams, k, value[k], paramStyle, explode)");
+                assertThat(service).doesNotContain("`${key}.${k}`");
+            }
+        }
+    }
+
+    @Test
     public void testDeepObject() throws IOException {
         // GIVEN
         final String specPath = "src/test/resources/3_0/deepobject.yaml";
@@ -486,7 +521,32 @@ public class TypeScriptAngularClientCodegenTest {
 
         // THEN
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
-        assertThat(fileContents).containsOnlyOnce("<any>options, 'options', true);");
-        assertThat(fileContents).containsOnlyOnce("<any>inputOptions, 'inputOptions', true);");
+        assertThat(fileContents).containsSubsequence("'options',\n", "<any>options,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+        assertThat(fileContents).containsSubsequence("'inputOptions',\n", "<any>inputOptions,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+    }
+
+    @Test
+    public void testOpenIdCredentialsAreSet() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_1/issue_21245.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        //THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, 'Bearer ');";
+        assertThat(fileContents).contains(credentialsSet);
     }
 }

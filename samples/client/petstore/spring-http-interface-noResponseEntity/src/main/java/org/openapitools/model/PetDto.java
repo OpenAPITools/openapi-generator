@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -28,24 +29,29 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PetDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -80,6 +86,7 @@ public class PetDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -102,6 +109,7 @@ public class PetDto {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -121,6 +129,7 @@ public class PetDto {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
   }
@@ -140,6 +149,7 @@ public class PetDto {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -168,6 +178,7 @@ public class PetDto {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -195,6 +206,7 @@ public class PetDto {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<TagDto> tags) {
     this.tags = tags;
   }
@@ -210,8 +222,8 @@ public class PetDto {
    * @deprecated
    */
   
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -220,6 +232,7 @@ public class PetDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -264,11 +277,8 @@ public class PetDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Capitalization
@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @javax.annotation.Nullable
@@ -67,7 +67,7 @@ public class Capitalization {
   /**
    * Constructor with all args parameters
    */
-  public Capitalization(@JsonProperty(JSON_PROPERTY_SMALL_CAMEL) String smallCamel, @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL) String capitalCamel, @JsonProperty(JSON_PROPERTY_SMALL_SNAKE) String smallSnake, @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE) String capitalSnake, @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS) String scAETHFlowPoints, @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E) String ATT_NAME) {
+  public Capitalization(@JsonProperty(JSON_PROPERTY_SMALL_CAMEL) @javax.annotation.Nullable String smallCamel, @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL) @javax.annotation.Nullable String capitalCamel, @JsonProperty(JSON_PROPERTY_SMALL_SNAKE) @javax.annotation.Nullable String smallSnake, @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE) @javax.annotation.Nullable String capitalSnake, @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS) @javax.annotation.Nullable String scAETHFlowPoints, @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E) @javax.annotation.Nullable String ATT_NAME) {
     this.smallCamel = smallCamel;
     this.capitalCamel = capitalCamel;
     this.smallSnake = smallSnake;
@@ -268,10 +268,7 @@ public class Capitalization {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

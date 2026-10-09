@@ -31,8 +31,6 @@ import org.openapitools.server.models.Pet
 
 fun Route.PetApi() {
     val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
     authenticate("petstore_auth") {
     post<Paths.addPet> {
         
@@ -41,25 +39,25 @@ fun Route.PetApi() {
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -86,41 +84,41 @@ fun Route.PetApi() {
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }, {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             } ]"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -136,41 +134,41 @@ fun Route.PetApi() {
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }, {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             } ]"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -186,25 +184,25 @@ fun Route.PetApi() {
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -220,25 +218,25 @@ fun Route.PetApi() {
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -271,7 +269,7 @@ fun Route.PetApi() {
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }

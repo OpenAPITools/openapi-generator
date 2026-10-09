@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -55,18 +55,17 @@ public class FakeClassnameTags123Api {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec testClassnameRequestCreation(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
-        Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new WebClientResponseException("Missing the required parameter 'client' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -80,7 +79,7 @@ public class FakeClassnameTags123Api {
         String[] localVarAuthNames = new String[] { "api_key_query" };
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, localVarQueryParams, client, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

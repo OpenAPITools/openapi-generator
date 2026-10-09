@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Text Streaming API Example (Legacy)
+  version: 1.0.0
+paths:
+  /live-updates:
+    get:
+      responses:
+        '200':
+          description: "Response"
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: Payload data
+                  event:
+                    type: string
+                    description: Event type
+        '201':
+          description: "Other Status"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string

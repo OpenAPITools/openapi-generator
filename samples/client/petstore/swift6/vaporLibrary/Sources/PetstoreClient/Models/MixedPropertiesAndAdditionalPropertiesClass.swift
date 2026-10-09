@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Content, Hashable {
 
     public var uuid: UUID?
     public var dateTime: Date?
@@ -33,20 +33,6 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Content, Hashabl
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(map, forKey: .map)
-    }
-
-    public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
-        lhs.uuid == rhs.uuid &&
-        lhs.dateTime == rhs.dateTime &&
-        lhs.map == rhs.map
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid?.hashValue)
-        hasher.combine(dateTime?.hashValue)
-        hasher.combine(map?.hashValue)
-        
     }
 }
 

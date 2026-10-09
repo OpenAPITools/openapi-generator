@@ -99,10 +99,10 @@ public class RuleConfiguration {
      * -- GETTER --
      * Gets whether the recommendation check for schemas containing the 'nullable' attribute.
      * <p>
-     * In OpenAPI 3.0.x, the "nullable" attribute is supported. However, because it is deprecated in 3.1
-     * and above, a warning is logged to prepare for OpenAPI 3.1 recommendations.
-     * In OpenAPI 3.1, the 'nullable' attribute is deprecated. Instead, the OpenAPI specification should
-     * use the 'null' type.
+     * In OpenAPI 3.0.x, the "nullable" attribute is supported and honored. It was removed in 3.1
+     * and above, where it is not a valid keyword: the generator ignores it and treats the property
+     * as non-nullable. A warning is logged so the 'nullable' usage can be migrated.
+     * In OpenAPI 3.1, use the 'null' type instead (e.g. type: ['string', 'null']).
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
      * -- SETTER --
@@ -138,6 +138,20 @@ public class RuleConfiguration {
      * @param enableApiRequestUriWithBodyRecommendation <code>true</code> to enable, <code>false</code> to disable
      */
     private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for default values not in enum is enabled.
+     * <p>
+     * JSON Schema treats 'default' as an annotation keyword — it is RECOMMENDED to validate
+     * against the schema but not required. A default outside the enum is technically valid
+     * but causes generators to emit incorrect default values.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for default values not in enum.
+     * @param enableDefaultNotInEnumRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableDefaultNotInEnumRecommendation = defaultedBoolean(propertyPrefix + ".default-not-in-enum", true);
 
     @SuppressWarnings("SameParameterValue")
     private static boolean defaultedBoolean(String key, boolean defaultValue) {

@@ -3,8 +3,15 @@ spring:
     name: {{title}}
 
   jackson:
+{{#useSpringBoot4}}
+    datatype:
+      datetime:
+        WRITE_DATES_AS_TIMESTAMPS: false
+{{/useSpringBoot4}}
+{{^useSpringBoot4}}
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+{{/useSpringBoot4}}
 
 server:
   port: {{serverPort}}

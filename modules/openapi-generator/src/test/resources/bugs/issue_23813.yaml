@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: php-nextgen oneOf discriminator enum bug
+  version: 1.0.0
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+        animal:
+          oneOf:
+            - $ref: '#/components/schemas/Dog'
+            - $ref: '#/components/schemas/Cat'
+          discriminator:
+            propertyName: type
+            mapping:
+              pet-dog: '#/components/schemas/Dog'
+              pet-cat: '#/components/schemas/Cat'
+    Dog:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ["pet-dog"]
+          default: "pet-dog"
+        imageId:
+          type: string
+      required:
+        - type
+        - imageId
+    Cat:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ["pet-cat"]
+          default: "pet-cat"
+        imageId:
+          type: string
+        style:
+          type: string
+          enum:
+            - "page"
+            - "text"
+            - "viewport"
+      required:
+        - type
+        - imageId
+        - style

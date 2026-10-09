@@ -36,38 +36,26 @@ import {
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id?: number;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Set<string>}
-     * @memberof Pet
      */
     photoUrls: Set<string>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      * @deprecated
      */
     status?: PetStatusEnum;
@@ -80,9 +68,35 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+
+export const PetPropertyValidationAttributesMap: {
+    [property: string]: {
+        dataType?: string,
+        required?: boolean,
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    photoUrls: {
+        dataType: "Set<string>",
+        required: true,
+        maxItems: 8,
+        minItems: 1,
+        uniqueItems: true,
+    },
+}
 
 
 /**
@@ -131,27 +145,5 @@ export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean 
         'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
         'status': value['status'],
     };
-}
-
-export const PetPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    photoUrls: {
-        maxItems: 8,
-        minItems: 1,
-        uniqueItems: true,
-    },
 }
 

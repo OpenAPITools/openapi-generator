@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.FakeApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -31,7 +30,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class FakeApiController() {
 
     @Operation(
@@ -43,7 +42,8 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ANNOTATIONS /* "/fake/annotations" */],
+        // "/fake/annotations"
+        value = [PATH_ANNOTATIONS],
         consumes = ["application/json"]
     )
     fun annotations(
@@ -62,7 +62,8 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER /* "/fake/annotations" */],
+        // "/fake/annotations"
+        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithFormNumber(

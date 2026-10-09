@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -42,7 +50,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 
@@ -107,6 +115,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
@@ -179,8 +188,9 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
@@ -500,6 +510,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",
@@ -578,6 +589,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),

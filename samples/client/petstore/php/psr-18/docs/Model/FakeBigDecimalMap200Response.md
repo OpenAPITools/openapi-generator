@@ -1,4 +1,4 @@
-# # FakeBigDecimalMap200Response
+# FakeBigDecimalMap200Response
 
 ## Properties
 

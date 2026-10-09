@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Required nullable request body
+  version: 1.0.0
+paths:
+  /nullable:
+    post:
+      operationId: nullableBody
+      parameters:
+        - name: requiredNullableQuery
+          in: query
+          required: true
+          schema:
+            type: string
+            nullable: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+              nullable: true
+      responses:
+        '200':
+          description: OK
+  /non-nullable:
+    post:
+      operationId: nonNullableBody
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+      responses:
+        '200':
+          description: OK

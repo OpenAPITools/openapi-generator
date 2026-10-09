@@ -54,8 +54,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -91,9 +97,9 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| Pet id to delete | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| Pet id to delete | |
 | **apiKey** | **kotlin.String**|  | [optional] |
 
 ### Return type
@@ -103,8 +109,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -151,8 +163,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -199,8 +217,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -296,8 +320,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -334,10 +364,10 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
-| **name** | **kotlin.String**| Updated name of the pet | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
+| **name** | **kotlin.String**| Updated name of the pet | [optional] |
 | **status** | **kotlin.String**| Updated status of the pet | [optional] |
 
 ### Return type
@@ -347,8 +377,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -386,10 +422,10 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet to update | |
-| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 | **file** | **java.io.File**| file to upload | [optional] |
 
 ### Return type
@@ -399,8 +435,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 

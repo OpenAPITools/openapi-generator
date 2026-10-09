@@ -41,43 +41,43 @@ class {{controllerName}} extends Controller
         {{#allParams}}
         {{^isPathParam}}
         {{#isFile}}
-        ${{paramName}} = $request->file('{{paramName}}');
+        ${{paramName}} = $request->file('{{baseName}}');
         {{/isFile}}
         {{#isBoolean}}
-        ${{paramName}} = $request->boolean('{{paramName}}');
+        ${{paramName}} = $request->boolean('{{baseName}}');
         {{/isBoolean}}
         {{#isInteger}}
-        ${{paramName}} = $request->integer('{{paramName}}');
+        ${{paramName}} = $request->integer('{{baseName}}');
         {{/isInteger}}
         {{#isLong}}
-        ${{paramName}} = $request->integer('{{paramName}}');
+        ${{paramName}} = $request->integer('{{baseName}}');
         {{/isLong}}
         {{#isNumber}}
-        ${{paramName}} = $request->float('{{paramName}}');
+        ${{paramName}} = $request->float('{{baseName}}');
         {{/isNumber}}
         {{#isFloat}}
-        ${{paramName}} = $request->float('{{paramName}}');
+        ${{paramName}} = $request->float('{{baseName}}');
         {{/isFloat}}
         {{#isDouble}}
-        ${{paramName}} = $request->float('{{paramName}}');
+        ${{paramName}} = $request->float('{{baseName}}');
         {{/isDouble}}
         {{#isString}}
-        ${{paramName}} = $request->string('{{paramName}}')->value();
+        ${{paramName}} = $request->string('{{baseName}}')->value();
         {{/isString}}
         {{#isByteArray}}
-        ${{paramName}} = $request->string('{{paramName}}')->value();
+        ${{paramName}} = $request->string('{{baseName}}')->value();
         {{/isByteArray}}
         {{#isDateTime}}
-        ${{paramName}} = $request->date('{{paramName}}');
+        ${{paramName}} = $request->date('{{baseName}}');
         {{/isDateTime}}
         {{#isDate}}
-        ${{paramName}} = $request->date('{{paramName}}');
+        ${{paramName}} = $request->date('{{baseName}}');
         {{/isDate}}
         {{#isArray}}
-        ${{paramName}} = $request->get('{{paramName}}');
+        ${{paramName}} = $request->get('{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}{{paramName}}{{/isBodyParam}}');
         {{/isArray}}
         {{#isMap}}
-        ${{paramName}} = $request->get('{{paramName}}');
+        ${{paramName}} = $request->get('{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}{{paramName}}{{/isBodyParam}}');
         {{/isMap}}
         {{^isPrimitiveType}}
         {{^isContainer}}

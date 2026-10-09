@@ -10,7 +10,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit {
+    override fun deletePet(petId: kotlin.Long): Unit {
         TODO("Implement me")
     }
 

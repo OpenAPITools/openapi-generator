@@ -31,8 +31,8 @@
      * @Type("DateTime")
     {{/isDateTime}}
     {{#isEnumRef}}
-    * @Accessor(getter="getSerialized{{nameInPascalCase}}", setter="setDeserialized{{nameInPascalCase}}")
-    * @Type("string")
+     * @Accessor(getter="getSerialized{{nameInPascalCase}}", setter="setDeserialized{{nameInPascalCase}}")
+     * @Type("string")
     {{/isEnumRef}}
     {{^isDate}}
     {{^isDateTime}}
@@ -42,7 +42,7 @@
     {{/isDateTime}}
     {{/isDate}}
 {{/isContainer}}
-    */
+     */
 {{#required}}
     #[Assert\NotNull]
     {{^isPrimitiveType}}

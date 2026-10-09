@@ -10,6 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakeRefParameter**](FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter |
+| [**fakeRequiredNullableBodyGet**](FakeApi.md#fakeRequiredNullableBodyGet) | **GET** /fake/required-nullable-body | fields in the response body, required and nullable are both true |
 | [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter |
 | [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
 | [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
@@ -24,6 +25,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
 | [**testInlineFreeformAdditionalProperties**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testNullableRequiredFieldsAnyOf**](FakeApi.md#testNullableRequiredFieldsAnyOf) | **GET** /fake/nullable-required-fields-anyof | test anyOf with map of objects containing nullable required fields |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
@@ -394,6 +396,64 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
+
+<a id="fakeRequiredNullableBodyGet"></a>
+# **fakeRequiredNullableBodyGet**
+> RequiredNullableBody fakeRequiredNullableBodyGet()
+
+fields in the response body, required and nullable are both true
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      RequiredNullableBody result = apiInstance.fakeRequiredNullableBodyGet();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeRequiredNullableBodyGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**RequiredNullableBody**](RequiredNullableBody.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | success |  -  |
 
 <a id="fakeUploadRefRequestBodies"></a>
 # **fakeUploadRefRequestBodies**
@@ -1315,6 +1375,64 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+<a id="testNullableRequiredFieldsAnyOf"></a>
+# **testNullableRequiredFieldsAnyOf**
+> NullableFieldsMapResponse testNullableRequiredFieldsAnyOf()
+
+test anyOf with map of objects containing nullable required fields
+
+Tests that anyOf deserialization works when object values contain required fields that are nullable (e.g. Record&lt;string, { before: string | null, after: string | null }&gt;)
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      NullableFieldsMapResponse result = apiInstance.testNullableRequiredFieldsAnyOf();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testNullableRequiredFieldsAnyOf");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**NullableFieldsMapResponse**](NullableFieldsMapResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

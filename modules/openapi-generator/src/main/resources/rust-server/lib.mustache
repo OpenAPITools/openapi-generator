@@ -8,11 +8,10 @@ use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
 
-
+#[cfg(any(feature = "client", feature = "server"))]
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "{{{basePathWithoutHost}}}";

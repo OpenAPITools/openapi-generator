@@ -188,10 +188,11 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    AddPetOptional = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$AddPetOptionalWithHttpInfo(pet, data_file = data_file, ...)
+    AddPetOptional = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$AddPetOptionalWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -209,9 +210,10 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    AddPetOptionalWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    AddPetOptionalWithHttpInfo = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -264,6 +266,10 @@ FakeApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
@@ -297,7 +303,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -310,10 +316,11 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return User
-    FakeDataFile = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$FakeDataFileWithHttpInfo(dummy, var_data_file, data_file = data_file, ...)
+    FakeDataFile = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$FakeDataFileWithHttpInfo(dummy, var_data_file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -332,9 +339,10 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    FakeDataFileWithHttpInfo = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
+    FakeDataFileWithHttpInfo = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -395,6 +403,10 @@ FakeApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "User"),
@@ -428,7 +440,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -535,7 +547,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -646,7 +658,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
@@ -782,7 +794,7 @@ FakeApi <- R6::R6Class(
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }

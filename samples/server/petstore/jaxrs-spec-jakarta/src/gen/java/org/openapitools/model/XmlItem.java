@@ -16,41 +16,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("XmlItem")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private String attributeString;
   private BigDecimal attributeNumber;
   private Integer attributeInteger;
   private Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = new ArrayList<>();
   private String nameString;
   private BigDecimal nameNumber;
   private Integer nameInteger;
   private Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = new ArrayList<>();
   private String prefixString;
   private BigDecimal prefixNumber;
   private Integer prefixInteger;
   private Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
   private String namespaceString;
   private BigDecimal namespaceNumber;
   private Integer namespaceInteger;
   private Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
   private String prefixNsString;
   private BigDecimal prefixNsNumber;
   private Integer prefixNsInteger;
   private Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   protected XmlItem(XmlItemBuilder<?, ?> b) {
     this.attributeString = b.attributeString;
@@ -871,10 +872,7 @@ public class XmlItem  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -1047,4 +1045,3 @@ public class XmlItem  implements Serializable {
     }
   }
 }
-

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumTest: Sendable, Codable, ParameterConvertible {
+internal struct EnumTest: Sendable, Codable {
 
     internal enum EnumString: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
@@ -27,9 +27,9 @@ internal struct EnumTest: Sendable, Codable, ParameterConvertible {
         case unknownDefaultOpenApi = 11184809
     }
     internal enum EnumNumber: Double, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
-        /// Description for 1.1
+        /** Description for 1.1 */
         case _11 = 1.1
-        /// Description for -1.2
+        /** Description for -1.2 */
         case number12 = -1.2
         case unknownDefaultOpenApi = 11184809
     }
@@ -67,3 +67,14 @@ internal struct EnumTest: Sendable, Codable, ParameterConvertible {
     }
 }
 
+
+extension EnumTest: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if enumString == .unknownDefaultOpenApi { return true }
+        if enumStringRequired == .unknownDefaultOpenApi { return true }
+        if enumInteger == .unknownDefaultOpenApi { return true }
+        if enumNumber == .unknownDefaultOpenApi { return true }
+        if outerEnum == .unknownDefaultOpenApi { return true }
+        return false
+    }
+}

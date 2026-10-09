@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface Client {
     /**
      * 
-     * @type {string}
-     * @memberof Client
      */
     client?: string;
 }

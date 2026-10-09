@@ -13,10 +13,10 @@ static model_with_set_propertes_t *model_with_set_propertes_create_internal(
     if (!model_with_set_propertes_local_var) {
         return NULL;
     }
+    memset(model_with_set_propertes_local_var, 0, sizeof(model_with_set_propertes_t));
+    model_with_set_propertes_local_var->_library_owned = 1;
     model_with_set_propertes_local_var->tag_set = tag_set;
     model_with_set_propertes_local_var->string_set = string_set;
-
-    model_with_set_propertes_local_var->_library_owned = 1;
     return model_with_set_propertes_local_var;
 }
 
@@ -24,10 +24,13 @@ __attribute__((deprecated)) model_with_set_propertes_t *model_with_set_propertes
     list_t *tag_set,
     list_t *string_set
     ) {
-    return model_with_set_propertes_create_internal (
+    model_with_set_propertes_t *result = model_with_set_propertes_create_internal (
         tag_set,
         string_set
         );
+    if (!result) {
+    }
+    return result;
 }
 
 void model_with_set_propertes_free(model_with_set_propertes_t *model_with_set_propertes) {
@@ -160,10 +163,15 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
     }
 
 
+
     model_with_set_propertes_local_var = model_with_set_propertes_create_internal (
         tag_set ? tag_setList : NULL,
         string_set ? string_setList : NULL
         );
+
+    if (!model_with_set_propertes_local_var) {
+        goto end;
+    }
 
     return model_with_set_propertes_local_var;
 end:

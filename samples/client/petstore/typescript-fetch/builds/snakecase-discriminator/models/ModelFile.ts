@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface ModelFile {
     /**
      * Test capitalization
-     * @type {string}
-     * @memberof ModelFile
      */
     sourceURI?: string;
 }

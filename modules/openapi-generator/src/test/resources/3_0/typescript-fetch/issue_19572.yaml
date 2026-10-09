@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /financing-options:
+    post:
+      operationId: financingOptionCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinancingOption'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    FinancingOption:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        foo:
+          type: string
+          readOnly: true
+        bar:
+          type: string
+          readOnly: true

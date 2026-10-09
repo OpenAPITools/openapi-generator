@@ -42,10 +42,10 @@ pub async fn get_aggregate_data(configuration: &configuration::Configuration, st
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = p_query_time_bucket {
-        req_builder = req_builder.query(&[("timeBucket", &serde_json::to_string(param_value)?)]);
+        req_builder = req_builder.query(&[("timeBucket", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_sort_direction {
-        req_builder = req_builder.query(&[("sortDirection", &serde_json::to_string(param_value)?)]);
+        req_builder = req_builder.query(&[("sortDirection", &param_value.to_string())]);
     }
     req_builder = req_builder.query(&[("status", &p_query_status.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
@@ -86,10 +86,10 @@ pub async fn get_items(configuration: &configuration::Configuration, category: O
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = p_query_category {
-        req_builder = req_builder.query(&[("category", &serde_json::to_string(param_value)?)]);
+        req_builder = req_builder.query(&[("category", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_priority {
-        req_builder = req_builder.query(&[("priority", &serde_json::to_string(param_value)?)]);
+        req_builder = req_builder.query(&[("priority", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

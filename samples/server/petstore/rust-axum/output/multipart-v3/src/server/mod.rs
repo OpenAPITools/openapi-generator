@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
+};
 use bytes::Bytes;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use headers::Host;
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -50,7 +52,7 @@ fn multipart_related_request_post_validation() -> std::result::Result<(), Valida
 #[tracing::instrument(skip_all)]
 async fn multipart_related_request_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: axum::body::Body,
@@ -78,11 +80,10 @@ where
         .multipart_related_request_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipartRelatedRequestPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -111,7 +112,7 @@ fn multipart_request_post_validation() -> std::result::Result<(), ValidationErro
 #[tracing::instrument(skip_all)]
 async fn multipart_request_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Multipart,
@@ -138,11 +139,10 @@ where
         .multipart_request_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipartRequestPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -171,7 +171,7 @@ fn multiple_identical_mime_types_post_validation() -> std::result::Result<(), Va
 #[tracing::instrument(skip_all)]
 async fn multiple_identical_mime_types_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: axum::body::Body,
@@ -199,11 +199,10 @@ where
         .multiple_identical_mime_types_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipleIdenticalMimeTypesPostResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

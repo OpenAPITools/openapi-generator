@@ -28,6 +28,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-ue4/}.
+ */
 public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";

@@ -33,6 +33,9 @@ import java.util.List;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-qt-client/}.
+ */
 public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     public static final String DEFAULT_PACKAGE_NAME = "QtOpenAPIClient";

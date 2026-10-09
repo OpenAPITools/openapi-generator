@@ -49,7 +49,7 @@ class User
      * @var int|null
      * @SerializedName("id")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $id = null;
 
@@ -57,7 +57,7 @@ class User
      * @var string|null
      * @SerializedName("username")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $username = null;
 
@@ -65,7 +65,7 @@ class User
      * @var string|null
      * @SerializedName("firstName")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $firstName = null;
 
@@ -73,7 +73,7 @@ class User
      * @var string|null
      * @SerializedName("lastName")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $lastName = null;
 
@@ -81,7 +81,7 @@ class User
      * @var string|null
      * @SerializedName("email")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $email = null;
 
@@ -89,7 +89,7 @@ class User
      * @var string|null
      * @SerializedName("password")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $password = null;
 
@@ -97,7 +97,7 @@ class User
      * @var string|null
      * @SerializedName("phone")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     protected ?string $phone = null;
 
@@ -107,7 +107,7 @@ class User
      * @var int|null
      * @SerializedName("userStatus")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $userStatus = null;
 
@@ -140,12 +140,12 @@ class User
     }
 
     /**
-    * Sets id.
-    *
-    * @param int|null $id
-    *
-    * @return $this
-    */
+     * Sets id.
+     *
+     * @param int|null $id
+     *
+     * @return $this
+     */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
@@ -167,12 +167,12 @@ class User
     }
 
     /**
-    * Sets username.
-    *
-    * @param string|null $username
-    *
-    * @return $this
-    */
+     * Sets username.
+     *
+     * @param string|null $username
+     *
+     * @return $this
+     */
     public function setUsername(?string $username = null): self
     {
         $this->username = $username;
@@ -194,12 +194,12 @@ class User
     }
 
     /**
-    * Sets firstName.
-    *
-    * @param string|null $firstName
-    *
-    * @return $this
-    */
+     * Sets firstName.
+     *
+     * @param string|null $firstName
+     *
+     * @return $this
+     */
     public function setFirstName(?string $firstName = null): self
     {
         $this->firstName = $firstName;
@@ -221,12 +221,12 @@ class User
     }
 
     /**
-    * Sets lastName.
-    *
-    * @param string|null $lastName
-    *
-    * @return $this
-    */
+     * Sets lastName.
+     *
+     * @param string|null $lastName
+     *
+     * @return $this
+     */
     public function setLastName(?string $lastName = null): self
     {
         $this->lastName = $lastName;
@@ -248,12 +248,12 @@ class User
     }
 
     /**
-    * Sets email.
-    *
-    * @param string|null $email
-    *
-    * @return $this
-    */
+     * Sets email.
+     *
+     * @param string|null $email
+     *
+     * @return $this
+     */
     public function setEmail(?string $email = null): self
     {
         $this->email = $email;
@@ -275,12 +275,12 @@ class User
     }
 
     /**
-    * Sets password.
-    *
-    * @param string|null $password
-    *
-    * @return $this
-    */
+     * Sets password.
+     *
+     * @param string|null $password
+     *
+     * @return $this
+     */
     public function setPassword(?string $password = null): self
     {
         $this->password = $password;
@@ -302,12 +302,12 @@ class User
     }
 
     /**
-    * Sets phone.
-    *
-    * @param string|null $phone
-    *
-    * @return $this
-    */
+     * Sets phone.
+     *
+     * @param string|null $phone
+     *
+     * @return $this
+     */
     public function setPhone(?string $phone = null): self
     {
         $this->phone = $phone;
@@ -329,12 +329,12 @@ class User
     }
 
     /**
-    * Sets userStatus.
-    *
-    * @param int|null $userStatus  User Status
-    *
-    * @return $this
-    */
+     * Sets userStatus.
+     *
+     * @param int|null $userStatus  User Status
+     *
+     * @return $this
+     */
     public function setUserStatus(?int $userStatus = null): self
     {
         $this->userStatus = $userStatus;

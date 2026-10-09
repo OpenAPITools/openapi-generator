@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ArrayOfNumberOnly
@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   @javax.annotation.Nullable
@@ -46,7 +46,7 @@ public class ArrayOfNumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public ArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_NUMBER) List<BigDecimal> arrayNumber) {
+  public ArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_NUMBER) @javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 
@@ -115,10 +115,7 @@ public class ArrayOfNumberOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

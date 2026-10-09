@@ -70,11 +70,11 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-public enum ErrorResponse: Error {
+public enum ErrorResponse: Error, Sendable {
     case error(Int, Data?, URLResponse?, Error)
 }
 
-public enum DownloadException: Error {
+public enum DownloadException: Error, Sendable {
     case responseDataMissing
     case responseFailed
     case requestMissing
@@ -82,7 +82,7 @@ public enum DownloadException: Error {
     case requestMissingURL
 }
 
-public enum DecodableRequestBuilderError: Error {
+public enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode
@@ -133,25 +133,20 @@ public struct AnyResponseSerializer<T: Sendable>: ResponseSerializer {
 }
 
 public final class RequestTask: @unchecked Sendable {
-    private let lock = NSRecursiveLock()
-    private var request: Request?
+    private let _state = OpenAPIMutex<Request?>(nil)
 
     internal func set(request: Request) {
-        lock.withLock {
-            self.request = request
-        }
+        _state.withValue { $0 = request }
     }
 
     internal func get() -> Request? {
-        lock.withLock {
-            request
-        }
+        _state.value
     }
 
     public func cancel() {
-        lock.withLock {
-            request?.cancel()
-            request = nil
+        _state.withValue {
+            $0?.cancel()
+            $0 = nil
         }
     }
 }

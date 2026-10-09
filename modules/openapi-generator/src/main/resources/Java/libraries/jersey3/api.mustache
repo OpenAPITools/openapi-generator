@@ -60,7 +60,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
    {{/allParams}}
    {{#returnType}}
    * @return {{.}}
@@ -97,7 +97,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
    {{/allParams}}
    * @return ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
    * @throws ApiException if fails to make API call
@@ -137,7 +137,7 @@ public class {{classname}} {
     {{#hasPathParams}}
     // Path parameters
     String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, {{#isArray}}apiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/isArray}}{{^isArray}}apiClient.escapeString({{{paramName}}}.toString()){{/isArray}}){{/pathParams}};
 
     {{/hasPathParams}}
     {{#queryParams}}
@@ -195,12 +195,18 @@ public class {{classname}} {
     {{#hasAuthMethods}}
     String[] localVarAuthNames = {{=% %=}}new String[] {%#authMethods%"%name%"%^-last%, %/-last%%/authMethods%};%={{ }}=%
     {{/hasAuthMethods}}
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    {{#responses}}
+    {{#dataType}}
+    localVarErrorTypes.put("{{code}}", new GenericType<{{{dataType}}}>() {});
+    {{/dataType}}
+    {{/responses}}
     {{#returnType}}
     GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
     {{/returnType}}
     return apiClient.invokeAPI("{{classname}}.{{operationId}}", {{#hasPathParams}}localVarPath{{/hasPathParams}}{{^hasPathParams}}"{{{path}}}"{{/hasPathParams}}, "{{httpMethod}}", {{#queryParams}}{{#-first}}localVarQueryParams{{/-first}}{{/queryParams}}{{^queryParams}}new ArrayList<>(){{/queryParams}}, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}},
                                {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
-                               {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
+                               {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}}, localVarErrorTypes);
   }
   {{#vendorExtensions.x-group-parameters}}
 
@@ -220,7 +226,7 @@ public class {{classname}} {
 
     /**
      * Set {{paramName}}
-     * @param {{paramName}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
+     * @param {{paramName}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
      * @return API{{operationId}}Request
      */
     public API{{operationId}}Request {{paramName}}({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {

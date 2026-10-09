@@ -30,14 +30,10 @@ import { type ExtendDto, ExtendDtoFromJSONTyped, ExtendDtoToJSON, ExtendDtoToJSO
 export interface TestBaseDto {
     /**
      * 
-     * @type {string}
-     * @memberof TestBaseDto
      */
     something?: string;
     /**
      * 
-     * @type {TestObjectType}
-     * @memberof TestBaseDto
      */
     testObjectType?: TestObjectType;
 }
