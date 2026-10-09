@@ -45,6 +45,10 @@ public class Validate extends OpenApiGeneratorCommand {
     @Option(name = {"--recommend"}, title = "recommend spec improvements")
     private Boolean recommend;
 
+    @Option(name = {"--skip-unused-models"}, title = "skip unused models warning",
+            description = "skips the recommendation warning for schemas defined in components/schemas that are not referenced by any operation")
+    private Boolean skipUnusedModels;
+
     @Option(
             name = {"-a", "--auth"},
             title = "authorization",
@@ -70,6 +74,8 @@ public class Validate extends OpenApiGeneratorCommand {
 
         if (recommend != null) ruleConfiguration.setEnableRecommendations(recommend);
         else ruleConfiguration.setEnableRecommendations(false);
+
+        if (Boolean.TRUE.equals(skipUnusedModels)) ruleConfiguration.setEnableUnusedSchemasRecommendation(false);
 
         OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
         ValidationResult validationResult = evaluator.validate(specification);
