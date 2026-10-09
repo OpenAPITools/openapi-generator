@@ -206,6 +206,9 @@ open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
                             continuation.resume(throwing: error)
                         }
                     }
+                    if Task.isCancelled {
+                        requestTask.cancel()
+                    }
                 }
             } onCancel: {
                 requestTask.cancel()
