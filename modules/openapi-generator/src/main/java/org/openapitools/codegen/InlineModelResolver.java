@@ -81,6 +81,8 @@ public class InlineModelResolver {
 
     // a set to keep track of names generated for inline schemas
     private Set<String> uniqueNames = new HashSet<>();
+    // names that were added through inlineSchemaNameMapping
+    private Set<String> mappedSchemaNames = new HashSet<>();
 
     // MixIn that suppresses volatile fields when any Schema instance is serialised for structural
     // comparison.  Registered on Schema.class so it applies recursively to all nested Schema
@@ -1182,13 +1184,16 @@ public class InlineModelResolver {
     private String addSchemas(String name, Schema schema) {
         //check inlineSchemaNameMapping
         if (inlineSchemaNameMapping.containsKey(name)) {
+            // use the name chosen by the user as is, even if several inline schemas map to it
             name = inlineSchemaNameMapping.get(name);
-        }
-
-        // Recursive flattening can add a nested schema after its parent's name
-        // was chosen. Re-check here so the parent cannot overwrite that child.
-        if (openAPI.getComponents().getSchemas().containsKey(name)
+            if (openAPI.getComponents().getSchemas().containsKey(name) && !mappedSchemaNames.contains(name)) {
+                LOGGER.warn("inlineSchemaNameMapping maps an inline schema to `{}`, which is already defined in the spec. The existing `{}` schema is replaced by the inline schema.", name, name);
+            }
+            mappedSchemaNames.add(name);
+        } else if (openAPI.getComponents().getSchemas().containsKey(name)
                 || uniqueNames.contains(name)) {
+            // Recursive flattening can add a nested schema after its parent's name
+            // was chosen. Re-check here so the parent cannot overwrite that child.
             name = uniqueName(name);
         }
 
