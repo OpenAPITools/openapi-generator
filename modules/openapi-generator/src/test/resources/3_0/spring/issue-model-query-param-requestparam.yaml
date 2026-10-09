@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: Model Query Param Test
+  version: 1.0.0
+paths:
+  /items/search:
+    get:
+      operationId: itemsSearchGet
+      tags:
+        - items
+      parameters:
+        - name: SearchTerm
+          in: query
+          description: A simple string query param
+          schema:
+            type: string
+        - name: MaxPrice
+          in: query
+          description: A model-typed query param via oneOf ref
+          schema:
+            nullable: true
+            oneOf:
+              - $ref: '#/components/schemas/Price'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Price:
+      type: object
+      description: Represents an amount in a specific currency.
+      additionalProperties: false
+      required:
+        - Currency
+        - Amount
+      properties:
+        Currency:
+          type: string
+          description: The currency code.
+        Amount:
+          type: number
+          description: The numeric value.
+          format: double
+          default: 0.0
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          $ref: '#/components/schemas/Price'
