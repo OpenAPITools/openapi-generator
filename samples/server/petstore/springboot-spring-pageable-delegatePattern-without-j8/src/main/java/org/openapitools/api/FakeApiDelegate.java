@@ -166,7 +166,7 @@ public interface FakeApiDelegate {
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
-     * @param _byte None (required)
+     * @param _byte None (required) (base64 encoded)
      * @param integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
@@ -184,7 +184,7 @@ public interface FakeApiDelegate {
     default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
         Double _double,
         String patternWithoutDelimiter,
-        byte[] _byte,
+        String /* base64 encoded binary */ _byte,
         Integer integer,
         Integer int32,
         Long int64,
