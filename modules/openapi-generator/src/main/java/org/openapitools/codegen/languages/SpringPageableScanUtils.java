@@ -28,6 +28,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -696,8 +697,9 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (defaultValue instanceof Number) {
-                                pageDefault = Math.max(0, ((Number) defaultValue).intValue()
-                                        - pageNumberOffset(openAPI, param.getSchema()));
+                                int offset = pageNumberOffset(ModelUtils.resolveMinimumBound(openAPI, param.getSchema()));
+                                int defaultPage = ((Number) defaultValue).intValue();
+                                pageDefault = offset == 1 ? Math.max(0, defaultPage - offset) : defaultPage;
                             }
                             break;
                         case SIZE:
@@ -773,7 +775,7 @@ public class SpringPageableScanUtils {
                     ModelUtils.ResolvedMinBound minBound = ModelUtils.resolveMinimumBound(openAPI, schema);
                     switch (param.getName()) {
                         case PAGE:
-                            int offset = pageNumberOffset(openAPI, schema);
+                            int offset = pageNumberOffset(minBound);
                             if (maxBound != null) {
                                 maxPage = toIntInclusiveMax(maxBound) - offset;
                             }
@@ -812,9 +814,9 @@ public class SpringPageableScanUtils {
      *
      * @return {@code 1} for a 1-based {@code page} parameter, otherwise {@code 0}
      */
-    private static int pageNumberOffset(OpenAPI openAPI, Schema<?> pageSchema) {
-        ModelUtils.ResolvedMinBound minBound = ModelUtils.resolveMinimumBound(openAPI, pageSchema);
-        return minBound != null && toIntInclusiveMin(minBound) == 1 ? 1 : 0;
+    private static int pageNumberOffset(ModelUtils.ResolvedMinBound minBound) {
+        return minBound != null && !minBound.exclusive
+                && BigDecimal.ONE.compareTo(minBound.minBound) == 0 ? 1 : 0;
     }
 
     private static Parameter resolveParameter(OpenAPI openAPI, Parameter parameter) {
