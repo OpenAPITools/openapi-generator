@@ -5690,6 +5690,65 @@ public class JavaClientCodegenTest {
                 .assertMethod("collectionPathParameterToString", "String", "Collection<?>");
     }
 
+    @Test(dataProvider = "jerseyLibraries")
+    public void testMultipartObjectPartSerializedAsJson(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
+                .contains("localVarFormParams.put(\"marker\", marker);");
+        // the generated ApiClient has the code path sending complex parts as JSON instead of toString();
+        // the wire format is checked at runtime by the jersey3 sample's ApiClientTest
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("} else if (isPlainFormValue(value)) {")
+                .contains("return json.getMapper().writeValueAsString(value);")
+                .contains("new FormDataBodyPart(contentDisp, serializeToJson(value), MediaType.APPLICATION_JSON_TYPE)");
+        JavaFileAssert.assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java").toFile())
+                .assertMethod("isPlainFormValue", "Object");
+    }
+
+    @Test(dataProvider = "jerseyLibraries")
+    public void testMultipartEncodingContentTypePassedToApiClient(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .setInputSpec("src/test/resources/3_0/java/multipart-encoding.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("localVarFormParamContentTypes.put(\"metadata\", \"application/json\");")
+                .contains("localVarFormParamContentTypes.put(\"ids\", \"application/json\");")
+                .contains("localVarFormParamContentTypes.put(\"marker\", \"application/json\");")
+                .contains("localVarFormParamContentTypes.put(\"image\", \"image/png\");")
+                .doesNotContain("localVarFormParamContentTypes.put(\"note\"")
+                .contains("localVarFormParams, localVarFormParamContentTypes, localVarAccept");
+        // the previous signatures are kept and delegate to the new overloads
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("? serialize(body, formParams, contentType, isBodyNullable)")
+                .contains(": serialize(body, formParams, formParamContentTypes, contentType, isBodyNullable);")
+                .contains("addParamToMultipart(value, key, multiPart);")
+                .contains("public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable)")
+                .contains("return serialize(obj, formParams, Collections.<String, String>emptyMap(), contentType, isBodyNullable);")
+                .contains("protected void addParamToMultipart(Object value, String key, MultiPart multiPart) throws ApiException {")
+                .contains("addParamToMultipart(value, key, multiPart, null);")
+                .contains("} else if (isJsonPartType(partType)) {");
+    }
+
     private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()
