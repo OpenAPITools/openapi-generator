@@ -2263,6 +2263,31 @@ public class JavaClientCodegenTest {
                 .doesNotContain("Map<String, Object> additionalProperties;");
     }
 
+    @Test
+    public void testAdditionalPropertiesFieldIsDeclaredBelowOneOfAndAnyOfParentsForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-composed-parent.yaml");
+
+        // a oneOf/anyOf wrapper has no bag to inherit, so its allOf children declare their own
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java"))
+                .content()
+                .contains("public class Pet extends AbstractOpenApiSchema")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPet.java"))
+                .content()
+                .contains("public class ExtendedPet extends Pet {")
+                .contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedShape.java"))
+                .content()
+                .contains("public class ExtendedShape extends Shape {")
+                .contains("private Map<String, Object> additionalProperties;");
+        // below the first class that declares it, the bag is inherited as usual
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPetLeaf.java"))
+                .content()
+                .contains("public class ExtendedPetLeaf extends ExtendedPet {")
+                .contains("public ExtendedPetLeaf putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
     private Path generateOkHttpGsonWithAdditionalProperties(String inputSpec) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
