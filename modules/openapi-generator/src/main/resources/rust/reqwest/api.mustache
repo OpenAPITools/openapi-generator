@@ -4,11 +4,11 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use super::super::{
     apis::{self,
-        ResponseContent
+        ResponseContent,
+        Error, configuration, ContentType,
     },
     models,
 };
-use super::{Error, configuration, ContentType};
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions.useAsyncFileStream}}
