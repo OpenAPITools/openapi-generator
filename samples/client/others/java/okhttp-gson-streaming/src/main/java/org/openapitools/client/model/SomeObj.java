@@ -58,7 +58,7 @@ public class SomeObj implements Serializable {
    * Gets or Sets $type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
-  public enum TypeEnum {
+  public enum TypeEnum implements Serializable {
     SOMEOBJIDENTIFIER("SomeObjIdentifier");
 
     private String value;
