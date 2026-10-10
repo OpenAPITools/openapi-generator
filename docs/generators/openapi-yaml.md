@@ -1,3 +1,4 @@
+yamal
 ---
 title: Documentation for the openapi-yaml Generator
 ---
