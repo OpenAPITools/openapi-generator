@@ -21,6 +21,25 @@ paths:
             nullable: true
             oneOf:
               - $ref: '#/components/schemas/Price'
+        - name: MinPrice
+          in: query
+          description: A model-typed query param via allOf ref
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Price'
+        - name: ExactPrice
+          in: query
+          description: A model-typed query param via direct ref
+          schema:
+            $ref: '#/components/schemas/Price'
+        - name: Filter
+          in: query
+          description: An inline object query param
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
       responses:
         '200':
           description: OK

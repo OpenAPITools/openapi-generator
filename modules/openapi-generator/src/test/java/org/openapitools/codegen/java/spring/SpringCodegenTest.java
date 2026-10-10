@@ -389,18 +389,33 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldGenerateRequestParamForOneOfRefQueryParam() throws IOException {
+    public void shouldGenerateRequestParamOnlyForWrappedModelRefQueryParams() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setInterfaceOnly(true);
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/issue-model-query-param-requestparam.yaml");
 
         JavaFileAssert.assertThat(files.get("ItemsApi.java").toPath())
-                .assertMethod("itemsSearchGet", "String", "Price")
+                .assertMethod("itemsSearchGet", "String", "Price", "Price", "Price", "ItemsSearchGetFilterParameter")
                 .assertParameter("maxPrice")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of(
                         "value", "\"MaxPrice\"",
-                        "required", "false"));
+                        "required", "false"))
+                .toParameter().toMethod()
+                .assertParameter("minPrice")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of(
+                        "value", "\"MinPrice\"",
+                        "required", "false"))
+                .toParameter().toMethod()
+                // direct $ref and inline object query params keep their existing behaviour (no @RequestParam)
+                .assertParameter("exactPrice")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("RequestParam")
+                .toParameter().toMethod()
+                .assertParameter("filter")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("RequestParam");
     }
 
     @Test
