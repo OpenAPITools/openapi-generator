@@ -27,7 +27,7 @@ data class BigDog(
     @get:JsonProperty("dogType", required = true) val dogType: kotlin.String,
 
     @param:JsonProperty("className", required = true)
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true) override val className: kotlin.String = "BigDog",
 
     @param:JsonProperty("declawed")
     @get:JsonProperty("declawed") val declawed: kotlin.Boolean? = null,
