@@ -596,6 +596,31 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void simplifyAnyOfWithOnlyOneNonNullSubSchemaDoesNotMutateSharedInlineSchema() {
+        OpenAPI openAPI = new OpenAPI().specVersion(SpecVersion.V31);
+        Schema sharedString = new Schema<>().type("string");
+        Schema first = new ComposedSchema().anyOf(new ArrayList<>(Arrays.asList(
+                sharedString,
+                new Schema<>().type("null"))));
+        first.setDescription("first");
+        Schema second = new ComposedSchema().anyOf(new ArrayList<>(Arrays.asList(
+                sharedString,
+                new Schema<>().type("null"))));
+        second.setDescription("second");
+
+        Schema simplifiedFirst = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI, first, first.getAnyOf());
+        Schema simplifiedSecond = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI, second, second.getAnyOf());
+
+        assertEquals(simplifiedFirst.getDescription(), "first");
+        assertEquals(simplifiedSecond.getDescription(), "second");
+        assertTrue(simplifiedFirst.getNullable());
+        assertNull(sharedString.getDescription());
+        assertNull(sharedString.getNullable());
+    }
+
+    @Test
     public void simplifyAnyOfWithOnlyOneNonNullSubSchemaKeepsReadOnlyWriteOnlyAttribute() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
         Schema schema;

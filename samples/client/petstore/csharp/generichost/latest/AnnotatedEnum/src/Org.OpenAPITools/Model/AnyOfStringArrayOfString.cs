@@ -52,9 +52,8 @@ namespace Org.OpenAPITools.Model
         public Option<string?> StringOption { get; private set; }
 
         /// <summary>
-        /// to test oneOf
+        /// Gets or Sets String
         /// </summary>
-        /// <value>to test oneOf</value>
         public string? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
