@@ -28,6 +28,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -696,7 +697,9 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (defaultValue instanceof Number) {
-                                pageDefault = ((Number) defaultValue).intValue();
+                                int offset = pageNumberOffset(ModelUtils.resolveMinimumBound(openAPI, param.getSchema()));
+                                int defaultPage = ((Number) defaultValue).intValue();
+                                pageDefault = offset == 1 ? Math.max(0, defaultPage - offset) : defaultPage;
                             }
                             break;
                         case SIZE:
@@ -772,11 +775,12 @@ public class SpringPageableScanUtils {
                     ModelUtils.ResolvedMinBound minBound = ModelUtils.resolveMinimumBound(openAPI, schema);
                     switch (param.getName()) {
                         case PAGE:
+                            int offset = pageNumberOffset(minBound);
                             if (maxBound != null) {
-                                maxPage = toIntInclusiveMax(maxBound);
+                                maxPage = toIntInclusiveMax(maxBound) - offset;
                             }
                             if (minBound != null) {
-                                minPage = toIntInclusiveMin(minBound);
+                                minPage = toIntInclusiveMin(minBound) - offset;
                             }
                             break;
                         case SIZE:
@@ -798,6 +802,21 @@ public class SpringPageableScanUtils {
             }
         }
         return result;
+    }
+
+    /**
+     * Returns the offset between the page numbers used by the API and Spring's 0-based page index.
+     *
+     * <p>A {@code page} parameter with an inclusive {@code minimum} of 1 describes a 1-based API
+     * (e.g. {@code spring.data.web.pageable.one-indexed-parameters=true}). {@code @PageableDefault}
+     * and {@code Pageable#getPageNumber()} are always 0-based, so page values from such a spec are
+     * shifted down by one.</p>
+     *
+     * @return {@code 1} for a 1-based {@code page} parameter, otherwise {@code 0}
+     */
+    private static int pageNumberOffset(ModelUtils.ResolvedMinBound minBound) {
+        return minBound != null && !minBound.exclusive
+                && BigDecimal.ONE.compareTo(minBound.minBound) == 0 ? 1 : 0;
     }
 
     private static Parameter resolveParameter(OpenAPI openAPI, Parameter parameter) {
