@@ -2,8 +2,13 @@
 
 use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
-use crate::{apis::ResponseContent, models};
-use super::{Error, configuration, ContentType};
+use super::super::{
+    apis::{self,
+        ResponseContent,
+        Error, configuration, ContentType,
+    },
+    models,
+};
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions.useAsyncFileStream}}
@@ -153,7 +158,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
 
-    let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{vendorExtensions.x-rust-param-identifier}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
+    let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}apis::urlencode({{/isString}}{{{vendorExtensions.x-rust-param-identifier}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
     let mut req_builder = configuration.client.request(reqwest::Method::{{{httpMethod}}}, &uri_str);
 
     {{#queryParams}}
@@ -177,7 +182,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#isDeepObject}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         {{^isExplode}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
         {{/isExplode}}
         {{#isExplode}}
@@ -185,7 +190,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&param_value);
         {{/isModel}}
         {{#isMap}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
         {{/isMap}}
         {{/isExplode}}
@@ -245,7 +250,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{^isArray}}
         {{#isDeepObject}}
         {{^isExplode}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
         {{/isExplode}}
         {{#isExplode}}
@@ -253,7 +258,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&param_value);
         {{/isModel}}
         {{#isMap}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
         {{/isMap}}
         {{/isExplode}}
