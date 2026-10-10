@@ -88,9 +88,7 @@ private {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}func encodeIfPos
 }
 
 {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Data: ParameterConvertible {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        return self.base64EncodedString(options: Data.Base64EncodingOptions())
-    }
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
 {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Date: ParameterConvertible {

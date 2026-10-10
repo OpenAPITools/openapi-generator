@@ -86,9 +86,7 @@ extension Dictionary where Key: Sendable, Value: Sendable {
 }
 
 extension Data: ParameterConvertible {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        return self.base64EncodedString(options: Data.Base64EncodingOptions())
-    }
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
 extension Date: ParameterConvertible {
