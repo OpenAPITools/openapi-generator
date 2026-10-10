@@ -25,8 +25,7 @@ namespace Org.OpenAPITools.Client
         /// The formats used to deserialize the date
         /// </summary>
         public static string[] Formats { get; } = {
-            "yyyy'-'MM'-'dd",
-            "yyyyMMdd"
+            "yyyy'-'MM'-'dd"
 
         };
 
@@ -38,8 +37,8 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <returns></returns>
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            if (reader.TokenType == JsonTokenType.Null)
-                throw new NotSupportedException();
+            if (reader.TokenType != JsonTokenType.String)
+                throw new JsonException($"Expected a JSON string for date, but found {reader.TokenType}.");
 
             string value = reader.GetString()!;
 
@@ -47,7 +46,7 @@ namespace Org.OpenAPITools.Client
                 if (DateOnly.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly result))
                     return result;
 
-            throw new NotSupportedException();
+            throw new JsonException("The JSON string is not a valid date.");
         }
 
         /// <summary>

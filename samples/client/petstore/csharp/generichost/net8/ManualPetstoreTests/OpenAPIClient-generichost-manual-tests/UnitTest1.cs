@@ -54,6 +54,213 @@ namespace OpenAPIClient_generichost_manual_tests
         }
 
         [TestMethod]
+        public void NullableDateTimeDeserializesNull()
+        {
+            DateTime? actual = JsonSerializer.Deserialize<DateTime?>("null", _jsonSerializerOptions);
+
+            Assert.IsNull(actual);
+        }
+
+        [TestMethod]
+        public void NullableDateTimeDeserializesValidValue()
+        {
+            DateTime? actual = JsonSerializer.Deserialize<DateTime?>("\"2024-01-02T03:04:05Z\"", _jsonSerializerOptions);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(new DateTime(2024, 1, 2, 3, 4, 5, DateTimeKind.Utc), actual);
+            Assert.AreEqual(DateTimeKind.Utc, actual.Value.Kind);
+        }
+
+        [TestMethod]
+        public void NullableDateTimeDeserializesExtendedFractionalSeconds()
+        {
+            DateTime? actual = JsonSerializer.Deserialize<DateTime?>("\"2020-01-01T00:00:00.123456789Z\"", _jsonSerializerOptions);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(DateTimeKind.Utc, actual.Value.Kind);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddTicks(1234567), actual.Value);
+        }
+
+        [TestMethod]
+        public void NullableDateTimeRejectsMissingTimeZone()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime?>("\"2024-01-02T03:04:05\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void NullableDateTimeRejectsInvalidValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime?>("\"not-a-date\"", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "The JSON string is not a valid date-time.");
+        }
+
+        [TestMethod]
+        public void NullableDateTimeRejectsNonStringValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime?>("123", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "Expected a JSON string for date-time, but found Number.");
+        }
+
+        [TestMethod]
+        public void NullableDateTimeRejectsDateOnlyValue()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime?>("\"2024-01-02\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateTimeDeserializesValidValue()
+        {
+            DateTime actual = JsonSerializer.Deserialize<DateTime>("\"2024-01-02T03:04:05Z\"", _jsonSerializerOptions);
+
+            Assert.AreEqual(new DateTime(2024, 1, 2, 3, 4, 5, DateTimeKind.Utc), actual);
+            Assert.AreEqual(DateTimeKind.Utc, actual.Kind);
+        }
+
+        [TestMethod]
+        public void DateTimeDeserializesExtendedFractionalSeconds()
+        {
+            DateTime actual = JsonSerializer.Deserialize<DateTime>("\"2020-01-01T00:00:00.123456789Z\"", _jsonSerializerOptions);
+
+            Assert.AreEqual(DateTimeKind.Utc, actual.Kind);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddTicks(1234567), actual);
+        }
+
+        [TestMethod]
+        public void DateTimeNormalizesOffsetToUtc()
+        {
+            DateTime actual = JsonSerializer.Deserialize<DateTime>("\"2024-01-02T03:04:05+05:00\"", _jsonSerializerOptions);
+
+            Assert.AreEqual(DateTimeKind.Utc, actual.Kind);
+            Assert.AreEqual(new DateTime(2024, 1, 1, 22, 4, 5, DateTimeKind.Utc), actual);
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsMissingTimeZone()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("\"2024-01-02T03:04:05\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsBasicFormat()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("\"20240102T030405Z\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsNull()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("null", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsInvalidValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("\"not-a-date\"", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "The JSON string is not a valid date-time.");
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsNonStringValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("123", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "Expected a JSON string for date-time, but found Number.");
+        }
+
+        [TestMethod]
+        public void DateTimeRejectsDateOnlyValue()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateTime>("\"2024-01-02\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void NullableDateOnlyDeserializesNull()
+        {
+            DateOnly? actual = JsonSerializer.Deserialize<DateOnly?>("null", _jsonSerializerOptions);
+
+            Assert.IsNull(actual);
+        }
+
+        [TestMethod]
+        public void NullableDateOnlyDeserializesValidValue()
+        {
+            DateOnly? actual = JsonSerializer.Deserialize<DateOnly?>("\"2024-01-02\"", _jsonSerializerOptions);
+
+            Assert.AreEqual(new DateOnly(2024, 1, 2), actual);
+        }
+
+        [TestMethod]
+        public void NullableDateOnlyRejectsInvalidValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly?>("\"not-a-date\"", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "The JSON string is not a valid date.");
+        }
+
+        [TestMethod]
+        public void NullableDateOnlyRejectsNonStringValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly?>("123", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "Expected a JSON string for date, but found Number.");
+        }
+
+        [TestMethod]
+        public void DateOnlyDeserializesValidValue()
+        {
+            DateOnly actual = JsonSerializer.Deserialize<DateOnly>("\"2024-01-02\"", _jsonSerializerOptions);
+
+            Assert.AreEqual(new DateOnly(2024, 1, 2), actual);
+        }
+
+        [TestMethod]
+        public void DateOnlyRejectsNull()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly>("null", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateOnlyRejectsInvalidValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly>("\"not-a-date\"", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "The JSON string is not a valid date.");
+        }
+
+        [TestMethod]
+        public void DateOnlyRejectsBasicFormat()
+        {
+            Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly>("\"20240102\"", _jsonSerializerOptions));
+        }
+
+        [TestMethod]
+        public void DateOnlyRejectsNonStringValue()
+        {
+            JsonException exception = Assert.ThrowsException<JsonException>(
+                () => JsonSerializer.Deserialize<DateOnly>("123", _jsonSerializerOptions));
+
+            StringAssert.Contains(exception.Message, "Expected a JSON string for date, but found Number.");
+        }
+
+        [TestMethod]
         public void Pig()
         {
             string expected = """{"className":"BasquePig"}""";
