@@ -1969,7 +1969,7 @@ public class SpringCodegenTest {
                 .assertThat(files.get("PetApi.java"))
                 .assertMethod("addPet").hasReturnType("Mono<Pet>")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("Flux<Pet>")
+                .assertMethod("findPetsByStatus").hasReturnType("Flux<@Valid Pet>")
                 .toFileAssert()
                 .assertMethod("deletePet").hasReturnType("Mono<Void>");
     }
@@ -1991,7 +1991,7 @@ public class SpringCodegenTest {
                 .assertThat(files.get("PetApi.java"))
                 .assertMethod("addPet").hasReturnType("Mono<ResponseEntity<Pet>>")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("Mono<ResponseEntity<Flux<Pet>>>")
+                .assertMethod("findPetsByStatus").hasReturnType("Mono<ResponseEntity<Flux<@Valid Pet>>>")
                 .toFileAssert()
                 .assertMethod("deletePet").hasReturnType("Mono<ResponseEntity<Void>>");
     }
@@ -2817,15 +2817,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3453,6 +3453,89 @@ public class SpringCodegenTest {
                 .assertParameter("body")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
+    }
+
+    @DataProvider
+    public Object[][] collectionResponseValidationOptions() {
+        return new Object[][] {
+                {true, false, true, false}, {false, false, true, false},
+                {true, false, false, false}, {false, false, false, false},
+                {true, true, true, false}, {false, true, true, false},
+                {true, true, false, false}, {false, true, false, false},
+                {true, false, true, true}, {false, false, true, true},
+                {true, false, false, true}, {false, false, false, true},
+                {true, true, true, true}, {false, true, true, true},
+                {true, true, false, true}, {false, true, false, true}
+        };
+    }
+
+    @Test(dataProvider = "collectionResponseValidationOptions")
+    public void validatesNonVoidReturnsAndObjectCollectionElements(boolean validation, boolean reactive,
+                                                                  boolean responseEntity, boolean mappedModel) throws IOException {
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/spring/collection-response-validation.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(Files.createTempDirectory("collection-response-validation").toString());
+        codegen.additionalProperties().put(USE_TAGS, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_BEANVALIDATION, validation);
+        codegen.additionalProperties().put(REACTIVE, reactive);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, responseEntity);
+        if (mappedModel) {
+            codegen.schemaMapping().put("Pet", "com.example.ExternalPet");
+        }
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+        String api = Files.readString(files.get("CollectionApi.java").toPath());
+        String model = mappedModel ? "com.example.ExternalPet" : "Pet";
+        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String list = reactive ? "Flux<" + element + ">" : "List<" + element + ">";
+        String set = reactive ? "Flux<" + element + ">" : "Set<" + element + ">";
+        String map = "Map<String, " + element + ">";
+        String strings = "List<String>";
+        String integers = reactive ? "Flux<Integer>" : "List<Integer>";
+        String stringMap = "Map<String, String>";
+        String pet = model;
+        String name = "String";
+        String noContent = responseEntity ? "ResponseEntity<Void>" : (reactive ? "Void" : "void");
+        if (responseEntity) {
+            list = "ResponseEntity<" + list + ">";
+            set = "ResponseEntity<" + set + ">";
+            map = "ResponseEntity<" + map + ">";
+            strings = "ResponseEntity<" + strings + ">";
+            integers = "ResponseEntity<" + integers + ">";
+            stringMap = "ResponseEntity<" + stringMap + ">";
+            pet = "ResponseEntity<" + pet + ">";
+            name = "ResponseEntity<" + name + ">";
+        }
+        if (reactive) {
+            if (responseEntity) {
+                list = "Mono<" + list + ">";
+                set = "Mono<" + set + ">";
+                integers = "Mono<" + integers + ">";
+            }
+            map = "Mono<" + map + ">";
+            strings = "Mono<" + strings + ">";
+            stringMap = "Mono<" + stringMap + ">";
+            pet = "Mono<" + pet + ">";
+            name = "Mono<" + name + ">";
+            noContent = "Mono<" + noContent + ">";
+        }
+        String annotation = validation ? "@Valid " : "";
+        assertThat(api).contains(annotation + list + " getPets(", annotation + set + " getUniquePets(",
+                annotation + map + " getPetsByName(", annotation + strings + " getNames(",
+                annotation + pet + " getPet(", annotation + integers + " getNumbers(",
+                annotation + stringMap + " getNamesById(", annotation + name + " getName(",
+                "default " + noContent + " getNothing(")
+                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid Integer",
+                        "ResponseEntity<com.example.@Valid", "Mono<com.example.@Valid",
+                        "@Valid " + noContent + " getNothing(");
+        if (!validation) {
+            assertThat(api).doesNotContain("@Valid");
+        }
     }
 
     @Test
@@ -5578,7 +5661,7 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<EventType>")
+                .hasReturnType("Flux<@Valid EventType>")
                 .toFileAssert()
                 .assertMethod("nonSSE", "ServerWebExchange")
                 .isNotNull()
@@ -5592,7 +5675,7 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<EventType>")
+                .hasReturnType("Flux<@Valid EventType>")
                 .bodyContainsLines("return Flux.empty();")
                 .toFileAssert()
                 .assertMethod("nonSSE", "ServerWebExchange")
@@ -6586,7 +6669,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("getPetById").hasReturnType("Pet")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
+                .assertMethod("findPetsByStatus").hasReturnType("List<@Valid Pet>");
     }
 
     @Test
@@ -8603,7 +8686,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<Pet>>");
+                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */
