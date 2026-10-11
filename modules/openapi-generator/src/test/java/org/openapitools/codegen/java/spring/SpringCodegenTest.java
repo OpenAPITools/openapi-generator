@@ -1969,7 +1969,7 @@ public class SpringCodegenTest {
                 .assertThat(files.get("PetApi.java"))
                 .assertMethod("addPet").hasReturnType("Mono<Pet>")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("Flux<@Valid Pet>")
+                .assertMethod("findPetsByStatus").hasReturnType("Flux<Pet>")
                 .toFileAssert()
                 .assertMethod("deletePet").hasReturnType("Mono<Void>");
     }
@@ -1991,7 +1991,7 @@ public class SpringCodegenTest {
                 .assertThat(files.get("PetApi.java"))
                 .assertMethod("addPet").hasReturnType("Mono<ResponseEntity<Pet>>")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("Mono<ResponseEntity<Flux<@Valid Pet>>>")
+                .assertMethod("findPetsByStatus").hasReturnType("Mono<ResponseEntity<Flux<Pet>>>")
                 .toFileAssert()
                 .assertMethod("deletePet").hasReturnType("Mono<ResponseEntity<Void>>");
     }
@@ -3492,8 +3492,8 @@ public class SpringCodegenTest {
         String api = Files.readString(files.get("CollectionApi.java").toPath());
         String model = mappedModel ? "com.example.ExternalPet" : "Pet";
         String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
-        String list = reactive ? "Flux<" + element + ">" : "List<" + element + ">";
-        String set = reactive ? "Flux<" + element + ">" : "Set<" + element + ">";
+        String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
+        String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
         String map = "Map<String, " + element + ">";
         String strings = "List<String>";
         String integers = reactive ? "Flux<Integer>" : "List<Integer>";
@@ -3530,7 +3530,8 @@ public class SpringCodegenTest {
                 annotation + pet + " getPet(", annotation + integers + " getNumbers(",
                 annotation + stringMap + " getNamesById(", annotation + name + " getName(",
                 "default " + noContent + " getNothing(")
-                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid Integer",
+                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid",
+                        "Flux<com.example.@Valid",
                         "ResponseEntity<com.example.@Valid", "Mono<com.example.@Valid",
                         "@Valid " + noContent + " getNothing(");
         if (!validation) {
@@ -5661,7 +5662,7 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<@Valid EventType>")
+                .hasReturnType("Flux<EventType>")
                 .toFileAssert()
                 .assertMethod("nonSSE", "ServerWebExchange")
                 .isNotNull()
@@ -5675,7 +5676,7 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<@Valid EventType>")
+                .hasReturnType("Flux<EventType>")
                 .bodyContainsLines("return Flux.empty();")
                 .toFileAssert()
                 .assertMethod("nonSSE", "ServerWebExchange")

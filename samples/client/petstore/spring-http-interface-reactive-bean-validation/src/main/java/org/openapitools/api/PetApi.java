@@ -86,7 +86,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
-    @Valid Mono<ResponseEntity<Flux<@Valid Pet>>> findPetsByStatus(
+    @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -107,7 +107,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
-    @Valid Mono<ResponseEntity<Flux<@Valid Pet>>> findPetsByTags(
+    @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
     );
 

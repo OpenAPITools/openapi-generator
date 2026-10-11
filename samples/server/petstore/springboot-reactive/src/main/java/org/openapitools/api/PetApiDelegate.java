@@ -83,7 +83,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default @Valid Mono<ResponseEntity<Flux<@Valid Pet>>> findPetsByStatus(List<String> status,
+    default @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<String> status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -118,7 +118,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default @Valid Mono<ResponseEntity<Flux<@Valid Pet>>> findPetsByTags(Set<String> tags,
+    default @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     

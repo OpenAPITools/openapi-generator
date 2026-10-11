@@ -146,7 +146,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default @Valid Flux<@Valid Pet> findPetsByStatus(
+    default @Valid Flux<Pet> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
@@ -187,7 +187,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default @Valid Flux<@Valid Pet> findPetsByTags(
+    default @Valid Flux<Pet> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
