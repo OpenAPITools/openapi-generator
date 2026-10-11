@@ -17,6 +17,7 @@
 package org.openapitools.codegen.csharpnetcore;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -46,6 +47,79 @@ import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class CSharpClientCodegenTest {
+
+    @Test
+    public void testGenericHostUsesPropertySpecificDateFormatsSymmetrically() throws IOException {
+        DateTimeSchema customDateTime = new DateTimeSchema();
+        customDateTime.addExtension("x-csharp-datetime-format", "yyyyMMdd'T'HHmmssK");
+        DateTimeSchema nullableCustomDateTime = new DateTimeSchema();
+        nullableCustomDateTime.setNullable(true);
+        nullableCustomDateTime.addExtension("x-csharp-datetime-format", "yyyyMMddHHmmss");
+        DateSchema customDate = new DateSchema();
+        customDate.addExtension("x-csharp-date-format", "yyyyMMdd");
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("TemporalModel",
+                new ObjectSchema()
+                        .addProperty("standardDateTime", new DateTimeSchema())
+                        .addProperty("customDateTime", customDateTime)
+                        .addProperty("nullableCustomDateTime", nullableCustomDateTime)
+                        .addProperty("customDate", customDate)));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "TemporalModel");
+
+        assertFileContains(model.toPath(),
+                "public string CustomDateTimeFormat { get; private set; } = \"yyyyMMdd'T'HHmmssK\";",
+                "public string NullableCustomDateTimeFormat { get; private set; } = \"yyyyMMddHHmmss\";",
+                "public string CustomDateFormat { get; private set; } = \"yyyyMMdd\";",
+                "standardDateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));",
+                "customDateTime = new Option<DateTime?>(DateTimeFormatHelper.ReadDateTime(ref utf8JsonReader, CustomDateTimeFormat));",
+                "nullableCustomDateTime = new Option<DateTime?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (DateTime?)null : DateTimeFormatHelper.ReadDateTime(ref utf8JsonReader, NullableCustomDateTimeFormat));",
+                "customDate = new Option<DateOnly?>(DateTimeFormatHelper.ReadDateOnly(ref utf8JsonReader, CustomDateFormat));",
+                "writer.WritePropertyName(\"standardDateTime\");",
+                "JsonSerializer.Serialize(writer, temporalModel.StandardDateTimeOption.Value!.Value, jsonSerializerOptions);",
+                ".CustomDateTimeOption.Value!.Value.ToString(CustomDateTimeFormat, global::System.Globalization.CultureInfo.InvariantCulture)",
+                ".NullableCustomDateTimeOption.Value!.Value.ToString(NullableCustomDateTimeFormat, global::System.Globalization.CultureInfo.InvariantCulture)",
+                ".CustomDateOption.Value!.Value.ToString(CustomDateFormat, global::System.Globalization.CultureInfo.InvariantCulture)");
+        assertFileNotContains(model.toPath(), "StandardDateTimeFormat");
+    }
+
+    @Test
+    public void testGenericHostInjectedDateFormatOverridesProperty() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("TemporalModel",
+                new ObjectSchema().addProperty("createdAt", new DateTimeSchema())));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.useDateTimeOffset(true);
+        codegen.injectModelVendorExtensions().put(
+                "TemporalModel.createdAt.x-csharp-datetime-format",
+                "yyyyMMddHHmmss");
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "TemporalModel");
+
+        assertFileContains(model.toPath(),
+                "public string CreatedAtFormat { get; private set; } = \"yyyyMMddHHmmss\";",
+                "DateTimeFormatHelper.ReadDateTimeOffset(ref utf8JsonReader, CreatedAtFormat)",
+                ".CreatedAtOption.Value!.Value.ToString(CreatedAtFormat, global::System.Globalization.CultureInfo.InvariantCulture)");
+    }
 
     @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {

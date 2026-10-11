@@ -229,14 +229,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.PACKAGE_TAGS_DESC,
                 this.packageTags);
 
-        addOption(DATE_FORMAT,
-                "The default Date format (only `generichost` library supports this option).",
-                this.dateFormat);
-
-        addOption(DATETIME_FORMAT,
-                "The default DateTime format (only `generichost` library supports this option).",
-                this.dateTimeFormat);
-
         addOption("zeroBasedEnums",
                 "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
                 null);
@@ -1130,12 +1122,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
-        supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
-        supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
-        if (useDateOnly()) {
-            supportingFiles.add(new SupportingFile("DateOnlyJsonConverter.mustache", clientPackageDir, "DateOnlyJsonConverter.cs"));
-            supportingFiles.add(new SupportingFile("DateOnlyNullableJsonConverter.mustache", clientPackageDir, "DateOnlyNullableJsonConverter.cs"));
-        }
+        supportingFiles.add(new SupportingFile("DateTimeFormatHelper.mustache", clientPackageDir, "DateTimeFormatHelper.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
@@ -1778,6 +1765,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return this.getLibrary().equals(GENERICHOST)
                 ? super.isValueType(var)
                 : this.getValueTypes().contains(var.dataType) || var.isEnum;
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_CSHARP_DATE_FORMAT);
+        extensions.add(VendorExtension.X_CSHARP_DATETIME_FORMAT);
+        return extensions;
     }
 
     @Override
