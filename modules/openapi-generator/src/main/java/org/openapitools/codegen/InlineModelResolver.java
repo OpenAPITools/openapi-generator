@@ -1186,7 +1186,8 @@ public class InlineModelResolver {
         if (inlineSchemaNameMapping.containsKey(name)) {
             // use the name chosen by the user as is, even if several inline schemas map to it
             name = inlineSchemaNameMapping.get(name);
-            if (openAPI.getComponents().getSchemas().containsKey(name) && !mappedSchemaNames.contains(name)) {
+            if (openAPI.getComponents().getSchemas().containsKey(name)
+                    && !uniqueNames.contains(name) && !mappedSchemaNames.contains(name)) {
                 LOGGER.warn("inlineSchemaNameMapping maps an inline schema to `{}`, which is already defined in the spec. The existing `{}` schema is replaced by the inline schema.", name, name);
             }
             mappedSchemaNames.add(name);
