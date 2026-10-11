@@ -72,7 +72,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json" }
     )
-    default ResponseEntity<String> loginUser(
+    default @Valid ResponseEntity<String> loginUser(
         @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
         @Parameter(hidden = true) @Value("${server.port}") String someValue,

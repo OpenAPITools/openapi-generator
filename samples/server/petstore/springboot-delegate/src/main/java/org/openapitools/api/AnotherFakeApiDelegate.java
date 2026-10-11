@@ -33,7 +33,7 @@ public interface AnotherFakeApiDelegate {
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default ResponseEntity<Client> call123testSpecialTags(Client client) {
+    default @Valid ResponseEntity<Client> call123testSpecialTags(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

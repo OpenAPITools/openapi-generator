@@ -104,7 +104,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    default @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
         return getDelegate().fakeOuterBooleanSerialize(body);
@@ -135,7 +135,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
+    default @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) {
         return getDelegate().fakeOuterCompositeSerialize(outerComposite);
@@ -166,7 +166,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    default @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
         return getDelegate().fakeOuterNumberSerialize(body);
@@ -197,7 +197,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<String> fakeOuterStringSerialize(
+    default @Valid ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
@@ -225,7 +225,7 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+    default @Valid ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().responseObjectDifferentNames(petId);
@@ -313,7 +313,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Client> testClientModel(
+    default @Valid ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {
         return getDelegate().testClientModel(client);
@@ -607,7 +607,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    default ResponseEntity<Integer> testWithResultExample(
+    default @Valid ResponseEntity<Integer> testWithResultExample(
         
     ) {
         return getDelegate().testWithResultExample();
@@ -644,7 +644,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
+    default @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

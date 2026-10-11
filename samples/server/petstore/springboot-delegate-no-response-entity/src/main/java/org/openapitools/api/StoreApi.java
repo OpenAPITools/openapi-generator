@@ -97,7 +97,7 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Map<String, Integer> getInventory(
+    default @Valid Map<String, Integer> getInventory(
         
     ) {
         return getDelegate().getInventory();
@@ -134,7 +134,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Order getOrderById(
+    default @Valid Order getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     ) {
         return getDelegate().getOrderById(orderId);
@@ -170,7 +170,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Order placeOrder(
+    default @Valid Order placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
         return getDelegate().placeOrder(order);

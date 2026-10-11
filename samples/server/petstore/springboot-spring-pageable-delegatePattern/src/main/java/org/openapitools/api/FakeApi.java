@@ -101,7 +101,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_OUTER_BOOLEAN_SERIALIZE,
         produces = { "*/*" }
     )
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    default @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
         return getDelegate().fakeOuterBooleanSerialize(body);
@@ -131,7 +131,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_OUTER_COMPOSITE_SERIALIZE,
         produces = { "*/*" }
     )
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
+    default @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "body", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite body
     ) {
         return getDelegate().fakeOuterCompositeSerialize(body);
@@ -161,7 +161,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_OUTER_NUMBER_SERIALIZE,
         produces = { "*/*" }
     )
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    default @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
         return getDelegate().fakeOuterNumberSerialize(body);
@@ -191,7 +191,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_OUTER_STRING_SERIALIZE,
         produces = { "*/*" }
     )
-    default ResponseEntity<String> fakeOuterStringSerialize(
+    default @Valid ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
@@ -279,7 +279,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Client> testClientModel(
+    default @Valid ResponseEntity<Client> testClientModel(
         @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
     ) {
         return getDelegate().testClientModel(body);
@@ -548,7 +548,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
+    default @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

@@ -42,7 +42,7 @@ public interface AnotherFakeApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<Client>> call123testSpecialTags(
+    @Valid Mono<ResponseEntity<Client>> call123testSpecialTags(
          @Valid @RequestBody Mono<Client> client
     );
 

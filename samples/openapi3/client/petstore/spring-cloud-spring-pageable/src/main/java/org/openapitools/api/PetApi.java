@@ -131,7 +131,7 @@ public interface PetApi {
     )
     @org.springframework.validation.annotation.Validated
     @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
-    ResponseEntity<List<Pet>> findPetsByStatus(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status,
         @ParameterObject final Pageable pageable
     );
@@ -171,7 +171,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<List<Pet>> findPetsByTags(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags,
         @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
         @PageableDefault(page = 0, size = 20) @SortDefault.SortDefaults({@SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)}) @ParameterObject final Pageable pageable
@@ -210,7 +210,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<Pet> getPetById(
+    @Valid ResponseEntity<Pet> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     );
 
@@ -245,7 +245,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     @org.springframework.validation.annotation.Validated
-    ResponseEntity<List<Pet>> listAllPets(
+    @Valid ResponseEntity<List<@Valid Pet>> listAllPets(
         @PageableDefault(page = 0, size = 20) @ParameterObject final Pageable pageable
     );
 
@@ -342,7 +342,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    ResponseEntity<ModelApiResponse> uploadFile(
+    @Valid ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file

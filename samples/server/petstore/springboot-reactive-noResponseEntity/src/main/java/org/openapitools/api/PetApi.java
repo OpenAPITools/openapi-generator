@@ -146,7 +146,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Flux<Pet> findPetsByStatus(
+    default @Valid Flux<@Valid Pet> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
@@ -187,7 +187,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Flux<Pet> findPetsByTags(
+    default @Valid Flux<@Valid Pet> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
@@ -227,7 +227,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Pet> getPetById(
+    default @Valid Mono<Pet> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().getPetById(petId);
@@ -341,7 +341,7 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<ModelApiResponse> uploadFile(
+    default @Valid Mono<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) Part file

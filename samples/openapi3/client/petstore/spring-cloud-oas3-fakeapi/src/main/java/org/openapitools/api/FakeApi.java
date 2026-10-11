@@ -97,7 +97,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = "application/json"
     )
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     );
 
@@ -126,7 +126,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = "application/json"
     )
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
+    @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     );
 
@@ -155,7 +155,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = "application/json"
     )
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     );
 
@@ -184,7 +184,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = "application/json"
     )
-    ResponseEntity<String> fakeOuterStringSerialize(
+    @Valid ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     );
 
@@ -266,7 +266,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = "application/json"
     )
-    ResponseEntity<Client> testClientModel(
+    @Valid ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     );
 
@@ -544,7 +544,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    ResponseEntity<Integer> testWithResultExample(
+    @Valid ResponseEntity<Integer> testWithResultExample(
         
     );
 

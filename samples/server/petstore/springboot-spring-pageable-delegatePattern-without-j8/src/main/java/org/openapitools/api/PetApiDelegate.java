@@ -69,7 +69,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable) {
+    default @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(List<String> status, final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -100,7 +100,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags,
+    default @Valid ResponseEntity<List<@Valid Pet>> findPetsByTags(List<String> tags,
         String size, final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -130,7 +130,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default ResponseEntity<Pet> getPetById(Long petId) {
+    default @Valid ResponseEntity<Pet> getPetById(Long petId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -156,7 +156,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#listAllPets
      */
-    default ResponseEntity<List<Pet>> listAllPets(final Pageable pageable) {
+    default @Valid ResponseEntity<List<@Valid Pet>> listAllPets(final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -215,7 +215,7 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default ResponseEntity<ModelApiResponse> uploadFile(Long petId,
+    default @Valid ResponseEntity<ModelApiResponse> uploadFile(Long petId,
         String additionalMetadata,
         MultipartFile file) {
         getRequest().ifPresent(request -> {
