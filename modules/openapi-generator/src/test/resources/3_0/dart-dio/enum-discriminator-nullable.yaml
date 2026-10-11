@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: Optional Enum Discriminator
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Entity:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/EntityKind'
+      discriminator:
+        propertyName: kind
+        mapping:
+          document: '#/components/schemas/DocumentEntity'
+          image: '#/components/schemas/ImageEntity'
+    DocumentEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            text:
+              type: string
+    ImageEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            url:
+              type: string
+    EntityKind:
+      type: string
+      enum:
+        - document
+        - image
