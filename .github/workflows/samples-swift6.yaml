@@ -49,4 +49,4 @@ jobs:
         run: swift build
       - name: Test
         working-directory: ${{ matrix.sample }}
-        run: xocdebuild test
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
