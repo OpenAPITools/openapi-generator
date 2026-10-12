@@ -33,7 +33,6 @@ public:
 
 friend void to_json(nlohmann::json& j, const Dog& o)
 {
-    j = nlohmann::json::object();
     // Serialize inherited properties via the parent's serializer
     to_json(j, static_cast<const Animal&>(o));
     j["breed"] = o.breed;
