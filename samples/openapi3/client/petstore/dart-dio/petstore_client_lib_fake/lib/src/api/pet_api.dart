@@ -192,12 +192,6 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': encodeParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -284,12 +278,6 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'tags': encodeParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     final _response = await _dio.request<Object>(
       _path,

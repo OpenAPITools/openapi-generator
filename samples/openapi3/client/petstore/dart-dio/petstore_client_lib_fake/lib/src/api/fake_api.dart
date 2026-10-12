@@ -304,12 +304,6 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       if (query1 != null) r'query_1': encodeParameter(_serializers, query1, const FullType(String)),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     dynamic _bodyData;
 
@@ -1048,12 +1042,6 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       r'query': encodeParameter(_serializers, query, const FullType(String)),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     dynamic _bodyData;
 
@@ -1363,12 +1351,6 @@ class FakeApi {
       if (enumQueryDouble != null) r'enum_query_double': encodeParameter(_serializers, enumQueryDouble, const FullType(double)),
       if (enumQueryModelArray != null) r'enum_query_model_array': encodeParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), format: ListFormat.multi),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     dynamic _bodyData;
 
@@ -1470,12 +1452,6 @@ class FakeApi {
       if (stringGroup != null) r'string_group': encodeParameter(_serializers, stringGroup, const FullType(int)),
       if (int64Group != null) r'int64_group': encodeParameter(_serializers, int64Group, const FullType(int)),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -1824,12 +1800,6 @@ class FakeApi {
       if (language != null) r'language': encodeParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)])),
       r'allowEmpty': encodeParameter(_serializers, allowEmpty, const FullType(String)),
     };
-    removeNullParametersExcept(
-      _queryParameters,
-      <String>{
-        
-      },
-    );
 
     final _response = await _dio.request<Object>(
       _path,
