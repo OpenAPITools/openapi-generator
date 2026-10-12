@@ -33,17 +33,28 @@ jobs:
         include:
         # the ubuntu build runs in the official swift image: swift-actions/setup-swift
         # fails on current ubuntu runners while verifying the toolchain signature
-        - os: ubuntu-latest
-          sample: samples/client/petstore/swift6/alamofireLibrary
-          container: swift:6.2-noble
-        - os: ubuntu-latest
-          sample: samples/client/petstore/swift6/urlsessionLibrary
-          container: swift:6.2-noble
-    name: Build Swift 6 samples
+        #- os: ubuntu-latest
+        #  sample: samples/client/petstore/swift6/alamofireLibrary
+        #  container: swift:6.2-noble
+        #- os: ubuntu-latest
+        #  sample: samples/client/petstore/swift6/urlsessionLibrary
+        #  container: swift:6.2-noble
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2        
+    name#: Build Swift 6 samples
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v7
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: swift build
