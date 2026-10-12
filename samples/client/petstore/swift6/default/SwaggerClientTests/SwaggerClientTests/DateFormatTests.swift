@@ -9,7 +9,6 @@
 import Foundation
 import XCTest
 @testable import PetstoreClient
-@testable import SwaggerClient
 
 class DateFormatTests: XCTestCase {
 

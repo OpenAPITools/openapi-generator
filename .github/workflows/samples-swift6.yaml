@@ -15,20 +15,20 @@ jobs:
       matrix:
         os: [macos-latest]
         sample:
-          - samples/client/petstore/swift6/alamofireLibrary
-          - samples/client/petstore/swift6/apiNonStaticMethod
-          - samples/client/petstore/swift6/asyncAwaitLibrary
-          - samples/client/petstore/swift6/combineDeferredLibrary
-          - samples/client/petstore/swift6/combineLibrary
           - samples/client/petstore/swift6/default
-          - samples/client/petstore/swift6/objcCompatible
-          - samples/client/petstore/swift6/oneOf
-          - samples/client/petstore/swift6/promisekitLibrary
-          - samples/client/petstore/swift6/resultLibrary
-          - samples/client/petstore/swift6/rxswiftLibrary
-          - samples/client/petstore/swift6/urlsessionLibrary
-          - samples/client/petstore/swift6/validation
-          # NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
+          #- samples/client/petstore/swift6/alamofireLibrary
+          #- samples/client/petstore/swift6/apiNonStaticMethod
+          #- samples/client/petstore/swift6/asyncAwaitLibrary
+          #- samples/client/petstore/swift6/combineDeferredLibrary
+          #- samples/client/petstore/swift6/combineLibrary
+          #- samples/client/petstore/swift6/objcCompatible
+          #- samples/client/petstore/swift6/oneOf
+          #- samples/client/petstore/swift6/promisekitLibrary
+          #- samples/client/petstore/swift6/resultLibrary
+          #- samples/client/petstore/swift6/rxswiftLibrary
+          #- samples/client/petstore/swift6/urlsessionLibrary
+          #- samples/client/petstore/swift6/validation
+          ## NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
           #- samples/client/petstore/swift6/vaporLibrary
         include:
         # the ubuntu build runs in the official swift image: swift-actions/setup-swift

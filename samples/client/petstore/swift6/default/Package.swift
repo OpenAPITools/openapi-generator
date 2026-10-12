@@ -28,6 +28,11 @@ let package = Package(
             dependencies: [],
             path: "Sources/PetstoreClient"
         ),
+        .testTarget(
+            name: "SwaggerClientTests",
+            dependencies: ["PetstoreClient"],
+            path: "SwaggerClientTests/SwaggerClientTests"
+        ),
     ],
     swiftLanguageModes: [.v6]
 )

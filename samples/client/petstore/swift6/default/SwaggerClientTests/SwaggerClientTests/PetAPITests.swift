@@ -6,9 +6,12 @@
 //  Copyright © 2016 Swagger. All rights reserved.
 //
 
-import PetstoreClient
+import Foundation
 import XCTest
-@testable import SwaggerClient
+import PetstoreClient
+#if canImport(UIKit)
+import UIKit
+#endif
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class PetAPITests: XCTestCase {
@@ -48,6 +51,7 @@ class PetAPITests: XCTestCase {
         XCTAssert(tag2.name == "Jose", "invalid tag name")        
     }
 
+    #if canImport(UIKit)
     func test3UploadFile() async throws {
         let imageName = UUID().uuidString + ".png"
 
@@ -67,6 +71,7 @@ class PetAPITests: XCTestCase {
             XCTFail("error uploading file")
         }
     }
+    #endif
 
     func test4DeletePet() async throws {
         do {

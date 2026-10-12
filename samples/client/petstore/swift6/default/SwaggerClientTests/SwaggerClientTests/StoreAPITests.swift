@@ -6,10 +6,9 @@
 //  Copyright © 2016 Swagger. All rights reserved.
 //
 
-import PetstoreClient
-import Combine
+import Foundation
 import XCTest
-@testable import SwaggerClient
+import PetstoreClient
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class StoreAPITests: XCTestCase {
