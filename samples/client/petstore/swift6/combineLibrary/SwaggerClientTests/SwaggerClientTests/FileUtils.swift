@@ -6,6 +6,7 @@
 //  Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
 //
 
+#if canImport(UIKit)
 import UIKit
 
 class FileUtils {
@@ -47,3 +48,4 @@ class FileUtils {
     }
 
 }
+#endif

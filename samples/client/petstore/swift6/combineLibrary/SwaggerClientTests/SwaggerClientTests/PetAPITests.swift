@@ -6,10 +6,13 @@
 //  Copyright © 2016 Swagger. All rights reserved.
 //
 
+import Combine
+import Foundation
 import PetstoreClient
 import XCTest
-import Combine
-@testable import SwaggerClient
+#if canImport(UIKit)
+import UIKit
+#endif
 
 @MainActor
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -77,6 +80,7 @@ class PetAPITests: XCTestCase {
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
+    #if canImport(UIKit)
     func test3UploadFile() {
         let expectation = self.expectation(description: "testUploadFile")
 
@@ -104,6 +108,7 @@ class PetAPITests: XCTestCase {
 
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
+    #endif
 
     func test4DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")

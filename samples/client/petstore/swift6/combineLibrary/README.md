@@ -1,5 +1,17 @@
 # Swift6 API client for PetstoreClient
 
+# Testing
+
+The Swift Package Manager test target uses the tests in
+`SwaggerClientTests/SwaggerClientTests`. Run it from this directory with:
+
+```sh
+swift test
+```
+
+The API tests contact the configured Petstore service. The file-upload test is
+compiled only on platforms that provide UIKit.
+
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 ## Overview
@@ -149,6 +161,5 @@ https://openapi-generator.tech/docs/faq-generators#how-do-i-migrate-from-the-swi
 https://openapi-generator.tech/docs/faq-generators#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-6-api-client
 
 ## Author
-
 
 

@@ -6,9 +6,9 @@
 //  Copyright © 2018 Swagger. All rights reserved.
 //
 
-import XCTest
+import Foundation
 import PetstoreClient
-@testable import SwaggerClient
+import XCTest
 
 class APIHelperTests: XCTestCase {
 
