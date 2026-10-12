@@ -1228,15 +1228,15 @@ public class InlineModelResolver {
             return a.compareTo(b);
         });
 
-        // Map: (title + "||" + structural_sig) → first-seen (canonical) name
+        // Map: (title + "||" + structural_sig) -> first-seen (canonical) name
         Map<String, String> canonicalBySig = new LinkedHashMap<>();
-        // Map: duplicate component name → canonical component name
+        // Map: duplicate component name -> canonical component name
         Map<String, String> duplicateToCanonical = new LinkedHashMap<>();
 
         for (String name : sortedKeys) {
             Schema schema = schemas.get(name);
-            if (schema.getTitle() == null) {
-                continue; // only deduplicate titled schemas — anonymous schemas may be intentionally distinct
+            if (schema == null || schema.getTitle() == null || isEnumSchema(schema) || !isModelNeeded(schema)) {
+                continue; // only deduplicate titled, non-enum model schemas
             }
             try {
                 String structural = computeStructuralSignature(schema);

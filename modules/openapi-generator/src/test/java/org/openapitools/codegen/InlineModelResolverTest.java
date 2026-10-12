@@ -1739,4 +1739,38 @@ public class InlineModelResolverTest {
         assertRewritten("encoding headers", response.getContent().get("application/json")
                 .getEncoding().get("ok").getHeaders().get("X-Encoding").getSchema());
     }
+
+
+    @Test
+    public void testIssue24817DuplicatePropertyTitleDoesNotRewriteRefToNonexistentClass() throws Exception {
+        org.openapitools.codegen.config.CodegenConfigurator configurator = new org.openapitools.codegen.config.CodegenConfigurator();
+        configurator.setInputSpec("src/test/resources/3_1/issue_24817.json");
+        configurator.setGeneratorName("java");
+        configurator.setLibrary("microprofile");
+        configurator.addAdditionalProperty("rootJavaEEPackage", "jakarta");
+        configurator.addAdditionalProperty("serializationLibrary", "jsonb");
+        configurator.setModelPackage("com.github.bvschaik.generated.models");
+        configurator.setPackageName("com.github.bvschaik.generated");
+        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("codegen-24817");
+        configurator.setOutputDir(tempDir.toFile().getAbsolutePath());
+
+        ClientOptInput input = configurator.toClientOptInput();
+        OpenAPI openAPI = input.getOpenAPI();
+
+        new InlineModelResolver().flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertNotNull("catName schema must not be removed", schemas.get("catName"));
+        assertNotNull("dogName schema must not be removed by deduplicateComponents (#24817)", schemas.get("dogName"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+        Map<String, java.io.File> files = generator.generate().stream()
+                .collect(java.util.stream.Collectors.toMap(java.io.File::getName, f -> f));
+
+        assertTrue("Dog.java must be generated", files.containsKey("Dog.java"));
+        String dogContent = java.nio.file.Files.readString(files.get("Dog.java").toPath());
+        assertTrue("Dog.java must define nickname as String", dogContent.contains("protected String nickname"));
+        assertFalse("Dog.java must not reference non-existent DogName class", dogContent.contains("DogName"));
+    }
 }
