@@ -19,7 +19,7 @@ dynamic encodeParameter<T>(
   bool forMultipart = false,
 }) {
   if (value == null) {
-    return asString ? '' : null;
+    return '';
   }
   if (value is String || value is num || value is bool) {
     return value;

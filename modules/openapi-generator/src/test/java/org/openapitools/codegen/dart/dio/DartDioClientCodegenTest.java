@@ -649,5 +649,58 @@ public class DartDioClientCodegenTest {
                 "removeNullParametersExcept(",
                 "r'requiredNullable',");
     }
+
+    @Test
+    public void testRequiredNullableQueryParametersUseEmptyValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Path spec = Files.createTempFile("dart-dio-required-nullable-query", ".yaml");
+        Files.writeString(spec,
+                "swagger: '2.0'\n"
+                        + "info:\n"
+                        + "  title: Query nullability\n"
+                        + "  version: 1.0.0\n"
+                        + "paths:\n"
+                        + "  /test:\n"
+                        + "    get:\n"
+                        + "      operationId: testQuery\n"
+                        + "      parameters:\n"
+                        + "        - name: requiredNullable\n"
+                        + "          in: query\n"
+                        + "          required: true\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "        - name: optionalNullable\n"
+                        + "          in: query\n"
+                        + "          required: false\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "      responses:\n"
+                        + "        '200':\n"
+                        + "          description: ok\n");
+        spec.toFile().deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec(spec.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "r'requiredNullable': encodeParameter(_serializers, requiredNullable, const FullType(String)),",
+                "if (optionalNullable != null) r'optionalNullable': encodeParameter(_serializers, optionalNullable, const FullType(String)),");
+        TestUtils.assertFileContains(apiUtil,
+                "if (value == null) {\n"
+                        + "    return '';\n"
+                        + "  }");
+    }
 }
 

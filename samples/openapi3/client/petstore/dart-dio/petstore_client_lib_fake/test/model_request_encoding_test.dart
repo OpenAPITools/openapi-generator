@@ -89,6 +89,17 @@ void main() {
       );
     });
 
+    test('null parameters are encoded as empty values', () {
+      expect(
+        encodeParameter<String>(
+          standardSerializers,
+          null,
+          const FullType(String),
+        ),
+        '',
+      );
+    });
+
     test('explicit maps and list formats retain their existing behavior', () {
       final serializers = (standardSerializers.toBuilder()
             ..addBuilderFactory(
