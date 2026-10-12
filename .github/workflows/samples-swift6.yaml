@@ -47,3 +47,6 @@ jobs:
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: swift build
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: swift test
