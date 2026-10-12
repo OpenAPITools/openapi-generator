@@ -37,7 +37,6 @@ friend void to_json(nlohmann::json& j, const NotFoundResponse& o)
 friend void from_json(const nlohmann::json& j, NotFoundResponse& o)
 {
     j.at("error").get_to(o.error);
-
     if (j.contains("resource") && !j.at("resource").is_null())
     {
         j.at("resource").get_to(o.resource);

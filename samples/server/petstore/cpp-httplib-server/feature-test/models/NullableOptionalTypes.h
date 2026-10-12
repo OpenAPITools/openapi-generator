@@ -48,7 +48,6 @@ friend void to_json(nlohmann::json& j, const NullableOptionalTypes& o)
 friend void from_json(const nlohmann::json& j, NullableOptionalTypes& o)
 {
     j.at("requiredField").get_to(o.requiredField);
-
     if (j.contains("optionalField") && !j.at("optionalField").is_null())
     {
         j.at("optionalField").get_to(o.optionalField);

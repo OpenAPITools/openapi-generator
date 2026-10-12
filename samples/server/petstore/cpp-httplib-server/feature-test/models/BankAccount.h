@@ -42,7 +42,6 @@ friend void from_json(const nlohmann::json& j, BankAccount& o)
     j.at("paymentType").get_to(o.paymentType);
     j.at("accountNumber").get_to(o.accountNumber);
     j.at("bankName").get_to(o.bankName);
-
 }
 
 

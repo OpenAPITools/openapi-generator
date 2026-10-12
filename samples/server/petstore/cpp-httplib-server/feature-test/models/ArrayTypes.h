@@ -59,7 +59,6 @@ friend void to_json(nlohmann::json& j, const ArrayTypes& o)
 
 friend void from_json(const nlohmann::json& j, ArrayTypes& o)
 {
-
     if (j.contains("stringArray") && !j.at("stringArray").is_null())
     {
         j.at("stringArray").get_to(o.stringArray);

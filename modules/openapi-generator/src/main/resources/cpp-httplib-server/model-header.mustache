@@ -266,6 +266,10 @@ public:
 
 friend void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& o)
 {
+    {{#parent}}
+    // Serialize inherited properties via the parent's serializer
+    to_json(j, static_cast<const {{parent}}&>(o));
+    {{/parent}}
     {{#vars}}
     j["{{baseName}}"] = o.{{nameInCamelCase}};
     {{/vars}}
@@ -273,16 +277,21 @@ friend void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}
 
 friend void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& o)
 {
-    {{#requiredVars}}
+    {{#parent}}
+    // Deserialize inherited properties via the parent's deserializer
+    from_json(j, static_cast<{{parent}}&>(o));
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
     j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
-    {{/requiredVars}}
-
-    {{#optionalVars}}
+    {{/required}}
+    {{^required}}
     if (j.contains("{{baseName}}") && !j.at("{{baseName}}").is_null())
     {
         j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
     }
-    {{/optionalVars}}
+    {{/required}}
+    {{/vars}}
 }
 
 

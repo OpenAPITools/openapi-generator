@@ -51,7 +51,6 @@ friend void from_json(const nlohmann::json& j, Employee& o)
     j.at("id").get_to(o.id);
     j.at("name").get_to(o.name);
     j.at("email").get_to(o.email);
-
     if (j.contains("address") && !j.at("address").is_null())
     {
         j.at("address").get_to(o.address);

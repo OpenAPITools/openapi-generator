@@ -33,7 +33,6 @@ friend void to_json(nlohmann::json& j, const TestHeaderParameters401Response& o)
 
 friend void from_json(const nlohmann::json& j, TestHeaderParameters401Response& o)
 {
-
     if (j.contains("message") && !j.at("message").is_null())
     {
         j.at("message").get_to(o.message);

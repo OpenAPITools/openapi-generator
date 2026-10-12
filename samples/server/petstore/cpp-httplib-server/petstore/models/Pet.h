@@ -88,13 +88,12 @@ friend void to_json(nlohmann::json& j, const Pet& o)
 
 friend void from_json(const nlohmann::json& j, Pet& o)
 {
-    j.at("name").get_to(o.name);
-    j.at("photoUrls").get_to(o.photoUrls);
-
     if (j.contains("id") && !j.at("id").is_null())
     {
         j.at("id").get_to(o.id);
     }
+    j.at("name").get_to(o.name);
+    j.at("photoUrls").get_to(o.photoUrls);
     if (j.contains("status") && !j.at("status").is_null())
     {
         j.at("status").get_to(o.status);

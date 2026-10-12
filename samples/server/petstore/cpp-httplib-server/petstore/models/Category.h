@@ -36,7 +36,6 @@ friend void to_json(nlohmann::json& j, const Category& o)
 
 friend void from_json(const nlohmann::json& j, Category& o)
 {
-
     if (j.contains("id") && !j.at("id").is_null())
     {
         j.at("id").get_to(o.id);

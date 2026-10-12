@@ -34,7 +34,6 @@ friend void to_json(nlohmann::json& j, const NullableExample& o)
 
 friend void from_json(const nlohmann::json& j, NullableExample& o)
 {
-
     if (j.contains("maybeString") && !j.at("maybeString").is_null())
     {
         j.at("maybeString").get_to(o.maybeString);

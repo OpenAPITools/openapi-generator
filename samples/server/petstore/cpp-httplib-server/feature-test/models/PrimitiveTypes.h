@@ -66,8 +66,6 @@ friend void from_json(const nlohmann::json& j, PrimitiveTypes& o)
 {
     j.at("stringField").get_to(o.stringField);
     j.at("intField").get_to(o.intField);
-    j.at("boolField").get_to(o.boolField);
-
     if (j.contains("longField") && !j.at("longField").is_null())
     {
         j.at("longField").get_to(o.longField);
@@ -80,6 +78,7 @@ friend void from_json(const nlohmann::json& j, PrimitiveTypes& o)
     {
         j.at("doubleField").get_to(o.doubleField);
     }
+    j.at("boolField").get_to(o.boolField);
     if (j.contains("byteField") && !j.at("byteField").is_null())
     {
         j.at("byteField").get_to(o.byteField);

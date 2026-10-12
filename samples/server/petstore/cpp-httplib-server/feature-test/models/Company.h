@@ -46,7 +46,6 @@ friend void to_json(nlohmann::json& j, const Company& o)
 friend void from_json(const nlohmann::json& j, Company& o)
 {
     j.at("name").get_to(o.name);
-
     if (j.contains("headquarters") && !j.at("headquarters").is_null())
     {
         j.at("headquarters").get_to(o.headquarters);

@@ -40,7 +40,6 @@ friend void to_json(nlohmann::json& j, const ApiResponse& o)
 
 friend void from_json(const nlohmann::json& j, ApiResponse& o)
 {
-
     if (j.contains("code") && !j.at("code").is_null())
     {
         j.at("code").get_to(o.code);

@@ -43,7 +43,6 @@ friend void from_json(const nlohmann::json& j, Department& o)
 {
     j.at("name").get_to(o.name);
     j.at("manager").get_to(o.manager);
-
     if (j.contains("employees") && !j.at("employees").is_null())
     {
         j.at("employees").get_to(o.employees);

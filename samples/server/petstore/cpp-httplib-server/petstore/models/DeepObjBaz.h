@@ -37,7 +37,6 @@ friend void to_json(nlohmann::json& j, const DeepObjBaz& o)
 
 friend void from_json(const nlohmann::json& j, DeepObjBaz& o)
 {
-
     if (j.contains("x") && !j.at("x").is_null())
     {
         j.at("x").get_to(o.X);

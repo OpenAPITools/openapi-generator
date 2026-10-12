@@ -42,7 +42,6 @@ friend void to_json(nlohmann::json& j, const ErrorResponse& o)
 friend void from_json(const nlohmann::json& j, ErrorResponse& o)
 {
     j.at("message").get_to(o.message);
-
     if (j.contains("code") && !j.at("code").is_null())
     {
         j.at("code").get_to(o.code);

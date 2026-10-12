@@ -92,7 +92,6 @@ friend void to_json(nlohmann::json& j, const User& o)
 
 friend void from_json(const nlohmann::json& j, User& o)
 {
-
     if (j.contains("id") && !j.at("id").is_null())
     {
         j.at("id").get_to(o.id);

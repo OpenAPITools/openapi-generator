@@ -42,7 +42,6 @@ friend void from_json(const nlohmann::json& j, SimpleObject& o)
 {
     j.at("id").get_to(o.id);
     j.at("name").get_to(o.name);
-
     if (j.contains("description") && !j.at("description").is_null())
     {
         j.at("description").get_to(o.description);

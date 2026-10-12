@@ -42,7 +42,6 @@ friend void from_json(const nlohmann::json& j, CreatedResponse& o)
 {
     j.at("status").get_to(o.status);
     j.at("id").get_to(o.id);
-
     if (j.contains("location") && !j.at("location").is_null())
     {
         j.at("location").get_to(o.location);

@@ -44,7 +44,6 @@ friend void from_json(const nlohmann::json& j, Address& o)
 {
     j.at("street").get_to(o.street);
     j.at("city").get_to(o.city);
-
     if (j.contains("zipCode") && !j.at("zipCode").is_null())
     {
         j.at("zipCode").get_to(o.zipCode);

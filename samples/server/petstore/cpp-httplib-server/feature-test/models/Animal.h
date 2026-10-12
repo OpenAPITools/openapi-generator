@@ -38,7 +38,6 @@ friend void from_json(const nlohmann::json& j, Animal& o)
 {
     j.at("name").get_to(o.name);
     j.at("type").get_to(o.type);
-
 }
 
 

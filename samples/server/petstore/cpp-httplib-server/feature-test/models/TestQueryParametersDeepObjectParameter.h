@@ -37,7 +37,6 @@ friend void to_json(nlohmann::json& j, const TestQueryParametersDeepObjectParame
 
 friend void from_json(const nlohmann::json& j, TestQueryParametersDeepObjectParameter& o)
 {
-
     if (j.contains("name") && !j.at("name").is_null())
     {
         j.at("name").get_to(o.name);

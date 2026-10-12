@@ -41,7 +41,6 @@ friend void to_json(nlohmann::json& j, const DeepObj& o)
 
 friend void from_json(const nlohmann::json& j, DeepObj& o)
 {
-
     if (j.contains("foo") && !j.at("foo").is_null())
     {
         j.at("foo").get_to(o.foo);

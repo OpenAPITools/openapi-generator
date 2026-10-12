@@ -159,7 +159,6 @@ friend void to_json(nlohmann::json& j, const ComplexParamsResponse& o)
 
 friend void from_json(const nlohmann::json& j, ComplexParamsResponse& o)
 {
-
     if (j.contains("deepObj") && !j.at("deepObj").is_null())
     {
         j.at("deepObj").get_to(o.deepObj);

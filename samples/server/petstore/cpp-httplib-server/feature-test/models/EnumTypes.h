@@ -165,7 +165,6 @@ friend void to_json(nlohmann::json& j, const EnumTypes& o)
 
 friend void from_json(const nlohmann::json& j, EnumTypes& o)
 {
-
     if (j.contains("stringEnum") && !j.at("stringEnum").is_null())
     {
         j.at("stringEnum").get_to(o.stringEnum);

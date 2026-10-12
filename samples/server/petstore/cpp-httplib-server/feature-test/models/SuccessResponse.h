@@ -38,7 +38,6 @@ friend void from_json(const nlohmann::json& j, SuccessResponse& o)
 {
     j.at("status").get_to(o.status);
     j.at("data").get_to(o.data);
-
 }
 
 
