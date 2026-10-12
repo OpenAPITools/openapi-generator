@@ -309,6 +309,23 @@ public class ModelUtilsTest {
         Schema addlArray = new JsonSchema().types(new HashSet<>(Set.of("object")));
         addlArray.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("array"))));
         Assert.assertFalse(ModelUtils.isFreeFormObject(addlArray, openAPI));
+
+        // additionalProperties constrained only by enum, with no type
+        Schema addlEnum = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema enumValues = new JsonSchema();
+        enumValues.setEnum(Arrays.asList("a", "b"));
+        addlEnum.setAdditionalProperties(enumValues);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnum, openAPI));
+
+        // additionalProperties: {$ref} to an enum schema that also has no type
+        Schema color = new JsonSchema();
+        color.setEnum(Arrays.asList("red", "blue"));
+        OpenAPI openAPIWithEnum = TestUtils.createOpenAPIWithOneSchema("Color", color);
+        Schema addlEnumRef = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema colorRef = new JsonSchema();
+        colorRef.set$ref("#/components/schemas/Color");
+        addlEnumRef.setAdditionalProperties(colorRef);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnumRef, openAPIWithEnum));
     }
 
     @Test(enabled = false)

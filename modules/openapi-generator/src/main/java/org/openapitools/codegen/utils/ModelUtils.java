@@ -1096,9 +1096,10 @@ public class ModelUtils {
             if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
                 return true;
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
-                // a map of typed values, e.g. a model, a primitive or an array, is not free-form
+                // a map of typed values, e.g. a model, a primitive, an array, or an enum, is not free-form.
+                // OAS 3.1 allows enum without type, and a null type is otherwise unconstrained.
                 Schema addlProps = getReferencedSchema(openAPI, (Schema) schema.getAdditionalProperties());
-                if (hasProperties(addlProps) || isComposedSchema(addlProps)) {
+                if (hasProperties(addlProps) || isComposedSchema(addlProps) || hasEnum(addlProps)) {
                     return false;
                 }
                 String addlPropsType = getType(addlProps);
