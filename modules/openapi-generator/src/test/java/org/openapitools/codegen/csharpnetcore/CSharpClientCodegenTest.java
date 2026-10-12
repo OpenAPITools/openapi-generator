@@ -17,6 +17,7 @@
 package org.openapitools.codegen.csharpnetcore;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -33,6 +34,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +48,79 @@ import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class CSharpClientCodegenTest {
+
+    @Test
+    public void testGenericHostUsesPropertySpecificDateFormatsSymmetrically() throws IOException {
+        DateTimeSchema customDateTime = new DateTimeSchema();
+        customDateTime.addExtension("x-csharp-datetime-format", "yyyyMMdd'T'HHmmssK");
+        DateTimeSchema nullableCustomDateTime = new DateTimeSchema();
+        nullableCustomDateTime.setNullable(true);
+        nullableCustomDateTime.addExtension("x-csharp-datetime-format", "yyyyMMddHHmmss");
+        DateSchema customDate = new DateSchema();
+        customDate.addExtension("x-csharp-date-format", "yyyyMMdd");
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("TemporalModel",
+                new ObjectSchema()
+                        .addProperty("standardDateTime", new DateTimeSchema())
+                        .addProperty("customDateTime", customDateTime)
+                        .addProperty("nullableCustomDateTime", nullableCustomDateTime)
+                        .addProperty("customDate", customDate)));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "TemporalModel");
+
+        assertFileContains(model.toPath(),
+                "public string CustomDateTimeFormat { get; private set; } = \"yyyyMMdd'T'HHmmssK\";",
+                "public string NullableCustomDateTimeFormat { get; private set; } = \"yyyyMMddHHmmss\";",
+                "public string CustomDateFormat { get; private set; } = \"yyyyMMdd\";",
+                "standardDateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));",
+                "customDateTime = new Option<DateTime?>(DateTimeFormatHelper.ReadDateTime(ref utf8JsonReader, CustomDateTimeFormat));",
+                "nullableCustomDateTime = new Option<DateTime?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (DateTime?)null : DateTimeFormatHelper.ReadDateTime(ref utf8JsonReader, NullableCustomDateTimeFormat));",
+                "customDate = new Option<DateOnly?>(DateTimeFormatHelper.ReadDateOnly(ref utf8JsonReader, CustomDateFormat));",
+                "writer.WritePropertyName(\"standardDateTime\");",
+                "JsonSerializer.Serialize(writer, temporalModel.StandardDateTimeOption.Value!.Value, jsonSerializerOptions);",
+                ".CustomDateTimeOption.Value!.Value.ToString(CustomDateTimeFormat, global::System.Globalization.CultureInfo.InvariantCulture)",
+                ".NullableCustomDateTimeOption.Value!.Value.ToString(NullableCustomDateTimeFormat, global::System.Globalization.CultureInfo.InvariantCulture)",
+                ".CustomDateOption.Value!.Value.ToString(CustomDateFormat, global::System.Globalization.CultureInfo.InvariantCulture)");
+        assertFileNotContains(model.toPath(), "StandardDateTimeFormat");
+    }
+
+    @Test
+    public void testGenericHostInjectedDateFormatOverridesProperty() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("TemporalModel",
+                new ObjectSchema().addProperty("createdAt", new DateTimeSchema())));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.useDateTimeOffset(true);
+        codegen.injectModelVendorExtensions().put(
+                "TemporalModel.createdAt.x-csharp-datetime-format",
+                "yyyyMMddHHmmss");
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "TemporalModel");
+
+        assertFileContains(model.toPath(),
+                "public string CreatedAtFormat { get; private set; } = \"yyyyMMddHHmmss\";",
+                "DateTimeFormatHelper.ReadDateTimeOffset(ref utf8JsonReader, CreatedAtFormat)",
+                ".CreatedAtOption.Value!.Value.ToString(CreatedAtFormat, global::System.Globalization.CultureInfo.InvariantCulture)");
+    }
 
     @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
@@ -201,6 +276,108 @@ public class CSharpClientCodegenTest {
         assertNotNull(apiFile);
         assertFileContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-CUSTOM_CONSTANT_HEADER\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(\"CONSTANT_VALUE\"));");
+    }
+
+    @Test
+    public void testNotEnumConstraintIsEnforced() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/not-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        Path other = Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Other.cs");
+        assertNotNull(files.get(other.toString()));
+        // Enforced at deserialization so oneOf matching narrows (FromJson rejects the excluded value).
+        assertFileContains(other,
+                "[System.Runtime.Serialization.OnDeserialized]",
+                "if (this.Kind == \"known\")",
+                "throw new ArgumentException(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\");");
+        // Also enforced in Validate() for explicit validation.
+        assertFileContains(other,
+                "yield return new ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
+        // The Known member (plain enum) must NOT get the not-enum handling.
+        assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
+                "must not be a value excluded by the 'not' schema");
+        // A property that is ITSELF an enum (generated as a C# enum type) must not get the string-comparison
+        // handling, which would not compile.
+        assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "EnumAndNot.cs"),
+                "must not be a value excluded by the 'not' schema", "OnDeserializedNotEnum");
+        // A property named like the generated callback is renamed so it cannot collide with the method.
+        assertFileContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Reserved.cs"),
+                "PropertyOnDeserializedNotEnum");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+        assertNotNull(apiFile);
+        // JSON-content header is serialized as JSON, not via ParameterToString (which would emit the model's debug ToString()).
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(xJsonArg)); // header parameter");
+        assertFileNotContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xJsonArg)); // header parameter");
+        // A vendor JSON media type (application/vnd.*+json) is also serialized as JSON.
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Vendor-Json-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToJsonString(xVendorJsonArg)); // header parameter");
+        // A regular (non-JSON) header keeps the existing behavior.
+        assertFileContains(apiFile.toPath(),
+                "localVarRequestOptions.HeaderParameters.Add(\"X-Plain-Arg\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(xPlainArg)); // header parameter");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerializationGenericHost() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/json-header-content.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+        assertNotNull(apiFile);
+        // JSON-content header is serialized with System.Text.Json using the client's serializer options.
+        assertFileContains(apiFile.toPath(),
+                "JsonSerializer.Serialize(xJsonArg, _jsonSerializerOptions)");
+        // A vendor JSON media type (application/vnd.*+json) is also serialized as JSON.
+        assertFileContains(apiFile.toPath(),
+                "JsonSerializer.Serialize(xVendorJsonArg, _jsonSerializerOptions)");
+        assertFileContains(apiFile.toPath(),
+                "ClientUtils.ParameterToString(xPlainArg)");
     }
 
     @Test

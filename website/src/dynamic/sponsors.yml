@@ -193,3 +193,8 @@
   image: "img/companies/betterfollowers.png"
   infoLink: "https://betterfollowers.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "Bulkoid"
+  image: "img/companies/bulkoid.png"
+  infoLink: "https://bulkoid.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

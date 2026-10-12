@@ -1543,6 +1543,17 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         return typeDecl;
     }
 
+    // untyped enum schemas (no explicit `type: string`) are still string-backed if their values are strings
+    @SuppressWarnings("rawtypes")
+    private boolean isStringEnumSchema(Schema schema) {
+        if (ModelUtils.isStringSchema(schema)) {
+            return true;
+        }
+        List<?> enumValues = schema.getEnum();
+        return enumValues != null && !enumValues.isEmpty()
+                && enumValues.stream().allMatch(value -> value instanceof String);
+    }
+
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public CodegenModel fromModel(String name, Schema schema) {
@@ -1560,6 +1571,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (model != null) {
             model.name = toModelName(modelName);
             model.classname = model.name;
+            if (model.isEnum) {
+                model.vendorExtensions.put("isStringEnum", isStringEnumSchema(schema));
+            }
 
             if (ModelUtils.hasAllOf(schema) && this.openAPI != null) {
                 int refCount = 0;

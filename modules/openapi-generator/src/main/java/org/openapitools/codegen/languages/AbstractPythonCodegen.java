@@ -563,6 +563,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 example = "{ }";
             }
         } else if (ModelUtils.isObjectSchema(schema)) {
+            if (ModelUtils.isFreeFormObject(schema, this.openAPI)) {
+                // free-form objects have no generated model, so the example is a plain dict
+                return "{ }";
+            }
             if (StringUtils.isBlank(schema.getTitle())) {
                 example = "None";
                 return example;
@@ -574,7 +578,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
+            example = packageName + ".models." + toModelFilename(schema.getTitle()) + "." + toModelName(schema.getTitle()) + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
@@ -610,8 +614,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
                             schema2.setTitle(propname);
                         }
+                        // Each property gets its own copy of the path: includedSchemas tracks the
+                        // ancestors of the current schema for cycle detection, so siblings that
+                        // reference the same model must not count as a cycle (#25047).
                         example += "\n" + indentationString + underscore(propname) + " = " +
-                                toExampleValueRecursive(schema2, includedSchemas, indentation + 1) + ", ";
+                                toExampleValueRecursive(schema2, new ArrayList<>(includedSchemas), indentation + 1) + ", ";
                     }
                 }
             }
@@ -1117,6 +1124,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 // is readOnly?
                 if (cp.isReadOnly) {
                     readOnlyFields.add(cp.name);
+                }
+
+                if (cp.vendorExtensions.containsKey("x-python-not-string-enum-values")) {
+                    moduleImports.add(PYDANTIC, "field_validator");
                 }
 
                 String typing = pydantic.generatePythonType(cp);

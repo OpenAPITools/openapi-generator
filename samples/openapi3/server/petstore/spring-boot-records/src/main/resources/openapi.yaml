@@ -1,0 +1,295 @@
+openapi: 3.0.3
+info:
+  description: Models for the spring generator option useRecords
+  title: Records
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: The stored pet
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /pets/search:
+    get:
+      operationId: searchPets
+      parameters:
+      - explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: "#/components/schemas/Filter"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: The matching pets
+      x-accepts:
+      - application/json
+  /accounts:
+    post:
+      operationId: addAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+          description: The stored account
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /vehicles:
+    post:
+      operationId: addVehicle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Vehicle"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+          description: The stored vehicle
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /counters:
+    post:
+      operationId: addCounters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Counters"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Counters"
+          description: The stored counters
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /shapes:
+    post:
+      operationId: addShape
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Shape"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shape"
+          description: The stored shape
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    PetKind:
+      enum:
+      - cat
+      - dog
+      type: string
+    Owner:
+      example:
+        id: 6
+        email: email
+      properties:
+        id:
+          format: int64
+          type: integer
+        email:
+          format: email
+          type: string
+      required:
+      - id
+      type: object
+    Pet:
+      description: A pet with an owner
+      example:
+        name: name
+        tag: tag
+        nickname: nickname
+        age: 0
+        kind: cat
+        status: available
+        labels:
+        - labels
+        - labels
+        colors:
+        - colors
+        - colors
+        aliases:
+        - aliases
+        - aliases
+        owner:
+          id: 6
+          email: email
+        born: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          minLength: 2
+          type: string
+        tag:
+          type: string
+        nickname:
+          nullable: true
+          type: string
+        age:
+          default: 1
+          format: int32
+          type: integer
+        kind:
+          $ref: "#/components/schemas/PetKind"
+        status:
+          default: available
+          enum:
+          - available
+          - sold
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        colors:
+          default:
+          - red
+          - blue
+          items:
+            type: string
+          type: array
+        aliases:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        owner:
+          $ref: "#/components/schemas/Owner"
+        born:
+          format: date-time
+          type: string
+      required:
+      - name
+      type: object
+    Filter:
+      description: Query parameters of the pet search
+      properties:
+        name:
+          type: string
+        limit:
+          default: 10
+          format: int32
+          type: integer
+      type: object
+    Account:
+      example:
+        username: username
+        password: password
+        displayName: displayName
+      properties:
+        username:
+          type: string
+        password:
+          format: password
+          type: string
+        displayName:
+          type: string
+      required:
+      - password
+      - username
+      type: object
+    Vehicle:
+      discriminator:
+        mapping:
+          car: "#/components/schemas/Car"
+        propertyName: type
+      example:
+        type: type
+        wheels: 0
+      properties:
+        type:
+          type: string
+        wheels:
+          type: integer
+      required:
+      - type
+      type: object
+    Car:
+      allOf:
+      - $ref: "#/components/schemas/Vehicle"
+      - properties:
+          doors:
+            type: integer
+        type: object
+    Counters:
+      additionalProperties:
+        type: integer
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      type: object
+    Shape:
+      oneOf:
+      - $ref: "#/components/schemas/Circle"
+      - $ref: "#/components/schemas/Square"
+      x-one-of-name: Shape
+    Circle:
+      example:
+        radius: 0.8008281904610115
+      properties:
+        radius:
+          format: double
+          type: number
+      required:
+      - radius
+      type: object
+    Square:
+      properties:
+        side:
+          format: double
+          type: number
+      required:
+      - side
+      type: object

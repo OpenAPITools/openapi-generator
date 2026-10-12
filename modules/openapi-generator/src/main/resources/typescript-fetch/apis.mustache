@@ -9,6 +9,11 @@ import type {
     {{className}},
 {{/imports}}
 } from '../models/index{{importFileExtension}}';
+{{#jsonHeaderModelSerializers}}
+{{#imports}}
+import { {{className}}ToJSON } from '../models/{{classFileName}}{{importFileExtension}}';
+{{/imports}}
+{{/jsonHeaderModelSerializers}}
 {{/withoutRuntimeChecks}}
 {{^withoutRuntimeChecks}}
 {{#imports}}
@@ -250,6 +255,15 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/bodyParam}}
         {{/hasContentTypeRequestVariants}}
         {{#headerParams}}
+        {{#headerIsJsonMimeType}}
+        {{#jsonHeaderUsesModelSerializer}}
+        if (requestParameters['{{paramName}}'] !== undefined) {
+            headerParameters['{{baseName}}'] = JSON.stringify({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+        }
+
+        {{/jsonHeaderUsesModelSerializer}}
+        {{/headerIsJsonMimeType}}
+        {{^jsonHeaderUsesModelSerializer}}
         {{#isArray}}
         if (requestParameters['{{paramName}}'] != null) {
             headerParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
@@ -262,6 +276,7 @@ export class {{classname}} extends runtime.BaseAPI {
         }
 
         {{/isArray}}
+        {{/jsonHeaderUsesModelSerializer}}
         {{/headerParams}}
         {{#authMethods}}
         {{#isBasic}}

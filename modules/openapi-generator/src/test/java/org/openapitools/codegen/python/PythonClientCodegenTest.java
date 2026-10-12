@@ -129,6 +129,62 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testJsonImportOnlyGeneratedForJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "pet_api.py");
+
+        TestUtils.assertFileNotContains(api, "import json");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "default_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "import json",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(",
+                "self.api_client.sanitize_for_serialization(x_json_arg)",
+                "self.api_client._set_header(_header_params, 'X-Plain-Arg', x_plain_arg)");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "_header_params['X-Json-Arg'] = x_json_arg",
+                "_header_params['X-Plain-Arg'] = json.dumps(");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();
@@ -140,6 +196,39 @@ public class PythonClientCodegenTest {
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
+    }
+
+    @Test
+    public void testOneOfNotEnumValidation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path other = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "models",
+                "other.py");
+
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
     }
 
     @Test
@@ -215,6 +304,57 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
+    }
+
+    @Test(description = "sibling properties that share a model are not treated as a cycle (#25047)")
+    public void testExampleValueForSiblingsSharingAModel() {
+        final Schema shared = new ObjectSchema().addProperty("prop", new StringSchema());
+        final Schema holder = new ObjectSchema()
+                .addProperty("prop1", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop2", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop3", new Schema<>().$ref("#/components/schemas/Shared"));
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Shared", shared)
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertFalse(example.matches("(?s).*=\\s*,.*"), "empty example value in:\n" + example);
+        for (String prop : Arrays.asList("prop1", "prop2", "prop3")) {
+            Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
+                    prop + " missing its example in:\n" + example);
+        }
+    }
+
+    @Test(description = "inline object examples use the generated module and class names")
+    public void testExampleValueForInlineObjects() {
+        // The inline model resolver names this schema _holder_child; the generated file is
+        // holder_child.py with class HolderChild, so the example must use those names.
+        final Schema child = new ObjectSchema().addProperty("prop", new StringSchema());
+        child.setTitle("_holder_child");
+        final Schema holder = new ObjectSchema()
+                .addProperty("child", child)
+                // a free-form object has no model at all, it is a plain dict
+                .addProperty("aProperty", new ObjectSchema());
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertTrue(example.contains("child = openapi_client.models.holder_child.HolderChild("),
+                "inline model path wrong in:\n" + example);
+        Assert.assertTrue(example.contains("a_property = { }"),
+                "free-form object should be a dict in:\n" + example);
+        Assert.assertFalse(example.contains("models.a_property."), "free-form object got a model path in:\n" + example);
+
+        // the same holds for a free-form object that never got a title, e.g. bare array items
+        Assert.assertEquals(codegen.toExampleValue(new ObjectSchema()), "{ }");
     }
 
     @Test(description = "test single quotes escape")
@@ -694,7 +834,7 @@ public class PythonClientCodegenTest {
         File apiFile = files
                 .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
-        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
+        assertFileContains(apiFile.toPath(), "self.api_client._set_header(_header_params, 'X-CUSTOM_CONSTANT_HEADER', 'CONSTANT_VALUE')");
         assertFileContains(apiFile.toPath(), "_query_params.append(('CONSTANT_QUERY_STRING_KEY', 'CONSTANT_QUERY_STRING_VALUE'))");
     }
 

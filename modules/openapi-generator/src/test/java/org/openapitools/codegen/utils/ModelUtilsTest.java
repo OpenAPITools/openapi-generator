@@ -31,6 +31,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -1261,6 +1262,96 @@ public class ModelUtilsTest {
         ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, child);
         assertNotNull(bound);
         assertEquals(bound.minBound, BigDecimal.valueOf(20));
+    }
+
+    /**
+     * `nullable` is not a valid OAS 3.1 keyword, so a naive 3.1 clone drops it. The normalizer
+     * relies on `nullable` to carry an OAS 3.1 `type: [<type>, "null"]` declaration, so cloning
+     * must preserve it.
+     */
+    @Test
+    public void testCloneSchemaPreservesNullableForOpenAPI31() {
+        Schema<?> schema = new Schema<>();
+        schema.setType("string");
+        schema.setNullable(true);
+
+        Schema<?> cloned31 = ModelUtils.cloneSchema(schema, true);
+        assertTrue(Boolean.TRUE.equals(cloned31.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.1 schema");
+
+        Schema<?> cloned30 = ModelUtils.cloneSchema(schema, false);
+        assertTrue(Boolean.TRUE.equals(cloned30.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.0 schema");
+    }
+
+    /**
+     * The OAS 3.1 serializer drops `nullable` at every level of the schema, so cloning must
+     * restore it on nested schemas too, not only on the root. This covers every branch
+     * {@code restoreNullable} recurses into.
+     */
+    @Test
+    public void testCloneSchemaPreservesNestedNullableForOpenAPI31() {
+        Schema<Object> root = new Schema<>();
+        root.setType("object");
+        root.setNullable(true);
+
+        Map<String, Schema> properties = new LinkedHashMap<>();
+        properties.put("inner", nullableStringSchema());
+
+        ArraySchema array = new ArraySchema();
+        array.setItems(nullableStringSchema());
+        properties.put("list", array);
+
+        Schema<Object> map = new Schema<>();
+        map.setType("object");
+        map.setAdditionalProperties(nullableStringSchema());
+        properties.put("map", map);
+
+        Schema<Object> negated = new Schema<>();
+        negated.setNot(nullableStringSchema());
+        properties.put("negated", negated);
+
+        Schema<Object> allOf = new Schema<>();
+        allOf.setAllOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("allOf", allOf);
+
+        Schema<Object> oneOf = new Schema<>();
+        oneOf.setOneOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("oneOf", oneOf);
+
+        Schema<Object> anyOf = new Schema<>();
+        anyOf.setAnyOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("anyOf", anyOf);
+
+        root.setProperties(properties);
+
+        Schema<?> cloned = ModelUtils.cloneSchema(root, true);
+
+        assertTrue(Boolean.TRUE.equals(cloned.getNullable()), "root nullable must be preserved");
+        assertNestedNullable(property(cloned, "inner"), "a nested property");
+        assertNestedNullable(property(cloned, "list").getItems(), "array items");
+        assertNestedNullable((Schema<?>) property(cloned, "map").getAdditionalProperties(), "additionalProperties");
+        assertNestedNullable(property(cloned, "negated").getNot(), "a `not` sub-schema");
+        assertNestedNullable(property(cloned, "allOf").getAllOf().get(0), "an `allOf` sub-schema");
+        assertNestedNullable(property(cloned, "oneOf").getOneOf().get(0), "a `oneOf` sub-schema");
+        assertNestedNullable(property(cloned, "anyOf").getAnyOf().get(0), "an `anyOf` sub-schema");
+    }
+
+    private static Schema<?> property(Schema<?> schema, String name) {
+        return schema.getProperties().get(name);
+    }
+
+    private static void assertNestedNullable(Schema<?> schema, String location) {
+        assertNotNull(schema, "expected a cloned schema at " + location);
+        assertTrue(Boolean.TRUE.equals(schema.getNullable()),
+                "nullable must be preserved on " + location);
+    }
+
+    private static Schema<?> nullableStringSchema() {
+        Schema<?> schema = new Schema<>();
+        schema.setType("string");
+        schema.setNullable(true);
+        return schema;
     }
 
 }

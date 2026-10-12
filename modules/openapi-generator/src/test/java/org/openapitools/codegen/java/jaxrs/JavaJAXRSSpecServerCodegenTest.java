@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
@@ -1669,6 +1670,63 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testJsonNullableContainerDefaultIsDeclared() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ContainerDefaultValue")
+                .getProperties().get("nullable_array_with_default");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ContainerDefaultValue.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithDefault = "
+                        + "JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(\"foo\", \"bar\")));",
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>());");
+        assertFileNotContains(model,
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(");
+    }
+
+    @Test
+    public void testJsonNullableExplicitNullContainerDefaultRemainsUndefined() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_24993.yaml", null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ComplexDefaults")
+                .getProperties().get("nullableArrayWithNullDefault");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ComplexDefaults.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithNullDefault = "
+                        + "JsonNullable.<List<String>>undefined();");
+        assertFileNotContains(model, "JsonNullable.<List<String>>of(null)");
+    }
+
     /**
      * OpenAPI {@code deprecated} should surface as {@code @Deprecated} in jaxrs-spec output.
      */
@@ -2703,4 +2761,44 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         }
     }
 
+
+    @DataProvider(name = "librariesWithNullableDependency")
+    public Object[][] librariesWithNullableDependency() {
+        return new Object[][] {
+                { OPEN_LIBERTY_LIBRARY },
+                { KUMULUZEE_LIBRARY },
+                { THORNTAIL_LIBRARY }
+        };
+    }
+
+    @Test(dataProvider = "librariesWithNullableDependency")
+    public void testOpenApiNullablePomDependency(String library) throws Exception {
+        // Test with openApiNullable=true
+        File outputTrue = Files.createTempDirectory("test-nullable-true").toFile();
+        outputTrue.deleteOnExit();
+
+        CodegenConfigurator configuratorTrue = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputTrue.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorTrue.toClientOptInput()).generate();
+        assertFileContains(outputTrue.toPath().resolve("pom.xml"), "jackson-databind-nullable");
+
+        // Test with openApiNullable=false
+        File outputFalse = Files.createTempDirectory("test-nullable-false").toFile();
+        outputFalse.deleteOnExit();
+
+        CodegenConfigurator configuratorFalse = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputFalse.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorFalse.toClientOptInput()).generate();
+        assertFileNotContains(outputFalse.toPath().resolve("pom.xml"), "jackson-databind-nullable");
+    }
 }

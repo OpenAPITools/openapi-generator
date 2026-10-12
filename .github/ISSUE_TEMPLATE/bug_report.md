@@ -14,7 +14,7 @@ assignees: ''
 - [ ] Have you [tested with the latest master](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) to confirm the issue still exists?
 - [ ] Have you searched for related issues/PRs?
 - [ ] What's the actual output vs expected output?
-- [ ] [Optional] Sponsorship to speed up the bug fix or feature request ([example](https://github.com/OpenAPITools/openapi-generator/issues/6178))
+- [ ] [Optional] Sponsorship to speed up the bug fix or feature request ([example](https://redirect.github.com/OpenAPITools/openapi-generator/issues/6178))
 
 <!--
 Please follow the issue template below for bug reports.

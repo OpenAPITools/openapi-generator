@@ -52,6 +52,9 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{/isContainer}}
     {{/isEnum}}
     {{/required}}
+    {{#vendorExtensions.x-typescript-fetch-not-enum-comparison}}
+    if ({{{vendorExtensions.x-typescript-fetch-not-enum-comparison}}}) return false;
+    {{/vendorExtensions.x-typescript-fetch-not-enum-comparison}}
     {{/vars}}
     return true;
 }

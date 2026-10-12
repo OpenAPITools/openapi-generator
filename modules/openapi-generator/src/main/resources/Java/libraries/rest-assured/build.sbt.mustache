@@ -10,15 +10,33 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.6.16",
+{{^useJackson3}}
       "io.rest-assured" % "rest-assured" % "5.5.6",
       "io.rest-assured" % "scala-support" % "5.5.6",
+{{/useJackson3}}
+{{#useJackson3}}
+      "io.rest-assured" % "rest-assured" % "6.0.1",
+      "io.rest-assured" % "scala-support" % "6.0.1",
+{{/useJackson3}}
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
 {{#jackson}}
+{{#useJackson3}}
+      "tools.jackson.core" % "jackson-core" % "3.1.6",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.21",
+      "tools.jackson.core" % "jackson-databind" % "3.1.6",
+      {{#openApiNullable}}
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.11",
+      {{/openApiNullable}}
+      {{#withXml}}
+      "tools.jackson.dataformat" % "jackson-dataformat-xml" % "3.1.6",
+      {{/withXml}}
+{{/useJackson3}}
+{{^useJackson3}}
       "com.fasterxml.jackson.core" % "jackson-core" % "2.21.6",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.21",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.21.6",
       {{#openApiNullable}}
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.11",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.12",
       {{/openApiNullable}}
       {{#withXml}}
       "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.13.4.1",
@@ -27,6 +45,7 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.13.4.1",
       {{/joda}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.13.4.1",
+{{/useJackson3}}
 {{/jackson}}
 {{#gson}}
       "com.google.code.gson" % "gson" % "2.8.9",

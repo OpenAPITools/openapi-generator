@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -12,6 +13,8 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -25,6 +28,8 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -1508,6 +1513,67 @@ public class KotlinSpringServerCodegenTest {
                         + "    )\n"
                         + "    fun getInventory("
         );
+    }
+
+    @Test
+    public void generateHttpInterfaceWithClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path petApi = files.get("PetApi.kt").toPath();
+        assertFileContains(petApi,
+                "import org.springframework.security.oauth2.client.annotation.ClientRegistrationId",
+                "@ClientRegistrationId(\"my-oauth-client\")\ninterface PetApi {");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithClientRegistrationIdAddsOAuth2ClientDependencyWithoutAuthMethods() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/bean-qualifiers.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileContains(files.get("build.gradle.kts").toPath(),
+                "implementation(\"org.springframework.boot:spring-boot-starter-oauth2-client\")");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithoutClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileNotContains(files.get("PetApi.kt").toPath(), "ClientRegistrationId");
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdWithoutSpringBoot4() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                        configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)))
+                .withMessageContaining(USE_SPRING_BOOT4);
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdOutsideDeclarativeHttpInterface() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props))
+                .withMessageContaining(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
     }
 
     @Test
@@ -7654,6 +7720,100 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("com.example.ExternalModel?");
     }
 
+    @Test(description = "test enumUnknownDefaultCase option")
+    public void testEnumUnknownDefaultCaseOption() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        // Test default value is false
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.FALSE);
+
+        // Test setting via additionalProperties
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
+    public void testEnumGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+        }
+
+        @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
+        public void testEnumGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase enabled")
+    public void testDataClassGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase disabled")
+    public void testDataClassGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+    }
+        
     // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
 
     @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo")
