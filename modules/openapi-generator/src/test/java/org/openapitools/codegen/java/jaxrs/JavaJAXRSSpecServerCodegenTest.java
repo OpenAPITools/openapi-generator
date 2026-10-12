@@ -2951,4 +2951,43 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "import java.util.Date;", "private Date dateTime;");
     }
 
+    @DataProvider(name = "librariesWithNullableDependency")
+    public Object[][] librariesWithNullableDependency() {
+        return new Object[][] {
+                { OPEN_LIBERTY_LIBRARY },
+                { KUMULUZEE_LIBRARY },
+                { THORNTAIL_LIBRARY }
+        };
+    }
+
+    @Test(dataProvider = "librariesWithNullableDependency")
+    public void testOpenApiNullablePomDependency(String library) throws Exception {
+        // Test with openApiNullable=true
+        File outputTrue = Files.createTempDirectory("test-nullable-true").toFile();
+        outputTrue.deleteOnExit();
+
+        CodegenConfigurator configuratorTrue = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputTrue.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorTrue.toClientOptInput()).generate();
+        assertFileContains(outputTrue.toPath().resolve("pom.xml"), "jackson-databind-nullable");
+
+        // Test with openApiNullable=false
+        File outputFalse = Files.createTempDirectory("test-nullable-false").toFile();
+        outputFalse.deleteOnExit();
+
+        CodegenConfigurator configuratorFalse = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputFalse.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorFalse.toClientOptInput()).generate();
+        assertFileNotContains(outputFalse.toPath().resolve("pom.xml"), "jackson-databind-nullable");
+    }
 }
