@@ -1096,7 +1096,13 @@ public class ModelUtils {
             if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
                 return true;
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
-                return true;
+                // a map of typed values, e.g. a model, a primitive or an array, is not free-form
+                Schema addlProps = getReferencedSchema(openAPI, (Schema) schema.getAdditionalProperties());
+                if (hasProperties(addlProps) || isComposedSchema(addlProps)) {
+                    return false;
+                }
+                String addlPropsType = getType(addlProps);
+                return addlPropsType == null || SchemaTypeUtil.OBJECT_TYPE.equals(addlPropsType);
             } else if (schema.getTypes() != null) {
                 if (schema.getTypes().size() == 1) { // types = [object]
                     return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());

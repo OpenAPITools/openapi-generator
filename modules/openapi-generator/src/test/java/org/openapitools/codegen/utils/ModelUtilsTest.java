@@ -31,9 +31,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
@@ -272,6 +274,41 @@ public class ModelUtilsTest {
 
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31TypedMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25224.yaml");
+        Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI,
+                openAPI.getPaths().get("/widgets").getGet().getResponses().get("200"));
+        Assert.assertTrue(ModelUtils.isMapSchema(responseSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(responseSchema, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31AdditionalProperties() {
+        final OpenAPI openAPI = new OpenAPI();
+
+        // additionalProperties: true
+        Schema addlTrue = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlTrue.setAdditionalProperties(true);
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlTrue, openAPI));
+
+        // additionalProperties: {}
+        Schema addlEmpty = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlEmpty.setAdditionalProperties(new JsonSchema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlEmpty, openAPI));
+
+        // additionalProperties: {type: string}
+        Schema addlString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlString.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("string"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlString));
+
+        // additionalProperties: {type: array}
+        Schema addlArray = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlArray.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("array"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlArray, openAPI));
     }
 
     @Test(enabled = false)
