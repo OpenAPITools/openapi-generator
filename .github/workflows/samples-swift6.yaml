@@ -49,4 +49,4 @@ jobs:
         run: swift build
       - name: Test
         working-directory: ${{ matrix.sample }}
-        run: swift test
+        run: xocdebuild test
