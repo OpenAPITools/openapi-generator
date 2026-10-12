@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:built_collection/built_collection.dart';
@@ -45,6 +46,10 @@ dynamic encodeParameter<T>(
       return serialized;
     }
     return ListParam(values, format);
+  }
+  // Model form fields are JSON text; explicit maps keep their form encoding.
+  if (asString && value is! BuiltMap && serialized is! String) {
+    return jsonEncode(serialized);
   }
   return serialized;
 }

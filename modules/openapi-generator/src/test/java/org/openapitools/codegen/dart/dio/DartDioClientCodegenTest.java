@@ -518,6 +518,9 @@ public class DartDioClientCodegenTest {
                 "dynamic encodeParameter<T>(",
                 "bool asString = false,",
                 "bool forMultipart = false,",
+                "import 'dart:convert';",
+                "if (asString && value is! BuiltMap && serialized is! String)",
+                "return jsonEncode(serialized);",
                 "case ListFormat.multiCompatible:",
                 "return ListParam(values, format);");
         TestUtils.assertFileContains(fakeApi,
