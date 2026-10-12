@@ -80,6 +80,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const User& o)
 {
+    j = nlohmann::json::object();
     j["id"] = o.id;
     j["username"] = o.username;
     j["firstName"] = o.firstName;
@@ -92,35 +93,39 @@ friend void to_json(nlohmann::json& j, const User& o)
 
 friend void from_json(const nlohmann::json& j, User& o)
 {
-    if (j.contains("id") && !j.at("id").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "User must be a JSON object", &j);
+    }
+    if (j.contains("id"))
     {
         j.at("id").get_to(o.id);
     }
-    if (j.contains("username") && !j.at("username").is_null())
+    if (j.contains("username"))
     {
         j.at("username").get_to(o.username);
     }
-    if (j.contains("firstName") && !j.at("firstName").is_null())
+    if (j.contains("firstName"))
     {
         j.at("firstName").get_to(o.firstName);
     }
-    if (j.contains("lastName") && !j.at("lastName").is_null())
+    if (j.contains("lastName"))
     {
         j.at("lastName").get_to(o.lastName);
     }
-    if (j.contains("email") && !j.at("email").is_null())
+    if (j.contains("email"))
     {
         j.at("email").get_to(o.email);
     }
-    if (j.contains("password") && !j.at("password").is_null())
+    if (j.contains("password"))
     {
         j.at("password").get_to(o.password);
     }
-    if (j.contains("phone") && !j.at("phone").is_null())
+    if (j.contains("phone"))
     {
         j.at("phone").get_to(o.phone);
     }
-    if (j.contains("userStatus") && !j.at("userStatus").is_null())
+    if (j.contains("userStatus"))
     {
         j.at("userStatus").get_to(o.userStatus);
     }

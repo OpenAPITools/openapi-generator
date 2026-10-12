@@ -34,6 +34,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const Address& o)
 {
+    j = nlohmann::json::object();
     j["street"] = o.street;
     j["city"] = o.city;
     j["zipCode"] = o.zipCode;
@@ -42,13 +43,17 @@ friend void to_json(nlohmann::json& j, const Address& o)
 
 friend void from_json(const nlohmann::json& j, Address& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "Address must be a JSON object", &j);
+    }
     j.at("street").get_to(o.street);
     j.at("city").get_to(o.city);
-    if (j.contains("zipCode") && !j.at("zipCode").is_null())
+    if (j.contains("zipCode"))
     {
         j.at("zipCode").get_to(o.zipCode);
     }
-    if (j.contains("country") && !j.at("country").is_null())
+    if (j.contains("country"))
     {
         j.at("country").get_to(o.country);
     }

@@ -38,6 +38,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const NullableOptionalTypes& o)
 {
+    j = nlohmann::json::object();
     j["requiredField"] = o.requiredField;
     j["optionalField"] = o.optionalField;
     j["nullableField"] = o.nullableField;
@@ -47,8 +48,12 @@ friend void to_json(nlohmann::json& j, const NullableOptionalTypes& o)
 
 friend void from_json(const nlohmann::json& j, NullableOptionalTypes& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "NullableOptionalTypes must be a JSON object", &j);
+    }
     j.at("requiredField").get_to(o.requiredField);
-    if (j.contains("optionalField") && !j.at("optionalField").is_null())
+    if (j.contains("optionalField"))
     {
         j.at("optionalField").get_to(o.optionalField);
     }
@@ -60,7 +65,7 @@ friend void from_json(const nlohmann::json& j, NullableOptionalTypes& o)
     {
         j.at("optionalNullableField").get_to(o.optionalNullableField);
     }
-    if (j.contains("fieldWithDefault") && !j.at("fieldWithDefault").is_null())
+    if (j.contains("fieldWithDefault"))
     {
         j.at("fieldWithDefault").get_to(o.fieldWithDefault);
     }

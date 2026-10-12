@@ -158,6 +158,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const EnumTypes& o)
 {
+    j = nlohmann::json::object();
     j["stringEnum"] = o.stringEnum;
     j["numericEnum"] = o.numericEnum;
     j["statusCode"] = o.statusCode;
@@ -165,15 +166,19 @@ friend void to_json(nlohmann::json& j, const EnumTypes& o)
 
 friend void from_json(const nlohmann::json& j, EnumTypes& o)
 {
-    if (j.contains("stringEnum") && !j.at("stringEnum").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "EnumTypes must be a JSON object", &j);
+    }
+    if (j.contains("stringEnum"))
     {
         j.at("stringEnum").get_to(o.stringEnum);
     }
-    if (j.contains("numericEnum") && !j.at("numericEnum").is_null())
+    if (j.contains("numericEnum"))
     {
         j.at("numericEnum").get_to(o.numericEnum);
     }
-    if (j.contains("statusCode") && !j.at("statusCode").is_null())
+    if (j.contains("statusCode"))
     {
         j.at("statusCode").get_to(o.statusCode);
     }

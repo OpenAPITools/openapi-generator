@@ -30,12 +30,17 @@ public:
 
 friend void to_json(nlohmann::json& j, const SuccessResponse& o)
 {
+    j = nlohmann::json::object();
     j["status"] = o.status;
     j["data"] = o.data;
 }
 
 friend void from_json(const nlohmann::json& j, SuccessResponse& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "SuccessResponse must be a JSON object", &j);
+    }
     j.at("status").get_to(o.status);
     j.at("data").get_to(o.data);
 }

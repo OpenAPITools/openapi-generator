@@ -31,17 +31,22 @@ public:
 
 friend void to_json(nlohmann::json& j, const DeepObjBaz& o)
 {
+    j = nlohmann::json::object();
     j["x"] = o.X;
     j["y"] = o.Y;
 }
 
 friend void from_json(const nlohmann::json& j, DeepObjBaz& o)
 {
-    if (j.contains("x") && !j.at("x").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "DeepObjBaz must be a JSON object", &j);
+    }
+    if (j.contains("x"))
     {
         j.at("x").get_to(o.X);
     }
-    if (j.contains("y") && !j.at("y").is_null())
+    if (j.contains("y"))
     {
         j.at("y").get_to(o.Y);
     }

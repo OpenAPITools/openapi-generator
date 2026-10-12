@@ -29,11 +29,16 @@ public:
 
 friend void to_json(nlohmann::json& j, const NullableExample& o)
 {
+    j = nlohmann::json::object();
     j["maybeString"] = o.maybeString;
 }
 
 friend void from_json(const nlohmann::json& j, NullableExample& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "NullableExample must be a JSON object", &j);
+    }
     if (j.contains("maybeString") && !j.at("maybeString").is_null())
     {
         j.at("maybeString").get_to(o.maybeString);

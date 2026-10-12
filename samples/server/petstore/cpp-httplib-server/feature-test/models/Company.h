@@ -37,6 +37,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const Company& o)
 {
+    j = nlohmann::json::object();
     j["name"] = o.name;
     j["headquarters"] = o.headquarters;
     j["departments"] = o.departments;
@@ -45,16 +46,20 @@ friend void to_json(nlohmann::json& j, const Company& o)
 
 friend void from_json(const nlohmann::json& j, Company& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "Company must be a JSON object", &j);
+    }
     j.at("name").get_to(o.name);
-    if (j.contains("headquarters") && !j.at("headquarters").is_null())
+    if (j.contains("headquarters"))
     {
         j.at("headquarters").get_to(o.headquarters);
     }
-    if (j.contains("departments") && !j.at("departments").is_null())
+    if (j.contains("departments"))
     {
         j.at("departments").get_to(o.departments);
     }
-    if (j.contains("metadata") && !j.at("metadata").is_null())
+    if (j.contains("metadata"))
     {
         j.at("metadata").get_to(o.metadata);
     }

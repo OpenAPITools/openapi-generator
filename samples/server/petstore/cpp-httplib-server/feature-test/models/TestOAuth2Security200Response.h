@@ -28,12 +28,17 @@ public:
 
 friend void to_json(nlohmann::json& j, const TestOAuth2Security200Response& o)
 {
+    j = nlohmann::json::object();
     j["message"] = o.message;
 }
 
 friend void from_json(const nlohmann::json& j, TestOAuth2Security200Response& o)
 {
-    if (j.contains("message") && !j.at("message").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "TestOAuth2Security200Response must be a JSON object", &j);
+    }
+    if (j.contains("message"))
     {
         j.at("message").get_to(o.message);
     }

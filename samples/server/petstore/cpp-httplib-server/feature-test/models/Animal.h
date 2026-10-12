@@ -30,12 +30,17 @@ public:
 
 friend void to_json(nlohmann::json& j, const Animal& o)
 {
+    j = nlohmann::json::object();
     j["name"] = o.name;
     j["type"] = o.type;
 }
 
 friend void from_json(const nlohmann::json& j, Animal& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "Animal must be a JSON object", &j);
+    }
     j.at("name").get_to(o.name);
     j.at("type").get_to(o.type);
 }

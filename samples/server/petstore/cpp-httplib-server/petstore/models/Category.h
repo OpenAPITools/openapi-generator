@@ -30,17 +30,22 @@ public:
 
 friend void to_json(nlohmann::json& j, const Category& o)
 {
+    j = nlohmann::json::object();
     j["id"] = o.id;
     j["name"] = o.name;
 }
 
 friend void from_json(const nlohmann::json& j, Category& o)
 {
-    if (j.contains("id") && !j.at("id").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "Category must be a JSON object", &j);
+    }
+    if (j.contains("id"))
     {
         j.at("id").get_to(o.id);
     }
-    if (j.contains("name") && !j.at("name").is_null())
+    if (j.contains("name"))
     {
         j.at("name").get_to(o.name);
     }

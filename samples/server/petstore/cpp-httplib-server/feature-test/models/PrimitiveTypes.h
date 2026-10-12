@@ -49,6 +49,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const PrimitiveTypes& o)
 {
+    j = nlohmann::json::object();
     j["stringField"] = o.stringField;
     j["intField"] = o.intField;
     j["longField"] = o.longField;
@@ -64,38 +65,42 @@ friend void to_json(nlohmann::json& j, const PrimitiveTypes& o)
 
 friend void from_json(const nlohmann::json& j, PrimitiveTypes& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "PrimitiveTypes must be a JSON object", &j);
+    }
     j.at("stringField").get_to(o.stringField);
     j.at("intField").get_to(o.intField);
-    if (j.contains("longField") && !j.at("longField").is_null())
+    if (j.contains("longField"))
     {
         j.at("longField").get_to(o.longField);
     }
-    if (j.contains("floatField") && !j.at("floatField").is_null())
+    if (j.contains("floatField"))
     {
         j.at("floatField").get_to(o.floatField);
     }
-    if (j.contains("doubleField") && !j.at("doubleField").is_null())
+    if (j.contains("doubleField"))
     {
         j.at("doubleField").get_to(o.doubleField);
     }
     j.at("boolField").get_to(o.boolField);
-    if (j.contains("byteField") && !j.at("byteField").is_null())
+    if (j.contains("byteField"))
     {
         j.at("byteField").get_to(o.byteField);
     }
-    if (j.contains("binaryField") && !j.at("binaryField").is_null())
+    if (j.contains("binaryField"))
     {
         j.at("binaryField").get_to(o.binaryField);
     }
-    if (j.contains("dateField") && !j.at("dateField").is_null())
+    if (j.contains("dateField"))
     {
         j.at("dateField").get_to(o.dateField);
     }
-    if (j.contains("dateTimeField") && !j.at("dateTimeField").is_null())
+    if (j.contains("dateTimeField"))
     {
         j.at("dateTimeField").get_to(o.dateTimeField);
     }
-    if (j.contains("passwordField") && !j.at("passwordField").is_null())
+    if (j.contains("passwordField"))
     {
         j.at("passwordField").get_to(o.passwordField);
     }

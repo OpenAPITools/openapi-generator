@@ -76,6 +76,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const Order& o)
 {
+    j = nlohmann::json::object();
     j["id"] = o.id;
     j["petId"] = o.petId;
     j["quantity"] = o.quantity;
@@ -86,27 +87,31 @@ friend void to_json(nlohmann::json& j, const Order& o)
 
 friend void from_json(const nlohmann::json& j, Order& o)
 {
-    if (j.contains("id") && !j.at("id").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "Order must be a JSON object", &j);
+    }
+    if (j.contains("id"))
     {
         j.at("id").get_to(o.id);
     }
-    if (j.contains("petId") && !j.at("petId").is_null())
+    if (j.contains("petId"))
     {
         j.at("petId").get_to(o.petId);
     }
-    if (j.contains("quantity") && !j.at("quantity").is_null())
+    if (j.contains("quantity"))
     {
         j.at("quantity").get_to(o.quantity);
     }
-    if (j.contains("shipDate") && !j.at("shipDate").is_null())
+    if (j.contains("shipDate"))
     {
         j.at("shipDate").get_to(o.shipDate);
     }
-    if (j.contains("status") && !j.at("status").is_null())
+    if (j.contains("status"))
     {
         j.at("status").get_to(o.status);
     }
-    if (j.contains("complete") && !j.at("complete").is_null())
+    if (j.contains("complete"))
     {
         j.at("complete").get_to(o.complete);
     }

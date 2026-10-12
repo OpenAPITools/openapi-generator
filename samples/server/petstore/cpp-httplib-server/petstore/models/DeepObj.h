@@ -34,6 +34,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const DeepObj& o)
 {
+    j = nlohmann::json::object();
     j["foo"] = o.foo;
     j["bar"] = o.bar;
     j["baz"] = o.baz;
@@ -41,15 +42,19 @@ friend void to_json(nlohmann::json& j, const DeepObj& o)
 
 friend void from_json(const nlohmann::json& j, DeepObj& o)
 {
-    if (j.contains("foo") && !j.at("foo").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "DeepObj must be a JSON object", &j);
+    }
+    if (j.contains("foo"))
     {
         j.at("foo").get_to(o.foo);
     }
-    if (j.contains("bar") && !j.at("bar").is_null())
+    if (j.contains("bar"))
     {
         j.at("bar").get_to(o.bar);
     }
-    if (j.contains("baz") && !j.at("baz").is_null())
+    if (j.contains("baz"))
     {
         j.at("baz").get_to(o.baz);
     }

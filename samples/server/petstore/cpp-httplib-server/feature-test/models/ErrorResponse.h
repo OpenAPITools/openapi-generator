@@ -34,6 +34,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const ErrorResponse& o)
 {
+    j = nlohmann::json::object();
     j["message"] = o.message;
     j["code"] = o.code;
     j["details"] = o.details;
@@ -41,12 +42,16 @@ friend void to_json(nlohmann::json& j, const ErrorResponse& o)
 
 friend void from_json(const nlohmann::json& j, ErrorResponse& o)
 {
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "ErrorResponse must be a JSON object", &j);
+    }
     j.at("message").get_to(o.message);
-    if (j.contains("code") && !j.at("code").is_null())
+    if (j.contains("code"))
     {
         j.at("code").get_to(o.code);
     }
-    if (j.contains("details") && !j.at("details").is_null())
+    if (j.contains("details"))
     {
         j.at("details").get_to(o.details);
     }

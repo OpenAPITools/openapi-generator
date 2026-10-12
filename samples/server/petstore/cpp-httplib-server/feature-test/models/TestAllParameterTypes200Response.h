@@ -35,6 +35,7 @@ public:
 
 friend void to_json(nlohmann::json& j, const TestAllParameterTypes200Response& o)
 {
+    j = nlohmann::json::object();
     j["message"] = o.message;
     j["resourceId"] = o.resourceId;
     j["filter"] = o.filter;
@@ -43,19 +44,23 @@ friend void to_json(nlohmann::json& j, const TestAllParameterTypes200Response& o
 
 friend void from_json(const nlohmann::json& j, TestAllParameterTypes200Response& o)
 {
-    if (j.contains("message") && !j.at("message").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "TestAllParameterTypes200Response must be a JSON object", &j);
+    }
+    if (j.contains("message"))
     {
         j.at("message").get_to(o.message);
     }
-    if (j.contains("resourceId") && !j.at("resourceId").is_null())
+    if (j.contains("resourceId"))
     {
         j.at("resourceId").get_to(o.resourceId);
     }
-    if (j.contains("filter") && !j.at("filter").is_null())
+    if (j.contains("filter"))
     {
         j.at("filter").get_to(o.filter);
     }
-    if (j.contains("correlationId") && !j.at("correlationId").is_null())
+    if (j.contains("correlationId"))
     {
         j.at("correlationId").get_to(o.correlationId);
     }

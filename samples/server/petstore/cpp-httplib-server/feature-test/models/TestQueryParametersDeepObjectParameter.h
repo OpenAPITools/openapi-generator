@@ -31,17 +31,22 @@ public:
 
 friend void to_json(nlohmann::json& j, const TestQueryParametersDeepObjectParameter& o)
 {
+    j = nlohmann::json::object();
     j["name"] = o.name;
     j["age"] = o.age;
 }
 
 friend void from_json(const nlohmann::json& j, TestQueryParametersDeepObjectParameter& o)
 {
-    if (j.contains("name") && !j.at("name").is_null())
+    if (!j.is_object())
+    {
+        throw nlohmann::json::type_error::create(302, "TestQueryParametersDeepObjectParameter must be a JSON object", &j);
+    }
+    if (j.contains("name"))
     {
         j.at("name").get_to(o.name);
     }
-    if (j.contains("age") && !j.at("age").is_null())
+    if (j.contains("age"))
     {
         j.at("age").get_to(o.age);
     }
