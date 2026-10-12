@@ -1102,6 +1102,12 @@ public class ModelUtils {
                 if (hasProperties(addlProps) || isComposedSchema(addlProps) || hasEnum(addlProps)) {
                     return false;
                 }
+                // getType returns only the first OAS 3.1 type. A value union such as
+                // [object, string] is constrained, and member order must not change the result.
+                // This matches the schema-level types.size() > 1 check below.
+                if (addlProps.getTypes() != null && addlProps.getTypes().size() > 1) {
+                    return false;
+                }
                 String addlPropsType = getType(addlProps);
                 return addlPropsType == null || SchemaTypeUtil.OBJECT_TYPE.equals(addlPropsType);
             } else if (schema.getTypes() != null) {

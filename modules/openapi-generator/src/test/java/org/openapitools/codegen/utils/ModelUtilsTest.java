@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -309,6 +310,24 @@ public class ModelUtilsTest {
         Schema addlArray = new JsonSchema().types(new HashSet<>(Set.of("object")));
         addlArray.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("array"))));
         Assert.assertFalse(ModelUtils.isFreeFormObject(addlArray, openAPI));
+
+        // additionalProperties: {type: [object, string]} is a constrained union, not free-form
+        Schema addlObjectString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> objectThenString = new LinkedHashSet<>();
+        objectThenString.add("object");
+        objectThenString.add("string");
+        addlObjectString.setAdditionalProperties(new JsonSchema().types(objectThenString));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlObjectString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlObjectString));
+
+        // reversing the union must not classify the map as free-form
+        Schema addlStringObject = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> stringThenObject = new LinkedHashSet<>();
+        stringThenObject.add("string");
+        stringThenObject.add("object");
+        addlStringObject.setAdditionalProperties(new JsonSchema().types(stringThenObject));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlStringObject, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlStringObject));
 
         // additionalProperties constrained only by enum, with no type
         Schema addlEnum = new JsonSchema().types(new HashSet<>(Set.of("object")));
