@@ -471,8 +471,14 @@ public class DartDioModelTest {
                 .map(CodegenDiscriminator.MappedModel::getModelName)
                 .collect(java.util.stream.Collectors.toList());
 
-        Assert.assertTrue(mappedModelOrder.indexOf("Turtle") < mappedModelOrder.indexOf("Reptile"));
-        Assert.assertTrue(mappedModelOrder.indexOf("Crocodile") < mappedModelOrder.indexOf("Reptile"));
+        int turtleIndex = mappedModelOrder.indexOf("Turtle");
+        int crocodileIndex = mappedModelOrder.indexOf("Crocodile");
+        int reptileIndex = mappedModelOrder.indexOf("Reptile");
+        Assert.assertTrue(turtleIndex >= 0, "Turtle must be present in the discriminator mappings");
+        Assert.assertTrue(crocodileIndex >= 0, "Crocodile must be present in the discriminator mappings");
+        Assert.assertTrue(reptileIndex >= 0, "Reptile must be present in the discriminator mappings");
+        Assert.assertTrue(turtleIndex < reptileIndex);
+        Assert.assertTrue(crocodileIndex < reptileIndex);
 
         @SuppressWarnings("unchecked")
         java.util.List<CodegenDiscriminator.MappedModel> animalNonSelfMappedModels =
@@ -481,8 +487,14 @@ public class DartDioModelTest {
         java.util.List<String> animalNonSelfMappedModelOrder = animalNonSelfMappedModels.stream()
                 .map(CodegenDiscriminator.MappedModel::getModelName)
                 .collect(java.util.stream.Collectors.toList());
-        Assert.assertTrue(animalNonSelfMappedModelOrder.indexOf("Turtle") < animalNonSelfMappedModelOrder.indexOf("Reptile"));
-        Assert.assertTrue(animalNonSelfMappedModelOrder.indexOf("Crocodile") < animalNonSelfMappedModelOrder.indexOf("Reptile"));
+        int nonSelfTurtleIndex = animalNonSelfMappedModelOrder.indexOf("Turtle");
+        int nonSelfCrocodileIndex = animalNonSelfMappedModelOrder.indexOf("Crocodile");
+        int nonSelfReptileIndex = animalNonSelfMappedModelOrder.indexOf("Reptile");
+        Assert.assertTrue(nonSelfTurtleIndex >= 0, "Turtle must be present in the non-self discriminator mappings");
+        Assert.assertTrue(nonSelfCrocodileIndex >= 0, "Crocodile must be present in the non-self discriminator mappings");
+        Assert.assertTrue(nonSelfReptileIndex >= 0, "Reptile must be present in the non-self discriminator mappings");
+        Assert.assertTrue(nonSelfTurtleIndex < nonSelfReptileIndex);
+        Assert.assertTrue(nonSelfCrocodileIndex < nonSelfReptileIndex);
     }
 
     @Test(description = "preserves declared oneOf alternatives on inherited discriminators")

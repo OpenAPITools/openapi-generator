@@ -491,6 +491,54 @@ public class DartDioClientCodegenTest {
                 "category.toString()");
     }
 
+    @Test
+    public void testJsonSerializablePathHelperDelegatesValueEncoding() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY,
+                        DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        TestUtils.assertFileContains(apiUtil,
+                "if (value == null) {\n"
+                        + "    return '';\n"
+                        + "  }\n"
+                        + "  return _encodePathValue(value, format);\n"
+                        + "}");
+    }
+
+    @Test
+    public void testJsonSerializableModelPathParameterUsesJsonMap() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY,
+                        DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        TestUtils.assertFileContains(defaultApi,
+                "encodePathParameter(category.toJson())");
+    }
+
     /**
      * Regression test: built_value form array params need both the call site
      * and helper definition. Without encodeParameter in api_util,
