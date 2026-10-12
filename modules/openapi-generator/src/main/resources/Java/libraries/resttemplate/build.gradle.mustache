@@ -70,14 +70,14 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 22
         }
         compileOptions {
-            {{#useJakartaEe}}
+            {{#java17}}
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17
-            {{/useJakartaEe}}
-            {{^useJakartaEe}}
+            {{/java17}}
+            {{^java17}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/useJakartaEe}}
+            {{/java17}}
         }
 
         // Rename the aar correctly
@@ -123,14 +123,14 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'maven-publish'
 
     java {
-    {{#useJakartaEe}}
+    {{#java17}}
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    {{/useJakartaEe}}
-    {{^useJakartaEe}}
+    {{/java17}}
+    {{^java17}}
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    {{/useJakartaEe}}
+    {{/java17}}
     }
 
     publishing {

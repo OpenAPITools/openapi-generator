@@ -578,11 +578,11 @@ namespace {{packageName}}.{{apiPackage}}
                     // Set client side default value of Header Param "{{baseName}}".                    
                     if (ClientUtils.IsContentHeader("{{baseName}}"))
                     {
-                        httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                        httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{paramName}}){{/headerIsJsonMimeType}});
                     }
                     else
                     {
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{paramName}}){{/headerIsJsonMimeType}});
                     }
 
                     {{/required}}
@@ -592,11 +592,11 @@ namespace {{packageName}}.{{apiPackage}}
                       // Set client side default value of Header Param "{{baseName}}".                    
                       if (ClientUtils.IsContentHeader("{{baseName}}"))
                       {
-                          httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                          httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{paramName}}.Value, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{paramName}}.Value){{/headerIsJsonMimeType}});
                       }
                       else
                       {
-                          httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                          httpRequestMessageLocalVar.Headers.Add("{{baseName}}", {{#headerIsJsonMimeType}}JsonSerializer.Serialize({{paramName}}.Value, _jsonSerializerOptions){{/headerIsJsonMimeType}}{{^headerIsJsonMimeType}}ClientUtils.ParameterToString({{paramName}}.Value){{/headerIsJsonMimeType}});
                       }
                     }
 

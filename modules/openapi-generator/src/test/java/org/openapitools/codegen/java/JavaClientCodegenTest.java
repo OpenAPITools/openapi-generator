@@ -4947,6 +4947,50 @@ public class JavaClientCodegenTest {
                 .assertMethod("findPetsByStatusWithResponseSpec").doesNotHaveAnnotation("Deprecated");
     }
 
+    @DataProvider
+    public static Object[] springBasedClients() {
+        return new Object[]{RESTTEMPLATE, RESTCLIENT, WEBCLIENT};
+    }
+
+    @Test(dataProvider = "springBasedClients")
+    public void shouldNotNullCheckRequiredParametersTwice(String library) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml", library);
+        final Path fakeApi = files.get("FakeApi.java").toPath();
+
+        // required parameters are already validated to be non-null, so they are added unconditionally
+        assertFileContains(fakeApi,
+                "Params.add(\"required_boolean_group\", apiClient.parameterToString(requiredBooleanGroup));",
+                "Params.add(\"number\", number);");
+        assertFileNotContains(fakeApi, "if (requiredBooleanGroup != null)", "if (number != null)");
+        // optional parameters are null-checked, with braces
+        assertFileContains(fakeApi,
+                "if (booleanGroup != null) {",
+                "if (integer != null) {");
+        // the request body is passed to invokeAPI directly
+        assertFileNotContains(fakeApi, "postBody", "PostBody");
+    }
+
+    @Test(dataProvider = "springBasedClients")
+    public void shouldUseDiamondOperatorWhereSupported(String library) {
+        for (boolean useJakartaEe : new boolean[]{false, true}) {
+            final Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", library,
+                    Map.of(JavaClientCodegen.USE_JAKARTA_EE, useJakartaEe));
+            final Path petApi = files.get("PetApi.java").toPath();
+
+            assertFileContains(petApi, "new LinkedMultiValueMap<>()");
+            assertFileNotContains(petApi, "new LinkedMultiValueMap<String", "new HashMap<String");
+            // the diamond operator is only supported for anonymous classes since Java 9
+            final boolean targetsJava17 = RESTCLIENT.equals(library) || useJakartaEe;
+            if (targetsJava17) {
+                assertFileContains(petApi, "new ParameterizedTypeReference<>() {}");
+            } else {
+                assertFileContains(petApi, "new ParameterizedTypeReference<Pet>() {}");
+                assertFileNotContains(petApi, "new ParameterizedTypeReference<>() {}");
+            }
+        }
+    }
+
     @Test
     public void testOneOfClassWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);

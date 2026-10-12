@@ -97,11 +97,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize DateOnlyProperty
-        /// </summary>
-        public string DateOnlyPropertyFormat { get; private set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
         /// Deserializes json to <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -176,7 +171,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property DateOnlyClass.DateOnlyProperty to non-nullable JSON property 'dateOnlyProperty'.");
 
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat));
+                {
+                            writer.WritePropertyName("dateOnlyProperty");
+                                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
+                            }
         }
     }
 }

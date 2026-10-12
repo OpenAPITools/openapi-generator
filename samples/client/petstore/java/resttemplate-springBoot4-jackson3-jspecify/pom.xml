@@ -147,9 +147,6 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
-                    <source>17</source>
-                    <target>17</target>
-                
                 </configuration>
             </plugin>
             <plugin>

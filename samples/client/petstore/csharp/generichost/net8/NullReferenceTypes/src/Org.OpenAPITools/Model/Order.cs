@@ -267,11 +267,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize ShipDate
-        /// </summary>
-        public string ShipDateFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// Deserializes json to <see cref="Order" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -415,7 +410,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("quantity", order.QuantityOption.Value!.Value);
 
             if (order.ShipDateOption.IsSet)
-                writer.WriteString("shipDate", order.ShipDateOption.Value!.Value.ToString(ShipDateFormat));
+                {
+                            writer.WritePropertyName("shipDate");
+                                JsonSerializer.Serialize(writer, order.ShipDateOption.Value!.Value, jsonSerializerOptions);
+                            }
 
             var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
             writer.WriteString("status", statusRawValue);

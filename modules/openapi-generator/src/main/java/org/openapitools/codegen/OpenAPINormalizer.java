@@ -1141,7 +1141,37 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeArraySchema(Schema schema) {
         Schema result = processNormalize31Spec(schema, new HashSet<>());
+
+        processExtensionsInRefItems(result);
         return processSetArraytoNullable(result);
+    }
+
+    /**
+     * Move the extensions starting with x-items to the items.extensions.
+     *
+     * @param schema the array schema to process
+     */
+    protected void processExtensionsInRefItems(Schema schema) {
+        if (schema == null || schema.getItems() == null) {
+            return;
+        }
+
+        Map<String, Object> extensions = schema.getExtensions();
+        if (extensions != null) {
+            Map<String, Object> itemsExtensions = schema.getItems().getExtensions();
+            for  (Iterator<String> it = extensions.keySet().iterator(); it.hasNext(); ) {
+                String key = it.next();
+                if (key.startsWith("x-items-")) {
+                    if (itemsExtensions == null) {
+                        itemsExtensions = new LinkedHashMap<>();
+                        schema.getItems().setExtensions(itemsExtensions);
+                    }
+                    String newKey = key.substring("x-items-".length());
+                    itemsExtensions.put(newKey, extensions.get(key));
+                    it.remove();
+                }
+            }
+        }
     }
 
     protected Schema normalizeMapSchema(Schema schema) {

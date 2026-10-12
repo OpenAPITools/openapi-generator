@@ -2,14 +2,24 @@
 
 `EnumNullUnion` represents the `oneOf` union in the OpenAPI schema. A value matches one of these alternatives:
 
-- [`NullableEnum`](NullableEnum.md)
-- [`NullableExcludedEnum`](NullableExcludedEnum.md)
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Kind** | Pointer to **NullableString** |  | [optional] 
 
 ## Wrapping an alternative
 
 - `NullableEnumAsEnumNullUnion(v *NullableEnum) EnumNullUnion`
 - `NullableExcludedEnumAsEnumNullUnion(v *NullableExcludedEnum) EnumNullUnion`
 
-Use `GetActualInstance()` or `GetActualInstanceValue()` to access the wrapped value. `Kind` belongs to the selected alternative; `EnumNullUnion` itself has no `Kind` field or `SetKind*` methods.
+### SetKindNil
+
+`func (o *EnumNullUnion) SetKindNil(b bool)`
+
+ SetKindNil sets the value for Kind to be an explicit nil
+
+### UnsetKind
+`func (o *EnumNullUnion) UnsetKind()`
+
+UnsetKind ensures that no value is present for Kind, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

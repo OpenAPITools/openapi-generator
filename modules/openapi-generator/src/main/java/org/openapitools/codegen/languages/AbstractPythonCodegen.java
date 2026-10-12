@@ -563,6 +563,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 example = "{ }";
             }
         } else if (ModelUtils.isObjectSchema(schema)) {
+            if (ModelUtils.isFreeFormObject(schema, this.openAPI)) {
+                // free-form objects have no generated model, so the example is a plain dict
+                return "{ }";
+            }
             if (StringUtils.isBlank(schema.getTitle())) {
                 example = "None";
                 return example;
@@ -574,7 +578,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
+            example = packageName + ".models." + toModelFilename(schema.getTitle()) + "." + toModelName(schema.getTitle()) + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
