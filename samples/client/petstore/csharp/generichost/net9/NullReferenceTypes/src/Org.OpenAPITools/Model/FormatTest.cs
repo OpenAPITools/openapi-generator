@@ -667,16 +667,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize Date
-        /// </summary>
-        public string DateFormat { get; private set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// The format to use to serialize DateTime
-        /// </summary>
-        public string DateTimeFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// Deserializes json to <see cref="FormatTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -1022,7 +1012,10 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);
-            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            {
+                        writer.WritePropertyName("date");
+                            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
+                        }
 
             writer.WriteNumber("number", formatTest.Number);
 
@@ -1036,7 +1029,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             }
             if (formatTest.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                {
+                            writer.WritePropertyName("dateTime");
+                                JsonSerializer.Serialize(writer, formatTest.DateTimeOption.Value!.Value, jsonSerializerOptions);
+                            }
 
             if (formatTest.DecimalOption.IsSet)
             {

@@ -1,0 +1,127 @@
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+ *
+{{/hasVars}}
+{{#vars}}
+ * @param {{name}} {{#description}}{{{.}}}{{/description}}{{^description}}Get {{name}}{{/description}}
+{{/vars}}
+{{#isDeprecated}}
+ * @deprecated
+{{/isDeprecated}}
+ */
+{{>additionalModelTypeAnnotations}}
+
+{{#isDeprecated}}
+@Deprecated
+{{/isDeprecated}}
+{{#description}}
+{{#swagger2AnnotationLibrary}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}})
+{{/swagger2AnnotationLibrary}}
+{{/description}}
+{{#jackson}}
+{{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
+@JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
+{{/isClassnameSanitized}}
+{{/jackson}}
+{{>generatedAnnotation}}
+
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public record {{classname}}(
+{{#vars}}
+    {{#vendorExtensions.x-field-extra-annotation}}
+    {{{.}}}
+    {{/vendorExtensions.x-field-extra-annotation}}
+    {{#jackson}}
+    {{#vendorExtensions.x-jackson-json-include-policy}}
+    @JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}})
+    {{/vendorExtensions.x-jackson-json-include-policy}}
+    {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+    @JsonSetter(nulls = Nulls.SKIP)
+    {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+    {{#vendorExtensions.x-has-json-setter-nulls-fail}}
+    @JsonSetter(nulls = Nulls.FAIL)
+    {{/vendorExtensions.x-has-json-setter-nulls-fail}}
+    {{/jackson}}
+    {{#deprecated}}
+    @Deprecated
+    {{/deprecated}}
+    {{^isContainer}}
+    {{#isDate}}
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    {{/isDate}}
+    {{#isDateTime}}
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    {{/isDateTime}}
+    {{/isContainer}}
+    {{#vendorExtensions.x-extra-annotation}}
+    {{{vendorExtensions.x-extra-annotation}}}
+    {{/vendorExtensions.x-extra-annotation}}
+    {{#vendorExtensions.x-setter-extra-annotation}}
+    {{{vendorExtensions.x-setter-extra-annotation}}}
+    {{/vendorExtensions.x-setter-extra-annotation}}
+    {{#useBeanValidation}}
+    {{>beanValidation}}{{! prevent indent}}
+    {{/useBeanValidation}}
+    {{^useBeanValidation}}
+    {{#lambda.trim}}{{>notNull}}{{/lambda.trim}}
+    {{/useBeanValidation}}
+    {{#swagger2AnnotationLibrary}}
+    @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}{{#deprecated}}, deprecated = true{{/deprecated}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}{{#isNullable}}, nullable = true{{/isNullable}})
+    {{/swagger2AnnotationLibrary}}
+    {{#jackson}}
+  {{>jackson_annotations}}
+    {{/jackson}}
+  {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{name}}{{^-last}},{{/-last}}
+{{^-last}}
+
+{{/-last}}
+{{/vars}}
+){{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+{{#serializableModel}}
+
+  private static final long serialVersionUID = 1L;
+{{/serializableModel}}
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+
+{{>enumClass}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+
+{{>enumClass}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{/vars}}
+  {{#vendorExtensions.x-record-has-initial-values}}
+
+  public {{classname}} {
+    {{#vars}}
+    {{#vendorExtensions.x-record-initial-value}}
+    if ({{name}} == null) {
+      {{name}} = {{{.}}};
+    }
+    {{/vendorExtensions.x-record-initial-value}}
+    {{/vars}}
+  }
+  {{/vendorExtensions.x-record-has-initial-values}}
+  {{#vendorExtensions.x-record-masks-password}}
+
+  @Override
+  public String toString() {
+    return "{{classname}}["
+        {{#vars}}
+        + "{{^-first}}, {{/-first}}{{name}}=" + {{#isPassword}}"*"{{/isPassword}}{{^isPassword}}{{name}}{{/isPassword}}
+        {{/vars}}
+        + "]";
+  }
+  {{/vendorExtensions.x-record-masks-password}}
+}
