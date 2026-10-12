@@ -30,7 +30,7 @@ jobs:
           #- samples/client/petstore/swift6/validation
           ## NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
           #- samples/client/petstore/swift6/vaporLibrary
-        include:
+        #include:
         # the ubuntu build runs in the official swift image: swift-actions/setup-swift
         # fails on current ubuntu runners while verifying the toolchain signature
         #- os: ubuntu-latest
