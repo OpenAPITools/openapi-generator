@@ -1386,6 +1386,34 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfDiscriminatorPropertyIsRefToPrimitiveAlias() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_issue_25226.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setOpenAPI(openAPI);
+
+        // no model is generated for an alias of a primitive type: the aliased type is used, like for the subtypes
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Shape", "String");
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Vehicle", "Integer");
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Document", "UUID");
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Fruit", "String");
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Animal", "String");
+        // each subtype has its own alias
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Tool", "String");
+        // an enum, or an alias of an enum, is generated as a model
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Pet", "BreedEnum");
+        verifyOneOfDiscriminatorPropertyType(codegen, openAPI, "Toy", "ToyKind");
+    }
+
+    private void verifyOneOfDiscriminatorPropertyType(DefaultCodegen codegen, OpenAPI openAPI, String schemaName,
+                                                      String expectedPropertyType) {
+        CodegenModel model = codegen.fromModel(schemaName, openAPI.getComponents().getSchemas().get(schemaName));
+        assertTrue(model.getHasDiscriminatorWithNonEmptyMapping(), schemaName);
+        assertEquals(expectedPropertyType, model.discriminator.getPropertyType(), schemaName);
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();

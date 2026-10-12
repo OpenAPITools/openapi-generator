@@ -10250,6 +10250,40 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void issue_25226() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneOf_issue_25226.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true)
+        );
+
+        // no model is generated for an alias of a primitive type
+        assertThat(files).doesNotContainKeys("ShapeKind.java", "Wheels.java", "SchemaId.java", "Species.java",
+                "BreedAlias.java", "AnimalGroup.java");
+
+        // the getter of the oneOf interface uses the aliased type, like the subtypes
+        JavaFileAssert.assertThat(files.get("Shape.java"))
+                .fileContains("public String getKind();");
+        JavaFileAssert.assertThat(files.get("Circle.java"))
+                .fileContains("public String getKind() {");
+        JavaFileAssert.assertThat(files.get("Vehicle.java"))
+                .fileContains("public Integer getWheels();");
+        JavaFileAssert.assertThat(files.get("Document.java"))
+                .fileContains("public UUID getSchemaId();");
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .fileContains("public String getSpecies();");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .fileContains("public String getGroup();");
+        JavaFileAssert.assertThat(files.get("Tool.java"))
+                .fileContains("public String getCategory();");
+
+        // an enum, or an alias of an enum, is generated as a model
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("public BreedEnum getBreed();");
+        JavaFileAssert.assertThat(files.get("Toy.java"))
+                .fileContains("public ToyKind getKind();");
+    }
+
+    @Test
     void listItems_annotated_with_x_field_extra_annotation() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
                 Map.of(USE_BEANVALIDATION, "true", USE_SPRING_BOOT3, "true"));
