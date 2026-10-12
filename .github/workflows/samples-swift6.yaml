@@ -32,17 +32,15 @@ jobs:
           #- samples/client/petstore/swift6/validation
           ## NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
           #- samples/client/petstore/swift6/vaporLibrary
-    services:
-      petstore-api:
-        image: swaggerapi/petstore
-        ports:
-          - 80:8080
-        env:
-          SWAGGER_HOST: http://petstore.swagger.io
-          SWAGGER_BASE_PATH: /v2        
     container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v7
+      # Sets up Docker via Colima automatically
+      - name: Setup Docker on macOS
+        uses: douglascamata/setup-docker-macos-action@v1
+      - name: Run Petstore
+        run: |
+             docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
