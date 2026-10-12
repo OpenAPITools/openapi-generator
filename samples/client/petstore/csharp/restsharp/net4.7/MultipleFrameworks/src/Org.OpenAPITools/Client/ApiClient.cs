@@ -497,7 +497,7 @@ namespace Org.OpenAPITools.Client
                 // 4xx/5xx also carry ErrorException; those go through ExceptionFactory so the body is kept
                 if (response.ErrorException != null && (int)response.StatusCode < 400)
                 {
-                    throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, response.ErrorMessage), response.Content, ToApiResponse(response).Headers);
+                    throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, response.ErrorException.Message), response.Content, ToApiResponse(response).Headers, response.ErrorException);
                 }
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
