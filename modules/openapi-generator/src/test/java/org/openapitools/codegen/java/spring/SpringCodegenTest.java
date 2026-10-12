@@ -6288,6 +6288,17 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testLombokAnnotationsSeparatedBySpace() throws IOException {
+        final Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .hasNoConstructor()
+                .fileContains("@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor");
+    }
+
+    @Test
     void testBuilderJavaSpring_noOptional() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/java/builder.yaml",

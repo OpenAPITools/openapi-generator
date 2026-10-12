@@ -2298,11 +2298,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // parse lombok additional model type annotations
         Map<String, Boolean> lombokOptions = new HashMap<>();
-        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        String regexp = "@lombok\\.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
         Pattern pattern = Pattern.compile(regexp);
         for (String annotation : additionalModelTypeAnnotations) {
             Matcher matcher = pattern.matcher(annotation);
-            if (matcher.find()) {
+            // an entry may hold several annotations, e.g. "@lombok.Data @lombok.NoArgsConstructor"
+            while (matcher.find()) {
                 String className = matcher.group("ClassName");
                 lombokOptions.put(className, true);
                 if ("Data".equals(className)) {
