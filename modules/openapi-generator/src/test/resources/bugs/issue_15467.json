@@ -18,7 +18,6 @@
             "Turtle": "#/components/schemas/Turtle"
           }
         },
-        "additionalProperties": false,
         "properties": {
           "id": {"type": "string", "nullable": true},
           "name": {"type": "string", "nullable": true},
@@ -31,7 +30,6 @@
           {"$ref": "#/components/schemas/Animal"},
           {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
               "wingSpan": {"type": "number", "format": "double"}
             }
@@ -43,7 +41,6 @@
           {"$ref": "#/components/schemas/Animal"},
           {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
               "scaleColor": {"type": "string", "nullable": true}
             }
@@ -55,7 +52,6 @@
           {"$ref": "#/components/schemas/Reptile"},
           {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
               "numberOfTeeth": {"type": "integer", "format": "int32"}
             }
@@ -67,7 +63,6 @@
           {"$ref": "#/components/schemas/Reptile"},
           {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
               "shellDiameter": {"type": "number", "format": "double"}
             }
