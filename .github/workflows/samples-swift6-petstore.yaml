@@ -19,16 +19,6 @@ jobs:
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v7
-      - name: Cache Homebrew
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/Library/Caches/Homebrew
-            /opt/homebrew/Cellar
-          key: ${{ runner.os }}-brew-${{ hashFiles('**/.brew_installed') }}
-          restore-keys: |
-            ${-runner.os}-brew-
-            # Sets up Docker via Colima automatically
       - name: Setup Docker on macOS
         uses: douglascamata/setup-docker-macos-action@v1
         with:
