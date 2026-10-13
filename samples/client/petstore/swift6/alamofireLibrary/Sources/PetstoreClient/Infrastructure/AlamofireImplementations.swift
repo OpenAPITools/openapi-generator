@@ -125,7 +125,10 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                                 mpForm.append(fileURL, withName: k)
                             }
                         case let string as String:
-                            mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
+                            guard let stringData = string.data(using: .utf8) else {
+                                return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
+                            }
+                            mpForm.append(stringData, withName: k)
                         case let number as NSNumber:
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                         case let data as Data:
