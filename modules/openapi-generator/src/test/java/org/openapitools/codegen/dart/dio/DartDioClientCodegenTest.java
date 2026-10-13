@@ -394,4 +394,34 @@ public class DartDioClientCodegenTest {
                 "const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(Widget)])]),",
                 "() => MapBuilder<String, BuiltList<Widget>>(),");
     }
+
+    @Test
+    public void testFreezedSerializationLibraryGeneratesModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        configurator.addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_FREEZED);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        // A model file should be generated for Pet
+        Path petModel = output.toPath().resolve("lib/src/model/pet.dart");
+        TestUtils.assertFileExists(petModel);
+
+        // The generated model should contain freezed annotations and factory constructor
+        TestUtils.assertFileContains(petModel,
+                "@freezed",
+                "with _$",
+                "factory Pet.fromJson");
+    }
 }
