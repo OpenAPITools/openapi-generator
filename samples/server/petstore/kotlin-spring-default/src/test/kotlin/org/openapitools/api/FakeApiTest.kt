@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.Annotation
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import org.springframework.http.ResponseEntity
 
 class FakeApiTest {
@@ -15,6 +16,7 @@ class FakeApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun annotationsTest() {
         val `annotation`: Annotation = TODO()
         val response: ResponseEntity<Unit> = api.annotations(`annotation`)

@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUserTest() = runBlockingTest {
         val body: User = TODO()
         val response: ResponseEntity<Unit> = api.createUser(body)
@@ -32,6 +34,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUsersWithArrayInputTest() = runBlockingTest {
         val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body)
@@ -46,6 +49,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUsersWithListInputTest() = runBlockingTest {
         val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body)
@@ -60,6 +64,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun deleteUserTest() = runBlockingTest {
         val username: kotlin.String = TODO()
         val response: ResponseEntity<Unit> = api.deleteUser(username)
@@ -74,6 +79,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun getUserByNameTest() = runBlockingTest {
         val username: kotlin.String = TODO()
         val response: ResponseEntity<User> = api.getUserByName(username)
@@ -88,6 +94,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun loginUserTest() = runBlockingTest {
         val username: kotlin.String = TODO()
         val password: kotlin.String = TODO()
@@ -103,6 +110,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun logoutUserTest() = runBlockingTest {
         val response: ResponseEntity<Unit> = api.logoutUser()
 
@@ -116,6 +124,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun updateUserTest() = runBlockingTest {
         val username: kotlin.String = TODO()
         val body: User = TODO()

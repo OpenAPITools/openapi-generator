@@ -114,6 +114,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
+    public static final String GENERATE_PAGEABLE_DEFAULTS = "generatePageableDefaults";
+    public static final String ONE_INDEXED_PAGE_PARAMETERS = "oneIndexedPageParameters";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String USE_SEALED_DISCRIMINATOR_INTERFACES = "useSealedDiscriminatorInterfaces";
@@ -201,6 +203,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
+    @Setter private boolean generatePageableDefaults = true;
+    private TriStateBoolean oneIndexedPageParameters = TriStateBoolean.UNSET;
+
+    public void setOneIndexedPageParameters(boolean oneIndexedPageParameters) {
+        this.oneIndexedPageParameters = TriStateBoolean.fromNullableBoolean(oneIndexedPageParameters);
+    }
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean useSealedDiscriminatorInterfaces = true;
@@ -355,6 +363,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 autoXSpringPaginated, SpringPageableScanUtils.getAutoPaginationModeEnumValues());
         addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
         addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
+        addSwitch(GENERATE_PAGEABLE_DEFAULTS, "Generate @PageableDefault and @SortDefault from pagination defaults in the spec. Disabling this does not disable pagination validation. Supported by spring-boot and spring-cloud.", generatePageableDefaults);
+        addSwitch(ONE_INDEXED_PAGE_PARAMETERS, "Interpret spec page defaults and validation bounds as one-based and convert them to zero-based Pageable values. Applies globally to pageable operations. Explicit true or false silences generation warnings for page default 1, which are also emitted when generatePageableDefaults=false. Configure spring.data.web.pageable.one-indexed-parameters separately. One-based page defaults and effective bounds below 1 fail generation when their annotations are enabled. Does not change outgoing Feign page encoding. Supported by spring-boot and spring-cloud.", oneIndexedPageParameters.isTrue());
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
@@ -916,6 +926,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
+        if (isPageableSupported()) {
+            if (additionalProperties.containsKey(GENERATE_PAGEABLE_DEFAULTS)) {
+                setGeneratePageableDefaults(convertPropertyToBoolean(GENERATE_PAGEABLE_DEFAULTS));
+            }
+            writePropertyBack(GENERATE_PAGEABLE_DEFAULTS, generatePageableDefaults);
+            if (additionalProperties.containsKey(ONE_INDEXED_PAGE_PARAMETERS)) {
+                setOneIndexedPageParameters(convertPropertyToBoolean(ONE_INDEXED_PAGE_PARAMETERS));
+                writePropertyBack(ONE_INDEXED_PAGE_PARAMETERS, oneIndexedPageParameters.isTrue());
+            }
+        }
         if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL)) {
             this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
         }
@@ -1327,7 +1347,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (isPageableSupported()) {
-            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode);
+            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode, generatePageableDefaults,
+                    oneIndexedPageParameters.isTrue(), !oneIndexedPageParameters.isUnset(),
+                    generatePageableConstraintValidation && useBeanValidation);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");

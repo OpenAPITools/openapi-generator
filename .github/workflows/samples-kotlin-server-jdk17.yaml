@@ -16,6 +16,7 @@ on:
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       - 'samples/server/petstore/kotlin-spring-oneof-jackson-default-impl/**'
       - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
+      - '.github/workflows/samples-kotlin-server-jdk17.yaml'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -33,6 +34,7 @@ on:
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       - 'samples/server/petstore/kotlin-spring-oneof-jackson-default-impl/**'
       - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
+      - '.github/workflows/samples-kotlin-server-jdk17.yaml'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -79,7 +81,6 @@ jobs:
           - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
           - samples/server/petstore/kotlin-spring-sealed-interfaces
           - samples/server/petstore/kotlin-spring-oneof-jackson-default-impl
-          - samples/server/petstore/kotlin-springboot-sort-validation
           - samples/server/petstore/kotlin-springboot-paged-model
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
@@ -107,3 +108,24 @@ jobs:
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: ./gradlew build -x test
+
+  test:
+    name: Test Kotlin server (jdk17)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/petstore/kotlin-springboot-sort-validation # Handwritten integration tests against generated API contracts.
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6.4.0
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
+      - name: Build and test
+        working-directory: ${{ matrix.sample }}
+        run: gradle build

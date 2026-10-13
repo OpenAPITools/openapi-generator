@@ -3,6 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.MultipartMixedRequestMarker
 import org.openapitools.model.MultipartMixedStatus
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import org.springframework.http.ResponseEntity
 
 class MultipartMixedApiTest {
@@ -16,6 +17,7 @@ class MultipartMixedApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun multipartMixedTest() {
         val status: MultipartMixedStatus = TODO()
         val file: org.springframework.web.multipart.MultipartFile = TODO()

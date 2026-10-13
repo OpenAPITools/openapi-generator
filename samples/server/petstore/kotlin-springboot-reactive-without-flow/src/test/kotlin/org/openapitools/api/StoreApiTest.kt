@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.Order
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,7 @@ class StoreApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun deleteOrderTest() = runBlockingTest {
         val orderId: kotlin.String = TODO()
         val response: ResponseEntity<Unit> = api.deleteOrder(orderId)
@@ -32,6 +34,7 @@ class StoreApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun getInventoryTest() = runBlockingTest {
         val response: ResponseEntity<Map<String, kotlin.Int>> = api.getInventory()
 
@@ -45,6 +48,7 @@ class StoreApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun getOrderByIdTest() = runBlockingTest {
         val orderId: kotlin.Long = TODO()
         val response: ResponseEntity<Order> = api.getOrderById(orderId)
@@ -59,6 +63,7 @@ class StoreApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun placeOrderTest() = runBlockingTest {
         val order: Order = TODO()
         val response: ResponseEntity<Order> = api.placeOrder(order)

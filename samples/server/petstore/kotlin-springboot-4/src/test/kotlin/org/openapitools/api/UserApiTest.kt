@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import org.springframework.http.ResponseEntity
 
 class UserApiTest {
@@ -16,6 +17,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUserTest() {
         val user: User = TODO()
         
@@ -32,6 +34,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUsersWithArrayInputTest() {
         val user: kotlin.collections.List<User> = TODO()
         
@@ -48,6 +51,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun createUsersWithListInputTest() {
         val user: kotlin.collections.List<User> = TODO()
         
@@ -64,6 +68,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun deleteUserTest() {
         val username: kotlin.String = TODO()
         
@@ -80,6 +85,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun getUserByNameTest() {
         val username: kotlin.String = TODO()
         
@@ -96,6 +102,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun loginUserTest() {
         val username: kotlin.String = TODO()
         val password: kotlin.String = TODO()
@@ -113,6 +120,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun logoutUserTest() {
         
         
@@ -128,6 +136,7 @@ class UserApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun updateUserTest() {
         val username: kotlin.String = TODO()
         val user: User = TODO()

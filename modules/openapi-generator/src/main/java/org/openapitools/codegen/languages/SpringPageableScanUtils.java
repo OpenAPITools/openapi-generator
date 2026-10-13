@@ -28,6 +28,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -268,9 +270,47 @@ public class SpringPageableScanUtils {
      * @param autoPaginationMode   the auto-detection mode for pageable operations
      */
     public void scanAll(OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
+        scanAll(openAPI, autoPaginationMode, true, false, true, true);
+    }
+
+    /**
+     * Scans pageable metadata, retaining only enabled defaults and normalizing one-based
+     * page values for the zero-based annotations. Constraint normalization is independent
+     * of defaults generation and only runs when those constraints will be validated.
+     */
+    public void scanAll(OpenAPI openAPI, AutoPaginationMode autoPaginationMode,
+            boolean generatePageableDefaults, boolean oneIndexedPageParameters,
+            boolean indexingExplicitlyConfigured, boolean validatePageableConstraints) {
         sortValidationEnums = scanSortValidationEnums(openAPI, autoPaginationMode);
-        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoPaginationMode);
-        pageableConstraintsRegistry = scanPageableConstraints(openAPI, autoPaginationMode);
+        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoPaginationMode, generatePageableDefaults);
+        pageableDefaultsRegistry.replaceAll((operationId, defaults) -> {
+            if (!indexingExplicitlyConfigured && Integer.valueOf(1).equals(defaults.page)) {
+                LOGGER.warn("Operation '{}' has page default 1. @PageableDefault uses zero-based page numbers; "
+                        + "this may unintentionally select the second page. Explicitly set oneIndexedPageParameters "
+                        + "to true for a one-based spec or false for a zero-based spec. "
+                        + "Configure Spring's resolver separately; this option does not change Feign request encoding.",
+                        operationId);
+            }
+            Integer page = defaults.page;
+            if (generatePageableDefaults && oneIndexedPageParameters && page != null) {
+                page = toZeroBasedPage(page, operationId, "default");
+            }
+            return new PageableDefaultsData(page, defaults.size, defaults.sortDefaults);
+        });
+        if (!generatePageableDefaults) {
+            pageableDefaultsRegistry.clear();
+        }
+        pageableConstraintsRegistry = validatePageableConstraints
+                ? scanPageableConstraints(openAPI, autoPaginationMode, oneIndexedPageParameters)
+                : Collections.emptyMap();
+    }
+
+    private static int toZeroBasedPage(int value, String operationId, String attribute) {
+        if (value < 1) {
+            throw new IllegalArgumentException("Operation '" + operationId + "' has page " + attribute
+                    + " " + value + "; oneIndexedPageParameters=true requires a value of at least 1.");
+        }
+        return value - 1;
     }
 
     /**
@@ -664,6 +704,11 @@ public class SpringPageableScanUtils {
      */
     public static Map<String, PageableDefaultsData> scanPageableDefaults(
             OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
+        return scanPageableDefaults(openAPI, autoPaginationMode, true);
+    }
+
+    private static Map<String, PageableDefaultsData> scanPageableDefaults(
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode, boolean validateDefaults) {
         Map<String, PageableDefaultsData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -696,12 +741,12 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (defaultValue instanceof Number) {
-                                pageDefault = ((Number) defaultValue).intValue();
+                                pageDefault = resolveDefault((Number) defaultValue, operationId, PAGE, validateDefaults);
                             }
                             break;
                         case SIZE:
                             if (defaultValue instanceof Number) {
-                                sizeDefault = ((Number) defaultValue).intValue();
+                                sizeDefault = resolveDefault((Number) defaultValue, operationId, SIZE, validateDefaults);
                             }
                             break;
                         case SORT:
@@ -746,6 +791,11 @@ public class SpringPageableScanUtils {
      */
     public static Map<String, PageableConstraintsData> scanPageableConstraints(
             OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
+        return scanPageableConstraints(openAPI, autoPaginationMode, false);
+    }
+
+    private static Map<String, PageableConstraintsData> scanPageableConstraints(
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode, boolean oneIndexedPageParameters) {
         Map<String, PageableConstraintsData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -773,18 +823,24 @@ public class SpringPageableScanUtils {
                     switch (param.getName()) {
                         case PAGE:
                             if (maxBound != null) {
-                                maxPage = toIntInclusiveMax(maxBound);
+                                maxPage = resolveIntegerBound(maxBound.maxBound, maxBound.exclusive, true, operationId, PAGE);
+                                if (oneIndexedPageParameters) {
+                                    maxPage = toZeroBasedPage(maxPage, operationId, "effective maximum");
+                                }
                             }
                             if (minBound != null) {
-                                minPage = toIntInclusiveMin(minBound);
+                                minPage = resolveIntegerBound(minBound.minBound, minBound.exclusive, false, operationId, PAGE);
+                                if (oneIndexedPageParameters) {
+                                    minPage = toZeroBasedPage(minPage, operationId, "effective minimum");
+                                }
                             }
                             break;
                         case SIZE:
                             if (maxBound != null) {
-                                maxSize = toIntInclusiveMax(maxBound);
+                                maxSize = resolveIntegerBound(maxBound.maxBound, maxBound.exclusive, true, operationId, SIZE);
                             }
                             if (minBound != null) {
-                                minSize = toIntInclusiveMin(minBound);
+                                minSize = resolveIntegerBound(minBound.minBound, minBound.exclusive, false, operationId, SIZE);
                             }
                             break;
                         default:
@@ -804,19 +860,31 @@ public class SpringPageableScanUtils {
         return ModelUtils.getReferencedParameter(openAPI, parameter);
     }
 
-    private static Integer toIntInclusiveMax(ModelUtils.ResolvedMaxBound maxBound) {
-        if (maxBound == null) {
-            return null;
+    private static int resolveDefault(Number value, String operationId, String parameterName, boolean validateDefaults) {
+        if (!validateDefaults) {
+            return value.intValue();
         }
-        return maxBound.exclusive ? maxBound.maxBound.intValue() - 1 : maxBound.maxBound.intValue();
+        try {
+            return new BigDecimal(value.toString()).intValueExact();
+        } catch (ArithmeticException | NumberFormatException e) {
+            throw new IllegalArgumentException("Operation '" + operationId + "' has " + parameterName
+                    + " default " + value + "; expected an integer in the supported integer range.", e);
+        }
     }
 
-    private static Integer toIntInclusiveMin(ModelUtils.ResolvedMinBound minBound) {
-        if (minBound == null) {
-            return null;
+    private static int resolveIntegerBound(BigDecimal value, boolean exclusive, boolean maximum,
+            String operationId, String parameterName) {
+        RoundingMode rounding = maximum == exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
+        BigDecimal effective = value.setScale(0, rounding);
+        if (exclusive) {
+            effective = maximum ? effective.subtract(BigDecimal.ONE) : effective.add(BigDecimal.ONE);
         }
-        return minBound.exclusive ? minBound.minBound.intValue() + 1 : minBound.minBound.intValue();
+        try {
+            return effective.intValueExact();
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Operation '" + operationId + "' has " + parameterName + " effective "
+                    + (maximum ? "maximum" : "minimum") + " " + effective
+                    + " outside the supported integer range.", e);
+        }
     }
-
-
 }

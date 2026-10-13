@@ -21,3 +21,9 @@
 #docs/*.md
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
+
+# Handwritten implementation with assertions for generated pagination annotations.
+src/main/java/org/openapitools/api/PetApiController.java
+
+# Runtime indexing must match the one-indexed sample spec.
+src/main/resources/application.properties

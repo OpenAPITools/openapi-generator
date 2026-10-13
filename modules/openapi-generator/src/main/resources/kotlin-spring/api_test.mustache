@@ -3,6 +3,7 @@ package {{package}}
 {{#imports}}import {{import}}
 {{/imports}}
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
@@ -30,6 +31,7 @@ class {{classname}}Test {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun {{operationId}}Test() {{#reactive}}= runBlockingTest {{/reactive}}{
         {{#allParams}}
         val {{{paramName}}}: {{>optionalDataType}} = TODO()

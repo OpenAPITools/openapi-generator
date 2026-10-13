@@ -14,6 +14,10 @@ kotlin {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 plugins {
     val kotlinVersion = "2.2.0"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion

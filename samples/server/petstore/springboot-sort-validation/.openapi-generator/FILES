@@ -14,6 +14,5 @@ src/main/java/org/openapitools/model/NullableModel.java
 src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/PetSort.java
 src/main/java/org/openapitools/model/PetSortEnum.java
-src/main/resources/application.properties
 src/main/resources/openapi.yaml
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

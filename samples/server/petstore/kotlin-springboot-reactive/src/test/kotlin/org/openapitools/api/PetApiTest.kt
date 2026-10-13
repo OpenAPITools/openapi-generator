@@ -3,6 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
@@ -19,6 +20,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun addPetTest() = runBlockingTest {
         val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.addPet(body)
@@ -33,6 +35,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun deletePetTest() = runBlockingTest {
         val petId: kotlin.Long = TODO()
         val apiKey: kotlin.String? = TODO()
@@ -48,6 +51,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun findPetsByStatusTest() = runBlockingTest {
         val status: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByStatus(status)
@@ -62,6 +66,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun findPetsByTagsTest() = runBlockingTest {
         val tags: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByTags(tags)
@@ -76,6 +81,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun getPetByIdTest() = runBlockingTest {
         val petId: kotlin.Long = TODO()
         val response: ResponseEntity<Pet> = api.getPetById(petId)
@@ -90,6 +96,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun updatePetTest() = runBlockingTest {
         val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.updatePet(body)
@@ -104,6 +111,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun updatePetWithFormTest() = runBlockingTest {
         val petId: kotlin.Long = TODO()
         val name: kotlin.String? = TODO()
@@ -120,6 +128,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun uploadFileTest() = runBlockingTest {
         val petId: kotlin.Long = TODO()
         val additionalMetadata: kotlin.String? = TODO()

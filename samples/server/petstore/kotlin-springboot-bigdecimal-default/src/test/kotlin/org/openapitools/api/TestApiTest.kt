@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.Apa
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import org.springframework.http.ResponseEntity
 
 class TestApiTest {
@@ -15,6 +16,7 @@ class TestApiTest {
      *          if the Api call fails
      */
     @Test
+    @Disabled("Provide test inputs and assertions before enabling this generated placeholder")
     fun testPostTest() {
         val apa: Apa = TODO()
         val response: ResponseEntity<Unit> = api.testPost(apa)
