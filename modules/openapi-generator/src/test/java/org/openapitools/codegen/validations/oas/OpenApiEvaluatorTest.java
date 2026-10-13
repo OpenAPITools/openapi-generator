@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -18,6 +19,7 @@ import org.openapitools.codegen.validation.ValidationResult;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -282,5 +284,43 @@ public class OpenApiEvaluatorTest {
         List<Invalid> warnings = getDefaultNotInEnumWarnings(result);
         Assert.assertEquals(warnings.size(), 1);
         Assert.assertTrue(warnings.get(0).getMessage().contains("'http'"));
+    }
+
+    private static OpenAPI buildSpecWithNumberEnumDefault(String enumValue, String defaultValue) {
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.openapi("3.0.1");
+        Components components = new Components();
+        ObjectSchema obj = new ObjectSchema();
+        NumberSchema prop = new NumberSchema();
+        prop.setEnum(Arrays.asList(new BigDecimal(enumValue)));
+        prop.setDefault(new BigDecimal(defaultValue));
+        obj.addProperty("factor", prop);
+        components.addSchemas("Rate", obj);
+        openAPI.setComponents(components);
+        return openAPI;
+    }
+
+    @Test(description = "no warning when a number default equals an enum value with a different scale")
+    public void testDefaultInEnumNumberDifferentScale() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithNumberEnumDefault("1.5", "1.50"));
+
+        Assert.assertTrue(getDefaultNotInEnumWarnings(result).isEmpty());
+    }
+
+    @Test(description = "warn for number default not in number enum")
+    public void testDefaultNotInEnumNumber() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithNumberEnumDefault("1.5", "2.50"));
+
+        List<Invalid> warnings = getDefaultNotInEnumWarnings(result);
+        Assert.assertEquals(warnings.size(), 1);
+        Assert.assertTrue(warnings.get(0).getMessage().contains("'2.50'"));
     }
 }
