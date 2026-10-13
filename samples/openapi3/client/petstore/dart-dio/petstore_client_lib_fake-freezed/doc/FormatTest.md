@@ -17,9 +17,9 @@ Name | Type | Description | Notes
 **decimal** | **double** |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
-**binary** | [**MultipartFile**](MultipartFile.md) |  | [optional] 
-**date** | [**DateTime**](DateTime.md) |  | 
-**dateTime** | [**DateTime**](DateTime.md) |  | [optional] 
+**binary** | **MultipartFile** |  | [optional] 
+**date** | **DateTime** |  | 
+**dateTime** | **DateTime** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
 **patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
