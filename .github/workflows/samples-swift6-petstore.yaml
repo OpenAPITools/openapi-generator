@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/swift6/**
+      - samples/client/petstore/swift-combine/**
   pull_request:
     paths:
       - samples/client/petstore/swift6/**
+      - samples/client/petstore/swift-combine/**
 
 jobs:
   build:
