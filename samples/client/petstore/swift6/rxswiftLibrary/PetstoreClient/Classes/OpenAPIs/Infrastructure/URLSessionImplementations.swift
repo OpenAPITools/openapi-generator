@@ -205,7 +205,12 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
                             return
                         }
 
-                        self.processRequestResponse(urlRequest: modifiedRequest, urlSession: urlSession, data: data, httpResponse: httpResponse, error: error, completion: completion)
+                        let responseQueue = self.apiConfiguration.apiResponseQueue
+                        self.processRequestResponse(urlRequest: modifiedRequest, urlSession: urlSession, data: data, httpResponse: httpResponse, error: error) { result in
+                            responseQueue.async {
+                                completion(result)
+                            }
+                        }
                     }
 
                     self.onProgressReady?(dataTask.progress)
