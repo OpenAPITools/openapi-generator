@@ -96,3 +96,8 @@ jobs:
       - name: Test urlsessionLibrary
         working-directory: samples/client/petstore/swift6/urlsessionLibrary/SwaggerClientTests
         run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # test swift-combine
+      - name: Test swift-combine
+        working-directory: samples/client/petstore/swift-combine/tests
+        run: xcodebuild -scheme TestClientTests-Package test -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
