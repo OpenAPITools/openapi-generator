@@ -122,8 +122,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
-        coroutines("Use kotlin-idiomatic 'suspend' functions", "reactiveModeCoroutines"),
-        reactor("Use reactor return wrappers 'Mono' and 'Flux'", "reactiveModeReactor");
+        coroutines("Use kotlin-idiomatic `suspend` functions", "reactiveModeCoroutines"),
+        reactor("Use reactor return wrappers `Mono` and `Flux`", "reactiveModeReactor");
 
         private final String description;
         private final String additionalPropertyName;
@@ -348,17 +348,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addOption(AUTO_X_SPRING_PAGINATED,
                 "Automatically add x-spring-paginated to operations that have the given set of pagination query "
-                + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
-                + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
-                + "false will not be auto-detected. The legacy values 'true' (alias for 'page-size-sort') and "
-                + "'false' (alias for 'none') are deprecated and will be removed in a future release.",
+                + "parameters. `page-size-sort` requires `page`, `size`, and `sort`; `page-size` requires only "
+                + "`page` and `size` (sort may be absent). Operations with x-spring-paginated explicitly set to "
+                + "false will not be auto-detected. The legacy values `true` (alias for `page-size-sort`) and "
+                + "`false` (alias for `none`) are deprecated and will be removed in a future release.",
                 autoXSpringPaginated, SpringPageableScanUtils.getAutoPaginationModeEnumValues());
-        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
-        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
+        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose `sort` parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
+        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose `page` or `size` parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
-                "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
+                "Detect schemas that represent paginated responses (an object with a `content` array property and a `page` "
                 + "pagination-metadata property) and replace their generated references with "
-                + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
+                + "PagedModel<T>. By default this uses a generated type in the config package (default `org.openapitools.configuration`), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
                 + "schema are suppressed from code generation.",
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
@@ -789,7 +789,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
                 if (this.isUseFlowForArrayReturnType()) {
                     {
-                        throw new IllegalArgumentException("Additional property '" + USE_FLOW_FOR_ARRAY_RETURN_TYPE + "' must be set to 'false' as it is not supported by Spring declarative HTTP interface");
+                        throw new IllegalArgumentException("Additional property '" + USE_FLOW_FOR_ARRAY_RETURN_TYPE + "' must be set to `false` as it is not supported by Spring declarative HTTP interface");
                     }
                 }
                 if (additionalProperties.containsKey(DECLARATIVE_INTERFACE_REACTIVE_MODE)) {
@@ -1217,7 +1217,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * - Adds appropriate imports (Pageable, ParameterObject for springdoc)
      *
      * Auto-detection (when autoXSpringPaginated is enabled):
-     * - Automatically detects operations with 'page', 'size', and 'sort' query parameters (case-sensitive)
+     * - Automatically detects operations with `page`, `size`, and `sort` query parameters (case-sensitive)
      * - Applies x-spring-paginated behavior to these operations automatically
      * - Respects manual x-spring-paginated: false setting (manual override takes precedence)
      * - Only applies when library supports Pageable (spring-boot, spring-cloud)
@@ -1243,7 +1243,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<io.swagger.v3.oas.models.servers.Server> servers) {
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
-        // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
+        // codegenOperation.vendorExtensions from the extension we just set on `operation`.
         // Only for libraries that support Pageable; respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
@@ -1275,7 +1275,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     SpringPageableScanUtils.AnnotationSyntax.KOTLIN,
                     DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider()));
 
-            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+            // #8315 Remove matching Spring Data Web default query params if `x-spring-paginated` with Pageable is used
             // Build and attach pageable parameter annotations
             SpringPageableScanUtils.removePageableQueryParams(codegenOperation);
             pageableUtils.applyPageableAnnotations(
@@ -1600,7 +1600,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (resolved != null && !resolved.isBlank()) {
                 cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
                 // When a discriminator is present, the typeInfoAnnotation partial is rendered
-                // inside {{#discriminator}}, so JMustache resolves 'vendorExtensions' against
+                // inside {{#discriminator}}, so JMustache resolves `vendorExtensions` against
                 // CodegenDiscriminator (not CodegenModel). Store there too.
                 if (cm.discriminator != null) {
                     cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
@@ -1715,7 +1715,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     }
                 }
                 // Suppress meta schemas only when no remaining (non-suppressed) schema references them.
-                // Example: if SearchResult has a 'page: PageMeta' property, PageMeta must be kept.
+                // Example: if SearchResult has a `page: PageMeta` property, PageMeta must be kept.
                 for (Map.Entry<String, String> metaEntry : metaSchemasToCheck.entrySet()) {
                     String metaName = metaEntry.getKey();       // transformed — matches cm.imports values
                     String rawMetaName = metaEntry.getValue();  // raw — matches objs key
@@ -1901,7 +1901,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             resp.code = "200";
                         }
 
-                        // This is necessary in case 'modelMutable' is enabled,
+                        // This is necessary in case `modelMutable` is enabled,
                         // to prevent Spring Request handlers from being generated with
                         // the ApiResponse annotation configured with the Mutable container type.
                         // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793108068
@@ -1929,7 +1929,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 final List<CodegenParameter> allParams = operation.allParams;
                 if (allParams != null) {
                     allParams.forEach(param ->
-                            // This is necessary in case 'modelMutable' is enabled,
+                            // This is necessary in case `modelMutable` is enabled,
                             // to prevent Spring Request handlers from being generated with
                             // parameters using their Mutable container types.
                             // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793094727
