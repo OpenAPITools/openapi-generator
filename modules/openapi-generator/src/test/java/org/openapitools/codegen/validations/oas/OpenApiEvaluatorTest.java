@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -322,5 +323,27 @@ public class OpenApiEvaluatorTest {
         List<Invalid> warnings = getDefaultNotInEnumWarnings(result);
         Assert.assertEquals(warnings.size(), 1);
         Assert.assertTrue(warnings.get(0).getMessage().contains("'2.50'"));
+    }
+
+    @Test(description = "no warning when a number default equals an enum value of another number type")
+    public void testDefaultInEnumMixedNumberTypes() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.openapi("3.0.1");
+        Components components = new Components();
+        ObjectSchema obj = new ObjectSchema();
+        Schema<Object> prop = new Schema<>();
+        prop.setEnum(Arrays.asList(1, 2));
+        prop.setDefault(new BigDecimal("1.0"));
+        obj.addProperty("level", prop);
+        components.addSchemas("Config", obj);
+        openAPI.setComponents(components);
+
+        ValidationResult result = evaluator.validate(openAPI);
+
+        Assert.assertTrue(getDefaultNotInEnumWarnings(result).isEmpty());
     }
 }
