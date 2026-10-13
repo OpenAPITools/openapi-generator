@@ -18,7 +18,6 @@ import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -103,7 +102,6 @@ public class PetDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -123,7 +121,6 @@ public class PetDto {
    * Get category
    * @return category
    */
-  
   @JsonProperty("category")
   public @Nullable CategoryDto getCategory() {
     return category;
@@ -143,7 +140,6 @@ public class PetDto {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -171,7 +167,6 @@ public class PetDto {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -200,7 +195,6 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  
   @JsonProperty("tags")
   public List<TagDto> getTags() {
     return tags;
@@ -221,7 +215,6 @@ public class PetDto {
    * @return status
    * @deprecated
    */
-  
   @Deprecated
   @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {

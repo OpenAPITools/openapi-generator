@@ -19,6 +19,8 @@ public final class AlamofireRequestBuilderFactory: RequestBuilderFactory, Sendab
     }
 }
 
+private let responseProcessingQueue = DispatchQueue(label: "PetstoreClient.responseProcessing", qos: .userInitiated, attributes: .concurrent)
+
 fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     private init() {}
     static let shared = AlamofireRequestBuilderConfiguration()
@@ -123,7 +125,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                             case let number as NSNumber:
                                 mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                             case let data as Data:
-                                mpForm.append(data, withName: k)
+                                mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
                             case let uuid as UUID:
                                 mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
                             default:
@@ -185,7 +187,7 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                 case .success:
                     completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -279,20 +281,26 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case let .success(value):
                     completion(.success(Response(response: stringResponse.response!, body: value as! T, bodyData: stringResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? -1, stringResponse.data, stringResponse.response, error)))
                 }
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+            let responseQueue = apiConfiguration.apiResponseQueue
+            let deliver = completion
+            validatedRequest.response(queue: responseProcessingQueue,
                           responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
+                let completion: @Sendable (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void = { result in
+                    responseQueue.async { deliver(result) }
+                }
                 cleanupRequest()
 
                 do {
 
-                    guard case .success = dataResponse.result else {
-                        throw DownloadException.responseFailed
+                    if case let .failure(error) = dataResponse.result {
+                        completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
+                        return
                     }
 
                     guard let data = dataResponse.data else {
@@ -341,7 +349,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case .success:
                     completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
@@ -355,18 +363,23 @@ open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireR
                 case .success:
                     completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T, bodyData: dataResponse.data)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                 }
 
             })
         default:
-            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+            let responseQueue = apiConfiguration.apiResponseQueue
+            let deliver = completion
+            validatedRequest.response(queue: responseProcessingQueue,
                           responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
+                let completion: @Sendable (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void = { result in
+                    responseQueue.async { deliver(result) }
+                }
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? -1, dataResponse.data, dataResponse.response, error)))
                     return
                 }
 

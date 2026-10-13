@@ -12,7 +12,6 @@ import org.openapitools.model.Animal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -57,7 +56,6 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  
   @JsonProperty("declawed")
   public @Nullable Boolean getDeclawed() {
     return declawed;
