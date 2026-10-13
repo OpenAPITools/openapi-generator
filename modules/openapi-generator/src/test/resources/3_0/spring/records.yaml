@@ -1,0 +1,240 @@
+openapi: 3.0.3
+info:
+  title: Records
+  description: Models for the spring generator option useRecords
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: The stored pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /pets/search:
+    get:
+      operationId: searchPets
+      parameters:
+        - name: filter
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: The matching pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /accounts:
+    post:
+      operationId: addAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '200':
+          description: The stored account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+  /vehicles:
+    post:
+      operationId: addVehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        '200':
+          description: The stored vehicle
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+  /counters:
+    post:
+      operationId: addCounters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Counters'
+      responses:
+        '200':
+          description: The stored counters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counters'
+  /shapes:
+    post:
+      operationId: addShape
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shape'
+      responses:
+        '200':
+          description: The stored shape
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shape'
+components:
+  schemas:
+    PetKind:
+      type: string
+      enum:
+        - cat
+        - dog
+    Owner:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
+    Pet:
+      type: object
+      description: A pet with an owner
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 2
+        tag:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+        age:
+          type: integer
+          format: int32
+          default: 1
+        kind:
+          $ref: '#/components/schemas/PetKind'
+        status:
+          type: string
+          enum:
+            - available
+            - sold
+          default: available
+        labels:
+          type: array
+          items:
+            type: string
+        colors:
+          type: array
+          items:
+            type: string
+          default:
+            - red
+            - blue
+        aliases:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        owner:
+          $ref: '#/components/schemas/Owner'
+        born:
+          type: string
+          format: date-time
+    Filter:
+      type: object
+      description: Query parameters of the pet search
+      properties:
+        name:
+          type: string
+        limit:
+          type: integer
+          format: int32
+          default: 10
+    Account:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        displayName:
+          type: string
+    Vehicle:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        wheels:
+          type: integer
+      discriminator:
+        propertyName: type
+        mapping:
+          car: '#/components/schemas/Car'
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            doors:
+              type: integer
+    Counters:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties:
+        type: integer
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+    Circle:
+      type: object
+      required:
+        - radius
+      properties:
+        radius:
+          type: number
+          format: double
+    Square:
+      type: object
+      required:
+        - side
+      properties:
+        side:
+          type: number
+          format: double

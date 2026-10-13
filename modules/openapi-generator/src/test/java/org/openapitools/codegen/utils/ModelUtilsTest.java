@@ -31,9 +31,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
@@ -272,6 +275,76 @@ public class ModelUtilsTest {
 
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31TypedMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25224.yaml");
+        Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI,
+                openAPI.getPaths().get("/widgets").getGet().getResponses().get("200"));
+        Assert.assertTrue(ModelUtils.isMapSchema(responseSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(responseSchema, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31AdditionalProperties() {
+        final OpenAPI openAPI = new OpenAPI();
+
+        // additionalProperties: true
+        Schema addlTrue = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlTrue.setAdditionalProperties(true);
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlTrue, openAPI));
+
+        // additionalProperties: {}
+        Schema addlEmpty = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlEmpty.setAdditionalProperties(new JsonSchema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlEmpty, openAPI));
+
+        // additionalProperties: {type: string}
+        Schema addlString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlString.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("string"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlString));
+
+        // additionalProperties: {type: array}
+        Schema addlArray = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlArray.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("array"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlArray, openAPI));
+
+        // additionalProperties: {type: [object, string]} is a constrained union, not free-form
+        Schema addlObjectString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> objectThenString = new LinkedHashSet<>();
+        objectThenString.add("object");
+        objectThenString.add("string");
+        addlObjectString.setAdditionalProperties(new JsonSchema().types(objectThenString));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlObjectString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlObjectString));
+
+        // reversing the union must not classify the map as free-form
+        Schema addlStringObject = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> stringThenObject = new LinkedHashSet<>();
+        stringThenObject.add("string");
+        stringThenObject.add("object");
+        addlStringObject.setAdditionalProperties(new JsonSchema().types(stringThenObject));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlStringObject, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlStringObject));
+
+        // additionalProperties constrained only by enum, with no type
+        Schema addlEnum = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema enumValues = new JsonSchema();
+        enumValues.setEnum(Arrays.asList("a", "b"));
+        addlEnum.setAdditionalProperties(enumValues);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnum, openAPI));
+
+        // additionalProperties: {$ref} to an enum schema that also has no type
+        Schema color = new JsonSchema();
+        color.setEnum(Arrays.asList("red", "blue"));
+        OpenAPI openAPIWithEnum = TestUtils.createOpenAPIWithOneSchema("Color", color);
+        Schema addlEnumRef = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema colorRef = new JsonSchema();
+        colorRef.set$ref("#/components/schemas/Color");
+        addlEnumRef.setAdditionalProperties(colorRef);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnumRef, openAPIWithEnum));
     }
 
     @Test(enabled = false)

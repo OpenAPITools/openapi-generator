@@ -16,7 +16,6 @@ import org.openapitools.model.ParentWithNullableDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -43,7 +42,6 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
    * Get otherProperty
    * @return otherProperty
    */
-  
   @JsonProperty("otherProperty")
   public @Nullable String getOtherProperty() {
     return otherProperty;
