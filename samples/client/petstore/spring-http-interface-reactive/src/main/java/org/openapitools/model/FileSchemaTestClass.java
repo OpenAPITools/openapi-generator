@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -40,7 +39,6 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  
   @JsonProperty("file")
   public @Nullable File getFile() {
     return file;
@@ -68,7 +66,6 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  
   @JsonProperty("files")
   public List<File> getFiles() {
     return files;

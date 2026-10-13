@@ -1,0 +1,197 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects
+  version: 1.0.0
+paths:
+  /direct:
+    get:
+      operationId: direct
+      parameters:
+        - name: q
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/QDirect'
+      responses:
+        '200':
+          description: ok
+  /items:
+    get:
+      operationId: items
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QItem'
+      responses:
+        '200':
+          description: ok
+  /component:
+    get:
+      operationId: component
+      parameters:
+        - $ref: '#/components/parameters/QComponentParam'
+      responses:
+        '200':
+          description: ok
+  /wrapped:
+    get:
+      operationId: wrapped
+      parameters:
+        - name: q
+          in: header
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/QWrapped'
+      responses:
+        '200':
+          description: ok
+  /content:
+    get:
+      operationId: content
+      parameters:
+        - name: q
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QContent'
+      responses:
+        '200':
+          description: ok
+  /path-level/{id}:
+    parameters:
+      - name: p
+        in: query
+        schema:
+          $ref: '#/components/schemas/QPathLevel'
+    get:
+      operationId: pathLevel
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /both:
+    post:
+      operationId: both
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/Both'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Both'
+      responses:
+        '200':
+          description: ok
+  /body:
+    post:
+      operationId: body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyOnly'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyOnly'
+components:
+  parameters:
+    QComponentParam:
+      name: q
+      in: query
+      schema:
+        $ref: '#/components/schemas/QComponent'
+  schemas:
+    QDirect:
+      type: object
+      properties:
+        name:
+          type: string
+        nested:
+          $ref: '#/components/schemas/QNested'
+        many:
+          type: array
+          items:
+            $ref: '#/components/schemas/QInArray'
+        byKey:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/QInMap'
+    QNested:
+      type: object
+      properties:
+        deep:
+          $ref: '#/components/schemas/QDeep'
+    QDeep:
+      type: object
+      properties:
+        value:
+          type: string
+    QInArray:
+      type: object
+      properties:
+        value:
+          type: string
+    QInMap:
+      type: object
+      properties:
+        value:
+          type: string
+    QItem:
+      type: object
+      properties:
+        value:
+          type: string
+    QComponent:
+      type: object
+      properties:
+        value:
+          type: string
+    QWrapped:
+      type: object
+      properties:
+        value:
+          type: string
+    QContent:
+      type: object
+      properties:
+        value:
+          type: string
+    QPathLevel:
+      type: object
+      properties:
+        value:
+          type: string
+    Both:
+      type: object
+      properties:
+        value:
+          type: string
+    BodyOnly:
+      type: object
+      properties:
+        value:
+          type: string
+        sub:
+          $ref: '#/components/schemas/BodySub'
+    BodySub:
+      type: object
+      properties:
+        value:
+          type: string

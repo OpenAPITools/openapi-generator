@@ -159,11 +159,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize DateTime
-        /// </summary>
-        public string DateTimeFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// Deserializes json to <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -268,7 +263,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern to non-nullable JSON property 'uuid_with_pattern'.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                {
+                            writer.WritePropertyName("dateTime");
+                                JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
+                            }
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -35,7 +34,6 @@ public class ReturnDto {
    * Get _return
    * @return _return
    */
-  
   @JsonProperty("return")
   public @Nullable Integer getReturn() {
     return _return;

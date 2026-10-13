@@ -15,7 +15,6 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -84,7 +83,6 @@ public class ParentWithNullable {
    * Get type
    * @return type
    */
-  
   @JsonProperty("type")
   public @Nullable TypeEnum getType() {
     return type;
@@ -104,7 +102,6 @@ public class ParentWithNullable {
    * Get nullableProperty
    * @return nullableProperty
    */
-  
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
     return nullableProperty;
