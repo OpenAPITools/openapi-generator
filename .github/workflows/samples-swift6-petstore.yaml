@@ -1,0 +1,42 @@
+name: Samples Swift 6 Petstore
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift6/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift6/**
+
+jobs:
+  build:
+    name: Petstore tests
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v7
+      # Sets up Docker via Colima automatically
+      - name: Setup Docker on macOS
+        #uses: docker/setup-docker-action@v4
+        uses: douglascamata/setup-docker-macos-action@v1
+      - name: Run Petstore
+        run: |
+             docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+
+      # build and test swift6 default
+      - name: Build default
+        working-directory: samples/client/petstore/swift6/default
+        run: swift build
+      - name: Test default
+        working-directory: samples/client/petstore/swift6/default/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 alamofireLibrary
+      - name: Build alamofireLibrary
+        working-directory: samples/client/petstore/swift6/alamofireLibrary
+        run: swift build
+      - name: Test alamofireLibrary
+        working-directory: samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
