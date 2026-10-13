@@ -304,7 +304,7 @@ public class CSharpClientCodegenTest {
                 "throw new ArgumentException(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\");");
         // Also enforced in Validate() for explicit validation.
         assertFileContains(other,
-                "yield return new ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
         // The Known member (plain enum) must NOT get the not-enum handling.
         assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
                 "must not be a value excluded by the 'not' schema");
@@ -884,6 +884,18 @@ public class CSharpClientCodegenTest {
         assertNotNull(apiClient);
         assertFileNotContains(apiClient.toPath(), "using Org.OpenAPITools.Model;");
         assertFileContains(apiClient.toPath(), "obj is Org.OpenAPITools.Model.AbstractOpenAPISchema");
+    }
+
+    @Test(description = "a schema named ValidationResult does not hide the DataAnnotations type in generated models")
+    public void testValidatableModelsQualifyValidationResult() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File model = files.get("ValidationResult.cs");
+        assertNotNull(model);
+        assertFileContains(model.toPath(),
+                "IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)",
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(");
+        assertFileNotContains(model.toPath(), "IEnumerable<ValidationResult>", "new ValidationResult(");
     }
 
     private Map<String, File> generateModelNameCollisions() throws IOException {
