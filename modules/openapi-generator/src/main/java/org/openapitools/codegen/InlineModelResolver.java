@@ -1520,30 +1520,66 @@ public class InlineModelResolver {
     }
 
     private boolean isComponentModel(Schema schema) {
-        return isComponentModel(schema, new HashSet<>());
+        return isComponentModel(schema, Collections.newSetFromMap(new IdentityHashMap<>()));
     }
 
     private boolean isComponentModel(Schema schema, Set<Schema> visited) {
-        if (schema == null || !visited.add(schema)) {
-            return true; // if circular, treat as model
+        if (schema == null) {
+            return false;
         }
+        if (visited.contains(schema)) {
+            return true; // circular reference
+        }
+        visited.add(schema);
+
         if (StringUtils.isNotEmpty(schema.get$ref())) {
             Schema referenced = ModelUtils.getReferencedSchema(openAPI, schema);
             return referenced != null && isComponentModel(referenced, visited);
         }
-        if (ModelUtils.isComposedSchema(schema)) {
-            if (schema.getAllOf() != null && schema.getAllOf().size() == 1) {
-                Schema inner = (Schema) schema.getAllOf().get(0);
-                if (StringUtils.isNotEmpty(inner.get$ref())) {
-                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, inner);
-                    return referenced != null && isComponentModel(referenced, visited);
-                }
-            }
-            return true;
-        }
+
         if (resolveInlineEnums && isEnumSchema(schema)) {
             return true;
         }
-        return ModelUtils.isModel(schema);
+
+        if (schema.getType() == null || ModelUtils.isObjectTypeOAS30(schema)) {
+            if (ModelUtils.hasProperties(schema)) {
+                return true;
+            }
+        }
+
+        if (ModelUtils.isComposedSchema(schema)) {
+            if (ModelUtils.hasAllOf(schema)) {
+                for (Object inner : schema.getAllOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            if (ModelUtils.hasAnyOf(schema)) {
+                for (Object inner : schema.getAnyOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            if (ModelUtils.hasOneOf(schema)) {
+                for (Object inner : schema.getOneOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        return false;
     }
 }

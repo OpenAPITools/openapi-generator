@@ -1836,4 +1836,39 @@ public class InlineModelResolverTest {
         assertNotNull("Canonical Status must survive", schemas.get("Status"));
         assertNull("Duplicate Status_1 must be removed", schemas.get("Status_1"));
     }
+
+    @Test
+    public void deduplicateComponentsDoesNotDeduplicateBareObjectSchemasOrPrimitiveAllOfSchemas() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // Bare ObjectSchema without properties sharing a title
+        ObjectSchema bareObjA = new ObjectSchema();
+        bareObjA.setTitle("GenericObject");
+        ObjectSchema bareObjB = new ObjectSchema();
+        bareObjB.setTitle("GenericObject");
+
+        openapi.getComponents().addSchemas("GenericObjectA", bareObjA);
+        openapi.getComponents().addSchemas("GenericObjectB", bareObjB);
+
+        // ComposedSchema allOf containing only primitive string schemas
+        ComposedSchema allOfPrimA = new ComposedSchema();
+        allOfPrimA.setTitle("StringConstraint");
+        allOfPrimA.addAllOfItem(new StringSchema());
+        ComposedSchema allOfPrimB = new ComposedSchema();
+        allOfPrimB.setTitle("StringConstraint");
+        allOfPrimB.addAllOfItem(new StringSchema());
+
+        openapi.getComponents().addSchemas("StringConstraintA", allOfPrimA);
+        openapi.getComponents().addSchemas("StringConstraintB", allOfPrimB);
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Bare object A must not be removed", schemas.get("GenericObjectA"));
+        assertNotNull("Bare object B must not be removed", schemas.get("GenericObjectB"));
+        assertNotNull("Primitive allOf A must not be removed", schemas.get("StringConstraintA"));
+        assertNotNull("Primitive allOf B must not be removed", schemas.get("StringConstraintB"));
+    }
 }
