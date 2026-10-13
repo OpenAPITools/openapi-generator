@@ -37,8 +37,8 @@ jobs:
       - uses: actions/checkout@v7
       # Sets up Docker via Colima automatically
       - name: Setup Docker on macOS
-        uses: docker/setup-docker-action@v4
-        #uses: douglascamata/setup-docker-macos-action@v1
+        #uses: docker/setup-docker-action@v4
+        uses: douglascamata/setup-docker-macos-action@v1
       - name: Run Petstore
         run: |
              docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
