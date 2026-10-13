@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13]
+        os: [macos-15-intel]
         sample:
           - samples/client/petstore/swift6/default
           #- samples/client/petstore/swift6/alamofireLibrary
