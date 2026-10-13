@@ -90,6 +90,11 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     @discardableResult
     override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
+
+        guard supportsResponseType else {
+            return failBeforeSending(.unsupportedResponseType(String(describing: T.self)), managerId: managerId, completion: completion)
+        }
+
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
         AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = manager
@@ -184,33 +189,27 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
         let validatedRequest = request.validate(statusCode: apiConfiguration.successfulStatusCodeRange)
 
-        switch T.self {
-        case is Void.Type:
-            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
-                          responseSerializer: apiConfiguration.dataResponseSerializer,
-                          completionHandler: { voidResponse in
-                cleanupRequest()
-
-                switch voidResponse.result {
-                case .success:
-                    if let httpResponse = voidResponse.response {
-                        completion(.success(Response(response: httpResponse, body: () as! T, bodyData: voidResponse.data)))
-                    } else {
-                        completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
-                    }
-                case let .failure(error):
-                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
-                }
-
-            })
-        default:
-            request.cancel()
+        validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                      responseSerializer: apiConfiguration.dataResponseSerializer,
+                      completionHandler: { voidResponse in
             cleanupRequest()
-            let error = RequestBuilderError.unsupportedResponseType(String(describing: T.self))
-            apiConfiguration.apiResponseQueue.async {
-                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+
+            switch voidResponse.result {
+            case .success:
+                if let httpResponse = voidResponse.response {
+                    completion(.success(Response(response: httpResponse, body: () as! T, bodyData: voidResponse.data)))
+                } else {
+                    completion(.failure(ErrorResponse.error(-2, voidResponse.data, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+                }
+            case let .failure(error):
+                completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? -1, voidResponse.data, voidResponse.response, error)))
             }
-        }
+
+        })
+    }
+
+    fileprivate var supportsResponseType: Bool {
+        return T.self is Void.Type
     }
 
     fileprivate func failBeforeSending(_ error: RequestBuilderError, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
@@ -283,6 +282,10 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
+
+    override fileprivate var supportsResponseType: Bool {
+        return true
+    }
 
     override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
