@@ -33,7 +33,7 @@ jobs:
         run: swift build
       - name: Test default
         working-directory: samples/client/petstore/swift6/default/SwaggerClientTests
-        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" -quiet
       
       # build and test swift6 alamofireLibrary
       - name: Build alamofireLibrary
@@ -41,7 +41,7 @@ jobs:
         run: swift build
       - name: Test alamofireLibrary
         working-directory: samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests
-        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" -quiet
       
       # build and test swift6 apiNonStaticMethod
       - name: Build apiNonStaticMethod
@@ -49,7 +49,7 @@ jobs:
         run: swift build
       - name: Test apiNonStaticMethod
         working-directory: samples/client/petstore/swift6/apiNonStaticMethod/SwaggerClientTests
-        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" -quiet
       
       # build and test swift6 asyncAwaitLibrary
       - name: Build asyncAwaitLibrary
