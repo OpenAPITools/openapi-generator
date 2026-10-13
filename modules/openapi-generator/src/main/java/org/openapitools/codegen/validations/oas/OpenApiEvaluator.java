@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.validation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -70,7 +71,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
                 Object defaultValue = schema.getDefault();
                 if (enumList != null && !enumList.isEmpty()
                         && defaultValue != null
-                        && !enumList.contains(defaultValue)) {
+                        && !isInEnum(enumList, defaultValue)) {
                     validationResult.addResult(Validated.invalid(defaultNotInEnumRule,
                             String.format(Locale.ROOT,
                                     "Schema has default value '%s' not in enum %s",
@@ -145,5 +146,17 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         }
 
         return validationResult;
+    }
+
+    /**
+     * Checks whether the default value is one of the enum values. Numbers parsed into {@link BigDecimal}
+     * are compared by value, so that a default of 1.50 matches an enum value of 1.5.
+     */
+    private static boolean isInEnum(List<?> enumList, Object defaultValue) {
+        if (!(defaultValue instanceof BigDecimal)) {
+            return enumList.contains(defaultValue);
+        }
+        BigDecimal value = (BigDecimal) defaultValue;
+        return enumList.stream().anyMatch(item -> item instanceof BigDecimal && ((BigDecimal) item).compareTo(value) == 0);
     }
 }
