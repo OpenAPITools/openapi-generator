@@ -21,9 +21,6 @@ jobs:
       - uses: actions/checkout@v7
       - name: Setup Docker on macOS
         uses: douglascamata/setup-docker-macos-action@v1
-        with:
-          lima: "v0.19.0"     # use a specific known-stable version
-          colima: "v0.6.8"    # use a specific known-stable version
       - name: Run Petstore
         run: |
              docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
