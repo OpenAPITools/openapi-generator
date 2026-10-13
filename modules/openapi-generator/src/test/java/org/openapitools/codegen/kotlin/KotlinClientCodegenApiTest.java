@@ -295,6 +295,28 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+    @DataProvider(name = "ktorClientLibraries")
+    public static Object[][] ktorClientLibraries() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.MULTIPLATFORM}
+        };
+    }
+
+    @Test(dataProvider = "ktorClientLibraries")
+    public void testNoContentTypeForRequestWithoutBody(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        String outputPath = codegen.getOutputDir().replace('\\', '/');
+
+        new DefaultGenerator().opts(createClientOptInput(openAPI, codegen)).generate();
+
+        // operations without a requestBody pass EmptyContent, which must not get a JSON content type
+        assertFileContains(Paths.get(outputPath + "/src/" + library.getSourceRoot() + "/org/openapitools/client/infrastructure/ApiClient.kt"),
+                "if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE) && body !is io.ktor.client.utils.EmptyContent) {");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }
