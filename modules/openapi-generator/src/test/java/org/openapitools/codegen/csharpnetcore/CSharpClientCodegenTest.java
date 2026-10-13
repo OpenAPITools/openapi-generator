@@ -876,6 +876,33 @@ public class CSharpClientCodegenTest {
         assertFileNotContains(updateCommand.toPath(), "_flagAutoRenew");
     }
 
+    @Test(description = "restsharp ApiClient does not import the model namespace, so schemas named Parameter, ParameterType or Task do not collide with RestSharp/System types")
+    public void testRestSharpApiClientDoesNotImportModelNamespace() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File apiClient = files.get("ApiClient.cs");
+        assertNotNull(apiClient);
+        assertFileNotContains(apiClient.toPath(), "using Org.OpenAPITools.Model;");
+        assertFileContains(apiClient.toPath(), "obj is Org.OpenAPITools.Model.AbstractOpenAPISchema");
+    }
+
+    private Map<String, File> generateModelNameCollisions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/model-name-collisions.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        return defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity(), (first, second) -> first));
+    }
+
     private Map<String, File> generateConditionalSerializationValueTypeModels(boolean conditionalSerialization) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
