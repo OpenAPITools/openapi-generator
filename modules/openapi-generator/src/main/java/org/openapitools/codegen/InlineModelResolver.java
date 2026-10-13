@@ -1235,11 +1235,13 @@ public class InlineModelResolver {
 
         for (String name : sortedKeys) {
             Schema schema = schemas.get(name);
-            if (schema == null || schema.getTitle() == null || isEnumSchema(schema) || !isModelNeeded(schema)) {
-                continue; // only deduplicate titled, non-enum model schemas
+            if (schema == null || schema.getTitle() == null || !isComponentModel(schema)) {
+                continue; // only deduplicate titled model schemas
             }
             try {
-                String structural = computeStructuralSignature(schema);
+                String structural = isEnumSchema(schema)
+                        ? structureMapper.writeValueAsString(schema)
+                        : computeStructuralSignature(schema);
                 String sigKey = schema.getTitle() + "||" + structural;
                 String canonical = canonicalBySig.get(sigKey);
                 if (canonical != null) {
@@ -1515,5 +1517,33 @@ public class InlineModelResolver {
                 }
             }
         }
+    }
+
+    private boolean isComponentModel(Schema schema) {
+        return isComponentModel(schema, new HashSet<>());
+    }
+
+    private boolean isComponentModel(Schema schema, Set<Schema> visited) {
+        if (schema == null || !visited.add(schema)) {
+            return true; // if circular, treat as model
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            Schema referenced = ModelUtils.getReferencedSchema(openAPI, schema);
+            return referenced != null && isComponentModel(referenced, visited);
+        }
+        if (ModelUtils.isComposedSchema(schema)) {
+            if (schema.getAllOf() != null && schema.getAllOf().size() == 1) {
+                Schema inner = (Schema) schema.getAllOf().get(0);
+                if (StringUtils.isNotEmpty(inner.get$ref())) {
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, inner);
+                    return referenced != null && isComponentModel(referenced, visited);
+                }
+            }
+            return true;
+        }
+        if (resolveInlineEnums && isEnumSchema(schema)) {
+            return true;
+        }
+        return ModelUtils.isModel(schema);
     }
 }
