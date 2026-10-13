@@ -292,7 +292,7 @@ extension {{projectName}}API {
             {{#hasFormParams}}
         let localVariableFormParams: [String: (any Sendable)?] = [
                 {{#formParams}}
-            {{> _param}},
+            {{#isMultipart}}{{#isFile}}"{{baseName}}": {{paramName}},{{/isFile}}{{^isFile}}{{#isArray}}{{#items.isFile}}"{{baseName}}": {{paramName}},{{/items.isFile}}{{^items.isFile}}{{> _param}},{{/items.isFile}}{{/isArray}}{{^isArray}}{{> _param}},{{/isArray}}{{/isFile}}{{/isMultipart}}{{^isMultipart}}{{> _param}},{{/isMultipart}}
                 {{/formParams}}
         ]
 
