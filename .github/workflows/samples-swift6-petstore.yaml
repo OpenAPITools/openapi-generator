@@ -10,23 +10,36 @@ on:
       - samples/client/petstore/swift6/**
       - samples/client/petstore/swift-combine/**
 
+env:
+  HOMEBREW_NO_AUTO_UPDATE: "1"
+
 jobs:
   build:
     name: Petstore tests
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v7
-      # Sets up Docker via Colima automatically
+      - name: Cache Homebrew
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /opt/homebrew/Cellar
+          key: ${{ runner.os }}-brew-${{ hashFiles('**/.brew_installed') }}
+          restore-keys: |
+            ${-runner.os}-brew-
+            # Sets up Docker via Colima automatically
       - name: Setup Docker on macOS
-        #uses: docker/setup-docker-action@v4
         uses: douglascamata/setup-docker-macos-action@v1
+        with:
+          lima: "v0.19.0"     # use a specific known-stable version
+          colima: "v0.6.8"    # use a specific known-stable version
       - name: Run Petstore
         run: |
              docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
-
       # build and test swift6 default
       - name: Build default
         working-directory: samples/client/petstore/swift6/default
