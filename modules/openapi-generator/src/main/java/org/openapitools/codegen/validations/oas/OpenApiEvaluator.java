@@ -149,14 +149,33 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
     }
 
     /**
-     * Checks whether the default value is one of the enum values. Numbers parsed into {@link BigDecimal}
-     * are compared by value, so that a default of 1.50 matches an enum value of 1.5.
+     * Checks whether the default value is one of the enum values. Numbers are compared by value,
+     * so that a default of 1.50 matches an enum value of 1.5, and 1.0 matches an integer enum value of 1.
      */
     private static boolean isInEnum(List<?> enumList, Object defaultValue) {
-        if (!(defaultValue instanceof BigDecimal)) {
-            return enumList.contains(defaultValue);
+        if (enumList.contains(defaultValue)) {
+            return true;
         }
-        BigDecimal value = (BigDecimal) defaultValue;
-        return enumList.stream().anyMatch(item -> item instanceof BigDecimal && ((BigDecimal) item).compareTo(value) == 0);
+        BigDecimal value = toBigDecimal(defaultValue);
+        return value != null && enumList.stream().map(OpenApiEvaluator::toBigDecimal)
+                .anyMatch(item -> item != null && item.compareTo(value) == 0);
+    }
+
+    /**
+     * Returns the value of a number as a {@link BigDecimal}, or null for anything else,
+     * including NaN and infinite floating point values.
+     */
+    private static BigDecimal toBigDecimal(Object value) {
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        if (!(value instanceof Number)) {
+            return null;
+        }
+        try {
+            return new BigDecimal(value.toString());
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
