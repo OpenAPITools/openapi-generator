@@ -10438,6 +10438,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void useRecordsWithoutBeanValidationHasNoNotNullAnnotationNorImport_issue23751() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(SpringCodegen.USE_BEANVALIDATION, "false"));
+
+        assertSource(files, "Pet.java")
+                .contains("public record Pet(", "String name,")
+                .doesNotContain("@NotNull", "@Size", "validation.constraints");
+        assertSource(files, "Owner.java")
+                .doesNotContain("@NotNull", "validation.constraints");
+    }
+
+    @Test
+    public void useRecordsWithoutBeanValidationHasNoRequiredNullableMarker_issue23751() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_FIELDS_SPEC, Map.of(SpringCodegen.USE_BEANVALIDATION, "false"));
+
+        assertSource(files, "Defaults.java")
+                .contains("public record Defaults(", "JsonNullable<String> reqNullable,")
+                .doesNotContain("@NotNull", "@Present", "validation.constraints");
+    }
+
+    @Test
+    public void useRecordsWithBeanValidationKeepsNotNullAndItsImport() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(SpringCodegen.USE_BEANVALIDATION, "true"));
+
+        assertSource(files, "Pet.java")
+                .contains("@NotNull @Size(min = 2)", "import jakarta.validation.constraints.*;");
+    }
+
+    @Test
     public void useRecordsHasOnlyTheCanonicalConstructor() throws IOException {
         for (Map<String, Object> options : List.<Map<String, Object>>of(
                 Map.of(),
