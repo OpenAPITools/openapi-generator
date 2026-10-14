@@ -326,6 +326,7 @@ public class DartDioClientCodegenTest {
                 .setPackageName("my-package")
                 .setInputSpec("src/test/resources/3_1/webhooks.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        configurator.addAdditionalProperty("pubName", "my_api");
 
         ClientOptInput opts = configurator.toClientOptInput();
 
@@ -342,13 +343,9 @@ public class DartDioClientCodegenTest {
 
         String apiContent = Files.readString(apiFile.toPath(), StandardCharsets.UTF_8);
 
-        // Bug symptom #22586: Map-style import with HTML entity encoding
-        // Before fix: import '{import&#x3D;model.Pet, classname&#x3D;Pet}';
-        // After fix: import 'package:my-package/src/model/pet.dart';
-        Assert.assertFalse(apiContent.contains("import '{"),
-            "Webhook should not contain Map-style import (bug #22586 symptom)");
-        Assert.assertFalse(apiContent.contains("&#x3D;"),
-            "Webhook should not contain HTML entity encoding (bug #22586 symptom)");
+        Assert.assertTrue(
+                apiContent.contains("import 'package:my_api/src/model/pet.dart';"),
+                "Webhook should import the Pet model using a valid Dart package import");
     }
 
    /**
