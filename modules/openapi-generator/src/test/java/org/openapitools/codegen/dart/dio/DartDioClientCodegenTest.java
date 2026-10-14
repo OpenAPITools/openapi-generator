@@ -343,6 +343,12 @@ public class DartDioClientCodegenTest {
 
         String apiContent = Files.readString(apiFile.toPath(), StandardCharsets.UTF_8);
 
+        // Bug symptom #22586: Map-style import with HTML entity encoding
+        // Before fix: import '{import&#x3D;model.Pet, classname&#x3D;Pet}';
+        Assert.assertFalse(apiContent.contains("import '{"),
+                "Webhook should not contain Map-style imports");
+        Assert.assertFalse(apiContent.contains("&#x3D;"),
+                "Webhook imports should not contain HTML entity encoding");
         Assert.assertTrue(
                 apiContent.contains("import 'package:my_api/src/model/pet.dart';"),
                 "Webhook should import the Pet model using a valid Dart package import");
