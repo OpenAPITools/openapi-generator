@@ -293,6 +293,34 @@ public class TypeScriptClientCodegenTest {
         assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
     }
 
+    @Test
+    public void testCircularOneOfGeneratesImports() throws Exception {
+        final File output = Files.createTempDirectory("typescriptclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/bugs/issue_23286.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // model with a circular oneOf branch (Array<Repro>) must import Repro
+        TestUtils.assertFileContains(
+                Paths.get(output + "/models/ReproContent.ts"),
+                "import { Repro } from '../models/Repro';",
+                "export type ReproContent = Array<Repro> | string;"
+        );
+
+        configurator.setGeneratorName("typescript-redux-query");
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(Paths.get(output + "/src/models/ReproContent.ts"),
+                "Repro,", "export type ReproContent = Array<Repro> | string;");
+    }
+
     @Test(description = "Verify useErasableSyntax config parameter generates erasable code")
     public void testUseErasableSyntaxConfig() throws IOException {
         boolean[] options = {true, false};
