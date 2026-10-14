@@ -1,0 +1,111 @@
+package org.openapitools.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+import io.swagger.annotations.*;
+import java.util.Objects;
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
+
+
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+public class Client  implements Serializable {
+  private String client;
+
+  protected Client(ClientBuilder<?, ?> b) {
+    this.client = b.client;
+  }
+
+  public Client() {
+  }
+
+  /**
+   **/
+  public Client client(String client) {
+    this.client = client;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonbProperty("client")
+  public String getClient() {
+    return client;
+  }
+
+  @JsonbProperty("client")
+  public void setClient(String client) {
+    this.client = client;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Client client = (Client) o;
+    return Objects.equals(this.client, client.client);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(client);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Client {\n");
+    
+    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+
+
+  public static ClientBuilder<?, ?> builder() {
+    return new ClientBuilderImpl();
+  }
+
+  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+
+    @Override
+    protected ClientBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Client build() {
+      return new Client(this);
+    }
+  }
+
+  public static abstract class ClientBuilder<C extends Client, B extends ClientBuilder<C, B>>  {
+    private String client;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B client(String client) {
+      this.client = client;
+      return self();
+    }
+  }
+}

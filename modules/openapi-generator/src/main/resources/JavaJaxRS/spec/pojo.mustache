@@ -18,6 +18,20 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 {{/additionalProperties}}
 {{/jackson}}
+{{#jsonb}}
+import {{javaxPackage}}.json.bind.annotation.JsonbCreator;
+import {{javaxPackage}}.json.bind.annotation.JsonbProperty;
+{{#hasEnums}}
+import {{javaxPackage}}.json.bind.annotation.JsonbTypeDeserializer;
+import {{javaxPackage}}.json.bind.annotation.JsonbTypeSerializer;
+import {{javaxPackage}}.json.bind.serializer.DeserializationContext;
+import {{javaxPackage}}.json.bind.serializer.JsonbDeserializer;
+import {{javaxPackage}}.json.bind.serializer.JsonbSerializer;
+import {{javaxPackage}}.json.bind.serializer.SerializationContext;
+import {{javaxPackage}}.json.stream.JsonGenerator;
+import {{javaxPackage}}.json.stream.JsonParser;
+{{/hasEnums}}
+{{/jsonb}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
 {{/openApiNullable}}
@@ -121,6 +135,32 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{/hasRequired}}
   {{/generateJsonCreator}}
   {{/jackson}}
+  {{#jsonb}}
+  {{#generateJsonCreator}}
+  {{#hasRequired}}
+  @JsonbCreator
+  public {{classname}}(
+    {{#requiredVars}}
+    @JsonbProperty("{{baseName}}") {{>beanValidatedType}} {{name}}{{^-last}},{{/-last}}
+    {{/requiredVars}}
+  ) {
+    {{#parent}}
+    super(
+    {{#parentRequiredVars}}
+      {{name}}{{^-last}},{{/-last}}
+    {{/parentRequiredVars}}
+    );
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
+    this.{{name}} = {{name}};
+    {{/required}}
+    {{/vars}}
+  }
+
+  {{/hasRequired}}
+  {{/generateJsonCreator}}
+  {{/jsonb}}
   {{#vars}}
   /**
    {{#description}}
@@ -162,7 +202,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
   @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}requiredMode = Schema.RequiredMode.REQUIRED, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
   @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useMicroProfileOpenAPIAnnotations}}
-  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}
+  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}{{#jsonb}}@JsonbProperty({{#required}}{{#isNullable}}value = {{/isNullable}}{{/required}}"{{baseName}}"{{#required}}{{#isNullable}}, nillable = true{{/isNullable}}{{/required}}){{/jsonb}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}() {
     return {{name}};
@@ -183,6 +223,9 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{#jackson}}
   @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{/jackson}}
+  {{#jsonb}}
+  @JsonbProperty("{{baseName}}")
+  {{/jsonb}}
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
