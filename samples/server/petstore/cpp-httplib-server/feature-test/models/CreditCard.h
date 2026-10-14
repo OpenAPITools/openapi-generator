@@ -53,24 +53,24 @@ public:
 
 
 
-friend void to_json(nlohmann::json& j, const CreditCard& o)
-{
-    j = nlohmann::json::object();
-    j["paymentType"] = o.paymentType;
-    j["cardNumber"] = o.cardNumber;
-    j["cardType"] = o.cardType;
-}
-
-friend void from_json(const nlohmann::json& j, CreditCard& o)
-{
-    if (!j.is_object())
+    friend inline void to_json(nlohmann::json& j, const CreditCard& o)
     {
-        throw nlohmann::json::type_error::create(302, "CreditCard must be a JSON object", &j);
+        j = nlohmann::json::object();
+        j["paymentType"] = o.paymentType;
+        j["cardNumber"] = o.cardNumber;
+        j["cardType"] = o.cardType;
     }
-    j.at("paymentType").get_to(o.paymentType);
-    j.at("cardNumber").get_to(o.cardNumber);
-    j.at("cardType").get_to(o.cardType);
-}
+
+    friend inline void from_json(const nlohmann::json& j, CreditCard& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "CreditCard must be a JSON object", &j);
+        }
+        j.at("paymentType").get_to(o.paymentType);
+        j.at("cardNumber").get_to(o.cardNumber);
+        j.at("cardType").get_to(o.cardType);
+    }
 
 
 private:

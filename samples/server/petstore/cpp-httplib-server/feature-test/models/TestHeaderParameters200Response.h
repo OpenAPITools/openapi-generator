@@ -26,23 +26,23 @@ public:
     void setMessage(const std::string& message);
 
 
-friend void to_json(nlohmann::json& j, const TestHeaderParameters200Response& o)
-{
-    j = nlohmann::json::object();
-    j["message"] = o.message;
-}
+    friend inline void to_json(nlohmann::json& j, const TestHeaderParameters200Response& o)
+    {
+        j = nlohmann::json::object();
+        j["message"] = o.message;
+    }
 
-friend void from_json(const nlohmann::json& j, TestHeaderParameters200Response& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, TestHeaderParameters200Response& o)
     {
-        throw nlohmann::json::type_error::create(302, "TestHeaderParameters200Response must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "TestHeaderParameters200Response must be a JSON object", &j);
+        }
+        if (j.contains("message"))
+        {
+            j.at("message").get_to(o.message);
+        }
     }
-    if (j.contains("message"))
-    {
-        j.at("message").get_to(o.message);
-    }
-}
 
 
 private:

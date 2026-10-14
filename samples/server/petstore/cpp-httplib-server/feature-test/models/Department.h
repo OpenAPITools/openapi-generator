@@ -32,27 +32,27 @@ public:
     void setEmployees(const std::vector<Employee>& employees);
 
 
-friend void to_json(nlohmann::json& j, const Department& o)
-{
-    j = nlohmann::json::object();
-    j["name"] = o.name;
-    j["manager"] = o.manager;
-    j["employees"] = o.employees;
-}
+    friend inline void to_json(nlohmann::json& j, const Department& o)
+    {
+        j = nlohmann::json::object();
+        j["name"] = o.name;
+        j["manager"] = o.manager;
+        j["employees"] = o.employees;
+    }
 
-friend void from_json(const nlohmann::json& j, Department& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, Department& o)
     {
-        throw nlohmann::json::type_error::create(302, "Department must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Department must be a JSON object", &j);
+        }
+        j.at("name").get_to(o.name);
+        j.at("manager").get_to(o.manager);
+        if (j.contains("employees"))
+        {
+            j.at("employees").get_to(o.employees);
+        }
     }
-    j.at("name").get_to(o.name);
-    j.at("manager").get_to(o.manager);
-    if (j.contains("employees"))
-    {
-        j.at("employees").get_to(o.employees);
-    }
-}
 
 
 private:
