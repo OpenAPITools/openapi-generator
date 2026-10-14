@@ -10,6 +10,7 @@ on:
       - samples/openapi3/server/petstore/springboot-4/**
       - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-optional-getters/**
       - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
@@ -33,6 +34,7 @@ on:
       - samples/openapi3/server/petstore/springboot-4/**
       - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-optional-getters/**
       - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
@@ -64,6 +66,7 @@ jobs:
           - samples/openapi3/server/petstore/springboot-4
           - samples/openapi3/server/petstore/springboot-4-jspecify
           - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable
+          - samples/openapi3/server/petstore/springboot-4-jspecify-optional-getters
           - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional
           - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
