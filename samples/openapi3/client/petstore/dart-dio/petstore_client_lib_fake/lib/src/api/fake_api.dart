@@ -1345,11 +1345,11 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enumQueryStringArray != null) r'enum_query_string_array': encodeParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
+      if (enumQueryStringArray != null) r'enum_query_string_array': encodeParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.multi),
       if (enumQueryString != null) r'enum_query_string': encodeParameter(_serializers, enumQueryString, const FullType(String)),
       if (enumQueryInteger != null) r'enum_query_integer': encodeParameter(_serializers, enumQueryInteger, const FullType(int)),
       if (enumQueryDouble != null) r'enum_query_double': encodeParameter(_serializers, enumQueryDouble, const FullType(double)),
-      if (enumQueryModelArray != null) r'enum_query_model_array': encodeParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), format: ListFormat.multi),
+      if (enumQueryModelArray != null) r'enum_query_model_array': encodeParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), omitNullCollectionItems: true, format: ListFormat.multi),
     };
 
     dynamic _bodyData;
@@ -1792,11 +1792,11 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'pipe': encodeParameter<String>(_serializers, pipe, const FullType(BuiltList, [FullType(String)]), format: ListFormat.pipes),
-      r'ioutil': encodeParameter<String>(_serializers, ioutil, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
-      r'http': encodeParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv),
-      r'url': encodeParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
-      r'context': encodeParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
+      r'pipe': encodeParameter<String>(_serializers, pipe, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.pipes),
+      r'ioutil': encodeParameter<String>(_serializers, ioutil, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
+      r'http': encodeParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.ssv),
+      r'url': encodeParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
+      r'context': encodeParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.multi),
       if (language != null) r'language': encodeParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)])),
       r'allowEmpty': encodeParameter(_serializers, allowEmpty, const FullType(String)),
     };

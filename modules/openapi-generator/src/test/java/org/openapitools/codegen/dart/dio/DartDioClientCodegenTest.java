@@ -427,6 +427,8 @@ public class DartDioClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path serializers = output.toPath().resolve("lib/src/serializers.dart");
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
 
         // BuiltList with nullable double items: FullType must be .nullable and
         // the builder factory must carry the ? on the type argument.
@@ -449,6 +451,31 @@ public class DartDioClientCodegenTest {
                 "() => ListBuilder<double>(),");
         TestUtils.assertFileNotContains(serializers,
                 "() => SetBuilder<String>(),");
+
+        // Query collection types must preserve nullable items so built_value
+        // serializes them with the same FullType used by the generated model.
+        // ListFormat then maps the OpenAPI wire style to Dio: repeated keys,
+        // comma-separated, space-separated, and pipe-separated values.
+        TestUtils.assertFileContains(defaultApi,
+                "encodeParameter<String?>(_serializers, repeated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.multi)",
+                "encodeParameter<String?>(_serializers, commaSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.csv)",
+                "encodeParameter<String?>(_serializers, spaceSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.ssv)",
+                "encodeParameter<String?>(_serializers, pipeSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.pipes)",
+                "encodeParameter<String>(_serializers, nonNullable, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv)");
+
+        // The query-only null filter must not make non-nullable item types
+        // nullable in either the generic argument or the FullType metadata.
+        TestUtils.assertFileNotContains(defaultApi,
+                "encodeParameter<String?>(_serializers, nonNullable",
+                "encodeParameter<String>(_serializers, nonNullable, const FullType(BuiltList, [FullType.nullable(String)])");
+
+        // Collection detection must not depend on an exact reified generic
+        // match, otherwise nullable-item collections bypass ListParam.
+        TestUtils.assertFileContains(apiUtil,
+                "if (value is BuiltList || value is BuiltSet)",
+                "if (omitNullCollectionItems)",
+                "values.removeWhere((item) => item == null);",
+                "return ListParam(values, format);");
     }
 
     /**

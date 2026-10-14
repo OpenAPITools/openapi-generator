@@ -218,7 +218,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': encodeParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+      r'status': encodeParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(
@@ -304,7 +304,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'tags': encodeParameter<String>(_serializers, tags, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+      r'tags': encodeParameter<String>(_serializers, tags, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(

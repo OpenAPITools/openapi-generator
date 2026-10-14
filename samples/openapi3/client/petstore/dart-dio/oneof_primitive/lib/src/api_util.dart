@@ -12,6 +12,8 @@ import 'package:dio/dio.dart';
 /// Format normal parameters for query/form bodies.
 /// Returns primitive, String, or `ListParam` for collections when `asString`
 /// is false.
+/// When `omitNullCollectionItems` is true, undefined collection members
+/// are removed before query serialization.
 dynamic encodeParameter<T>(
   Serializers serializers,
   dynamic value,
@@ -20,6 +22,7 @@ dynamic encodeParameter<T>(
   ListFormat format = ListFormat.multi,
   bool asString = false,
   bool forMultipart = false,
+  bool omitNullCollectionItems = false,
 }) {
   if (value == null) {
     return '';
@@ -37,8 +40,13 @@ dynamic encodeParameter<T>(
   if (serialized == null) {
     return asString ? '' : null;
   }
-  if (value is BuiltList<T> || value is BuiltSet<T>) {
+  // Match the collection independently of T. Dart's generic type checks are
+  // reified, so BuiltList<T?> does not satisfy BuiltList<T>.
+  if (value is BuiltList || value is BuiltSet) {
     final values = List<Object?>.of((serialized as Iterable<Object?>).cast());
+    if (omitNullCollectionItems) {
+      values.removeWhere((item) => item == null);
+    }
     if (asString && format != ListFormat.multi && format != ListFormat.multiCompatible) {
       return _joinCollectionValues(values, format);
     }

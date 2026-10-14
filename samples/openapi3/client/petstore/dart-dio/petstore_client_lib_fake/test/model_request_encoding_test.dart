@@ -142,6 +142,124 @@ void main() {
       }
     });
 
+    test('nullable-item query lists preserve standard collection formats', () {
+      const type = FullType(BuiltList, [FullType.nullable(String)]);
+      final serializers =
+          (standardSerializers.toBuilder()
+                ..addBuilderFactory(type, () => ListBuilder<String?>()))
+              .build();
+      final values = BuiltList<String?>(<String?>['blue', null, 'brown']);
+      final expected = <ListFormat, String>{
+        ListFormat.multi: 'color=blue&color=brown',
+        ListFormat.csv: 'color=blue,brown',
+        ListFormat.ssv: 'color=blue%20brown',
+        ListFormat.pipes: 'color=blue|brown',
+      };
+
+      for (final entry in expected.entries) {
+        final encoded = encodeParameter<String?>(
+          serializers,
+          values,
+          type,
+          format: entry.key,
+          omitNullCollectionItems: true,
+        );
+
+        expect(encoded, isA<ListParam<Object?>>());
+        expect(
+          Transformer.urlEncodeQueryMap(<String, dynamic>{'color': encoded}),
+          entry.value,
+        );
+      }
+    });
+
+    test('query null filtering handles edge positions and all-null lists', () {
+      const type = FullType(BuiltList, [FullType.nullable(String)]);
+      final serializers =
+          (standardSerializers.toBuilder()
+                ..addBuilderFactory(type, () => ListBuilder<String?>()))
+              .build();
+      final cases = <BuiltList<String?>, String>{
+        BuiltList<String?>(<String?>[null, 'blue', null, 'brown', null]):
+            'color=blue&color=brown',
+        BuiltList<String?>(<String?>[null, null]): '',
+        BuiltList<String?>(<String?>['', null, 'brown']): 'color=&color=brown',
+      };
+
+      for (final entry in cases.entries) {
+        final encoded = encodeParameter<String?>(
+          serializers,
+          entry.key,
+          type,
+          omitNullCollectionItems: true,
+        );
+
+        expect(
+          Transformer.urlEncodeQueryMap(<String, dynamic>{'color': encoded}),
+          entry.value,
+        );
+      }
+    });
+
+    test('nullable query items encode reserved data before delimiters', () {
+      const type = FullType(BuiltList, [FullType.nullable(String)]);
+      final serializers =
+          (standardSerializers.toBuilder()
+                ..addBuilderFactory(type, () => ListBuilder<String?>()))
+              .build();
+      final values = BuiltList<String?>(<String?>[
+        'blue,green',
+        null,
+        'black & white',
+      ]);
+      final expected = <ListFormat, String>{
+        ListFormat.multi: 'color=blue%2Cgreen&color=black+%26+white',
+        ListFormat.csv: 'color=blue%2Cgreen,black+%26+white',
+        ListFormat.ssv: 'color=blue%2Cgreen%20black+%26+white',
+        ListFormat.pipes: 'color=blue%2Cgreen|black+%26+white',
+      };
+
+      for (final entry in expected.entries) {
+        final encoded = encodeParameter<String?>(
+          serializers,
+          values,
+          type,
+          format: entry.key,
+          omitNullCollectionItems: true,
+        );
+
+        expect(
+          Transformer.urlEncodeQueryMap(<String, dynamic>{'color': encoded}),
+          entry.value,
+        );
+      }
+    });
+
+    test('query null filtering is opt-in and does not mutate its input', () {
+      const type = FullType(BuiltList, [FullType.nullable(String)]);
+      final serializers =
+          (standardSerializers.toBuilder()
+                ..addBuilderFactory(type, () => ListBuilder<String?>()))
+              .build();
+      final values = BuiltList<String?>(<String?>['blue', null, 'brown']);
+
+      final unfiltered = encodeParameter<String?>(
+        serializers,
+        values,
+        type,
+      ) as ListParam<Object?>;
+      final filtered = encodeParameter<String?>(
+        serializers,
+        values,
+        type,
+        omitNullCollectionItems: true,
+      ) as ListParam<Object?>;
+
+      expect(unfiltered.value, <Object?>['blue', null, 'brown']);
+      expect(filtered.value, <Object?>['blue', 'brown']);
+      expect(values.toList(), <String?>['blue', null, 'brown']);
+    });
+
     test('explicit JSON form field needs a second decode to recover the model',
         () async {
       // Models a server contract explicitly requiring JSON text in `pet`.

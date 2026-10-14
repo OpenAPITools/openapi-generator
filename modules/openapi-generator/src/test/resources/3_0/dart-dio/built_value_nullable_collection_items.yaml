@@ -6,6 +6,51 @@ paths:
   /items:
     get:
       operationId: getItems
+      parameters:
+        - name: repeated
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              nullable: true
+        - name: commaSeparated
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              nullable: true
+        - name: spaceSeparated
+          in: query
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              nullable: true
+        - name: pipeSeparated
+          in: query
+          style: pipeDelimited
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              nullable: true
+        - name: nonNullable
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         "200":
           description: OK
