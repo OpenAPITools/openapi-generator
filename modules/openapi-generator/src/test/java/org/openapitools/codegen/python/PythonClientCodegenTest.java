@@ -1517,6 +1517,65 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testLegacyModelHelpersFollowSourceFolder() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setCompatibleWithPythonLegacy(true);
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        addModelAttributeNameMappings(codegen);
+
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+        final Path model = Paths.get(
+                outputPath + "src/openapi_client/models/legacy_model.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "src/openapi_client/_legacy_model_helpers.py");
+
+        assertFileContains(model,
+                "from openapi_client._legacy_model_helpers import (");
+        assertFileExists(legacyHelpers);
+        Assert.assertFalse(Files.exists(Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py")));
+    }
+
+    @Test
+    public void testLegacyModelHelpersStayInlineForWhitespaceOnlySupportingFiles() throws IOException {
+        final String oldModels = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        final String oldSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
+        try {
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "");
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, " ");
+            final PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.setCompatibleWithPythonLegacy(true);
+            addModelAttributeNameMappings(codegen);
+
+            final String outputPath = generateFiles(codegen,
+                    "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+            final Path model = Paths.get(
+                    outputPath + "openapi_client/models/legacy_model.py");
+
+            assertFileContains(model,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
+            Assert.assertFalse(Files.exists(Paths.get(
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
+        } finally {
+            if (oldModels == null) {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+            if (oldSupportingFiles == null) {
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, oldSupportingFiles);
+            }
+        }
+    }
+
+    @Test
     public void testModelPublicNameRejectsInvalidPythonNames() {
         for (String publicName : Arrays.asList(
                 "class", "__private", "_iter", "model_dump", "property", "to_dict")) {

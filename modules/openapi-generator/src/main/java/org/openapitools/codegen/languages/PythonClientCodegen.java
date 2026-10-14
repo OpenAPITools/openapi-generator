@@ -408,7 +408,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (compatibleWithPythonLegacy && generatesLegacyModelHelpersModule()) {
             additionalProperties.put(USE_LEGACY_MODEL_HELPERS_MODULE, true);
             supportingFiles.add(new SupportingFile(
-                    "_legacy_model_helpers.mustache", packagePath(), LEGACY_MODEL_HELPERS_FILE));
+                    "_legacy_model_helpers.mustache", srcPath, LEGACY_MODEL_HELPERS_FILE));
         } else {
             additionalProperties.remove(USE_LEGACY_MODEL_HELPERS_MODULE);
         }
@@ -714,13 +714,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         return compatibleWithPythonLegacy && DEFAULT_LIBRARY.equals(getLibrary());
     }
 
+    /**
+     * Returns whether legacy-compatible models can import their conversion helpers from a shared supporting file.
+     *
+     * @return true when supporting-file generation includes the legacy model helpers file
+     */
     private boolean generatesLegacyModelHelpersModule() {
         if (!Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_SUPPORTING_FILES))) {
             return false;
         }
 
         String requestedSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
-        if (requestedSupportingFiles == null || requestedSupportingFiles.isBlank()) {
+        if (requestedSupportingFiles == null || requestedSupportingFiles.isEmpty()) {
             return true;
         }
 
