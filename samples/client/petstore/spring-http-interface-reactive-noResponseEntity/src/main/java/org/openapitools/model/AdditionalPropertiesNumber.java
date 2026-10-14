@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -38,7 +37,6 @@ public class AdditionalPropertiesNumber {
    * Get name
    * @return name
    */
-  
   @JsonProperty("name")
   public @Nullable String getName() {
     return name;

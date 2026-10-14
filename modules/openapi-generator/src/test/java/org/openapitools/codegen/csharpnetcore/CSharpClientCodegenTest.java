@@ -410,6 +410,30 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testSelectHeaderAcceptKeepsAllTypesJsonFirst() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File clientUtils = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ClientUtils.cs").toString());
+        assertNotNull(clientUtils);
+        assertFileContains(clientUtils.toPath(), "accepts.OrderBy(accept => IsJsonMime(accept) ? 0 : 1)");
+        assertFileNotContains(clientUtils.toPath(), "return \"application/json\";");
+    }
+
+    @Test
     public void test31specAdditionalPropertiesOfOneOf() throws IOException {
         // for https://github.com/OpenAPITools/openapi-generator/pull/18772
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

@@ -13,7 +13,6 @@ import org.openapitools.model.Cat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -89,7 +88,6 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
-  
   @JsonProperty("kind")
   public @Nullable KindEnum getKind() {
     return kind;

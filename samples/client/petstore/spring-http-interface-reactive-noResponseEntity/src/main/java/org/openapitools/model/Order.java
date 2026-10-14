@@ -11,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -89,7 +88,6 @@ public class Order {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -109,7 +107,6 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
   @JsonProperty("petId")
   public @Nullable Long getPetId() {
     return petId;
@@ -129,7 +126,6 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
   @JsonProperty("quantity")
   public @Nullable Integer getQuantity() {
     return quantity;
@@ -149,7 +145,6 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  
   @JsonProperty("shipDate")
   public @Nullable OffsetDateTime getShipDate() {
     return shipDate;
@@ -169,7 +164,6 @@ public class Order {
    * Order Status
    * @return status
    */
-  
   @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
@@ -189,7 +183,6 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
