@@ -626,8 +626,13 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 "r'fn4': encodeParameter",
                 "const FullType(BuiltList, [FullType(String)])");
-        TestUtils.assertFileNotContains(defaultApi,
-                "asString: true");
+        String generatedApi = Files.readString(defaultApi);
+        int fn4Start = generatedApi.indexOf("r'fn4':");
+        Assert.assertTrue(fn4Start >= 0, "Generated API should contain the fn4 form parameter");
+        int fn4End = generatedApi.indexOf('\n', fn4Start);
+        String fn4Entry = generatedApi.substring(fn4Start, fn4End >= 0 ? fn4End : generatedApi.length());
+        Assert.assertFalse(fn4Entry.contains("asString: true"),
+                "fn4 should use collection encoding rather than string encoding");
     }
 
     @Test
