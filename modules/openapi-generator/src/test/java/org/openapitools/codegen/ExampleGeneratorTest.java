@@ -2,6 +2,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -21,6 +22,50 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ExampleGeneratorTest {
+    @DataProvider(name = "namedMapSchemas")
+    public Object[][] namedMapSchemas() {
+        return new Object[][] {
+                {new ObjectSchema().additionalProperties(new StringSchema().example("value"))},
+                {new Schema<>().type("object").additionalProperties(new StringSchema().example("value"))},
+                {new MapSchema().additionalProperties(new StringSchema().example("value"))},
+                {new JsonSchema().type("object").additionalProperties(new StringSchema().example("value"))}
+        };
+    }
+
+    @Test(dataProvider = "namedMapSchemas")
+    public void generateNamedMapKeepsAdditionalPropertyValues(Schema<?> mapSchema) throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Labels", mapSchema);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Arrays.asList("application/json", "*/*"), "Labels");
+        ObjectMapper mapper = new ObjectMapper();
+
+        assertEquals(2, examples.size());
+        for (Map<String, String> example : examples) {
+            assertEquals(mapper.readTree("{\"key\":\"value\"}"), mapper.readTree(example.get("example")));
+        }
+    }
+
+    @Test(dataProvider = "namedMapSchemas")
+    public void generateRepeatedReferencesToNamedMap(Schema<?> mapSchema) throws Exception {
+        Schema<?> reading = new ObjectSchema()
+                .addProperties("first", new Schema<>().$ref("#/components/schemas/Labels"))
+                .addProperties("second", new Schema<>().$ref("#/components/schemas/Labels"));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Reading", reading);
+        openAPI.getComponents().addSchemas("Labels", mapSchema);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Arrays.asList("application/json", "*/*"), "Reading");
+        ObjectMapper mapper = new ObjectMapper();
+
+        assertEquals(2, examples.size());
+        for (Map<String, String> generated : examples) {
+            JsonNode example = mapper.readTree(generated.get("example"));
+            assertEquals(mapper.readTree("{\"key\":\"value\"}"), example.get("first"));
+            assertEquals(example.get("first"), example.get("second"));
+        }
+    }
+
     @DataProvider(name = "emptyObjectSchemas")
     public Object[][] emptyObjectSchemas() {
         return new Object[][] {
