@@ -78,9 +78,59 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(User,
-         id, username, firstName, lastName, email, password, phone, userStatus)
+    friend inline void to_json(nlohmann::json& j, const User& o)
+    {
+        j = nlohmann::json::object();
+        j["id"] = o.id;
+        j["username"] = o.username;
+        j["firstName"] = o.firstName;
+        j["lastName"] = o.lastName;
+        j["email"] = o.email;
+        j["password"] = o.password;
+        j["phone"] = o.phone;
+        j["userStatus"] = o.userStatus;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, User& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "User must be a JSON object", &j);
+        }
+        if (j.contains("id"))
+        {
+            j.at("id").get_to(o.id);
+        }
+        if (j.contains("username"))
+        {
+            j.at("username").get_to(o.username);
+        }
+        if (j.contains("firstName"))
+        {
+            j.at("firstName").get_to(o.firstName);
+        }
+        if (j.contains("lastName"))
+        {
+            j.at("lastName").get_to(o.lastName);
+        }
+        if (j.contains("email"))
+        {
+            j.at("email").get_to(o.email);
+        }
+        if (j.contains("password"))
+        {
+            j.at("password").get_to(o.password);
+        }
+        if (j.contains("phone"))
+        {
+            j.at("phone").get_to(o.phone);
+        }
+        if (j.contains("userStatus"))
+        {
+            j.at("userStatus").get_to(o.userStatus);
+        }
+    }
+
 
 private:
     long id;

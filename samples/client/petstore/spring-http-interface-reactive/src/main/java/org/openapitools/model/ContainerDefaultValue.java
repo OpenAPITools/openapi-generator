@@ -13,7 +13,6 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -65,7 +64,6 @@ public class ContainerDefaultValue {
    * Get nullableArray
    * @return nullableArray
    */
-  
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -92,7 +90,6 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  /* @Present */
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -120,7 +117,6 @@ public class ContainerDefaultValue {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
@@ -148,7 +144,6 @@ public class ContainerDefaultValue {
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
    */
-  
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;

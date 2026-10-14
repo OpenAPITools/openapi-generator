@@ -17,7 +17,6 @@ import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -109,7 +108,6 @@ public class Pet {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -129,7 +127,6 @@ public class Pet {
    * Get category
    * @return category
    */
-  
   @JsonProperty("category")
   public @Nullable Category getCategory() {
     return category;
@@ -149,7 +146,6 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -177,7 +173,6 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -206,7 +201,6 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -227,7 +221,6 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
   @Deprecated
   @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {

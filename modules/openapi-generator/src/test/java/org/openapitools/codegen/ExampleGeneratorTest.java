@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.*;
@@ -470,5 +471,55 @@ public class ExampleGeneratorTest {
         assertTrue("apple should come before mango", applePos < mangoPos);
         assertTrue("mango should come before cherry", mangoPos < cherryPos);
         assertTrue("cherry should come before banana", cherryPos < bananaPos);
+    }
+
+    @DataProvider(name = "mapResponseExamples")
+    public Object[][] mapResponseExamples() {
+        Map<String, Object> objectExample = new LinkedHashMap<>();
+        objectExample.put("id", 1);
+        objectExample.put("name", "Rex");
+        return new Object[][] {
+                {objectExample, Collections.emptyMap()},
+                {Collections.emptyMap(), Collections.emptyMap()},
+                {Collections.singletonMap("application/json", objectExample), Collections.emptyMap()},
+                {objectExample, null},
+                {Collections.emptyMap(), null},
+                {Collections.singletonMap("application/json", objectExample), null}
+        };
+    }
+
+    @Test(dataProvider = "mapResponseExamples")
+    public void generateFromResponseSchemaWithMapExample(Map<String, Object> objectExample, Map<String, Schema> modelSchemas) throws Exception {
+        Schema<Object> responseSchema = new Schema<>().type("object");
+        responseSchema.setExample(objectExample);
+        ExampleGenerator generator = new ExampleGenerator(modelSchemas, new OpenAPI());
+        Set<String> mediaTypes = new LinkedHashSet<>(Arrays.asList("application/json", "*/*"));
+
+        List<Map<String, String>> examples = generator.generateFromResponseSchema("200", responseSchema, mediaTypes);
+
+        assertEquals(mediaTypes.size(), examples.size());
+        ObjectMapper mapper = new ObjectMapper();
+        Iterator<String> expectedMediaTypes = mediaTypes.iterator();
+        for (Map<String, String> example : examples) {
+            assertEquals(expectedMediaTypes.next(), example.get("contentType"));
+            assertEquals(mapper.valueToTree(objectExample), mapper.readTree(example.get("example")));
+            assertEquals("application/json", example.get("generatedContentType"));
+            assertEquals("200", example.get("statusCode"));
+        }
+    }
+
+    @Test
+    public void generateWithMediaTypeExampleMap() throws Exception {
+        Map<String, Object> objectExample = Collections.singletonMap("id", 1);
+        Map<String, Object> mediaTypeExamples = Collections.singletonMap("application/json", objectExample);
+        ExampleGenerator generator = new ExampleGenerator(Collections.emptyMap(), new OpenAPI());
+
+        List<Map<String, String>> examples = generator.generate(mediaTypeExamples,
+                Collections.singletonList("application/json"), new Schema<>().type("object"));
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        ObjectMapper mapper = new ObjectMapper();
+        assertEquals(mapper.valueToTree(objectExample), mapper.readTree(examples.get(0).get("example")));
     }
 }

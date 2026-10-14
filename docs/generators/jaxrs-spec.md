@@ -47,7 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateBuilders|Whether to generate builders for models| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
-|generateJsonCreator|Whether to generate @JsonCreator constructor for required properties.| |true|
+|generateJsonCreator|Whether to generate a JSON creator constructor for required properties.| |true|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |generateRootResources|Whether to generate the root resource and application classes, only useful if interfaceOnly is true.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
@@ -75,6 +75,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
+|serializationLibrary|Serialization library used for the generated models. 'jsonb' is only supported by the default library (&lt;default&gt;). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism. Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.|<dl><dt>**jsonb**</dt><dd>Use JSON-B as serialization library</dd><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd></dl>|jackson|
 |serverPort|The port on which the server should be started| |8080|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|

@@ -410,6 +410,30 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testSelectHeaderAcceptKeepsAllTypesJsonFirst() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File clientUtils = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ClientUtils.cs").toString());
+        assertNotNull(clientUtils);
+        assertFileContains(clientUtils.toPath(), "accepts.OrderBy(accept => IsJsonMime(accept) ? 0 : 1)");
+        assertFileNotContains(clientUtils.toPath(), "return \"application/json\";");
+    }
+
+    @Test
     public void test31specAdditionalPropertiesOfOneOf() throws IOException {
         // for https://github.com/OpenAPITools/openapi-generator/pull/18772
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -780,6 +804,46 @@ public class CSharpClientCodegenTest {
         Assert.assertFalse(cr1.isArray);
         Assert.assertFalse(cr1.isModel);
         Assert.assertTrue(cr1.isMap);
+    }
+
+    @Test
+    public void testMapResponseWithModelValueIsNotFreeFormObject() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25224.yaml");
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Operation operation = openAPI.getPaths().get("/widgets").getGet();
+        final CodegenOperation co = codegen.fromOperation("getWidgets", "GET", operation, null);
+
+        Assert.assertEquals(co.responses.size(), 1);
+        CodegenResponse cr = co.responses.get(0);
+        Assert.assertEquals(cr.code, "200");
+        Assert.assertTrue(cr.isMap);
+        Assert.assertFalse(cr.isFreeFormObject);
+        Assert.assertFalse(cr.isModel);
+    }
+
+    @Test
+    public void testMapResponseWithModelValueGeneratesSystemDictionary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25224.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.additionalProperties().put("packageName", "Example.Api.Sdk");
+        cSharpClientCodegen.additionalProperties().put("netCoreProjectFile", true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File api = files.get(Paths.get(output.getAbsolutePath(), "src", "Example.Api.Sdk", "Api", "DefaultApi.cs").toString());
+        assertNotNull(api, "Could not find generated DefaultApi.cs");
+        assertFileContains(api.toPath(), "Dictionary<string, Widget>");
+        assertFileNotContains(api.toPath(), "Model.Dictionary<");
     }
 
     @Test(description = "conditionalSerialization: an all-optional model's public constructor must not raise the serialization flag for value-typed properties the caller never passed")
