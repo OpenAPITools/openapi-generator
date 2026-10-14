@@ -19,6 +19,27 @@ import static org.openapitools.codegen.TestUtils.linearize;
 
 public class RustAxumServerCodegenTest {
     @Test
+    public void testAdditionalPropertiesFalse() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/additional-properties.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        for (String model : List.of("ClosedObject", "ClosedNested", "ClosedOptional")) {
+            TestUtils.assertFileContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+        for (String model : List.of("OpenObject", "UnspecifiedObject", "TypedAdditionalProperties")) {
+            TestUtils.assertFileNotContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+    }
+
+    @Test
     public void testObjectStructFieldIsPublic() throws IOException {
         Path target = Files.createTempDirectory("test");
         final CodegenConfigurator configurator = new CodegenConfigurator()
