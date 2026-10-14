@@ -322,7 +322,7 @@ public class ExampleGenerator {
             return resolveModelToExample(simpleName, mediaType, schema, processedModels);
 
         } else if (ModelUtils.isObjectSchema(property)) {
-            return "{}";
+            return new LinkedHashMap<>();
         }
 
         return "";
@@ -379,6 +379,9 @@ public class ExampleGenerator {
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
         } else if (ModelUtils.isArraySchema(schema) || ModelUtils.isEnumSchema(schema)) {
             return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            schema.setExample(values);
+            return schema.getExample();
         } else {
             // TODO log an error message as the model does not have any properties
             return null;

@@ -1,13 +1,19 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -15,6 +21,103 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ExampleGeneratorTest {
+    @DataProvider(name = "emptyObjectSchemas")
+    public Object[][] emptyObjectSchemas() {
+        return new Object[][] {
+                {new ObjectSchema()},
+                {new Schema<>().type("object")},
+                {new ObjectSchema().properties(new LinkedHashMap<>())},
+                {new Schema<>().type("object").additionalProperties(false)}
+        };
+    }
+
+    @Test(dataProvider = "emptyObjectSchemas")
+    public void generateNestedEmptyObject(Schema<?> emptyObject) throws Exception {
+        Schema<?> reading = new ObjectSchema().addProperties("metadata", emptyObject);
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Reading", reading);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), "Reading");
+        JsonNode metadata = new ObjectMapper().readTree(examples.get(0).get("example")).get("metadata");
+
+        assertTrue(metadata.isObject());
+        assertEquals(0, metadata.size());
+    }
+
+    @Test(dataProvider = "emptyObjectSchemas")
+    public void generateTopLevelEmptyObject(Schema<?> emptyObject) throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Anything", emptyObject);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), "Anything");
+        JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+
+        assertTrue(example.isObject());
+        assertEquals(0, example.size());
+    }
+
+    @Test
+    public void generateRepeatedReferencesToEmptyObject() throws Exception {
+        Schema<?> reading = new ObjectSchema()
+                .addProperties("first", new Schema<>().$ref("#/components/schemas/Anything"))
+                .addProperties("second", new Schema<>().$ref("#/components/schemas/Anything"));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Reading", reading);
+        openAPI.getComponents().addSchemas("Anything", new ObjectSchema());
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), "Reading");
+        JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+
+        assertTrue(example.get("first").isObject());
+        assertEquals(0, example.get("first").size());
+        assertEquals(example.get("first"), example.get("second"));
+    }
+
+    @Test
+    public void generateArrayOfEmptyObjects() throws Exception {
+        Schema<?> array = new ArraySchema().items(new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Array", array);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), "Array");
+        JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+
+        assertTrue(example.isArray());
+        assertEquals(2, example.size());
+        assertTrue(example.get(0).isObject());
+        assertEquals(0, example.get(0).size());
+        assertEquals(example.get(0), example.get(1));
+    }
+
+    @Test
+    public void generateObjectKeepsExplicitExampleAndMapValues() throws Exception {
+        Schema<?> reading = new ObjectSchema()
+                .addProperties("metadata", new Schema<>().type("object").example(Collections.singletonMap("name", "explicit")))
+                .addProperties("labels", new MapSchema().additionalProperties(new StringSchema().example("value")));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Reading", reading);
+        ExampleGenerator generator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), "Reading");
+        JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+
+        assertEquals(new ObjectMapper().readTree("{\"name\":\"explicit\"}"), example.get("metadata"));
+        assertEquals(new ObjectMapper().readTree("{\"key\":\"value\"}"), example.get("labels"));
+    }
+
+    @Test
+    public void generateUnresolvedReferenceKeepsExistingFallback() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        ExampleGenerator generator = new ExampleGenerator(Collections.emptyMap(), openAPI);
+        Schema<?> reference = new Schema<>().$ref("#/components/schemas/Missing");
+
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), reference);
+        JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+
+        // An unresolved reference does not establish that the missing schema is an object.
+        assertTrue(example.isTextual());
+        assertEquals("{}", example.asText());
+    }
+
     @Test
     public void generateFromResponseSchemaWithPrimitiveType() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
