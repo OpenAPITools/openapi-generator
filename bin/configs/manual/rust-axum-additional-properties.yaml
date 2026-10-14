@@ -1,9 +1,0 @@
-generatorName: rust-axum
-outputDir: samples/server/petstore/rust-axum/output/additional-properties
-inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-axum/additional-properties.yaml
-templateDir: modules/openapi-generator/src/main/resources/rust-axum
-additionalProperties:
-  hideGenerationTimestamp: "true"
-  packageName: additional-properties
-  homePageUrl: https://github.com/openapitools/openapi-generator
-enablePostProcessFile: true
