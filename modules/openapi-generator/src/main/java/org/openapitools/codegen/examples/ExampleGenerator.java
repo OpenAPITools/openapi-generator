@@ -78,7 +78,7 @@ public class ExampleGenerator {
             return null;
         }
 
-        if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
+        if (responseSchema.getExample() != null) {
             return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
@@ -198,7 +198,7 @@ public class ExampleGenerator {
 
     private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
         List<Map<String, String>> output = new ArrayList<>();
-        if (examples != null) {
+        if (example != null) {
             if (mediaTypes == null) {
                 // assume application/json for this
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON);

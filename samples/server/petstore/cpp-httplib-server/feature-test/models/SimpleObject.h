@@ -31,27 +31,27 @@ public:
     void setDescription(const std::string& description);
 
 
-friend void to_json(nlohmann::json& j, const SimpleObject& o)
-{
-    j = nlohmann::json::object();
-    j["id"] = o.id;
-    j["name"] = o.name;
-    j["description"] = o.description;
-}
+    friend inline void to_json(nlohmann::json& j, const SimpleObject& o)
+    {
+        j = nlohmann::json::object();
+        j["id"] = o.id;
+        j["name"] = o.name;
+        j["description"] = o.description;
+    }
 
-friend void from_json(const nlohmann::json& j, SimpleObject& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, SimpleObject& o)
     {
-        throw nlohmann::json::type_error::create(302, "SimpleObject must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "SimpleObject must be a JSON object", &j);
+        }
+        j.at("id").get_to(o.id);
+        j.at("name").get_to(o.name);
+        if (j.contains("description"))
+        {
+            j.at("description").get_to(o.description);
+        }
     }
-    j.at("id").get_to(o.id);
-    j.at("name").get_to(o.name);
-    if (j.contains("description"))
-    {
-        j.at("description").get_to(o.description);
-    }
-}
 
 
 private:
