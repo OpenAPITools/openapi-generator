@@ -35,35 +35,35 @@ public:
     void setMetadata(const std::map<std::string, nlohmann::json>& metadata);
 
 
-friend void to_json(nlohmann::json& j, const Company& o)
-{
-    j = nlohmann::json::object();
-    j["name"] = o.name;
-    j["headquarters"] = o.headquarters;
-    j["departments"] = o.departments;
-    j["metadata"] = o.metadata;
-}
+    friend inline void to_json(nlohmann::json& j, const Company& o)
+    {
+        j = nlohmann::json::object();
+        j["name"] = o.name;
+        j["headquarters"] = o.headquarters;
+        j["departments"] = o.departments;
+        j["metadata"] = o.metadata;
+    }
 
-friend void from_json(const nlohmann::json& j, Company& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, Company& o)
     {
-        throw nlohmann::json::type_error::create(302, "Company must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Company must be a JSON object", &j);
+        }
+        j.at("name").get_to(o.name);
+        if (j.contains("headquarters"))
+        {
+            j.at("headquarters").get_to(o.headquarters);
+        }
+        if (j.contains("departments"))
+        {
+            j.at("departments").get_to(o.departments);
+        }
+        if (j.contains("metadata"))
+        {
+            j.at("metadata").get_to(o.metadata);
+        }
     }
-    j.at("name").get_to(o.name);
-    if (j.contains("headquarters"))
-    {
-        j.at("headquarters").get_to(o.headquarters);
-    }
-    if (j.contains("departments"))
-    {
-        j.at("departments").get_to(o.departments);
-    }
-    if (j.contains("metadata"))
-    {
-        j.at("metadata").get_to(o.metadata);
-    }
-}
 
 
 private:

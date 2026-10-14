@@ -31,27 +31,27 @@ public:
     void setLocation(const std::string& location);
 
 
-friend void to_json(nlohmann::json& j, const CreatedResponse& o)
-{
-    j = nlohmann::json::object();
-    j["status"] = o.status;
-    j["id"] = o.id;
-    j["location"] = o.location;
-}
+    friend inline void to_json(nlohmann::json& j, const CreatedResponse& o)
+    {
+        j = nlohmann::json::object();
+        j["status"] = o.status;
+        j["id"] = o.id;
+        j["location"] = o.location;
+    }
 
-friend void from_json(const nlohmann::json& j, CreatedResponse& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, CreatedResponse& o)
     {
-        throw nlohmann::json::type_error::create(302, "CreatedResponse must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "CreatedResponse must be a JSON object", &j);
+        }
+        j.at("status").get_to(o.status);
+        j.at("id").get_to(o.id);
+        if (j.contains("location"))
+        {
+            j.at("location").get_to(o.location);
+        }
     }
-    j.at("status").get_to(o.status);
-    j.at("id").get_to(o.id);
-    if (j.contains("location"))
-    {
-        j.at("location").get_to(o.location);
-    }
-}
 
 
 private:

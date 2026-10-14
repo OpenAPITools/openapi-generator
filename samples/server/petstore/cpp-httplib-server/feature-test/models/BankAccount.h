@@ -30,24 +30,24 @@ public:
     void setBankName(const std::string& bankName);
 
 
-friend void to_json(nlohmann::json& j, const BankAccount& o)
-{
-    j = nlohmann::json::object();
-    j["paymentType"] = o.paymentType;
-    j["accountNumber"] = o.accountNumber;
-    j["bankName"] = o.bankName;
-}
-
-friend void from_json(const nlohmann::json& j, BankAccount& o)
-{
-    if (!j.is_object())
+    friend inline void to_json(nlohmann::json& j, const BankAccount& o)
     {
-        throw nlohmann::json::type_error::create(302, "BankAccount must be a JSON object", &j);
+        j = nlohmann::json::object();
+        j["paymentType"] = o.paymentType;
+        j["accountNumber"] = o.accountNumber;
+        j["bankName"] = o.bankName;
     }
-    j.at("paymentType").get_to(o.paymentType);
-    j.at("accountNumber").get_to(o.accountNumber);
-    j.at("bankName").get_to(o.bankName);
-}
+
+    friend inline void from_json(const nlohmann::json& j, BankAccount& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "BankAccount must be a JSON object", &j);
+        }
+        j.at("paymentType").get_to(o.paymentType);
+        j.at("accountNumber").get_to(o.accountNumber);
+        j.at("bankName").get_to(o.bankName);
+    }
 
 
 private:

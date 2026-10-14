@@ -76,42 +76,42 @@ public:
 
 
 
-friend void to_json(nlohmann::json& j, const Pet& o)
-{
-    j = nlohmann::json::object();
-    j["id"] = o.id;
-    j["name"] = o.name;
-    j["photoUrls"] = o.photoUrls;
-    j["status"] = o.status;
-    j["category"] = o.category;
-    j["tags"] = o.tags;
-}
+    friend inline void to_json(nlohmann::json& j, const Pet& o)
+    {
+        j = nlohmann::json::object();
+        j["id"] = o.id;
+        j["name"] = o.name;
+        j["photoUrls"] = o.photoUrls;
+        j["status"] = o.status;
+        j["category"] = o.category;
+        j["tags"] = o.tags;
+    }
 
-friend void from_json(const nlohmann::json& j, Pet& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, Pet& o)
     {
-        throw nlohmann::json::type_error::create(302, "Pet must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Pet must be a JSON object", &j);
+        }
+        if (j.contains("id"))
+        {
+            j.at("id").get_to(o.id);
+        }
+        j.at("name").get_to(o.name);
+        j.at("photoUrls").get_to(o.photoUrls);
+        if (j.contains("status"))
+        {
+            j.at("status").get_to(o.status);
+        }
+        if (j.contains("category"))
+        {
+            j.at("category").get_to(o.category);
+        }
+        if (j.contains("tags"))
+        {
+            j.at("tags").get_to(o.tags);
+        }
     }
-    if (j.contains("id"))
-    {
-        j.at("id").get_to(o.id);
-    }
-    j.at("name").get_to(o.name);
-    j.at("photoUrls").get_to(o.photoUrls);
-    if (j.contains("status"))
-    {
-        j.at("status").get_to(o.status);
-    }
-    if (j.contains("category"))
-    {
-        j.at("category").get_to(o.category);
-    }
-    if (j.contains("tags"))
-    {
-        j.at("tags").get_to(o.tags);
-    }
-}
 
 
 private:

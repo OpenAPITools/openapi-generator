@@ -28,25 +28,25 @@ public:
     void setResource(const std::string& resource);
 
 
-friend void to_json(nlohmann::json& j, const NotFoundResponse& o)
-{
-    j = nlohmann::json::object();
-    j["error"] = o.error;
-    j["resource"] = o.resource;
-}
+    friend inline void to_json(nlohmann::json& j, const NotFoundResponse& o)
+    {
+        j = nlohmann::json::object();
+        j["error"] = o.error;
+        j["resource"] = o.resource;
+    }
 
-friend void from_json(const nlohmann::json& j, NotFoundResponse& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, NotFoundResponse& o)
     {
-        throw nlohmann::json::type_error::create(302, "NotFoundResponse must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "NotFoundResponse must be a JSON object", &j);
+        }
+        j.at("error").get_to(o.error);
+        if (j.contains("resource"))
+        {
+            j.at("resource").get_to(o.resource);
+        }
     }
-    j.at("error").get_to(o.error);
-    if (j.contains("resource"))
-    {
-        j.at("resource").get_to(o.resource);
-    }
-}
 
 
 private:
