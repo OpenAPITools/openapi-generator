@@ -249,7 +249,7 @@ public class ExampleGenerator {
             Schema innerType = ModelUtils.getSchemaItems(property);
             if (innerType != null) {
                 int maxItems = null == property.getMaxItems() ? 2 : property.getMaxItems();
-                // avoid memory issues by limiting to max. 5 items
+                // cap at 5 items to avoid memory issues, but honor minItems even if it exceeds that cap
                 int arrayLength = Math.max(null == property.getMinItems() ? 0 : property.getMinItems(), Math.min(maxItems, 5));
                 Object[] objectProperties = new Object[arrayLength];
                 Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
