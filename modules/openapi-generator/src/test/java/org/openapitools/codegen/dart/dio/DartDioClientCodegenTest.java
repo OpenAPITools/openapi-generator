@@ -494,6 +494,33 @@ public class DartDioClientCodegenTest {
                 "category.toString()");
     }
 
+    /**
+     * Regression test: built_value collection serializers may return an
+     * {@code Iterable} that is not a {@code List}, notably for set-valued path
+     * parameters. Both the top-level and recursive path encoders must handle
+     * those values as collections instead of encoding their debug strings.
+     */
+    @Test
+    public void testBuiltValuePathHelperHandlesIterableCollections() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        TestUtils.assertFileContains(apiUtil,
+                "if (serialized is Iterable) {",
+                "if (value is Iterable) {");
+    }
+
     @Test
     public void testJsonSerializablePathHelperDelegatesValueEncoding() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -698,6 +725,7 @@ public class DartDioClientCodegenTest {
         Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
 
         TestUtils.assertFileContains(defaultApi,
+                "String? requiredNullable,",
                 "r'requiredNullable': encodeParameter(_serializers, requiredNullable, const FullType(String)),",
                 "if (optionalNullable != null) r'optionalNullable': encodeParameter(_serializers, optionalNullable, const FullType(String)),");
         TestUtils.assertFileContains(apiUtil,

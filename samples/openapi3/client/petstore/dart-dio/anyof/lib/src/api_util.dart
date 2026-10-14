@@ -73,7 +73,7 @@ String encodePathParameter(
   if (serialized is String || serialized is num || serialized is bool) {
     return Uri.encodeComponent(serialized.toString());
   }
-  if (serialized is List) {
+  if (serialized is Iterable) {
     final values = serialized.map((item) => _encodeBuiltValuePathValue(serializers, item, format)).toList();
     return _joinCollectionValues(values, format);
   }
@@ -97,7 +97,7 @@ String _encodeBuiltValuePathValue(
   if (value == null || value is String || value is num || value is bool) {
     return _encodePathValue(value, format);
   }
-  if (value is List) {
+  if (value is Iterable) {
     final values = value.map((item) => _encodeBuiltValuePathValue(serializers, item, format)).toList();
     return _joinCollectionValues(values, format);
   }
