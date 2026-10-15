@@ -99,19 +99,27 @@ public class Triangle extends AbstractOpenApiSchema {
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize EquilateralTriangle
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<EquilateralTriangle> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<EquilateralTriangle>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class) || EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class) || EquilateralTriangle.class.equals(Boolean.class) || EquilateralTriangle.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (EquilateralTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (EquilateralTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -125,19 +133,27 @@ public class Triangle extends AbstractOpenApiSchema {
 
             // deserialize IsoscelesTriangle
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<IsoscelesTriangle> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<IsoscelesTriangle>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class) || IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class) || IsoscelesTriangle.class.equals(Boolean.class) || IsoscelesTriangle.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (IsoscelesTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (IsoscelesTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -151,19 +167,27 @@ public class Triangle extends AbstractOpenApiSchema {
 
             // deserialize ScaleneTriangle
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<ScaleneTriangle> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<ScaleneTriangle>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class) || ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class) || ScaleneTriangle.class.equals(Boolean.class) || ScaleneTriangle.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (ScaleneTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (ScaleneTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.

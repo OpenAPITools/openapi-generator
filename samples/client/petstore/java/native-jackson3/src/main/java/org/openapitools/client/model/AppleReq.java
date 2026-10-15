@@ -38,20 +38,20 @@ import org.openapitools.client.ApiClient;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean mealy;
 
   public AppleReq() { 
   }
 
-  public AppleReq cultivar(@javax.annotation.Nonnull String cultivar) {
+  public AppleReq cultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -60,7 +60,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getCultivar() {
@@ -70,12 +70,12 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCultivar(@javax.annotation.Nonnull String cultivar) {
+  public void setCultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public AppleReq mealy(@javax.annotation.Nullable Boolean mealy) {
+  public AppleReq mealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
     return this;
   }
@@ -84,7 +84,7 @@ public class AppleReq {
    * Get mealy
    * @return mealy
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getMealy() {
@@ -94,7 +94,7 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMealy(@javax.annotation.Nullable Boolean mealy) {
+  public void setMealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
 

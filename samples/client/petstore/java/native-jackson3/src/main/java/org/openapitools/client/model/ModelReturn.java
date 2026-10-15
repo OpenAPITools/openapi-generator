@@ -37,16 +37,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Integer _return;
 
   public ModelReturn() { 
   }
 
-  public ModelReturn _return(@javax.annotation.Nullable Integer _return) {
+  public ModelReturn _return(@jakarta.annotation.Nullable Integer _return) {
     this._return = _return;
     return this;
   }
@@ -55,7 +55,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getReturn() {
@@ -65,7 +65,7 @@ public class ModelReturn {
 
   @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReturn(@javax.annotation.Nullable Integer _return) {
+  public void setReturn(@jakarta.annotation.Nullable Integer _return) {
     this._return = _return;
   }
 

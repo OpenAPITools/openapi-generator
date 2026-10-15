@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private String triangleType;
 
   public TriangleInterface() { 
   }
 
-  public TriangleInterface triangleType(@javax.annotation.Nonnull String triangleType) {
+  public TriangleInterface triangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -54,7 +54,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getTriangleType() {
@@ -64,7 +64,7 @@ public class TriangleInterface {
 
   @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
+  public void setTriangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 

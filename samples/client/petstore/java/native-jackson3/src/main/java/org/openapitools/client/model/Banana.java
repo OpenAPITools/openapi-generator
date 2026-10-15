@@ -38,16 +38,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   Banana.JSON_PROPERTY_LENGTH_CM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private BigDecimal lengthCm;
 
   public Banana() { 
   }
 
-  public Banana lengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
+  public Banana lengthCm(@jakarta.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -56,7 +56,7 @@ public class Banana {
    * Get lengthCm
    * @return lengthCm
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getLengthCm() {
@@ -66,7 +66,7 @@ public class Banana {
 
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
+  public void setLengthCm(@jakarta.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 

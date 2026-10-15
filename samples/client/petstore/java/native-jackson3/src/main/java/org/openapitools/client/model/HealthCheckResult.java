@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String nullableMessage;
 
   public HealthCheckResult() { 
   }
 
-  public HealthCheckResult nullableMessage(@javax.annotation.Nullable String nullableMessage) {
+  public HealthCheckResult nullableMessage(@jakarta.annotation.Nullable String nullableMessage) {
     this.nullableMessage = nullableMessage;
     return this;
   }
@@ -54,7 +54,7 @@ public class HealthCheckResult {
    * Get nullableMessage
    * @return nullableMessage
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getNullableMessage() {
@@ -64,7 +64,7 @@ public class HealthCheckResult {
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
+  public void setNullableMessage(@jakarta.annotation.Nullable String nullableMessage) {
     this.nullableMessage = nullableMessage;
   }
 

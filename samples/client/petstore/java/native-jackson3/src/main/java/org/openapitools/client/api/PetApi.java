@@ -54,7 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PetApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -177,7 +177,7 @@ public class PetApi {
    * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(@javax.annotation.Nonnull Pet pet) throws ApiException {
+  public void addPet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     addPet(pet, null);
   }
 
@@ -188,7 +188,7 @@ public class PetApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void addPet(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  public void addPet(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     addPetWithHttpInfo(pet, headers);
   }
 
@@ -199,7 +199,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
+  public ApiResponse<Void> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     return addPetWithHttpInfo(pet, null);
   }
 
@@ -211,7 +211,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -248,7 +248,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder addPetRequestBuilder(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder addPetRequestBuilder(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
@@ -287,7 +287,7 @@ public class PetApi {
    * @param apiKey  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
+  public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws ApiException {
     deletePet(petId, apiKey, null);
   }
 
@@ -299,7 +299,7 @@ public class PetApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
+  public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
     deletePetWithHttpInfo(petId, apiKey, headers);
   }
 
@@ -311,7 +311,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
+  public ApiResponse<Void> deletePetWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws ApiException {
     return deletePetWithHttpInfo(petId, apiKey, null);
   }
 
@@ -324,7 +324,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> deletePetWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = deletePetRequestBuilder(petId, apiKey, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -361,7 +361,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder deletePetRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder deletePetRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
@@ -398,7 +398,7 @@ public class PetApi {
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws ApiException {
+  public List<Pet> findPetsByStatus(@jakarta.annotation.Nonnull List<String> status) throws ApiException {
     return findPetsByStatus(status, null);
   }
 
@@ -410,7 +410,7 @@ public class PetApi {
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
+  public List<Pet> findPetsByStatus(@jakarta.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
     ApiResponse<List<Pet>> localVarResponse = findPetsByStatusWithHttpInfo(status, headers);
     return localVarResponse.getData();
   }
@@ -422,7 +422,7 @@ public class PetApi {
    * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@jakarta.annotation.Nonnull List<String> status) throws ApiException {
     return findPetsByStatusWithHttpInfo(status, null);
   }
 
@@ -434,7 +434,7 @@ public class PetApi {
    * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@jakarta.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = findPetsByStatusRequestBuilder(status, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -482,7 +482,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByStatusRequestBuilder(@javax.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder findPetsByStatusRequestBuilder(@jakarta.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'status' is set
     if (status == null) {
       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
@@ -532,7 +532,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public List<Pet> findPetsByTags(@javax.annotation.Nonnull List<String> tags) throws ApiException {
+  public List<Pet> findPetsByTags(@jakarta.annotation.Nonnull List<String> tags) throws ApiException {
     return findPetsByTags(tags, null);
   }
 
@@ -546,7 +546,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public List<Pet> findPetsByTags(@javax.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
+  public List<Pet> findPetsByTags(@jakarta.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
     ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags, headers);
     return localVarResponse.getData();
   }
@@ -560,7 +560,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@jakarta.annotation.Nonnull List<String> tags) throws ApiException {
     return findPetsByTagsWithHttpInfo(tags, null);
   }
 
@@ -574,7 +574,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@jakarta.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -622,7 +622,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByTagsRequestBuilder(@javax.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder findPetsByTagsRequestBuilder(@jakarta.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -670,7 +670,7 @@ public class PetApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet getPetById(@javax.annotation.Nonnull Long petId) throws ApiException {
+  public Pet getPetById(@jakarta.annotation.Nonnull Long petId) throws ApiException {
     return getPetById(petId, null);
   }
 
@@ -682,7 +682,7 @@ public class PetApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet getPetById(@javax.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
+  public Pet getPetById(@jakarta.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
     ApiResponse<Pet> localVarResponse = getPetByIdWithHttpInfo(petId, headers);
     return localVarResponse.getData();
   }
@@ -694,7 +694,7 @@ public class PetApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws ApiException {
+  public ApiResponse<Pet> getPetByIdWithHttpInfo(@jakarta.annotation.Nonnull Long petId) throws ApiException {
     return getPetByIdWithHttpInfo(petId, null);
   }
 
@@ -706,7 +706,7 @@ public class PetApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Pet> getPetByIdWithHttpInfo(@jakarta.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getPetByIdRequestBuilder(petId, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -754,7 +754,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder getPetByIdRequestBuilder(@javax.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder getPetByIdRequestBuilder(@jakarta.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
@@ -787,7 +787,7 @@ public class PetApi {
    * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(@javax.annotation.Nonnull Pet pet) throws ApiException {
+  public void updatePet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     updatePet(pet, null);
   }
 
@@ -798,7 +798,7 @@ public class PetApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  public void updatePet(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     updatePetWithHttpInfo(pet, headers);
   }
 
@@ -809,7 +809,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
+  public ApiResponse<Void> updatePetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     return updatePetWithHttpInfo(pet, null);
   }
 
@@ -821,7 +821,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> updatePetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -858,7 +858,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetRequestBuilder(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder updatePetRequestBuilder(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
@@ -898,7 +898,7 @@ public class PetApi {
    * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
-  public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
+  public void updatePetWithForm(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws ApiException {
     updatePetWithForm(petId, name, status, null);
   }
 
@@ -911,7 +911,7 @@ public class PetApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
+  public void updatePetWithForm(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
     updatePetWithFormWithHttpInfo(petId, name, status, headers);
   }
 
@@ -924,7 +924,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
+  public ApiResponse<Void> updatePetWithFormWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws ApiException {
     return updatePetWithFormWithHttpInfo(petId, name, status, null);
   }
 
@@ -938,7 +938,7 @@ public class PetApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> updatePetWithFormWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = updatePetWithFormRequestBuilder(petId, name, status, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -975,7 +975,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetWithFormRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder updatePetWithFormRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
@@ -1029,7 +1029,7 @@ public class PetApi {
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
+  public ModelApiResponse uploadFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws ApiException {
     return uploadFile(petId, additionalMetadata, _file, null);
   }
 
@@ -1043,7 +1043,7 @@ public class PetApi {
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
+  public ModelApiResponse uploadFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
     ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file, headers);
     return localVarResponse.getData();
   }
@@ -1057,7 +1057,7 @@ public class PetApi {
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws ApiException {
     return uploadFileWithHttpInfo(petId, additionalMetadata, _file, null);
   }
 
@@ -1071,7 +1071,7 @@ public class PetApi {
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, _file, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1119,7 +1119,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder uploadFileRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder uploadFileRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
@@ -1192,7 +1192,7 @@ public class PetApi {
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, null);
   }
 
@@ -1206,7 +1206,7 @@ public class PetApi {
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
     ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, headers);
     return localVarResponse.getData();
   }
@@ -1220,7 +1220,7 @@ public class PetApi {
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, null);
   }
 
@@ -1234,7 +1234,7 @@ public class PetApi {
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1282,7 +1282,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder uploadFileWithRequiredFileRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder uploadFileWithRequiredFileRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");

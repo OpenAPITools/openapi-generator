@@ -39,20 +39,20 @@ import org.openapitools.client.ApiClient;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() { 
   }
 
-  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
+  public BananaReq lengthCm(@jakarta.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -61,7 +61,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public BigDecimal getLengthCm() {
@@ -71,12 +71,12 @@ public class BananaReq {
 
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
+  public void setLengthCm(@jakarta.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
+  public BananaReq sweet(@jakarta.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -85,7 +85,7 @@ public class BananaReq {
    * Get sweet
    * @return sweet
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getSweet() {
@@ -95,7 +95,7 @@ public class BananaReq {
 
   @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
+  public void setSweet(@jakarta.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 

@@ -9,4 +9,5 @@ additionalProperties:
   generateBuilders: true
   useReflectionEqualsHashCode: "true"
   useJackson3: "true"
+  useJakartaEe: "true"
   openApiNullable: "false"

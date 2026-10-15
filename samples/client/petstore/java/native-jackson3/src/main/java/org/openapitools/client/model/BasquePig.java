@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   BasquePig.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private String className;
 
   public BasquePig() { 
   }
 
-  public BasquePig className(@javax.annotation.Nonnull String className) {
+  public BasquePig className(@jakarta.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -54,7 +54,7 @@ public class BasquePig {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
@@ -64,7 +64,7 @@ public class BasquePig {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(@javax.annotation.Nonnull String className) {
+  public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
 

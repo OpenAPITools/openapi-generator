@@ -38,20 +38,20 @@ import org.openapitools.client.ApiClient;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String origin;
 
   public Apple() { 
   }
 
-  public Apple cultivar(@javax.annotation.Nullable String cultivar) {
+  public Apple cultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -60,7 +60,7 @@ public class Apple {
    * Get cultivar
    * @return cultivar
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCultivar() {
@@ -70,12 +70,12 @@ public class Apple {
 
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCultivar(@javax.annotation.Nullable String cultivar) {
+  public void setCultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public Apple origin(@javax.annotation.Nullable String origin) {
+  public Apple origin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;
     return this;
   }
@@ -84,7 +84,7 @@ public class Apple {
    * Get origin
    * @return origin
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getOrigin() {
@@ -94,7 +94,7 @@ public class Apple {
 
   @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrigin(@javax.annotation.Nullable String origin) {
+  public void setOrigin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;
   }
 

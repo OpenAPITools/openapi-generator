@@ -37,14 +37,14 @@ import org.openapitools.client.ApiClient;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() { 
@@ -62,7 +62,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
@@ -72,7 +72,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
+  public ReadOnlyFirst baz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -81,7 +81,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBaz() {
@@ -91,7 +91,7 @@ public class ReadOnlyFirst {
 
   @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBaz(@javax.annotation.Nullable String baz) {
+  public void setBaz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
   }
 

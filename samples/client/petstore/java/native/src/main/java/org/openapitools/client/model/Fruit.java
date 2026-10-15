@@ -96,19 +96,27 @@ public class Fruit extends AbstractOpenApiSchema {
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize Apple
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<Apple> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Apple>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Apple.class.equals(Integer.class) || Apple.class.equals(Long.class) || Apple.class.equals(Float.class) || Apple.class.equals(Double.class) || Apple.class.equals(Boolean.class) || Apple.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((Apple.class.equals(Integer.class) || Apple.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Apple.class.equals(Float.class) || Apple.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Apple.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Apple.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -122,19 +130,27 @@ public class Fruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<Banana> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Banana>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Banana.class.equals(Integer.class) || Banana.class.equals(Long.class) || Banana.class.equals(Float.class) || Banana.class.equals(Double.class) || Banana.class.equals(Boolean.class) || Banana.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((Banana.class.equals(Integer.class) || Banana.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Banana.class.equals(Float.class) || Banana.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Banana.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Banana.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -171,7 +187,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     public Fruit(Apple o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 

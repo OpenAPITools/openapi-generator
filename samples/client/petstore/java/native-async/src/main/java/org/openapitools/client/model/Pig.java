@@ -96,19 +96,27 @@ public class Pig extends AbstractOpenApiSchema {
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize BasquePig
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<BasquePig> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<BasquePig>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class) || BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class) || BasquePig.class.equals(Boolean.class) || BasquePig.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (BasquePig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (BasquePig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -122,19 +130,27 @@ public class Pig extends AbstractOpenApiSchema {
 
             // deserialize DanishPig
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<DanishPig> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<DanishPig>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class) || DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class) || DanishPig.class.equals(Boolean.class) || DanishPig.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (DanishPig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (DanishPig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
