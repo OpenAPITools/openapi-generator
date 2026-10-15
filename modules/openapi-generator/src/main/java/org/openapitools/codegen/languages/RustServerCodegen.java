@@ -1213,6 +1213,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             String dataType = toModelName(ref);
             mdl.dataType = dataType;
             mdl.isAlias = false;
+            mdl.vendorExtensions.put("x-needs-nested-validation", true);
             LOGGER.debug("Schema for: " + name + " is wrapper for: " + dataType);
         }
 
@@ -1329,6 +1330,19 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     toStringSupport = false;
                 }
             }
+        }
+
+        // Match the property validation rule for model-valued newtype fields.
+        boolean needsNestedValidation = (mdl.dataType != null && mdl.dataType.contains("models::"))
+                || (mdl.getItems() != null && mdl.getItems().dataType != null
+                    && mdl.getItems().dataType.contains("models::"));
+        if (!mdl.oneOf.isEmpty() || !mdl.anyOf.isEmpty()) {
+            // Primitive alternatives do not implement Validate.
+            needsNestedValidation = ModelUtils.getInterfaces(model).stream()
+                    .allMatch(member -> getTypeDeclaration(member).contains("models::"));
+        }
+        if (needsNestedValidation) {
+            mdl.vendorExtensions.put("x-needs-nested-validation", true);
         }
 
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
@@ -1642,6 +1656,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // Only add nested validation for types that reference generated models (contain "models::")
         if (property.dataType != null && property.dataType.contains("models::")) {
             property.vendorExtensions.put("x-needs-nested-validation", true);
+        }
+
+        if (property.isArray && property.isNullable) {
+            property.vendorExtensions.put("x-nullable-array", true);
         }
 
         // TODO: We should avoid reverse engineering primitive type status from the data type
