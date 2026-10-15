@@ -754,4 +754,45 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
     }
+
+    @Test
+    public void testQueryParametersUsesConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> apiContent = Files.readAllLines(files.get("PetApi.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // the boolean format of the configuration used by the API must be used for query parameters
+        Assert.assertListContains(apiContent,
+                a -> a.equals("$query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);"),
+                "API must pass its configuration to ObjectSerializer::buildQuery");
+        Assert.assertListContains(apiContent,
+                a -> a.equals("$this->config"),
+                "API must pass its configuration to ObjectSerializer::toQueryValue");
+
+        List<String> objectSerializerContent = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListNotContains(objectSerializerContent,
+                a -> a.contains("Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()"),
+                "ObjectSerializer must only fall back to the default configuration if no configuration is given");
+    }
 }
