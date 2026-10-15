@@ -124,5 +124,68 @@ public class Counters {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Counters instance;
+
+    public Builder() {
+      this(new Counters());
+    }
+
+    protected Builder(Counters instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Counters value) { 
+      this.instance.setId(value.id);
+      return this;
+    }
+
+    public Counters.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Counters.Builder additionalProperties(Map<String, Integer> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+    /**
+    * returns a built Counters instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Counters build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Counters.Builder builder() {
+    return new Counters.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Counters.Builder toBuilder() {
+    Counters.Builder builder = new Counters.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

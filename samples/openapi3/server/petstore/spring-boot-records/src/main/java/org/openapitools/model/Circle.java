@@ -91,5 +91,63 @@ public class Circle implements Shape {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Circle instance;
+
+    public Builder() {
+      this(new Circle());
+    }
+
+    protected Builder(Circle instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Circle value) { 
+      this.instance.setRadius(value.radius);
+      return this;
+    }
+
+    public Circle.Builder radius(Double radius) {
+      this.instance.radius(radius);
+      return this;
+    }
+    
+    /**
+    * returns a built Circle instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Circle build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Circle.Builder builder() {
+    return new Circle.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Circle.Builder toBuilder() {
+    Circle.Builder builder = new Circle.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

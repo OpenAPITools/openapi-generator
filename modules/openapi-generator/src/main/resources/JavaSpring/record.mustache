@@ -124,4 +124,8 @@ public record {{classname}}(
         + "]";
   }
   {{/vendorExtensions.x-record-masks-password}}
+  {{#generateBuilders}}
+
+  {{>recordBuilder}}{{! prevent indent}}
+  {{/generateBuilders}}
 }

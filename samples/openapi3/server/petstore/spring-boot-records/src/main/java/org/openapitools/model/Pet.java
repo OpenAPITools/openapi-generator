@@ -171,5 +171,134 @@ public record Pet(
       aliases = new LinkedHashSet<>();
     }
   }
+
+  /**
+   * Builder of Pet. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
+   */
+  public static class Builder {
+
+    private String name;
+
+    private String tag;
+
+    private JsonNullable<String> nickname;
+
+    private Integer age;
+
+    private PetKind kind;
+
+    private StatusEnum status;
+
+    private List<String> labels;
+
+    private List<String> colors;
+
+    private Set<String> aliases;
+
+    private Owner owner;
+
+    private OffsetDateTime born;
+
+    public Builder() {
+    }
+
+    protected Builder copyOf(Pet value) {
+      this.name = value.name();
+      this.tag = value.tag();
+      this.nickname = value.nickname();
+      this.age = value.age();
+      this.kind = value.kind();
+      this.status = value.status();
+      this.labels = value.labels();
+      this.colors = value.colors();
+      this.aliases = value.aliases();
+      this.owner = value.owner();
+      this.born = value.born();
+      return this;
+    }
+
+    public Pet.Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Pet.Builder tag(String tag) {
+      this.tag = tag;
+      return this;
+    }
+
+    public Pet.Builder nickname(String nickname) {
+      this.nickname = JsonNullable.of(nickname);
+      return this;
+    }
+
+    public Pet.Builder nickname(JsonNullable<String> nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public Pet.Builder age(Integer age) {
+      this.age = age;
+      return this;
+    }
+
+    public Pet.Builder kind(PetKind kind) {
+      this.kind = kind;
+      return this;
+    }
+
+    public Pet.Builder status(StatusEnum status) {
+      this.status = status;
+      return this;
+    }
+
+    public Pet.Builder labels(List<String> labels) {
+      this.labels = labels;
+      return this;
+    }
+
+    public Pet.Builder colors(List<String> colors) {
+      this.colors = colors;
+      return this;
+    }
+
+    public Pet.Builder aliases(Set<String> aliases) {
+      this.aliases = aliases;
+      return this;
+    }
+
+    public Pet.Builder owner(Owner owner) {
+      this.owner = owner;
+      return this;
+    }
+
+    public Pet.Builder born(OffsetDateTime born) {
+      this.born = born;
+      return this;
+    }
+
+    /**
+     * Returns a new Pet from the values set so far; the builder stays usable.
+     */
+    public Pet build() {
+      return new Pet(this.name, this.tag, this.nickname, this.age, this.kind, this.status, this.labels, this.colors, this.aliases, this.owner, this.born);
+    }
+  }
+
+  /**
+   * Create a builder with no initialized component (the constructor applies the initial values).
+   */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+   * Create a builder holding every component of this record.
+   */
+  public Pet.Builder toBuilder() {
+    return new Pet.Builder().copyOf(this);
+  }
+
 }
 

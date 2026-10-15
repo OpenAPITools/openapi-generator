@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Record builders
+  version: 1.0.0
+paths:
+  /gadgets:
+    post:
+      operationId: addGadget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Gadget'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Gadget:
+      type: object
+      required:
+        - id
+        - maybe
+      properties:
+        id:
+          type: integer
+          format: int64
+        maybe:
+          type: string
+          nullable: true
+        label:
+          type: string
+          default: g
+        old:
+          type: string
+          deprecated: true
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        nullableTags:
+          type: array
+          nullable: true
+          items:
+            type: string
+        kind:
+          type: string
+          enum:
+            - small
+            - large
+        extras:
+          type: object
+          additionalProperties:
+            type: string
+    Named:
+      type: object
+      properties:
+        builder:
+          type: string
+        toBuilder:
+          type: string
+        build:
+          type: string
+        ok:
+          type: string

@@ -107,5 +107,69 @@ public class Filter {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Filter instance;
+
+    public Builder() {
+      this(new Filter());
+    }
+
+    protected Builder(Filter instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Filter value) { 
+      this.instance.setName(value.name);
+      this.instance.setLimit(value.limit);
+      return this;
+    }
+
+    public Filter.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Filter.Builder limit(Integer limit) {
+      this.instance.limit(limit);
+      return this;
+    }
+    
+    /**
+    * returns a built Filter instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Filter build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Filter.Builder builder() {
+    return new Filter.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Filter.Builder toBuilder() {
+    Filter.Builder builder = new Filter.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

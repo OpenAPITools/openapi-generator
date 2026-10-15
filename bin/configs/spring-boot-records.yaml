@@ -11,3 +11,4 @@ additionalProperties:
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
   useRecords: true
+  generateBuilders: true
