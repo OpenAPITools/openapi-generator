@@ -5,6 +5,7 @@
 {{/nrt}}
 using System;
 using System.Net.Http;
+using System.Net.Security;
 using Microsoft.Extensions.DependencyInjection;{{#supportsRetry}}
 using Polly.Timeout;
 using Polly.Extensions.Http;
@@ -17,6 +18,39 @@ namespace {{packageName}}.Extensions
     /// </summary>
     {{>visibility}} static class IHttpClientBuilderExtensions
     {
+        /// <summary>
+        /// Configures remote certificate validation for requests made by this client.
+        /// </summary>
+        public static IHttpClientBuilder ConfigureRemoteCertificateValidationCallback(
+            this IHttpClientBuilder client,
+            RemoteCertificateValidationCallback callback)
+        {
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            client.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) =>
+                    callback(request, certificate, chain, errors)
+            });
+
+            return client;
+        }
+
+        /// <summary>
+        /// Disables TLS certificate validation for requests made by this client.
+        /// Use only for development or testing.
+        /// </summary>
+        public static IHttpClientBuilder SkipCertificateCheck(this IHttpClientBuilder client)
+        {
+            client.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            });
+
+            return client;
+        }
+
         {{#supportsRetry}}
         /// <summary>
         /// Adds a Polly retry policy to your clients.
