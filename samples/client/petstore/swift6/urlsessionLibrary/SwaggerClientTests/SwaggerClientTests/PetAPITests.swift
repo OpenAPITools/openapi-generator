@@ -73,11 +73,13 @@ class PetAPITests: XCTestCase {
             fatalError()
         }
 
-        PetstoreClientAPI.PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData) { (_, error) in
+        PetstoreClientAPI.PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData) { (response, error) in
             guard error == nil else {
                 XCTFail("error uploading file")
                 return
             }
+
+            XCTAssertTrue(response?.message?.contains("File uploaded to ./file, \(imageData.count) bytes") == true, response?.message ?? "no message")
 
             expectation.fulfill()
         }
