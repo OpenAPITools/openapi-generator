@@ -46,8 +46,8 @@ export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
     };
 }
 
-export function ReturnToJSON(json: any): Return {
-    return ReturnToJSONTyped(json, false);
+export function ReturnToJSON(value?: Return | null): any {
+    return ReturnToJSONTyped(value, false);
 }
 
 export function ReturnToJSONTyped(value?: Return | null, ignoreDiscriminator: boolean = false): any {

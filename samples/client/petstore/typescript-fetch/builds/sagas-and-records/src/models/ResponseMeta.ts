@@ -112,8 +112,8 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ResponseMetaToJSON(json: any): ResponseMeta {
-    return ResponseMetaToJSONTyped(json, false);
+export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
+    return ResponseMetaToJSONTyped(value, false);
 }
 
 export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {

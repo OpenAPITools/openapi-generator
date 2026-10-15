@@ -51,8 +51,8 @@ export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function FileSchemaTestClassToJSON(json: any): FileSchemaTestClass {
-    return FileSchemaTestClassToJSONTyped(json, false);
+export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): any {
+    return FileSchemaTestClassToJSONTyped(value, false);
 }
 
 export function FileSchemaTestClassToJSONTyped(value?: FileSchemaTestClass | null, ignoreDiscriminator: boolean = false): any {

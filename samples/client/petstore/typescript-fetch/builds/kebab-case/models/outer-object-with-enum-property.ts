@@ -57,8 +57,8 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function OuterObjectWithEnumPropertyToJSON(json: any): OuterObjectWithEnumProperty {
-    return OuterObjectWithEnumPropertyToJSONTyped(json, false);
+export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
+    return OuterObjectWithEnumPropertyToJSONTyped(value, false);
 }
 
 export function OuterObjectWithEnumPropertyToJSONTyped(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator: boolean = false): any {
