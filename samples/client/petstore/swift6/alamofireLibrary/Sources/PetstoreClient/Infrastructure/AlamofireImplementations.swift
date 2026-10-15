@@ -135,11 +135,17 @@ open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked S
                             }
                             mpForm.append(stringData, withName: k)
                         case let number as NSNumber:
-                            mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                            guard let numberData = number.stringValue.data(using: .utf8) else {
+                                return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
+                            }
+                            mpForm.append(numberData, withName: k)
                         case let data as Data:
                             mpForm.append(data, withName: k, fileName: k, mimeType: "application/octet-stream")
                         case let uuid as UUID:
-                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
+                            guard let uuidData = uuid.uuidString.data(using: .utf8) else {
+                                return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
+                            }
+                            mpForm.append(uuidData, withName: k)
                         default:
                             return failBeforeSending(.unsupportedParameterValue(key: k), managerId: managerId, completion: completion)
                         }
