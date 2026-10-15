@@ -704,15 +704,15 @@ use function sprintf;
             $headers
         );
 
-        {{^servers.0}}
         $operationHost = $this->config->getHost();
-        {{/servers.0}}
         {{#servers.0}}
-        $operationHosts = [{{#servers}}"{{{url}}}"{{^-last}}, {{/-last}}{{/servers}}];
-        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
-            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        if (!$operationHost) {
+            $operationHosts = [{{#servers}}"{{{url}}}"{{^-last}}, {{/-last}}{{/servers}}];
+            if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+                throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+            }
+            $operationHost = $operationHosts[$this->hostIndex];
         }
-        $operationHost = $operationHosts[$this->hostIndex];
         {{/servers.0}}
 
         $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
