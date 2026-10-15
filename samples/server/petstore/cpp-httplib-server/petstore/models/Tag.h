@@ -28,28 +28,28 @@ public:
     void setName(const std::string& name);
 
 
-friend void to_json(nlohmann::json& j, const Tag& o)
-{
-    j = nlohmann::json::object();
-    j["id"] = o.id;
-    j["name"] = o.name;
-}
+    friend inline void to_json(nlohmann::json& j, const Tag& o)
+    {
+        j = nlohmann::json::object();
+        j["id"] = o.id;
+        j["name"] = o.name;
+    }
 
-friend void from_json(const nlohmann::json& j, Tag& o)
-{
-    if (!j.is_object())
+    friend inline void from_json(const nlohmann::json& j, Tag& o)
     {
-        throw nlohmann::json::type_error::create(302, "Tag must be a JSON object", &j);
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Tag must be a JSON object", &j);
+        }
+        if (j.contains("id"))
+        {
+            j.at("id").get_to(o.id);
+        }
+        if (j.contains("name"))
+        {
+            j.at("name").get_to(o.name);
+        }
     }
-    if (j.contains("id"))
-    {
-        j.at("id").get_to(o.id);
-    }
-    if (j.contains("name"))
-    {
-        j.at("name").get_to(o.name);
-    }
-}
 
 
 private:

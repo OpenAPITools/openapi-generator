@@ -521,6 +521,12 @@ class ObjectSerializer
         if (is_subclass_of($class, '\BackedEnum')) {
             $data = $class::tryFrom($data);
             if ($data === null) {
+                {{#enumUnknownDefaultCase}}
+                if (defined("$class::UNKNOWN_DEFAULT_OPEN_API")) {
+                    return constant("$class::UNKNOWN_DEFAULT_OPEN_API");
+                }
+
+                {{/enumUnknownDefaultCase}}
                 $imploded = implode("', '", array_map(fn($case) => $case->value, $class::cases()));
                 throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded'");
             }
