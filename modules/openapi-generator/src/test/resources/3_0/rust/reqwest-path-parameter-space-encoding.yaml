@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Rust - Path Parameter Space Encoding
+  description: "Ensures path parameters with spaces are properly encoded, #25257 refers."
+  version: "1.0.0"
+paths:
+  /api/{paramWithSpaces}:
+    parameters:
+      - in: path
+        name: paramWithSpaces
+        schema:
+          type: string
+        required: true
+        description: A path parameter with spaces.
+    get:
+      operationId: getValue
+      responses:
+        '200':
+          description: A returned value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/returnedValue'
+components:
+  schemas:
+    returnedValue:
+      type: object
+      required:
+        - paramWithSpaces
+      properties:
+        paramWithSpaces:
+          type: string
