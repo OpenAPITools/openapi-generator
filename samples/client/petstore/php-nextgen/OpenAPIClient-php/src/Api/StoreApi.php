@@ -327,7 +327,7 @@ class StoreApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'DELETE',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -560,7 +560,7 @@ class StoreApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -817,7 +817,7 @@ class StoreApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1084,7 +1084,7 @@ class StoreApi
                 }
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams, PHP_QUERY_RFC3986, $this->config);
             }
         }
 
@@ -1100,7 +1100,7 @@ class StoreApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'POST',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),

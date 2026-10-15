@@ -242,6 +242,8 @@ class ObjectSerializer
      * @param string $style       Parameter serialization style
      * @param bool   $explode     Parameter explode option
      * @param bool   $required    Whether query param is required or not
+     * @param Configuration|null $config Configuration that defines the format of boolean values,
+     *                                   the default configuration is used if null
      *
      * @return array
      */
@@ -251,7 +253,8 @@ class ObjectSerializer
         string $openApiType = 'string',
         string $style = 'form',
         bool $explode = true,
-        bool $required = true
+        bool $required = true,
+        ?Configuration $config = null
     ): array {
 
         // Check if we should omit this parameter from the query. This should only happen when:
@@ -325,7 +328,7 @@ class ObjectSerializer
         }
 
         if ('boolean' === $openApiType && is_bool($value)) {
-            $value = self::convertBoolToQueryStringFormat($value);
+            $value = self::convertBoolToQueryStringFormat($value, $config);
         }
 
         // handle style in serializeCollection
@@ -338,12 +341,15 @@ class ObjectSerializer
      * Convert boolean value to format for query string.
      *
      * @param bool $value Boolean value
+     * @param Configuration|null $config Configuration that defines the format,
+     *                                   the default configuration is used if null
      *
      * @return int|string Boolean value in format
      */
-    public static function convertBoolToQueryStringFormat(bool $value): int|string
+    public static function convertBoolToQueryStringFormat(bool $value, ?Configuration $config = null): int|string
     {
-        if (Configuration::BOOLEAN_FORMAT_STRING == Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()) {
+        $config ??= Configuration::getDefaultConfiguration();
+        if (Configuration::BOOLEAN_FORMAT_STRING == $config->getBooleanFormatForQueryString()) {
             return $value ? 'true' : 'false';
         }
 
@@ -725,8 +731,10 @@ class ObjectSerializer
      * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
      *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
      *                                       to encode using RFC1738.
+     * @param Configuration|null $config     Configuration that defines the format of boolean values,
+     *                                       the default configuration is used if null
      */
-    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986): string
+    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986, ?Configuration $config = null): string
     {
         if (!$params) {
             return '';
@@ -744,7 +752,8 @@ class ObjectSerializer
             throw new \InvalidArgumentException('Invalid type');
         }
 
-        $castBool = Configuration::BOOLEAN_FORMAT_INT == Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()
+        $config ??= Configuration::getDefaultConfiguration();
+        $castBool = Configuration::BOOLEAN_FORMAT_INT == $config->getBooleanFormatForQueryString()
             ? function ($v) { return (int) $v; }
             : function ($v) { return $v ? 'true' : 'false'; };
 

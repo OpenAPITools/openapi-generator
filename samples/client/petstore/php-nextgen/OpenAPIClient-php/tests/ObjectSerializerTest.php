@@ -245,4 +245,38 @@ class ObjectSerializerTest extends TestCase
             urldecode(ObjectSerializer::buildQuery($query))
         );
     }
+
+    /**
+     * Boolean query values must be formatted like the configuration that is passed,
+     * e.g. the configuration of an API instance, instead of the default configuration.
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @covers ObjectSerializer::convertBoolToQueryStringFormat
+     * @covers ObjectSerializer::buildQuery
+     */
+    public function testBooleanQueryValuesUseFormatOfGivenConfiguration(): void
+    {
+        $defaultConfiguration = Configuration::getDefaultConfiguration();
+        $defaultFormat = $defaultConfiguration->getBooleanFormatForQueryString();
+        $defaultConfiguration->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_INT);
+        $config = (new Configuration())->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
+
+        try {
+            $this->assertSame(
+                ['flag' => 'true'],
+                ObjectSerializer::toQueryValue(true, 'flag', 'boolean', 'form', true, true, $config)
+            );
+            $this->assertSame('false', ObjectSerializer::convertBoolToQueryStringFormat(false, $config));
+            $this->assertSame(
+                'flag=true&flags=true&flags=false',
+                ObjectSerializer::buildQuery(['flag' => true, 'flags' => [true, false]], PHP_QUERY_RFC3986, $config)
+            );
+
+            // without a configuration, the default configuration is used
+            $this->assertSame(['flag' => 1], ObjectSerializer::toQueryValue(true, 'flag', 'boolean'));
+            $this->assertSame('flag=1', ObjectSerializer::buildQuery(['flag' => true]));
+        } finally {
+            $defaultConfiguration->setBooleanFormatForQueryString($defaultFormat);
+        }
+    }
 }
