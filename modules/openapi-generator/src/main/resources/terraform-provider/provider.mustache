@@ -111,12 +111,12 @@ func (p *{{providerName}}Provider) Configure(ctx context.Context, req provider.C
 
 func (p *{{providerName}}Provider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-{{#apiInfo}}{{#apis}}{{#operations}}		New{{resourceClassName}}Resource,
-{{/operations}}{{/apis}}{{/apiInfo}}	}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#isResource}}		New{{resourceClassName}}Resource,
+{{/isResource}}{{/operations}}{{/apis}}{{/apiInfo}}	}
 }
 
 func (p *{{providerName}}Provider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-{{#apiInfo}}{{#apis}}{{#operations}}		New{{resourceClassName}}DataSource,
-{{/operations}}{{/apis}}{{/apiInfo}}	}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#isDataSource}}		New{{resourceClassName}}DataSource,
+{{/isDataSource}}{{/operations}}{{/apis}}{{/apiInfo}}	}
 }
