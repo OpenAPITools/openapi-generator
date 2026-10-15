@@ -124,8 +124,12 @@ internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchec
     override internal func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
+        guard supportsResponseType else {
+            return failBeforeSending(RequestBuilderError.unsupportedResponseType(String(describing: T.self)), urlSession: urlSession, completion: completion)
+        }
+
         guard let xMethod = HTTPMethod(rawValue: method) else {
-            fatalError("Unsupported Http method - \(method)")
+            return failBeforeSending(RequestBuilderError.unsupportedHTTPMethod(method), urlSession: urlSession, completion: completion)
         }
 
         let encoding: ParameterEncoding
@@ -146,11 +150,15 @@ internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchec
             } else if contentType.hasPrefix("application/octet-stream") || contentType.hasPrefix("image/") {
                 encoding = OctetStreamEncoding()
             } else {
-                fatalError("Unsupported Media Type - \(contentType)")
+                return failBeforeSending(RequestBuilderError.unsupportedMediaType(contentType), urlSession: urlSession, completion: completion)
             }
         }
 
         do {
+            if let bodyEncodingError = parameters?[JSONEncodingHelper.encodingErrorParameterKey] as? RequestBuilderError {
+                throw bodyEncodingError
+            }
+
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
             apiConfiguration.interceptor.intercept(urlRequest: request, urlSession: urlSession, requestBuilder: self) { result in
@@ -227,16 +235,22 @@ internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchec
                 }
             }
         } catch {
-            // Request creation failed - create a minimal request for error reporting
-            let failedURL = URL(string: URLString) ?? URL(string: "about:blank")!
-            var failedRequest = URLRequest(url: failedURL)
-            failedRequest.httpMethod = method
+            return failBeforeSending(error, urlSession: urlSession, completion: completion)
+        }
 
-            self.apiConfiguration.interceptor.didComplete(urlRequest: failedRequest, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
+        return requestTask
+    }
 
-            self.apiConfiguration.apiResponseQueue.async {
-                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
-            }
+    private func failBeforeSending(_ error: Error, urlSession: URLSessionProtocol, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        // Request creation failed - create a minimal request for error reporting
+        let failedURL = URL(string: URLString) ?? URL(string: "about:blank")!
+        var failedRequest = URLRequest(url: failedURL)
+        failedRequest.httpMethod = method
+
+        self.apiConfiguration.interceptor.didComplete(urlRequest: failedRequest, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
+
+        self.apiConfiguration.apiResponseQueue.async {
+            completion(.failure(ErrorResponse.error(415, nil, nil, error)))
         }
 
         return requestTask
@@ -264,17 +278,13 @@ internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchec
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, urlSession: URLSessionProtocol, data: Data?, httpResponse: HTTPURLResponse, error: Error?, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        let result = () as! T
+        apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: httpResponse, result: .success(result))
+        completion(.success(Response(response: httpResponse, body: result, bodyData: data)))
+    }
 
-        switch T.self {
-        case is Void.Type:
-            let result = () as! T
-            apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: httpResponse, result: .success(result))
-            completion(.success(Response(response: httpResponse, body: result, bodyData: data)))
-
-        default:
-            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
-        }
-
+    fileprivate var supportsResponseType: Bool {
+        return T.self is Void.Type
     }
 
     internal func buildHeaders() -> [String: String] {
@@ -342,6 +352,10 @@ internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchec
 }
 
 internal class URLSessionDecodableRequestBuilder<T: Decodable & Sendable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
+    override fileprivate var supportsResponseType: Bool {
+        return true
+    }
+
     override fileprivate func processRequestResponse(urlRequest: URLRequest, urlSession: URLSessionProtocol, data: Data?, httpResponse: HTTPURLResponse, error: Error?, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         switch T.self {
@@ -561,7 +575,7 @@ private class FormDataEncoding: ParameterEncoding {
                     }
 
                 default:
-                    fatalError("Unprocessable value \(value) with key \(key)")
+                    throw RequestBuilderError.unsupportedParameterValue(key: key)
                 }
             }
         }
@@ -715,7 +729,7 @@ private class OctetStreamEncoding: ParameterEncoding {
         case let data as Data:
             urlRequest.httpBody = data
         default:
-            fatalError("Unprocessable body \(body)")
+            throw RequestBuilderError.unsupportedParameterValue(key: "body")
         }
 
         return urlRequest
