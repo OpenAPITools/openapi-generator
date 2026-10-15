@@ -28,7 +28,7 @@ import jakarta.annotation.Generated;
 public class FileSchemaTestClass {
 
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-  private Optional<File> file = Optional.empty();
+  private Optional<@Valid File> file = Optional.empty();
 
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<@Valid File> files = new ArrayList<>();
@@ -42,10 +42,10 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  @Valid 
+  
   @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("file")
-  public Optional<File> getFile() {
+  public Optional<@Valid File> getFile() {
     return file;
   }
 

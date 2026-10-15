@@ -42,7 +42,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @Valid 
+  
   @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_number")
   public Optional<BigDecimal> getMyNumber() {

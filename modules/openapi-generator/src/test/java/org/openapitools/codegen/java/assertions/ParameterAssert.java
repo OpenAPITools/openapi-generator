@@ -44,6 +44,19 @@ public class ParameterAssert extends ObjectAssert<Parameter> {
         return this;
     }
 
+    /**
+     * Like {@link #hasType(String)}, but keeps type-use annotations, e.g. {@code List<@Valid Pet>}.
+     *
+     * @param expectedType expected type including its type-use annotations
+     * @return this assert
+     */
+    public ParameterAssert hasAnnotatedType(final String expectedType) {
+        Assertions.assertThat(actual.getType().toString())
+                .withFailMessage("Expected parameter to have type %s, but was %s", expectedType, actual.getType().toString())
+                .isEqualTo(expectedType);
+        return this;
+    }
+
     public ParameterAnnotationsAssert assertParameterAnnotations() {
         return new ParameterAnnotationsAssert(this, actual.getAnnotations());
     }

@@ -144,7 +144,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
    */
-  @Valid 
+  
   @Schema(name = "attribute_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_number")
   public Optional<BigDecimal> getAttributeNumber() {
@@ -257,7 +257,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
    */
-  @Valid 
+  
   @Schema(name = "name_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_number")
   public Optional<BigDecimal> getNameNumber() {
@@ -399,7 +399,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
    */
-  @Valid 
+  
   @Schema(name = "prefix_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_number")
   public Optional<BigDecimal> getPrefixNumber() {
@@ -541,7 +541,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  @Valid 
+  
   @Schema(name = "namespace_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_number")
   public Optional<BigDecimal> getNamespaceNumber() {
@@ -683,7 +683,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  @Valid 
+  
   @Schema(name = "prefix_ns_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_number")
   public Optional<BigDecimal> getPrefixNsNumber() {

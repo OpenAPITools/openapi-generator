@@ -1251,4 +1251,32 @@ public class AbstractJavaCodegenTest {
         assertThat(codegen.getTypeDeclaration(nullSchema)).isEqualTo("Object");
         assertThat(codegen.getTypeDeclaration(new ArraySchema().items(nullSchema))).isEqualTo("List<Object>");
     }
+
+    @Test
+    public void placeTypeUseAnnotations_issue25097() {
+        // simple names and declarations without annotations are left untouched
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("Optional<@Valid Pet")).isEqualTo("Optional<@Valid Pet");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("@Valid Pet")).isEqualTo("@Valid Pet");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("Optional<java.time.Instant>")).isEqualTo("Optional<java.time.Instant>");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("java.time.Instant")).isEqualTo("java.time.Instant");
+        // fully qualified type arguments get the annotations after the package qualifier
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("Optional<@Valid java.time.Instant"))
+                .isEqualTo("Optional<java.time.@Valid Instant");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("JsonNullable<@Valid @Size(max = 3) com.acme.Code"))
+                .isEqualTo("JsonNullable<com.acme.@Valid @Size(max = 3) Code");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("@Valid com.acme.Container<java.lang.Object>"))
+                .isEqualTo("com.acme.@Valid Container<java.lang.Object>");
+        // dots and parentheses inside annotation names and string attributes are not mistaken for the qualifier
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations(
+                "Optional<@Pattern(regexp = \"^(a.b\\\"c)$\") @jakarta.validation.constraints.Email java.lang.String"))
+                .isEqualTo("Optional<java.lang.@Pattern(regexp = \"^(a.b\\\"c)$\") @jakarta.validation.constraints.Email String");
+        // an existing jSpecify placement (java.time.@Nullable Instant) is kept and extended
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("JsonNullable<@Valid java.time.@Nullable Instant"))
+                .isEqualTo("JsonNullable<java.time.@Valid @Nullable Instant");
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("java.time.@Nullable Instant"))
+                .isEqualTo("java.time.@Nullable Instant");
+        // annotations of a nested container element are not the wrapper's type argument: untouched
+        assertThat(AbstractJavaCodegen.placeTypeUseAnnotations("JsonNullable<Map<String, @Valid com.acme.Item>>"))
+                .isEqualTo("JsonNullable<Map<String, @Valid com.acme.Item>>");
+    }
 }

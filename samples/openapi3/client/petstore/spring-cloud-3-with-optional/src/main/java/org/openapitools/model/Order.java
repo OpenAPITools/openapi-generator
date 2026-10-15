@@ -150,7 +150,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
+  
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
     return shipDate;

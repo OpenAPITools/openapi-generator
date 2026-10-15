@@ -357,7 +357,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
-                .add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
+                .add(CliOption.newBoolean(USE_OPTIONAL,
+                        "Use Optional container for optional parameters. Optional model request parameters retain "
+                                + "parameter-level @Valid to preserve Spring MVC's existing HTTP 400 behavior; "
+                                + "moving @Valid to Optional's type argument can instead result in "
+                                + "ConstraintViolationException (typically HTTP 500) when class-level @Validated "
+                                + "is used. This may leave HV000271 for optional request bodies. Use required: true "
+                                + "only when the request body is semantically mandatory; an opt-in for the alternate "
+                                + "placement requires a separate compatibility decision.",
+                        useOptional));
         cliOptions.add(
                 CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions

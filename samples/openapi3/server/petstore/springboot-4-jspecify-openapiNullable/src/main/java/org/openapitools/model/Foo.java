@@ -130,7 +130,7 @@ public class Foo {
    * Get nullableDt
    * @return nullableDt
    */
-  @Valid 
+  
   @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableDt")
   @JacksonXmlProperty(localName = "nullableDt")
@@ -176,7 +176,7 @@ public class Foo {
    * Get nullableBinary
    * @return nullableBinary
    */
-  @Valid 
+  
   @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableBinary")
   @JacksonXmlProperty(localName = "nullableBinary")
@@ -345,7 +345,7 @@ public class Foo {
    * Get nullableNumber
    * @return nullableNumber
    */
-  @Valid 
+  
   @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableNumber")
   @JacksonXmlProperty(localName = "nullableNumber")

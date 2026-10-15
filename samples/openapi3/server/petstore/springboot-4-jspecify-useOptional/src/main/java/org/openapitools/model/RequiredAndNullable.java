@@ -90,7 +90,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  /* @Present */ @Valid 
+  /* @Present */ 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")

@@ -48,7 +48,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
    */
-  @Valid 
+  
   @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public Optional<UUID> getUuid() {
@@ -69,7 +69,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
    */
-  @Valid 
+  
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public Optional<OffsetDateTime> getDateTime() {

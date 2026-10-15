@@ -32,7 +32,7 @@ public class Pet {
   private Optional<Long> id = Optional.empty();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Optional<Category> category = Optional.empty();
+  private Optional<@Valid Category> category = Optional.empty();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
@@ -127,9 +127,9 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
+  
   @JsonProperty("category")
-  public Optional<Category> getCategory() {
+  public Optional<@Valid Category> getCategory() {
     return category;
   }
 
