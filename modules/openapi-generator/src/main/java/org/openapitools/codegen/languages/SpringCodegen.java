@@ -62,6 +62,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -1860,6 +1861,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     private static final Set<String> RECORD_FORBIDDEN_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
             "clone", "finalize", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait"));
 
+    /** A constructor call in a default value, as {@code toDefaultValue} writes it: {@code new Sub()}, {@code new Sub().x("a")}. */
+    private static final Pattern RECORD_DEFAULT_CONSTRUCTOR_CALL = Pattern.compile("(?<![\\w.])new (\\w+)\\(");
+
     /**
      * Decides for every model whether it is generated as a record and stores the decision in the vendor
      * extension {@code x-is-record}. A model that stays a class is logged with the reason.
@@ -1873,6 +1877,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         Set<String> parameterSchemas = schemasBoundFromParameters();
+        Map<String, String> constructedByDefault = modelsConstructedByDefault(allModels);
 
         for (CodegenModel cm : allModels.values()) {
             // enums and oneOf interfaces are untouched; aliases (a schema that is only a $ref or a primitive) are
@@ -1880,7 +1885,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
                 continue;
             }
-            String reason = reasonForClass(cm, oneOfMembers, parameterSchemas);
+            String reason = reasonForClass(cm, oneOfMembers, parameterSchemas, constructedByDefault);
             if (reason != null) {
                 LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
                 continue;
@@ -1897,6 +1902,54 @@ public class SpringCodegen extends AbstractJavaCodegen
             cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
+    }
+
+    /**
+     * Classnames of the models that the default value of a model-typed property constructs, each with the first
+     * property that does it. A record has only its canonical constructor, so {@code new Sub()} and the fluent
+     * {@code new Sub().x("a")} that {@code toDefaultValue} writes do not compile for a record; such a model stays a class.
+     * Only the default of a property whose type, or whose innermost items type, is a model is read, never the text
+     * of a string default. A model without properties is left out: its record has a no-argument constructor, and so
+     * is a model that gets no file.
+     */
+    private Map<String, String> modelsConstructedByDefault(Map<String, CodegenModel> allModels) {
+        Set<String> modelNames = new HashSet<>();
+        Set<String> modelsWithProperties = new HashSet<>();
+        for (CodegenModel cm : allModels.values()) {
+            modelNames.add(cm.classname);
+            if (!cm.vars.isEmpty() && !hasNoModelFile(cm)) {
+                modelsWithProperties.add(cm.classname);
+            }
+        }
+        Map<String, String> constructed = new HashMap<>();
+        for (CodegenModel cm : new TreeMap<>(allModels).values()) {
+            for (CodegenProperty cp : cm.vars) {
+                CodegenProperty inner = cp.mostInnerItems != null ? cp.mostInnerItems : cp;
+                // complexType is null when the model is named like a Java type, as a model named Integer is
+                String type = inner.complexType != null ? inner.complexType : inner.isModel ? inner.dataType : null;
+                // the initial value that the templates print, which is not the default for a nullable property
+                String initialValue = recordInitialValue(cp);
+                if (type == null || !modelNames.contains(type) || initialValue == null) {
+                    continue;
+                }
+                Matcher matcher = RECORD_DEFAULT_CONSTRUCTOR_CALL.matcher(initialValue);
+                while (matcher.find()) {
+                    if (modelsWithProperties.contains(matcher.group(1))) {
+                        constructed.putIfAbsent(matcher.group(1), "property '" + cp.name + "' in model '" + cm.classname + "'");
+                    }
+                }
+            }
+        }
+        return constructed;
+    }
+
+    /**
+     * Whether {@code DefaultGenerator} writes no file for this model: its name is type-mapped to a type that has an
+     * import mapping, as {@code URI} and {@code UUID} are (the property then has the JDK class as its type).
+     */
+    private boolean hasNoModelFile(CodegenModel cm) {
+        String mappedType = typeMapping.get(cm.schemaName);
+        return mappedType != null && importMapping.containsKey(mappedType);
     }
 
     /**
@@ -1975,7 +2028,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    private String reasonForClass(CodegenModel cm, Set<String> oneOfMembers, Set<String> parameterSchemas) {
+    private String reasonForClass(CodegenModel cm, Set<String> oneOfMembers, Set<String> parameterSchemas,
+                                  Map<String, String> constructedByDefault) {
         if (cm.parent != null) {
             return "it has a parent (" + cm.parent + ")";
         }
@@ -2018,6 +2072,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
                 return "property '" + cp.name + "' uses the FAIL null policy";
             }
+        }
+        if (constructedByDefault.containsKey(cm.classname)) {
+            return "the default of " + constructedByDefault.get(cm.classname) + " constructs it with new " + cm.classname + "()";
         }
         return null;
     }

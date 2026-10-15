@@ -10936,4 +10936,138 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Pet.java")).isNormalClass().fileDoesNotContain("record");
     }
+
+    private static final String RECORDS_MODEL_DEFAULTS_SPEC = "src/test/resources/3_0/spring/records-model-defaults.yaml";
+
+    @Test
+    public void useRecordsKeepsModelConstructedByDefaultAsClass() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "Sub.java").contains("public class Sub {").doesNotContain("public record Sub(");
+        assertSource(files, "Holder.java").contains("public record Holder(", "      inner = new Sub();");
+    }
+
+    @Test
+    public void useRecordsLogsWhyModelConstructedByDefaultIsAClass() {
+        List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Sub' is generated as a class: the default of property 'inner' in model 'Holder' constructs it with new Sub()");
+    }
+
+    @Test
+    public void useRecordsKeepsModelWithNonEmptyDefaultAsClass() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "Named.java").contains("public class Named {");
+        assertSource(files, "Holder.java").contains("      named = new Named().x(\"a\");");
+    }
+
+    @Test
+    public void useRecordsKeepsEveryModelOfNestedDefaultAsClass() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "Outer.java").contains("public class Outer {");
+        assertSource(files, "Leaf.java").contains("public class Leaf {");
+        assertSource(files, "Holder.java").contains("new Outer().inner(new Leaf().v(\"r\"))");
+    }
+
+    @Test
+    public void useRecordsKeepsModelInListAndSetDefaultAsClass() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "ListItem.java").contains("public class ListItem {");
+        assertSource(files, "SetItem.java").contains("public class SetItem {");
+        assertSource(files, "Holder.java").contains(
+                "      items = new ArrayList<>(Arrays.asList(new ListItem()));",
+                "      uniqueItems = new LinkedHashSet<>(Arrays.asList(new SetItem()));");
+    }
+
+    @Test
+    public void useRecordsKeepsModelWithoutPropertiesAsRecord() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "Hollow.java").contains("public record Hollow(");
+        assertSource(files, "Holder.java").contains("      hollow = new Hollow();");
+    }
+
+    @Test
+    public void useRecordsKeepsOriginalReasonOfModelThatAlreadyStaysClass() {
+        List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: it has additionalProperties");
+        assertThat(messages).noneMatch(m -> m.contains("model 'LooseSub'") && m.contains("constructs it"));
+    }
+
+    @Test
+    public void useRecordsIgnoresStringDefaultThatLooksLikeConstructor() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+
+        assertSource(files, "Untouched.java").contains("public record Untouched(");
+        assertSource(files, "Holder.java").contains("      text = \"new Untouched()\";");
+    }
+
+    @Test
+    public void useRecordsOffKeepsModelDefaultsAsClasses() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_MODEL_DEFAULTS_SPEC, SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Holder.java"))
+                .isNormalClass()
+                .fileContains("private Sub inner = new Sub();", "private Named named = new Named().x(\"a\");");
+        JavaFileAssert.assertThat(files.get("Untouched.java")).isNormalClass();
+    }
+
+    @Test
+    public void useRecordsKeepsNullableModelWithDefaultAsRecord() throws IOException {
+        List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of());
+                assertSource(files, "Quiet.java").contains("public record Quiet(");
+                assertSource(files, "QuietItem.java").contains("public record QuietItem(");
+                assertSource(files, "Holder.java").contains(
+                        "      quiet = JsonNullable.<Quiet>undefined();",
+                        "      quietItems = JsonNullable.<List<@Valid QuietItem>>undefined();");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        assertThat(messages).noneMatch(m -> m.contains("model 'Quiet'") || m.contains("model 'QuietItem'"));
+    }
+
+    @Test
+    public void useRecordsKeepsModelInNullableContainerDefaultAsClassWithoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_MODEL_DEFAULTS_SPEC, Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        // a nullable property that is not a container is initialised with null, a nullable container with its default
+        assertSource(files, "Quiet.java").contains("public record Quiet(");
+        assertSource(files, "QuietItem.java").contains("public class QuietItem {");
+        assertSource(files, "Holder.java").contains("      quietItems = new ArrayList<>(Arrays.asList(new QuietItem()));");
+    }
+
+    @Test
+    public void useRecordsLogsNoModelThatHasNoFile() throws IOException {
+        List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-model-defaults-jdk-names.yaml", Map.of());
+                assertThat(files).doesNotContainKey("URI.java");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        assertThat(messages).noneMatch(m -> m.contains("model 'URI'"));
+    }
 }
