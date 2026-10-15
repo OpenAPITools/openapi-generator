@@ -92,10 +92,10 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             try {
             final {{jacksonPackage}}.core.type.TypeReference<{{{.}}}> candidateRef = new {{jacksonPackage}}.core.type.TypeReference<{{{.}}}>() {};
 {{^useJackson3}}
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
 {{/useJackson3}}
 {{#useJackson3}}
-                deserialized = ctxt.readTreeAsValue(tree, candidateRef.getClass());
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
 {{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);

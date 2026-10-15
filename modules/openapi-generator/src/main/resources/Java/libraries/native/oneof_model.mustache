@@ -139,10 +139,10 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 }
                 if (attemptParsing) {
 {{^useJackson3}}
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
 {{/useJackson3}}
 {{#useJackson3}}
-                    deserialized = ctxt.readTreeAsValue(tree, candidateType.getClass());
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateType));
 {{/useJackson3}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON

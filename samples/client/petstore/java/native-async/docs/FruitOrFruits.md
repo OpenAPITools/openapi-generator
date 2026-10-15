@@ -4,9 +4,9 @@
 
 ## oneOf schemas
 * [Apple](Apple.md)
+* [List&lt;Apple&gt;](Apple.md)
 * [Banana](Banana.md)
-* [List<Apple>](List<Apple>.md)
-* [List<Banana>](List<Banana>.md)
+* [List&lt;Banana&gt;](Banana.md)
 
 ## Example
 ```java

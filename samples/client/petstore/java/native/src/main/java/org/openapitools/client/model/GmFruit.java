@@ -92,7 +92,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             // deserialize Apple
             try {
             final com.fasterxml.jackson.core.type.TypeReference<Apple> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Apple>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -104,7 +104,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
             final com.fasterxml.jackson.core.type.TypeReference<Banana> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Banana>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;

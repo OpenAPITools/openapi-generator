@@ -92,7 +92,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize Apple
             try {
             final tools.jackson.core.type.TypeReference<Apple> candidateRef = new tools.jackson.core.type.TypeReference<Apple>() {};
-                deserialized = ctxt.readTreeAsValue(tree, candidateRef.getClass());
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -104,7 +104,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
             final tools.jackson.core.type.TypeReference<Banana> candidateRef = new tools.jackson.core.type.TypeReference<Banana>() {};
-                deserialized = ctxt.readTreeAsValue(tree, candidateRef.getClass());
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -116,7 +116,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize List<Apple>
             try {
             final tools.jackson.core.type.TypeReference<List<Apple>> candidateRef = new tools.jackson.core.type.TypeReference<List<Apple>>() {};
-                deserialized = ctxt.readTreeAsValue(tree, candidateRef.getClass());
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -128,7 +128,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize List<Banana>
             try {
             final tools.jackson.core.type.TypeReference<List<Banana>> candidateRef = new tools.jackson.core.type.TypeReference<List<Banana>>() {};
-                deserialized = ctxt.readTreeAsValue(tree, candidateRef.getClass());
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;

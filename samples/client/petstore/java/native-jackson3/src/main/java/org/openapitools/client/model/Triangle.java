@@ -116,7 +116,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, candidateType.getClass());
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateType));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -150,7 +150,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, candidateType.getClass());
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateType));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -184,7 +184,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, candidateType.getClass());
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateType));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.

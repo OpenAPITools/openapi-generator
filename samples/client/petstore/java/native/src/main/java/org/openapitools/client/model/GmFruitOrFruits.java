@@ -93,7 +93,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize Apple
             try {
             final com.fasterxml.jackson.core.type.TypeReference<Apple> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Apple>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -105,7 +105,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
             final com.fasterxml.jackson.core.type.TypeReference<Banana> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Banana>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -117,7 +117,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize List<Apple>
             try {
             final com.fasterxml.jackson.core.type.TypeReference<List<Apple>> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<List<Apple>>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -129,7 +129,7 @@ public class GmFruitOrFruits extends AbstractOpenApiSchema {
             // deserialize List<Banana>
             try {
             final com.fasterxml.jackson.core.type.TypeReference<List<Banana>> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<List<Banana>>() {};
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruitOrFruits ret = new GmFruitOrFruits();
                 ret.setActualInstance(deserialized);
                 return ret;

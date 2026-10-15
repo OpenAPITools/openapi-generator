@@ -119,7 +119,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -154,7 +154,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef.getClass());
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
