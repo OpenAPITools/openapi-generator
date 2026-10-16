@@ -878,6 +878,16 @@ public class TypeScriptFetchClientCodegenTest {
                 "if (instanceOfTestA(json))");
     }
 
+    @Test(description = "Non-discriminated oneOf skips guards for discriminated oneOf members")
+    public void testNonDiscriminatedOneOfWithDiscriminatedMember() throws IOException {
+        File output = generate(Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/non-discriminated-oneOf-with-discriminated-member.yaml");
+
+        Path parent = Paths.get(output + "/models/Parent.ts");
+        TestUtils.assertFileNotContains(parent, "instanceOfChild");
+        TestUtils.assertFileContains(parent, "instanceOfOrdinary", "if (instanceOfOrdinary(json))");
+    }
+
     @DataProvider
     public Object[][] nullableOneOfRuntimeCheckModes() {
         return new Object[][] {{false}, {true}};
