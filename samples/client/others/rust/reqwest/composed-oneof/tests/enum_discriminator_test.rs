@@ -51,15 +51,12 @@ fn inline_enum_tag_selects_the_variant() {
 fn enum_ref_tag_round_trips() {
     for (shape, expected) in [
         (
-            Shape::Circle(Box::new(Circle {
-                radius: Some(1.5),
-                ..Circle::new(ShapeKind::Circle)
-            })),
+            Shape::Circle(Box::new(Circle::new(ShapeKind::Circle, 1.5))),
             json!({"kind": "circle", "radius": 1.5}),
         ),
         (
-            Shape::Square(Box::new(Square::new(ShapeKind::Square))),
-            json!({"kind": "square"}),
+            Shape::Square(Box::new(Square::new(ShapeKind::Square, 2.0))),
+            json!({"kind": "square", "side": 2.0}),
         ),
     ] {
         let text = serde_json::to_string(&shape).unwrap();
@@ -70,6 +67,20 @@ fn enum_ref_tag_round_trips() {
         );
         assert_eq!(serde_json::from_str::<Shape>(&text).unwrap(), shape);
     }
+}
+
+#[test]
+fn union_variant_overrides_a_mismatched_tag() {
+    // a shared enum lets the variant hold another variant's tag; Square::default() holds ShapeKind::Circle
+    let shape = Shape::Square(Box::new(Square::new(ShapeKind::Circle, 2.0)));
+    assert_eq!(
+        serde_json::to_value(&shape).unwrap(),
+        json!({"kind": "square", "side": 2.0})
+    );
+    assert_eq!(
+        serde_json::to_value(Shape::Square(Box::default())).unwrap()["kind"],
+        "square"
+    );
 }
 
 #[test]

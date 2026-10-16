@@ -33,11 +33,9 @@ impl Serialize for RenderRequest {
             Self::ResetPassword(x) => ("reset-password", serde_json::to_value(x)),
         };
         let mut value = value.map_err(serde::ser::Error::custom)?;
-        // a variant whose optional tag is unset still writes it, as serde(tag) would
+        // the union variant decides the tag, as serde(tag) would, even if the variant left it unset or set another value
         if let Some(map) = value.as_object_mut() {
-            if map.get("templateId").map_or(true, serde_json::Value::is_null) {
-                map.insert("templateId".to_owned(), serde_json::Value::String(tag.to_owned()));
-            }
+            map.insert("templateId".to_owned(), serde_json::Value::String(tag.to_owned()));
         }
         value.serialize(serializer)
     }

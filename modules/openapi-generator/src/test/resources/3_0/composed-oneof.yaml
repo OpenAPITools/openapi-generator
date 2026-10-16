@@ -145,6 +145,7 @@ components:
       type: object
       required:
         - kind
+        - radius
       properties:
         kind:
           $ref: '#/components/schemas/ShapeKind'
@@ -154,6 +155,7 @@ components:
       type: object
       required:
         - kind
+        - side
       properties:
         kind:
           $ref: '#/components/schemas/ShapeKind'

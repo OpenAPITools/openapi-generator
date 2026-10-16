@@ -15,15 +15,15 @@ use serde::{Deserialize, Serialize};
 pub struct Circle {
     #[serde(rename = "kind")]
     pub kind: models::ShapeKind,
-    #[serde(rename = "radius", skip_serializing_if = "Option::is_none")]
-    pub radius: Option<f64>,
+    #[serde(rename = "radius")]
+    pub radius: f64,
 }
 
 impl Circle {
-    pub fn new(kind: models::ShapeKind) -> Circle {
+    pub fn new(kind: models::ShapeKind, radius: f64) -> Circle {
         Circle {
             kind,
-            radius: None,
+            radius,
         }
     }
 }

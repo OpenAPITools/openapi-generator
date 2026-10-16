@@ -15,15 +15,15 @@ use serde::{Deserialize, Serialize};
 pub struct Square {
     #[serde(rename = "kind")]
     pub kind: models::ShapeKind,
-    #[serde(rename = "side", skip_serializing_if = "Option::is_none")]
-    pub side: Option<f64>,
+    #[serde(rename = "side")]
+    pub side: f64,
 }
 
 impl Square {
-    pub fn new(kind: models::ShapeKind) -> Square {
+    pub fn new(kind: models::ShapeKind, side: f64) -> Square {
         Square {
             kind,
-            side: None,
+            side,
         }
     }
 }
