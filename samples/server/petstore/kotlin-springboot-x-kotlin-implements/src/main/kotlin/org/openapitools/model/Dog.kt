@@ -65,7 +65,7 @@ data class Dog(
     @ApiModelProperty(required = true, value = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("petType", required = true)
-    @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
+    @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "Dog",
 
     @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)

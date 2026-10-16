@@ -22,7 +22,7 @@ import jakarta.validation.Valid
 open class Dog(
 
     @param:JsonProperty("className", required = true)
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true) override val className: kotlin.String = "Dog",
 
     @param:JsonProperty("breed")
     @get:JsonProperty("breed") open val breed: kotlin.String? = null,
