@@ -17,11 +17,9 @@ part 'has_only_read_only.g.dart';
   explicitToJson: true,
 )
 class HasOnlyReadOnly {
-  /// Returns a new [HasOnlyReadOnly] instance.
+/// Returns a new [HasOnlyReadOnly] instance.
   HasOnlyReadOnly({
-
      this.bar,
-
      this.foo,
   });
 
@@ -53,6 +51,7 @@ class HasOnlyReadOnly {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
+    runtimeType == other.runtimeType &&
       other.bar == bar &&
       other.foo == foo;
 

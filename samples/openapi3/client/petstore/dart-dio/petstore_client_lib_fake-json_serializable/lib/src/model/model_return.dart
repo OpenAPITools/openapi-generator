@@ -17,9 +17,8 @@ part 'model_return.g.dart';
   explicitToJson: true,
 )
 class ModelReturn {
-  /// Returns a new [ModelReturn] instance.
+/// Returns a new [ModelReturn] instance.
   ModelReturn({
-
      this.return_,
   });
 
@@ -39,6 +38,7 @@ class ModelReturn {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
+    runtimeType == other.runtimeType &&
       other.return_ == return_;
 
     @override
