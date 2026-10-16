@@ -65,10 +65,10 @@ QString PFXTestAnyType::asJson() const {
 
 QJsonObject PFXTestAnyType::asJsonObject() const {
     QJsonObject obj;
-    if (m_code_isSet) {
+    if (true && m_code_isSet) {
         obj.insert(QString("code"), ::test_namespace::toJsonValue(m_code));
     }
-    if (m_message_isSet) {
+    if (true && m_message_isSet) {
         obj.insert(QString("message"), ::test_namespace::toJsonValue(m_message));
     }
     return obj;
