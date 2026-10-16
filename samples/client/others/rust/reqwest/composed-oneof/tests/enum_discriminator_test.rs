@@ -1,0 +1,105 @@
+use composed_oneof_reqwest::models::{
+    reset_password_render, verify_email_render, Circle, LinkNote, Note, RenderRequest,
+    ResetPasswordRender, Shape, ShapeKind, Square, TextNote, VerifyEmailRender,
+};
+use serde_json::json;
+
+#[test]
+fn inline_enum_tag_is_written_once() {
+    let request = RenderRequest::VerifyEmail(Box::new(VerifyEmailRender::new(
+        verify_email_render::TemplateId::VerifyEmail,
+        "Ana".to_string(),
+    )));
+    let text = serde_json::to_string(&request).unwrap();
+    assert_eq!(text.matches("\"templateId\"").count(), 1, "{text}");
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(&text).unwrap(),
+        json!({"templateId": "verify-email", "name": "Ana"})
+    );
+    assert_eq!(
+        serde_json::from_str::<RenderRequest>(&text).unwrap(),
+        request
+    );
+}
+
+#[test]
+fn inline_enum_tag_selects_the_variant() {
+    let request: RenderRequest = serde_json::from_value(
+        json!({"templateId": "reset-password", "url": "https://example.com"}),
+    )
+    .unwrap();
+    assert_eq!(
+        request,
+        RenderRequest::ResetPassword(Box::new(ResetPasswordRender::new(
+            reset_password_render::TemplateId::ResetPassword,
+            "https://example.com".to_string(),
+        )))
+    );
+
+    // the variant struct keeps serializing on its own
+    let standalone = VerifyEmailRender::new(
+        verify_email_render::TemplateId::VerifyEmail,
+        "Bo".to_string(),
+    );
+    assert_eq!(
+        serde_json::to_value(&standalone).unwrap(),
+        json!({"templateId": "verify-email", "name": "Bo"})
+    );
+}
+
+#[test]
+fn enum_ref_tag_round_trips() {
+    for (shape, expected) in [
+        (
+            Shape::Circle(Box::new(Circle {
+                radius: Some(1.5),
+                ..Circle::new(ShapeKind::Circle)
+            })),
+            json!({"kind": "circle", "radius": 1.5}),
+        ),
+        (
+            Shape::Square(Box::new(Square::new(ShapeKind::Square))),
+            json!({"kind": "square"}),
+        ),
+    ] {
+        let text = serde_json::to_string(&shape).unwrap();
+        assert_eq!(text.matches("\"kind\"").count(), 1, "{text}");
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(&text).unwrap(),
+            expected
+        );
+        assert_eq!(serde_json::from_str::<Shape>(&text).unwrap(), shape);
+    }
+}
+
+#[test]
+fn unknown_or_missing_tag_is_rejected() {
+    let unknown =
+        serde_json::from_value::<RenderRequest>(json!({"templateId": "other"})).unwrap_err();
+    assert!(
+        unknown.to_string().contains("unknown variant `other`"),
+        "{unknown}"
+    );
+    let missing = serde_json::from_value::<RenderRequest>(json!({"name": "Ana"})).unwrap_err();
+    assert!(
+        missing.to_string().contains("missing field `templateId`"),
+        "{missing}"
+    );
+}
+
+#[test]
+fn optional_enum_tag_left_unset_is_written_by_the_union() {
+    let note = Note::Text(Box::new(TextNote::new()));
+    assert_eq!(
+        serde_json::to_value(&note).unwrap(),
+        json!({"kind": "text"})
+    );
+
+    let note: Note =
+        serde_json::from_value(json!({"kind": "link", "href": "https://example.com"})).unwrap();
+    assert!(matches!(&note, Note::Link(_)));
+    let text = serde_json::to_string(&note).unwrap();
+    assert_eq!(text.matches("\"kind\"").count(), 1, "{text}");
+    assert_eq!(serde_json::from_str::<Note>(&text).unwrap(), note);
+    let _ = LinkNote::new();
+}
