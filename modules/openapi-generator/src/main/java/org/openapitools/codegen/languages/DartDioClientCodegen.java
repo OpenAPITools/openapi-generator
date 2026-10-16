@@ -227,7 +227,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
         if (useOptional && SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
-            LOGGER.warn("useOptional is not yet supported with serializationLibrary=freezed and will be ignored.");
+            LOGGER.warn("useOptional and patchOnly are not yet supported with serializationLibrary=freezed and will be ignored.");
             setUseOptional(false);
             setPatchOnly(false);
             additionalProperties.put(USE_OPTIONAL, false);
