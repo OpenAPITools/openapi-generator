@@ -15,12 +15,14 @@ abstract class GetUserInfoResponse with _$GetUserInfoResponse {
     /// Email address of user, if available
     @JsonKey(
       name: r'email',
+      required: false,
       includeIfNull: false,
     )
     String? email,
     /// Auth-Scopes of the user, if available
     @JsonKey(
       name: r'scopes',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: GetUserInfoResponseScopesEnum.unknownDefaultOpenApi,
     )

@@ -15,11 +15,12 @@ abstract class ObjectWithInlineEnumDefaultValue with _$ObjectWithInlineEnumDefau
     /// Object one attribute enum with default value
     @JsonKey(
       name: r'attribute',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: ObjectWithInlineEnumDefaultValueAttributeEnum.unknownDefaultOpenApi,
     )
   
-    ObjectWithInlineEnumDefaultValueAttributeEnum? attribute,
+    @Default(ObjectWithInlineEnumDefaultValueAttributeEnum.valueOne) ObjectWithInlineEnumDefaultValueAttributeEnum attribute,
   
   }) = _ObjectWithInlineEnumDefaultValue;
 

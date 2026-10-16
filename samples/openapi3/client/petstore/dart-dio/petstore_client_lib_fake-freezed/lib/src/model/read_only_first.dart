@@ -14,11 +14,13 @@ abstract class ReadOnlyFirst with _$ReadOnlyFirst {
   const factory ReadOnlyFirst({
     @JsonKey(
       name: r'bar',
+      required: false,
       includeIfNull: false,
     )
     String? bar,
     @JsonKey(
       name: r'baz',
+      required: false,
       includeIfNull: false,
     )
     String? baz,

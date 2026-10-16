@@ -15,6 +15,7 @@ abstract class DeprecatedObject with _$DeprecatedObject {
   const factory DeprecatedObject({
     @JsonKey(
       name: r'name',
+      required: false,
       includeIfNull: false,
     )
     String? name,

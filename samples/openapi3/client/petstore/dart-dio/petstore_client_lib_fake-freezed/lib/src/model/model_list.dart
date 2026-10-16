@@ -14,6 +14,7 @@ abstract class ModelList with _$ModelList {
   const factory ModelList({
     @JsonKey(
       name: r'123-list',
+      required: false,
       includeIfNull: false,
     )
     String? n123list,

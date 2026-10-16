@@ -15,6 +15,7 @@ abstract class FooGetDefaultResponse with _$FooGetDefaultResponse {
   const factory FooGetDefaultResponse({
     @JsonKey(
       name: r'string',
+      required: false,
       includeIfNull: false,
     )
     Foo? string,

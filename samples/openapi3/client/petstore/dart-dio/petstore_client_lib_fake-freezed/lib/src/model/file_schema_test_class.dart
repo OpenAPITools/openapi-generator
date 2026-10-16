@@ -15,11 +15,13 @@ abstract class FileSchemaTestClass with _$FileSchemaTestClass {
   const factory FileSchemaTestClass({
     @JsonKey(
       name: r'file',
+      required: false,
       includeIfNull: false,
     )
     ModelFile? file,
     @JsonKey(
       name: r'files',
+      required: false,
       includeIfNull: false,
     )
     List<ModelFile>? files,

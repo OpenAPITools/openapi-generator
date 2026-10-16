@@ -15,6 +15,7 @@ abstract class ObjectWithDuplicateInlineEnum with _$ObjectWithDuplicateInlineEnu
     /// Object two attribute enum
     @JsonKey(
       name: r'attribute',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: ObjectWithDuplicateInlineEnumAttributeEnum.unknownDefaultOpenApi,
     )

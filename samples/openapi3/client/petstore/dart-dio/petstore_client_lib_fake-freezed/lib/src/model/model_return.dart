@@ -14,6 +14,7 @@ abstract class ModelReturn with _$ModelReturn {
   const factory ModelReturn({
     @JsonKey(
       name: r'return',
+      required: false,
       includeIfNull: false,
     )
     int? return_,

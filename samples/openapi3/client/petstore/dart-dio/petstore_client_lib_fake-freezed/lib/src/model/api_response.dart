@@ -14,16 +14,19 @@ abstract class ApiResponse with _$ApiResponse {
   const factory ApiResponse({
     @JsonKey(
       name: r'code',
+      required: false,
       includeIfNull: false,
     )
     int? code,
     @JsonKey(
       name: r'type',
+      required: false,
       includeIfNull: false,
     )
     String? type,
     @JsonKey(
       name: r'message',
+      required: false,
       includeIfNull: false,
     )
     String? message,

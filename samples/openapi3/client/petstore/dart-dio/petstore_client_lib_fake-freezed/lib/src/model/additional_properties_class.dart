@@ -14,16 +14,19 @@ abstract class AdditionalPropertiesClass with _$AdditionalPropertiesClass {
   const factory AdditionalPropertiesClass({
     @JsonKey(
       name: r'map_property',
+      required: false,
       includeIfNull: false,
     )
     Map<String, String>? mapProperty,
     @JsonKey(
       name: r'map_of_map_property',
+      required: false,
       includeIfNull: false,
     )
     Map<String, Map<String, String>>? mapOfMapProperty,
     @JsonKey(
       name: r'map_of_array_integer',
+      required: false,
       includeIfNull: false,
     )
     Map<String, List<int>>? mapOfArrayInteger,

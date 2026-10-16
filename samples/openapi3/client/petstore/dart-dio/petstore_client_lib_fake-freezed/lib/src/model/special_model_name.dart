@@ -14,6 +14,7 @@ abstract class SpecialModelName with _$SpecialModelName {
   const factory SpecialModelName({
     @JsonKey(
       name: r'$special[property.name]',
+      required: false,
       includeIfNull: false,
     )
     int? dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,

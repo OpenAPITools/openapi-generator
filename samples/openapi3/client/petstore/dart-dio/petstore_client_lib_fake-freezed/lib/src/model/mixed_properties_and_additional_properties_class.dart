@@ -15,16 +15,19 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass with _$MixedPropertie
   const factory MixedPropertiesAndAdditionalPropertiesClass({
     @JsonKey(
       name: r'uuid',
+      required: false,
       includeIfNull: false,
     )
     String? uuid,
     @JsonKey(
       name: r'dateTime',
+      required: false,
       includeIfNull: false,
     )
     DateTime? dateTime,
     @JsonKey(
       name: r'map',
+      required: false,
       includeIfNull: false,
     )
     Map<String, Animal>? map,

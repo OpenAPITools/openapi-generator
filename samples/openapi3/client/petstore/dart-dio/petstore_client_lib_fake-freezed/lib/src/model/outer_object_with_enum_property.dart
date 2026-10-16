@@ -15,6 +15,7 @@ abstract class OuterObjectWithEnumProperty with _$OuterObjectWithEnumProperty {
   const factory OuterObjectWithEnumProperty({
     @JsonKey(
       name: r'value',
+      required: true,
       includeIfNull: false,
       unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
     )

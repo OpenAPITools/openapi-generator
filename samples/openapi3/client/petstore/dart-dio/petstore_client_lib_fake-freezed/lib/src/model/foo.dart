@@ -14,6 +14,7 @@ abstract class Foo with _$Foo {
   const factory Foo({
     @JsonKey(
       name: r'bar',
+      required: false,
       includeIfNull: false,
     )
   

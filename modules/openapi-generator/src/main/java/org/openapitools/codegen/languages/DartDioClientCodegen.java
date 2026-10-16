@@ -116,7 +116,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
-        supportedLibraries.put(SERIALIZATION_LIBRARY_FREEZED, "[BETA] freezed");
+        supportedLibraries.put(SERIALIZATION_LIBRARY_FREEZED, "[BETA] freezed (requires Dart 3.8+)");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
@@ -225,6 +225,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
+
+        if (useOptional && SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
+            LOGGER.warn("useOptional is not yet supported with serializationLibrary=freezed and will be ignored.");
+            setUseOptional(false);
+            setPatchOnly(false);
+            additionalProperties.put(USE_OPTIONAL, false);
+            additionalProperties.put(PATCH_ONLY, false);
+        }
 
         if (useOptional) {
             supportingFiles.add(new SupportingFile("optional.mustache", srcFolder, "optional.dart"));
@@ -391,7 +399,37 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
+        if (SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
+            for (ModelMap modelMap : models) {
+                for (CodegenProperty property : modelMap.getModel().vars) {
+                    setFreezedEnumDefault(property);
+                }
+            }
+        }
         return objs;
+    }
+
+    /**
+     * The default value of an inline enum property is the raw enum value (e.g. 'value_one'),
+     * which cannot be used in a freezed @Default annotation. Resolve it to the matching enum
+     * constant (e.g. MyEnum.valueOne) instead.
+     */
+    @SuppressWarnings("unchecked")
+    private void setFreezedEnumDefault(CodegenProperty property) {
+        if (!property.isEnum || property.isContainer || property.defaultValue == null
+                || property.allowableValues == null) {
+            return;
+        }
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return;
+        }
+        for (Map<String, Object> enumVar : enumVars) {
+            if (property.defaultValue.equals(enumVar.get("value"))) {
+                property.vendorExtensions.put("x-freezed-enum-default", property.enumName + "." + enumVar.get("name"));
+                return;
+            }
+        }
     }
 
     /// Gets all ancestors of a given model, and puts it in accumulator

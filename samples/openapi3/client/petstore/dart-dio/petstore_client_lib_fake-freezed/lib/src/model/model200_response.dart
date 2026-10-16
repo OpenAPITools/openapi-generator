@@ -14,11 +14,13 @@ abstract class Model200Response with _$Model200Response {
   const factory Model200Response({
     @JsonKey(
       name: r'name',
+      required: false,
       includeIfNull: false,
     )
     int? name,
     @JsonKey(
       name: r'class',
+      required: false,
       includeIfNull: false,
     )
     String? class_,

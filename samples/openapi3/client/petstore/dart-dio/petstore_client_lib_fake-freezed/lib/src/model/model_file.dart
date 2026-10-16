@@ -15,6 +15,7 @@ abstract class ModelFile with _$ModelFile {
     /// Test capitalization
     @JsonKey(
       name: r'sourceURI',
+      required: false,
       includeIfNull: false,
     )
     String? sourceURI,

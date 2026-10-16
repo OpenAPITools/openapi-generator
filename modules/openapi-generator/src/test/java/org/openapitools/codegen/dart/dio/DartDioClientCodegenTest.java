@@ -18,6 +18,7 @@ package org.openapitools.codegen.dart.dio;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.AbstractDartCodegen;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -423,5 +424,49 @@ public class DartDioClientCodegenTest {
                 "@freezed",
                 "with _$",
                 "factory Pet.fromJson");
+    }
+
+    @Test
+    public void testFreezedInlineEnumDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        configurator.addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_FREEZED);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = output.toPath().resolve("lib/src/model/object_with_inline_enum_default_value.dart");
+        TestUtils.assertFileContains(model,
+                "@Default(ObjectWithInlineEnumDefaultValueAttributeEnum.valueOne) ObjectWithInlineEnumDefaultValueAttributeEnum attribute,");
+    }
+
+    @Test
+    public void testFreezedIgnoresUseOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        configurator.addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_FREEZED);
+        configurator.addAdditionalProperty(AbstractDartCodegen.USE_OPTIONAL, true);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Assert.assertFalse(output.toPath().resolve("lib/src/optional.dart").toFile().exists());
+        TestUtils.assertFileNotContains(output.toPath().resolve("lib/src/model/pet.dart"), "Optional<");
     }
 }

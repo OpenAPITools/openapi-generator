@@ -17,17 +17,20 @@ abstract class Dog with _$Dog {
   const factory Dog({
     @JsonKey(
       name: r'className',
+      required: true,
       includeIfNull: false,
     )
     required String className,
     @JsonKey(
       name: r'color',
+      required: false,
       includeIfNull: false,
     )
   
     @Default('red') String color,
     @JsonKey(
       name: r'breed',
+      required: false,
       includeIfNull: false,
     )
     String? breed,

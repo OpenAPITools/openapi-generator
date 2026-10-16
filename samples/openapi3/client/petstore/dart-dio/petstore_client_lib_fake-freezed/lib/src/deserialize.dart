@@ -26,6 +26,7 @@ import 'package:openapi/src/model/map_test.dart';
 import 'package:openapi/src/model/mixed_properties_and_additional_properties_class.dart';
 import 'package:openapi/src/model/model200_response.dart';
 import 'package:openapi/src/model/model_client.dart';
+import 'package:openapi/src/model/model_enum_class.dart';
 import 'package:openapi/src/model/model_file.dart';
 import 'package:openapi/src/model/model_list.dart';
 import 'package:openapi/src/model/model_return.dart';
@@ -40,12 +41,18 @@ import 'package:openapi/src/model/object_with_inline_enum.dart';
 import 'package:openapi/src/model/object_with_inline_enum_default_value.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
+import 'package:openapi/src/model/outer_enum.dart';
+import 'package:openapi/src/model/outer_enum_default_value.dart';
+import 'package:openapi/src/model/outer_enum_integer.dart';
+import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_enum.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
 
@@ -124,8 +131,10 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
         case 'ModelClient':
           return ModelClient.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ModelEnumClass':
-          
-          
+          return ModelEnumClass.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => ModelEnumClass.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'ModelFile':
           return ModelFile.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ModelList':
@@ -155,17 +164,25 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
         case 'OuterComposite':
           return OuterComposite.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'OuterEnum':
-          
-          
+          return OuterEnum.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => OuterEnum.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'OuterEnumDefaultValue':
-          
-          
+          return OuterEnumDefaultValue.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => OuterEnumDefaultValue.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'OuterEnumInteger':
-          
-          
+          return OuterEnumInteger.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => OuterEnumInteger.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'OuterEnumIntegerDefaultValue':
-          
-          
+          return OuterEnumIntegerDefaultValue.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => OuterEnumIntegerDefaultValue.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'OuterObjectWithEnumProperty':
           return OuterObjectWithEnumProperty.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ParentWithNullable':
@@ -175,15 +192,19 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'SingleRefType':
-          
-          
+          return SingleRefType.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => SingleRefType.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'TestEnum':
-          
-          
+          return TestEnum.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => TestEnum.unknownDefaultOpenApi,
+          ) as ReturnType;
         case 'TestInlineFreeformAdditionalPropertiesRequest':
           return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
@@ -197,7 +218,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
               .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))
               .toList(growable: growable) as ReturnType;
           }
-          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+          // JSON has no set type, so a Set<T> target is decoded from a JSON array.
+          if (value is Iterable && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match![1]!; // ignore: parameter_assignments
             return value
               .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))

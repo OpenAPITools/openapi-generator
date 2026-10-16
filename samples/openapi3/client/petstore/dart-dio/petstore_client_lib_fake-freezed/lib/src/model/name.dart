@@ -14,21 +14,25 @@ abstract class Name with _$Name {
   const factory Name({
     @JsonKey(
       name: r'name',
+      required: true,
       includeIfNull: false,
     )
     required int name,
     @JsonKey(
       name: r'snake_case',
+      required: false,
       includeIfNull: false,
     )
     int? snakeCase,
     @JsonKey(
       name: r'property',
+      required: false,
       includeIfNull: false,
     )
     String? property,
     @JsonKey(
       name: r'123Number',
+      required: false,
       includeIfNull: false,
     )
     int? n123number,

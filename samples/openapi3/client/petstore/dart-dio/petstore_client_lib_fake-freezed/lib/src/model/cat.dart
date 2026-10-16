@@ -17,17 +17,20 @@ abstract class Cat with _$Cat {
   const factory Cat({
     @JsonKey(
       name: r'className',
+      required: true,
       includeIfNull: false,
     )
     required String className,
     @JsonKey(
       name: r'color',
+      required: false,
       includeIfNull: false,
     )
   
     @Default('red') String color,
     @JsonKey(
       name: r'declawed',
+      required: false,
       includeIfNull: false,
     )
     bool? declawed,

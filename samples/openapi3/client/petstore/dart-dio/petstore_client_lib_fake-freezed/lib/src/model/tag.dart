@@ -14,11 +14,13 @@ abstract class Tag with _$Tag {
   const factory Tag({
     @JsonKey(
       name: r'id',
+      required: false,
       includeIfNull: false,
     )
     int? id,
     @JsonKey(
       name: r'name',
+      required: false,
       includeIfNull: false,
     )
     String? name,

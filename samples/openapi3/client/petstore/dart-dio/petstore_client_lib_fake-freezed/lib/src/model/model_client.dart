@@ -14,6 +14,7 @@ abstract class ModelClient with _$ModelClient {
   const factory ModelClient({
     @JsonKey(
       name: r'client',
+      required: false,
       includeIfNull: false,
     )
     String? client,

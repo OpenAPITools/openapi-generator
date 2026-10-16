@@ -63,7 +63,11 @@ class PetApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(pet);
+      _bodyData = jsonEncode(
+        pet,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -433,7 +437,11 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(pet);
+      _bodyData = jsonEncode(
+        pet,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(

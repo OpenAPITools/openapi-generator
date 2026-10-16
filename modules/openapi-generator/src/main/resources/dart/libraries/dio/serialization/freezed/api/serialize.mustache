@@ -15,5 +15,14 @@
       {{/isMultipart}}
       {{/hasFormParams}}
       {{#bodyParam}}
-      _bodyData = jsonEncode({{{paramName}}});
+      {{#isFile}}
+      _bodyData = {{{paramName}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize();
+      {{/isFile}}
+      {{^isFile}}
+      _bodyData = jsonEncode(
+        {{{paramName}}},
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
+      {{/isFile}}
       {{/bodyParam}}

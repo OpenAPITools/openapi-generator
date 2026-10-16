@@ -14,6 +14,7 @@ abstract class ClassModel with _$ClassModel {
   const factory ClassModel({
     @JsonKey(
       name: r'_class',
+      required: false,
       includeIfNull: false,
     )
     String? class_,

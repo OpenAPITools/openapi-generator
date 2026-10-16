@@ -15,11 +15,13 @@ abstract class AllOfWithSingleRef with _$AllOfWithSingleRef {
   const factory AllOfWithSingleRef({
     @JsonKey(
       name: r'username',
+      required: false,
       includeIfNull: false,
     )
     String? username,
     @JsonKey(
       name: r'SingleRefType',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: SingleRefType.unknownDefaultOpenApi,
     )

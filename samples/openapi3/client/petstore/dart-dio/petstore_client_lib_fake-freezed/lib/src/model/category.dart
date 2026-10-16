@@ -14,11 +14,13 @@ abstract class Category with _$Category {
   const factory Category({
     @JsonKey(
       name: r'id',
+      required: false,
       includeIfNull: false,
     )
     int? id,
     @JsonKey(
       name: r'name',
+      required: true,
       includeIfNull: false,
     )
   

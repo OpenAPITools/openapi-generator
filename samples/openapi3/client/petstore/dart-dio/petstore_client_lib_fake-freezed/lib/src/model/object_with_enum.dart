@@ -15,6 +15,7 @@ abstract class ObjectWithEnum with _$ObjectWithEnum {
   const factory ObjectWithEnum({
     @JsonKey(
       name: r'attribute',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: TestEnum.unknownDefaultOpenApi,
     )

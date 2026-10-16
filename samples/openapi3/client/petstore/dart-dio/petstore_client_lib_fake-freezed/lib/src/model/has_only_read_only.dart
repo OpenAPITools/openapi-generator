@@ -14,11 +14,13 @@ abstract class HasOnlyReadOnly with _$HasOnlyReadOnly {
   const factory HasOnlyReadOnly({
     @JsonKey(
       name: r'bar',
+      required: false,
       includeIfNull: false,
     )
     String? bar,
     @JsonKey(
       name: r'foo',
+      required: false,
       includeIfNull: false,
     )
     String? foo,

@@ -16,11 +16,13 @@ abstract class ObjectThatReferencesObjectsWithDuplicateInlineEnums with _$Object
   const factory ObjectThatReferencesObjectsWithDuplicateInlineEnums({
     @JsonKey(
       name: r'object_one',
+      required: false,
       includeIfNull: false,
     )
     ObjectWithInlineEnum? objectOne,
     @JsonKey(
       name: r'object_two',
+      required: false,
       includeIfNull: false,
     )
     ObjectWithDuplicateInlineEnum? objectTwo,

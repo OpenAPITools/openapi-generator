@@ -15,6 +15,7 @@ abstract class ObjectWithInlineEnum with _$ObjectWithInlineEnum {
     /// Object one attribute enum
     @JsonKey(
       name: r'attribute',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: ObjectWithInlineEnumAttributeEnum.unknownDefaultOpenApi,
     )

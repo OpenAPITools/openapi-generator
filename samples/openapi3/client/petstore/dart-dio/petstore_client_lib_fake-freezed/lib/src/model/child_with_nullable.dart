@@ -17,16 +17,19 @@ abstract class ChildWithNullable with _$ChildWithNullable {
   const factory ChildWithNullable({
     @JsonKey(
       name: r'type',
+      required: false,
       includeIfNull: false,
     )
     String? type,
     @JsonKey(
       name: r'nullableProperty',
+      required: false,
       includeIfNull: false,
     )
     String? nullableProperty,
     @JsonKey(
       name: r'otherProperty',
+      required: false,
       includeIfNull: false,
     )
     String? otherProperty,

@@ -293,7 +293,11 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(pet);
+      _bodyData = jsonEncode(
+        pet,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -361,7 +365,11 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(body);
+      _bodyData = jsonEncode(
+        body,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -452,7 +460,11 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(outerComposite);
+      _bodyData = jsonEncode(
+        outerComposite,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -543,7 +555,11 @@ _responseData = rawData == null ? null : deserialize<OuterComposite, OuterCompos
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(body);
+      _bodyData = jsonEncode(
+        body,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -634,7 +650,11 @@ _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', g
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(body);
+      _bodyData = jsonEncode(
+        body,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -725,7 +745,11 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(outerObjectWithEnumProperty);
+      _bodyData = jsonEncode(
+        outerObjectWithEnumProperty,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -816,7 +840,11 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(requestBody);
+      _bodyData = jsonEncode(
+        requestBody,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -882,7 +910,7 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(body);
+      _bodyData = body?.finalize();
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -948,7 +976,11 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(fileSchemaTestClass);
+      _bodyData = jsonEncode(
+        fileSchemaTestClass,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1020,7 +1052,11 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(user);
+      _bodyData = jsonEncode(
+        user,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1088,7 +1124,11 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(modelClient);
+      _bodyData = jsonEncode(
+        modelClient,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1462,7 +1502,11 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(requestBody);
+      _bodyData = jsonEncode(
+        requestBody,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1528,7 +1572,11 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
+      _bodyData = jsonEncode(
+        testInlineFreeformAdditionalPropertiesRequest,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1665,7 +1713,11 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(childWithNullable);
+      _bodyData = jsonEncode(
+        childWithNullable,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1801,7 +1853,11 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(requestBody);
+      _bodyData = jsonEncode(
+        requestBody,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(

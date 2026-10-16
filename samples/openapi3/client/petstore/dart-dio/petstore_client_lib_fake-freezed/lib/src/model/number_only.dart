@@ -14,6 +14,7 @@ abstract class NumberOnly with _$NumberOnly {
   const factory NumberOnly({
     @JsonKey(
       name: r'JustNumber',
+      required: false,
       includeIfNull: false,
     )
     num? justNumber,

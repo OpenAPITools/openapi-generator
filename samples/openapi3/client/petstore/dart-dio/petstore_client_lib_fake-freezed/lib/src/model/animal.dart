@@ -14,11 +14,13 @@ abstract class Animal with _$Animal {
   const factory Animal({
     @JsonKey(
       name: r'className',
+      required: true,
       includeIfNull: false,
     )
     required String className,
     @JsonKey(
       name: r'color',
+      required: false,
       includeIfNull: false,
     )
   

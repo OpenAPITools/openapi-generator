@@ -16,32 +16,38 @@ abstract class Pet with _$Pet {
   const factory Pet({
     @JsonKey(
       name: r'id',
+      required: false,
       includeIfNull: false,
     )
     int? id,
     @JsonKey(
       name: r'category',
+      required: false,
       includeIfNull: false,
     )
     Category? category,
     @JsonKey(
       name: r'name',
+      required: true,
       includeIfNull: false,
     )
     required String name,
     @JsonKey(
       name: r'photoUrls',
+      required: true,
       includeIfNull: false,
     )
     required Set<String> photoUrls,
     @JsonKey(
       name: r'tags',
+      required: false,
       includeIfNull: false,
     )
     List<Tag>? tags,
     /// pet status in the store
     @JsonKey(
       name: r'status',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: PetStatusEnum.unknownDefaultOpenApi,
     )

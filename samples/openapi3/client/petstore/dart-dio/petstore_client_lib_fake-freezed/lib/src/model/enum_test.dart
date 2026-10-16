@@ -18,48 +18,56 @@ abstract class EnumTest with _$EnumTest {
   const factory EnumTest({
     @JsonKey(
       name: r'enum_string',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: EnumTestEnumStringEnum.unknownDefaultOpenApi,
     )
     EnumTestEnumStringEnum? enumString,
     @JsonKey(
       name: r'enum_string_required',
+      required: true,
       includeIfNull: false,
       unknownEnumValue: EnumTestEnumStringRequiredEnum.unknownDefaultOpenApi,
     )
     required EnumTestEnumStringRequiredEnum enumStringRequired,
     @JsonKey(
       name: r'enum_integer',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: EnumTestEnumIntegerEnum.unknownDefaultOpenApi,
     )
     EnumTestEnumIntegerEnum? enumInteger,
     @JsonKey(
       name: r'enum_number',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: EnumTestEnumNumberEnum.unknownDefaultOpenApi,
     )
     EnumTestEnumNumberEnum? enumNumber,
     @JsonKey(
       name: r'outerEnum',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: OuterEnum.unknownDefaultOpenApi,
     )
     OuterEnum? outerEnum,
     @JsonKey(
       name: r'outerEnumInteger',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
     )
     OuterEnumInteger? outerEnumInteger,
     @JsonKey(
       name: r'outerEnumDefaultValue',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: OuterEnumDefaultValue.unknownDefaultOpenApi,
     )
     OuterEnumDefaultValue? outerEnumDefaultValue,
     @JsonKey(
       name: r'outerEnumIntegerDefaultValue',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: OuterEnumIntegerDefaultValue.unknownDefaultOpenApi,
     )

@@ -15,21 +15,28 @@ abstract class ObjectWithDeprecatedFields with _$ObjectWithDeprecatedFields {
   const factory ObjectWithDeprecatedFields({
     @JsonKey(
       name: r'uuid',
+      required: false,
       includeIfNull: false,
     )
     String? uuid,
+    @Deprecated('id has been deprecated')
     @JsonKey(
       name: r'id',
+      required: false,
       includeIfNull: false,
     )
     num? id,
+    @Deprecated('deprecatedRef has been deprecated')
     @JsonKey(
       name: r'deprecatedRef',
+      required: false,
       includeIfNull: false,
     )
     DeprecatedObject? deprecatedRef,
+    @Deprecated('bars has been deprecated')
     @JsonKey(
       name: r'bars',
+      required: false,
       includeIfNull: false,
     )
     List<String>? bars,

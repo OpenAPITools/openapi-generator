@@ -14,6 +14,7 @@ abstract class HealthCheckResult with _$HealthCheckResult {
   const factory HealthCheckResult({
     @JsonKey(
       name: r'NullableMessage',
+      required: false,
       includeIfNull: false,
     )
     String? nullableMessage,

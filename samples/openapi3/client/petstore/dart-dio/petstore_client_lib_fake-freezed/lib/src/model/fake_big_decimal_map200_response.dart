@@ -14,11 +14,13 @@ abstract class FakeBigDecimalMap200Response with _$FakeBigDecimalMap200Response 
   const factory FakeBigDecimalMap200Response({
     @JsonKey(
       name: r'someId',
+      required: false,
       includeIfNull: false,
     )
     num? someId,
     @JsonKey(
       name: r'someMap',
+      required: false,
       includeIfNull: false,
     )
     Map<String, num>? someMap,

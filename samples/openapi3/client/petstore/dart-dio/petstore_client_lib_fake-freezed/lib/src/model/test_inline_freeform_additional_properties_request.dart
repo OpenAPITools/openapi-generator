@@ -14,6 +14,7 @@ abstract class TestInlineFreeformAdditionalPropertiesRequest with _$TestInlineFr
   const factory TestInlineFreeformAdditionalPropertiesRequest({
     @JsonKey(
       name: r'someProperty',
+      required: false,
       includeIfNull: false,
     )
     String? someProperty,

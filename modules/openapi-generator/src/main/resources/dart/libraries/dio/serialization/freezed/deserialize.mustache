@@ -1,8 +1,6 @@
 {{#models}}
   {{#model}}
-  {{^isEnum}}
 import '{{{vendorExtensions.x-import-path}}}';
-{{/isEnum}}
 {{/model}}
 {{/models}}
 
@@ -28,8 +26,10 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           {{#model}}
         case '{{{classname}}}':
             {{#isEnum}}
-          {{#native_serialization}}return {{{classname}}}TypeTransformer().decode(value);{{/native_serialization}}
-          {{#json_serializable}} return _$enumDecode(_${{{classname}}}EnumMap, value);{{/json_serializable}}
+          return {{{classname}}}.values.firstWhere(
+            (e) => e.value == '$value',
+            orElse: () => {{#enumUnknownDefaultCase}}{{{classname}}}.unknownDefaultOpenApi{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw Exception('Unknown {{{classname}}} value: $value'){{/enumUnknownDefaultCase}},
+          ) as ReturnType;
             {{/isEnum}}
             {{^isEnum}}
           return {{{classname}}}.fromJson(value as Map<String, dynamic>) as ReturnType;
@@ -45,7 +45,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
               .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))
               .toList(growable: growable) as ReturnType;
           }
-          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+          // JSON has no set type, so a Set<T> target is decoded from a JSON array.
+          if (value is Iterable && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match![1]!; // ignore: parameter_assignments
             return value
               .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))

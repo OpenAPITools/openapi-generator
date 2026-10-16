@@ -14,11 +14,13 @@ abstract class ParentWithNullable with _$ParentWithNullable {
   const factory ParentWithNullable({
     @JsonKey(
       name: r'type',
+      required: false,
       includeIfNull: false,
     )
     String? type,
     @JsonKey(
       name: r'nullableProperty',
+      required: false,
       includeIfNull: false,
     )
     String? nullableProperty,

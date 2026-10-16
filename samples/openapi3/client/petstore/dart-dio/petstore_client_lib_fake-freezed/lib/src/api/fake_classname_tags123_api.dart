@@ -64,7 +64,11 @@ class FakeClassnameTags123Api {
     dynamic _bodyData;
 
     try {
-      _bodyData = jsonEncode(modelClient);
+      _bodyData = jsonEncode(
+        modelClient,
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
 
     } catch(error, stackTrace) {
       throw DioException(

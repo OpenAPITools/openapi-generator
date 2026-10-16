@@ -15,16 +15,19 @@ abstract class ArrayTest with _$ArrayTest {
   const factory ArrayTest({
     @JsonKey(
       name: r'array_of_string',
+      required: false,
       includeIfNull: false,
     )
     List<String>? arrayOfString,
     @JsonKey(
       name: r'array_array_of_integer',
+      required: false,
       includeIfNull: false,
     )
     List<List<int>>? arrayArrayOfInteger,
     @JsonKey(
       name: r'array_array_of_model',
+      required: false,
       includeIfNull: false,
     )
     List<List<ReadOnlyFirst>>? arrayArrayOfModel,

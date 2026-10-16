@@ -14,33 +14,39 @@ abstract class Order with _$Order {
   const factory Order({
     @JsonKey(
       name: r'id',
+      required: false,
       includeIfNull: false,
     )
     int? id,
     @JsonKey(
       name: r'petId',
+      required: false,
       includeIfNull: false,
     )
     int? petId,
     @JsonKey(
       name: r'quantity',
+      required: false,
       includeIfNull: false,
     )
     int? quantity,
     @JsonKey(
       name: r'shipDate',
+      required: false,
       includeIfNull: false,
     )
     DateTime? shipDate,
     /// Order Status
     @JsonKey(
       name: r'status',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: OrderStatusEnum.unknownDefaultOpenApi,
     )
     OrderStatusEnum? status,
     @JsonKey(
       name: r'complete',
+      required: false,
       includeIfNull: false,
     )
   

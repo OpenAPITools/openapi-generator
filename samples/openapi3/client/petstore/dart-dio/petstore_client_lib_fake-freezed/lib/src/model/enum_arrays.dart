@@ -14,12 +14,14 @@ abstract class EnumArrays with _$EnumArrays {
   const factory EnumArrays({
     @JsonKey(
       name: r'just_symbol',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: EnumArraysJustSymbolEnum.unknownDefaultOpenApi,
     )
     EnumArraysJustSymbolEnum? justSymbol,
     @JsonKey(
       name: r'array_enum',
+      required: false,
       includeIfNull: false,
       unknownEnumValue: EnumArraysArrayEnumEnum.unknownDefaultOpenApi,
     )

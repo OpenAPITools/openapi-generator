@@ -14,6 +14,7 @@ abstract class ArrayOfArrayOfNumberOnly with _$ArrayOfArrayOfNumberOnly {
   const factory ArrayOfArrayOfNumberOnly({
     @JsonKey(
       name: r'ArrayArrayNumber',
+      required: false,
       includeIfNull: false,
     )
     List<List<num>>? arrayArrayNumber,
