@@ -27,7 +27,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 import 'package:openapi/api.dart';
 
 final api = Openapi().getStoreApi();
-final String orderId = orderId_example; // String | ID of the order that needs to be deleted
+final String orderId = 'orderId_example'; // String | ID of the order that needs to be deleted
 
 try {
     api.deleteOrder(orderId);
