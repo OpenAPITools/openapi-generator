@@ -102,11 +102,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "string",
                         "bool",
                         "uint",
+                        "uint8",
+                        "uint16",
                         "uint32",
                         "uint64",
                         "int",
+                        "int8",
+                        "int16",
                         "int32",
                         "int64",
+                        "uintptr",
                         "float32",
                         "float64",
                         "complex64",
@@ -169,6 +174,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        // A composed schema (e.g. a nullable oneOf enum) is classified as a model at the
+        // OpenAPI level even when Go flattens it to a primitive type such as *string.
+        // Correct the flags here so all Go generators rely on the same classification.
+        if (property != null && property.isModel
+                && (isGoPrimitiveType(property.baseType) || isGoPrimitiveType(property.dataType))) {
+            property.isModel = false;
+            property.isPrimitiveType = true;
+        }
+        return property;
+    }
+
+    /**
+     * Indicates whether the given Go type (a leading {@code *} for nullable pointer types
+     * is stripped first) is classified as a language-specific primitive type.
+     */
+    protected boolean isGoPrimitiveType(String goType) {
+        if (goType == null) {
+            return false;
+        }
+        if (goType.startsWith("*")) {
+            goType = goType.substring(1);
+        }
+        return languageSpecificPrimitives.contains(goType);
     }
 
     @Override
