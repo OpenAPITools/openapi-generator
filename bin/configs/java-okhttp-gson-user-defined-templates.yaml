@@ -1,0 +1,17 @@
+generatorName: java
+outputDir: samples/client/echo_api/java/okhttp-gson-user-defined-templates
+library: okhttp-gson
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"
+files:
+  README.mustache:
+    destinationFilename: info.md
+  api_doc.mustache:
+    templateType: APIDocs
+    destinationFilename: Documentation.md
+  pojo.mustache:
+      templateType: Model
+      folder: modelCopy
+      destinationFilename: .java

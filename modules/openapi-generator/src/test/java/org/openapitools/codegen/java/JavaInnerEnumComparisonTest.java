@@ -45,6 +45,7 @@ public class JavaInnerEnumComparisonTest {
         // Cover every affected inner-enum partial and both users of shared CXF/Micronaut partials.
         String[][] configurations = {
                 {"java", "okhttp-gson"},
+                {"java", "okhttp"},
                 {"java", "resttemplate"},
                 {"java", "microprofile"},
                 {"spring", null},

@@ -1,0 +1,21 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-3.1
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+additionalProperties:
+  serializationLibrary: gson
+  artifactId: petstore-okhttp-31
+  hideGenerationTimestamp: "true"
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+  enumPropertyNaming: legacy
+openapiNormalizer:
+  FIX_DUPLICATED_OPERATIONID: true
