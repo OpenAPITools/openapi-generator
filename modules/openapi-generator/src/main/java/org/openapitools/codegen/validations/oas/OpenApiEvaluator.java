@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.validation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -70,7 +71,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
                 Object defaultValue = schema.getDefault();
                 if (enumList != null && !enumList.isEmpty()
                         && defaultValue != null
-                        && !enumList.contains(defaultValue)) {
+                        && !isInEnum(enumList, defaultValue)) {
                     validationResult.addResult(Validated.invalid(defaultNotInEnumRule,
                             String.format(Locale.ROOT,
                                     "Schema has default value '%s' not in enum %s",
@@ -145,5 +146,36 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         }
 
         return validationResult;
+    }
+
+    /**
+     * Checks whether the default value is one of the enum values. Numbers are compared by value,
+     * so that a default of 1.50 matches an enum value of 1.5, and 1.0 matches an integer enum value of 1.
+     */
+    private static boolean isInEnum(List<?> enumList, Object defaultValue) {
+        if (enumList.contains(defaultValue)) {
+            return true;
+        }
+        BigDecimal value = toBigDecimal(defaultValue);
+        return value != null && enumList.stream().map(OpenApiEvaluator::toBigDecimal)
+                .anyMatch(item -> item != null && item.compareTo(value) == 0);
+    }
+
+    /**
+     * Returns the value of a number as a {@link BigDecimal}, or null for anything else,
+     * including NaN and infinite floating point values.
+     */
+    private static BigDecimal toBigDecimal(Object value) {
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        if (!(value instanceof Number)) {
+            return null;
+        }
+        try {
+            return new BigDecimal(value.toString());
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
