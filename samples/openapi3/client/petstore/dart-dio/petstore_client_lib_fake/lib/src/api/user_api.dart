@@ -244,7 +244,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(_serializers, username, const FullType(String)));
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -291,7 +291,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(_serializers, username, const FullType(String)));
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -382,8 +382,8 @@ class UserApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'username': encodeQueryParameter(_serializers, username, const FullType(String)),
-      r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
+      r'username': encodeParameter(_serializers, username, const FullType(String)),
+      r'password': encodeParameter(_serializers, password, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -493,7 +493,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(_serializers, username, const FullType(String)));
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
