@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: nested oneOf
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Parent:
+      oneOf:
+        - $ref: '#/components/schemas/Leaf'
+        - $ref: '#/components/schemas/Child'
+      discriminator:
+        propertyName: type
+        mapping:
+          LEAF: '#/components/schemas/Leaf'
+          CHILD: '#/components/schemas/Child'
+    Child:
+      oneOf:
+        - $ref: '#/components/schemas/ChildA'
+        - $ref: '#/components/schemas/ChildB'
+      discriminator:
+        propertyName: subType
+        mapping:
+          A: '#/components/schemas/ChildA'
+          B: '#/components/schemas/ChildB'
+    Leaf:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [LEAF]
+    ChildA:
+      type: object
+      required: [type, subType]
+      properties:
+        type:
+          type: string
+          enum: [CHILD]
+        subType:
+          type: string
+          enum: [A]
+    ChildB:
+      type: object
+      required: [type, subType]
+      properties:
+        type:
+          type: string
+          enum: [CHILD]
+        subType:
+          type: string
+          enum: [B]

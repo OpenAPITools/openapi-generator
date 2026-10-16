@@ -5,7 +5,9 @@ import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../r
 {{#oneOfArrays}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
+    {{^discriminator}}
     instanceOf{{{.}}},
+    {{/discriminator}}
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
@@ -14,7 +16,9 @@ import {
 {{#oneOfModels}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
+    {{^discriminator}}
     instanceOf{{{.}}},
+    {{/discriminator}}
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,

@@ -847,6 +847,37 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
     }
 
+    @Test(description = "Verify discriminated oneOf models do not import unused member type guards")
+    public void testNestedDiscriminatedOneOfDoesNotImportInstanceOf() throws IOException {
+        File output = generate(Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/nested-discriminated-oneOf.yaml");
+
+        Path parent = Paths.get(output + "/models/Parent.ts");
+        TestUtils.assertFileContains(parent,
+                "import type { Child } from './Child'",
+                "ChildFromJSONTyped",
+                "ChildToJSON",
+                "switch (json['type'])",
+                "switch (value['type'])");
+        TestUtils.assertFileNotContains(parent, "instanceOfChild");
+        TestUtils.assertFileNotContains(parent, "instanceOfLeaf");
+
+        Path child = Paths.get(output + "/models/Child.ts");
+        TestUtils.assertFileContains(child,
+                "switch (json['subType'])",
+                "switch (value['subType'])");
+        TestUtils.assertFileNotContains(child, "instanceOfChildA");
+        TestUtils.assertFileNotContains(child, "instanceOfChildB");
+
+        // Non-discriminated oneOf still imports and calls member type guards.
+        File nonDiscriminatedOutput = generate(Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+        Path nonDiscriminated = Paths.get(nonDiscriminatedOutput + "/models/TestResponse.ts");
+        TestUtils.assertFileContains(nonDiscriminated,
+                "instanceOfTestA",
+                "if (instanceOfTestA(json))");
+    }
+
     @DataProvider
     public Object[][] nullableOneOfRuntimeCheckModes() {
         return new Object[][] {{false}, {true}};
