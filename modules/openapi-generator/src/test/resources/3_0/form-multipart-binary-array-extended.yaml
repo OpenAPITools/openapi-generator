@@ -1,0 +1,155 @@
+openapi: '3.0.1'
+info:
+  version: 1.0.0
+  title: MultipartFile test
+paths:
+  /multipart-array:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile array test
+      operationId: multipartArray
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  description: "Many files"
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '204':
+          description: Successful operation
+  /multipart-single:
+    post:
+      tags:
+        - multipart
+      description: Single MultipartFile test
+      operationId: multipartSingle
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: "One file"
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Successful operation
+  /multipart-mixed:
+    post:
+      tags:
+        - multipart
+      description: Mixed MultipartFile test
+      operationId: multipartMixed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - status
+                - file
+              properties:
+                status:
+                  $ref: '#/components/schemas/MultipartMixedStatus'
+                marker:
+                  description: "additional object"
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                markerArray:
+                  description: "array of objects"
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MultipartMixedRequestMarker'
+                file:
+                  description: "a file"
+                  type: string
+                  format: binary
+                statusArray:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MultipartMixedStatus'
+      responses:
+        '204':
+          description: Successful operation
+
+  /extra-annotation:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile extra annotation test
+      operationId: multipartExtraAnnotation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  x-field-extra-annotation: "@jakarta.validation.constraints.NotNull"
+                  type: string
+                  format: binary
+                  description: The file to upload.
+      responses:
+        '204':
+          description: Successful operation
+  /multipart-mixed-case-media-type:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile test with a mixed-case multipart/form-data media type
+      operationId: multipartMixedCaseMediaType
+      requestBody:
+        content:
+          Multipart/Form-Data:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+      responses:
+        '204':
+          description: Successful operation
+components:
+  schemas:
+    MultipartMixedStatus:
+      description: "additional field as Enum"
+      type: string
+      enum:
+        - ALLOWED
+        - IN_PROGRESS
+        - REJECTED
+      example: REJECTED
+    MultipartMixedRequestMarker:
+      type: object
+      description: Marker metadata sent as JSON part in multipart request
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Marker name
+          example: example-marker
+        priority:
+          type: integer
+          format: int32
+          description: Optional priority
+          example: 10
+        active:
+          type: boolean
+          description: Whether the marker is active
+          example: true

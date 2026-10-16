@@ -205,7 +205,7 @@ public interface FakeApi {
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
-     * @param _byte None (required)
+     * @param _byte None (required) (base64 encoded)
      * @param integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
@@ -230,7 +230,7 @@ public interface FakeApi {
          @RequestPart(value = "number", required = true) BigDecimal number,
          @RequestPart(value = "double", required = true) Double _double,
          @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestPart(value = "byte", required = true) byte[] _byte,
+         @RequestPart(value = "byte", required = true) String _byte /* base64 encoded binary */,
          @RequestPart(value = "integer", required = false) Integer integer,
          @RequestPart(value = "int32", required = false) Integer int32,
          @RequestPart(value = "int64", required = false) Long int64,
