@@ -3,4 +3,4 @@
 {{/description}}
 
     @JsonProperty("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
-{{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+{{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}    {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
