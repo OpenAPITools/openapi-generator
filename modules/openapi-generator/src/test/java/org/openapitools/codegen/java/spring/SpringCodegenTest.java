@@ -54,9 +54,14 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -10610,9 +10615,7 @@ public class SpringCodegenTest {
                 JavaFileAssert.assertThat(files.get("Car.java")).isNormalClass().extendsClass("Vehicle");
                 JavaFileAssert.assertThat(files.get("Vehicle.java")).isNormalClass();
                 JavaFileAssert.assertThat(files.get("Counters.java")).isNormalClass();
-                JavaFileAssert.assertThat(files.get("Circle.java")).isNormalClass().implementsInterfaces("Shape");
                 JavaFileAssert.assertThat(files.get("Shape.java")).isInterface();
-                JavaFileAssert.assertThat(files.get("Square.java")).isNormalClass();
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
@@ -10621,10 +10624,9 @@ public class SpringCodegenTest {
         assertThat(messages).contains(
                 "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
                 "useRecords: model 'Vehicle' is generated as a class: it has child models",
-                "useRecords: model 'Counters' is generated as a class: it has additionalProperties",
-                "useRecords: model 'Circle' is generated as a class: it is a member of a oneOf interface",
-                "useRecords: model 'Square' is generated as a class: it is a member of a oneOf interface");
-        assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'"));
+                "useRecords: model 'Counters' is generated as a class: it has additionalProperties");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'")
+                || m.contains("model 'Circle'") || m.contains("model 'Square'"));
     }
 
     @Test
@@ -10886,6 +10888,498 @@ public class SpringCodegenTest {
                 assertThat(compared).as("records compared in " + spec).isGreaterThan(0);
             }
         }
+    }
+
+    private static final String RECORDS_ONEOF_SPEC = "src/test/resources/3_0/spring/records-oneof.yaml";
+
+    private Map<String, File> generateOneOfRecords(Map<String, Object> extraProperties) throws IOException {
+        Map<String, Object> options = new HashMap<>();
+        options.put(USE_SEALED, "true");
+        options.putAll(extraProperties);
+        return generateRecords(RECORDS_ONEOF_SPEC, options);
+    }
+
+    private static int occurrences(String source, String part) {
+        return source.split(Pattern.quote(part), -1).length - 1;
+    }
+
+    @Test
+    public void useRecordsMakesOneOfMembersRecordsThatImplementTheInterface() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        assertSource(files, "Dog.java")
+                .contains("public record Dog(", ") implements Pet {")
+                .doesNotContain("public class Dog", "final class");
+        assertSource(files, "Pet.java")
+                .contains("public sealed interface Pet permits Cat, Dog {", "public String getPetType();",
+                        "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"petType\", visible = true)",
+                        "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")");
+        // the mapping suppresses @JsonTypeName; the members carry no type annotation of their own
+        assertSource(files, "Dog.java").doesNotContain("@JsonTypeName", "@JsonSubTypes");
+    }
+
+    @Test
+    public void useRecordsGivesTheDiscriminatorAnAccessorNamedAsTheInterfaceGetter() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        // discriminator first, last, with and without a mapping
+        assertSource(files, "Dog.java")
+                .contains("  public String getPetType() {\n    return petType;\n  }")
+                .containsOnlyOnce("getPetType()");
+        assertSource(files, "Alpha.java")
+                .contains("public record Alpha(", ") implements Kind {", "  public String getKind() {\n    return kind;\n  }");
+        assertSource(files, "Kind.java").contains("public String getKind();");
+        // the accessor carries exactly the class getter's @JsonProperty with the JSON name; @JsonIgnore on it breaks Jackson 3
+        for (String name : List.of("Dog.java", "Alpha.java", "Beta.java", "Cat.java", "Circle.java", "Apple.java")) {
+            String source = sourceOf(files.get(name));
+            assertThat(source).doesNotContain("@JsonIgnore\n  public", "@Override\n  public")
+                    .containsPattern("\\n  @JsonProperty\\(\"\\w+\"\\)\\n  public \\w+ get\\w+\\(\\) \\{")
+                    .doesNotContainPattern("\\n  @\\w+[^\\n]*\\n  @\\w+[^\\n]*\\n  public \\w+ get\\w+\\(\\) \\{");
+        }
+        assertSource(files, "Dog.java").contains("  @JsonProperty(\"petType\")\n  public String getPetType() {");
+    }
+
+    @Test
+    public void useRecordsNamesTheAccessorForJacksonAfterTheJsonNameNotTheMethod() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        // Jackson 2 derives "type" from getTYPE(): without the annotation the discriminator is written twice
+        assertSource(files, "UpperA.java")
+                .contains("String TYPE", "  @JsonProperty(\"TYPE\")\n  public String getTYPE() {\n    return TYPE;\n  }");
+        assertSource(files, "Upper.java").contains("public String getTYPE();");
+    }
+
+    @Test
+    public void useRecordsKeepsMembersWithANullableDiscriminatorAsClassesUnderOpenApiNullable() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of());
+
+                // the class's getter returns JsonNullable<String> and does not implement String getKn() either
+                assertSource(files, "NullishA.java").contains("public final class NullishA implements Nullish")
+                        .doesNotContain("record");
+                assertSource(files, "Nullish.java").contains("public String getKn();");
+                assertSource(files, "OptionalA.java").contains("public record OptionalA(", "String getKo()");
+                assertSource(files, "OptionalB.java").contains("public record OptionalB(", "String getKo()");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'NullishA' is generated as a class: its discriminator property 'kn' for the oneOf interface Nullish is nullable",
+                "useRecords: model 'NullishB' is generated as a class: its discriminator property 'kn' for the oneOf interface Nullish is nullable");
+        assertThat(messages).noneMatch(m -> m.contains("model 'OptionalA'") || m.contains("model 'OptionalB'"));
+
+        // without openApiNullable the property is a plain String and the member is a record again
+        assertSource(generateOneOfRecords(Map.of("openApiNullable", "false")), "NullishA.java")
+                .contains("public record NullishA(", "  public String getKn() {\n    return kn;\n  }");
+    }
+
+    @Test
+    public void useRecordsKeepsMembersWithADiscriminatorNamedLikeAGetterAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of());
+
+                // the general rule for getter-like property names decides first (Jackson would read the record's
+                // accessor getKind() and the explicit getGetKind() as two getters of "getKind")
+                assertSource(files, "GettyA.java").contains("public final class GettyA implements Getty")
+                        .doesNotContain("record");
+                // "get" itself is in the failing set (the bean validator reads its accessor as a getter), isKind is not
+                assertSource(files, "IsyA.java").contains("public record IsyA(", "public String getIsKind() {");
+                assertSource(files, "GettA.java").contains("public final class GettA implements Gett").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'GettyA' is generated as a class: property 'getKind' has a Java name that starts with 'get'",
+                "useRecords: model 'GettyB' is generated as a class: property 'getKind' has a Java name that starts with 'get'",
+                "useRecords: model 'GettA' is generated as a class: property 'get' has a Java name that starts with 'get'");
+        assertThat(messages).noneMatch(m -> m.contains("model 'IsyA'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAMemberWhoseInterfacesDeclareOneGetterForTwoProperties() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of());
+
+                // pet-type and pet_type both give getPetType(), for two different components of Both
+                assertSource(files, "Both.java").contains("public final class Both implements ClashDash, ClashUnder")
+                        .doesNotContain("record");
+                assertSource(files, "DashOnly.java").contains("public record DashOnly(", "getPetType()");
+                assertSource(files, "UnderOnly.java").contains("public record UnderOnly(", "getPetType()");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains("useRecords: model 'Both' is generated as a class: the oneOf interfaces "
+                + "ClashDash and ClashUnder both declare getPetType() for different properties");
+    }
+
+    @Test
+    public void useRecordsTypesTheAccessorAsTheComponentForAnEnumDiscriminator() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        assertSource(files, "Circle.java")
+                .contains("public record Circle(", "ShapeType shapeType", ") implements Shape {",
+                        "  public ShapeType getShapeType() {\n    return shapeType;\n  }");
+        assertSource(files, "Shape.java").contains("public ShapeType getShapeType();");
+        // the mapping keys differ from the model names, the subtypes keep them
+        assertSource(files, "Shape.java").contains("@JsonSubTypes.Type(value = Circle.class, name = \"circ\")");
+    }
+
+    @Test
+    public void useRecordsAddsTheDiscriminatorTheInterfaceAddsToItsMembers() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        // Banana declares no fruitType, the interface adds it as the last component
+        assertSource(files, "Banana.java")
+                .contains("public record Banana(", "Integer length,", "FruitType fruitType\n) implements Fruit {",
+                        "  public FruitType getFruitType() {\n    return fruitType;\n  }");
+        assertSource(files, "Apple.java").contains("Integer seeds,", "FruitType fruitType\n) implements Fruit {");
+    }
+
+    @Test
+    public void useRecordsWithDeductionAndWithoutDiscriminatorNeedNoAccessor() throws IOException {
+        for (Map<String, Object> options : List.<Map<String, Object>>of(Map.of(),
+                Map.of(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"))) {
+            Map<String, File> files = generateOneOfRecords(options);
+
+            assertSource(files, "Ball.java")
+                    .contains("public record Ball(", ") implements Toy {")
+                    .doesNotContain("get");
+            assertSource(files, "Hamster.java").contains("public record Hamster(", ") implements Domestic {");
+            assertSource(files, "Rope.java").doesNotContain("get");
+        }
+        assertSource(generateOneOfRecords(Map.of(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true")), "Toy.java")
+                .contains("JsonTypeInfo.Id.DEDUCTION", "public sealed interface Toy permits Ball, Rope {")
+                .doesNotContain("get");
+    }
+
+    @Test
+    public void useRecordsMemberInSeveralInterfacesGetsEachDistinctGetterOnce() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of());
+
+        // Cat is in Pet and PetAgain (same discriminator property, one getter), in Tagged (another) and in Domestic (none)
+        String cat = sourceOf(files.get("Cat.java"));
+        assertThat(cat).contains("public record Cat(", ") implements Domestic, Pet, PetAgain, Tagged {");
+        assertThat(occurrences(cat, "public String getPetType() {")).isEqualTo(1);
+        assertThat(occurrences(cat, "public String getSpecies() {")).isEqualTo(1);
+        assertThat(cat).contains("return petType;", "return species;");
+        assertSource(files, "Bird.java").contains("public record Bird(", ") implements PetAgain {", "getPetType()");
+        assertSource(files, "Fish.java").contains("public record Fish(", ") implements Tagged {", "getSpecies()");
+    }
+
+    @Test
+    public void useRecordsMixesRecordsAndClassesInPermits() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of());
+
+                assertSource(files, "Vehicle.java").contains("public sealed interface Vehicle permits Van, Truck, Moped {");
+                assertSource(files, "Van.java").contains("public record Van(", ") implements Vehicle {",
+                        "public String getVkind()");
+                assertSource(files, "Moped.java").contains("public record Moped(", ") implements Vehicle {");
+                // a member with a parent stays a class, final through sealed.mustache, and keeps the inherited getter
+                assertSource(files, "Truck.java").contains("public final class Truck extends VehicleBase implements Vehicle {")
+                        .doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Truck' is generated as a class: it has a parent (VehicleBase)",
+                "useRecords: model 'VehicleBase' is generated as a class: it has child models");
+    }
+
+    @Test
+    public void useRecordsKeepsOneOfMembersAsClassesForTheOtherReasons() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of(GENERATE_BUILDERS, "true"));
+
+                assertSource(files, "Mixed.java").contains("public sealed interface Mixed permits Blob, Reserved, Bound, Named, Fine {");
+                for (String name : List.of("Blob.java", "Reserved.java", "Bound.java", "Named.java")) {
+                    assertSource(files, name).contains("public final class").contains("implements Mixed").doesNotContain("record");
+                }
+                assertSource(files, "Fine.java").contains("public record Fine(", ") implements Mixed {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Blob' is generated as a class: property 'data' is a byte[]",
+                "useRecords: model 'Reserved' is generated as a class: property 'hashCode' cannot be a record component name",
+                "useRecords: model 'Bound' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Named' is generated as a class: property 'builder' clashes with a method of the record's builder");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Fine'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAOneOfMemberWithoutTheDiscriminatorPropertyAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateOneOfRecords(Map.of());
+
+                assertSource(files, "LostA.java").contains("public record LostA(", ") implements Lost {", "getLostType()");
+                assertSource(files, "LostB.java").contains("public final class LostB implements Lost").doesNotContain("record");
+                assertSource(files, "Lost.java").contains("public sealed interface Lost permits LostA, LostB {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains("useRecords: model 'LostB' is generated as a class: it has no property 'lostType', "
+                + "the discriminator of the oneOf interface Lost");
+        assertThat(messages).noneMatch(m -> m.contains("model 'LostA'"));
+    }
+
+    @Test
+    public void useRecordsCountsTheComponentsTheInterfaceAddsToTheLimit() throws IOException {
+        StringBuilder exact = new StringBuilder();
+        StringBuilder over = new StringBuilder();
+        for (int i = 0; i < 249; i++) {
+            exact.append("        p").append(i).append(": {type: string}\n");
+        }
+        for (int i = 0; i < 250; i++) {
+            over.append("        p").append(i).append(": {type: string}\n");
+        }
+        String spec = "openapi: 3.0.3\ninfo: {title: limit, version: 1.0.0}\npaths: {}\ncomponents:\n  schemas:\n"
+                + "    Declared:\n      oneOf: [{$ref: '#/components/schemas/Exact'}, {$ref: '#/components/schemas/Other'}]\n      discriminator: {propertyName: t}\n"
+                + "    Added:\n      type: object\n      required: [t]\n      properties:\n        t: {type: string}\n"
+                + "      oneOf: [{$ref: '#/components/schemas/Over'}, {$ref: '#/components/schemas/Other'}]\n      discriminator: {propertyName: t}\n"
+                + "    Other:\n      type: object\n      properties:\n        p0: {type: string}\n"
+                + "    Exact:\n      type: object\n      required: [t]\n      properties:\n        t: {type: string}\n" + exact
+                + "    Over:\n      type: object\n      properties:\n" + over;
+        File specFile = File.createTempFile("records-limit", ".yaml");
+        specFile.deleteOnExit();
+        Files.writeString(specFile.toPath(), spec);
+
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(specFile.getAbsolutePath(), Map.of());
+
+                assertSource(files, "Exact.java").contains("public record Exact(", "getT()");
+                // 250 declared components plus the discriminator the interface adds: 251
+                assertSource(files, "Over.java").contains("public class Over implements Added").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains("useRecords: model 'Over' is generated as a class: it has more than 250 properties");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Exact'"));
+    }
+
+    @Test
+    public void useRecordsWithoutOneOfInterfacesDoesNotChangeTheMembers() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ONEOF_SPEC, Map.of(USE_ONE_OF_INTERFACES, "false"));
+
+        assertSource(files, "Dog.java")
+                .contains("public record Dog(")
+                .doesNotContain("implements", "getPetType");
+        assertSource(files, "Pet.java").contains("public class Pet {").doesNotContain("record Pet");
+    }
+
+    @Test
+    public void useRecordsOneOfMembersWithAndWithoutUseSealed() throws IOException {
+        for (String sealed : List.of("true", "false")) {
+            Map<String, File> files = generateRecords(RECORDS_ONEOF_SPEC, Map.of(USE_SEALED, sealed));
+
+            assertSource(files, "Dog.java").contains("public record Dog(", ") implements Pet {", "getPetType()");
+            assertSource(files, "Pet.java")
+                    .contains("true".equals(sealed) ? "public sealed interface Pet permits Cat, Dog {" : "public interface Pet {");
+            if ("false".equals(sealed)) {
+                assertSource(files, "Pet.java").doesNotContain("sealed", "permits");
+                assertSource(files, "Truck.java").contains("public class Truck extends VehicleBase implements Vehicle {");
+            }
+        }
+    }
+
+    private static final String RECORDS_ONEOF_NESTED_SPEC = "src/test/resources/3_0/spring/records-oneof-nested.yaml";
+    private static final String POWERSHELL_SPEC =
+            "src/test/resources/3_0/powershell/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+
+    @Test
+    public void useRecordsGivesAMemberOfNestedInterfacesTheGettersOfBothDiscriminators() throws IOException {
+        for (String sealed : List.of("false", "true")) {
+            Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC, Map.of(USE_SEALED, sealed));
+
+            assertSource(files, "Inner.java").contains("interface Inner extends Outer");
+            for (String name : List.of("Cat.java", "Kitten.java")) {
+                assertSource(files, name)
+                        .contains("public record " + name.replace(".java", "") + "(", ") implements Inner {",
+                                "  @JsonProperty(\"quadType\")\n  public String getQuadType() {\n    return quadType;\n  }",
+                                "  @JsonProperty(\"shapeType\")\n  public String getShapeType() {\n    return shapeType;\n  }")
+                        .containsOnlyOnce("getQuadType()")
+                        .containsOnlyOnce("getShapeType()");
+            }
+            assertSource(files, "Dog.java")
+                    .contains("public record Dog(", ") implements Outer {")
+                    .containsOnlyOnce("getShapeType()")
+                    .doesNotContain("getQuadType");
+        }
+    }
+
+    @Test
+    public void useRecordsGivesAMemberOfNestedInterfacesTheGettersOnSpringBoot4AndJackson3() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC,
+                Map.of(USE_SEALED, "true", USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"));
+
+        assertSource(files, "Cat.java")
+                .contains("public record Cat(", ") implements Inner {", "public String getQuadType() {",
+                        "public String getShapeType() {");
+    }
+
+    @Test
+    public void useRecordsGivesAMemberTheGetterOfAnOuterInterfaceWhenTheInnerOneHasNoDiscriminator() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC, Map.of());
+
+        assertSource(files, "MInner.java").contains("interface MInner extends MOuter");
+        for (String name : List.of("MCat.java", "MKitten.java")) {
+            assertSource(files, name)
+                    .contains("public record " + name.replace(".java", "") + "(", ") implements MInner {",
+                            "  @JsonProperty(\"shapeType\")\n  public String getShapeType() {\n    return shapeType;\n  }")
+                    .containsOnlyOnce("getShapeType()");
+        }
+    }
+
+    @Test
+    public void useRecordsGivesAMemberOfThreeNestedInterfacesTheGetterOfEachLevel() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC, Map.of(USE_SEALED, "true"));
+
+        assertSource(files, "L3.java").contains("interface L3 extends L2");
+        assertSource(files, "L2.java").contains("interface L2 extends L1");
+        for (String name : List.of("A.java", "B.java")) {
+            assertSource(files, name)
+                    .contains("public record " + name.replace(".java", "") + "(", ") implements L3 {")
+                    .containsOnlyOnce("getL3()")
+                    .containsOnlyOnce("getL2()")
+                    .containsOnlyOnce("getL1()");
+        }
+        assertSource(files, "C.java")
+                .contains("public record C(", ") implements L2 {")
+                .containsOnlyOnce("getL2()").containsOnlyOnce("getL1()").doesNotContain("getL3");
+        assertSource(files, "D.java")
+                .contains("public record D(", ") implements L1 {")
+                .containsOnlyOnce("getL1()").doesNotContain("getL2", "getL3");
+    }
+
+    @Test
+    public void useRecordsKeepsAMemberWithoutTheOuterDiscriminatorPropertyAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC, Map.of());
+
+                assertSource(files, "XCat.java").contains("public record XCat(", ") implements XInner {",
+                        "getxQuad()", "getxShape()");
+                assertSource(files, "XKitten.java").contains("implements XInner").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains("useRecords: model 'XKitten' is generated as a class: it has no property 'xShape', "
+                + "the discriminator of the oneOf interface XOuter");
+        assertThat(messages).noneMatch(m -> m.contains("model 'XCat'"));
+    }
+
+    @Test
+    public void useRecordsGivesNestedInterfacesThatShareOneDiscriminatorNameOneAccessor() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ONEOF_NESTED_SPEC, Map.of());
+
+        for (String name : List.of("SCat.java", "SKitten.java")) {
+            assertSource(files, name)
+                    .contains("public record " + name.replace(".java", "") + "(", ") implements SInner {",
+                            "  @JsonProperty(\"kind\")\n  public String getKind() {\n    return kind;\n  }")
+                    .containsOnlyOnce("getKind()");
+        }
+    }
+
+    @Test
+    public void useRecordsDeclaresTheGettersOfEveryInterfaceInTheChainOnTheRepositorySpec() throws IOException {
+        Map<String, File> files = generateRecords(POWERSHELL_SPEC, Map.of(USE_SEALED, "true"));
+
+        Pattern interfaceDeclaration = Pattern.compile("(?m)^public (?:sealed )?interface (\\w+)(?: extends ([\\w, ]+?))? (?:permits [\\w, ]+ )?\\{");
+        Pattern getterDeclaration = Pattern.compile("(?m)^\\s+public [^\\n(=]+ (get\\w+)\\(\\);");
+        Map<String, List<String>> parents = new HashMap<>();
+        Map<String, List<String>> getters = new HashMap<>();
+        for (Map.Entry<String, File> entry : files.entrySet()) {
+            if (!entry.getKey().endsWith(".java")) {
+                continue;
+            }
+            String source = sourceOf(entry.getValue());
+            Matcher declaration = interfaceDeclaration.matcher(source);
+            if (declaration.find()) {
+                parents.put(declaration.group(1), declaration.group(2) == null ? List.of() : List.of(declaration.group(2).split(",\\s*")));
+                List<String> names = new ArrayList<>();
+                Matcher getter = getterDeclaration.matcher(source);
+                while (getter.find()) {
+                    names.add(getter.group(1));
+                }
+                getters.put(declaration.group(1), names);
+            }
+        }
+        assertThat(parents).as("the spec has nested oneOf interfaces").containsKeys("NullableShape", "Shape");
+
+        Pattern recordDeclaration = Pattern.compile("(?s)public record (\\w+)\\(.*?\\) implements ([\\w, ]+) \\{");
+        int nestedRecords = 0;
+        for (Map.Entry<String, File> entry : files.entrySet()) {
+            if (!entry.getKey().endsWith(".java")) {
+                continue;
+            }
+            String source = sourceOf(entry.getValue());
+            Matcher declaration = recordDeclaration.matcher(source);
+            if (!declaration.find()) {
+                continue;
+            }
+            Set<String> chain = new LinkedHashSet<>();
+            Deque<String> pending = new ArrayDeque<>(List.of(declaration.group(2).split(",\\s*")));
+            while (!pending.isEmpty()) {
+                String next = pending.pop();
+                if (parents.containsKey(next) && chain.add(next)) {
+                    pending.addAll(parents.get(next));
+                }
+            }
+            if (chain.size() > 1) {
+                nestedRecords++;
+            }
+            for (String oneOfInterface : chain) {
+                for (String getter : getters.get(oneOfInterface)) {
+                    assertThat(source).as("%s implements %s", declaration.group(1), oneOfInterface)
+                            .containsPattern("\\n  public [^\\n(]+ " + getter + "\\(\\) \\{");
+                }
+            }
+        }
+        assertThat(nestedRecords).as("records below a nested interface").isGreaterThan(0);
+        assertSource(files, "ComplexQuadrilateral.java").contains("public record ComplexQuadrilateral(", "implements Quadrilateral", "getShapeType()");
+    }
+
+    @Test
+    public void useRecordsOffKeepsOneOfMembersAsClasses() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_ONEOF_SPEC, SPRING_BOOT, Map.of(USE_SEALED, "true"));
+
+        JavaFileAssert.assertThat(files.get("Dog.java")).isNormalClass().implementsInterfaces("Pet")
+                .fileDoesNotContain("record");
+        JavaFileAssert.assertThat(files.get("Cat.java")).isNormalClass();
+    }
+
+    @Test
+    public void useRecordsOneOfMembersWithSpringBoot4AndJackson3() throws IOException {
+        Map<String, File> files = generateOneOfRecords(Map.of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"));
+
+        assertSource(files, "Dog.java")
+                .contains("public record Dog(", ") implements Pet {", "public String getPetType() {")
+                .contains("import jakarta.validation.Valid;");
+        assertSource(files, "Pet.java")
+                .contains("public sealed interface Pet permits Cat, Dog {", "public String getPetType();");
     }
 
     @Test
