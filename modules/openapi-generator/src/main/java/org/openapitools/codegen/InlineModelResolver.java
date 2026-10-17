@@ -1228,18 +1228,20 @@ public class InlineModelResolver {
             return a.compareTo(b);
         });
 
-        // Map: (title + "||" + structural_sig) → first-seen (canonical) name
+        // Map: (title + "||" + structural_sig) -> first-seen (canonical) name
         Map<String, String> canonicalBySig = new LinkedHashMap<>();
-        // Map: duplicate component name → canonical component name
+        // Map: duplicate component name -> canonical component name
         Map<String, String> duplicateToCanonical = new LinkedHashMap<>();
 
         for (String name : sortedKeys) {
             Schema schema = schemas.get(name);
-            if (schema.getTitle() == null) {
-                continue; // only deduplicate titled schemas — anonymous schemas may be intentionally distinct
+            if (schema == null || schema.getTitle() == null || !isComponentModel(schema)) {
+                continue; // only deduplicate titled model schemas
             }
             try {
-                String structural = computeStructuralSignature(schema);
+                String structural = isEnumSchema(schema)
+                        ? structureMapper.writeValueAsString(schema)
+                        : computeStructuralSignature(schema);
                 String sigKey = schema.getTitle() + "||" + structural;
                 String canonical = canonicalBySig.get(sigKey);
                 if (canonical != null) {
@@ -1515,5 +1517,69 @@ public class InlineModelResolver {
                 }
             }
         }
+    }
+
+    private boolean isComponentModel(Schema schema) {
+        return isComponentModel(schema, Collections.newSetFromMap(new IdentityHashMap<>()));
+    }
+
+    private boolean isComponentModel(Schema schema, Set<Schema> visited) {
+        if (schema == null) {
+            return false;
+        }
+        if (visited.contains(schema)) {
+            return true; // circular reference
+        }
+        visited.add(schema);
+
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            Schema referenced = ModelUtils.getReferencedSchema(openAPI, schema);
+            return referenced != null && isComponentModel(referenced, visited);
+        }
+
+        if (resolveInlineEnums && isEnumSchema(schema)) {
+            return true;
+        }
+
+        if (schema.getType() == null || ModelUtils.isObjectTypeOAS30(schema)) {
+            if (ModelUtils.hasProperties(schema)) {
+                return true;
+            }
+        }
+
+        if (ModelUtils.isComposedSchema(schema)) {
+            if (ModelUtils.hasAllOf(schema)) {
+                for (Object inner : schema.getAllOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            if (ModelUtils.hasAnyOf(schema)) {
+                for (Object inner : schema.getAnyOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            if (ModelUtils.hasOneOf(schema)) {
+                for (Object inner : schema.getOneOf()) {
+                    Schema innerSchema = (Schema) inner;
+                    Schema referenced = ModelUtils.getReferencedSchema(openAPI, innerSchema);
+                    if (isComponentModel(referenced != null ? referenced : innerSchema, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        return false;
     }
 }
