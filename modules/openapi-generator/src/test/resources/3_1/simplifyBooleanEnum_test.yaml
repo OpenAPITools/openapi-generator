@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - cat
+            - dog
+        vaccinated:
+          type: boolean
+          enum:
+            - true
+        neutered:
+          type:
+            - boolean
+            - "null"
+          enum:
+            - true
+            - false
+        adopted:
+          type: boolean
+          const: true

@@ -462,6 +462,30 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyBooleanEnum31Spec() {
+        // to test the rule SIMPLIFY_BOOLEAN_ENUM with OAS 3.1 (JsonSchema instead of BooleanSchema)
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyBooleanEnum_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Pet");
+        assertEquals(((Schema) schema.getProperties().get("vaccinated")).getEnum().size(), 1);
+        assertEquals(((Schema) schema.getProperties().get("neutered")).getEnum().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        schema = openAPI.getComponents().getSchemas().get("Pet");
+        assertNull(((Schema) schema.getProperties().get("vaccinated")).getEnum());
+        assertNull(((Schema) schema.getProperties().get("neutered")).getEnum());
+        assertNull(((Schema) schema.getProperties().get("adopted")).getEnum());
+        assertNull(((Schema) schema.getProperties().get("adopted")).getConst());
+        assertEquals(((Schema) schema.getProperties().get("neutered")).getNullable(), Boolean.TRUE);
+        // string enum is left as is
+        assertEquals(((Schema) schema.getProperties().get("name")).getEnum().size(), 2);
+    }
+
+    @Test
     public void testOpenAPINormalizerSetTagsInAllOperations() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
