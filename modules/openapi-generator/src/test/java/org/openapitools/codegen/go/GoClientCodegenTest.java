@@ -712,6 +712,30 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
     }
 
+    @Test(description = "control characters and byte order marks in a pattern are written as escapes, because Go source can't hold them (#25263)")
+    public void testControlCharactersInPatternAreEscaped() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/pattern-with-control-characters.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output + "/model_test_model.go");
+        TestUtils.assertFileContains(model,
+                "validate:\"regexp=^[^\\\\x00-\\\\x1f\\\\x7f-\\\\x9f]+$\"",
+                "validate:\"regexp=^[^\\\\x{feff}]*$\"");
+        String content = Files.readString(model);
+        Assert.assertFalse(content.codePoints().anyMatch(c -> Character.isISOControl(c) && c != '\n' && c != '\t'),
+                "the generated model must not contain control characters other than newlines and tabs");
+        Assert.assertFalse(content.contains("\uFEFF"), "the generated model must not contain a byte order mark");
+    }
+
     @Test(description = "generateUnmarshalJSON=false must also suppress the oneOf UnmarshalJSON so the generated code does not reference the validator import that is no longer added (#24053)")
     public void testOneOfUnmarshalJSONHonorsGenerateUnmarshalJSONFlag() throws IOException {
         Map<String, Object> properties = new HashMap<>();
