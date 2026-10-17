@@ -530,4 +530,40 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
     }
+
+    @Test
+    public void testResponseEntityVariantIsSelectedByStatusCode() throws IOException {
+        // Responses sharing a schema must not be told apart by body shape (untagged): select the variant by status
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .addAdditionalProperty(RustClientCodegen.SUPPORT_MULTIPLE_RESPONSES, true)
+                    .setInputSpec("src/test/resources/3_0/rust/response-variant-by-status.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            String content = library.equals("reqwest") ? "&content" : "&local_var_content";
+            TestUtils.assertFileContains(outputPath,
+                    "200 => serde_json::from_str(" + content + ").map(CreatePetSuccess::Status200).ok(),",
+                    "201 => serde_json::from_str(" + content + ").map(CreatePetSuccess::Status201).ok(),",
+                    "204 => Some(CreatePetSuccess::Status204()),",
+                    ".map(CreatePetSuccess::UnknownValue).ok());",
+                    "400 => serde_json::from_str(" + content + ").map(CreatePetError::Status400).ok(),",
+                    "404 => Some(CreatePetError::Status404()),",
+                    "409 => serde_json::from_str(" + content + ").map(CreatePetError::Status409).ok(),",
+                    "500..=599 => serde_json::from_str(" + content + ").map(CreatePetError::Status5XX).ok(),",
+                    "_ => serde_json::from_str(" + content + ").map(CreatePetError::DefaultResponse).ok(),",
+                    ".map(CreatePetError::UnknownValue).ok());");
+            TestUtils.assertFileNotContains(outputPath, "Option<CreatePetError> = serde_json::from_str(");
+            TestUtils.assertFileNotContains(outputPath, "Option<CreatePetSuccess> = serde_json::from_str(");
+            // nothing to select by status: keep deserializing into the untagged enum
+            TestUtils.assertFileContains(outputPath, "Option<DeletePetError> = serde_json::from_str(" + content + ").ok();");
+        }
+    }
 }
