@@ -27,6 +27,14 @@ paths:
                 $ref: '#/components/schemas/Pet'
         '204':
           description: no content
+        '304':
+          description: not modified
+        '3XX':
+          description: redirected pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: bad request
           content:

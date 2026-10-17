@@ -553,6 +553,8 @@ public class RustClientCodegenTest {
                     "200 => serde_json::from_str(" + content + ").map(CreatePetSuccess::Status200).ok(),",
                     "201 => serde_json::from_str(" + content + ").map(CreatePetSuccess::Status201).ok(),",
                     "204 => Some(CreatePetSuccess::Status204()),",
+                    "304 => Some(CreatePetSuccess::Status304()),",
+                    "300..=399 => serde_json::from_str(" + content + ").map(CreatePetSuccess::Status3XX).ok(),",
                     ".map(CreatePetSuccess::UnknownValue).ok());",
                     "400 => serde_json::from_str(" + content + ").map(CreatePetError::Status400).ok(),",
                     "404 => Some(CreatePetError::Status404()),",
