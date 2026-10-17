@@ -29,6 +29,7 @@ where
 {
     // build our application with a route
     Router::new()
+        .route("/pets/events", get(get_pet_events::<I, A, E>))
         .route(
             "/pets/{pet_id}",
             delete(delete_pet::<I, A, E>).get(get_pet::<I, A, E>),
@@ -84,6 +85,10 @@ where
             }
             apis::default::DeletePetResponse::Status4XX_ClientError { status } => {
                 let mut response = Response::builder();
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
                 let mut response = response.status(status);
                 response.body(Body::empty())
             }
@@ -106,6 +111,10 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(HeaderName::from_static("x-request-id"), x_request_id);
                 }
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
                 let mut response = response.status(status);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -202,6 +211,10 @@ where
             }
             apis::default::GetPetResponse::Status4XX_ClientError { status, body } => {
                 let mut response = Response::builder();
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
                 let mut response = response.status(status);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -237,6 +250,102 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(HeaderName::from_static("retry-after"), retry_after);
                 }
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
+                response.body(Body::empty())
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn get_pet_events_validation() -> std::result::Result<(), ValidationErrors> {
+    Ok(())
+}
+/// GetPetEvents - GET /pets/events
+#[tracing::instrument(skip_all)]
+async fn get_pet_events<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    #[allow(clippy::redundant_closure)]
+    let validation = tokio::task::spawn_blocking(move || get_pet_events_validation())
+        .await
+        .unwrap();
+
+    let Ok(()) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .get_pet_events(&method, &host, &cookies)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::GetPetEventsResponse::Status2XX_PetEvents {
+                status,
+                body,
+                x_stream_id,
+            } => {
+                use axum::response::IntoResponse;
+
+                let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
+                parts.status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+
+                if let Some(x_stream_id) = x_stream_id {
+                    let x_stream_id = match header::IntoHeaderValue(x_stream_id).try_into() {
+                        Ok(val) => val,
+                        Err(e) => {
+                            return Response::builder()
+                                                 .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                 .body(Body::from(format!("An internal server error occurred handling x_stream_id header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                        }
+                    };
+
+                    parts
+                        .headers
+                        .insert(HeaderName::from_static("x-stream-id"), x_stream_id);
+                }
+
+                Ok::<_, http::Error>((parts, body).into_response())
+            }
+            apis::default::GetPetEventsResponse::Status5XX_ServerError { status } => {
+                let mut response = Response::builder();
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
                 let mut response = response.status(status);
                 response.body(Body::empty())
             }

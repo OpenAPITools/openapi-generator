@@ -179,6 +179,11 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(serverPath, "GetPetResponse::Status4XX_ClientError { status, body, } =>");
         TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status5XX_ServerError { status, body, x_request_id, } =>");
         TestUtils.assertFileContains(serverPath, "let mut response = response.status(status);");
+        // An out-of-range status is rejected before it reaches the response builder
+        TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status).map_err(");
+        TestUtils.assertFileContains(serverPath, "GetPetEventsResponse::Status2XX_PetEvents { status, body, x_stream_id, } =>");
+        TestUtils.assertFileContains(serverPath, "parts.status = StatusCode::from_u16(status).map_err(");
+        TestUtils.assertFileNotContains(serverPath, "parts.status = status.try_into()");
         TestUtils.assertFileNotContains(serverPath, "body.code.parse()");
     }
 }

@@ -333,7 +333,15 @@ where
                 use axum::response::IntoResponse;
 
                 let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
-                parts.status = {{#range}}status{{/range}}{{^range}}{{{code}}}{{/range}}.try_into().unwrap_or_default();
+{{#range}}
+                parts.status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+{{/range}}
+{{^range}}
+                parts.status = {{{code}}}.try_into().unwrap_or_default();
+{{/range}}
 
                 {{#headers}}
                 {{^required}}if let Some({{{name}}}) = {{{name}}}{{/required}} {
@@ -376,6 +384,10 @@ where
                     }
                 {{/headers}}
 {{#range}}
+                                                  let status = StatusCode::from_u16(status).map_err(|e| {
+                                                    error!(error = ?e);
+                                                    StatusCode::INTERNAL_SERVER_ERROR
+                                                  })?;
                                                   let mut response = response.status(status);
 {{/range}}
 {{^range}}

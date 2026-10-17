@@ -58,6 +58,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /pets/events:
+    get:
+      operationId: getPetEvents
+      responses:
+        "2XX":
+          description: Pet events
+          headers:
+            X-Stream-Id:
+              schema:
+                type: string
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+        "5XX":
+          description: Server error
 components:
   schemas:
     Pet:
