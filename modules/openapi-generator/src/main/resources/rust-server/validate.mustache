@@ -45,11 +45,12 @@
     #[cfg_attr(feature = "validate", validate(pattern = r"{{{pattern}}}"))]
 {{/isByteArray}}
 {{/pattern}}
+{{! Nullable arrays retain their existing bounds: the runtime has no nullable item-count traits. }}
 {{#minItems}}
-    #[cfg_attr(feature = "validate", validate(min_length = {{{minItems}}}))]
+    #[cfg_attr(feature = "validate", validate({{#exts.x-nullable-array}}min_length{{/exts.x-nullable-array}}{{^exts.x-nullable-array}}min_items{{/exts.x-nullable-array}} = {{{minItems}}}))]
 {{/minItems}}
 {{#maxItems}}
-    #[cfg_attr(feature = "validate", validate(max_length = {{{maxItems}}}))]
+    #[cfg_attr(feature = "validate", validate({{#exts.x-nullable-array}}max_length{{/exts.x-nullable-array}}{{^exts.x-nullable-array}}max_items{{/exts.x-nullable-array}} = {{{maxItems}}}))]
 {{/maxItems}}
 {{#isEnum}}
   {{#allowableValues}}
