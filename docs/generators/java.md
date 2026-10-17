@@ -73,6 +73,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |microprofileGlobalExceptionMapper|Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper| |true|
 |microprofileMutiny|Whether to use async types for microprofile (currently only Smallrye Mutiny is supported).| |null|
 |microprofileRegisterExceptionMapper|Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).| |true|
+|microprofileRegisterRestClient|Whether to add the @RegisterRestClient annotation (and its import) to the generated MicroProfile API interfaces. Set to false to omit the annotation, e.g. when using the generated interfaces as base contracts extended by application-owned clients.|true|
 |microprofileRestClientVersion|Version of MicroProfile Rest Client API.| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
