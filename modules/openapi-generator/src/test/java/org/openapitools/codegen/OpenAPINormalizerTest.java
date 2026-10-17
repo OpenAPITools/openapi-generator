@@ -483,6 +483,8 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema.getProperties().get("neutered")).getNullable(), Boolean.TRUE);
         // string enum is left as is
         assertEquals(((Schema) schema.getProperties().get("name")).getEnum().size(), 2);
+        // multi-type schema (boolean listed first) keeps its enum
+        assertEquals(((Schema) schema.getProperties().get("status")).getEnum().size(), 2);
     }
 
     @Test

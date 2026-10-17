@@ -39,3 +39,10 @@ components:
         adopted:
           type: boolean
           const: true
+        status:
+          type:
+            - boolean
+            - string
+          enum:
+            - true
+            - unknown

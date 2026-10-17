@@ -2165,7 +2165,8 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (ModelUtils.isBooleanSchema(schema)) {
+        // skip OAS 3.1 multi-type schemas (e.g. type: [boolean, string]), where the enum applies to all types
+        if (ModelUtils.isBooleanSchema(schema) && (schema.getTypes() == null || schema.getTypes().size() == 1)) {
             if (schema.getEnum() != null && !schema.getEnum().isEmpty()) { // enum defined
                 schema.setEnum(null);
             }
