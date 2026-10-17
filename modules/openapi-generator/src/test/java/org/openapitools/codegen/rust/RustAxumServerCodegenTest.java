@@ -71,6 +71,8 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16)");
         TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16, models::Error)");
         TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, body: models::Error,");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, x_request_id:");
+        TestUtils.assertFileContains(apiPath, "Status0_EventStream (u16, models::SSE)");
         // Responses with an explicit status code are unchanged
         TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
 
@@ -79,7 +81,13 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status0_UnexpectedError (status)");
         TestUtils.assertFileContains(serverPath, "GetPetResponse::Status0_UnexpectedError (status, body)");
         TestUtils.assertFileContains(serverPath, "ListPetsResponse::Status0_UnexpectedError { status, body,");
+        TestUtils.assertFileContains(serverPath, "AdoptPetResponse::Status0_UnexpectedError { status, x_request_id");
+        TestUtils.assertFileContains(serverPath, "StreamEventsResponse::Status0_EventStream (status, body)");
         TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status)");
+        // An invalid status is logged and answered with 500, also for SSE bodies
+        TestUtils.assertFileContains(serverPath, "error!(status, error = ?e);");
+        TestUtils.assertFileContains(serverPath, "parts.status = status;");
+        TestUtils.assertFileNotContains(serverPath, "parts.status = status.try_into()");
         TestUtils.assertFileNotContains(serverPath, "response.status(0)");
     }
 

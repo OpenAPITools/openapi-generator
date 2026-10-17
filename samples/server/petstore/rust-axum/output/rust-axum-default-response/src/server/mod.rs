@@ -29,12 +29,102 @@ where
 {
     // build our application with a route
     Router::new()
+        .route("/events", get(stream_events::<I, A, E>))
         .route("/pets", get(list_pets::<I, A, E>))
         .route(
             "/pets/{pet_id}",
             delete(delete_pet::<I, A, E>).get(get_pet::<I, A, E>),
         )
+        .route("/pets/{pet_id}/adopt", post(adopt_pet::<I, A, E>))
         .with_state(api_impl)
+}
+
+#[tracing::instrument(skip_all)]
+fn adopt_pet_validation(
+    path_params: models::AdoptPetPathParams,
+) -> std::result::Result<(models::AdoptPetPathParams,), ValidationErrors> {
+    path_params.validate()?;
+
+    Ok((path_params,))
+}
+/// AdoptPet - POST /pets/{petId}/adopt
+#[tracing::instrument(skip_all)]
+async fn adopt_pet<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    Path(path_params): Path<models::AdoptPetPathParams>,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    #[allow(clippy::redundant_closure)]
+    let validation = tokio::task::spawn_blocking(move || adopt_pet_validation(path_params))
+        .await
+        .unwrap();
+
+    let Ok((path_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .adopt_pet(&method, &host, &cookies, &path_params)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::AdoptPetResponse::Status204_PetAdopted => {
+                let mut response = Response::builder();
+                let mut response = response.status(204);
+                response.body(Body::empty())
+            }
+            apis::default::AdoptPetResponse::Status0_UnexpectedError {
+                status,
+                x_request_id,
+            } => {
+                let mut response = Response::builder();
+                if let Some(x_request_id) = x_request_id {
+                    let x_request_id = match header::IntoHeaderValue(x_request_id).try_into() {
+                        Ok(val) => val,
+                        Err(e) => {
+                            return Response::builder()
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling x_request_id header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                        }
+                    };
+
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("x-request-id"), x_request_id);
+                }
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(status, error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
+                response.body(Body::empty())
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
 }
 
 #[tracing::instrument(skip_all)]
@@ -86,7 +176,7 @@ where
             apis::default::DeletePetResponse::Status0_UnexpectedError(status) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -172,7 +262,7 @@ where
             apis::default::GetPetResponse::Status0_UnexpectedError(status, body) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -294,7 +384,7 @@ where
                     response_headers.insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
                 }
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -313,6 +403,71 @@ where
                 .await
                 .unwrap()?;
                 response.body(Body::from(body_content))
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn stream_events_validation() -> std::result::Result<(), ValidationErrors> {
+    Ok(())
+}
+/// StreamEvents - GET /events
+#[tracing::instrument(skip_all)]
+async fn stream_events<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    #[allow(clippy::redundant_closure)]
+    let validation = tokio::task::spawn_blocking(move || stream_events_validation())
+        .await
+        .unwrap();
+
+    let Ok(()) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .stream_events(&method, &host, &cookies)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::StreamEventsResponse::Status0_EventStream(status, body) => {
+                use axum::response::IntoResponse;
+
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(status, error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
+                parts.status = status;
+
+                Ok::<_, http::Error>((parts, body).into_response())
             }
         },
         Err(why) => {

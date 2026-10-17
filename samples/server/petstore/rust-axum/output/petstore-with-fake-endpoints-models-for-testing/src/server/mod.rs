@@ -2387,7 +2387,7 @@ where
             apis::user::CreateUserResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -2463,7 +2463,7 @@ where
             apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -2539,7 +2539,7 @@ where
             apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);
@@ -2854,7 +2854,7 @@ where
             apis::user::LogoutUserResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
                 let status = StatusCode::from_u16(status).map_err(|e| {
-                    error!(error = ?e);
+                    error!(status, error = ?e);
                     StatusCode::INTERNAL_SERVER_ERROR
                 })?;
                 let mut response = response.status(status);

@@ -11,6 +11,19 @@ use crate::{models, types::*};
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
+pub enum AdoptPetResponse {
+    /// Pet adopted
+    Status204_PetAdopted,
+    /// Unexpected error
+    Status0_UnexpectedError {
+        status: u16,
+        x_request_id: Option<String>,
+    },
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum DeletePetResponse {
     /// Pet deleted
     Status204_PetDeleted,
@@ -45,10 +58,27 @@ pub enum ListPetsResponse {
     },
 }
 
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum StreamEventsResponse {
+    /// Event stream
+    Status0_EventStream(u16, models::SSE),
+}
+
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    /// AdoptPet - POST /pets/{petId}/adopt
+    async fn adopt_pet(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::AdoptPetPathParams,
+    ) -> Result<AdoptPetResponse, E>;
+
     /// DeletePet - DELETE /pets/{petId}
     async fn delete_pet(
         &self,
@@ -77,4 +107,13 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: &Host,
         cookies: &CookieJar,
     ) -> Result<ListPetsResponse, E>;
+
+    /// StreamEvents - GET /events
+    async fn stream_events(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+    ) -> Result<StreamEventsResponse, E>;
 }

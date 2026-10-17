@@ -64,6 +64,34 @@ paths:
           description: Pet deleted
         default:
           description: Unexpected error
+  "/pets/{petId}/adopt":
+    post:
+      operationId: adoptPet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Pet adopted
+        default:
+          description: Unexpected error
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+  "/events":
+    get:
+      operationId: streamEvents
+      responses:
+        default:
+          description: Event stream
+          content:
+            "text/event-stream":
+              schema:
+                type: string
 components:
   schemas:
     Pet:
