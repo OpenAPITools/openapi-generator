@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": [
+      "ES2024",
+      "DOM"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "isolatedDeclarations": true,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
+    "skipLibCheck": false,
+    "types": [],
+    "rootDir": "../../../..",
+    "outDir": "../../../../../../out/issue-25172-regression/declarations"
+  },
+  "include": [
+    "../../builds/**/runtime.ts",
+    "../../../../others/typescript-fetch/**/runtime.ts",
+    "middleware.ts"
+  ]
+}
