@@ -229,11 +229,16 @@ export class {{classname}} extends runtime.BaseAPI {
             formParams['{{baseName}}'] = requestParameters['{{paramName}}'] as any;
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
+            {{#isMultipart}}
+            formParams['{{baseName}}'] = new runtime.JSONPart({{^withoutRuntimeChecks}}{{{dataType}}}ToJSON(requestParameters['{{paramName}}']){{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}requestParameters['{{paramName}}']{{/withoutRuntimeChecks}});
+            {{/isMultipart}}
+            {{^isMultipart}}
             {{^withoutRuntimeChecks}}
             formParams['{{baseName}}'] = JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']));
             {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
             formParams['{{baseName}}'] = JSON.stringify(requestParameters['{{paramName}}']);
             {{/withoutRuntimeChecks}}
+            {{/isMultipart}}
             {{/isPrimitiveType}}
         }
 

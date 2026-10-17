@@ -14,7 +14,15 @@
 
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
-export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
+export const BASE_PATH = (
+    // Allow overriding the target server at runtime with the BASE_URL environment
+    // variable (e.g. `BASE_URL=http://localhost:8080 npx playwright test`). The
+    // `typeof process` guard keeps this safe if the client is ever bundled for a
+    // non-Node environment.
+    (typeof process !== "undefined" && process.env && process.env.BASE_URL)
+        ? process.env.BASE_URL
+        : "http://petstore.swagger.io/v2"
+).replace(/\/+$/, "");
 
 /**
  * The options object accepted by Playwright's {@link APIRequestContext.fetch}.
@@ -124,13 +132,13 @@ export class BaseAPI {
             headers,
         };
         if (context.body !== undefined) {
-            initParams.data = context.body;
+            initParams.data = serializeRequestData(context.body, headers);
         }
         if (context.form !== undefined) {
-            initParams.form = context.form;
+            initParams.form = toUrlEncodedForm(context.form);
         }
         if (context.multipart !== undefined) {
-            initParams.multipart = context.multipart;
+            initParams.multipart = toMultipartForm(context.multipart);
         }
 
         const initOverrideFn =
@@ -211,6 +219,90 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         return querystring(value as HTTPQuery, fullKey);
     }
     return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
+}
+
+const JSON_MIME_REGEX = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
+
+function isJsonMimeType(mime: string | null | undefined): boolean {
+    return mime != null && JSON_MIME_REGEX.test(mime);
+}
+
+/**
+ * Marks a multipart field whose value must be transmitted as an `application/json`
+ * part instead of a plain-text field, so a serialized model keeps its content type
+ * on the wire. The generated API classes wrap object-valued multipart parts in this.
+ */
+export class JSONPart {
+    constructor(public value: any) {}
+}
+
+/**
+ * Playwright sends a string `data` body verbatim, so a bare primitive sent with a JSON
+ * content type would go out as raw text rather than valid JSON. This JSON-encodes
+ * primitive bodies when the Content-Type is JSON, and leaves every other body (objects,
+ * which Playwright serializes itself, as well as Buffers and Blobs) untouched.
+ */
+function serializeRequestData(body: any, headers: HTTPHeaders): any {
+    const contentType = headers['Content-Type'] ?? headers['content-type'];
+    if (isJsonMimeType(contentType) && (typeof body === 'string' || typeof body === 'number' || typeof body === 'boolean')) {
+        return JSON.stringify(body);
+    }
+    return body;
+}
+
+/**
+ * Builds the `application/x-www-form-urlencoded` body. A `FormData` is used (rather than
+ * a plain object) so that array-valued fields - e.g. `collectionFormat=multi` - are sent
+ * as one repeated field per element instead of being collapsed into a single value.
+ */
+function toUrlEncodedForm(form: { [key: string]: any }): FormData {
+    const formData = new FormData();
+    for (const key of Object.keys(form)) {
+        appendFormValue(formData, key, form[key]);
+    }
+    return formData;
+}
+
+/**
+ * Builds the `multipart/form-data` body. Like {@link toUrlEncodedForm} it uses a
+ * `FormData` so repeated fields are preserved, appends `Blob`/`File` values as file
+ * parts, and encodes {@link JSONPart} values as `application/json` parts.
+ */
+function toMultipartForm(multipart: { [key: string]: any }): FormData {
+    const formData = new FormData();
+    for (const key of Object.keys(multipart)) {
+        appendFormValue(formData, key, multipart[key]);
+    }
+    return formData;
+}
+
+function appendFormValue(formData: FormData, key: string, value: any): void {
+    if (value === undefined || value === null) {
+        return;
+    }
+    if (Array.isArray(value) || value instanceof Set) {
+        for (const item of value) {
+            appendFormValue(formData, key, item);
+        }
+        return;
+    }
+    if (value instanceof JSONPart) {
+        formData.append(key, new Blob([JSON.stringify(value.value)], { type: 'application/json' }));
+        return;
+    }
+    if (isBlob(value)) {
+        const filename = typeof value.name === 'string' && value.name.length > 0 ? value.name : key;
+        formData.append(key, value, filename);
+        return;
+    }
+    formData.append(key, String(value));
+}
+
+function isBlob(value: any): value is Blob & { name?: string } {
+    return typeof value === 'object'
+        && value !== null
+        && typeof value.arrayBuffer === 'function'
+        && typeof value.type === 'string';
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {

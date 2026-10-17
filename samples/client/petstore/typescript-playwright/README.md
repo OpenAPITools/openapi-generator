@@ -10,7 +10,7 @@ API tests generated from an OpenAPI specification by
 apis/                 typed API client classes (one per tag), driven by Playwright's APIRequestContext
 models/               request/response models with (de)serializers
 runtime.ts            BaseAPI + helpers wrapping Playwright's `request` fixture
-spec/apis/*.spec.ts   generated API tests (one describe block per operation)
+spec/apis/*.spec.ts   generated API tests (one describe block per API, one test per operation)
 spec/models/*.spec.ts generated model type tests
 playwright.config.ts  Playwright configuration
 ```

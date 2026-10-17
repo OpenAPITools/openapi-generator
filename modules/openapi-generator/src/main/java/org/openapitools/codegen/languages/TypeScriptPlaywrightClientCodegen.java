@@ -533,12 +533,43 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     private void addPlaywrightTestData(OperationsMap operations) {
         for (CodegenOperation op : operations.getOperations().getOperation()) {
             op.vendorExtensions.put("x-playwright-status", getSuccessStatusCode(op));
+            op.vendorExtensions.put("x-playwright-test-name", getTestName(op));
             for (CodegenParameter param : op.allParams) {
                 if (param.required) {
                     param.vendorExtensions.put("x-playwright-example", getParameterExampleValue(param));
                 }
             }
         }
+    }
+
+    /**
+     * Builds the (single-quote safe) title for a generated Playwright test: the
+     * operation nickname, optionally suffixed with its summary. The result is escaped
+     * so summaries containing apostrophes, backslashes or newlines still produce valid
+     * TypeScript.
+     */
+    private String getTestName(CodegenOperation op) {
+        String name = op.nickname;
+        if (op.summary != null && !op.summary.isEmpty()) {
+            name += " - " + op.summary;
+        }
+        return escapeForSingleQuotedString(name);
+    }
+
+    /**
+     * Escapes a string so it can be safely embedded inside a single-quoted TypeScript
+     * string literal.
+     */
+    private String escapeForSingleQuotedString(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n")
+                .replace("\t", "\\t");
     }
 
     /**
@@ -568,7 +599,7 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         }
         if (Boolean.TRUE.equals(param.isEnum) && param._enum != null && !param._enum.isEmpty()) {
             String first = String.valueOf(param._enum.get(0));
-            return param.isString ? "'" + first + "'" : first;
+            return param.isString ? "'" + escapeForSingleQuotedString(first) + "'" : first;
         }
         if (param.isBoolean) {
             return "true";

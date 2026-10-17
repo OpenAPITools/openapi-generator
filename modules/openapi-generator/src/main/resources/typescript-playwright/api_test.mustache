@@ -25,7 +25,7 @@ import type {
  */
 test.describe('{{classname}}', () => {
 {{#operation}}
-    test('{{nickname}}{{#summary}} - {{{summary}}}{{/summary}}', async ({ request }) => {
+    test('{{{vendorExtensions.x-playwright-test-name}}}', async ({ request }) => {
         const api = new {{classname}}(request);
 
         const response = await api.{{nickname}}Raw({{#allParams.0}}{
