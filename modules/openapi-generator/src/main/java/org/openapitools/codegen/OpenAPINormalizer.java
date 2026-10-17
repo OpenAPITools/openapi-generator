@@ -171,6 +171,9 @@ public class OpenAPINormalizer {
     // when set to true, some more schema definitions are considered as `null` in 3.1 spec
     final String LOOSE_NULL_DEFINITIONS = "LOOSE_NULL_DEFINITIONS";
 
+    // when set to true, normalize bare null schemas to any-type nullable schemas in 3.1 spec
+    final String NORMALIZE_BARE_NULL_SCHEMAS = "NORMALIZE_BARE_NULL_SCHEMAS";
+
     // ============= end of rules =============
 
     private static final String ONE_OF_ANY_OF_ENUM_SIMPLIFIED = "Simplified {} with enum sub-schemas to single enum: {} since rule {} was enabled";
@@ -272,12 +275,14 @@ public class OpenAPINormalizer {
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(LOOSE_NULL_DEFINITIONS);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
+        ruleNames.add(NORMALIZE_BARE_NULL_SCHEMAS);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
         rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
         rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
+        rules.put(NORMALIZE_BARE_NULL_SCHEMAS, true);
 
         processRules(inputRules);
 
@@ -985,7 +990,13 @@ public class OpenAPINormalizer {
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
-            normalizeSchema(result.getItems(), visitedSchemas);
+            if (result.getItems() != null) {
+                if (getRule(NORMALIZE_31SPEC)) {
+                    result.setItems(normalizeBareNullSchemaIfNeeded(result.getItems(), visitedSchemas));
+                } else {
+                    normalizeSchema(result.getItems(), visitedSchemas);
+                }
+            }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -1038,22 +1049,15 @@ public class OpenAPINormalizer {
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             Schema result = normalizeMapSchema(schema);
             Schema additionalProperties = (Schema) result.getAdditionalProperties();
-            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+            if (getRule(NORMALIZE_31SPEC)) {
                 // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
                 // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
                 // so generators emit a fictional `Null` / `ModelNull` value type that fails to
                 // compile. Normalize it to an any-type nullable schema so the map value is
                 // generated as a normal (nullable) object instead.
-                Schema anyTypeNullable = new Schema();
-                anyTypeNullable.setNullable(true);
-                result.setAdditionalProperties(anyTypeNullable);
+                result.setAdditionalProperties(normalizeBareNullSchemaIfNeeded(additionalProperties, visitedSchemas));
             } else {
-                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
-                if (getRule(NORMALIZE_31SPEC)) {
-                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
-                    // value is rewritten to a proper array schema), which would otherwise be lost.
-                    result.setAdditionalProperties(normalized);
-                }
+                normalizeSchema(additionalProperties, visitedSchemas);
             }
 
             return result;
@@ -1137,6 +1141,131 @@ public class OpenAPINormalizer {
         if (schema != null) {
             visitedSchemas.add(schema);
         }
+    }
+
+    /**
+     * Resolves references and single-element allOf wrappers recursively up to a reasonable depth,
+     * collecting every schema in the resolution chain from root to leaf.
+     *
+     * @param schema Root schema
+     * @return list of schemas from root to leaf
+     */
+    private List<Schema<?>> collectResolutionChain(Schema<?> schema) {
+        List<Schema<?>> chain = new ArrayList<>();
+        if (schema == null) {
+            return chain;
+        }
+
+        Schema<?> current = schema;
+        chain.add(current);
+        Set<Schema<?>> seen = new HashSet<>();
+        seen.add(current);
+
+        int depth = 0;
+        while (depth < 10) {
+            depth++;
+            if (StringUtils.isNotEmpty(current.get$ref())) {
+                Schema<?> next = ModelUtils.getReferencedSchema(openAPI, current);
+                if (next == null || next == current || !seen.add(next)) {
+                    break;
+                }
+                current = next;
+                chain.add(current);
+            } else if (ModelUtils.hasAllOf(current) && current.getAllOf().size() == 1
+                    && current.getAllOf().get(0) instanceof Schema) {
+                Schema<?> first = (Schema<?>) current.getAllOf().get(0);
+                if (first == null || first == current || !seen.add(first)) {
+                    break;
+                }
+                current = first;
+                chain.add(current);
+            } else {
+                break;
+            }
+        }
+        return chain;
+    }
+
+    /**
+     * Constructs a new any-type nullable schema by copying metadata from each resolved schema
+     * in the chain (leaf to root so that outer layers override inner layers) and forcing nullable: true.
+     *
+     * @param chain resolution chain from root to leaf
+     * @return any-type nullable schema preserving metadata from all layers
+     */
+    private Schema createAnyTypeNullableSchema(List<Schema<?>> chain) {
+        Schema anyTypeNullable = new Schema();
+        for (int i = chain.size() - 1; i >= 0; i--) {
+            Schema<?> s = chain.get(i);
+            ModelUtils.copyMetadata(s, anyTypeNullable);
+            if (s.getExtensions() != null) {
+                if (anyTypeNullable.getExtensions() == null) {
+                    anyTypeNullable.setExtensions(new LinkedHashMap<>());
+                }
+                anyTypeNullable.getExtensions().putAll(s.getExtensions());
+            }
+        }
+        anyTypeNullable.setNullable(true);
+        return anyTypeNullable;
+    }
+
+    /**
+     * Return true if the schema resolves explicitly to a bare null type (type: "null" or types: ["null"]).
+     *
+     * @param schema Schema to check
+     * @return true if schema is an explicit bare null type
+     */
+    protected boolean isBareNullSchema(Schema<?> schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        List<Schema<?>> chain = collectResolutionChain(schema);
+        if (chain.isEmpty()) {
+            return false;
+        }
+
+        Schema<?> target = chain.get(chain.size() - 1);
+        if (target == null) {
+            return false;
+        }
+
+        if (target.getTypes() != null && !target.getTypes().isEmpty()) {
+            if (target.getTypes().size() == 1) {
+                return "null".equals(target.getTypes().iterator().next());
+            }
+            return false;
+        }
+
+        return "null".equals(target.getType());
+    }
+
+    /**
+     * Normalizes a schema if it is an explicit bare null type under NORMALIZE_31SPEC,
+     * converting it to an any-type nullable schema while preserving metadata.
+     * Otherwise normalizes the schema using {@link #normalizeSchema}.
+     *
+     * @param schema Schema to normalize
+     * @param visitedSchemas a set of visited schemas
+     * @return normalized schema
+     */
+    protected Schema normalizeBareNullSchemaIfNeeded(Schema<?> schema, Set<Schema> visitedSchemas) {
+        if (schema == null) {
+            return null;
+        }
+
+        if (getRule(NORMALIZE_31SPEC) && getRule(NORMALIZE_BARE_NULL_SCHEMAS) && isBareNullSchema(schema)) {
+            List<Schema<?>> chain = collectResolutionChain(schema);
+            return createAnyTypeNullableSchema(chain);
+        }
+
+        Schema normalized = normalizeSchema(schema, visitedSchemas);
+        if (getRule(NORMALIZE_31SPEC) && getRule(NORMALIZE_BARE_NULL_SCHEMAS) && isBareNullSchema(normalized)) {
+            List<Schema<?>> chain = collectResolutionChain(normalized);
+            return createAnyTypeNullableSchema(chain);
+        }
+
+        return normalized;
     }
 
     protected Schema normalizeArraySchema(Schema schema) {
@@ -1223,8 +1352,7 @@ public class OpenAPINormalizer {
                     property.getExtensions().remove(X_INTERNAL);
                 }
             }
-            Schema newProperty = normalizeSchema(property, new HashSet<>());
-            propertiesEntry.setValue(newProperty);
+            propertiesEntry.setValue(normalizeBareNullSchemaIfNeeded(property, new HashSet<>()));
         }
     }
 
