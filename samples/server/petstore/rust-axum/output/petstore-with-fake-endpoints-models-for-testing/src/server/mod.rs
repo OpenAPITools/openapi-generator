@@ -2384,9 +2384,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::CreateUserResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUserResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
-                let mut response = response.status(0);
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
                 response.body(Body::empty())
             }
         },
@@ -2456,9 +2460,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
-                let mut response = response.status(0);
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
                 response.body(Body::empty())
             }
         },
@@ -2528,9 +2536,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
-                let mut response = response.status(0);
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
                 response.body(Body::empty())
             }
         },
@@ -2839,9 +2851,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::LogoutUserResponse::Status0_SuccessfulOperation => {
+            apis::user::LogoutUserResponse::Status0_SuccessfulOperation(status) => {
                 let mut response = Response::builder();
-                let mut response = response.status(0);
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+                let mut response = response.status(status);
                 response.body(Body::empty())
             }
         },

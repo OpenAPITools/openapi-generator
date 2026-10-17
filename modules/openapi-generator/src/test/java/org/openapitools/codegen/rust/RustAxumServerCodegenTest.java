@@ -55,6 +55,35 @@ public class RustAxumServerCodegenTest {
     }
 
     @Test
+    public void testDefaultResponseCarriesStatus() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-default-response.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiPath = Path.of(target.toString(), "/src/apis/default.rs");
+        TestUtils.assertFileExists(apiPath);
+        // The status of a default response is chosen by the implementation
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16, models::Error)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, body: models::Error,");
+        // Responses with an explicit status code are unchanged
+        TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
+
+        Path serverPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverPath);
+        TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status0_UnexpectedError (status)");
+        TestUtils.assertFileContains(serverPath, "GetPetResponse::Status0_UnexpectedError (status, body)");
+        TestUtils.assertFileContains(serverPath, "ListPetsResponse::Status0_UnexpectedError { status, body,");
+        TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status)");
+        TestUtils.assertFileNotContains(serverPath, "response.status(0)");
+    }
+
+    @Test
     public void testIntegerSchemaTypeMapping() {
         RustAxumServerCodegen codegen = new RustAxumServerCodegen();
         IntegerSchema schema = new IntegerSchema();

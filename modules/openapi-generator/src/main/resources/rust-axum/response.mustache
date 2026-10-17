@@ -18,24 +18,32 @@ pub enum {{{operationId}}}Response {
     {{^dataType}}
       {{#hasHeaders}}
     {
+        {{#isDefault}}
+        status: u16,
+        {{/isDefault}}
+      {{/hasHeaders}}
+      {{^hasHeaders}}
+        {{#isDefault}}
+    (u16)
+        {{/isDefault}}
       {{/hasHeaders}}
     {{/dataType}}
     {{#dataType}}
       {{^hasHeaders}}
         {{#vendorExtensions}}
           {{#x-produces-sse}}
-    (models::SSE)
+    ({{#isDefault}}u16, {{/isDefault}}models::SSE)
           {{/x-produces-sse}}
           {{#x-produces-plain-text}}
-    (String)
+    ({{#isDefault}}u16, {{/isDefault}}String)
           {{/x-produces-plain-text}}
           {{#x-produces-bytes}}
-    (ByteArray)
+    ({{#isDefault}}u16, {{/isDefault}}ByteArray)
           {{/x-produces-bytes}}
           {{^x-produces-sse}}
           {{^x-produces-plain-text}}
           {{^x-produces-bytes}}
-    ({{{dataType}}})
+    ({{#isDefault}}u16, {{/isDefault}}{{{dataType}}})
           {{/x-produces-bytes}}
           {{/x-produces-plain-text}}
           {{/x-produces-sse}}
@@ -43,6 +51,9 @@ pub enum {{{operationId}}}Response {
       {{/hasHeaders}}
       {{#hasHeaders}}
     {
+        {{#isDefault}}
+        status: u16,
+        {{/isDefault}}
         {{#vendorExtensions}}
           {{#x-produces-sse}}
         body: models::SSE,
