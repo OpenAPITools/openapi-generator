@@ -1,3 +1,6 @@
+.gitignore
+.npmignore
+README.md
 apis/PetApi.ts
 apis/StoreApi.ts
 apis/UserApi.ts
@@ -10,4 +13,7 @@ models/Pet.ts
 models/Tag.ts
 models/User.ts
 models/index.ts
+package.json
+playwright.config.ts
 runtime.ts
+tsconfig.json

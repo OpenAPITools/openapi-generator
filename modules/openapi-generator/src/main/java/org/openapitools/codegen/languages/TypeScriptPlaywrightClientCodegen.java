@@ -239,10 +239,9 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
 
+        // The generated artifact is a self-contained Playwright test project, so the
+        // client, models and tests all live at the project root (no "src" nesting).
         String sourceDir = "";
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            sourceDir = "src" + File.separator;
-        }
 
         this.apiPackage = sourceDir + "apis";
         this.modelPackage = sourceDir + "models";
@@ -265,9 +264,9 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         }
         writePropertyBack(PREFIX_PARAMETER_INTERFACES, getPrefixParameterInterfaces());
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration();
-        }
+        // Always generate the supporting files that make the output a runnable,
+        // type-checkable Playwright project.
+        addProjectFileGeneration();
 
         if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
             this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
@@ -485,20 +484,17 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         }
     }
 
-    private void addNpmPackageGeneration() {
+    private void addProjectFileGeneration() {
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
+        // Files that make the generated output a self-contained Playwright test project.
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
-        if (supportsES6) {
-            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
-        }
+        supportingFiles.add(new SupportingFile("playwright.config.mustache", "", "playwright.config.ts"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
@@ -673,6 +669,7 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
+        this.addPlaywrightTestData(operations);
         return operations;
     }
 
@@ -968,6 +965,73 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
 
     private void addOperationPrefixParameterInterfacesInformation(Map<String, Object> operations) {
         operations.put("prefixParameterInterfaces", getPrefixParameterInterfaces());
+    }
+
+    /**
+     * Enrich each operation with the data the Playwright test templates need:
+     * a placeholder example value for every required parameter
+     * ({@code x-playwright-example}) and the expected success status code
+     * ({@code x-playwright-status}).
+     */
+    private void addPlaywrightTestData(OperationsMap operations) {
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            op.vendorExtensions.put("x-playwright-status", getSuccessStatusCode(op));
+            for (CodegenParameter param : op.allParams) {
+                if (param.required) {
+                    param.vendorExtensions.put("x-playwright-example", getParameterExampleValue(param));
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the first 2xx response code declared for the operation, falling back to
+     * {@code 200} when none can be determined.
+     */
+    private String getSuccessStatusCode(CodegenOperation op) {
+        if (op.responses != null) {
+            for (CodegenResponse response : op.responses) {
+                if (response.is2xx && response.code != null && response.code.matches("\\d{3}")) {
+                    return response.code;
+                }
+            }
+        }
+        return "200";
+    }
+
+    /**
+     * Returns a TypeScript expression usable as a placeholder value for the given
+     * parameter inside a generated Playwright test. The value is type-compatible with
+     * the parameter so the generated test type-checks; it is not meant to be
+     * semantically meaningful.
+     */
+    private String getParameterExampleValue(CodegenParameter param) {
+        if (param.isArray) {
+            return "[]";
+        }
+        if (Boolean.TRUE.equals(param.isEnum) && param._enum != null && !param._enum.isEmpty()) {
+            String first = String.valueOf(param._enum.get(0));
+            return param.isString ? "'" + first + "'" : first;
+        }
+        if (param.isBoolean) {
+            return "true";
+        }
+        if (param.isInteger || param.isLong || param.isNumber || param.isFloat
+                || param.isDouble || param.isDecimal || param.isNumeric) {
+            return "1";
+        }
+        if (param.isDate || param.isDateTime) {
+            return "new Date()";
+        }
+        if (param.isFile || param.isBinary) {
+            return "new Blob([])";
+        }
+        if (param.isString || param.isUuid || param.isUri || param.isEmail) {
+            return "'" + param.paramName + "_example'";
+        }
+        // models, free-form objects, maps and anything else: cast an empty object to the
+        // declared type so the generated test still type-checks.
+        return "{} as unknown as " + param.dataType;
     }
 
     private void addExtraReservedWords() {

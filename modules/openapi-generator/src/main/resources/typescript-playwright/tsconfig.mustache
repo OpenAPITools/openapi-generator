@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
-{{#sagasAndRecords}}
-    "strict": true,
-{{/sagasAndRecords}}
+    "target": "ES2021",
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "dist",
-    {{^supportsES6}}
     "lib": [
-      "es6",
-      "dom"
+      "ES2021",
+      "DOM"
     ],
-    {{/supportsES6}}
-    "typeRoots": [
-      "node_modules/@types"
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "types": [
+      "node"
     ]
   },
   "exclude": [
