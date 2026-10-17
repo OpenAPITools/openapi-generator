@@ -38,7 +38,6 @@ public interface PetApi {
     String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -47,7 +46,6 @@ public interface PetApi {
     @Operation(
         operationId = "addPet",
         summary = "Add a new pet to the store",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

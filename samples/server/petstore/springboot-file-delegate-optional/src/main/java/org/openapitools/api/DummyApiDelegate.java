@@ -27,7 +27,6 @@ public interface DummyApiDelegate {
 
     /**
      * POST /dummy
-     * 
      *
      * @param body  (optional)
      * @return successful operation (status code 200)

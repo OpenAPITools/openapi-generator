@@ -65,7 +65,7 @@ public interface BeveragesApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Beverage> createBeverage(
-        @Parameter(name = "Beverage", description = "", required = true) @Valid @RequestBody Beverage beverage
+        @Parameter(name = "Beverage", required = true) @Valid @RequestBody Beverage beverage
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

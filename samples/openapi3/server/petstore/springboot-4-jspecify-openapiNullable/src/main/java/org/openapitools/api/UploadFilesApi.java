@@ -62,7 +62,7 @@ public interface UploadFilesApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<Void> uploadFilesPost(
-        @Parameter(name = "file", description = "") @RequestPart(value = "file", required = false) List<MultipartFile> file
+        @Parameter(name = "file") @RequestPart(value = "file", required = false) List<MultipartFile> file
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

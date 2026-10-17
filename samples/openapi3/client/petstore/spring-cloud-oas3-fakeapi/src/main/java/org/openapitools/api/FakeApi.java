@@ -211,7 +211,7 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testBodyWithFileSchema(
-        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
+        @Parameter(name = "FileSchemaTestClass", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     );
 
 
@@ -236,8 +236,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
-        @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
+        @NotNull @Parameter(name = "query", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query") String query,
+        @Parameter(name = "User", required = true) @Valid @RequestBody User user
     );
 
 
@@ -312,10 +312,10 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number") BigDecimal number,
+        @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double") Double _double,
+        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte") byte[] _byte,
         @Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
         @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
@@ -399,9 +399,9 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
     ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group") Integer requiredStringGroup,
+        @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group") Boolean requiredBooleanGroup,
+        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group") Long requiredInt64Group,
         @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
         @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
@@ -411,7 +411,6 @@ public interface FakeApi {
     String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
-     * 
      *
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
@@ -419,7 +418,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testInlineAdditionalProperties",
         summary = "test inline additionalProperties",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -438,7 +436,6 @@ public interface FakeApi {
     String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
-     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -447,7 +444,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testJsonFormData",
         summary = "test json serialization of form data",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -459,15 +455,14 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param") String param,
+        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2") String param2
     );
 
 
     String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
-     * 
      *
      * @param childWithNullable request body (required)
      * @return successful operation (status code 200)
@@ -475,7 +470,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testNullable",
         summary = "test nullable parent property",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -515,10 +509,10 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @Parameter(name = "pipe", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe") List<String> pipe,
+        @NotNull @Parameter(name = "http", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http") List<String> http,
+        @NotNull @Parameter(name = "url", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url") List<String> url,
+        @NotNull @Parameter(name = "context", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context") List<String> context
     );
 
 

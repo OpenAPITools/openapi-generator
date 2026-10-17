@@ -275,7 +275,6 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
-     * 
      *
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
@@ -288,7 +287,6 @@ public interface FakeApiDelegate {
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
-     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -303,7 +301,6 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/nullable : test nullable parent property
-     * 
      *
      * @param childWithNullable request body (required)
      * @return successful operation (status code 200)
@@ -356,7 +353,6 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
