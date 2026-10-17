@@ -1635,11 +1635,11 @@ public class OpenAPINormalizer {
         s1 = ModelUtils.getReferencedSchema(openAPI, s1);
 
         // find the string schema (enum)
-        if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
-            if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
-                result = (StringSchema) s0;
-            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
-                result = (StringSchema) s1;
+        if (isPlainStringSchema(s0) && isPlainStringSchema(s1)) {
+            if (s0.getEnum() != null) { // s0 is enum, s1 is string
+                result = s0;
+            } else if (s1.getEnum() != null) { // s1 is enum, s0 is string
+                result = s1;
             } else { // both are string
                 result = schema;
             }
@@ -1658,6 +1658,21 @@ public class OpenAPINormalizer {
         }
 
         return result;
+    }
+
+    /**
+     * Check if the schema is a plain string schema: StringSchema in 3.0 spec,
+     * or a JsonSchema with `type: string` only in 3.1 spec.
+     *
+     * @param schema Schema
+     * @return true if the schema is a plain string schema
+     */
+    private boolean isPlainStringSchema(Schema schema) {
+        if (schema instanceof JsonSchema) {
+            return schema.getTypes() != null && schema.getTypes().size() == 1
+                    && schema.getTypes().contains("string");
+        }
+        return schema instanceof StringSchema;
     }
 
 

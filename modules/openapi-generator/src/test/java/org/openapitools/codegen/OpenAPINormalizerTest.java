@@ -241,6 +241,30 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyAnyOfStringAndEnumString31Spec() {
+        // to test the rule SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyAnyOfStringAndEnumString_test.yaml");
+
+        assertEquals(openAPI.getComponents().getSchemas().get("PetStatus").getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema petStatus = openAPI.getComponents().getSchemas().get("PetStatus");
+        assertNull(petStatus.getAnyOf());
+        assertEquals(petStatus.getEnum(), List.of("available", "sold"));
+
+        Schema kind = (Schema) openAPI.getComponents().getSchemas().get("Pet").getProperties().get("kind");
+        assertNull(kind.getAnyOf());
+        assertEquals(kind.getEnum(), List.of("cat", "dog"));
+
+        // anyOf with two non-enum string schemas is left as is
+        assertEquals(openAPI.getComponents().getSchemas().get("PetTag").getAnyOf().size(), 2);
+    }
+
+    @Test
     public void testSimplifyOneOfAnyOfEnum() throws Exception {
         // Load OpenAPI spec from external YAML file
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
