@@ -874,7 +874,7 @@ public class TypeScriptFetchClientCodegenTest {
                 "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
         Path nonDiscriminated = Paths.get(nonDiscriminatedOutput + "/models/TestResponse.ts");
         TestUtils.assertFileContains(nonDiscriminated,
-                "import {\n    instanceOfTestA,",
+                "import { instanceOfTestA } from './TestA'",
                 "if (instanceOfTestA(json))");
     }
 

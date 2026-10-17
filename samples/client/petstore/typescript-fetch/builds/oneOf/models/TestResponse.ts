@@ -15,18 +15,18 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { TestA } from './TestA';
 import {
-    instanceOfTestA,
     TestAFromJSON,
     TestAFromJSONTyped,
     TestAToJSON,
 } from './TestA';
 import type { TestB } from './TestB';
 import {
-    instanceOfTestB,
     TestBFromJSON,
     TestBFromJSONTyped,
     TestBToJSON,
 } from './TestB';
+import { instanceOfTestA } from './TestA';
+import { instanceOfTestB } from './TestB';
 
 /**
  * @type TestResponse

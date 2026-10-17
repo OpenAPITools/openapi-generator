@@ -15,14 +15,12 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { DashedOptionOne } from './DashedOptionOne';
 import {
-    instanceOfDashedOptionOne,
     DashedOptionOneFromJSON,
     DashedOptionOneFromJSONTyped,
     DashedOptionOneToJSON,
 } from './DashedOptionOne';
 import type { DashedOptionTwo } from './DashedOptionTwo';
 import {
-    instanceOfDashedOptionTwo,
     DashedOptionTwoFromJSON,
     DashedOptionTwoFromJSONTyped,
     DashedOptionTwoToJSON,
