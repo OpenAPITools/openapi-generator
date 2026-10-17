@@ -1636,11 +1636,11 @@ public class OpenAPINormalizer {
 
         // find the string schema (enum)
         if (isPlainStringSchema(s0) && isPlainStringSchema(s1)) {
-            if (s0.getEnum() != null) { // s0 is enum, s1 is string
+            if (s0.getEnum() != null && s1.getEnum() == null) { // s0 is enum, s1 is string
                 result = s0;
-            } else if (s1.getEnum() != null) { // s1 is enum, s0 is string
+            } else if (s1.getEnum() != null && s0.getEnum() == null) { // s1 is enum, s0 is string
                 result = s1;
-            } else { // both are string
+            } else { // both are string, or both are enum
                 result = schema;
             }
         } else {

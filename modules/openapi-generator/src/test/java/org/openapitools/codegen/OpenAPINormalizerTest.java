@@ -265,6 +265,25 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyAnyOfStringAndEnumStringKeepsTwoEnums31Spec() {
+        // anyOf with two enum string schemas must not collapse to the first enum
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyAnyOfStringAndEnumString_test.yaml");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "false");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema petSize = openAPI.getComponents().getSchemas().get("PetSize");
+        assertEquals(petSize.getAnyOf().size(), 2);
+        assertNull(petSize.getEnum());
+
+        // string and enum string is still simplified
+        assertNull(openAPI.getComponents().getSchemas().get("PetStatus").getAnyOf());
+    }
+
+    @Test
     public void testSimplifyOneOfAnyOfEnum() throws Exception {
         // Load OpenAPI spec from external YAML file
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");

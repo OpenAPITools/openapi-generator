@@ -57,3 +57,13 @@ components:
         - type: string
         - type: string
           maxLength: 10
+    PetSize:
+      description: to test anyOf (enum string, enum string) which must keep all values
+      anyOf:
+        - type: string
+          enum:
+            - small
+            - medium
+        - type: string
+          enum:
+            - large
