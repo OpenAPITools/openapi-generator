@@ -70,3 +70,5 @@ jobs:
             cargo clippy
             cargo doc
           done
+          comtrol + space
+          
