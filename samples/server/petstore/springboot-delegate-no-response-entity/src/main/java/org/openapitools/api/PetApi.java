@@ -72,7 +72,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Pet addPet(
+    default @Valid Pet addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().addPet(pet);
@@ -144,7 +144,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default List<Pet> findPetsByStatus(
+    default @Valid List<@Valid Pet> findPetsByStatus(
         @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
@@ -185,7 +185,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default List<Pet> findPetsByTags(
+    default @Valid List<@Valid Pet> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
@@ -225,7 +225,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Pet getPetById(
+    default @Valid Pet getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().getPetById(petId);
@@ -271,7 +271,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Pet updatePet(
+    default @Valid Pet updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().updatePet(pet);
@@ -346,7 +346,7 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default ModelApiResponse uploadFile(
+    default @Valid ModelApiResponse uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file

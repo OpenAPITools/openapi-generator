@@ -52,7 +52,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default Mono<Map<String, Integer>> getInventory() {
+    default @Valid Mono<Map<String, Integer>> getInventory() {
         Mono<Void> result = Mono.empty();
 
 
@@ -70,7 +70,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default Mono<Order> getOrderById(Long orderId) {
+    default @Valid Mono<Order> getOrderById(Long orderId) {
         Mono<Void> result = Mono.empty();
 
 
@@ -87,7 +87,7 @@ public interface StoreApiDelegate {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<Order> placeOrder(Mono<Order> order) {
+    default @Valid Mono<Order> placeOrder(Mono<Order> order) {
         Mono<Void> result = Mono.empty();
 
 

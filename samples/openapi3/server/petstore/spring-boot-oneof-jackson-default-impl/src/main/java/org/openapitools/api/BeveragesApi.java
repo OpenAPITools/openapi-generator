@@ -64,7 +64,7 @@ public interface BeveragesApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Beverage> createBeverage(
+    default @Valid ResponseEntity<Beverage> createBeverage(
         @Parameter(name = "Beverage", description = "", required = true) @Valid @RequestBody Beverage beverage
     ) {
         getRequest().ifPresent(request -> {

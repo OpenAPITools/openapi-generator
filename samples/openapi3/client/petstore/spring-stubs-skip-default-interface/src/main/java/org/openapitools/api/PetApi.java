@@ -68,7 +68,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    ResponseEntity<Pet> addPet(
+    @Valid ResponseEntity<Pet> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) throws Exception;
 
@@ -134,7 +134,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<List<Pet>> findPetsByStatus(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) throws Exception;
 
@@ -172,7 +172,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<List<Pet>> findPetsByTags(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
     ) throws Exception;
 
@@ -209,7 +209,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<Pet> getPetById(
+    @Valid ResponseEntity<Pet> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) throws Exception;
 
@@ -252,7 +252,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    ResponseEntity<Pet> updatePet(
+    @Valid ResponseEntity<Pet> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) throws Exception;
 
@@ -321,7 +321,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    ResponseEntity<ModelApiResponse> uploadFile(
+    @Valid ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file

@@ -187,7 +187,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
-    CompletableFuture<ResponseEntity<User>> getUserByName(
+    @Valid CompletableFuture<ResponseEntity<User>> getUserByName(
         @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
@@ -220,7 +220,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
-    CompletableFuture<ResponseEntity<String>> loginUser(
+    @Valid CompletableFuture<ResponseEntity<String>> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     );
