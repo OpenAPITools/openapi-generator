@@ -4070,6 +4070,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.isContainer = true;
         property.containerType = "map";
         property.containerTypeMapped = typeMapping.get(property.containerType);
+        property.setIsMap(true);
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
         property.minItems = p.getMinProperties();
         property.maxItems = p.getMaxProperties();
