@@ -1,0 +1,28 @@
+      {{#hasFormParams}}
+      {{#isMultipart}}
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        {{#formParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}{{{paramName}}}{{/isFile}},
+        {{/formParams}}
+      });
+      {{/isMultipart}}
+      {{^isMultipart}}
+      _bodyData = <String, dynamic>{
+        {{#formParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{{paramName}}},
+        {{/formParams}}
+      };
+      {{/isMultipart}}
+      {{/hasFormParams}}
+      {{#bodyParam}}
+      {{#isFile}}
+      _bodyData = {{{paramName}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize();
+      {{/isFile}}
+      {{^isFile}}
+      _bodyData = jsonEncode(
+        {{{paramName}}},
+        // Generated enums have no toJson(); encode them by their wire value.
+        toEncodable: (dynamic value) => value is Enum ? value.toString() : value.toJson(),
+      );
+      {{/isFile}}
+      {{/bodyParam}}
