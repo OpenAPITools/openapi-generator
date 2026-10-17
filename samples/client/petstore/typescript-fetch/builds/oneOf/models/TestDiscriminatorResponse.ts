@@ -15,14 +15,12 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { OptionOne } from './OptionOne';
 import {
-    instanceOfOptionOne,
     OptionOneFromJSON,
     OptionOneFromJSONTyped,
     OptionOneToJSON,
 } from './OptionOne';
 import type { OptionTwo } from './OptionTwo';
 import {
-    instanceOfOptionTwo,
     OptionTwoFromJSON,
     OptionTwoFromJSONTyped,
     OptionTwoToJSON,

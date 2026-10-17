@@ -594,6 +594,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(m -> m.classname)
                 .collect(Collectors.toSet());
 
+        for (ExtendedCodegenModel model : allModels) {
+            model.oneOfModelsWithInstanceOf = model.discriminator == null
+                    ? model.oneOfModels.stream()
+                            .filter(member -> !oneOfModelNames.contains(member))
+                            .collect(Collectors.toCollection(TreeSet::new))
+                    : new TreeSet<>();
+        }
+
         // Mark models whose parent is a oneOf model — these cannot use
         // "interface X extends Parent" because TypeScript does not allow
         // an interface to extend a union type.  They use
@@ -2107,6 +2115,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // 'TypedJSON' conversion methods in the composed model classes.
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
+        @Getter @Setter
+        public Set<String> oneOfModelsWithInstanceOf = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter

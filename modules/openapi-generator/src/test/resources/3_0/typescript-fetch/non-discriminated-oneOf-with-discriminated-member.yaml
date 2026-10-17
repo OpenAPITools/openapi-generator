@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Nested discriminated oneOf member
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Parent:
+      oneOf:
+        - $ref: '#/components/schemas/Child'
+        - $ref: '#/components/schemas/Ordinary'
+    Child:
+      oneOf:
+        - $ref: '#/components/schemas/ChildA'
+        - $ref: '#/components/schemas/ChildB'
+      discriminator:
+        propertyName: kind
+        mapping:
+          A: '#/components/schemas/ChildA'
+          B: '#/components/schemas/ChildB'
+    ChildA:
+      type: object
+      properties:
+        kind:
+          type: string
+    ChildB:
+      type: object
+      properties:
+        kind:
+          type: string
+    Ordinary:
+      type: object
+      properties:
+        value:
+          type: string
