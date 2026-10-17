@@ -37,6 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="anotherfake-api")
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/another-fake/dummy")
 public interface AnotherFakeApi  {
