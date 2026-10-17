@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: null-type property
+  version: "1"
+paths:
+  /m:
+    get:
+      operationId: getM
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/M"
+components:
+  schemas:
+    M:
+      type: object
+      properties:
+        name:
+          type: string
+        plugin:
+          type: "null"
+          description: Not settable over HTTP
