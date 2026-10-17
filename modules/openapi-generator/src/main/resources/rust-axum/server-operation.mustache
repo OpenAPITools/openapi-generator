@@ -288,6 +288,18 @@ where
                                             Ok(rsp) => match rsp {
 {{#responses}}
                                                 apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+{{#range}}
+                                                    {
+                                                        status,
+{{#dataType}}
+                                                        body,
+{{/dataType}}
+{{#headers}}
+                                                        {{{name}}},
+{{/headers}}
+                                                    }
+{{/range}}
+{{^range}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -314,13 +326,14 @@ where
 {{/-last}}
 {{/headers}}
 {{/dataType}}
+{{/range}}
                                                 => {
 {{#vendorExtensions}}
 {{#x-produces-sse}}
                 use axum::response::IntoResponse;
 
                 let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
-                parts.status = {{{code}}}.try_into().unwrap_or_default();
+                parts.status = {{#range}}status{{/range}}{{^range}}{{{code}}}{{/range}}.try_into().unwrap_or_default();
 
                 {{#headers}}
                 {{^required}}if let Some({{{name}}}) = {{{name}}}{{/required}} {
@@ -363,7 +376,7 @@ where
                     }
                 {{/headers}}
 {{#range}}
-                                                  response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
+                                                  let mut response = response.status(status);
 {{/range}}
 {{^range}}
                                                   let mut response = response.status({{{code}}});

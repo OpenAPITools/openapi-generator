@@ -153,4 +153,32 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "String::from(\"car\")");
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/types.rs"), "macro_rules! impl_deserialize_tagged");
     }
+
+    @Test
+    public void testRangeResponseCodes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-range-responses.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Range responses carry the concrete status code chosen by the implementation
+        Path apiPath = Path.of(target.toString(), "/src/apis/default.rs");
+        TestUtils.assertFileExists(apiPath);
+        TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
+        TestUtils.assertFileContains(apiPath, "Status4XX_ClientError { status: u16, body: models::Error, }");
+        TestUtils.assertFileContains(apiPath, "Status5XX_ServerError { status: u16, retry_after: Option<");
+        TestUtils.assertFileContains(apiPath, "Status4XX_ClientError { status: u16, }");
+        TestUtils.assertFileContains(apiPath, "Status5XX_ServerError { status: u16, body: models::Error, x_request_id:");
+
+        Path serverPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverPath);
+        TestUtils.assertFileContains(serverPath, "GetPetResponse::Status4XX_ClientError { status, body, } =>");
+        TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status5XX_ServerError { status, body, x_request_id, } =>");
+        TestUtils.assertFileContains(serverPath, "let mut response = response.status(status);");
+        TestUtils.assertFileNotContains(serverPath, "body.code.parse()");
+    }
 }
