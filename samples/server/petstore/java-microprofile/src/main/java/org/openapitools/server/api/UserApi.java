@@ -38,6 +38,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {

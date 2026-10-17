@@ -37,6 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/requiredAndNullable")
 public interface RequiredAndNullableApi  {

@@ -37,6 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="default-api")
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/foo")
 public interface DefaultApi  {

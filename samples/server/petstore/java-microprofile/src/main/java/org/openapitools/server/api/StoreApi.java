@@ -37,6 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {

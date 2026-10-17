@@ -39,6 +39,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
+
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/pet")
 public interface PetApi  {
