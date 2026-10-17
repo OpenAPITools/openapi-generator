@@ -41,24 +41,24 @@ import org.openapitools.client.ApiClient;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() { 
   }
 
-  public ArrayTest arrayOfString(@javax.annotation.Nullable List<String> arrayOfString) {
+  public ArrayTest arrayOfString(@jakarta.annotation.Nullable List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -75,7 +75,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<String> getArrayOfString() {
@@ -85,12 +85,12 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayOfString(@javax.annotation.Nullable List<String> arrayOfString) {
+  public void setArrayOfString(@jakarta.annotation.Nullable List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
 
-  public ArrayTest arrayArrayOfInteger(@javax.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(@jakarta.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -107,7 +107,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -117,12 +117,12 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfInteger(@javax.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(@jakarta.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
-  public ArrayTest arrayArrayOfModel(@javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(@jakarta.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -139,7 +139,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
@@ -149,7 +149,7 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfModel(@javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(@jakarta.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

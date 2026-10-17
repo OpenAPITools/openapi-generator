@@ -3,8 +3,8 @@
 # Shape
 
 ## oneOf schemas
-* [Quadrilateral](Quadrilateral.md)
 * [Triangle](Triangle.md)
+* [Quadrilateral](Quadrilateral.md)
 
 ## Example
 ```java

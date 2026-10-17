@@ -1965,6 +1965,21 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    fruitOrFruits:
+      properties:
+        color:
+          type: string
+      x-has-list-alternative: true
+      oneOf:
+        - $ref: "#/components/schemas/apple"
+        - type: array
+          items:
+            $ref: "#/components/schemas/apple"
+        - $ref: "#/components/schemas/banana"
+        - type: array
+          items:
+            $ref: "#/components/schemas/banana"
+      additionalProperties: false
     fruit:
       properties:
         color:
@@ -2042,6 +2057,21 @@ components:
           type: string
       required:
         - className
+    gmFruitOrFruits:
+      properties:
+        color:
+          type: string
+      x-has-list-alternative: true
+      anyOf:
+        - $ref: "#/components/schemas/apple"
+        - type: array
+          items:
+            $ref: "#/components/schemas/apple"
+        - $ref: "#/components/schemas/banana"
+        - type: array
+          items:
+            $ref: "#/components/schemas/banana"
+      additionalProperties: false
     gmFruit:
        properties:
           color:

@@ -3,9 +3,9 @@
 # Mammal
 
 ## oneOf schemas
-* [Pig](Pig.md)
 * [Whale](Whale.md)
 * [Zebra](Zebra.md)
+* [Pig](Pig.md)
 
 ## Example
 ```java

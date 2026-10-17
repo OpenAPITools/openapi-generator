@@ -43,8 +43,10 @@ docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
+docs/FruitOrFruits.md
 docs/FruitReq.md
 docs/GmFruit.md
+docs/GmFruitOrFruits.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
@@ -152,8 +154,10 @@ src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
+src/main/java/org/openapitools/client/model/FruitOrFruits.java
 src/main/java/org/openapitools/client/model/FruitReq.java
 src/main/java/org/openapitools/client/model/GmFruit.java
+src/main/java/org/openapitools/client/model/GmFruitOrFruits.java
 src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java

@@ -49,28 +49,28 @@ import org.openapitools.client.ApiClient;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private NullableShape nullableShape;
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
 
-  public Drawing mainShape(@javax.annotation.Nullable Shape mainShape) {
+  public Drawing mainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
     return this;
   }
@@ -79,7 +79,7 @@ public class Drawing {
    * Get mainShape
    * @return mainShape
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Shape getMainShape() {
@@ -89,12 +89,12 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMainShape(@javax.annotation.Nullable Shape mainShape) {
+  public void setMainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
-  public Drawing shapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
+  public Drawing shapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -103,7 +103,7 @@ public class Drawing {
    * Get shapeOrNull
    * @return shapeOrNull
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public ShapeOrNull getShapeOrNull() {
@@ -113,12 +113,12 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
+  public void setShapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
 
 
-  public Drawing nullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
+  public Drawing nullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = nullableShape;
     return this;
   }
@@ -127,7 +127,7 @@ public class Drawing {
    * Get nullableShape
    * @return nullableShape
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public NullableShape getNullableShape() {
@@ -137,12 +137,12 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
+  public void setNullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = nullableShape;
   }
 
 
-  public Drawing shapes(@javax.annotation.Nullable List<Shape> shapes) {
+  public Drawing shapes(@jakarta.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -159,7 +159,7 @@ public class Drawing {
    * Get shapes
    * @return shapes
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Shape> getShapes() {
@@ -169,7 +169,7 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapes(@javax.annotation.Nullable List<Shape> shapes) {
+  public void setShapes(@jakarta.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
   }
 

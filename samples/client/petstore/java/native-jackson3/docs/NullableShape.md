@@ -5,8 +5,8 @@
 The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1.
 
 ## oneOf schemas
-* [Quadrilateral](Quadrilateral.md)
 * [Triangle](Triangle.md)
+* [Quadrilateral](Quadrilateral.md)
 
 NOTE: this class is nullable.
 

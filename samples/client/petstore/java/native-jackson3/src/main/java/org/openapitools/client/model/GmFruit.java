@@ -53,8 +53,8 @@ import tools.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-@JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@JsonDeserialize(using = GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(GmFruit.class.getName());
@@ -90,7 +90,8 @@ public class GmFruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize Apple
             try {
-                deserialized = ctxt.readTreeAsValue(tree, Apple.class);
+            final tools.jackson.core.type.TypeReference<Apple> candidateRef = new tools.jackson.core.type.TypeReference<Apple>() {};
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -101,7 +102,8 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
-                deserialized = ctxt.readTreeAsValue(tree, Banana.class);
+            final tools.jackson.core.type.TypeReference<Banana> candidateRef = new tools.jackson.core.type.TypeReference<Banana>() {};
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -130,7 +132,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 

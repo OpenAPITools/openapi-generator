@@ -58,60 +58,60 @@ import org.openapitools.client.ApiClient;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Integer integerProp;
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private BigDecimal numberProp;
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean booleanProp;
 
   public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String stringProp;
 
   public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private LocalDate dateProp;
 
   public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private OffsetDateTime datetimeProp;
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<Object> arrayNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<Object> arrayAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Map<String, Object> objectNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() { 
   }
 
-  public NullableClass integerProp(@javax.annotation.Nullable Integer integerProp) {
+  public NullableClass integerProp(@jakarta.annotation.Nullable Integer integerProp) {
     this.integerProp = integerProp;
     return this;
   }
@@ -120,7 +120,7 @@ public class NullableClass {
    * Get integerProp
    * @return integerProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getIntegerProp() {
@@ -130,12 +130,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIntegerProp(@javax.annotation.Nullable Integer integerProp) {
+  public void setIntegerProp(@jakarta.annotation.Nullable Integer integerProp) {
     this.integerProp = integerProp;
   }
 
 
-  public NullableClass numberProp(@javax.annotation.Nullable BigDecimal numberProp) {
+  public NullableClass numberProp(@jakarta.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = numberProp;
     return this;
   }
@@ -144,7 +144,7 @@ public class NullableClass {
    * Get numberProp
    * @return numberProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getNumberProp() {
@@ -154,12 +154,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNumberProp(@javax.annotation.Nullable BigDecimal numberProp) {
+  public void setNumberProp(@jakarta.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = numberProp;
   }
 
 
-  public NullableClass booleanProp(@javax.annotation.Nullable Boolean booleanProp) {
+  public NullableClass booleanProp(@jakarta.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = booleanProp;
     return this;
   }
@@ -168,7 +168,7 @@ public class NullableClass {
    * Get booleanProp
    * @return booleanProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getBooleanProp() {
@@ -178,12 +178,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBooleanProp(@javax.annotation.Nullable Boolean booleanProp) {
+  public void setBooleanProp(@jakarta.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = booleanProp;
   }
 
 
-  public NullableClass stringProp(@javax.annotation.Nullable String stringProp) {
+  public NullableClass stringProp(@jakarta.annotation.Nullable String stringProp) {
     this.stringProp = stringProp;
     return this;
   }
@@ -192,7 +192,7 @@ public class NullableClass {
    * Get stringProp
    * @return stringProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getStringProp() {
@@ -202,12 +202,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStringProp(@javax.annotation.Nullable String stringProp) {
+  public void setStringProp(@jakarta.annotation.Nullable String stringProp) {
     this.stringProp = stringProp;
   }
 
 
-  public NullableClass dateProp(@javax.annotation.Nullable LocalDate dateProp) {
+  public NullableClass dateProp(@jakarta.annotation.Nullable LocalDate dateProp) {
     this.dateProp = dateProp;
     return this;
   }
@@ -216,7 +216,7 @@ public class NullableClass {
    * Get dateProp
    * @return dateProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public LocalDate getDateProp() {
@@ -226,12 +226,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDateProp(@javax.annotation.Nullable LocalDate dateProp) {
+  public void setDateProp(@jakarta.annotation.Nullable LocalDate dateProp) {
     this.dateProp = dateProp;
   }
 
 
-  public NullableClass datetimeProp(@javax.annotation.Nullable OffsetDateTime datetimeProp) {
+  public NullableClass datetimeProp(@jakarta.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
     return this;
   }
@@ -240,7 +240,7 @@ public class NullableClass {
    * Get datetimeProp
    * @return datetimeProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OffsetDateTime getDatetimeProp() {
@@ -250,12 +250,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDatetimeProp(@javax.annotation.Nullable OffsetDateTime datetimeProp) {
+  public void setDatetimeProp(@jakarta.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
   }
 
 
-  public NullableClass arrayNullableProp(@javax.annotation.Nullable List<Object> arrayNullableProp) {
+  public NullableClass arrayNullableProp(@jakarta.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -272,7 +272,7 @@ public class NullableClass {
    * Get arrayNullableProp
    * @return arrayNullableProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayNullableProp() {
@@ -282,12 +282,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayNullableProp(@javax.annotation.Nullable List<Object> arrayNullableProp) {
+  public void setArrayNullableProp(@jakarta.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
 
-  public NullableClass arrayAndItemsNullableProp(@javax.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
+  public NullableClass arrayAndItemsNullableProp(@jakarta.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -304,7 +304,7 @@ public class NullableClass {
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayAndItemsNullableProp() {
@@ -314,12 +314,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayAndItemsNullableProp(@javax.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
+  public void setArrayAndItemsNullableProp(@jakarta.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
 
-  public NullableClass arrayItemsNullable(@javax.annotation.Nullable List<Object> arrayItemsNullable) {
+  public NullableClass arrayItemsNullable(@jakarta.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -336,7 +336,7 @@ public class NullableClass {
    * Get arrayItemsNullable
    * @return arrayItemsNullable
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayItemsNullable() {
@@ -346,12 +346,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayItemsNullable(@javax.annotation.Nullable List<Object> arrayItemsNullable) {
+  public void setArrayItemsNullable(@jakarta.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
 
-  public NullableClass objectNullableProp(@javax.annotation.Nullable Map<String, Object> objectNullableProp) {
+  public NullableClass objectNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
     return this;
   }
@@ -368,7 +368,7 @@ public class NullableClass {
    * Get objectNullableProp
    * @return objectNullableProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectNullableProp() {
@@ -378,12 +378,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectNullableProp(@javax.annotation.Nullable Map<String, Object> objectNullableProp) {
+  public void setObjectNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
   }
 
 
-  public NullableClass objectAndItemsNullableProp(@javax.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
+  public NullableClass objectAndItemsNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
     return this;
   }
@@ -400,7 +400,7 @@ public class NullableClass {
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -410,12 +410,12 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectAndItemsNullableProp(@javax.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
+  public void setObjectAndItemsNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
 
-  public NullableClass objectItemsNullable(@javax.annotation.Nullable Map<String, Object> objectItemsNullable) {
+  public NullableClass objectItemsNullable(@jakarta.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -432,7 +432,7 @@ public class NullableClass {
    * Get objectItemsNullable
    * @return objectItemsNullable
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectItemsNullable() {
@@ -442,7 +442,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectItemsNullable(@javax.annotation.Nullable Map<String, Object> objectItemsNullable) {
+  public void setObjectItemsNullable(@jakarta.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }
 
