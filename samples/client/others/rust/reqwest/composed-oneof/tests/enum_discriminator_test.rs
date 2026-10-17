@@ -1,49 +1,49 @@
 use composed_oneof_reqwest::models::{
-    reset_password_render, verify_email_render, Circle, LinkNote, Note, RenderRequest,
-    ResetPasswordRender, Shape, ShapeKind, Square, TextNote, VerifyEmailRender,
+    dog, cat, Circle, LinkNote, Note, Pet,
+    Dog, Shape, ShapeKind, Square, TextNote, Cat,
 };
 use serde_json::json;
 
 #[test]
 fn inline_enum_tag_is_written_once() {
-    let request = RenderRequest::VerifyEmail(Box::new(VerifyEmailRender::new(
-        verify_email_render::TemplateId::VerifyEmail,
+    let request = Pet::Cat(Box::new(Cat::new(
+        cat::PetType::Cat,
         "Ana".to_string(),
     )));
     let text = serde_json::to_string(&request).unwrap();
-    assert_eq!(text.matches("\"templateId\"").count(), 1, "{text}");
+    assert_eq!(text.matches("\"petType\"").count(), 1, "{text}");
     assert_eq!(
         serde_json::from_str::<serde_json::Value>(&text).unwrap(),
-        json!({"templateId": "verify-email", "name": "Ana"})
+        json!({"petType": "cat", "name": "Ana"})
     );
     assert_eq!(
-        serde_json::from_str::<RenderRequest>(&text).unwrap(),
+        serde_json::from_str::<Pet>(&text).unwrap(),
         request
     );
 }
 
 #[test]
 fn inline_enum_tag_selects_the_variant() {
-    let request: RenderRequest = serde_json::from_value(
-        json!({"templateId": "reset-password", "url": "https://example.com"}),
+    let request: Pet = serde_json::from_value(
+        json!({"petType": "dog", "breed": "beagle"}),
     )
     .unwrap();
     assert_eq!(
         request,
-        RenderRequest::ResetPassword(Box::new(ResetPasswordRender::new(
-            reset_password_render::TemplateId::ResetPassword,
-            "https://example.com".to_string(),
+        Pet::Dog(Box::new(Dog::new(
+            dog::PetType::Dog,
+            "beagle".to_string(),
         )))
     );
 
     // the variant struct keeps serializing on its own
-    let standalone = VerifyEmailRender::new(
-        verify_email_render::TemplateId::VerifyEmail,
+    let standalone = Cat::new(
+        cat::PetType::Cat,
         "Bo".to_string(),
     );
     assert_eq!(
         serde_json::to_value(&standalone).unwrap(),
-        json!({"templateId": "verify-email", "name": "Bo"})
+        json!({"petType": "cat", "name": "Bo"})
     );
 }
 
@@ -86,14 +86,14 @@ fn union_variant_overrides_a_mismatched_tag() {
 #[test]
 fn unknown_or_missing_tag_is_rejected() {
     let unknown =
-        serde_json::from_value::<RenderRequest>(json!({"templateId": "other"})).unwrap_err();
+        serde_json::from_value::<Pet>(json!({"petType": "other"})).unwrap_err();
     assert!(
         unknown.to_string().contains("unknown variant `other`"),
         "{unknown}"
     );
-    let missing = serde_json::from_value::<RenderRequest>(json!({"name": "Ana"})).unwrap_err();
+    let missing = serde_json::from_value::<Pet>(json!({"name": "Ana"})).unwrap_err();
     assert!(
-        missing.to_string().contains("missing field `templateId`"),
+        missing.to_string().contains("missing field `petType`"),
         "{missing}"
     );
 }

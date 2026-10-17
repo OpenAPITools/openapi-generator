@@ -32,10 +32,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Cat](docs/Cat.md)
  - [Circle](docs/Circle.md)
  - [CreateStateRequest](docs/CreateStateRequest.md)
  - [CustomOneOfArraySchemaInner](docs/CustomOneOfArraySchemaInner.md)
  - [CustomOneOfSchema](docs/CustomOneOfSchema.md)
+ - [Dog](docs/Dog.md)
  - [GetState200Response](docs/GetState200Response.md)
  - [LinkNote](docs/LinkNote.md)
  - [Note](docs/Note.md)
@@ -43,13 +45,11 @@ Class | Method | HTTP request | Description
  - [ObjB](docs/ObjB.md)
  - [ObjC](docs/ObjC.md)
  - [ObjD](docs/ObjD.md)
- - [RenderRequest](docs/RenderRequest.md)
- - [ResetPasswordRender](docs/ResetPasswordRender.md)
+ - [Pet](docs/Pet.md)
  - [Shape](docs/Shape.md)
  - [ShapeKind](docs/ShapeKind.md)
  - [Square](docs/Square.md)
  - [TextNote](docs/TextNote.md)
- - [VerifyEmailRender](docs/VerifyEmailRender.md)
 
 
 To get access to the crate's generated documentation, use:

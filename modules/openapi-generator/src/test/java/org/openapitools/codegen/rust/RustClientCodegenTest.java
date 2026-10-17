@@ -355,18 +355,18 @@ public class RustClientCodegenTest {
 
             // an enum tag would be written twice by serde(tag): the variants serialize themselves and
             // deserialize from the content the tag stays in
-            Path renderPath = Path.of(target.toString(), "/src/models/render_request.rs");
+            Path renderPath = Path.of(target.toString(), "/src/models/pet.rs");
             TestUtils.assertFileNotContains(renderPath, "#[serde(tag", "#[serde(rename=", "Serialize, Deserialize)]");
             TestUtils.assertFileContains(renderPath,
-                    "#[derive(Clone, Debug, PartialEq)]\npub enum RenderRequest {",
-                    "VerifyEmail(Box<models::VerifyEmailRender>),",
-                    "Self::VerifyEmail(x) => (\"verify-email\", serde_json::to_value(x)),",
-                    "map.insert(\"templateId\".to_owned(), serde_json::Value::String(tag.to_owned()));",
-                    "match value.get(\"templateId\").and_then(serde_json::Value::as_str) {",
-                    "Some(\"verify-email\") => serde_json::from_value(value).map(Self::VerifyEmail)",
-                    "Some(\"reset-password\") => serde_json::from_value(value).map(Self::ResetPassword)",
-                    "unknown_variant(tag, &[\"verify-email\", \"reset-password\"])",
-                    "missing_field(\"templateId\")");
+                    "#[derive(Clone, Debug, PartialEq)]\npub enum Pet {",
+                    "Cat(Box<models::Cat>),",
+                    "Self::Cat(x) => (\"cat\", serde_json::to_value(x)),",
+                    "map.insert(\"petType\".to_owned(), serde_json::Value::String(tag.to_owned()));",
+                    "match value.get(\"petType\").and_then(serde_json::Value::as_str) {",
+                    "Some(\"cat\") => serde_json::from_value(value).map(Self::Cat)",
+                    "Some(\"dog\") => serde_json::from_value(value).map(Self::Dog)",
+                    "unknown_variant(tag, &[\"cat\", \"dog\"])",
+                    "missing_field(\"petType\")");
             // an optional enum tag left unset is still written by the union
             TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/note.rs"),
                     "Self::Text(x) => (\"text\", serde_json::to_value(x)),");
@@ -377,9 +377,9 @@ public class RustClientCodegenTest {
             TestUtils.assertFileContains(shapePath, "Some(\"circle\") => serde_json::from_value(value).map(Self::Circle)");
 
             // the variant structs are untouched
-            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/verify_email_render.rs"),
-                    "#[serde(rename = \"templateId\")]\n    pub template_id: TemplateId,",
-                    "pub fn new(template_id: TemplateId, name: String) -> VerifyEmailRender {");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
+                    "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,",
+                    "pub fn new(pet_type: PetType, name: String) -> Cat {");
             TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
                     "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
 

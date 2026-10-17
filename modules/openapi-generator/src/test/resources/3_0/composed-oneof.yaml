@@ -98,36 +98,36 @@ components:
         color:
           type: string
     # each variant pins the tag with an enum, inline or $ref: serialized once, deserialized with the tag kept
-    RenderRequest:
+    Pet:
       oneOf:
-        - $ref: '#/components/schemas/VerifyEmailRender'
-        - $ref: '#/components/schemas/ResetPasswordRender'
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
       discriminator:
-        propertyName: templateId
+        propertyName: petType
         mapping:
-          verify-email: '#/components/schemas/VerifyEmailRender'
-          reset-password: '#/components/schemas/ResetPasswordRender'
-    VerifyEmailRender:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Cat:
       type: object
       required:
-        - templateId
+        - petType
         - name
       properties:
-        templateId:
+        petType:
           type: string
-          enum: [verify-email]
+          enum: [cat]
         name:
           type: string
-    ResetPasswordRender:
+    Dog:
       type: object
       required:
-        - templateId
-        - url
+        - petType
+        - breed
       properties:
-        templateId:
+        petType:
           type: string
-          enum: [reset-password]
-        url:
+          enum: [dog]
+        breed:
           type: string
     ShapeKind:
       type: string

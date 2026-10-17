@@ -3,15 +3,15 @@ info:
   title: oneOf with enum discriminators
   version: 1.0.0
 paths:
-  /render:
+  /pets:
     post:
-      operationId: render
+      operationId: createPet
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RenderRequest'
+              $ref: '#/components/schemas/Pet'
       responses:
         '200':
           description: ok
@@ -22,36 +22,36 @@ paths:
 components:
   schemas:
     # the tag is an inline single-value enum in every variant
-    RenderRequest:
+    Pet:
       oneOf:
-        - $ref: '#/components/schemas/VerifyEmailRender'
-        - $ref: '#/components/schemas/ResetPasswordRender'
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
       discriminator:
-        propertyName: templateId
+        propertyName: petType
         mapping:
-          verify-email: '#/components/schemas/VerifyEmailRender'
-          reset-password: '#/components/schemas/ResetPasswordRender'
-    VerifyEmailRender:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Cat:
       type: object
       required:
-        - templateId
+        - petType
         - name
       properties:
-        templateId:
+        petType:
           type: string
-          enum: [verify-email]
+          enum: [cat]
         name:
           type: string
-    ResetPasswordRender:
+    Dog:
       type: object
       required:
-        - templateId
-        - url
+        - petType
+        - breed
       properties:
-        templateId:
+        petType:
           type: string
-          enum: [reset-password]
-        url:
+          enum: [dog]
+        breed:
           type: string
     # the tag is a $ref to an enum shared by the variants
     ShapeKind:

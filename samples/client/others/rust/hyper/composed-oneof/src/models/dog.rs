@@ -12,31 +12,31 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct VerifyEmailRender {
-    #[serde(rename = "templateId")]
-    pub template_id: TemplateId,
-    #[serde(rename = "name")]
-    pub name: String,
+pub struct Dog {
+    #[serde(rename = "petType")]
+    pub pet_type: PetType,
+    #[serde(rename = "breed")]
+    pub breed: String,
 }
 
-impl VerifyEmailRender {
-    pub fn new(template_id: TemplateId, name: String) -> VerifyEmailRender {
-        VerifyEmailRender {
-            template_id,
-            name,
+impl Dog {
+    pub fn new(pet_type: PetType, breed: String) -> Dog {
+        Dog {
+            pet_type,
+            breed,
         }
     }
 }
 /// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum TemplateId {
-    #[serde(rename = "verify-email")]
-    VerifyEmail,
+pub enum PetType {
+    #[serde(rename = "dog")]
+    Dog,
 }
 
-impl Default for TemplateId {
-    fn default() -> TemplateId {
-        Self::VerifyEmail
+impl Default for PetType {
+    fn default() -> PetType {
+        Self::Dog
     }
 }
 
