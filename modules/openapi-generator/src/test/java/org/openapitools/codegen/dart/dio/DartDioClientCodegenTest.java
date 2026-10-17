@@ -20,6 +20,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.*;
@@ -31,6 +32,79 @@ import java.util.List;
 import java.util.Locale;
 
 public class DartDioClientCodegenTest {
+
+    @DataProvider
+    public Object[][] enumDiscriminatorSpecs() {
+        return new Object[][] {
+                {"enum-discriminator.yaml", "MerchantTypeEnum"},
+                {"enum-discriminator-inline.yaml", "MerchantDetailsDtoMerchantTypeEnum"},
+        };
+    }
+
+    @Test(dataProvider = "enumDiscriminatorSpecs")
+    public void verifyEnumDiscriminatorDefaults(String spec, String enumType) throws IOException {
+        Path output = Files.createTempDirectory("dart-dio-enum-discriminator");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/" + spec)
+                .setOutputDir(output.toString())
+                .addAdditionalProperty(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, false);
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(output.resolve("lib/src/model/merchant_details_dto.dart"),
+                "String? get discriminatorValue", "r'type-a'", "r'type/b'",
+                "Map<String, Type> discriminatorMapping");
+        for (String child : new String[] {"a", "b"}) {
+            String contents = Files.readString(output.resolve(
+                    "lib/src/model/merchant_details_type_" + child + "_dto.dart"), StandardCharsets.UTF_8);
+            Assert.assertTrue(contents.contains("..merchantType = b.discriminatorValue == null ? null : ("
+                    + enumType + ".serializer as PrimitiveSerializer<" + enumType + ">)"
+                    + ".deserialize(Serializers(), b.discriminatorValue!)"));
+            Assert.assertFalse(contents.contains("..merchantType=b.discriminatorValue"));
+        }
+    }
+
+    @DataProvider
+    public Object[][] nullableEnumDiscriminatorOptions() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "nullableEnumDiscriminatorOptions")
+    public void verifyNullableEnumDiscriminatorDefaults(boolean useOptional) throws IOException {
+        Path output = Files.createTempDirectory("dart-dio-nullable-enum-discriminator");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/enum-discriminator-nullable.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("useOptional", useOptional)
+                .addAdditionalProperty("useEnumExtension", true)
+                .addAdditionalProperty("enumUnknownDefaultCase", true);
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Optional schema properties use nullable fields unless useOptional wraps them.
+        TestUtils.assertFileContains(output.resolve("lib/src/model/entity.dart"),
+                useOptional ? "Optional<EntityKind?> get kind" : "EntityKind? get kind",
+                "String? get discriminatorValue",
+                "Map<String, Type> discriminatorMapping");
+        for (String model : new String[] {"document_entity", "image_entity"}) {
+            String contents = Files.readString(output.resolve("lib/src/model/" + model + ".dart"),
+                    StandardCharsets.UTF_8);
+            if (useOptional) {
+                Assert.assertTrue(contents.contains("..kind = Optional.absent()"));
+                Assert.assertFalse(contents.contains("..kind = b.discriminatorValue"));
+                Assert.assertFalse(contents.contains("Optional<EntityKind?>.serializer"));
+            } else {
+                Assert.assertTrue(contents.contains("..kind = b.discriminatorValue == null ? null : ("
+                        + "EntityKind.serializer as PrimitiveSerializer<EntityKind>)"
+                        + ".deserialize(Serializers(), b.discriminatorValue!)"));
+            }
+            Assert.assertFalse(contents.contains("..kind=b.discriminatorValue;"));
+        }
+        TestUtils.assertFileContains(output.resolve("lib/src/model/entity_kind.dart"),
+                "fallback: true", "EntityKind unknownDefaultOpenApi");
+    }
 
     @Test
     public void testInitialConfigValues() throws Exception {
