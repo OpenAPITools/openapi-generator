@@ -1438,6 +1438,67 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // Model fields that lead back to their own model (directly or through other models)
+        // would make the struct infinitely sized, so they are boxed.
+        final Map<String, CodegenModel> models = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap mo : modelsMap.getModels()) {
+                models.put(mo.getModel().classname, mo.getModel());
+            }
+        }
+
+        for (CodegenModel cm : models.values()) {
+            for (CodegenProperty var : cm.vars) {
+                final String target = directModelReference(var);
+                if (target != null && reachesModel(target, cm.classname, models, new HashSet<>())) {
+                    var.vendorExtensions.put("x-is-boxed", true);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * Returns the name of the model a property holds inline (i.e. not inside a container), or null.
+     */
+    private static String directModelReference(CodegenProperty property) {
+        if (property.isContainer || !property.dataType.startsWith("models::")) {
+            return null;
+        }
+        return property.dataType.substring("models::".length());
+    }
+
+    private static boolean reachesModel(String from, String to, Map<String, CodegenModel> models, Set<String> visited) {
+        if (from.equals(to)) {
+            return true;
+        }
+        final CodegenModel cm = models.get(from);
+        if (cm == null || !visited.add(from)) {
+            return false;
+        }
+        // oneOf/anyOf models are enums that hold their variants inline
+        final List<CodegenProperty> fields = new ArrayList<>(cm.vars);
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        if (cs != null && cs.getOneOf() != null) {
+            fields.addAll(cs.getOneOf());
+        }
+        if (cs != null && cs.getAnyOf() != null) {
+            fields.addAll(cs.getAnyOf());
+        }
+        for (CodegenProperty var : fields) {
+            final String target = directModelReference(var);
+            if (target != null && reachesModel(target, to, models, visited)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void postProcessFile(File file, String fileType) {
         super.postProcessFile(file, fileType);
         if (file == null) {
