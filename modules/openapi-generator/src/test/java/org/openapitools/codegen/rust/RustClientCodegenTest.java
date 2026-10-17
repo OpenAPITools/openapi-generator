@@ -342,6 +342,57 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testOneOfEnumDiscriminatorKeepsTagInContent() throws IOException {
+        for (String spec : List.of("3_0/rust/oneof-enum-discriminator.yaml", "3_1/rust/oneof-enum-discriminator.yaml")) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setInputSpec("src/test/resources/" + spec)
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            // an enum tag would be written twice by serde(tag): the variants serialize themselves and
+            // deserialize from the content the tag stays in
+            Path renderPath = Path.of(target.toString(), "/src/models/pet.rs");
+            TestUtils.assertFileNotContains(renderPath, "#[serde(tag", "#[serde(rename=", "Serialize, Deserialize)]");
+            TestUtils.assertFileContains(renderPath,
+                    "#[derive(Clone, Debug, PartialEq)]\npub enum Pet {",
+                    "Cat(Box<models::Cat>),",
+                    "Self::Cat(x) => (\"cat\", serde_json::to_value(x)),",
+                    "map.insert(\"petType\".to_owned(), serde_json::Value::String(tag.to_owned()));",
+                    "match value.get(\"petType\").and_then(serde_json::Value::as_str) {",
+                    "Some(\"cat\") => serde_json::from_value(value).map(Self::Cat)",
+                    "Some(\"dog\") => serde_json::from_value(value).map(Self::Dog)",
+                    "unknown_variant(tag, &[\"cat\", \"dog\"])",
+                    "missing_field(\"petType\")");
+            // an optional enum tag left unset is still written by the union
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/note.rs"),
+                    "Self::Text(x) => (\"text\", serde_json::to_value(x)),");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/text_note.rs"),
+                    "pub kind: Option<Kind>,");
+            Path shapePath = Path.of(target.toString(), "/src/models/shape.rs");
+            TestUtils.assertFileNotContains(shapePath, "#[serde(tag");
+            TestUtils.assertFileContains(shapePath, "Some(\"circle\") => serde_json::from_value(value).map(Self::Circle)");
+
+            // the variant structs are untouched
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
+                    "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,",
+                    "pub fn new(pet_type: PetType, name: String) -> Cat {");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
+                    "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
+
+            // a plain string tag keeps the serde tag and the defaulted child field
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/event.rs"),
+                    "#[serde(tag = \"type\")]", "#[serde(rename=\"click\")]");
+            TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/event.rs"), "fn deserialize");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/click.rs"),
+                    "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
+        }
+    }
+
+    @Test
     public void testIntegerPropertyEnum() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();

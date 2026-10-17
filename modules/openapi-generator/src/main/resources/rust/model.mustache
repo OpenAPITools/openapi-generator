@@ -78,8 +78,14 @@ impl Default for {{{classname}}} {
 {{/isEnum}}
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
+{{#vendorExtensions.x-rust-tagged-content}}
+{{!-- the variants carry the tag themselves: serialized as is, deserialized from the content the tag stays in --}}
+#[derive(Clone, Debug, PartialEq)]
+{{/vendorExtensions.x-rust-tagged-content}}
+{{^vendorExtensions.x-rust-tagged-content}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "{{{propertyBaseName}}}")]
+{{/vendorExtensions.x-rust-tagged-content}}
 pub enum {{{classname}}} {
     {{^oneOf}}
     {{#mappedModels}}
@@ -106,9 +112,11 @@ pub enum {{{classname}}} {
     {{#description}}
     /// {{{.}}}
     {{/description}}
+    {{^vendorExtensions.x-rust-tagged-content}}
     {{#baseName}}
     #[serde(rename="{{{.}}}")]
     {{/baseName}}
+    {{/vendorExtensions.x-rust-tagged-content}}
     {{{name}}}({{#isModel}}{{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}{{/isModel}}{{{dataType}}}{{#isModel}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}{{/isModel}}),
     {{/composedSchemas.oneOf}}
     {{/oneOf.isEmpty}}
@@ -125,6 +133,43 @@ impl Default for {{classname}} {
     }
 }
 
+{{#vendorExtensions.x-rust-tagged-content}}
+impl Serialize for {{classname}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let (tag, value) = match self {
+            {{#composedSchemas.oneOf}}
+            Self::{{{name}}}(x) => ("{{{baseName}}}", serde_json::to_value(x)),
+            {{/composedSchemas.oneOf}}
+        };
+        let mut value = value.map_err(serde::ser::Error::custom)?;
+        // the union variant decides the tag, as serde(tag) would, even if the variant left it unset or set another value
+        if let Some(map) = value.as_object_mut() {
+            map.insert("{{{propertyBaseName}}}".to_owned(), serde_json::Value::String(tag.to_owned()));
+        }
+        value.serialize(serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for {{classname}} {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = serde_json::Value::deserialize(deserializer)?;
+        match value.get("{{{propertyBaseName}}}").and_then(serde_json::Value::as_str) {
+            {{#composedSchemas.oneOf}}
+            Some("{{{baseName}}}") => serde_json::from_value(value).map(Self::{{{name}}}).map_err(serde::de::Error::custom),
+            {{/composedSchemas.oneOf}}
+            Some(tag) => Err(serde::de::Error::unknown_variant(tag, &[{{#composedSchemas.oneOf}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/composedSchemas.oneOf}}])),
+            None => Err(serde::de::Error::missing_field("{{{propertyBaseName}}}")),
+        }
+    }
+}
+
+{{/vendorExtensions.x-rust-tagged-content}}
 {{/discriminator}}
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
