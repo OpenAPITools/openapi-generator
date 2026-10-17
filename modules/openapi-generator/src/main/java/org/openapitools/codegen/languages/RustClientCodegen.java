@@ -816,6 +816,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
             parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
         }
+
+        // chrono's `Display` for `DateTime` is not RFC 3339 (e.g. "2024-01-02 03:04:05 +00:00"),
+        // so path, query and header params of that type are serialized with `to_rfc3339()` instead.
+        if (parameter.isDateTime && parameter.dataType != null && parameter.dataType.startsWith("chrono::DateTime")) {
+            parameter.vendorExtensions.put("x-rust-chrono-date-time", true);
+        }
     }
 
     @Override
