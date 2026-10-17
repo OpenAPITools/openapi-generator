@@ -943,6 +943,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             ArrayList<String> sortedModels = new ArrayList<>(modelsUsed);
             Collections.sort(sortedModels);
             objs.put("modelsUsed", new ArrayList<>(sortedModels));
+            objs.put("hasModelsUsed", true);
             objs.put("includeVariantHeader", INCLUDE_VARIANT);
         }
         if (includeOptionalHeader) {
@@ -1037,12 +1038,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
-        // Compute modelNamespace ONCE and append className
+        // Compute modelNamespace ONCE (defaulted in processOpts) and append className
         String modelNamespaceBase = (String) additionalProperties.get(MODEL_NAMESPACE);
-        if (modelNamespaceBase == null || modelNamespaceBase.isEmpty()) {
-            modelNamespaceBase = MODEL_SUFFIX.toLowerCase(Locale.ROOT);
-            additionalProperties.put(MODEL_NAMESPACE, modelNamespaceBase);
-        }
 
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             ModelsMap modelsMap = entry.getValue();
@@ -2141,6 +2138,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             apiNamespaceValue = toPascalCase(API_SUFFIX);
         }
         additionalProperties.put(API_NAMESPACE, apiNamespaceValue);
+
+        // Set model namespace here rather than in postProcessAllModels, which is
+        // never called for a spec without models; the operations still read it.
+        String modelNamespaceValue = (String) additionalProperties.get(MODEL_NAMESPACE);
+        if (modelNamespaceValue == null || modelNamespaceValue.isEmpty()) {
+            modelNamespaceValue = MODEL_SUFFIX.toLowerCase(Locale.ROOT);
+        }
+        additionalProperties.put(MODEL_NAMESPACE, modelNamespaceValue);
 
         // Handle addApiImplStubs option
         if (additionalProperties.containsKey(ADD_API_IMPL_STUBS)) {
