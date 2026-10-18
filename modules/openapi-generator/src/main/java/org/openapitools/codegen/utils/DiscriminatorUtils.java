@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_DISCRIMINATOR_VALUE;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class DiscriminatorUtils {
@@ -66,7 +67,7 @@ public class DiscriminatorUtils {
             if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
                 cp.setRequired(true);
             }
-            cp.setIsEnum(discSchema.getEnum() != null && !discSchema.getEnum().isEmpty());
+            cp.setIsEnum(isEnumSchema(discSchema));
             return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {

@@ -38,6 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/n4js/}.
@@ -497,12 +498,12 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isMapSchema(p)) {
             return "~Object+";
         } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
         } else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p)) {
             // Handle integer and double enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         } else if (ModelUtils.isFileSchema(p)) {
@@ -529,7 +530,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "~Object+";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
         } else if (ModelUtils.isObjectSchema(p)
@@ -538,7 +539,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
             return toModelFilename(result);
         } else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p)) {
             // Handle integer and double enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
