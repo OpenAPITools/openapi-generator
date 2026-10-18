@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 {{#imports}}
-{{import}}
+{{#x-python-lazy-import}}lazy {{/x-python-lazy-import}}{{import}}
 {{/imports}}
 
 from {{packageName}}.api_client import ApiClient, RequestSerialized
@@ -96,16 +96,16 @@ Synchronous urllib3 legacy flags can return a future or raw response. Keep the o
 annotation precise because Kubernetes Watch inspects it:
 https://github.com/kubernetes-client/python/blob/6cc5456d79dd8c0ccc9e275a0811aeb025714bea/kubernetes/watch/watch.py#L36-L48
 }}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     def {{operationId}}{{>partial_api_args_legacy}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{/async}}
 {{#async}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     async def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{/async}}
 {{/compatibleWithPythonLegacyApi}}
 {{^compatibleWithPythonLegacyApi}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     {{#async}}async {{/async}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{/compatibleWithPythonLegacyApi}}
 {{>partial_api}}
@@ -151,16 +151,16 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
 {{#compatibleWithPythonLegacyApi}}
 {{^async}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     def {{operationId}}_with_http_info{{>partial_api_args_legacy}} -> Tuple[{{{returnType}}}{{^returnType}}None{{/returnType}}, int, Any]:
 {{/async}}
 {{#async}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     async def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{/async}}
 {{/compatibleWithPythonLegacyApi}}
 {{^compatibleWithPythonLegacyApi}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     {{#async}}async {{/async}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{/compatibleWithPythonLegacyApi}}
 {{>partial_api}}
@@ -201,7 +201,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
 {{^compatibleWithPythonLegacyApi}}
 
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     {{#async}}async {{/async}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
 {{>partial_api}}
         response_data = {{#async}}await {{/async}}self.api_client.call_api(
@@ -213,7 +213,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{/compatibleWithPythonLegacyApi}}
 
 {{#supportHttpxSync}}
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     def {{operationId}}_sync{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
 
@@ -234,7 +234,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         )
 
 
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     def {{operationId}}_sync_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
 
@@ -255,7 +255,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         )
 
 
-    @validate_call
+    @validate_call{{#deferBuild}}(config={"defer_build": True}){{/deferBuild}}
     def {{operationId}}_sync_without_preload_content{{>partial_api_args}} -> RESTResponseType:
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
 

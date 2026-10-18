@@ -1,0 +1,31 @@
+{{#lazyNativeImport}}
+### Native lazy imports
+
+This client was generated with `lazyNativeImport=true` and requires Python 3.15+
+and Pydantic 2.14+. Its generated API and model imports use `lazy from`: modules
+load on first use, so applications that use only a subset of a large client's
+Pydantic models can avoid loading unused modules and reduce startup work and
+initial memory use.
+
+Import costs move to first use; import failures and module initialization side
+effects can happen later. Evaluating type annotations, constructing schemas, or
+using models can resolve lazy imports. Gains depend on the workload, and native
+imports are not guaranteed to use less memory than `lazyImports=true`.
+The two import options cannot be enabled together. Combining native imports with
+`deferBuild=true` can also reduce initial memory use.
+{{/lazyNativeImport}}
+{{#deferBuild}}
+### Deferred operation validators
+
+This client was generated with `deferBuild=true`. Its `@validate_call` decorators
+set `defer_build=True`, building each operation's argument validator on its first
+call. This can reduce startup work and memory for operations that are never
+called. Argument validation remains enabled; construction costs and schema
+construction errors move to first call.
+
+This setting does not change `model_config`. In the evaluated POC, also deferring
+models increased retained memory. The diagnostic evidence pointed to reduced
+reuse of nested validators and serializers, plus pending-model placeholders.
+This is workload- and Pydantic-version-dependent, not a universal limitation.
+`deferBuild` can be used on its own or with either lazy import strategy.
+{{/deferBuild}}

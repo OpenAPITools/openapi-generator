@@ -5,7 +5,7 @@ import pprint
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
@@ -238,7 +238,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)

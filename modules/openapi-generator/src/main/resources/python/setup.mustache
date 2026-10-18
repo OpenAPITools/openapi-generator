@@ -10,7 +10,7 @@ from setuptools import setup, find_packages  # noqa: H301
 # http://pypi.python.org/pypi/setuptools
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
-PYTHON_REQUIRES = ">= 3.10"
+PYTHON_REQUIRES = ">= {{#lazyNativeImport}}3.15{{/lazyNativeImport}}{{^lazyNativeImport}}3.10{{/lazyNativeImport}}"
 REQUIRES = [
 {{^async}}
     "urllib3 >= 2.7.0, < 3.0.0",
@@ -30,7 +30,7 @@ REQUIRES = [
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
 {{/hasHttpSignatureMethods}}
-    "pydantic >= 2.11",
+    "pydantic >= {{#lazyNativeImport}}2.14{{/lazyNativeImport}}{{^lazyNativeImport}}2.11{{/lazyNativeImport}}",
     "typing-extensions >= 4.7.1",
 ]
 
@@ -43,6 +43,9 @@ setup(
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     install_requires=REQUIRES,
+{{#lazyNativeImport}}
+    python_requires=PYTHON_REQUIRES,
+{{/lazyNativeImport}}
 {{#sourceFolder}}
     package_dir={"": "{{{sourceFolder}}}"},
 {{/sourceFolder}}

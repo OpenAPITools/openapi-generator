@@ -62,6 +62,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
     public static final String POETRY1_FALLBACK = "poetry1";
     public static final String LAZY_IMPORTS = "lazyImports";
+    public static final String LAZY_NATIVE_IMPORT = "lazyNativeImport";
+    public static final String DEFER_BUILD = "deferBuild";
     public static final String BUILD_SYSTEM = "buildSystem";
     public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
     public static final String USE_INDEPENDENT_IMPLICIT_CLIENTS = "useIndependentImplicitClients";
@@ -119,6 +121,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected boolean setEnsureAsciiToFalse = false;
     @Setter protected boolean useIndependentImplicitClients = false;
     @Setter protected boolean compatibleWithPythonLegacy = false;
+    @Setter protected boolean lazyNativeImport = false;
+    @Setter protected boolean deferBuild = false;
 
     private String sourceFolder;
     private String testFolder;
@@ -228,6 +232,24 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(LAZY_NATIVE_IMPORT,
+                "Use native lazy imports for generated APIs and models. Requires Python 3.15 or newer and Pydantic 2.14 or newer. " +
+                        "Lazy imports load a module on first use rather than when the import statement is executed. " +
+                        "Large clients can contain many Pydantic models that an application never uses; avoiding their eager loading " +
+                        "can reduce startup work and initial memory use. The cost moves to first use, import errors and module " +
+                        "initialization side effects may occur later, and gains depend on which APIs and models are used. " +
+                        "Cannot be combined with lazyImports=true. Enabling deferBuild=true can also reduce initial memory use " +
+                        "by deferring operation argument validators. Native imports are not guaranteed to use less memory than lazyImports.")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(DEFER_BUILD,
+                "Set defer_build=True only on the generated @validate_call decorators, building each operation's argument validator " +
+                        "on its first call instead of at import time. This can reduce startup work and memory for operations that are never called. " +
+                        "Argument validation remains enabled, but construction costs and schema construction errors move to the first call. " +
+                        "Model configuration is unchanged: in the evaluated POC, also deferring models increased retained memory, " +
+                        "with evidence of reduced reuse of nested validators and serializers and additional pending-model placeholders. " +
+                        "That result depends on the Pydantic version and workload, not a universal limitation. " +
+                        "Can be used independently or with either lazy import option.")
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code; 'src' for _src layout_, unset (or '.') for _flat layout_."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx and httpx2 libraries only). " +
@@ -368,6 +390,19 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(LAZY_IMPORTS)) {
             additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
+        }
+        if (additionalProperties.containsKey(LAZY_NATIVE_IMPORT)) {
+            setLazyNativeImport(convertPropertyToBooleanAndWriteBack(LAZY_NATIVE_IMPORT));
+        } else {
+            additionalProperties.put(LAZY_NATIVE_IMPORT, lazyNativeImport);
+        }
+        if (lazyNativeImport && Boolean.TRUE.equals(additionalProperties.get(LAZY_IMPORTS))) {
+            throw new IllegalArgumentException("lazyNativeImport=true cannot be combined with lazyImports=true. Choose one lazy import strategy.");
+        }
+        if (additionalProperties.containsKey(DEFER_BUILD)) {
+            setDeferBuild(convertPropertyToBooleanAndWriteBack(DEFER_BUILD));
+        } else {
+            additionalProperties.put(DEFER_BUILD, deferBuild);
         }
 
         if (additionalProperties.containsKey(COMPATIBLE_WITH_PYTHON_LEGACY)) {
@@ -604,7 +639,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.10+";
+        return lazyNativeImport ? "3.15+" : "3.10+";
     }
 
     @Override
@@ -634,7 +669,16 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             objs.put("x-python-has-json-header", true);
         }
 
-        return super.postProcessOperationsWithModels(objs, allModels);
+        OperationsMap result = super.postProcessOperationsWithModels(objs, allModels);
+        if (lazyNativeImport) {
+            for (Map<String, String> modelImport : result.getImports()) {
+                // Other imports in this list include stdlib and Pydantic types.
+                if (modelImport.get("import").startsWith("from " + packageName + ".models.")) {
+                    modelImport.put("x-python-lazy-import", "true");
+                }
+            }
+        }
+        return result;
     }
 
     private void renameIndependentClientOperationMembers(

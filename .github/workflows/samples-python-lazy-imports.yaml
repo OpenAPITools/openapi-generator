@@ -1,0 +1,51 @@
+name: "Python Client: Lazy imports and deferred validators"
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/samples-python-lazy-imports.yaml
+      - .mvn/**
+      - pom.xml
+      - modules/openapi-generator-core/**
+      - modules/openapi-generator/pom.xml
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonClientCodegen.java
+      - modules/openapi-generator/src/main/resources/python/**
+      - modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientCodegenTest.java
+      - modules/openapi-generator/src/test/resources/3_1/python/lazy*
+
+jobs:
+  runtime:
+    name: Runtime contracts (Python 3.15)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up JDK 11
+        uses: actions/setup-java@v6
+        with:
+          java-version: 11
+          distribution: temurin
+          cache: maven
+      - name: Set up Python 3.15
+        uses: actions/setup-python@v7
+        id: py
+        with:
+          python-version: "3.15"
+      - name: Install runtime dependencies
+        run: >-
+          python -m pip install
+          "pydantic>=2.14"
+          "python-dateutil>=2.8.2"
+          "typing-extensions>=4.7.1"
+          "urllib3>=2.7.0,<3"
+          "aiohttp>=3.14.1"
+          "aiohttp-retry>=2.8.3"
+          "httpx>=0.28.1"
+          "httpx2>=2.13.0,<3"
+      - name: Test all import strategies with and without deferred validators
+        run: >-
+          ./mvnw --batch-mode --no-snapshot-updates
+          -pl modules/openapi-generator -am test
+          -Dtest=PythonClientCodegenTest
+          -Dsurefire.failIfNoSpecifiedTests=false
+          -Dpython315="${{ steps.py.outputs.python-path }}"

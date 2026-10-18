@@ -39,6 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,127 @@ import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
+
+    @DataProvider(name = "pythonLazyOptions")
+    public Object[][] pythonLazyOptions() {
+        List<Object[]> options = new ArrayList<>();
+        for (String library : List.of("urllib3", "asyncio", "httpx", "httpx2")) {
+            for (String imports : List.of("eager", "lazyImports", "lazyNativeImport")) {
+                for (boolean deferred : List.of(false, true)) {
+                    options.add(new Object[] {library, imports, deferred});
+                }
+            }
+        }
+        return options.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "pythonLazyOptions")
+    public void testPythonLazyOptions(String library, String imports, boolean deferred) throws Exception {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary(library);
+        boolean nativeImports = "lazyNativeImport".equals(imports);
+        boolean oldImports = "lazyImports".equals(imports);
+        codegen.additionalProperties().put(PythonClientCodegen.LAZY_NATIVE_IMPORT, String.valueOf(nativeImports));
+        codegen.additionalProperties().put(PythonClientCodegen.LAZY_IMPORTS, String.valueOf(oldImports));
+        codegen.additionalProperties().put(PythonClientCodegen.DEFER_BUILD, String.valueOf(deferred));
+        // Exercise both packaging formats, and the sync operation decorators too.
+        codegen.additionalProperties().put(PythonClientCodegen.POETRY1_FALLBACK, deferred);
+        if ("httpx".equals(library) || "httpx2".equals(library)) {
+            codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, true);
+        }
+        Path output = Paths.get(generateFiles(codegen, "src/test/resources/3_1/python/lazy-imports.yaml"));
+        Path api = output.resolve("openapi_client/api/parents_api.py");
+        assertFileContains(api, "from pydantic import validate_call", "from openapi_client.api_client import ApiClient");
+        if (deferred) {
+            assertFileContains(api, "@validate_call(config={\"defer_build\": True})");
+            Assert.assertFalse(Files.readAllLines(api).stream().anyMatch(line -> line.trim().equals("@validate_call")));
+        } else {
+            assertFileContains(api, "@validate_call\n");
+            TestUtils.assertFileNotContains(api, "defer_build");
+        }
+        for (String model : List.of("parent", "child", "choice", "any_choice", "left", "right")) {
+            TestUtils.assertFileNotContains(output.resolve("openapi_client/models/" + model + ".py"), "defer_build");
+        }
+        Path exports = output.resolve("openapi_client/__init__.py");
+        assertFileContains(output.resolve(".gitlab-ci.yml"), "pytest-3.15:", "image: python:3.15-alpine");
+        assertFileContains(output.resolve(".travis.yml"), "  - \"3.15\"");
+        assertFileContains(output.resolve(".github/workflows/python.yml"), nativeImports
+                ? "python-version: [\"3.15\"]"
+                : "python-version: [\"3.10\", \"3.11\", \"3.12\", \"3.13\", \"3.14\", \"3.15\"]");
+        for (String version : List.of("3.10", "3.11", "3.12", "3.13", "3.14")) {
+            Assert.assertEquals(Files.readString(output.resolve(".gitlab-ci.yml")).contains("pytest-" + version + ":"), !nativeImports);
+            Assert.assertEquals(Files.readString(output.resolve(".travis.yml")).contains("  - \"" + version + "\""), !nativeImports);
+        }
+        if (nativeImports) {
+            assertFileContains(api, "lazy from openapi_client.models.parent import Parent");
+            assertFileContains(exports, "lazy from openapi_client.api.parents_api import ParentsApi",
+                    "lazy from openapi_client.models.parent import Parent", "from openapi_client.api_client import ApiClient");
+            TestUtils.assertFileNotContains(exports, "def __getattr__");
+            assertFileContains(output.resolve("openapi_client/api/__init__.py"), "lazy from openapi_client.api.parents_api");
+            assertFileContains(output.resolve("openapi_client/models/__init__.py"), "lazy from openapi_client.models.parent");
+            assertFileContains(output.resolve("openapi_client/models/parent.py"), "lazy from openapi_client.models.child");
+            assertFileContains(output.resolve("openapi_client/models/choice.py"), "lazy from openapi_client.models.child");
+            assertFileContains(output.resolve("openapi_client/models/any_choice.py"), "lazy from openapi_client.models.child");
+            assertFileContains(output.resolve("openapi_client/models/left.py"), "lazy from openapi_client.models.right");
+            assertFileContains(output.resolve("setup.py"), "PYTHON_REQUIRES = \">= 3.15\"", "python_requires=PYTHON_REQUIRES", "pydantic >= 2.14");
+            assertFileContains(output.resolve("requirements.txt"), "pydantic >= 2.14");
+            assertFileContains(output.resolve("pyproject.toml"), deferred ? "python = \"^3.15\"" : "requires-python = \">=3.15\"");
+            assertFileContains(output.resolve("pyproject.toml"), deferred ? "pydantic = \">= 2.14\"" : "pydantic (>=2.14)");
+            assertFileContains(output.resolve("README.md"), "Python 3.15+", "Native lazy imports");
+        } else {
+            TestUtils.assertFileNotContains(api, "lazy from ");
+            TestUtils.assertFileNotContains(exports, "lazy from ");
+            Assert.assertEquals(Files.readString(exports).contains("def __getattr__"), oldImports);
+            assertFileContains(output.resolve("pyproject.toml"), deferred ? "python = \"^3.10\"" : "requires-python = \">=3.10\"");
+            assertFileContains(output.resolve("requirements.txt"), "pydantic >= 2.11");
+            assertFileContains(output.resolve("README.md"), "Python 3.10+");
+        }
+        if (deferred) {
+            assertFileContains(output.resolve("README.md"), "Deferred operation validators", "pending-model placeholders");
+        }
+
+        // Optional runtime checks use a real Python 3.15 interpreter and installed client dependencies.
+        String python = System.getProperty("python315");
+        if (python != null) {
+            Path log = Files.createTempFile("python-lazy-runtime-", ".log");
+            Process process = new ProcessBuilder(python, "src/test/resources/3_1/python/lazy_imports_runtime.py",
+                    output.toString(), library, imports, String.valueOf(deferred))
+                    .redirectErrorStream(true).redirectOutput(log.toFile()).start();
+            if (!process.waitFor(30, TimeUnit.SECONDS)) {
+                process.destroyForcibly();
+                Assert.fail("Python lazy imports runtime check timed out: " + log);
+            }
+            Assert.assertEquals(process.exitValue(), 0, Files.readString(log));
+        }
+    }
+
+    @Test
+    public void testLazyImportStrategiesAreMutuallyExclusive() {
+        for (Object enabled : List.of(true, "true")) {
+            PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.additionalProperties().put(PythonClientCodegen.LAZY_IMPORTS, enabled);
+            codegen.additionalProperties().put(PythonClientCodegen.LAZY_NATIVE_IMPORT, enabled);
+            IllegalArgumentException exception = Assert.expectThrows(IllegalArgumentException.class, codegen::processOpts);
+            Assert.assertTrue(exception.getMessage().contains("cannot be combined"));
+        }
+    }
+
+    @Test
+    public void testNativeLazySourceOnlyWithCustomPackage() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLazyNativeImport(true);
+        codegen.setDeferBuild(true);
+        codegen.additionalProperties().put(CodegenConstants.PACKAGE_NAME, "nested.client");
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        codegen.additionalProperties().put(CodegenConstants.SOURCECODEONLY_GENERATION, true);
+        Path output = Paths.get(generateFiles(codegen, "src/test/resources/3_1/python/lazy-imports.yaml"));
+        assertFileContains(output.resolve("src/nested/client/api/parents_api.py"),
+                "lazy from nested.client.models.parent import Parent", "@validate_call(config={\"defer_build\": True})");
+        assertFileContains(output.resolve("src/nested/client/models/parent.py"), "lazy from nested.client.models.child");
+        assertFileContains(output.resolve("nested/client_README.md"), "Python 3.15+", "pydantic >= 2.14",
+                "Native lazy imports", "Deferred operation validators");
+        Assert.assertFalse(Files.exists(output.resolve("pyproject.toml")));
+    }
 
     @DataProvider(name = "pythonPackagingOptions")
     public Object[][] pythonPackagingOptions() {
@@ -196,6 +318,9 @@ public class PythonClientCodegenTest {
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
+        Assert.assertEquals(codegen.additionalProperties().get(PythonClientCodegen.LAZY_NATIVE_IMPORT), Boolean.FALSE);
+        Assert.assertEquals(codegen.additionalProperties().get(PythonClientCodegen.DEFER_BUILD), Boolean.FALSE);
+        Assert.assertEquals(codegen.generatorLanguageVersion(), "3.10+");
     }
 
     @Test
