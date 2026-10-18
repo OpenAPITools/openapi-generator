@@ -6,17 +6,23 @@
 
     <import class="ch.qos.logback.core.boolex.ExpressionPropertyCondition" />
 
-    <!-- For those without color (the default) -->
-    <property name="noColorPattern"
-              value="[%thread] %-5level %logger{36} - %msg%n" />
-    <!-- For those with color (with -Dcolor set) -->
-    <property name="colorPattern"
-              value="[%thread] %highlight(%-5level) %logger{36} - %msg%n" />
+    <!-- Colorize by passing -Dcolor -->
+    <condition class="ExpressionPropertyCondition">
+        <expression>isDefined("color")</expression>
+    </condition>
+    <if>
+        <then>
+            <property name="pattern" value="[%thread] %highlight(%-5level) %logger{36} - %msg%n" />
+        </then>
+        <else>
+            <property name="pattern" value="[%thread] %-5level %logger{36} - %msg%n" />
+        </else>
+    </if>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${noColorPattern}</pattern>
+            <pattern>${pattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -27,69 +33,22 @@
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.err</target>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${noColorPattern}</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-    </appender>
-    <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>
-        <withJansi>true</withJansi>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${colorPattern}</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>
-            <onMismatch>NEUTRAL</onMismatch>
-        </filter>
-    </appender>
-    <appender name="STDERR_COLOR" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.err</target>
-        <withJansi>true</withJansi>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${colorPattern}</pattern>
+            <pattern>${pattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
     </appender>
 
-    <logger name="io.swagger" level="warn" />
-    <logger name="org.openapitools" level="${log.level:-info}" />
-    <root level="error" />
-
-    <!-- Colorize by passing -Dcolor. logback >= 1.3 does not support <if> nested within <logger> or <root>: https://logback.qos.ch/codes.html#nested_if_element -->
-    <condition class="ExpressionPropertyCondition">
-        <expression>isDefined("color")</expression>
-    </condition>
-    <if>
-        <then>
-            <logger name="io.swagger">
-                <appender-ref ref="STDOUT_COLOR"/>
-                <appender-ref ref="STDERR_COLOR"/>
-            </logger>
-            <logger name="org.openapitools">
-                <appender-ref ref="STDOUT_COLOR"/>
-                <appender-ref ref="STDERR_COLOR"/>
-            </logger>
-            <root>
-                <appender-ref ref="STDERR_COLOR"/>
-            </root>
-        </then>
-        <else>
-            <logger name="io.swagger">
-                <appender-ref ref="STDOUT"/>
-                <appender-ref ref="STDERR"/>
-            </logger>
-            <logger name="org.openapitools">
-                <appender-ref ref="STDOUT"/>
-                <appender-ref ref="STDERR"/>
-            </logger>
-            <root>
-                <appender-ref ref="STDERR"/>
-            </root>
-        </else>
-    </if>
+    <logger name="io.swagger" level="warn">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STDERR"/>
+    </logger>
+    <logger name="org.openapitools" level="${log.level:-info}">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STDERR"/>
+    </logger>
+    <root level="error">
+        <appender-ref ref="STDERR"/>
+    </root>
 </configuration>
