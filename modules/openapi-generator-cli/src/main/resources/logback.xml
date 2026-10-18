@@ -60,7 +60,7 @@
     <logger name="org.openapitools" level="${log.level:-info}" />
     <root level="error" />
 
-    <!-- Colorize by passing -Dcolor. logback disallows <if> nested within <logger> or <root>. -->
+    <!-- Colorize by passing -Dcolor. logback >= 1.3 does not support <if> nested within <logger> or <root>: https://logback.qos.ch/codes.html#nested_if_element -->
     <condition class="ExpressionPropertyCondition">
         <expression>isDefined("color")</expression>
     </condition>
