@@ -83,6 +83,9 @@ public class InlineModelResolver {
 
     // a set to keep track of names generated for inline schemas
     private Set<String> uniqueNames = new HashSet<>();
+    // Keep collision checks independent of the number of schemas already discovered.
+    private final Set<String> normalizedNames = new HashSet<>();
+    private final Map<String, String> normalizedNameCache = new HashMap<>();
 
     // MixIn that suppresses volatile fields when any Schema instance is serialised for structural
     // comparison.  Registered on Schema.class so it applies recursively to all nested Schema
@@ -188,6 +191,17 @@ public class InlineModelResolver {
 
         if (this.openAPI.getComponents().getSchemas() == null) {
             this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
+        }
+
+        // A resolver can be reused: rebuild from the current schemas and the names reserved by
+        // addSchemas(), rather than retaining an index of a previous components map.
+        normalizedNames.clear();
+        normalizedNameCache.clear();
+        for (String name : this.openAPI.getComponents().getSchemas().keySet()) {
+            normalizedNames.add(normalizeNameForCollision(name));
+        }
+        for (String name : uniqueNames) {
+            normalizedNames.add(normalizeNameForCollision(name));
         }
 
         // Pre-populate generatedSignature with existing components/schemas entries so that
@@ -955,22 +969,11 @@ public class InlineModelResolver {
             return true;
         }
 
-        String normalized = normalizeNameForCollision(candidate);
-        for (String existing : openAPI.getComponents().getSchemas().keySet()) {
-            if (normalized.equals(normalizeNameForCollision(existing))) {
-                return true;
-            }
-        }
-        for (String existing : uniqueNames) {
-            if (normalized.equals(normalizeNameForCollision(existing))) {
-                return true;
-            }
-        }
-        return false;
+        return normalizedNames.contains(normalizeNameForCollision(candidate));
     }
 
     private String normalizeNameForCollision(final String name) {
-        return camelize(sanitizeName(name));
+        return normalizedNameCache.computeIfAbsent(name, key -> camelize(sanitizeName(key)));
     }
 
     private void flattenProperties(OpenAPI openAPI, Map<String, Schema> properties, String path) {
@@ -1222,6 +1225,8 @@ public class InlineModelResolver {
         }
 
         uniqueNames.add(name);
+        // Index the final mapped name, matching the name actually added to components.
+        normalizedNames.add(normalizeNameForCollision(name));
 
         return name;
     }

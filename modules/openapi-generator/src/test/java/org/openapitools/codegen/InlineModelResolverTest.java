@@ -1758,4 +1758,77 @@ public class InlineModelResolverTest {
         assertNotNull(inlined.getProperties().get("inlineOnly"));
         assertNull(openAPI.getComponents().getSchemas().get("importMembers_request_1"));
     }
+
+    @Test
+    public void inlineSchemaCollidesWithPreviouslyGeneratedMangledName() {
+        OpenAPI openAPI = new OpenAPI().components(new Components()).paths(new Paths());
+        addInlineRequest(openAPI, "/first", "createWidget", "firstField");
+        addInlineRequest(openAPI, "/second", "create_widget", "secondField");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertNotNull(schemas.get("createWidget_request").getProperties().get("firstField"));
+        assertNotNull(schemas.get("create_widget_request_1").getProperties().get("secondField"));
+        assertNull(schemas.get("create_widget_request"));
+    }
+
+    @Test
+    public void inlineSchemaCollidesWithFinalMappedNameAndNumberedNames() {
+        OpenAPI openAPI = new OpenAPI().components(new Components()).paths(new Paths());
+        openAPI.getComponents().addSchemas("ReservedRequest1", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+        addInlineRequest(openAPI, "/first", "createWidget", "firstField");
+        addInlineRequest(openAPI, "/second", "reserved", "secondField");
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.setInlineSchemaNameMapping(Map.of("createWidget_request", "Reserved-Request"));
+
+        resolver.flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertNotNull(schemas.get("Reserved-Request").getProperties().get("firstField"));
+        assertNotNull(schemas.get("ReservedRequest1").getProperties().get("declaredField"));
+        assertNotNull(schemas.get("reserved_request_2").getProperties().get("secondField"));
+        assertNull(schemas.get("reserved_request"));
+        assertNull(schemas.get("reserved_request_1"));
+    }
+
+    @Test
+    public void collisionIndexIsRebuiltWhenResolverIsReused() {
+        InlineModelResolver resolver = new InlineModelResolver();
+        OpenAPI first = new OpenAPI().components(new Components()).paths(new Paths());
+        first.getComponents().addSchemas("ReservedRequest", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+        resolver.flatten(first);
+
+        OpenAPI second = new OpenAPI().components(new Components()).paths(new Paths());
+        addInlineRequest(second, "/second", "reserved", "inlineField");
+        resolver.flatten(second);
+
+        assertNotNull(second.getComponents().getSchemas().get("reserved_request"));
+        assertNull(second.getComponents().getSchemas().get("reserved_request_1"));
+    }
+
+    @Test
+    public void collisionIndexRetainsPreviouslyReservedNamesWhenResolverIsReused() {
+        InlineModelResolver resolver = new InlineModelResolver();
+        OpenAPI first = new OpenAPI().components(new Components()).paths(new Paths());
+        addInlineRequest(first, "/first", "createWidget", "firstField");
+        resolver.flatten(first);
+
+        OpenAPI second = new OpenAPI().components(new Components()).paths(new Paths());
+        addInlineRequest(second, "/second", "create_widget", "secondField");
+        resolver.flatten(second);
+
+        assertNotNull(second.getComponents().getSchemas().get("create_widget_request_1"));
+        assertNull(second.getComponents().getSchemas().get("create_widget_request"));
+    }
+
+    private static void addInlineRequest(OpenAPI openAPI, String path, String operationId, String field) {
+        Schema inlineBody = new ObjectSchema().addProperty(field, new StringSchema());
+        openAPI.getPaths().addPathItem(path, new PathItem().post(new Operation()
+                .operationId(operationId)
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+    }
 }
