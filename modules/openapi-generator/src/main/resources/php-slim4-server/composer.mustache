@@ -61,6 +61,9 @@
     "psr-4": { "{{escapedInvokerPackage}}\\": "{{testBasePath}}/" }
   },
   "scripts": {
+    "post-install-cmd": [
+      "php -r \"chmod('./logs', 0777);\""
+    ],
     {{#generateTests}}
     "test": [
       "phpunit"
