@@ -1417,6 +1417,20 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "A request parameter that is a set should be converted to an array before it can be mapped to JSON")
+    public void testSetRequestParameterIsConvertedToArray() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_1/issue_24887.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(modelPath,
+                "body: TestObjectToJSON(requestParameters['testObject'])",
+                "body: requestParameters['arrayTestObject']!.map(ArrayTestObjectToJSON)",
+                "body: Array.from(requestParameters['setTestObject'])!.map(SetTestObjectToJSON)");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(

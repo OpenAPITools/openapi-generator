@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: Unique items test
+  version: 1.0.0
+paths:
+  /regular-object:
+    post:
+      operationId: regularObject
+      requestBody:
+        $ref: '#/components/requestBodies/RegularObject'
+      responses:
+        '200':
+          description: OK
+  /non-unique-array:
+    post:
+      operationId: nonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/NonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /unique-array:
+    post:
+      operationId: uniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/UniqueArray'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    SetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  requestBodies:
+    RegularObject:
+      description: Request body that is a plain object
+      required: true
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/TestObject'
+    NonUniqueArray:
+      description: Request body that is a non-unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ArrayTestObject'
+    UniqueArray:
+      description: Request body that is a set
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/SetTestObject'
