@@ -1,0 +1,42 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: test
+
+paths:
+  /test:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding:
+              file:
+                contentType: "application/octet-stream"
+              content:
+                contentType: "application/json"
+            schema:
+              type: object
+              required:
+                - file
+                - content
+              properties:
+                file:
+                  type: string
+                  format: binary
+                content:
+                  $ref: "#/components/schemas/testObjectPart"
+      responses:
+        200:
+          description: OK
+
+components:
+  schemas:
+    testObjectPart:
+      type: object
+      required:
+        - foo
+      properties:
+        foo:
+          type: string
+        bar:
+          type: number
