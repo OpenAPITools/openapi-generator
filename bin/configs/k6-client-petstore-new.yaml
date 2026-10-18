@@ -1,0 +1,6 @@
+generatorName: k6-client
+outputDir: samples/client/petstore/k6/client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/k6-client
+additionalProperties:
+  hideGenerationTimestamp: "true"
