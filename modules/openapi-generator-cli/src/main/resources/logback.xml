@@ -4,6 +4,8 @@
     <!-- Prevent startup messages from Logback -->
     <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
+    <import class="ch.qos.logback.core.boolex.ExpressionPropertyCondition" />
+
     <!-- For those without color (the default) -->
     <property name="noColorPattern"
               value="[%thread] %-5level %logger{36} - %msg%n" />
@@ -54,41 +56,40 @@
         </filter>
     </appender>
 
-    <logger name="io.swagger" level="warn">
-        <!-- Colorize by passing -Dcolor -->
-        <if condition='isDefined("color")'>
-            <then>
+    <logger name="io.swagger" level="warn" />
+    <logger name="org.openapitools" level="${log.level:-info}" />
+    <root level="error" />
+
+    <!-- Colorize by passing -Dcolor. logback disallows <if> nested within <logger> or <root>. -->
+    <condition class="ExpressionPropertyCondition">
+        <expression>isDefined("color")</expression>
+    </condition>
+    <if>
+        <then>
+            <logger name="io.swagger">
                 <appender-ref ref="STDOUT_COLOR"/>
                 <appender-ref ref="STDERR_COLOR"/>
-            </then>
-            <else>
-                <appender-ref ref="STDOUT"/>
-                <appender-ref ref="STDERR"/>
-            </else>
-        </if>
-    </logger>
-    <logger name="org.openapitools" level="${log.level:-info}">
-        <!-- Colorize by passing -Dcolor -->
-        <if condition='isDefined("color")'>
-            <then>
+            </logger>
+            <logger name="org.openapitools">
                 <appender-ref ref="STDOUT_COLOR"/>
                 <appender-ref ref="STDERR_COLOR"/>
-            </then>
-            <else>
+            </logger>
+            <root>
+                <appender-ref ref="STDERR_COLOR"/>
+            </root>
+        </then>
+        <else>
+            <logger name="io.swagger">
                 <appender-ref ref="STDOUT"/>
                 <appender-ref ref="STDERR"/>
-            </else>
-        </if>
-    </logger>
-    <root level="error">
-        <!-- Colorize by passing -Dcolor -->
-        <if condition='isDefined("color")'>
-            <then>
-                <appender-ref ref="STDERR_COLOR"/>
-            </then>
-            <else>
+            </logger>
+            <logger name="org.openapitools">
+                <appender-ref ref="STDOUT"/>
                 <appender-ref ref="STDERR"/>
-            </else>
-        </if>
-    </root>
+            </logger>
+            <root>
+                <appender-ref ref="STDERR"/>
+            </root>
+        </else>
+    </if>
 </configuration>
