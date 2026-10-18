@@ -146,7 +146,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(_serializers, petId, const FullType(int)));
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -218,7 +218,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': encodeCollectionQueryParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      r'status': encodeParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(
@@ -304,7 +304,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'tags': encodeCollectionQueryParameter<String>(_serializers, tags, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      r'tags': encodeParameter<String>(_serializers, tags, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(
@@ -370,7 +370,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(_serializers, petId, const FullType(int)));
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -558,7 +558,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(_serializers, petId, const FullType(int)));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -581,9 +581,15 @@ class PetApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeQueryParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
+        if (name != null) r'name': encodeParameter(_serializers, name, const FullType(String), asString: true),
+        if (status != null) r'status': encodeParameter(_serializers, status, const FullType(String), asString: true),
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -636,7 +642,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodePathParameter(_serializers, petId, const FullType(int)));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -659,7 +665,7 @@ class PetApi {
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
+        if (additionalMetadata != null) r'additionalMetadata': encodeParameter(_serializers, additionalMetadata, const FullType(String), forMultipart: true),
         if (file != null) r'file': file,
       });
 

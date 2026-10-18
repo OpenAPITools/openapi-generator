@@ -1,0 +1,16 @@
+{{>header}}
+import 'package:dio/dio.dart';
+
+String encodePathParameter(
+  dynamic value, {
+  ListFormat format = ListFormat.multi,
+}) {
+  if (value == null) {
+    return '';
+  }
+  return _encodePathValue(value, format);
+}
+
+{{>serialization/common/encode_path_parameter}}
+
+{{>serialization/common/remove_null_query_parameters}}

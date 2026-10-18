@@ -242,20 +242,20 @@ public class DartDioClientCodegenTest {
         // caller omitted the parameter, so the generated request must omit it.
         TestUtils.assertFileContains(defaultApi,
                 "if (activityId != null)",
-                "r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "r'activity_id': encodeParameter(_serializers, activityId, const FullType(int)),",
                 "if (categoryId != null)",
-                "r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+                "r'category_id': encodeParameter(_serializers, categoryId, const FullType(int)),");
 
         // Required query parameters are always emitted. If the schema is
         // nullable, null is an explicit supplied value rather than omission.
         TestUtils.assertFileContains(defaultApi,
-                "r'required_id': encodeQueryParameter(_serializers, requiredId, const FullType(int)),",
-                "r'required_nullable_id': encodeQueryParameter(_serializers, requiredNullableId, const FullType(int)),");
+                "r'required_id': encodeParameter(_serializers, requiredId, const FullType(int)),",
+                "r'required_nullable_id': encodeParameter(_serializers, requiredNullableId, const FullType(int)),");
         TestUtils.assertFileNotContains(defaultApi,
                 "if (requiredId != null)",
                 "if (requiredNullableId != null)",
-                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
-                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeParameter(_serializers, activityId, const FullType(int)),",
+                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeParameter(_serializers, categoryId, const FullType(int)),");
     }
 
     /**
@@ -326,6 +326,7 @@ public class DartDioClientCodegenTest {
                 .setPackageName("my-package")
                 .setInputSpec("src/test/resources/3_1/webhooks.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        configurator.addAdditionalProperty("pubName", "my_api");
 
         ClientOptInput opts = configurator.toClientOptInput();
 
@@ -344,11 +345,13 @@ public class DartDioClientCodegenTest {
 
         // Bug symptom #22586: Map-style import with HTML entity encoding
         // Before fix: import '{import&#x3D;model.Pet, classname&#x3D;Pet}';
-        // After fix: import 'package:my-package/src/model/pet.dart';
         Assert.assertFalse(apiContent.contains("import '{"),
-            "Webhook should not contain Map-style import (bug #22586 symptom)");
+                "Webhook should not contain Map-style imports");
         Assert.assertFalse(apiContent.contains("&#x3D;"),
-            "Webhook should not contain HTML entity encoding (bug #22586 symptom)");
+                "Webhook imports should not contain HTML entity encoding");
+        Assert.assertTrue(
+                apiContent.contains("import 'package:my_api/src/model/pet.dart';"),
+                "Webhook should import the Pet model using a valid Dart package import");
     }
 
    /**
@@ -394,4 +397,373 @@ public class DartDioClientCodegenTest {
                 "const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(Widget)])]),",
                 "() => MapBuilder<String, BuiltList<Widget>>(),");
     }
+
+    /**
+     * Regression test for nullable collection item types in serializers.dart.
+     *
+     * <p>When a list or set property has a nullable item type (e.g.
+     * {@code items: { type: number, nullable: true }}), the generated
+     * {@code addBuilderFactory} call must use {@code ListBuilder<double?>()}
+     * (or {@code SetBuilder<String?>()}) to match the emitted
+     * {@code FullType.nullable(double)} / {@code FullType.nullable(String)}.
+     *
+     * <p>Before the fix, the builder instantiation was
+     * {@code ListBuilder<double>()} — without the {@code ?} — causing a
+     * {@code FullType} mismatch at runtime.
+     */
+    @Test
+    public void testNullableCollectionItemsGetNullableBuilderFactory() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_nullable_collection_items.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path serializers = output.toPath().resolve("lib/src/serializers.dart");
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+
+        // BuiltList with nullable double items: FullType must be .nullable and
+        // the builder factory must carry the ? on the type argument.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltList, [FullType.nullable(double)]),",
+                "() => ListBuilder<double?>(),");
+
+        // BuiltSet with nullable String items.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltSet, [FullType.nullable(String)]),",
+                "() => SetBuilder<String?>(),");
+
+        // BuiltMap with nullable String values.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltMap, [FullType(String), FullType.nullable(String)]),",
+                "() => MapBuilder<String, String?>(),");
+
+        // Negative: non-nullable builder variants must NOT appear.
+        TestUtils.assertFileNotContains(serializers,
+                "() => ListBuilder<double>(),");
+        TestUtils.assertFileNotContains(serializers,
+                "() => SetBuilder<String>(),");
+
+        // Query collection types must preserve nullable items so built_value
+        // serializes them with the same FullType used by the generated model.
+        // ListFormat then maps the OpenAPI wire style to Dio: repeated keys,
+        // comma-separated, space-separated, and pipe-separated values.
+        TestUtils.assertFileContains(defaultApi,
+                "encodeParameter<String?>(_serializers, repeated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.multi)",
+                "encodeParameter<String?>(_serializers, commaSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.csv)",
+                "encodeParameter<String?>(_serializers, spaceSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.ssv)",
+                "encodeParameter<String?>(_serializers, pipeSeparated, const FullType(BuiltList, [FullType.nullable(String)]), omitNullCollectionItems: true, format: ListFormat.pipes)",
+                "encodeParameter<String>(_serializers, nonNullable, const FullType(BuiltList, [FullType(String)]), omitNullCollectionItems: true, format: ListFormat.csv)");
+
+        // The query-only null filter must not make non-nullable item types
+        // nullable in either the generic argument or the FullType metadata.
+        TestUtils.assertFileNotContains(defaultApi,
+                "encodeParameter<String?>(_serializers, nonNullable",
+                "encodeParameter<String>(_serializers, nonNullable, const FullType(BuiltList, [FullType.nullable(String)])");
+
+        // Collection detection must not depend on an exact reified generic
+        // match, otherwise nullable-item collections bypass ListParam.
+        TestUtils.assertFileContains(apiUtil,
+                "if (value is BuiltList || value is BuiltSet)",
+                "if (omitNullCollectionItems)",
+                "values.removeWhere((item) => item == null);",
+                "return ListParam(values, format);");
+    }
+
+    /**
+     * Regression test: path parameters whose type is an enum must use
+     * {@code encodeParameter} (which calls the built_value serializer and
+     * returns the wire name) rather than a bare {@code .toString()} call (which
+     * returns the Dart identifier name and differs when the wire name contains
+     * underscores, e.g. {@code unknown_default_open_api} vs the Dart identifier
+     * {@code unknownDefaultOpenApi}).
+     *
+     * <p>Both required enum path params must emit
+     * {@code encodePathParameter(_serializers, param, const FullType(EnumType))},
+     * never {@code param.toString()} directly.
+     */
+    @Test
+    public void testEnumPathParamsUseSerializerNotToString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        // Both enum path params must route through the serializer, which returns
+        // the wire name (e.g. "unknown_default_open_api"), not .toString() which
+        // returns the Dart identifier name (e.g. "unknownDefaultOpenApi").
+        TestUtils.assertFileContains(defaultApi,
+                "encodePathParameter(_serializers, status, const FullType(OrderStatus))");
+        TestUtils.assertFileContains(defaultApi,
+                "encodePathParameter(_serializers, category, const FullType(CategoryType))");
+
+        // No param should fall back to a bare .toString() call on the enum value.
+        TestUtils.assertFileNotContains(defaultApi,
+                "status.toString()",
+                "category.toString()");
+    }
+
+    /**
+     * Regression test: built_value collection serializers may return an
+     * {@code Iterable} that is not a {@code List}, notably for set-valued path
+     * parameters. Both the top-level and recursive path encoders must handle
+     * those values as collections instead of encoding their debug strings.
+     */
+    @Test
+    public void testBuiltValuePathHelperHandlesIterableCollections() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        TestUtils.assertFileContains(apiUtil,
+                "if (serialized is Iterable) {",
+                "if (value is Iterable) {");
+    }
+
+    @Test
+    public void testJsonSerializablePathHelperDelegatesValueEncoding() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY,
+                        DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        TestUtils.assertFileContains(apiUtil,
+                "if (value == null) {\n"
+                        + "    return '';\n"
+                        + "  }\n"
+                        + "  return _encodePathValue(value, format);\n"
+                        + "}");
+    }
+
+    @Test
+    public void testJsonSerializableModelPathParameterUsesJsonMap() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY,
+                        DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        TestUtils.assertFileContains(defaultApi,
+                "encodePathParameter(category.toJson())");
+    }
+
+    /**
+     * Regression test: built_value form array params need both the call site
+     * and helper definition. Without encodeParameter in api_util,
+     * generated APIs compile-fail on the form array path.
+     */
+    @Test
+    public void testCollectionFormParameterHelperIsGenerated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        Path fakeApi = output.toPath().resolve("lib/src/api/fake_api.dart");
+
+        TestUtils.assertFileContains(apiUtil,
+                "dynamic encodeParameter<T>(",
+                "bool asString = false,",
+                "bool forMultipart = false,",
+                "import 'dart:convert';",
+                "if (asString && value is! BuiltMap && serialized is! String)",
+                "return jsonEncode(serialized);",
+                "case ListFormat.multiCompatible:",
+                "return ListParam(values, format);");
+        TestUtils.assertFileContains(fakeApi,
+                "encodeParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]),",
+                "asString: true");
+    }
+
+    @Test
+    public void testDefaultMultiFormArrayUsesCollectionEncoding() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/issue_10865_default_values.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "r'fn4': encodeParameter",
+                "const FullType(BuiltList, [FullType(String)])");
+        String generatedApi = Files.readString(defaultApi);
+        int fn4Start = generatedApi.indexOf("r'fn4':");
+        Assert.assertTrue(fn4Start >= 0, "Generated API should contain the fn4 form parameter");
+        int fn4End = generatedApi.indexOf('\n', fn4Start);
+        String fn4Entry = generatedApi.substring(fn4Start, fn4End >= 0 ? fn4End : generatedApi.length());
+        Assert.assertFalse(fn4Entry.contains("asString: true"),
+                "fn4 should use collection encoding rather than string encoding");
+    }
+
+    @Test
+    public void testRequiredNullableFormParametersArePreserved() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Path spec = Files.createTempFile("dart-dio-required-nullable-form", ".yaml");
+        Files.writeString(spec,
+                "swagger: '2.0'\n"
+                        + "info:\n"
+                        + "  title: Form nullability\n"
+                        + "  version: 1.0.0\n"
+                        + "consumes:\n"
+                        + "  - application/x-www-form-urlencoded\n"
+                        + "paths:\n"
+                        + "  /test:\n"
+                        + "    post:\n"
+                        + "      operationId: testForm\n"
+                        + "      parameters:\n"
+                        + "        - name: requiredNullable\n"
+                        + "          in: formData\n"
+                        + "          required: true\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "        - name: optionalNullable\n"
+                        + "          in: formData\n"
+                        + "          required: false\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "      responses:\n"
+                        + "        '200':\n"
+                        + "          description: ok\n");
+        spec.toFile().deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec(spec.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "removeNullParametersExcept(",
+                "r'requiredNullable',");
+    }
+
+    @Test
+    public void testRequiredNullableQueryParametersUseEmptyValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Path spec = Files.createTempFile("dart-dio-required-nullable-query", ".yaml");
+        Files.writeString(spec,
+                "swagger: '2.0'\n"
+                        + "info:\n"
+                        + "  title: Query nullability\n"
+                        + "  version: 1.0.0\n"
+                        + "paths:\n"
+                        + "  /test:\n"
+                        + "    get:\n"
+                        + "      operationId: testQuery\n"
+                        + "      parameters:\n"
+                        + "        - name: requiredNullable\n"
+                        + "          in: query\n"
+                        + "          required: true\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "        - name: optionalNullable\n"
+                        + "          in: query\n"
+                        + "          required: false\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "      responses:\n"
+                        + "        '200':\n"
+                        + "          description: ok\n");
+        spec.toFile().deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec(spec.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "String? requiredNullable,",
+                "r'requiredNullable': encodeParameter(_serializers, requiredNullable, const FullType(String)),",
+                "if (optionalNullable != null) r'optionalNullable': encodeParameter(_serializers, optionalNullable, const FullType(String)),");
+        TestUtils.assertFileContains(apiUtil,
+                "if (value == null) {\n"
+                        + "    return '';\n"
+                        + "  }");
+    }
 }
+

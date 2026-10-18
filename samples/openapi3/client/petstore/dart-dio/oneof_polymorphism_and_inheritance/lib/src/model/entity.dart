@@ -29,12 +29,12 @@ abstract class Entity implements Addressable, Extensible {
   static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
+    r'PizzaSpeziale': PizzaSpeziale,
     r'Bar': Bar,
     r'Bar_Create': BarCreate,
     r'Foo': Foo,
     r'Pasta': Pasta,
     r'Pizza': Pizza,
-    r'PizzaSpeziale': PizzaSpeziale,
   };
 
   @BuiltValueSerializer(custom: true)
@@ -43,6 +43,9 @@ abstract class Entity implements Addressable, Extensible {
 
 extension EntityDiscriminatorExt on Entity {
     String? get discriminatorValue {
+        if (this is PizzaSpeziale) {
+            return r'PizzaSpeziale';
+        }
         if (this is Bar) {
             return r'Bar';
         }
@@ -58,14 +61,14 @@ extension EntityDiscriminatorExt on Entity {
         if (this is Pizza) {
             return r'Pizza';
         }
-        if (this is PizzaSpeziale) {
-            return r'PizzaSpeziale';
-        }
         return null;
     }
 }
 extension EntityBuilderDiscriminatorExt on EntityBuilder {
     String? get discriminatorValue {
+        if (this is PizzaSpezialeBuilder) {
+            return r'PizzaSpeziale';
+        }
         if (this is BarBuilder) {
             return r'Bar';
         }
@@ -81,12 +84,11 @@ extension EntityBuilderDiscriminatorExt on EntityBuilder {
         if (this is PizzaBuilder) {
             return r'Pizza';
         }
-        if (this is PizzaSpezialeBuilder) {
-            return r'PizzaSpeziale';
-        }
         return null;
     }
 }
+
+
 
 class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   @override
@@ -141,6 +143,9 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     Entity object, {
     FullType specifiedType = FullType.unspecified,
   }) {
+    if (object is PizzaSpeziale) {
+      return serializers.serialize(object, specifiedType: FullType(PizzaSpeziale))!;
+    }
     if (object is Bar) {
       return serializers.serialize(object, specifiedType: FullType(Bar))!;
     }
@@ -156,9 +161,6 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     if (object is Pizza) {
       return serializers.serialize(object, specifiedType: FullType(Pizza))!;
     }
-    if (object is PizzaSpeziale) {
-      return serializers.serialize(object, specifiedType: FullType(PizzaSpeziale))!;
-    }
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
@@ -172,6 +174,8 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     final discIndex = serializedList.indexOf(Entity.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
+      case r'PizzaSpeziale':
+        return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       case r'Bar':
         return serializers.deserialize(serialized, specifiedType: FullType(Bar)) as Bar;
       case r'Bar_Create':
@@ -182,8 +186,6 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
         return serializers.deserialize(serialized, specifiedType: FullType(Pasta)) as Pasta;
       case r'Pizza':
         return serializers.deserialize(serialized, specifiedType: FullType(Pizza)) as Pizza;
-      case r'PizzaSpeziale':
-        return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Entity)) as $Entity;
     }

@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/user.dart';
 
 class UserApi {
@@ -238,7 +239,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(username));
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -285,7 +286,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(username));
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -484,7 +485,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodePathParameter(username));
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
