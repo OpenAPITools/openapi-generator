@@ -60,6 +60,7 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
     public CppBoostBeastClientCodegen() {
         super();
         openapiNormalizer.put("NORMALIZER_CLASS", CppBoostBeastOpenAPINormalizer.class.getName());
+        openapiNormalizer.put("NORMALIZE_BARE_NULL_SCHEMAS", "false");
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))

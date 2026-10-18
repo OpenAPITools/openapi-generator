@@ -344,11 +344,13 @@
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
             </dependency>
+            {{^jackson}}
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
                 <version>${beanvalidation-version}</version>
             </dependency>
+            {{/jackson}}
         {{/usePlayWS}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->

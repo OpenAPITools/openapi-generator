@@ -103,6 +103,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         // Shared model/validation templates live in cpp-boost-beast-common so
         // client and server generators resolve them from a single source.
         additionalEmbeddedTemplateDirs = new ArrayList<>(List.of("cpp-boost-beast-common"));
+        openapiNormalizer.put("NORMALIZE_BARE_NULL_SCHEMAS", "false");
     }
     /** Policy for format metadata in composition branch matching.
      *  Formats remain annotations and never affect branch match counts. */
@@ -254,8 +255,20 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
      * never in the pre-descriptor normalizer.
      */
     public static class CppBoostBeastOpenAPINormalizer extends OpenAPINormalizer {
+        private static final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
+        private static final String NORMALIZE_BARE_NULL_SCHEMAS = "NORMALIZE_BARE_NULL_SCHEMAS";
+
         public CppBoostBeastOpenAPINormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
-            super(openAPI, inputRules);
+            super(openAPI, defaultRules(inputRules));
+        }
+
+        private static Map<String, String> defaultRules(Map<String, String> inputRules) {
+            Map<String, String> rules = new HashMap<>();
+            rules.put(NORMALIZE_BARE_NULL_SCHEMAS, "false");
+            if (inputRules != null) {
+                rules.putAll(inputRules);
+            }
+            return rules;
         }
 
         @Override
@@ -296,6 +309,14 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 return schema;
             }
             return super.processSimplifyAnyOfEnum(schema);
+        }
+
+        @Override
+        protected Schema normalizeBareNullSchemaIfNeeded(Schema<?> schema, Set<Schema> visitedSchemas) {
+            if (getRule(NORMALIZE_31SPEC) && getRule(NORMALIZE_BARE_NULL_SCHEMAS)) {
+                return super.normalizeBareNullSchemaIfNeeded(schema, visitedSchemas);
+            }
+            return normalizeSchema(schema, visitedSchemas);
         }
     }
     @Override
