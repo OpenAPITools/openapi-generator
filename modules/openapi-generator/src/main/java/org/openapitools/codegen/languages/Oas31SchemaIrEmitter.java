@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
+
 /**
  * Emits the densified OAS 3.1 schema IR (Oas31SchemaRegistry.h,
  * schema_ir.generated.cpp, and optional schema_ir.generated.chunk*.cpp files)
@@ -1270,7 +1272,7 @@ final class Oas31SchemaIrEmitter {
         String pristineEnumJson = Oas31RawSpecRecovery.enumJsonOf(schema);
         if (pristineEnumJson != null) {
             n.enumJson = pristineEnumJson;
-        } else if (schema.getEnum() != null) {
+        } else if (isEnum(schema)) {
             // An EMPTY enum (enum: []) is a valid reject-all schema.
             n.enumJson = toJsonLiteral(schema.getEnum());
         }

@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
 import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -714,17 +715,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }

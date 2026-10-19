@@ -452,7 +452,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return example;
         }
 
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (isEnumSchema(schema)) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
@@ -552,7 +552,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (additionalObject instanceof Schema) {
                 Schema additional = (Schema) additionalObject;
                 String theKey = "'key'";
-                if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
+                if (isEnumSchema(additional)) {
                     theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
                         theKey = "'" + escapeTextInSingleQuotes(theKey) + "'";

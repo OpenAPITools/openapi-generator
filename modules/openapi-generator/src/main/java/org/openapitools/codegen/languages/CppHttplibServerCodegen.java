@@ -62,6 +62,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 
 /**
  * C++ HTTP Library Server Code Generator.
@@ -1768,7 +1769,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         if (ModelUtils.isStringSchema(p) || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             // For enum types, don't return empty string - it will be handled in processModelVariable
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null; // Let processModelVariable handle enum defaults
             }
             return p.getDefault() != null ? "\"" + p.getDefault().toString() + "\"" : "\"\"";
@@ -1781,13 +1782,13 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             // handled in processModelVariable. A synthetic default here is indistinguishable
             // from a real spec-declared default of 0, which would incorrectly suppress
             // std::optional wrapping for optional numeric enums without an explicit default.
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null;
             }
             return p.getDefault() != null ? p.getDefault().toString() : "0";
         }
         if (ModelUtils.isNumberSchema(p)) {
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null;
             }
             if (ModelUtils.isFloatSchema(p)) {

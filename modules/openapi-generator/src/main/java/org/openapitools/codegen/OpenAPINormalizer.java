@@ -43,8 +43,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
 import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
-import static org.openapitools.codegen.utils.ModelUtils.isOneOfOfConsts;
-import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
 public class OpenAPINormalizer {
@@ -1636,9 +1635,9 @@ public class OpenAPINormalizer {
 
         // find the string schema (enum)
         if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
-            if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
+            if (isEnum((StringSchema) s0)) { // s0 is enum, s1 is string
                 result = (StringSchema) s0;
-            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
+            } else if (isEnum((StringSchema) s1)) { // s1 is enum, s0 is string
                 result = (StringSchema) s1;
             } else { // both are string
                 result = schema;
@@ -2165,7 +2164,7 @@ public class OpenAPINormalizer {
 
         if (schema instanceof BooleanSchema) {
             BooleanSchema bs = (BooleanSchema) schema;
-            if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
+            if (isEnumSchema(bs)) {
                 bs.setEnum(null);
             }
         }
