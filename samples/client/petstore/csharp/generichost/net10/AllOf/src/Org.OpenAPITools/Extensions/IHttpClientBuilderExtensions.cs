@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Extensions
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, (HttpClientFactoryOptions options) =>
             {
                 options.HttpMessageHandlerBuilderActions.Add(builder =>
                 {
@@ -60,12 +60,12 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         public static IHttpClientBuilder SkipCertificateCheck(this IHttpClientBuilder client)
         {
-            client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, (HttpClientFactoryOptions options) =>
             {
                 options.HttpMessageHandlerBuilderActions.Add(builder =>
                 {
                     if (builder.PrimaryHandler is HttpClientHandler httpClientHandler)
-                        httpClientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                        httpClientHandler.ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) => true;
 #if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
                     else if (builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler)
                         socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;

@@ -405,9 +405,9 @@ public class CSharpClientCodegenTest {
         assertFileContains(extensions.toPath(), "ConfigureRemoteCertificateValidationCallback(");
         assertFileContains(extensions.toPath(), "callback(request, certificate, chain, errors)");
         assertFileContains(extensions.toPath(), "SkipCertificateCheck(this IHttpClientBuilder client)");
-        assertFileContains(extensions.toPath(), "HttpClientHandler.DangerousAcceptAnyServerCertificateValidator");
+        assertFileContains(extensions.toPath(), "ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) => true;");
         assertFileContains(extensions.toPath(),
-                "client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>",
+                "client.Services.Configure<HttpClientFactoryOptions>(client.Name, (HttpClientFactoryOptions options) =>",
                 "builder.PrimaryHandler is HttpClientHandler httpClientHandler",
                 "builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler",
                 "socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = callback;",
