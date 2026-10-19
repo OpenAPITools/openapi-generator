@@ -6,6 +6,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Security;
+using Microsoft.Extensions.Http;
 using Microsoft.Extensions.DependencyInjection;{{#supportsRetry}}
 using Polly.Timeout;
 using Polly.Extensions.Http;
@@ -28,10 +29,20 @@ namespace {{packageName}}.Extensions
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            client.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>
             {
-                ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) =>
-                    callback(request, certificate, chain, errors)
+                options.HttpMessageHandlerBuilderActions.Add(builder =>
+                {
+                    if (builder.PrimaryHandler is HttpClientHandler httpClientHandler)
+                        httpClientHandler.ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) =>
+                            callback(request, certificate, chain, errors);
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    else if (builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler)
+                        socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = callback;
+#endif
+                    else
+                        throw new InvalidOperationException("Certificate validation requires HttpClientHandler or SocketsHttpHandler.");
+                });
             });
 
             return client;
@@ -43,9 +54,19 @@ namespace {{packageName}}.Extensions
         /// </summary>
         public static IHttpClientBuilder SkipCertificateCheck(this IHttpClientBuilder client)
         {
-            client.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>
             {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                options.HttpMessageHandlerBuilderActions.Add(builder =>
+                {
+                    if (builder.PrimaryHandler is HttpClientHandler httpClientHandler)
+                        httpClientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    else if (builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler)
+                        socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+#endif
+                    else
+                        throw new InvalidOperationException("Certificate validation requires HttpClientHandler or SocketsHttpHandler.");
+                });
             });
 
             return client;

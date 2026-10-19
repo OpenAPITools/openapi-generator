@@ -406,6 +406,16 @@ public class CSharpClientCodegenTest {
         assertFileContains(extensions.toPath(), "callback(request, certificate, chain, errors)");
         assertFileContains(extensions.toPath(), "SkipCertificateCheck(this IHttpClientBuilder client)");
         assertFileContains(extensions.toPath(), "HttpClientHandler.DangerousAcceptAnyServerCertificateValidator");
+        assertFileContains(extensions.toPath(),
+                "client.Services.Configure<HttpClientFactoryOptions>(client.Name, options =>",
+                "builder.PrimaryHandler is HttpClientHandler httpClientHandler",
+                "builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler",
+                "socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = callback;",
+                "socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;");
+        assertFileNotContains(extensions.toPath(), "new HttpClientHandler");
+        assertFileContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "README.md"),
+                "builder => builder.SkipCertificateCheck()",
+                "Do not disable certificate validation in production.");
     }
 
     @Test
