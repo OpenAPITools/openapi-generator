@@ -279,4 +279,47 @@ class ObjectSerializerTest extends TestCase
             $defaultConfiguration->setBooleanFormatForQueryString($defaultFormat);
         }
     }
+
+    /**
+     * Booleans in non-exploded query values must be formatted like the given configuration,
+     * instead of being imploded into "1" and "".
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @dataProvider provideNonExplodedBooleanQueryValues
+     */
+    public function testNonExplodedBooleanQueryValues(
+        mixed $data,
+        string $openApiType,
+        string $style,
+        string $booleanFormat,
+        string $expected
+    ): void {
+        $config = (new Configuration())->setBooleanFormatForQueryString($booleanFormat);
+
+        $value = ObjectSerializer::toQueryValue($data, 'flags', $openApiType, $style, false, true, $config);
+
+        $this->assertSame($expected, urldecode(ObjectSerializer::buildQuery($value, PHP_QUERY_RFC3986, $config)));
+    }
+
+    public static function provideNonExplodedBooleanQueryValues(): array
+    {
+        return [
+            'form array, string format' => [
+                [true, false], 'array', 'form', Configuration::BOOLEAN_FORMAT_STRING, 'flags=true,false',
+            ],
+            'form array, int format' => [
+                [true, false], 'array', 'form', Configuration::BOOLEAN_FORMAT_INT, 'flags=1,0',
+            ],
+            'pipeDelimited array, string format' => [
+                [true, false], 'array', 'pipeDelimited', Configuration::BOOLEAN_FORMAT_STRING, 'flags=true|false',
+            ],
+            'form object, string format' => [
+                ['enabled' => true, 'archived' => false], 'object', 'form', Configuration::BOOLEAN_FORMAT_STRING,
+                'flags=enabled,true,archived,false',
+            ],
+            'form boolean, int format' => [
+                false, 'boolean', 'form', Configuration::BOOLEAN_FORMAT_INT, 'flags=0',
+            ],
+        ];
+    }
 }

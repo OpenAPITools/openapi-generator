@@ -331,6 +331,14 @@ class ObjectSerializer
             $value = self::convertBoolToQueryStringFormat($value, $config);
         }
 
+        if (!$explode) {
+            // serializeCollection() would implode booleans into "1" or "", so convert them first
+            $value = array_map(
+                fn (mixed $v): mixed => is_bool($v) ? self::convertBoolToQueryStringFormat($v, $config) : $v,
+                (array) $value
+            );
+        }
+
         // handle style in serializeCollection
         $query[$paramName] = ($explode) ? $value : self::serializeCollection((array)$value, $style);
 
