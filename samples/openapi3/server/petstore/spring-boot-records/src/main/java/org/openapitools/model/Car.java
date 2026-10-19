@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Car extends Vehicle {
+public final class Car extends Vehicle {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer doors;

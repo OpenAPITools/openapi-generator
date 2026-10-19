@@ -8,13 +8,17 @@ src/main/java/org/openapitools/api/CountersApi.java
 src/main/java/org/openapitools/api/PetsApi.java
 src/main/java/org/openapitools/api/ShapesApi.java
 src/main/java/org/openapitools/api/VehiclesApi.java
+src/main/java/org/openapitools/api/ZoosApi.java
 src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/Account.java
+src/main/java/org/openapitools/model/Animal.java
 src/main/java/org/openapitools/model/Car.java
+src/main/java/org/openapitools/model/Cat.java
 src/main/java/org/openapitools/model/Circle.java
 src/main/java/org/openapitools/model/Counters.java
+src/main/java/org/openapitools/model/Dog.java
 src/main/java/org/openapitools/model/Filter.java
 src/main/java/org/openapitools/model/Owner.java
 src/main/java/org/openapitools/model/Pet.java
@@ -22,6 +26,7 @@ src/main/java/org/openapitools/model/PetKind.java
 src/main/java/org/openapitools/model/Shape.java
 src/main/java/org/openapitools/model/Square.java
 src/main/java/org/openapitools/model/Vehicle.java
+src/main/java/org/openapitools/model/Zoo.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java
