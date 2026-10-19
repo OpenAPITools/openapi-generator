@@ -28,6 +28,11 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Asset'
+                assetSet:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Asset'
                 photo:
                   type: string
                   format: binary
@@ -53,6 +58,11 @@ paths:
                   nullable: true
                 assets:
                   $ref: '#/components/schemas/Asset'
+                assetSet:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Asset'
       responses:
         '204':
           description: Created

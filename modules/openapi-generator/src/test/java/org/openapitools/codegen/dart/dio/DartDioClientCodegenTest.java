@@ -528,7 +528,9 @@ public class DartDioClientCodegenTest {
             Path api = generateFormParamsClient(serializationLibrary);
             TestUtils.assertFileContains(api,
                     "if (assets != null) r'assets': jsonEncode(assets),",
-                    "if (assetList != null) r'assetList': jsonEncode(assetList),");
+                    "if (assetList != null) r'assetList': jsonEncode(assetList),",
+                    // jsonEncode cannot encode a Set, so uniqueItems arrays are converted first
+                    "if (assetSet != null) r'assetSet': jsonEncode(assetSet.toList()),");
             // primitives and files are passed through unchanged
             TestUtils.assertFileContains(api, "if (tag != null) r'tag': tag,", "if (photo != null) r'photo': photo,");
         }
