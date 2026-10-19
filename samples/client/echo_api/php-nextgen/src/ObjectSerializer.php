@@ -760,10 +760,7 @@ class ObjectSerializer
             throw new \InvalidArgumentException('Invalid type');
         }
 
-        $config ??= Configuration::getDefaultConfiguration();
-        $castBool = Configuration::BOOLEAN_FORMAT_INT == $config->getBooleanFormatForQueryString()
-            ? function ($v) { return (int) $v; }
-            : function ($v) { return $v ? 'true' : 'false'; };
+        $castBool = fn (bool $v): int|string => self::convertBoolToQueryStringFormat($v, $config);
 
         $qs = '';
         foreach ($params as $k => $v) {
