@@ -668,6 +668,21 @@ public class ModelUtils {
         return (isStringSchema(schema) || isIntegerSchema(schema) || isNumberSchema(schema) || isBooleanSchema(schema));
     }
 
+    /**
+     * Return true if the schema has exactly one type and it is the given one:
+     * {@code type} in OAS 3.0, or a single entry in OAS 3.1 {@code types}.
+     *
+     * @param schema the OAS schema
+     * @param type   the type, e.g. "string"
+     * @return true if the schema has only the given type
+     */
+    public static boolean isSingleTypeSchema(Schema<?> schema, String type) {
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            return schema.getTypes().size() == 1 && schema.getTypes().contains(type);
+        }
+        return type.equals(schema.getType());
+    }
+
     public static boolean isStringSchema(Schema schema) {
         return schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(getType(schema));
     }
