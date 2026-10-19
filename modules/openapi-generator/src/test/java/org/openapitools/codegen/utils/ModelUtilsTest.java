@@ -1410,6 +1410,20 @@ public class ModelUtilsTest {
         assertNestedNullable(property(cloned, "anyOf").getAnyOf().get(0), "an `anyOf` sub-schema");
     }
 
+    @Test
+    public void testIsSingleTypeSchema() {
+        assertTrue(ModelUtils.isSingleTypeSchema(new StringSchema(), "string"));
+        assertFalse(ModelUtils.isSingleTypeSchema(new StringSchema(), "boolean"));
+        assertFalse(ModelUtils.isSingleTypeSchema(new Schema<>(), "string"));
+
+        Schema<?> oas31 = new JsonSchema();
+        oas31.setTypes(new LinkedHashSet<>(List.of("string")));
+        assertTrue(ModelUtils.isSingleTypeSchema(oas31, "string"));
+
+        oas31.setTypes(new LinkedHashSet<>(List.of("string", "null")));
+        assertFalse(ModelUtils.isSingleTypeSchema(oas31, "string"));
+    }
+
     private static Schema<?> property(Schema<?> schema, String name) {
         return schema.getProperties().get(name);
     }
