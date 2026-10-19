@@ -1,0 +1,42 @@
+name: Samples TypeScript Playwright Client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/typescript-playwright/**
+      - .github/workflows/samples-typescript-playwright.yaml
+  pull_request:
+    paths:
+      - samples/client/petstore/typescript-playwright/**
+      - .github/workflows/samples-typescript-playwright.yaml
+jobs:
+  build:
+    name: Build TypeScript Playwright client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18.x"
+          - "20.x"
+          - "22.x"
+        sample:
+          - samples/client/petstore/typescript-playwright/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: Type-check generated client and tests
+        working-directory: ${{ matrix.sample }}
+        run: npm run typecheck
+      # The generated tests issue real HTTP requests against a running server
+      # (BASE_URL) with placeholder data, so they are not executed here. Listing
+      # them compiles every spec and proves the suite is discoverable by Playwright.
+      - name: Verify tests are discoverable
+        working-directory: ${{ matrix.sample }}
+        run: npx playwright test --list
