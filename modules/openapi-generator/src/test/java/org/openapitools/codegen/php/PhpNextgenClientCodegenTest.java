@@ -96,6 +96,29 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testBooleanFormatForQueryStringDefaultsToString() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String configurationPhp = String.join("\n", Files.readAllLines(files.get("Configuration.php").toPath()));
+
+        // booleans in query strings must be serialized as "true" or "false" like in the other generators
+        Assert.assertTrue(configurationPhp.contains(
+                "protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_STRING;"), configurationPhp);
+    }
+
+    @Test
     public void testEnumUnknownDefaultCaseDeserializationEnabled() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
