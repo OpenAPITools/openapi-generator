@@ -12,6 +12,7 @@ import org.openapitools.codegen.examples.ExampleGenerator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,6 +23,103 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ExampleGeneratorTest {
+    @DataProvider(name = "numericPrecision")
+    public Object[][] numericPrecision() {
+        return new Object[][] {
+                {new IntegerSchema().format("int64").minimum(BigDecimal.valueOf(Long.MAX_VALUE)), "9223372036854775807"},
+                {new IntegerSchema().maximum(new BigDecimal("1e400")), "2147483647"},
+                {new IntegerSchema().format("int64").minimum(new BigDecimal("-1e400")), "-9223372036854775808"},
+                {new IntegerSchema().format("int64").minimum(new BigDecimal("9007199254740993"))
+                        .maximum(new BigDecimal("9007199254740993")), "9007199254740993"},
+                {new Schema<>().type("number").format("float").minimum(BigDecimal.ONE).exclusiveMinimum(true)
+                        .maximum(new BigDecimal("1.0000001")), "1.0000001"},
+                {new Schema<>().type("number").format("float").minimum(new BigDecimal("0.99999994"))
+                        .maximum(BigDecimal.ONE).exclusiveMaximum(true), "0.99999994"},
+                {new Schema<>().type("number").format("double").minimum(BigDecimal.ONE).exclusiveMinimum(true)
+                        .maximum(new BigDecimal("1.0000000000000002")), "1.0000000000000002"},
+                {new Schema<>().type("number").format("double").minimum(new BigDecimal("0.9999999999999999"))
+                        .maximum(BigDecimal.ONE).exclusiveMaximum(true), "0.9999999999999999"},
+                {new IntegerSchema().minimum(BigDecimal.valueOf(-2)).exclusiveMinimum(true)
+                        .maximum(BigDecimal.ZERO).exclusiveMaximum(true), "-1"},
+                {new IntegerSchema().minimum(BigDecimal.valueOf(3)).exclusiveMinimumValue(BigDecimal.ONE)
+                        .maximum(BigDecimal.valueOf(3)), "3"},
+                {new IntegerSchema().minimum(BigDecimal.ONE).exclusiveMinimumValue(BigDecimal.ONE)
+                        .maximum(BigDecimal.valueOf(2)), "2"},
+                {new IntegerSchema().minimum(BigDecimal.valueOf(-2)).maximum(BigDecimal.valueOf(-2))
+                        .exclusiveMaximumValue(BigDecimal.valueOf(-1)), "-2"},
+                {new IntegerSchema().minimum(BigDecimal.valueOf(-2)).maximum(BigDecimal.valueOf(-1))
+                        .exclusiveMaximumValue(BigDecimal.valueOf(-1)), "-2"}
+        };
+    }
+
+    @Test(dataProvider = "numericPrecision")
+    public void generateNumericExamplePreservesPrecision(Schema<?> schema, String expected) throws Exception {
+        ExampleGenerator generator = new ExampleGenerator(Collections.emptyMap(), new OpenAPI());
+        List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), schema);
+        BigDecimal example = new BigDecimal(examples.get(0).get("example"));
+
+        assertEquals(0, example.compareTo(new BigDecimal(expected)));
+    }
+
+    @DataProvider(name = "numericBounds")
+    public Object[][] numericBounds() {
+        List<Object[]> cases = new ArrayList<>();
+        String[][] formats = {{"integer", null}, {"integer", "int32"}, {"integer", "int64"},
+                {"number", null}, {"number", "float"}, {"number", "double"}};
+        Object[][] bounds = {{null, "-5", false, false}, {"0", null, true, false},
+                {null, "0", false, true}, {"-5", "-4", true, false},
+                {"1", "2", false, true}, {"1.2", null, false, false},
+                {null, "-1.2", false, false}, {"-1.2", "1.2", true, true},
+                {null, "1e40", false, true}, {"-1e40", null, true, false}};
+        for (String[] format : formats) {
+            for (Object[] bound : bounds) {
+                for (boolean openAPI31 : new boolean[]{false, true}) {
+                    cases.add(new Object[]{format[0], format[1], bound[0], bound[1], bound[2], bound[3], openAPI31});
+                }
+            }
+        }
+        return cases.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "numericBounds")
+    public void generateNumericExampleWithinBounds(String type, String format, String minimum, String maximum,
+                                                  boolean exclusiveMinimum, boolean exclusiveMaximum,
+                                                  boolean openAPI31) throws Exception {
+        BigDecimal min = minimum == null ? null : new BigDecimal(minimum);
+        BigDecimal max = maximum == null ? null : new BigDecimal(maximum);
+        Schema<?> schema = new Schema<>().type(type).format(format);
+        if (openAPI31 && exclusiveMinimum) {
+            schema.setExclusiveMinimumValue(min);
+        } else {
+            schema.setMinimum(min);
+            schema.setExclusiveMinimum(exclusiveMinimum);
+        }
+        if (openAPI31 && exclusiveMaximum) {
+            schema.setExclusiveMaximumValue(max);
+        } else {
+            schema.setMaximum(max);
+            schema.setExclusiveMaximum(exclusiveMaximum);
+        }
+        ExampleGenerator generator = new ExampleGenerator(Collections.emptyMap(), new OpenAPI());
+        for (int i = 0; i < 10; i++) {
+            List<Map<String, String>> examples = generator.generate(null, Collections.singletonList("application/json"), schema);
+            JsonNode example = new ObjectMapper().readTree(examples.get(0).get("example"));
+            assertTrue(example.isNumber());
+            if ("integer".equals(type)) {
+                assertTrue(example.isIntegralNumber());
+            }
+            BigDecimal value = new BigDecimal(example.asText());
+            if (min != null) {
+                assertTrue(value + " violates minimum " + min,
+                        exclusiveMinimum ? value.compareTo(min) > 0 : value.compareTo(min) >= 0);
+            }
+            if (max != null) {
+                assertTrue(value + " violates maximum " + max,
+                        exclusiveMaximum ? value.compareTo(max) < 0 : value.compareTo(max) <= 0);
+            }
+        }
+    }
+
     @DataProvider(name = "namedMapSchemas")
     public Object[][] namedMapSchemas() {
         return new Object[][] {
