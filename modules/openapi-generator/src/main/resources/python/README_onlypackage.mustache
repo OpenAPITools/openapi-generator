@@ -20,6 +20,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 Python {{{generatorLanguageVersion}}}
 
+{{>lazy_configuration}}
 ## Installation & Usage
 
 This python library package is generated without supporting files like setup.py or requirements files
@@ -36,7 +37,7 @@ To be able to use it, you will need these dependencies in your own package that 
 * pem >= 19.3.0
 * pycryptodome >= 3.9.0
 {{/hasHttpSignatureMethods}}
-* pydantic >= 2.11
+* pydantic >= {{#lazyNativeImport}}2.14{{/lazyNativeImport}}{{^lazyNativeImport}}2.11{{/lazyNativeImport}}
 * typing-extensions >= 4.7.1
 
 ## Getting Started

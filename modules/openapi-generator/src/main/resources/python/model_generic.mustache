@@ -7,7 +7,7 @@ import json
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from typing import Optional, Set
 from typing_extensions import Self
@@ -650,7 +650,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)

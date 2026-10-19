@@ -16,5 +16,5 @@ httpx2 >= 2.13.0, < 3
 pem >= 19.3.0
 pycryptodome >= 3.9.0
 {{/hasHttpSignatureMethods}}
-pydantic >= 2.11
+pydantic >= {{#lazyNativeImport}}2.14{{/lazyNativeImport}}{{^lazyNativeImport}}2.11{{/lazyNativeImport}}
 typing-extensions >= 4.7.1

@@ -1,10 +1,12 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 language: python
 python:
+{{^lazyNativeImport}}
   - "3.11"
   - "3.12"
   - "3.13"
   - "3.14"
+{{/lazyNativeImport}}
   - "3.15"
   # uncomment the following if needed
   #- "3.14-dev"  # 3.14 development branch
