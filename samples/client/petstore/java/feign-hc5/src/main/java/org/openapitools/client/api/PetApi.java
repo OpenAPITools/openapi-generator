@@ -120,7 +120,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
   "Accept: application/json,application/xml",
   })
-  List<Pet> findPetsByStatus(@QueryMap(encoded=true) FindPetsByStatusQueryParams queryParams);
+  List<Pet> findPetsByStatus(@QueryMap FindPetsByStatusQueryParams queryParams);
 
   /**
   * Finds Pets by status
@@ -138,7 +138,7 @@ public interface PetApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json,application/xml",
       })
-   ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@QueryMap(encoded=true) FindPetsByStatusQueryParams queryParams);
+   ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@QueryMap FindPetsByStatusQueryParams queryParams);
 
 
    /**
@@ -203,7 +203,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
   "Accept: application/json,application/xml",
   })
-  Set<Pet> findPetsByTags(@QueryMap(encoded=true) FindPetsByTagsQueryParams queryParams);
+  Set<Pet> findPetsByTags(@QueryMap FindPetsByTagsQueryParams queryParams);
 
   /**
   * Finds Pets by tags
@@ -223,7 +223,7 @@ public interface PetApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json,application/xml",
       })
-   ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@QueryMap(encoded=true) FindPetsByTagsQueryParams queryParams);
+   ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@QueryMap FindPetsByTagsQueryParams queryParams);
 
 
    /**
