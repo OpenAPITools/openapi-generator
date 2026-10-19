@@ -591,7 +591,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.10";
+        return "3.11";
     }
 
     @Override

@@ -14,9 +14,6 @@ stages:
    - pip install -r test-requirements.txt
    - pytest --cov=legacy_model_dict_client
 
-pytest-3.10:
-  extends: .pytest
-  image: python:3.10-alpine
 pytest-3.11:
   extends: .pytest
   image: python:3.11-alpine

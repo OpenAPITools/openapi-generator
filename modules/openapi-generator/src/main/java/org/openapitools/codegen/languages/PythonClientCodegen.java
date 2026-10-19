@@ -615,7 +615,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.10+";
+        return "3.11+";
     }
 
     @Override
