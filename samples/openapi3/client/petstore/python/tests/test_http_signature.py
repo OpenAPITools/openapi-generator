@@ -254,7 +254,7 @@ class PetApiTests(unittest.TestCase):
         if not os.path.exists(cls.rsa4096_key_path):
             key = RSA.generate(4096)
             private_key = key.export_key(
-                format='PEM'
+                format='PEM',
                 passphrase=cls.private_key_passphrase,
                 pkcs=1
             )
