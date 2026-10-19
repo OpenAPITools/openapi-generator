@@ -327,7 +327,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_RECORDS,
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
                         + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
-                        + "oneOf or anyOf, a byte[] property, more than 250 properties, the FAIL null policy, a "
+                        + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
                         + "property name a record cannot have, or a model bound from request parameters. Not supported "
                         + "with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
@@ -1869,10 +1869,12 @@ public class SpringCodegen extends AbstractJavaCodegen
      * extension {@code x-is-record}. A model that stays a class is logged with the reason.
      */
     private void markRecordModels(Map<String, CodegenModel> allModels) {
-        Set<String> oneOfMembers = new HashSet<>();
+        Map<String, List<CodegenModel>> oneOfInterfacesOfMember = new HashMap<>();
         for (CodegenModel cm : allModels.values()) {
             if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE)) && cm.oneOf != null) {
-                oneOfMembers.addAll(cm.oneOf);
+                for (String member : cm.oneOf) {
+                    oneOfInterfacesOfMember.computeIfAbsent(member, k -> new ArrayList<>()).add(cm);
+                }
             }
         }
 
@@ -1885,7 +1887,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
                 continue;
             }
-            String reason = reasonForClass(cm, oneOfMembers, parameterSchemas, constructedByDefault);
+            String reason = reasonForClass(cm, parameterSchemas, constructedByDefault);
+            List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
+            if (reason == null) {
+                reason = oneOfDiscriminatorAccessors(cm, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
+                        discriminatorAccessors);
+            }
             if (reason != null) {
                 LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
                 continue;
@@ -1900,6 +1907,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
             cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
+            cm.vendorExtensions.put("x-record-discriminator-accessors", discriminatorAccessors);
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
     }
@@ -2028,7 +2036,94 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    private String reasonForClass(CodegenModel cm, Set<String> oneOfMembers, Set<String> parameterSchemas,
+    /**
+     * The interface of a oneOf with a discriminator declares {@code getX()} for it, and a record has only {@code x()}.
+     * The interfaces include those the member's interfaces extend, because an interface that is itself a member of
+     * another oneOf extends that one.
+     * Collects one accessor for each distinct getter name of the interfaces this member implements: the getter name
+     * is the interface's own, it returns the component whose JSON name is the discriminator's property, and carries
+     * {@code @JsonProperty} with that JSON name like the class's getter (Jackson would otherwise derive another
+     * name from the method for names such as {@code TYPE}). Returns the reason to keep the model a class when a
+     * discriminator has no such property or a nullable one under openApiNullable (the class does not compile
+     * either), or when one getter name would have to return two components, otherwise null. A component whose
+     * Java name starts with {@code get} never gets here: {@code reasonForClass} keeps the model a class.
+     */
+    private String oneOfDiscriminatorAccessors(CodegenModel cm, List<CodegenModel> interfaces,
+                                               List<Map<String, String>> accessors) {
+        if (interfaces == null) {
+            return null;
+        }
+        Map<String, CodegenProperty> componentOfGetter = new HashMap<>();
+        Map<String, String> interfaceOfGetter = new HashMap<>();
+        for (CodegenModel oneOfInterface : interfaces) {
+            CodegenDiscriminator discriminator = oneOfInterface.discriminator;
+            if (discriminator == null) {
+                continue;
+            }
+            CodegenProperty component = null;
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.baseName.equals(discriminator.getPropertyBaseName())) {
+                    component = cp;
+                    break;
+                }
+            }
+            if (component == null) {
+                return "it has no property '" + discriminator.getPropertyBaseName()
+                        + "', the discriminator of the oneOf interface " + oneOfInterface.classname;
+            }
+            if (openApiNullable && component.isNullable) {
+                // the component is a JsonNullable<T> while the interface declares T getX(): the class's getter
+                // returns a JsonNullable too and does not implement the interface either
+                return "its discriminator property '" + component.baseName + "' for the oneOf interface "
+                        + oneOfInterface.classname + " is nullable";
+            }
+            CodegenProperty previous = componentOfGetter.putIfAbsent(discriminator.getPropertyGetter(), component);
+            if (previous != null) {
+                if (previous != component) {
+                    return "the oneOf interfaces " + interfaceOfGetter.get(discriminator.getPropertyGetter()) + " and "
+                            + oneOfInterface.classname + " both declare " + discriminator.getPropertyGetter()
+                            + "() for different properties";
+                }
+                continue;
+            }
+            interfaceOfGetter.put(discriminator.getPropertyGetter(), oneOfInterface.classname);
+            Map<String, String> accessor = new HashMap<>();
+            accessor.put("getter", discriminator.getPropertyGetter());
+            accessor.put("component", component.name);
+            accessor.put("baseName", component.baseName);
+            accessor.put("type", component.datatypeWithEnum);
+            accessors.add(accessor);
+        }
+        return null;
+    }
+
+    /**
+     * The oneOf interfaces a member has to satisfy: those listing it in {@code oneOf}, then the interfaces each of
+     * them is itself a member of, and so on (an interface that is a oneOf member extends the interface above it).
+     * The direct interfaces come first in their order, then the enclosing ones depth-first, each interface once.
+     */
+    private static List<CodegenModel> oneOfInterfacesWithEnclosing(String member,
+                                                                   Map<String, List<CodegenModel>> interfacesOfMember) {
+        List<CodegenModel> result = new ArrayList<>();
+        collectOneOfInterfaces(member, interfacesOfMember, result, new HashSet<>());
+        return result;
+    }
+
+    private static void collectOneOfInterfaces(String member, Map<String, List<CodegenModel>> interfacesOfMember,
+                                               List<CodegenModel> result, Set<String> visited) {
+        List<CodegenModel> added = new ArrayList<>();
+        for (CodegenModel oneOfInterface : interfacesOfMember.getOrDefault(member, Collections.emptyList())) {
+            if (visited.add(oneOfInterface.classname)) {
+                result.add(oneOfInterface);
+                added.add(oneOfInterface);
+            }
+        }
+        for (CodegenModel oneOfInterface : added) {
+            collectOneOfInterfaces(oneOfInterface.classname, interfacesOfMember, result, visited);
+        }
+    }
+
+    private String reasonForClass(CodegenModel cm, Set<String> parameterSchemas,
                                   Map<String, String> constructedByDefault) {
         if (cm.parent != null) {
             return "it has a parent (" + cm.parent + ")";
@@ -2041,9 +2136,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         if (isNotEmpty(cm.additionalPropertiesType)) {
             return "it has additionalProperties";
-        }
-        if (oneOfMembers.contains(cm.classname)) {
-            return "it is a member of a oneOf interface";
         }
         if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
             return "it is a oneOf or anyOf composition";
