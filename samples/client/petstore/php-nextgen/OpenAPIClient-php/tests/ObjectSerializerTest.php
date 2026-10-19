@@ -76,6 +76,14 @@ class ObjectSerializerTest extends TestCase
             'form 0 integer, explode on, required false' => [
                 0, 'quantity', 'integer', 'form', true, false, 'quantity=0',
             ],
+            // enabled=true
+            'form true boolean, explode on, required true' => [
+                true, 'enabled', 'boolean', 'form', true, true, 'enabled=true',
+            ],
+            // enabled=false
+            'form false boolean, explode on, required false' => [
+                false, 'enabled', 'boolean', 'form', true, false, 'enabled=false',
+            ],
 
             // DEEP OBJECT
             // status[0]=available&status[1]=pending&status[2]=sold
@@ -94,6 +102,61 @@ class ObjectSerializerTest extends TestCase
                 'filter%5Bname%5D=Rex&filter%5Bcategory%5D%5Bname%5D=Dogs',
             ],
         ];
+    }
+
+    /**
+     * @covers ObjectSerializer::buildQuery
+     */
+    public function testBuildQueryWithRawBooleans(): void
+    {
+        $this->assertEquals(
+            'enabled=true&disabled=false&list=true&list=false',
+            ObjectSerializer::buildQuery(['enabled' => true, 'disabled' => false, 'list' => [true, false]])
+        );
+    }
+
+    /**
+     * The deprecated int format must still serialize booleans as 1 or 0.
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @covers ObjectSerializer::buildQuery
+     */
+    public function testBooleanFormatInt(): void
+    {
+        $defaultConfiguration = Configuration::getDefaultConfiguration();
+        Configuration::setDefaultConfiguration(
+            (new Configuration())->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_INT)
+        );
+
+        try {
+            $value = ObjectSerializer::toQueryValue(true, 'enabled', 'boolean', 'form', true, true);
+            $this->assertEquals('enabled=1', ObjectSerializer::buildQuery($value));
+            $this->assertEquals('enabled=0', ObjectSerializer::buildQuery(['enabled' => false]));
+        } finally {
+            Configuration::setDefaultConfiguration($defaultConfiguration);
+        }
+    }
+
+    /**
+     * The string format must serialize booleans as true or false.
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @covers ObjectSerializer::buildQuery
+     */
+    public function testBooleanFormatString(): void
+    {
+        $defaultConfiguration = Configuration::getDefaultConfiguration();
+        Configuration::setDefaultConfiguration(
+            (new Configuration())->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING)
+        );
+
+        try {
+            $value = ObjectSerializer::toQueryValue(true, 'enabled', 'boolean', 'form', true, true);
+            $this->assertEquals('enabled=true', ObjectSerializer::buildQuery($value));
+            $this->assertEquals('enabled=false', ObjectSerializer::buildQuery(['enabled' => false]));
+        } finally {
+            Configuration::setDefaultConfiguration($defaultConfiguration);
+        }
     }
 
     /**
