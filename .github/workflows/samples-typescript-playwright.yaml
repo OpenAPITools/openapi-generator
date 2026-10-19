@@ -28,15 +28,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+      - name: Run echo server
+        # The generated tests issue real HTTP requests and assert on the response
+        # status. Point them at wing328's echo server (which answers 200 to any
+        # request) so the Playwright client is exercised at runtime, deterministically.
+        run: |
+          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
+          (cd http-echo-server && git checkout 15a684c41d4de692878636f47fcc1670af309a0f && npm install && npm start &)
       - name: npm install
         working-directory: ${{ matrix.sample }}
         run: npm install
       - name: Type-check generated client and tests
         working-directory: ${{ matrix.sample }}
         run: npm run typecheck
-      # The generated tests issue real HTTP requests against a running server
-      # (BASE_URL) with placeholder data, so they are not executed here. Listing
-      # them compiles every spec and proves the suite is discoverable by Playwright.
-      - name: Verify tests are discoverable
+      - name: Test
         working-directory: ${{ matrix.sample }}
-        run: npx playwright test --list
+        env:
+          BASE_URL: http://localhost:3000
+        run: npm test
