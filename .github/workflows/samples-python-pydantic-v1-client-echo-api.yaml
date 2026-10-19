@@ -17,7 +17,6 @@ jobs:
           # clients
           - samples/client/echo_api/python-pydantic-v1/
         python-version:
-          - "3.10"
           - "3.11"
           - "3.12"
           - "3.13"
