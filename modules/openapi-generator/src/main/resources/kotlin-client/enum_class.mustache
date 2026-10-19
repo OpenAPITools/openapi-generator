@@ -48,8 +48,10 @@ import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 
 /**
- * {{{description}}}
+{{#description}}
+ * {{{.}}}
  *
+{{/description}}
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
 {{#multiplatform}}@Serializable{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}

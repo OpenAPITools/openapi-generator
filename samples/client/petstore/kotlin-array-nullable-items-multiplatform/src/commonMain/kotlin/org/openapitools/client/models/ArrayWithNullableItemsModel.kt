@@ -29,10 +29,8 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 /**
- * 
- *
- * @param requiredItems 
- * @param optionalItems 
+ * @param requiredItems
+ * @param optionalItems
  */
 @Serializable
 

@@ -30,8 +30,8 @@ import com.squareup.moshi.JsonClass
 /**
  * A category for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 
 

@@ -28,10 +28,8 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
- *
  * @param id Query
- * @param outcomes 
+ * @param outcomes
  */
 
 
@@ -47,8 +45,6 @@ data class ApiQuery (
 ) {
 
     /**
-     * 
-     *
      * Values: SUCCESS,FAILURE,SKIPPED
      */
     @JsonClass(generateAdapter = false)

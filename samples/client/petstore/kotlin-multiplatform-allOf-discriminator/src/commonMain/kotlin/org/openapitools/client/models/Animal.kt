@@ -30,12 +30,10 @@ import kotlinx.serialization.encoding.*
 import kotlinx.serialization.json.JsonClassDiscriminator
 
 /**
- * 
- *
- * @param id 
- * @param optionalProperty 
- * @param stringSet 
- * @param stringArray 
+ * @param id
+ * @param optionalProperty
+ * @param stringSet
+ * @param stringArray
  */
 @Serializable
 

@@ -30,8 +30,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * A tag for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 
 
