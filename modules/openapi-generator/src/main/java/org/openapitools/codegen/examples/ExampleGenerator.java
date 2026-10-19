@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+
 public class ExampleGenerator {
     private final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
@@ -301,10 +303,9 @@ public class ExampleGenerator {
             if (property.getDefault() != null) {
                 return String.valueOf(property.getDefault());
             }
-            List<String> enumValues = property.getEnum();
-            if (enumValues != null && !enumValues.isEmpty()) {
-                LOGGER.debug("Enum value found: '{}'", enumValues.get(0));
-                return enumValues.get(0);
+            if (isEnumSchema(property)) {
+                LOGGER.debug("Enum value found: '{}'", property.getEnum().get(0));
+                return property.getEnum().get(0);
             }
             String format = property.getFormat();
             if (format != null && (URI.equals(format) || URL.equals(format))) {

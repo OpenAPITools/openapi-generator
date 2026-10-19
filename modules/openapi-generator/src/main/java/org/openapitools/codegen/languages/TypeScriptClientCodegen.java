@@ -54,7 +54,7 @@ import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -628,7 +628,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
         if (schema.getDefault() != null) {
             return schema.getDefault();
-        } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        } else if (isEnumSchema(schema)) {
             return schema.getEnum().get(0);
         }
         return null;
@@ -864,7 +864,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 Schema addPropsSchema = (Schema) addPropsObj;
                 String key = "key";
                 Object addPropsExample = getObjectExample(addPropsSchema);
-                if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
+                if (isEnumSchema(addPropsSchema)) {
                     key = addPropsSchema.getEnum().get(0).toString();
                 }
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);

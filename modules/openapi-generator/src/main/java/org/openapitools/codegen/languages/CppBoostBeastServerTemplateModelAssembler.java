@@ -38,6 +38,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+
 /**
  * Template-model assembly for the Boost.Beast server generator: converts each
  * {@link CodegenOperation} into the vendor-extension facts consumed by the
@@ -553,7 +555,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
         // members. Skipping keeps the allow-list exact and compilable; if
         // EVERY declared member is unreachable, enumAlwaysInvalid fails the
         // check closed rather than silently permitting everything.
-        if (schema != null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (schema != null && isEnumSchema(schema)) {
             for (Object value : schema.getEnum()) {
                 if (value instanceof Boolean) {
                     if (!boolKind) {
@@ -621,8 +623,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
         // skipping the enum check (hasEnum false would let everything
         // through).
         emit(facts, prefix, "enumAlwaysInvalid",
-                schema != null && schema.getEnum() != null
-                        && !schema.getEnum().isEmpty() && enumValues.isEmpty());
+                schema != null && isEnumSchema(schema) && enumValues.isEmpty());
         String pattern = schema != null && schema.getPattern() != null
                 ? CppBoostBeastModelCodegen.escapeCppStringContent(schema.getPattern()) : "";
         emit(facts, prefix, "pattern", pattern);

@@ -32,11 +32,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.Oas31CompositionLowering.AllOfIntersection;
 import org.openapitools.codegen.languages.Oas31CompositionLowering.CompositionBranchDescriptor;
 import org.openapitools.codegen.languages.Oas31CompositionLowering.CompositionDescriptor;
-import org.openapitools.codegen.languages.Oas31CompositionLowering.DiscriminatorDescriptor;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +44,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+import static org.openapitools.codegen.utils.ModelUtils.hasSingleEnum;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -522,8 +521,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 }
                 Schema varSchema = (Schema) rawProp;
                 boolean hasOasConst = varSchema.getConst() != null;
-                boolean hasSingleValueEnum = varSchema.getEnum() != null
-                        && varSchema.getEnum().size() == 1;
+                boolean hasSingleValueEnum = hasSingleEnum(varSchema);
                 boolean hasStainlessConst = varSchema.getExtensions() != null
                         && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"));
                 if (!(hasOasConst || hasSingleValueEnum || hasStainlessConst)) {
@@ -532,7 +530,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 String constRawValue = null;
                 if (varSchema.getConst() != null) {
                     constRawValue = varSchema.getConst().toString();
-                } else if (varSchema.getEnum() != null && !varSchema.getEnum().isEmpty()) {
+                } else if (isEnumSchema(varSchema)) {
                     constRawValue = varSchema.getEnum().get(0).toString();
                 }
                 if (constRawValue == null && var.example != null) {
@@ -804,7 +802,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                     }
                 }
             }
-            boolean isEnum = resolvedChild.getEnum() != null && !resolvedChild.getEnum().isEmpty();
+            boolean isEnum = isEnumSchema(resolvedChild);
             boolean isStringLike = ModelUtils.isStringSchema(resolvedChild)
                     || "std::string".equals(childType);
             composedBranches.add(new ComposedBranch(childType, isEnum, isStringLike, -1));
