@@ -355,7 +355,7 @@ class UserApi
                 }
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams, PHP_QUERY_RFC3986, $this->config);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -591,7 +591,7 @@ class UserApi
                 }
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams, PHP_QUERY_RFC3986, $this->config);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -827,7 +827,7 @@ class UserApi
                 }
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams, PHP_QUERY_RFC3986, $this->config);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2001,7 +2001,7 @@ class UserApi
                 }
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams, PHP_QUERY_RFC3986, $this->config);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
