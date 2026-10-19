@@ -34,7 +34,22 @@ jobs:
         # request) so the Playwright client is exercised at runtime, deterministically.
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
-          (cd http-echo-server && git checkout 15a684c41d4de692878636f47fcc1670af309a0f && npm install && npm start &)
+          cd http-echo-server
+          git checkout 15a684c41d4de692878636f47fcc1670af309a0f
+          npm install
+          # Background only the server itself; it keeps running for later steps.
+          npm start &
+          # Wait until it is actually listening before moving on, so the test
+          # step never races server startup.
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://localhost:3000 >/dev/null; then
+              echo "Echo server is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Echo server did not become ready" >&2
+          exit 1
       - name: npm install
         working-directory: ${{ matrix.sample }}
         run: npm install
