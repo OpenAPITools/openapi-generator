@@ -1,6 +1,8 @@
+.scalafmt.conf
 README.md
 build.sbt
 project/build.properties
+project/plugins.sbt
 src/main/scala/org/openapitools/client/api/PetApi.scala
 src/main/scala/org/openapitools/client/api/StoreApi.scala
 src/main/scala/org/openapitools/client/api/UserApi.scala

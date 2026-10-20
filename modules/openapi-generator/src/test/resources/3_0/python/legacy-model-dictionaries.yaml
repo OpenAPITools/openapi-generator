@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  title: Legacy model dictionaries
+  version: 1.0.0
+paths:
+  /legacy-models:
+    get:
+      operationId: listLegacyModels
+      summary: List legacy models
+      responses:
+        '200':
+          description: Legacy model list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegacyModel'
+components:
+  schemas:
+    NestedModel:
+      type: object
+      properties:
+        camelCase:
+          type: string
+        nestedReadOnlyValue:
+          type: string
+          readOnly: true
+    LegacyBase:
+      type: object
+      properties:
+        inheritedValue:
+          type: string
+    LegacyModel:
+      allOf:
+        - $ref: '#/components/schemas/LegacyBase'
+        - type: object
+          properties:
+            continue:
+              type: string
+            ordinary:
+              type: string
+            readOnlyValue:
+              type: string
+              readOnly: true
+            nested:
+              $ref: '#/components/schemas/NestedModel'
+            nestedList:
+              type: array
+              items:
+                $ref: '#/components/schemas/NestedModel'
+            nestedMap:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/NestedModel'
+            nestedLists:
+              type: array
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NestedModel'
+            nestedMaps:
+              type: array
+              items:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/NestedModel'
+            mapOfLists:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NestedModel'
+            mapOfMaps:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/NestedModel'
+            nullableValue:
+              type: string
+              nullable: true
+            defaultValue:
+              type: string
+              default: default
+    AdditionalPropertiesModel:
+      type: object
+      additionalProperties: true
+      properties:
+        declaredValue:
+          type: string
+    OneOfModel:
+      oneOf:
+        - $ref: '#/components/schemas/LegacyModel'
+        - type: array
+          items:
+            $ref: '#/components/schemas/NestedModel'
+        - type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NestedModel'
+        - type: string
+    AnyOfModel:
+      anyOf:
+        - $ref: '#/components/schemas/LegacyModel'
+        - type: array
+          items:
+            $ref: '#/components/schemas/NestedModel'
+        - type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NestedModel'
+        - type: string

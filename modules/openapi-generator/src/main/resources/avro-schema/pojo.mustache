@@ -2,9 +2,10 @@
   {{#vars}}
     {
       "name": "{{baseName}}",
-      "type": {{^required}}["null", {{/required}}{{>typeProperty}}{{^required}}]{{/required}},
-      "doc": "{{{description}}}"{{^required}},
-      "default": null{{/required}}
+      "type": {{^defaultValue}}{{^required}}["null", {{/required}}{{>typeProperty}}{{^required}}]{{/required}}{{/defaultValue}}{{#defaultValue}}{{^required}}[{{/required}}{{>typeProperty}}{{^required}}, "null"]{{/required}}{{/defaultValue}},
+      "doc": "{{{description}}}"{{#defaultValue}},
+      "default": {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{^required}},
+      "default": null{{/required}}{{/defaultValue}}
     }{{^-last}},{{/-last}}
   {{/vars}}
   ]

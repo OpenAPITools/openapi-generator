@@ -37,6 +37,7 @@ import {{javaxPackage}}.annotation.Generated;
 
 
 {{>common/generatedAnnotation}}
+
 @Filter({{#configureAuthFilterPattern}}"{{authorizationFilterPattern}}"{{/configureAuthFilterPattern}}{{^configureAuthFilterPattern}}Filter.MATCH_ALL_PATTERN{{/configureAuthFilterPattern}})
 public class AuthorizationFilter implements HttpClientFilter {
     private static final Logger LOG = LoggerFactory.getLogger(ClientCredentialsHttpClientFilter.class);

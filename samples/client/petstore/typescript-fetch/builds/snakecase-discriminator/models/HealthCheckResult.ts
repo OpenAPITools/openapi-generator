@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface HealthCheckResult {
     /**
      * 
-     * @type {string}
-     * @memberof HealthCheckResult
      */
     nullableMessage?: string | null;
 }
@@ -44,14 +42,19 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'nullableMessage': json['NullableMessage'] == null ? undefined : json['NullableMessage'],
+        'nullableMessage': json['NullableMessage'] === undefined ? undefined : json['NullableMessage'] === null ? null : json['NullableMessage'],
     };
 }
 
-export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
+export function HealthCheckResultToJSON(json: any): HealthCheckResult {
+    return HealthCheckResultToJSONTyped(json, false);
+}
+
+export function HealthCheckResultToJSONTyped(value?: HealthCheckResult | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'NullableMessage': value['nullableMessage'],

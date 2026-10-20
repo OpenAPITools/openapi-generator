@@ -17,13 +17,15 @@ import pprint
 import re  # noqa: F401
 import json
 
+from collections.abc import Mapping as _Mapping
 from importlib import import_module
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, Union, cast as _cast
 from typing import Optional, Set
 from typing_extensions import Self
-
+from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from petstore_api.models.cat import Cat
     from petstore_api.models.dog import Dog
@@ -32,13 +34,57 @@ class Animal(BaseModel):
     """
     Animal
     """ # noqa: E501
-    class_name: StrictStr = Field(alias="className")
+    class_name: StrictStr = Field(validation_alias=AliasChoices("className", "_class_name"), serialization_alias="className", alias="_class_name")
     color: Optional[StrictStr] = 'red'
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["className", "color"]
 
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if (
+            "className" in obj
+            and "_class_name" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "className",
+                    "_class_name",
+                )
+            )
+        if "className" not in obj and "_class_name" in obj:
+            obj["className"] = obj["_class_name"]
+        obj.pop("_class_name", None)
+        if remove_hidden_storage_names:
+            obj.pop("class_name", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
+
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -55,7 +101,7 @@ class Animal(BaseModel):
     @classmethod
     def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj.get(cls.__discriminator_property_name)
         if discriminator_value:
             return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
@@ -67,8 +113,7 @@ class Animal(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Union[Cat, Dog]]:
@@ -105,6 +150,15 @@ class Animal(BaseModel):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a dict"""
+
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=False,
+            ),
+        )
+
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
         if object_type ==  'Cat':
@@ -116,4 +170,32 @@ class Animal(BaseModel):
                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
+    if TYPE_CHECKING:
+
+        @property
+        def _class_name(self) -> _Animal_class_name_public_type:
+            return self.class_name
+
+        @_class_name.setter
+        def _class_name(self, value: _Animal_class_name_public_type) -> None:
+            self.class_name = value
+
+
+if TYPE_CHECKING:
+    _Animal_class_name_public_type = StrictStr
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+setattr(
+    Animal,
+    "_class_name",
+    property(
+        lambda self: self.class_name,
+        lambda self, value: setattr(
+            self,
+            "class_name",
+            value,
+        ),
+    ),
+)
 

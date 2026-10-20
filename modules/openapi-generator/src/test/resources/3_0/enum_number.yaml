@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: API with number enum.
+  version: 1.0.0
+paths:
+  /resources:
+    get:
+      summary: Returns resources.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resource'
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ExampleNumberEnum'
+    ExampleNumberEnum:
+      type: number
+      description: Example of an Enum with number values
+      enum:
+        - 1.1
+        - 2.2
+        - 3.3
+

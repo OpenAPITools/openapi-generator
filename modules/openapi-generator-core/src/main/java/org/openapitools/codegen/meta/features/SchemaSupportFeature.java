@@ -54,11 +54,11 @@ public enum SchemaSupportFeature {
      *
      * <p>
      * This means that a single "Type" in generated code may refer to one of any type in a set of 2 or more types.
-     *
+     * <p>
      * This is defined as a union as "OneOf" support is not explicitly limited to physical boundaries in OpenAPI Specification. The
      * implementation of such a type is easily represented dynamically (a JSON object), but requires explicit language support and
      * potentially a custom implementation (typed instances).
-     *
+     * <p>
      * Note that a generator may support "Unions" very loosely by returning an Object/Any/ref/interface{} type, leaving onus
      * on type determination to the consumer. This does *NOT* suggest generated code implements a "Union Type".
      * </p>

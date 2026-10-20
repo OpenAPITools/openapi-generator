@@ -23,6 +23,17 @@ import java.time.LocalDate
 import java.util.UUID
 import scala.reflect.ClassTag
 import scala.util.*
+import upickle.default.*
+
+
+extension (f: java.io.File) {
+    def bytes: Array[Byte] = java.nio.file.Files.readAllBytes(f.toPath)
+    def toBase64: String   = java.util.Base64.getEncoder.encodeToString(bytes)
+}
+
+given Writer[java.io.File] = new Writer[java.io.File] {
+    def write0[V](out: upickle.core.Visitor[?, V], v: java.io.File) = out.visitString(v.toBase64, -1)
+}
 
 // needed for BigDecimal params
 given cask.endpoints.QueryParamReader.SimpleParam[BigDecimal](BigDecimal.apply)
@@ -154,6 +165,15 @@ extension (request: cask.Request) {
   def headerManyValues(paramName: String, required: Boolean): Parsed[List[String]] = Parsed.manyValues(request.headers, paramName, required)
 
   def bodyAsString = new String(request.readAllBytes(), "UTF-8")
+
+  def bodyAsJson : Try[ujson.Value] = {
+      val jason  = bodyAsString
+      try {
+        Success(read[ujson.Value](jason))
+      } catch {
+        case scala.util.control.NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
+      }
+    }
   
   def pathValue(index: Int, paramName: String, required : Boolean): Parsed[String] = {
     request

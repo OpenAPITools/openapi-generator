@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,20 +20,16 @@ import io.swagger.parser.OpenAPIParser
 import io.swagger.v3.parser.core.models.ParseOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.logging.Logging
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.options.Option
-import org.gradle.internal.logging.text.StyledTextOutput
-import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator
 import org.openapitools.codegen.validations.oas.RuleConfiguration
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
+import java.io.File
+import javax.inject.Inject
 
 /**
  * A generator which validates an Open API spec. This task outputs a list of validation issues and errors.
@@ -41,47 +37,94 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  * Example:
  * cli:
  *
- *   ./gradlew openApiValidate --input=/path/to/file
+ * ./gradlew openApiValidate --input=/path/to/file
  *
  * build.gradle.kts:
  *
- *   openApiMeta {
- *      inputSpec = "path/to/spec.yaml"
- *   }
+ * openApiValidate {
+ * inputSpec.set(layout.projectDirectory.file("path/to/spec.yaml"))
+ * }
  *
  * @author Jim Schubert
  */
-open class ValidateTask : DefaultTask() {
+@CacheableTask
+abstract class ValidateTask : DefaultTask() {
+
+    @get:Inject
+    abstract val layout: ProjectLayout
+
+    /**
+     * The local OpenAPI 2.0/3.x specification file to validate.
+     *
+     * Use [remoteInputSpec] instead when validating a spec hosted at a URL.
+     */
+    @get:Optional
     @get:InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val inputSpec: RegularFileProperty
 
-    @Optional
-    @Input
-    val recommend = project.objects.property<Boolean>().convention(true)
+    /**
+     * The remote OpenAPI 2.0/3.x specification URL to validate.
+     *
+     * When both [inputSpec] and [remoteInputSpec] are set, [remoteInputSpec] takes priority.
+     */
+    @get:Optional
+    @get:Input
+    abstract val remoteInputSpec: Property<String>
 
-    @get:Internal
-    @set:Option(option = "input", description = "The input specification.")
-    var input: String? = null
-        set(value) {
-            inputSpec.set(value)
+    /**
+     * Whether to include recommendations in the validation output. Defaults to `true`.
+     *
+     * Recommendations are advisory hints about spec quality that do not cause the task to fail.
+     */
+    @get:Optional
+    @get:Input
+    abstract val recommend: Property<Boolean>
+
+    /**
+     * When `true`, the task fails if the spec produces validation warnings. Defaults to `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val treatWarningsAsErrors: Property<Boolean>
+
+    init {
+        recommend.convention(true)
+        treatWarningsAsErrors.convention(false)
+    }
+
+    @Suppress("unused")
+    @Option(option = "input", description = "The input specification (local path or URL).")
+    fun setInput(value: String) {
+        if (value.isNotEmpty()) {
+            if (value.isRemoteUri()) {
+                remoteInputSpec.set(value)
+            } else {
+                inputSpec.set(layout.projectDirectory.file(value))
+            }
         }
+    }
 
     @TaskAction
     fun doWork() {
-        val logger = Logging.getLogger(javaClass)
+        // Evaluate inputs - prefer remote if provided, fallback to local file
+        val specLocation = remoteInputSpec.orNull ?: inputSpec.orNull?.asFile?.absolutePath
 
-        val spec = inputSpec.get()
+        if (specLocation == null) {
+            throw GradleException("You must configure either inputSpec or provide a valid remote input via --input")
+        }
+
         val recommendations = recommend.get()
+        val failOnWarnings = treatWarningsAsErrors.get()
 
-        logger.quiet("Validating spec $spec")
+        logger.lifecycle("Validating spec $specLocation")
 
         val options = ParseOptions()
         options.isResolve = true
 
-        val result = OpenAPIParser().readLocation(spec, null, options)
+        // Pass specLocation instead of specPath
+        val result = OpenAPIParser().readLocation(specLocation, null, options)
         val messages = result.messages.toSet()
-        val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
 
         val ruleConfiguration = RuleConfiguration()
         ruleConfiguration.isEnableRecommendations = recommendations
@@ -89,38 +132,90 @@ open class ValidateTask : DefaultTask() {
         val evaluator = OpenApiEvaluator(ruleConfiguration)
         val validationResult = evaluator.validate(result.openAPI)
 
-        if (validationResult.warnings.isNotEmpty()) {
-            out.withStyle(StyledTextOutput.Style.Info)
-            out.println("\nSpec has issues or recommendations.\nIssues:\n")
+        val hasErrors = messages.isNotEmpty() || validationResult.errors.isNotEmpty()
+        val hasWarnings = validationResult.warnings.isNotEmpty()
 
+        if (hasWarnings) {
+            logger.warn("\nSpec has issues or recommendations.\nIssues:\n")
             validationResult.warnings.forEach {
-                out.withStyle(StyledTextOutput.Style.Info)
-                out.println("\t${it.message}\n")
+                logger.warn("\t${it.message}")
                 logger.debug("WARNING: ${it.message}|${it.details}")
             }
+            logger.warn("") // spacing line
         }
 
-        if (messages.isNotEmpty() || validationResult.errors.isNotEmpty()) {
-            out.withStyle(StyledTextOutput.Style.Error)
-            out.println("\nSpec is invalid.\nIssues:\n")
+        if (hasErrors) {
+            logger.error("\nSpec is invalid.\nIssues:\n")
 
             messages.forEach {
-                out.withStyle(StyledTextOutput.Style.Error)
-                out.println("\t$it\n")
+                logger.error("\t$it")
                 logger.debug("ERROR: $it")
             }
 
             validationResult.errors.forEach {
-                out.withStyle(StyledTextOutput.Style.Error)
-                out.println("\t${it.message}\n")
+                logger.error("\t${it.message}")
                 logger.debug("ERROR: ${it.message}|${it.details}")
             }
+            logger.error("") // spacing line
 
-            throw GradleException("Validation failed.")
+            throw GradleException("Validation failed. Spec is invalid.")
+        }
+
+        if (failOnWarnings && hasWarnings) {
+            logger.error("\nWarnings found in the spec and 'treatWarningsAsErrors' is enabled.\nFailing validation.\n")
+            throw GradleException("Validation failed due to warnings (treatWarningsAsErrors = true).")
+        }
+
+        logger.debug("No error validations from swagger-parser or internal validations.")
+        logger.lifecycle("Spec is valid.")
+    }
+
+    // ========================================================================
+    // Kotlin DSL extension function for property setter
+    // Allows Kotlin DSL users to call .set(String) on the inputSpec property
+    // when configuring tasks directly (e.g., tasks.named<ValidateTask>("openApiValidate") { ... })
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting inputSpec with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        when (this) {
+            inputSpec -> {
+                if (path.isRemoteUri()) {
+                    remoteInputSpec.set(path)
+                } else {
+                    this.set(layout.projectDirectory.file(path))
+                }
+            }
+            else -> {
+                // Fallback for any other RegularFileProperty
+                this.set(layout.projectDirectory.file(path))
+            }
+        }
+    }
+
+    // ========================================================================
+    // Groovy DSL bridge methods
+    // These methods allow Groovy DSL users to set properties using String paths.
+    // Groovy's property syntax allows calling these as:
+    //   - Method style: setInputSpecAsString("$rootDir/api.yaml")
+    //   - Property style: inputSpecAsString = "$rootDir/api.yaml"
+    // ========================================================================
+
+    /**
+     * Groovy-compatible setter for inputSpec property.
+     * Accepts a String and automatically routes to remote or local file based on URI detection.
+     * Clears the opposite property to prevent stale values from taking precedence.
+     */
+    fun setInputSpecAsString(path: String) {
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
         } else {
-            out.withStyle(StyledTextOutput.Style.Success)
-            logger.debug("No error validations from swagger-parser or internal validations.")
-            out.println("Spec is valid.")
+            inputSpec.set(layout.projectDirectory.file(path))
+            remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
         }
     }
 }

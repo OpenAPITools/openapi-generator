@@ -18,23 +18,26 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from uuid import UUID
 from petstore_api.models.animal import Animal
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     MixedPropertiesAndAdditionalPropertiesClass
     """ # noqa: E501
-    uuid: Optional[StrictStr] = None
+    uuid: Optional[UUID] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     __properties: ClassVar[List[str]] = ["uuid", "dateTime", "map"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -46,8 +49,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -75,9 +77,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each value in map (dict)
         _field_dict = {}
         if self.map:
-            for _key in self.map:
-                if self.map[_key]:
-                    _field_dict[_key] = self.map[_key].to_dict()
+            for _key_map in self.map:
+                _field_dict[_key_map] = self.map[_key_map].to_dict() if self.map[_key_map] is not None else None
             _dict['map'] = _field_dict
         return _dict
 

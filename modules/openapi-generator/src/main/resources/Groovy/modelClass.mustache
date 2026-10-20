@@ -1,3 +1,6 @@
+{{#withXml}}
+@XmlAccessorType(XmlAccessType.NONE)
+{{/withXml}}
 @Canonical
 class {{classname}} {
 {{#vars}}
@@ -16,6 +19,12 @@ class {{classname}} {
 
     {{/isEnum}}
     {{#description}}/* {{{.}}} */{{/description}}
+    {{#withXml}}
+    @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+        {{#isXmlWrapped}}
+    @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+        {{/isXmlWrapped}}
+    {{/withXml}}
     {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
 {{/vars}}
 }

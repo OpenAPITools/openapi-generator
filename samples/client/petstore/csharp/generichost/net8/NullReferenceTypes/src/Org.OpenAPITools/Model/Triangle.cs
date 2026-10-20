@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        public Triangle(EquilateralTriangle equilateralTriangle)
+        internal Triangle(EquilateralTriangle equilateralTriangle)
         {
             EquilateralTriangle = equilateralTriangle;
             OnCreated();
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle)
+        internal Triangle(IsoscelesTriangle isoscelesTriangle)
         {
             IsoscelesTriangle = isoscelesTriangle;
             OnCreated();
@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        public Triangle(ScaleneTriangle scaleneTriangle)
+        internal Triangle(ScaleneTriangle scaleneTriangle)
         {
             ScaleneTriangle = scaleneTriangle;
             OnCreated();
@@ -121,8 +121,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Triangle" />
     /// </summary>
-    public class TriangleJsonConverter : JsonConverter<Triangle>
+    public partial class TriangleJsonConverter : JsonConverter<Triangle>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangleJsonConverter" /> class.
+        /// </summary>
+        public TriangleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Triangle" />
         /// </summary>
@@ -206,10 +216,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class Triangle: triangleType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
+                throw new JsonException("Property is not nullable for class Triangle: triangleType.");
 
             if (equilateralTriangle != null)
                 return new Triangle(equilateralTriangle);
@@ -229,7 +239,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -262,7 +271,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
 

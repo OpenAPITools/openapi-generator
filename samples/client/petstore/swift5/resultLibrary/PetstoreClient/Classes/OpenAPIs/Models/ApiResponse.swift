@@ -10,19 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ApiResponse: Codable, JSONEncodable, Hashable {
+internal struct ApiResponse: Codable, JSONEncodable {
 
-    public var code: Int?
-    public var type: String?
-    public var message: String?
+    internal private(set) var code: Int?
+    internal private(set) var type: String?
+    internal private(set) var message: String?
 
-    public init(code: Int? = nil, type: String? = nil, message: String? = nil) {
+    internal init(code: Int? = nil, type: String? = nil, message: String? = nil) {
         self.code = code
         self.type = type
         self.message = message
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type
         case message
@@ -30,7 +30,7 @@ public struct ApiResponse: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(code, forKey: .code)
         try container.encodeIfPresent(type, forKey: .type)

@@ -1,51 +1,133 @@
+{{#poetry1}}
 [tool.poetry]
+{{/poetry1}}
+{{^poetry1}}
+[project]
+{{/poetry1}}
 name = "{{{packageName}}}"
 version = "{{{packageVersion}}}"
 description = "{{{appName}}}"
+{{#poetry1}}
 authors = ["{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}} <{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}>"]
-license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
+{{/poetry1}}
+{{^poetry1}}
+authors = [
+  {name = "{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}}",email = "{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"},
+]
+{{/poetry1}}
+{{#licenseInfo}}
+{{#poetry1}}
+license = "{{{licenseInfo}}}"
+{{/poetry1}}
+{{^poetry1}}
+license = { text = "{{{licenseInfo}}}" }
+{{/poetry1}}
+{{/licenseInfo}}
 readme = "README.md"
-repository = "https://github.com/{{{gitUserId}}}/{{{gitRepoId}}}"
+{{#poetry1}}
+repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
+{{/poetry1}}
 keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
-include = ["{{packageName}}/py.typed"]
+{{#poetry1}}
+{{#sourceFolder}}
+packages = [
+  { include = "{{{packageName}}}", from = "{{{sourceFolder}}}" },
+]
+{{/sourceFolder}}
+include = ["{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-
-urllib3 = ">= 1.25.3"
-python-dateutil = ">=2.8.2"
+python = "^3.11"
+{{^async}}
+urllib3 = ">= 2.7.0, < 3.0.0"
+{{/async}}
+python-dateutil = ">= 2.8.2"
 {{#asyncio}}
-aiohttp = ">= 3.8.4"
+aiohttp = ">= 3.14.1"
 aiohttp-retry = ">= 2.8.3"
 {{/asyncio}}
-{{#tornado}}
-tornado = ">=4.2,<5"
-{{/tornado}}
+{{#httpx}}
+httpx = ">= 0.28.1"
+{{/httpx}}
+{{#httpx2}}
+httpx2 = ">= 2.13.0, < 3"
+{{/httpx2}}
 {{#hasHttpSignatureMethods}}
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
-pydantic = ">=2"
-typing-extensions = ">=4.7.1"
+pydantic = ">= 2.11"
+typing-extensions = ">= 4.7.1"
+{{/poetry1}}
+{{^poetry1}}
+requires-python = ">=3.11"
 
+dependencies = [
+{{^async}}
+  "urllib3 (>=2.7.0,<3.0.0)",
+{{/async}}
+  "python-dateutil (>=2.8.2)",
+{{#httpx}}
+  "httpx (>=0.28.1)",
+{{/httpx}}
+{{#httpx2}}
+  "httpx2 (>=2.13.0,<3)",
+{{/httpx2}}
+{{#asyncio}}
+  "aiohttp (>=3.14.1)",
+  "aiohttp-retry (>=2.8.3)",
+{{/asyncio}}
+{{#hasHttpSignatureMethods}}
+  "pem (>=19.3.0)",
+  "pycryptodome (>=3.9.0)",
+{{/hasHttpSignatureMethods}}
+  "pydantic (>=2.11)",
+  "typing-extensions (>=4.7.1)",
+]
+
+[project.urls]
+Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
+
+{{/poetry1}}
+{{#poetry1}}
+# Deprecated by Poetry; retained for compatibility with legacy Poetry 1 releases.
 [tool.poetry.dev-dependencies]
-pytest = ">=7.2.1"
-tox = ">=3.9.0"
-flake8 = ">=4.0.0"
-types-python-dateutil = ">=2.8.19.14"
-mypy = "1.4.1"
+pytest = ">= 9.0.3"
+pytest-cov = ">= 2.8.1"
+tox = ">= 3.9.0"
+flake8 = ">= 4.0.0"
+types-python-dateutil = ">= 2.8.19.14"
+mypy = ">= 1.5"
+{{/poetry1}}
+{{^poetry1}}
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+  "pytest-cov>=2.8.1",
+  "tox>=3.9.0",
+  "flake8>=4.0.0",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+]
+{{/poetry1}}
 
 
 [build-system]
+{{#hatchling}}
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+{{/hatchling}}
+{{^hatchling}}
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+{{/hatchling}}
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "{{{packageName}}}",
+  "{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{{packageName}}}",
   #"test",  # auto-generated tests
   "tests", # hand-written tests
 ]
@@ -59,7 +141,7 @@ warn_unused_ignores = true
 
 ## Getting these passing should be easy
 strict_equality = true
-strict_concatenate = true
+extra_checks = true
 
 ## Strongly recommend enabling this one as soon as you can
 check_untyped_defs = true
@@ -80,3 +162,20 @@ disallow_any_generics = true
 #
 ### This one can be tricky to get passing if you use a lot of untyped libraries
 #warn_return_any = true
+
+[[tool.mypy.overrides]]
+module = [
+  "{{{packageName}}}.configuration",
+]
+warn_unused_ignores = true
+strict_equality = true
+extra_checks = true
+check_untyped_defs = true
+disallow_subclassing_any = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_reexport = true
+warn_return_any = true

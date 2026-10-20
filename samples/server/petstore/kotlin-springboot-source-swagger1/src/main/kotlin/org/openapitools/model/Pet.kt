@@ -1,11 +1,14 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
-import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -29,35 +32,60 @@ import io.swagger.annotations.ApiModelProperty
 data class Pet(
 
     @ApiModelProperty(example = "doggie", required = true, value = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @ApiModelProperty(example = "null", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
-    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @ApiModelProperty(value = "pet status in the store")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") val status: Pet.Status? = null
-) : Serializable{
+) : java.io.Serializable {
 
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
 
-        @JsonProperty("available") available("available"),
-        @JsonProperty("pending") pending("pending"),
-        @JsonProperty("sold") sold("sold")
+        available("available"),
+        pending("pending"),
+        sold("sold");
+    
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): Status {
+                return values().firstOrNull{ it.value == value }
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
+            }
+        }
     }
 
     companion object {

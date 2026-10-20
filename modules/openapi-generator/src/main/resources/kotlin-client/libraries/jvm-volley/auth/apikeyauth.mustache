@@ -3,7 +3,7 @@
      // TODO: Not sure about cookie auth form
      // If implementing api key in query parameter use the ^isKeyInHeader property
 
-     val apiKeyAuthHeaderFactoryBuilder = {
+     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKeyAuthHeaderFactoryBuilder = {
           paramName: String, apiKeyPrefix: String?, apiKey: String? -> {
               mapOf(paramName to
                  if (apiKeyPrefix != null) {

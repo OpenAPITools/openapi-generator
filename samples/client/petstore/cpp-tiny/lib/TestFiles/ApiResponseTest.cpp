@@ -12,7 +12,7 @@ using namespace Tiny;
 
 void test_ApiResponse_code_is_assigned_from_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "code", 1
     };
@@ -35,7 +35,7 @@ void test_ApiResponse_type_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "type", "hello"
     };
@@ -56,7 +56,7 @@ void test_ApiResponse_message_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "message", "hello"
     };
@@ -76,7 +76,7 @@ void test_ApiResponse_message_is_assigned_from_json()
 
 void test_ApiResponse_code_is_converted_to_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "code", 1
     };
@@ -98,7 +98,7 @@ void test_ApiResponse_code_is_converted_to_json()
 void test_ApiResponse_type_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "type", "hello"
     };
@@ -119,7 +119,7 @@ void test_ApiResponse_type_is_converted_to_json()
 void test_ApiResponse_message_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "message", "hello"
     };

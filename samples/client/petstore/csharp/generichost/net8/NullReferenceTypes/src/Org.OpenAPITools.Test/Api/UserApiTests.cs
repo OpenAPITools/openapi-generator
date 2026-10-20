@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Test.Api
             string username = default!;
             var response = await _instance.GetUserByNameAsync(username);
             var model = response.Ok();
-            Assert.IsType<User>(model);
+            Assert.IsType<Org.OpenAPITools.Model.User>(model);
         }
 
         /// <summary>
@@ -108,9 +108,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task LoginUserAsyncTest()
         {
-            string username = default!;
             string password = default!;
-            var response = await _instance.LoginUserAsync(username, password);
+            string username = default!;
+            var response = await _instance.LoginUserAsync(password, username);
             var model = response.Ok();
             Assert.IsType<string>(model);
         }

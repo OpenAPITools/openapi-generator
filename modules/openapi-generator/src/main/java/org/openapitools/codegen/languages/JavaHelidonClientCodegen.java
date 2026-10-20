@@ -17,19 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -37,34 +24,36 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-helidon/common/} and {@code src/main/resources/java-helidon/client/}.
+ */
 public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaHelidonClientCodegen.class);
 
     private static final String X_HELIDON_REQUIRED_IMPL_IMPORTS = "x-helidon-requiredImplImports";
     private static final String X_HELIDON_IMPL_IMPORTS = "x-helidon-implImports";
+    private static final String X_CLIENT_STYLE_V3 = "x-helidon-client-style-v3";
     public static final String CONFIG_KEY = "configKey";
 
     @Setter protected String configKey = null;
@@ -173,6 +162,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
+        // Not intended for users to set; we compute this based on the major version.
+        additionalProperties.put(X_CLIENT_STYLE_V3, helidonMajorVersion == 3);
         convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
@@ -199,7 +190,12 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         } else if (isLibrary(HELIDON_SE)) {
             apiTemplateFiles.put("api_impl.mustache", ".java");
             importMapping.put("StringJoiner", "java.util.StringJoiner");
-            importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            if (helidonMajorVersion == 3) {
+                importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            } else {
+                importMapping.put("ClientRequestHeaders", "io.helidon.http.ClientRequestHeaders");
+                importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
+            }
             importMapping.put("Pair", invokerPackage + ".Pair");
 
 
@@ -215,8 +211,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             unmodifiable.add(new SupportingFile("ResponseType.mustache", apiFolder.toString(), "ResponseType.java"));
 
             processSupportingFiles(modifiable, unmodifiable);
-        }
-        else {
+        } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
@@ -274,15 +269,15 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
             Set<String> missingImportClassNames = new TreeSet<>(requiredImplImportClassNames);
             imports.stream()
-                .map(m -> m.get("classname"))
-                .forEach(missingImportClassNames::remove);
+                    .map(m -> m.get("classname"))
+                    .forEach(missingImportClassNames::remove);
 
             missingImportClassNames.forEach(c -> {
-                    Map<String, String> singleImportMap = new HashMap<>();
-                    singleImportMap.put("classname", c);
-                    singleImportMap.put("import", Objects.requireNonNull(importMapping.get(c), "no mapping for " + c));
-                    implImports.add(singleImportMap);
-                });
+                Map<String, String> singleImportMap = new HashMap<>();
+                singleImportMap.put("classname", c);
+                singleImportMap.put("import", Objects.requireNonNull(importMapping.get(c), "no mapping for " + c));
+                implImports.add(singleImportMap);
+            });
 
             objs.put(X_HELIDON_IMPL_IMPORTS, implImports);
             return objs;
@@ -309,7 +304,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("Pair");
         }
         if (op.getHasHeaderParams()) {
-            requiredImplImports.add("WebClientRequestHeaders");
+            requiredImplImports.add(helidonMajorVersion == 3 ? "WebClientRequestHeaders" : "ClientRequestHeaders");
+            if (helidonMajorVersion > 3) {
+                requiredImplImports.add("HeaderNames");
+            }
         }
         if (op.getHasFormParams()) {
             requiredImplImports.add("StringJoiner");
@@ -318,14 +316,14 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("StringJoiner");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
             requiredImplImports.add("List");
             op.imports.add("List");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
             requiredImplImports.add("Map");
             op.imports.add("Map");
         }
@@ -360,14 +358,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         if (HELIDON_MP.equals(getLibrary())) {
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         } else if (HELIDON_SE.equals(getLibrary())) {
             // TODO check for SE-specifics
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         }
 
         if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
@@ -420,10 +414,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
-                                if (defaultValue.equals(enumVars.get("name"))) {
+                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.getAllowableValues())) {
+                                if (defaultValue.equals(enumVars.getEnumName())) {
                                     // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.get("value");
+                                    var.defaultValue = (String) enumVars.getEnumValue();
                                 }
                             }
                         }
@@ -490,11 +484,13 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
-            Map<String, String> oneImport = new HashMap<>();
-            oneImport.put("import", importMapping.get(i));
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
+        if(additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
             }
         }
     }

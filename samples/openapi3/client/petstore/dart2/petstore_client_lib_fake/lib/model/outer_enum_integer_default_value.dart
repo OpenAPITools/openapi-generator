@@ -11,31 +11,30 @@
 part of openapi.api;
 
 
-class OuterEnumIntegerDefaultValue {
-  /// Instantiate a new enum with the provided [value].
-  const OuterEnumIntegerDefaultValue._(this.value);
+enum OuterEnumIntegerDefaultValue {
+  number0._(0),
+  number1._(1),
+  number2._(2),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const OuterEnumIntegerDefaultValue._(this._value);
 
   /// The underlying value of this enum member.
-  final int value;
+  final int _value;
 
   @override
-  String toString() => value.toString();
+  String toString() => _value.toString();
 
-  int toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  int toJson() => _value;
 
-  static const number0 = OuterEnumIntegerDefaultValue._(0);
-  static const number1 = OuterEnumIntegerDefaultValue._(1);
-  static const number2 = OuterEnumIntegerDefaultValue._(2);
-
-  /// List of all possible values in this [enum][OuterEnumIntegerDefaultValue].
-  static const values = <OuterEnumIntegerDefaultValue>[
-    number0,
-    number1,
-    number2,
-  ];
-
+  /// Returns the instance of [OuterEnumIntegerDefaultValue] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static OuterEnumIntegerDefaultValue? fromJson(dynamic value) => OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [OuterEnumIntegerDefaultValue]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<OuterEnumIntegerDefaultValue> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnumIntegerDefaultValue>[];
     if (json is List && json.isNotEmpty) {
@@ -57,9 +56,11 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
 
   const OuterEnumIntegerDefaultValueTypeTransformer._();
 
-  int encode(OuterEnumIntegerDefaultValue data) => data.value;
+  /// Encodes this enum as a value suitable for JSON.
+  int encode(OuterEnumIntegerDefaultValue data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a OuterEnumIntegerDefaultValue.
+  /// Returns the instance of [OuterEnumIntegerDefaultValue] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -68,6 +69,9 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumIntegerDefaultValue? decode(dynamic data, {bool allowNull = true}) {
+    if (data is OuterEnumIntegerDefaultValue) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case 0: return OuterEnumIntegerDefaultValue.number0;
@@ -82,7 +86,7 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
     return null;
   }
 
-  /// Singleton [OuterEnumIntegerDefaultValueTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static OuterEnumIntegerDefaultValueTypeTransformer? _instance;
 }
 

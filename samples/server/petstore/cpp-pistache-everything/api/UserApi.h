@@ -61,7 +61,21 @@ private:
     /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
+    virtual void handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual void handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
@@ -77,7 +91,7 @@ private:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="user">Created user object</param>
-    virtual void create_user(const org::openapitools::server::model::User &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_user( const org::openapitools::server::model::User &user, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -85,7 +99,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input( const std::vector<org::openapitools::server::model::User> &user, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -93,7 +107,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input( const std::vector<org::openapitools::server::model::User> &user, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Delete user
     /// </summary>
@@ -101,7 +115,7 @@ private:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="username">The name that needs to be deleted</param>
-    virtual void delete_user(const std::string &username, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void delete_user( const std::string &username, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Get user by user name
     /// </summary>
@@ -109,7 +123,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-    virtual void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void get_user_by_name( const std::string &username, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Logs user into the system
     /// </summary>
@@ -118,14 +132,14 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user( const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Logs out current logged in user session
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    virtual void logout_user(Pistache::Http::ResponseWriter &response) = 0;
+    virtual void logout_user( Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Updated user
     /// </summary>
@@ -134,7 +148,7 @@ private:
     /// </remarks>
     /// <param name="username">name that need to be deleted</param>
     /// <param name="user">Updated user object</param>
-    virtual void update_user(const std::string &username, const org::openapitools::server::model::User &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void update_user( const std::string &username, const org::openapitools::server::model::User &user, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 

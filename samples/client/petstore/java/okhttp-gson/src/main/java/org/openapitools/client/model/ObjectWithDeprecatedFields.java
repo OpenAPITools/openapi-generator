@@ -33,6 +33,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,31 +53,35 @@ import org.openapitools.client.JSON;
 /**
  * ObjectWithDeprecatedFields
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
+  @javax.annotation.Nullable
   private String uuid;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String SERIALIZED_NAME_DEPRECATED_REF = "deprecatedRef";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_DEPRECATED_REF)
+  @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String SERIALIZED_NAME_BARS = "bars";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_BARS)
+  @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  public ObjectWithDeprecatedFields uuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -91,13 +95,13 @@ public class ObjectWithDeprecatedFields {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields id(BigDecimal id) {
+  public ObjectWithDeprecatedFields id(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
     return this;
   }
@@ -114,13 +118,13 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setId(BigDecimal id) {
+  public void setId(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
+  public ObjectWithDeprecatedFields deprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
   }
@@ -137,13 +141,13 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
+  public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
     return this;
   }
@@ -168,7 +172,7 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setBars(List<String> bars) {
+  public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
 
@@ -257,10 +261,7 @@ public class ObjectWithDeprecatedFields {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -269,14 +270,10 @@ public class ObjectWithDeprecatedFields {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("uuid");
-    openapiFields.add("id");
-    openapiFields.add("deprecatedRef");
-    openapiFields.add("bars");
+    openapiFields = new HashSet<String>(Arrays.asList("uuid", "id", "deprecatedRef", "bars"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -288,12 +285,12 @@ public class ObjectWithDeprecatedFields {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
       // validate the optional field `deprecatedRef`
       if (jsonObj.get("deprecatedRef") != null && !jsonObj.get("deprecatedRef").isJsonNull()) {
@@ -301,7 +298,7 @@ public class ObjectWithDeprecatedFields {
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("bars") != null && !jsonObj.get("bars").isJsonNull() && !jsonObj.get("bars").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `bars` to be an array in the JSON string but got `%s`", jsonObj.get("bars").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `bars` to be an array in the JSON string but got `%s`", jsonObj.get("bars").toString()));
       }
   }
 
@@ -334,7 +331,9 @@ public class ObjectWithDeprecatedFields {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -362,7 +361,7 @@ public class ObjectWithDeprecatedFields {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

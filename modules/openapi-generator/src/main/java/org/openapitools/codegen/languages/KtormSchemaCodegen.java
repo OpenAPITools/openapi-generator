@@ -16,31 +16,33 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.commons.lang3.StringUtils;
-
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.File;
 
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 // This code was almost entirely based on MySqlSchemaCodegen.
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ktorm-schema/}.
+ */
 @SuppressWarnings("unchecked")
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
@@ -67,7 +69,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     protected String tableNamePrefix = "_", tableNameSuffix = "";
     protected String columnNamePrefix = "_", columnNameSuffix = "";
     /**
-     *  Identifier naming convention for table names and column names.
+     * Identifier naming convention for table names and column names.
      */
     @Getter protected String identifierNamingConvention = "original";
     @Getter @Setter
@@ -225,7 +227,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
-        removeOption(CodegenConstants.API_SUFFIX);
         removeOption(CodegenConstants.PARCELIZE_MODELS);
         removeOption(CodegenConstants.SERIALIZABLE_MODEL);
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);

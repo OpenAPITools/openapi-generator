@@ -2,27 +2,29 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnum;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * EnumTest
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -35,7 +37,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringEnum(String value) {
       this.value = value;
@@ -62,7 +64,8 @@ public class EnumTest {
     }
   }
 
-  private EnumStringEnum enumString;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -74,7 +77,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringRequiredEnum(String value) {
       this.value = value;
@@ -101,6 +104,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -111,7 +115,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1(-1);
 
-    private Integer value;
+    private final Integer value;
 
     EnumIntegerEnum(Integer value) {
       this.value = value;
@@ -138,7 +142,8 @@ public class EnumTest {
     }
   }
 
-  private EnumIntegerEnum enumInteger;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -148,7 +153,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1_DOT_2(-1.2);
 
-    private Double value;
+    private final Double value;
 
     EnumNumberEnum(Double value) {
       this.value = value;
@@ -175,9 +180,11 @@ public class EnumTest {
     }
   }
 
-  private EnumNumberEnum enumNumber;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable EnumNumberEnum enumNumber;
 
-  private OuterEnum outerEnum;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable OuterEnum outerEnum;
 
   public EnumTest() {
     super();
@@ -190,7 +197,7 @@ public class EnumTest {
     this.enumStringRequired = enumStringRequired;
   }
 
-  public EnumTest enumString(EnumStringEnum enumString) {
+  public EnumTest enumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
@@ -202,11 +209,12 @@ public class EnumTest {
   
   @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_string")
-  public EnumStringEnum getEnumString() {
+  public @Nullable EnumStringEnum getEnumString() {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  @JsonProperty("enum_string")
+  public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
@@ -226,11 +234,12 @@ public class EnumTest {
     return enumStringRequired;
   }
 
+  @JsonProperty("enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
-  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+  public EnumTest enumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
     return this;
   }
@@ -242,15 +251,16 @@ public class EnumTest {
   
   @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_integer")
-  public EnumIntegerEnum getEnumInteger() {
+  public @Nullable EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  @JsonProperty("enum_integer")
+  public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
-  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+  public EnumTest enumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
     return this;
   }
@@ -262,15 +272,16 @@ public class EnumTest {
   
   @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_number")
-  public EnumNumberEnum getEnumNumber() {
+  public @Nullable EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  @JsonProperty("enum_number")
+  public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTest outerEnum(OuterEnum outerEnum) {
+  public EnumTest outerEnum(@Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -282,11 +293,12 @@ public class EnumTest {
   @Valid 
   @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnum")
-  public OuterEnum getOuterEnum() {
+  public @Nullable OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  @JsonProperty("outerEnum")
+  public void setOuterEnum(@Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
@@ -328,11 +340,8 @@ public class EnumTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -20,22 +20,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for AdditionalPropertiesBoolean
  */
-public class AdditionalPropertiesBooleanTest {
+class AdditionalPropertiesBooleanTest {
     private final AdditionalPropertiesBoolean model = new AdditionalPropertiesBoolean();
 
     /**
      * Model tests for AdditionalPropertiesBoolean
      */
     @Test
-    public void testAdditionalPropertiesBoolean() {
+    void testAdditionalPropertiesBoolean() {
         // TODO: test AdditionalPropertiesBoolean
     }
 
@@ -43,7 +42,7 @@ public class AdditionalPropertiesBooleanTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * OuterObjectWithEnumProperty
@@ -30,9 +31,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
+  @javax.annotation.Nonnull
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
@@ -41,11 +43,11 @@ public class OuterObjectWithEnumProperty {
   /**
    * Constructor with all args parameters
    */
-  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) @javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 
-  public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty value(@javax.annotation.Nonnull OuterEnumInteger value) {
     
     this.value = value;
     return this;
@@ -56,7 +58,7 @@ public class OuterObjectWithEnumProperty {
    * @return value
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public OuterEnumInteger getValue() {
@@ -64,11 +66,12 @@ public class OuterObjectWithEnumProperty {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setValue(OuterEnumInteger value) {
+  public void setValue(@javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -101,10 +104,7 @@ public class OuterObjectWithEnumProperty {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

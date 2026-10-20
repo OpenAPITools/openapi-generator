@@ -15,7 +15,7 @@ namespace OpenAPIClient_generichost_manual_tests
 
         public SerializationTests()
         {
-            IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+            IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
             {
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? "Token not found.";
                 ApiKeyToken apiKeyToken = new(apiKeyTokenValue, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
@@ -187,6 +187,15 @@ namespace OpenAPIClient_generichost_manual_tests
             Animal? animal = JsonSerializer.Deserialize<Animal>(expected, _jsonSerializerOptions);
             Assert.IsInstanceOfType<Dog>(animal);
             string result = JsonSerializer.Serialize(animal, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Enum() {
+            string expected = """["_abc","-efg","(xyz)"]""";
+            List<EnumClass?>? enumClasses = JsonSerializer.Deserialize<List<EnumClass?>>(expected, _jsonSerializerOptions);
+            Assert.IsNotNull(enumClasses);
+            string result = JsonSerializer.Serialize(enumClasses, _jsonSerializerOptions);
             Assert.AreEqual(expected, result);
         }
     }

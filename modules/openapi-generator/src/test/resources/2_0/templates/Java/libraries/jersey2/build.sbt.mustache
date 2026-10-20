@@ -3,10 +3,10 @@ lazy val root = (project in file(".")).
     organization := "{{groupId}}",
     name := "{{artifactId}}",
     version := "{{artifactVersion}}",
-    scalaVersion := "2.11.4",
+    scalaVersion := "2.11.12",
     scalacOptions ++= Seq("-feature"),
-    javacOptions in compile ++= Seq("-Xlint:deprecation"),
-    publishArtifact in (Compile, packageDoc) := false,
+    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    Compile / packageDoc / publishArtifact := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.5.22",
@@ -15,17 +15,17 @@ lazy val root = (project in file(".")).
       "org.glassfish.jersey.media" % "jersey-media-multipart" % "2.27",
       "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "2.27",
       "org.glassfish.jersey.connectors" % "jersey-apache-connector" % "2.27",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5.1" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.18.2" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.18.2" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.18.2" % "compile",
       {{#joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.10" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.18.2" % "compile",
       {{/joda}}
       {{#java8}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.10" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.18.2" % "compile",
       {{/java8}}
       {{#threetenbp}}
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
+      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.18.2" % "compile",
       {{/threetenbp}}
       {{#hasOAuthMethods}}
       "com.github.scribejava" % "scribejava-apis" % "6.9.0" % "compile",

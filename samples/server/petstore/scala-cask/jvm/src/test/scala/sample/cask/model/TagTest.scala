@@ -20,16 +20,17 @@ import scala.util.*
 
 class TagTest extends AnyWordSpec with Matchers {
 
+
     "Tag.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(TagData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = TagData.fromJsonString("""""").validated()
+           val d8a = TagData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = TagData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

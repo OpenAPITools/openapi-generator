@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -36,12 +38,14 @@ import org.openapitools.client.ApiClient;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() { 
@@ -60,7 +64,7 @@ public class ReadOnlyFirst {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -69,7 +73,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -79,16 +83,16 @@ public class ReadOnlyFirst {
    * @return baz
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBaz() {
     return baz;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
 
@@ -98,20 +102,12 @@ public class ReadOnlyFirst {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(this.bar, readOnlyFirst.bar) &&
-        Objects.equals(this.baz, readOnlyFirst.baz);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar, baz);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -129,10 +125,7 @@ public class ReadOnlyFirst {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -169,12 +162,12 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
     }
 
     return joiner.toString();

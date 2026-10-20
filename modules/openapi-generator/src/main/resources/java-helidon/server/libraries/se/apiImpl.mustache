@@ -3,17 +3,22 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{^useAbstractClass}}
-import java.util.logging.Logger;{{/useAbstractClass}}
+{{#x-helidon-v3}}import java.util.logging.Logger;
 
-import io.helidon.webserver.ServerRequest;
-import io.helidon.webserver.ServerResponse;
+{{/x-helidon-v3}}
+{{/useAbstractClass}}
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
 
 {{#operations}}
 public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClass}}{{#useAbstractClass}}extends{{/useAbstractClass}} {{classname}} {
+{{#x-helidon-v3}}
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
+{{/x-helidon-v3}}
 {{^useAbstractClass}}
-    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{#x-helidon-v3}}    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{/x-helidon-v3}}
 {{#jackson}}
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
@@ -22,19 +27,47 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 {{#operation}}
 
 {{#useAbstractClass}}
-    public void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{>dataType}} {{paramName}}{{/allParams}}) {
+    {{^x-helidon-v3}}@Override
+    protected{{/x-helidon-v3}}{{#x-helidon-v3}}public{{/x-helidon-v3}} {{> handleMethodSignature }} {
 {{/useAbstractClass}}
 {{^useAbstractClass}}
+{{#x-helidon-v3}}
     public void {{{operationId}}}(ServerRequest request, ServerResponse response{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}) {
-{{/useAbstractClass}}
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+{{/x-helidon-v3}}
+{{^x-helidon-v3}}
+    @Override
+    public void {{{operationId}}}(ServerRequest request, ServerResponse response) {
+{{!
+    If the user generated an interface instead of an abstract class, add a few conveniences here in the implementation class
+    to suggest how the developer might implement the code.
+
+}}{{^isMultipart}}{{#hasFormParams}}        Parameters formParams = request.content().as(Parameters.class);
+{{/hasFormParams}}{{/isMultipart}}{{!
+}}{{#isMultipart}}{{#useAbstractClass}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+{{/useAbstractClass}}{{!
+}}{{^useAbstractClass}}{{!
+}}        MultiPart multiPart = request.content().as(MultiPart.class);
+{{/useAbstractClass}}{{/isMultipart}}{{!
+}}{{#useBeanValidation}}        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+{{/useBeanValidation}}{{!
+}}{{/x-helidon-v3}}{{!
+}}{{/useAbstractClass}}{{^x-helidon-v3}}
+{{/x-helidon-v3}}{{!
+}}        response.status({{#x-helidon-v3}}HTTP_CODE_NOT_IMPLEMENTED{{/x-helidon-v3}}{{^x-helidon-v3}}Status.NOT_IMPLEMENTED_501{{/x-helidon-v3}}).send();
     }
 {{/operation}}
 
-{{#useAbstractClass}}
+{{#useAbstractClass}}{{#x-helidon-v3}}
     public Void handleError(ServerRequest request, ServerResponse response, Throwable throwable) {
         return response.send(throwable);
     }
-{{/useAbstractClass}}
-}
+{{/x-helidon-v3}}{{/useAbstractClass}}{{!
+}}{{^useAbstractClass}}{{^x-helidon-v3}}
+    @Override
+    public void afterStop() {
+        System.out.println("Service {{classname}} is down. Goodbye!");
+    }
+
+{{/x-helidon-v3}}{{/useAbstractClass}}{{!
+}}}
 {{/operations}}

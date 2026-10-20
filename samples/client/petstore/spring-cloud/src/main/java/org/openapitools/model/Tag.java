@@ -2,32 +2,35 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A tag for a pet
  */
 
-@ApiModel(description = "A tag for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Schema(name = "Tag", description = "A tag for a pet")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Tag {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
-  private String name;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String name;
 
-  public Tag id(Long id) {
+  public Tag id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -37,17 +40,18 @@ public class Tag {
    * @return id
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Tag name(String name) {
+  public Tag name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -57,13 +61,14 @@ public class Tag {
    * @return name
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  @JsonProperty("name")
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
@@ -99,11 +104,8 @@ public class Tag {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

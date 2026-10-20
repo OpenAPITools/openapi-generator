@@ -10,6 +10,7 @@ $ pytest
 """
 
 import unittest
+from decimal import Decimal
 from enum import Enum
 
 from dateutil.parser import parse
@@ -59,11 +60,11 @@ class ApiClientTests(unittest.TestCase):
     def test_ignore_operation_servers(self):
         config = petstore_api.Configuration(host=HOST)
         client = petstore_api.ApiClient(config)
-        user_api_instance = petstore_api.api.user_api.UserApi(client)
+        user_api_instance = petstore_api.UserApi(client)
 
         config_ignore = petstore_api.Configuration(host=HOST, ignore_operation_servers=True)
         client_ignore = petstore_api.ApiClient(config_ignore)
-        user_api_instance_ignore = petstore_api.api.user_api.UserApi(client_ignore)
+        user_api_instance_ignore = petstore_api.UserApi(client_ignore)
 
         params_to_serialize = {
             'user': petstore_api.User(id=1, username='test'),
@@ -76,7 +77,7 @@ class ApiClientTests(unittest.TestCase):
         # operation servers should be used
         _, url, *_ = user_api_instance._create_user_serialize(**params_to_serialize)
         self.assertEqual(client.configuration.host, HOST)
-        self.assertEqual(url, 'http://petstore.swagger.io/v2/user')
+        self.assertEqual(url, 'http://localhost/v2/user')
 
         # operation servers should be ignored
         _, url_ignore, *_ = user_api_instance_ignore._create_user_serialize(**params_to_serialize)
@@ -179,6 +180,11 @@ class ApiClientTests(unittest.TestCase):
         data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
+
+    def test_sanitize_for_serialization_decimal(self):
+        data = Decimal("1.0")
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEqual(result, "1.0")
 
     def test_sanitize_for_serialization_list_enum(self):
         class EnumSerialization(int, Enum):
@@ -284,7 +290,53 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
         self.assertEqual(result, "boolean=true")
 
+    def test_parameters_to_url_query_exploded_name_does_not_collide_with_collection_format(self):
+        # an exploded object query parameter contributes entries under its own property
+        # names. A scalar entry whose name happens to match a declared array parameter
+        # must not be joined or repeated as if it were that parameter's list.
+        params = self.api_client.parameters_to_url_query(
+            params=[('language', 'nl'), ('context', 'abc')],
+            collection_formats={'context': 'multi'})
+        self.assertEqual(params, "language=nl&context=abc")
+
+    def test_parameters_to_url_query_collection_format_still_applies_to_lists(self):
+        # the declared array parameter itself still gets its collection format
+        params = self.api_client.parameters_to_url_query(
+            params=[('language', 'nl'), ('context', ['a', 'b'])],
+            collection_formats={'context': 'multi'})
+        self.assertEqual(params, "language=nl&context=a&context=b")
+
+    def test_parameters_to_url_query_quotes_reserved_characters_in_names(self):
+        # an exploded object contributes entries under its own property names, which are
+        # whatever the spec declares and need not be url safe. The name is quoted just
+        # like the value, so a property called "createdDate:gte" does not read as a
+        # separator on the wire.
+        params = self.api_client.parameters_to_url_query(
+            params=[('createdDate:gte', '2023-01-01'), ('a&b', 'c')],
+            collection_formats={})
+        self.assertEqual(params, "createdDate%3Agte=2023-01-01&a%26b=c")
+
+    def test_explode_query_object(self):
+        # one pair per entry; a list repeats the name, None is left out, values are serialized
+        params = self.api_client.explode_query_object('filter', {'a': 'b', 'k': None, 'l': ['x', None, 2], 'd': parse('2020-01-02').date()})
+        self.assertEqual(params, [('a', 'b'), ('l', 'x'), ('l', 2), ('d', '2020-01-02')])
+
+    def test_explode_query_object_model(self):
+        # a model explodes under its wire names, and unset properties contribute nothing
+        params = self.api_client.explode_query_object('pet', petstore_api.Pet(name='doggie', photoUrls=['a', 'b']))
+        self.assertEqual(params, [('name', 'doggie'), ('photoUrls', 'a'), ('photoUrls', 'b')])
+
+    def test_explode_query_object_not_a_dict(self):
+        # a value that does not serialize to a dict stays under the parameter name
+        self.assertEqual(self.api_client.explode_query_object('q', 'x'), [('q', 'x')])
+        self.assertEqual(self.api_client.explode_query_object('q', ['x', None, 'y']), [('q', 'x'), ('q', 'y')])
+
     def test_parameters_to_url_query_list_value(self):
         params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
                                                          collection_formats={'list': 'multi'})
         self.assertEqual(params, "list=1&list=2&list=3")
+
+    def test_parameters_to_url_query_list_value_encoded(self):
+        params = self.api_client.parameters_to_url_query(params=[('list', [" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", "2023-01-01T00:00:00+01:00"])],
+                                                         collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=%20%21%22%23%24%25%26%27%28%29%2A%2B%2C-./%3A%3B%3C%3D%3E%3F%40%5B%5C%5D%5E_%60%7B%7C%7D~&list=2023-01-01T00%3A00%3A00%2B01%3A00")

@@ -18,7 +18,7 @@ void test_User_id_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -35,7 +35,7 @@ void test_User_username_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "username", "hello"
     };
@@ -56,7 +56,7 @@ void test_User_firstName_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "firstName", "hello"
     };
@@ -77,7 +77,7 @@ void test_User_lastName_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "lastName", "hello"
     };
@@ -98,7 +98,7 @@ void test_User_email_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "email", "hello"
     };
@@ -119,7 +119,7 @@ void test_User_password_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "password", "hello"
     };
@@ -140,7 +140,7 @@ void test_User_phone_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "phone", "hello"
     };
@@ -159,7 +159,7 @@ void test_User_phone_is_assigned_from_json()
 
 void test_User_userStatus_is_assigned_from_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "userStatus", 1
     };
@@ -184,7 +184,7 @@ void test_User_id_is_converted_to_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -203,7 +203,7 @@ void test_User_id_is_converted_to_json()
 void test_User_username_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "username", "hello"
     };
@@ -224,7 +224,7 @@ void test_User_username_is_converted_to_json()
 void test_User_firstName_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "firstName", "hello"
     };
@@ -245,7 +245,7 @@ void test_User_firstName_is_converted_to_json()
 void test_User_lastName_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "lastName", "hello"
     };
@@ -266,7 +266,7 @@ void test_User_lastName_is_converted_to_json()
 void test_User_email_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "email", "hello"
     };
@@ -287,7 +287,7 @@ void test_User_email_is_converted_to_json()
 void test_User_password_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "password", "hello"
     };
@@ -308,7 +308,7 @@ void test_User_password_is_converted_to_json()
 void test_User_phone_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "phone", "hello"
     };
@@ -328,7 +328,7 @@ void test_User_phone_is_converted_to_json()
 
 void test_User_userStatus_is_converted_to_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "userStatus", 1
     };

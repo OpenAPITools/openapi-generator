@@ -73,8 +73,9 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
         case r'JustNumber':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.justNumber = valueDes;
           break;
         default:
@@ -105,4 +106,5 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
     return result.build();
   }
 }
+
 

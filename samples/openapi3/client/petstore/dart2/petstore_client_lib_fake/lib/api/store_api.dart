@@ -26,7 +26,7 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<Response> deleteOrderWithHttpInfo(String orderId,) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
       .replaceAll('{order_id}', orderId);
@@ -49,6 +49,7 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -60,8 +61,8 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<void> deleteOrder(String orderId,) async {
-    final response = await deleteOrderWithHttpInfo(orderId,);
+  Future<void> deleteOrder(String orderId, { Future<void>? abortTrigger, }) async {
+    final response = await deleteOrderWithHttpInfo(orderId, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -72,7 +73,7 @@ class StoreApi {
   /// Returns a map of status codes to quantities
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> getInventoryWithHttpInfo() async {
+  Future<Response> getInventoryWithHttpInfo({ Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/store/inventory';
 
@@ -94,14 +95,15 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
-  Future<Map<String, int>?> getInventory() async {
-    final response = await getInventoryWithHttpInfo();
+  Future<Map<String, int>?> getInventory({ Future<void>? abortTrigger, }) async {
+    final response = await getInventoryWithHttpInfo(abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -125,7 +127,7 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Response> getOrderByIdWithHttpInfo(int orderId,) async {
+  Future<Response> getOrderByIdWithHttpInfo(int orderId, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
       .replaceAll('{order_id}', orderId.toString());
@@ -148,6 +150,7 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -159,8 +162,8 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Order?> getOrderById(int orderId,) async {
-    final response = await getOrderByIdWithHttpInfo(orderId,);
+  Future<Order?> getOrderById(int orderId, { Future<void>? abortTrigger, }) async {
+    final response = await getOrderByIdWithHttpInfo(orderId, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -184,7 +187,7 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Response> placeOrderWithHttpInfo(Order order,) async {
+  Future<Response> placeOrderWithHttpInfo(Order order, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/store/order';
 
@@ -206,6 +209,7 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -217,8 +221,8 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Order?> placeOrder(Order order,) async {
-    final response = await placeOrderWithHttpInfo(order,);
+  Future<Order?> placeOrder(Order order, { Future<void>? abortTrigger, }) async {
+    final response = await placeOrderWithHttpInfo(order, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

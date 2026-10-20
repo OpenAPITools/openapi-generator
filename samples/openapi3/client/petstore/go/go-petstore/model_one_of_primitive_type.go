@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
@@ -110,6 +110,10 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(OneOfPrimitiveType): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(OneOfPrimitiveType)")
 	}
 }
@@ -146,6 +150,24 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 
 	if obj.Int32 != nil {
 		return obj.Int32
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj OneOfPrimitiveType) GetActualInstanceValue() (interface{}) {
+	if obj.OneOfPrimitiveTypeChild != nil {
+		return *obj.OneOfPrimitiveTypeChild
+	}
+
+	if obj.ArrayOfString != nil {
+		return *obj.ArrayOfString
+	}
+
+	if obj.Int32 != nil {
+		return *obj.Int32
 	}
 
 	// all schemas are nil

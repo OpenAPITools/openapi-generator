@@ -1,9 +1,20 @@
 package org.openapitools.client.api;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * API tests for StoreApi
@@ -12,7 +23,7 @@ public class StoreApiTest {
 
     private StoreApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().createService(StoreApi.class);
     }
@@ -55,12 +66,12 @@ public class StoreApiTest {
     /**
      * Place an order for a pet
      *
-     *
+     * 
      */
     @Test
     public void placeOrderTest() {
-        Order order = null;
-        // Order response = api.placeOrder(order);
+        Order body = null;
+        // Order response = api.placeOrder(body);
 
         // TODO: test validations
     }

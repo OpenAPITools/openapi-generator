@@ -1,0 +1,18 @@
+{{>licenseInfo}}
+package {{packageName}}.infrastructure
+
+import io.ktor.util.*
+{{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}Delegate
+{{/apis}}{{/apiInfo}}{{/generateApis}}
+
+/**
+ * Data class to hold all API delegates.
+ */
+data class AppDelegates(
+{{#generateApis}}{{#apiInfo}}{{#apis}}    val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate: {{classname}}Delegate? = null{{^-last}},{{/-last}}
+{{/apis}}{{/apiInfo}}{{/generateApis}}
+) {
+    companion object {
+        val AttributeKey = AttributeKey<AppDelegates>("AppDelegates")
+    }
+}

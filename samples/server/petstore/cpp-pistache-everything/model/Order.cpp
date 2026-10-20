@@ -36,6 +36,8 @@ Order::Order()
     
 }
 
+Order::~Order() = default;
+
 void Order::validate() const
 {
     std::stringstream msg;

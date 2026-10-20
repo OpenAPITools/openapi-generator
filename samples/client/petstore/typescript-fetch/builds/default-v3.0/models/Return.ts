@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface Return {
     /**
      * 
-     * @type {number}
-     * @memberof Return
      */
     _return?: number;
 }
@@ -48,10 +46,15 @@ export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
     };
 }
 
-export function ReturnToJSON(value?: Return | null): any {
+export function ReturnToJSON(json: any): Return {
+    return ReturnToJSONTyped(json, false);
+}
+
+export function ReturnToJSONTyped(value?: Return | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'return': value['_return'],

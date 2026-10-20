@@ -28,8 +28,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -127,7 +127,7 @@ public class AnotherFakeApi {
          * @param body (Client) client model (required)
          * @return operation
          */
-        public Call123testSpecialTagsOper body(Client body) {
+        public Call123testSpecialTagsOper body(@javax.annotation.Nonnull Client body) {
             reqSpec.setBody(body);
             return this;
         }

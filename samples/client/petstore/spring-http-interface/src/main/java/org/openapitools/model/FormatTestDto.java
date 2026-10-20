@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -11,9 +12,9 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -24,44 +25,58 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FormatTestDto {
 
-  private Integer integer;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer integer;
 
-  private Integer int32;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer int32;
 
-  private Long int64;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long int64;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal number;
 
-  private Float _float;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Float _float;
 
-  private Double _double;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Double _double;
 
-  private String string;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String string;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private byte[] _byte;
 
-  private org.springframework.core.io.Resource binary;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable org.springframework.core.io.Resource binary;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
-  private UUID uuid;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable UUID uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String password;
 
-  private BigDecimal bigDecimal;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable BigDecimal bigDecimal;
 
   public FormatTestDto() {
     super();
   }
 
-  public FormatTestDto integer(Integer integer) {
+  public FormatTestDto integer(@Nullable Integer integer) {
     this.integer = integer;
     return this;
   }
@@ -72,17 +87,17 @@ public class FormatTestDto {
    * maximum: 100
    * @return integer
    */
-  
   @JsonProperty("integer")
-  public Integer getInteger() {
+  public @Nullable Integer getInteger() {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  @JsonProperty("integer")
+  public void setInteger(@Nullable Integer integer) {
     this.integer = integer;
   }
 
-  public FormatTestDto int32(Integer int32) {
+  public FormatTestDto int32(@Nullable Integer int32) {
     this.int32 = int32;
     return this;
   }
@@ -93,17 +108,17 @@ public class FormatTestDto {
    * maximum: 200
    * @return int32
    */
-  
   @JsonProperty("int32")
-  public Integer getInt32() {
+  public @Nullable Integer getInt32() {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  @JsonProperty("int32")
+  public void setInt32(@Nullable Integer int32) {
     this.int32 = int32;
   }
 
-  public FormatTestDto int64(Long int64) {
+  public FormatTestDto int64(@Nullable Long int64) {
     this.int64 = int64;
     return this;
   }
@@ -112,13 +127,13 @@ public class FormatTestDto {
    * Get int64
    * @return int64
    */
-  
   @JsonProperty("int64")
-  public Long getInt64() {
+  public @Nullable Long getInt64() {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  @JsonProperty("int64")
+  public void setInt64(@Nullable Long int64) {
     this.int64 = int64;
   }
 
@@ -133,17 +148,17 @@ public class FormatTestDto {
    * maximum: 543.2
    * @return number
    */
-  @NotNull
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
-  public FormatTestDto _float(Float _float) {
+  public FormatTestDto _float(@Nullable Float _float) {
     this._float = _float;
     return this;
   }
@@ -154,17 +169,17 @@ public class FormatTestDto {
    * maximum: 987.6
    * @return _float
    */
-  
   @JsonProperty("float")
-  public Float getFloat() {
+  public @Nullable Float getFloat() {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  @JsonProperty("float")
+  public void setFloat(@Nullable Float _float) {
     this._float = _float;
   }
 
-  public FormatTestDto _double(Double _double) {
+  public FormatTestDto _double(@Nullable Double _double) {
     this._double = _double;
     return this;
   }
@@ -175,17 +190,17 @@ public class FormatTestDto {
    * maximum: 123.4
    * @return _double
    */
-  
   @JsonProperty("double")
-  public Double getDouble() {
+  public @Nullable Double getDouble() {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  @JsonProperty("double")
+  public void setDouble(@Nullable Double _double) {
     this._double = _double;
   }
 
-  public FormatTestDto string(String string) {
+  public FormatTestDto string(@Nullable String string) {
     this.string = string;
     return this;
   }
@@ -194,13 +209,13 @@ public class FormatTestDto {
    * Get string
    * @return string
    */
-  
   @JsonProperty("string")
-  public String getString() {
+  public @Nullable String getString() {
     return string;
   }
 
-  public void setString(String string) {
+  @JsonProperty("string")
+  public void setString(@Nullable String string) {
     this.string = string;
   }
 
@@ -213,17 +228,17 @@ public class FormatTestDto {
    * Get _byte
    * @return _byte
    */
-  @NotNull
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
-  public FormatTestDto binary(org.springframework.core.io.Resource binary) {
+  public FormatTestDto binary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -232,13 +247,13 @@ public class FormatTestDto {
    * Get binary
    * @return binary
    */
-  
   @JsonProperty("binary")
-  public org.springframework.core.io.Resource getBinary() {
+  public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  @JsonProperty("binary")
+  public void setBinary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -251,17 +266,17 @@ public class FormatTestDto {
    * Get date
    * @return date
    */
-  @NotNull
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
-  public FormatTestDto dateTime(OffsetDateTime dateTime) {
+  public FormatTestDto dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -270,17 +285,17 @@ public class FormatTestDto {
    * Get dateTime
    * @return dateTime
    */
-  
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  @JsonProperty("dateTime")
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public FormatTestDto uuid(UUID uuid) {
+  public FormatTestDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -289,13 +304,13 @@ public class FormatTestDto {
    * Get uuid
    * @return uuid
    */
-  
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  @JsonProperty("uuid")
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -308,17 +323,17 @@ public class FormatTestDto {
    * Get password
    * @return password
    */
-  @NotNull
   @JsonProperty("password")
   public String getPassword() {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
   }
 
-  public FormatTestDto bigDecimal(BigDecimal bigDecimal) {
+  public FormatTestDto bigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -327,13 +342,13 @@ public class FormatTestDto {
    * Get bigDecimal
    * @return bigDecimal
    */
-  
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  public @Nullable BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  @JsonProperty("BigDecimal")
+  public void setBigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 
@@ -393,11 +408,8 @@ public class FormatTestDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

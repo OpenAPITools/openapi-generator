@@ -28,7 +28,7 @@ public final class Invalid extends Validated {
     /**
      * Constructs a new {@link Invalid} instance.
      *
-     * @param rule The rule which was evaluated and resulted in this state.
+     * @param rule    The rule which was evaluated and resulted in this state.
      * @param message The message to be displayed for this invalid state.
      */
     Invalid(ValidationRule rule, String message) {
@@ -39,7 +39,7 @@ public final class Invalid extends Validated {
     /**
      * Constructs a new {@link Invalid} instance.
      *
-     * @param rule The rule which was evaluated and resulted in this state.
+     * @param rule    The rule which was evaluated and resulted in this state.
      * @param message The message to be displayed for this invalid state.
      * @param details Additional contextual details related to the invalid state.
      */

@@ -29,18 +29,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/C-libcurl/}.
+ */
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String USE_JSON_UNFORMATTED = "useJsonUnformatted";
     public static final String USE_JSON_UNFORMATTED_DESC = "Use cJSON_PrintUnformatted instead of cJSON_Print when creating the JSON string.";
+
+    public static final String DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER = "declareNumberBooleanWithoutPointer";
+    public static final String DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER_DESC = "Declare number, boolean types without pointer using model-body, model-header templates from OpenAPI Generator v7.20.0.";
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
@@ -256,7 +263,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         // VC++ reserved keywords
                         "stdin",
                         "stdout",
-                        "stderr")
+                        "stderr",
+
+                        // gcc predefined macros
+                        "linux"
+                )
         );
 
         instantiationTypes.clear();
@@ -267,7 +278,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // primitives in C lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("short");
-        languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("long");
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("double");
@@ -312,6 +322,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(USE_JSON_UNFORMATTED, USE_JSON_UNFORMATTED_DESC).
                 defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER, DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER_DESC).
+                defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -320,6 +333,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'C_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(USE_JSON_UNFORMATTED)) {
@@ -329,6 +344,16 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put("cJSONPrint", "cJSON_PrintUnformatted");
         } else {
             additionalProperties.put("cJSONPrint", "cJSON_Print");
+        }
+
+        if (additionalProperties.containsKey(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER)) {
+            if (Boolean.parseBoolean(additionalProperties.get(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER).toString())) {
+                modelTemplateFiles.put("model-header-v7_20_0.mustache", ".h");
+                modelTemplateFiles.put("model-body-v7_20_0.mustache", ".c");
+
+                modelTemplateFiles.remove("model-header.mustache");
+                modelTemplateFiles.remove("model-body.mustache");
+            }
         }
 
         // make api and model doc path available in mustache template
@@ -342,6 +367,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -363,6 +389,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // Object files in model folder
         supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
         supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
+        supportingFiles.add(new SupportingFile("any_type-header.mustache", "model", "any_type.h"));
     }
 
     @Override
@@ -469,7 +496,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return example;
         }
 
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (isEnumSchema(schema)) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
 /*            if (ModelUtils.isStringSchema(schema)) {
@@ -888,7 +915,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         CodegenProperty cm = super.fromProperty(name, p, required);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
-            if (ref.getEnum() != null) {
+            if (isEnum(ref)) {
                 cm.isEnum = true;
             }
         }
@@ -898,6 +925,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -922,36 +950,25 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{cPostProcessFile, file.toString()});
         }
     }
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
-        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
-        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
-        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
-        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+            System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+            System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
+            System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+            System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

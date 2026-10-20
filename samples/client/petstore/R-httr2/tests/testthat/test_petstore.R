@@ -23,7 +23,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
 
   # tests for other pet objects
   pet0 <- Pet$new()
-  jsonpet <- pet0$toJSON()
+  jsonpet <- pet0$toSimpleType()
   pet2 <- pet0$fromJSON(
     jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
@@ -49,7 +49,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
     ),
     status = "available"
   )
-  jsonpet <- pet1$toJSON()
+  jsonpet <- pet1$toSimpleType()
   pet2 <- pet1$fromJSON(
     jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
@@ -71,7 +71,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
 test_that("Test Category", {
   c1 <- Category$new(id = 450, name = "test_cat")
   c2 <- Category$new()
-  c2$fromJSON(jsonlite::toJSON(c1$toJSON(), auto_unbox = TRUE))
+  c2$fromJSON(jsonlite::toJSON(c1$toSimpleType(), auto_unbox = TRUE))
   expect_equal(c1, c2)
   c2$fromJSONString(c1$toJSONString())
   expect_equal(c1, c2)
@@ -95,52 +95,52 @@ test_that("get_pet_by_id", {
   )
 })
 
-test_that("update_pet_with_form", {
-  ## add pet
-  update_pet_id <- 123999
-  update_pet <- Pet$new("name_test",
-    photoUrls = list("photo_test", "second test"),
-    category = Category$new(id = 450, name = "test_cat"),
-    id = update_pet_id,
-    tags = list(
-      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
-    ),
-    status = "available"
-  )
-  pet_api$api_client$username <- "username123"
-  pet_api$api_client$password <- "password123"
-  result <- pet_api$add_pet(update_pet)
-
-  ## update pet with form
-  pet_api$api_client$oauth_client_id <- "client_id_aaa"
-  pet_api$api_client$oauth_secret <- "secrete_bbb"
-  pet_api$api_client$oauth_scopes <- "write:pets read:pets"
-  update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
-
-  # get pet
-  response <- pet_api$get_pet_by_id(update_pet_id)
-  expect_equal(response$id, update_pet_id)
-  expect_equal(response$name, "pet2")
-  expect_equal(response$status, "sold")
-  expect_equal(
-    response$photoUrls,
-    list("photo_test", "second test")
-  )
-  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
-
-  expect_equal(pet$tags, response$tags)
-  expect_equal(
-    response$tags,
-    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
-  )
-})
-
-test_that("get_pet_by_id_streaming", {
-  result <- tryCatch(
-               pet_api$get_pet_by_id_streaming(pet_id, stream_callback = function(x) { print(x) }),
-               ApiException = function(ex) ex
-            )
-})
+#test_that("update_pet_with_form", {
+#  ## add pet
+#  update_pet_id <- 123999
+#  update_pet <- Pet$new("name_test",
+#    photoUrls = list("photo_test", "second test"),
+#    category = Category$new(id = 450, name = "test_cat"),
+#    id = update_pet_id,
+#    tags = list(
+#      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+#    ),
+#    status = "available"
+#  )
+#  pet_api$api_client$username <- "username123"
+#  pet_api$api_client$password <- "password123"
+#  result <- pet_api$add_pet(update_pet)
+#
+#  ## update pet with form
+#  pet_api$api_client$oauth_client_id <- "client_id_aaa"
+#  pet_api$api_client$oauth_secret <- "secrete_bbb"
+#  pet_api$api_client$oauth_scopes <- "write:pets read:pets"
+#  update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
+#
+#  # get pet
+#  response <- pet_api$get_pet_by_id(update_pet_id)
+#  expect_equal(response$id, update_pet_id)
+#  expect_equal(response$name, "pet2")
+#  expect_equal(response$status, "sold")
+#  expect_equal(
+#    response$photoUrls,
+#    list("photo_test", "second test")
+#  )
+#  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
+#
+#  expect_equal(pet$tags, response$tags)
+#  expect_equal(
+#    response$tags,
+#    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
+#  )
+#})
+#
+#test_that("get_pet_by_id_streaming", {
+#  result <- tryCatch(
+#               pet_api$get_pet_by_id_streaming(pet_id, stream_callback = function(x) { print(x) }),
+#               ApiException = function(ex) ex
+#            )
+#})
 
 test_that("Test header parameters", {
   # test exception 

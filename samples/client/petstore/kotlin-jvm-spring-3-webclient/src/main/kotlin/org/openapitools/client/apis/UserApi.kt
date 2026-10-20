@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -29,7 +37,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
-class UserApi(client: WebClient) : ApiClient(client) {
+open class UserApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -61,6 +69,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -96,6 +105,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -131,6 +141,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -165,6 +176,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
             "username" to username,
         )
@@ -184,7 +196,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getUserByName(username: kotlin.String): Mono<User> {
         return getUserByNameWithHttpInfo(username = username)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -220,7 +232,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String): Mono<kotlin.String> {
         return loginUserWithHttpInfo(username = username, password = password)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -275,6 +287,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -310,6 +323,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
             "username" to username,
         )

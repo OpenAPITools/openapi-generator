@@ -1,0 +1,413 @@
+openapi: 3.1.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: >-
+    This is OpenAPI spec with all possible security schemes.
+  version: 1.0.0
+  title: OpenAPI All Security Schemes
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+security:
+  - {}
+  - api_key1: []
+  - api_key2: []
+  - http1: []
+  - http2: []
+  - mutualTLS1: []
+  - mutualTLS2: []
+  - oauth2_1: ["read:pets"]
+  - oauth2_2: ["write:pets", "read:pets"]
+  - openIdConnect1: []
+  - openIdConnect2: []
+paths:
+  '/api_keys':
+    get:
+      summary: Dummy endpoint with all security schemes of type apiKey
+      operationId: getApiKeys
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - api_key1: []
+        - api_key2: []
+  '/api_key1':
+    head:
+      summary: Dummy endpoint with security scheme api_key1
+      operationId: getApiKey1
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - api_key1: []
+  '/api_key2':
+    post:
+      summary: Dummy endpoint with security scheme api_key2
+      operationId: getApiKey2
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - api_key2: []
+
+  '/httpschemes':
+    get:
+      summary: Dummy endpoint with all security schemes of type http
+      operationId: getHttpSchemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - http1: []
+        - http2: []
+  '/http1':
+    head:
+      summary: Dummy endpoint with security scheme http1
+      operationId: getHttp1
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - http1: []
+  '/http2':
+    post:
+      summary: Dummy endpoint with security scheme http2
+      operationId: getHttp2
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - http2: []
+
+  '/mutualTLSschemes':
+    get:
+      summary: Dummy endpoint with all security schemes of type mutualTLS
+      operationId: getMutualTLSSchemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - mutualTLS1: []
+        - mutualTLS2: []
+  '/mutualTLS1':
+    head:
+      summary: Dummy endpoint with security scheme mutualTLS1
+      operationId: getMutualTLS1
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - mutualTLS1: []
+  '/mutualTLS2':
+    post:
+      summary: Dummy endpoint with security scheme mutualTLS2
+      operationId: getMutualTLS2
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - mutualTLS2: []
+
+  '/oauth2schemes':
+    get:
+      summary: Dummy endpoint with all security schemes of type oauth2
+      operationId: getOAuth2Schemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - oauth2_1: ["read:pets"]
+        - oauth2_2: ["write:pets", "read:pets"]
+  '/oauth2_1':
+    head:
+      summary: Dummy endpoint with security scheme oauth2_1
+      operationId: getOAuth2_1
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - oauth2_1: ["write:pets"]
+  '/oauth2_2':
+    post:
+      summary: Dummy endpoint with security scheme oauth2_2
+      operationId: getOAuth2_2
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - oauth2_2: []
+
+  '/openidconnectschemes':
+    get:
+      summary: Dummy endpoint with all security schemes of type openIdConnect
+      operationId: getOpenIdConnectSchemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - openIdConnect1: []
+        - openIdConnect2: []
+  '/openIdConnect1':
+    head:
+      summary: Dummy endpoint with security scheme openIdConnect1
+      operationId: getOpenIdConnect1
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - openIdConnect1: []
+  '/openIdConnect2':
+    post:
+      summary: Dummy endpoint with security scheme openIdConnect2
+      operationId: getOpenIdConnect2
+      responses:
+        '200':
+          description: successful operation
+      security:
+        - openIdConnect2: []
+  '/multipleSecuritySchemes':
+    get:
+      summary: Dummy endpoint with multiple security schemes. To test how schemes are cleaned up.
+      operationId: getMultipleSecuritySchemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - api_key1: []
+          http1: []
+          mutualTLS1: []
+          oauth2_1: ["read:pets"]
+          openIdConnect1: []
+        - http1: []
+          mutualTLS2: []
+          openIdConnect1: []
+  '/callbackInline':
+    post:
+      summary: Dummy endpoint with inline callback with all security schemes
+      operationId: postCallbackInline
+      requestBody:
+        description: Request payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dummy'
+      responses:
+        '200':
+          description: successful operation
+      callbacks:
+        callbackAllSecuritySchemes:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                description: Callback payload
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Dummy'
+              responses:
+                '200':
+                  description: successful operation
+              security:
+                - {}
+                - api_key1: []
+                - api_key2: []
+                - http1: []
+                - http2: []
+                - mutualTLS1: []
+                - mutualTLS2: []
+                - oauth2_1: ["read:pets"]
+                - oauth2_2: ["write:pets", "read:pets"]
+                - openIdConnect1: []
+                - openIdConnect2: []
+
+components:
+  securitySchemes:
+    api_key1:
+      type: apiKey
+      description: API Key Authentication sample 1
+      name: api_key
+      in: header
+    api_key2:
+      type: apiKey
+      description: API Key Authentication sample 2
+      name: api_key
+      in: query
+    http1:
+      type: http
+      description: HTTP Authentication sample 1
+      scheme: bearer
+      bearerFormat: JWT
+    http2:
+      type: http
+      description: HTTP Authentication sample 2
+      scheme: basic
+    mutualTLS1:
+      type: mutualTLS
+      description: Mutual TLS Authentication sample 1
+    mutualTLS2:
+      type: mutualTLS
+      description: Mutual TLS Authentication sample 2
+    oauth2_1:
+      type: oauth2
+      description: OAuth2 Authentication sample 1
+      flows:
+        implicit:
+          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
+    oauth2_2:
+      type: oauth2
+      description: OAuth2 Authentication sample 2
+      flows:
+        password:
+          tokenUrl: 'http://petstore.swagger.io/api/oauth/token'
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
+    openIdConnect1:
+      type: openIdConnect
+      description: OpenID Connect Authentication sample 1
+      openIdConnectUrl: 'http://petstore.swagger.io/.well-known/openid-configuration'
+    openIdConnect2:
+      type: openIdConnect
+      description: OpenID Connect Authentication sample 2
+      openIdConnectUrl: 'http://petstore.swagger.io/.well-known/openid-configuration2'
+
+  callbacks:
+    callbackAllSecuritySchemes:
+      '{$request.body#/callbackUrl}':
+        post:
+          requestBody:
+            description: Callback payload
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+          responses:
+            '200':
+              description: successful operation
+          security:
+            - {}
+            - api_key1: []
+            - api_key2: []
+            - http1: []
+            - http2: []
+            - mutualTLS1: []
+            - mutualTLS2: []
+            - oauth2_1: ["read:pets"]
+            - oauth2_2: ["write:pets", "read:pets"]
+            - openIdConnect1: []
+            - openIdConnect2: []
+
+  pathItems:
+    pathItemAllSecuritySchemes:
+      summary: Dummy path item with all security schemes
+      description: >-
+        This is a dummy path item to test that security schemes defined on path items are cleaned up correctly.
+      get:
+        summary: Dummy GET operation
+        operationId: dummyGetOperation
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+        security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []
+      post:
+        summary: Dummy POST operation
+        operationId: dummyPostOperation
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+        security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []
+
+  schemas:
+    Dummy:
+      title: Dummy schema
+      description: A dummy schema for testing purposes. We don't care about the content of this schema.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+webhooks:
+  webhookAllSecuritySchemes:
+    post:
+      summary: Dummy webhook endpoint
+      operationId: dummyWebhook
+      requestBody:
+        description: Webhook payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dummy'
+      responses:
+        '200':
+          description: successful operation
+      security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []

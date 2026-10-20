@@ -8,9 +8,11 @@
     "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
   },
   "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.esm.json",
     "prepare": "npm run build"
   },
   "devDependencies": {

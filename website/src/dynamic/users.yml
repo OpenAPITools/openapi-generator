@@ -29,6 +29,11 @@
   infoLink: "https://www.allianz.com"
   pinned: false
 -
+  caption: "AM GmbH"
+  image: "img/companies/am-gmbh.png"
+  infoLink: "https://www.am-gmbh.de"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"
@@ -48,6 +53,11 @@
   image: "img/companies/logo-askul-01.gif"
   infoLink: "https://www.askul.co.jp/"
   pinned: true
+-
+  caption: aspectivo
+  image: "img/companies/aspectivo.png"
+  infoLink: "https://aspectivo.ai/"
+  pinned: false 
 -
   caption: Amazon Web Services (AWS)
   image: "img/companies/aws.png"
@@ -118,6 +128,11 @@
   image: "img/companies/carlsberggroup.png"
   infoLink: "https://www.carlsberggroup.com/"
   pinned: false
+- 
+  caption: Carmatec
+  image: "img/companies/carmatec.png"
+  infoLink: "https://www.carmatec.com/"
+  pinned: false
 -
   caption: Cisco 
   image: "img/companies/cisco.png"
@@ -132,6 +147,11 @@
   caption: "CoinAPI"
   image: "img/companies/coinapi.png"
   infoLink: "https://www.coinapi.io/"
+  pinned: false
+-
+  caption: ConfigCat
+  image: "img/companies/configcat.svg"
+  infoLink: "https://configcat.com/"
   pinned: false
 -
   caption: Commencis
@@ -167,6 +187,11 @@
   caption: Deeproute.ai
   image: "img/companies/deeproute_logo.jpg"
   infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
+  caption: Develocity
+  image: "img/companies/develocity.png"
+  infoLink: "https://gradle.com/"
   pinned: false
 -
   caption: "dmTECH GmbH"
@@ -264,11 +289,6 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
-  caption: Gradle Enterprise
-  image: "img/companies/gradle-enterprise.png"
-  infoLink: "https://gradle.com/"
-  pinned: false
--
   caption: "Gumtree"
   image: "img/companies/gumtree.png"
   infoLink: "https://gumtree.com/"
@@ -347,6 +367,11 @@
   caption: Mastercard
   image: "img/companies/mastercard.png"
   infoLink: "https://developers.mastercard.com"
+  pinned: false
+-
+  caption: MCP360
+  image: "img/companies/mcp360.png"
+  infoLink: "https://mcp360.ai/"
   pinned: false
 -
   caption: "Médiavision"
@@ -499,6 +524,11 @@
   infoLink: "https://www.searchapi.io/"
   pinned: false
 -
+  caption: "Service Cost"
+  image: "img/companies/servicecost.png"
+  infoLink: "https://servicecost.in"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"
@@ -549,14 +579,19 @@
   infoLink: "https://www.tencent.com/"
   pinned: false
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: TileDB
   image: "img/companies/tiledb.png"
   infoLink: "https://www.tiledb.com/"
   pinned: false
 -
-  caption: The University of Aizu
-  image: "img/companies/uoa.png"
-  infoLink: "https://www.u-aizu.ac.jp/en/"
+  caption: TINQIN 
+  image: "img/companies/tinqin.png"
+  infoLink: "https://www.tinqin.com/"
   pinned: false
 -
   caption: "TravelTime platform"

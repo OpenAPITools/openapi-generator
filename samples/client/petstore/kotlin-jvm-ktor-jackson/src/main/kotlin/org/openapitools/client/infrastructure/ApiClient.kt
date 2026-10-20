@@ -58,7 +58,7 @@ open class ApiClient(
     }
 
     companion object {
-          const val BASE_URL = "http://petstore.swagger.io/v2"
+          const val BASE_URL: String = "http://petstore.swagger.io/v2"
           val JSON_DEFAULT: ObjectMapper.() -> Unit = {
             configure(SerializationFeature.INDENT_OUTPUT, true)
             setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
@@ -67,7 +67,7 @@ open class ApiClient(
             })
             registerModule(JavaTimeModule())
           }
-          protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
+          protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
     }
 
     /**
@@ -164,7 +164,7 @@ open class ApiClient(
             }
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
-            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
+            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE)) {
                 val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                     ?: ContentType.Application.Json)
                 this.contentType(contentType)

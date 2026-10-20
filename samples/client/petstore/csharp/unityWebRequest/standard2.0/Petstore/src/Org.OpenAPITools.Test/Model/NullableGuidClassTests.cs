@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<NullableGuidClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Uuid'
         /// </summary>

@@ -11,22 +11,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -34,7 +35,6 @@ public class PetApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public PetApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -55,8 +55,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -64,7 +63,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -79,7 +78,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet", HttpMethod.POST, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -90,7 +89,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void addPet(Pet pet) throws RestClientResponseException {
+    public void addPet(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         addPetRequestCreation(pet).body(localVarReturnType);
     }
@@ -103,7 +102,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> addPetWithHttpInfo(Pet pet) throws RestClientResponseException {
+    public ResponseEntity<Void> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return addPetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -117,9 +116,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec addPetWithResponseSpec(Pet pet) throws RestClientResponseException {
+    public ResponseSpec addPetWithResponseSpec(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         return addPetRequestCreation(pet);
     }
+
     /**
      * Deletes a pet
      * 
@@ -129,8 +129,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deletePetRequestCreation(Long petId, String apiKey) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec deletePetRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling deletePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -140,14 +139,15 @@ public class PetApi {
 
         pathParams.put("petId", petId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
+        if (apiKey != null) {
+            headerParams.add("api_key", apiClient.parameterToString(apiKey));
+        }
 
-        if (apiKey != null)
-        headerParams.add("api_key", apiClient.parameterToString(apiKey));
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
@@ -156,7 +156,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.DELETE, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -168,7 +168,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void deletePet(Long petId, String apiKey) throws RestClientResponseException {
+    public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         deletePetRequestCreation(petId, apiKey).body(localVarReturnType);
     }
@@ -182,7 +182,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {
+    public ResponseEntity<Void> deletePetWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deletePetRequestCreation(petId, apiKey).toEntity(localVarReturnType);
     }
@@ -197,9 +197,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {
+    public ResponseSpec deletePetWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -209,8 +210,7 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec findPetsByStatusRequestCreation(List<String> status) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec findPetsByStatusRequestCreation(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new RestClientResponseException("Missing the required parameter 'status' when calling findPetsByStatus", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -218,13 +218,13 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -235,7 +235,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<List<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/findByStatus", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet/findByStatus", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -247,7 +247,7 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public List<Pet> findPetsByStatus(List<String> status) throws RestClientResponseException {
+    public List<Pet> findPetsByStatus(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
         ParameterizedTypeReference<List<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByStatusRequestCreation(status).body(localVarReturnType);
     }
@@ -261,7 +261,7 @@ public class PetApi {
      * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws RestClientResponseException {
+    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
         ParameterizedTypeReference<List<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByStatusRequestCreation(status).toEntity(localVarReturnType);
     }
@@ -275,9 +275,47 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws RestClientResponseException {
+    public ResponseSpec findPetsByStatusWithResponseSpec(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
+
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid tag value
+     * @param tags Tags to filter by
+     * @return Set&lt;Pet&gt;
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec findPetsByTagsRequestCreation(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
+        // verify the required parameter 'tags' is set
+        if (tags == null) {
+            throw new RestClientResponseException("Missing the required parameter 'tags' when calling findPetsByTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
+
+        final String[] localVarAccepts = { 
+            "application/xml", "application/json"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+
+        ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/pet/findByTags", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -289,45 +327,7 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    private ResponseSpec findPetsByTagsRequestCreation(Set<String> tags) throws RestClientResponseException {
-        Object postBody = null;
-        // verify the required parameter 'tags' is set
-        if (tags == null) {
-            throw new RestClientResponseException("Missing the required parameter 'tags' when calling findPetsByTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
-        }
-        // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<>();
-
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
-
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
-        
-        final String[] localVarAccepts = { 
-            "application/xml", "application/json"
-        };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-
-        ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/findByTags", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    }
-
-    /**
-     * Finds Pets by tags
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * <p><b>200</b> - successful operation
-     * <p><b>400</b> - Invalid tag value
-     * @param tags Tags to filter by
-     * @return Set&lt;Pet&gt;
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public Set<Pet> findPetsByTags(Set<String> tags) throws RestClientResponseException {
+    public Set<Pet> findPetsByTags(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).body(localVarReturnType);
     }
@@ -340,8 +340,10 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
-    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws RestClientResponseException {
+    @Deprecated
+    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).toEntity(localVarReturnType);
     }
@@ -354,10 +356,13 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
-    public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws RestClientResponseException {
+    @Deprecated
+    public ResponseSpec findPetsByTagsWithResponseSpec(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -368,8 +373,7 @@ public class PetApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getPetByIdRequestCreation(Long petId) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec getPetByIdRequestCreation(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling getPetById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -379,7 +383,7 @@ public class PetApi {
 
         pathParams.put("petId", petId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -394,7 +398,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -407,7 +411,7 @@ public class PetApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Pet getPetById(Long petId) throws RestClientResponseException {
+    public Pet getPetById(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getPetByIdRequestCreation(petId).body(localVarReturnType);
     }
@@ -422,7 +426,7 @@ public class PetApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> getPetByIdWithHttpInfo(Long petId) throws RestClientResponseException {
+    public ResponseEntity<Pet> getPetByIdWithHttpInfo(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getPetByIdRequestCreation(petId).toEntity(localVarReturnType);
     }
@@ -437,9 +441,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws RestClientResponseException {
+    public ResponseSpec getPetByIdWithResponseSpec(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
+
     /**
      * Update an existing pet
      * 
@@ -450,8 +455,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetRequestCreation(Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec updatePetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling updatePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -459,7 +463,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -474,7 +478,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet", HttpMethod.PUT, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -487,7 +491,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet pet) throws RestClientResponseException {
+    public void updatePet(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         updatePetRequestCreation(pet).body(localVarReturnType);
     }
@@ -502,7 +506,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws RestClientResponseException {
+    public ResponseEntity<Void> updatePetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return updatePetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -518,9 +522,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updatePetWithResponseSpec(Pet pet) throws RestClientResponseException {
+    public ResponseSpec updatePetWithResponseSpec(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
         return updatePetRequestCreation(pet);
     }
+
     /**
      * Updates a pet in the store with form data
      * 
@@ -531,8 +536,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetWithFormRequestCreation(Long petId, String name, String status) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec updatePetWithFormRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws RestClientResponseException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling updatePetWithForm", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -542,15 +546,17 @@ public class PetApi {
 
         pathParams.put("petId", petId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (name != null)
+        if (name != null) {
             formParams.add("name", name);
-        if (status != null)
+        }
+        if (status != null) {
             formParams.add("status", status);
+        }
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -562,7 +568,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet/{petId}", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -575,7 +581,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void updatePetWithForm(Long petId, String name, String status) throws RestClientResponseException {
+    public void updatePetWithForm(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         updatePetWithFormRequestCreation(petId, name, status).body(localVarReturnType);
     }
@@ -590,7 +596,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws RestClientResponseException {
+    public ResponseEntity<Void> updatePetWithFormWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return updatePetWithFormRequestCreation(petId, name, status).toEntity(localVarReturnType);
     }
@@ -606,9 +612,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updatePetWithFormWithResponseSpec(Long petId, String name, String status) throws RestClientResponseException {
+    public ResponseSpec updatePetWithFormWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws RestClientResponseException {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
+
     /**
      * uploads an image
      * 
@@ -619,8 +626,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File _file) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec uploadFileRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws RestClientResponseException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling uploadFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -630,15 +636,17 @@ public class PetApi {
 
         pathParams.put("petId", petId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (additionalMetadata != null)
+        if (additionalMetadata != null) {
             formParams.add("additionalMetadata", additionalMetadata);
-        if (_file != null)
+        }
+        if (_file != null) {
             formParams.add("file", new FileSystemResource(_file));
+        }
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -652,7 +660,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet/{petId}/uploadImage", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet/{petId}/uploadImage", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -665,7 +673,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws RestClientResponseException {
+    public ModelApiResponse uploadFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws RestClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return uploadFileRequestCreation(petId, additionalMetadata, _file).body(localVarReturnType);
     }
@@ -680,7 +688,7 @@ public class PetApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws RestClientResponseException {
+    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws RestClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return uploadFileRequestCreation(petId, additionalMetadata, _file).toEntity(localVarReturnType);
     }
@@ -695,9 +703,10 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws RestClientResponseException {
+    public ResponseSpec uploadFileWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws RestClientResponseException {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
+
     /**
      * uploads an image (required)
      * 
@@ -708,8 +717,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileWithRequiredFileRequestCreation(Long petId, File requiredFile, String additionalMetadata) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec uploadFileWithRequiredFileRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws RestClientResponseException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -723,15 +731,15 @@ public class PetApi {
 
         pathParams.put("petId", petId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (additionalMetadata != null)
+        if (additionalMetadata != null) {
             formParams.add("additionalMetadata", additionalMetadata);
-        if (requiredFile != null)
-            formParams.add("requiredFile", new FileSystemResource(requiredFile));
+        }
+        formParams.add("requiredFile", new FileSystemResource(requiredFile));
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -745,7 +753,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/{petId}/uploadImageWithRequiredFile", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/{petId}/uploadImageWithRequiredFile", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -758,7 +766,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientResponseException {
+    public ModelApiResponse uploadFileWithRequiredFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws RestClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).body(localVarReturnType);
     }
@@ -773,7 +781,7 @@ public class PetApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws RestClientResponseException {
+    public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws RestClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).toEntity(localVarReturnType);
     }
@@ -788,7 +796,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(Long petId, File requiredFile, String additionalMetadata) throws RestClientResponseException {
+    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws RestClientResponseException {
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata);
     }
 }

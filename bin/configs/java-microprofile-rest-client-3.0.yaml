@@ -1,7 +1,7 @@
 generatorName: java
 outputDir: samples/client/petstore/java/microprofile-rest-client-3.0
 library: microprofile
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: microprofile-rest-client-3

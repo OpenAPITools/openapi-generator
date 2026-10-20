@@ -2,12 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -18,16 +19,20 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NameDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
-  private Integer snakeCase;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String property;
 
-  private Integer _123number;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer _123number;
 
   public NameDto() {
     super();
@@ -42,17 +47,17 @@ public class NameDto {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public Integer getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-  public NameDto snakeCase(Integer snakeCase) {
+  public NameDto snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -61,17 +66,17 @@ public class NameDto {
    * Get snakeCase
    * @return snakeCase
    */
-  
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  @JsonProperty("snake_case")
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public NameDto property(String property) {
+  public NameDto property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -80,17 +85,17 @@ public class NameDto {
    * Get property
    * @return property
    */
-  
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  @JsonProperty("property")
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public NameDto _123number(Integer _123number) {
+  public NameDto _123number(@Nullable Integer _123number) {
     this._123number = _123number;
     return this;
   }
@@ -99,13 +104,13 @@ public class NameDto {
    * Get _123number
    * @return _123number
    */
-  
   @JsonProperty("123Number")
-  public Integer get123number() {
+  public @Nullable Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  @JsonProperty("123Number")
+  public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
 
@@ -145,11 +150,8 @@ public class NameDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

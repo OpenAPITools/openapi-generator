@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.StringEnumRef;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,10 +31,12 @@ class PathApiTest {
      * Test path parameter(s)
      */
     @Test
-    void testsPathStringPathStringIntegerPathIntegerTest() {
+    void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() {
         String pathString = null;
         Integer pathInteger = null;
-        // String response = api.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+        String enumNonrefStringPath = null;
+        StringEnumRef enumRefStringPath = null;
+        // String response = api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
 
         // TODO: test validations
     }

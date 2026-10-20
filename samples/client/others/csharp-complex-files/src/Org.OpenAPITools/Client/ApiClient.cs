@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Client
                 if (response.Headers != null)
                 {
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
-                        ? Path.GetTempPath()
+                        ? global::System.IO.Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
                     foreach (var header in response.Headers)
@@ -317,7 +317,7 @@ namespace Org.OpenAPITools.Client
                 {
                     foreach (var value in headerParam.Value)
                     {
-                        request.AddHeader(headerParam.Key, value);
+                        request.AddOrUpdateHeader(headerParam.Key, value);
                     }
                 }
             }
@@ -377,10 +377,18 @@ namespace Org.OpenAPITools.Client
                         var bytes = ClientUtils.ReadAsBytes(file);
                         var fileStream = file as FileStream;
                         if (fileStream != null)
-                            request.AddFile(fileParam.Key, bytes, Path.GetFileName(fileStream.Name));
+                            request.AddFile(fileParam.Key, bytes, global::System.IO.Path.GetFileName(fileStream.Name));
                         else
                             request.AddFile(fileParam.Key, bytes, "no_file_name_provided");
                     }
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                {
+                    request.AlwaysMultipartFormData = true;
                 }
             }
 
@@ -449,14 +457,13 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object.
         /// It is assumed that any merge with GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A new ApiResponse instance.</returns>
-        private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
+        private async Task<ApiResponse<T>> ExecClientAsync<T>(Func<RestClient, Task<RestResponse<T>>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
-
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
-                MaxTimeout = configuration.Timeout,
+                Timeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
@@ -469,7 +476,7 @@ namespace Org.OpenAPITools.Client
             {
                 InterceptRequest(request);
 
-                RestResponse<T> response = getResponse(client);
+                RestResponse<T> response = await getResponse(client).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
@@ -534,11 +541,11 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult)
+        private async Task<RestResponse<T>> DeserializeRestResponseFromPolicyAsync<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult, CancellationToken cancellationToken = default)
         {
             if (policyResult.Outcome == OutcomeType.Successful) 
             {
-                return client.Deserialize<T>(policyResult.Result);
+                return await client.Deserialize<T>(policyResult.Result, cancellationToken).ConfigureAwait(false);
             }
             else
             {
@@ -565,49 +572,45 @@ namespace Org.OpenAPITools.Client
                 clientOptions.CookieContainer = cookies;
             };
 
-            Func<RestClient, RestResponse<T>> getResponse = (client) =>
+            Func<RestClient, Task<RestResponse<T>>> getResponse = (client) =>
             {
                 if (RetryConfiguration.RetryPolicy != null)
                 {
                     var policy = RetryConfiguration.RetryPolicy;
                     var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
-                    return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
+                    return DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult);
                 }
                 else
                 {
-                    return client.Execute<T>(request);
+                    return Task.FromResult(client.Execute<T>(request));
                 }
             };
 
-            return ExecClient(getResponse, setOptions, request, options, configuration);
+            return ExecClientAsync(getResponse, setOptions, request, options, configuration).GetAwaiter().GetResult();
         }
 
-        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
+        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default)
         {
             Action<RestClientOptions> setOptions = (clientOptions) =>
             {
                 //no extra options
             };
 
-            Func<RestClient, RestResponse<T>> getResponse = (client) =>
+            Func<RestClient, Task<RestResponse<T>>> getResponse = async (client) =>
             {
-                Func<Task<RestResponse<T>>> action = async () =>
+                if (RetryConfiguration.AsyncRetryPolicy != null)
                 {
-                    if (RetryConfiguration.AsyncRetryPolicy != null)
-                    {
-                        var policy = RetryConfiguration.AsyncRetryPolicy;
-                        var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-                        return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
-                    }
-                    else
-                    {
-                        return await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
-                    }
-                };
-                return action().Result;
+                    var policy = RetryConfiguration.AsyncRetryPolicy;
+                    var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
+                    return await DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult, cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
+                }
             };
 
-            return Task.FromResult<ApiResponse<T>>(ExecClient(getResponse, setOptions, request, options, configuration));
+            return ExecClientAsync(getResponse, setOptions, request, options, configuration);
         }
 
         #region IAsynchronousClient

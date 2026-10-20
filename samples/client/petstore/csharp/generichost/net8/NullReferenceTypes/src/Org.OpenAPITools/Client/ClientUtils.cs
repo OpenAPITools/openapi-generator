@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
 using Org.OpenAPITools.Model;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
 
@@ -28,7 +29,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Utility functions providing some benefit to API client consumers.
     /// </summary>
-    public static class ClientUtils
+    public static partial class ClientUtils
     {
         /// <summary>
         /// An instance of CompareLogic.
@@ -60,7 +61,7 @@ namespace Org.OpenAPITools.Client
         public enum ApiKeyHeader
         {
             /// <summary>
-            /// The api_key header
+            /// The api-key header
             /// </summary>
             Api_key,
             /// <summary>
@@ -79,7 +80,7 @@ namespace Org.OpenAPITools.Client
         {
             return value switch
             {
-                ApiKeyHeader.Api_key => "api_key",
+                ApiKeyHeader.Api_key => "api-key",
                 ApiKeyHeader.Api_key_query => "api_key_query",
                 _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
             };
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -115,7 +116,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -127,17 +128,6 @@ namespace Org.OpenAPITools.Client
                 result = default;
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Sanitize filename by removing the path
-        /// </summary>
-        /// <param name="filename">Filename</param>
-        /// <returns>Filename</returns>
-        public static string SanitizeFilename(string filename)
-        {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
-            return match.Success ? match.Groups[1].Value : filename;
         }
 
         /// <summary>
@@ -162,12 +152,16 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
+            if (obj is DateOnly dateOnly)
+                return dateOnly.ToString(format);
             if (obj is bool boolean)
                 return boolean
                     ? "true"
                     : "false";
             if (obj is ChildCat.PetTypeEnum childCatPetTypeEnum)
                 return ChildCat.PetTypeEnumToJsonValue(childCatPetTypeEnum);
+            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
+                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
@@ -224,6 +218,10 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is TestDescendants.ObjectTypeEnum testDescendantsObjectTypeEnum)
+                return TestDescendants.ObjectTypeEnumToJsonValue(testDescendantsObjectTypeEnum);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)
@@ -283,7 +281,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>
@@ -339,10 +337,31 @@ namespace Org.OpenAPITools.Client
             return string.Join(",", accepts);
         }
 
+        
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them.
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header values to use.</returns>
+        public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                    return [];
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                    return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+
+            return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
+        }
+
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
-        public static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        [GeneratedRegex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")]
+        private static partial Regex JsonRegex();
 
         /// <summary>
         /// Check if the given MIME is a JSON MIME.
@@ -358,7 +377,7 @@ namespace Org.OpenAPITools.Client
         {
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
-            return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+            return JsonRegex().IsMatch(mime) || mime.Equals("application/json-patch+json");
         }
 
         /// <summary>
@@ -397,6 +416,35 @@ namespace Org.OpenAPITools.Client
 
             throw new JsonException("The specified discriminator was not found.");
         }
+
+        /// <summary>
+        /// Determines if the provided header is a content header
+        /// </summary>
+        /// <param name="header">The header to check</param>
+        /// <returns>True if a content header; False otherwise</returns>
+        public static bool IsContentHeader(string header)
+        {
+            return ContentHeaders.Contains(header.ToLowerInvariant());
+        }
+
+        /// <summary>
+        /// The collection of content headers as per
+        /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.headers
+        /// </summary>
+        private static readonly string[] ContentHeaders = new String[] 
+        {
+            "allow",
+            "content-encoding",
+            "content-disposition",
+            "content-language",
+            "content-length",
+            "content-location",
+            "content-md5",
+            "content-range",
+            "content-type",
+            "expires",
+            "last-modified"
+        };
 
         /// <summary>
         /// The base path of the API

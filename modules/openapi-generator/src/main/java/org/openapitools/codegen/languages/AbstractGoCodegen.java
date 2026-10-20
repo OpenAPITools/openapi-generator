@@ -28,10 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -39,6 +41,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
+    private static final String X_GO_CUSTOM_TAG = "x-go-custom-tag";
 
     @Setter
     protected boolean withGoCodegenComment = false;
@@ -58,6 +61,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean generateMarshalJSON = true;
     @Setter
     protected boolean generateUnmarshalJSON = true;
+    @Setter
+    protected boolean useDefaultValuesForRequiredVars = false;
+    @Setter
+    protected boolean useHttpHeaderSet = false;
 
     @Setter
     protected String packageName = "openapi";
@@ -171,6 +178,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (StringUtils.isEmpty(System.getenv("GO_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable GO_POST_PROCESS_FILE not defined so Go code may not be properly formatted. To define it, try `export GO_POST_PROCESS_FILE=\"/usr/local/bin/gofmt -w\"` (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'GO_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 
@@ -391,7 +400,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(unaliasSchema(inner));
+            if (inner != null) {
+                inner = unaliasSchema(inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+
+            // when nullable and the type of the map isn't nullable already (maps, slices, ...): make it a pointer
+            if (inner != null && Boolean.TRUE.equals(inner.getNullable()) && !typDecl.startsWith("map") && !typDecl.startsWith("[]")) {
+                typDecl = "*" + typDecl;
+            }
+
+            return getSchemaType(p) + "[string]" + typDecl;
+
         }
 
         //return super.getTypeDeclaration(p);
@@ -544,21 +569,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) ||
+                        (param.items != null && "*os.File".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a time parameter.
-                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                if (!addedTimeImport && ("time.Time".equals(param.dataType) ||
+                        (param.items != null && "time.Time".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
-                }
-
-                // import "reflect" package if the parameter is collectionFormat=multi
-                if (!addedReflectImport && param.isCollectionFormatMulti) {
-                    imports.add(createMapping("import", "reflect"));
-                    addedReflectImport = true;
                 }
 
                 // set x-exportParamName
@@ -571,6 +592,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                     param.vendorExtensions.put("x-export-param-name", sb.toString());
+                }
+            }
+
+            for (CodegenParameter param : operation.queryParams) {
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
                 }
             }
 
@@ -643,13 +672,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) ||
+                        (param.items != null && "*os.File".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a time parameter.
-                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                if (!addedTimeImport && ("time.Time".equals(param.dataType) ||
+                        (param.items != null && "time.Time".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
@@ -743,7 +774,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (ModelMap m : objs.getModels()) {
             boolean addedTimeImport = false;
             boolean addedOSImport = false;
-            boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
@@ -780,28 +810,77 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 if (cp.pattern != null) {
-                    cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
-                            cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
-                            "\"");
+                    String regexp = String.format(Locale.getDefault(), "regexp=%s", cp.pattern);
+
+                    // Replace backtick by \\x60, if found
+                    if (regexp.contains("`")) {
+                        regexp = regexp.replace("`", "\\x60");
+                    }
+
+                    // Escape comma
+                    if (regexp.contains(",")) {
+                        regexp = regexp.replace(",", "\\\\,");
+                    }
+
+                    // Go source can't hold control characters (NUL, for example) or a byte order mark,
+                    // even inside a raw string, so write them as regexp escapes
+                    regexp = escapeControlCharacters(regexp);
+
+                    String validate = String.format(Locale.getDefault(), "validate:\"%s\"", regexp);
+                    cp.vendorExtensions.put(X_GO_CUSTOM_TAG, validate);
                 }
+
+                // construct data tag in the template: x-go-datatag
+                // original template
+                // `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#withValidate}} validate:"{{validate}}"{{/withValidate}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+                String goDataTag = "json:\"" + cp.baseName;
+                if (!cp.required) {
+                    goDataTag += ",omitempty";
+                }
+                goDataTag += "\"";
+
+                if (withXml) {
+                    goDataTag += " xml:" + "\"" + cp.baseName;
+                    if (cp.isXmlWrapped) {
+                        goDataTag += ">" + ("".equals(cp.xmlName) ? cp.baseName : cp.xmlName);
+                    }
+                    if (cp.isXmlAttribute) {
+                        goDataTag += ",attr";
+                    }
+                    goDataTag += "\"";
+                }
+
+                // {{#withValidate}} validate:"{{validate}}"{{/withValidate}}
+                if (Boolean.parseBoolean(String.valueOf(additionalProperties.getOrDefault("withValidate", "false")))) {
+                    goDataTag += " validate:\"" + additionalProperties.getOrDefault("validate", "") + "\"";
+                }
+
+                // {{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}
+                if (StringUtils.isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault(X_GO_CUSTOM_TAG, "")))) {
+                    goDataTag += " " + cp.vendorExtensions.get(X_GO_CUSTOM_TAG);
+                }
+
+                // if it contains backtick, wrap with " instead
+                if (goDataTag.contains("`")) {
+                    goDataTag = " \"" + goDataTag.replace("\"", "\\\"") + "\"";
+                } else {
+                    goDataTag = " `" + goDataTag + "`";
+                }
+                cp.vendorExtensions.put("x-go-datatag", goDataTag);
             }
+
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
             }
 
-            if (model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
-                imports.add(createMapping("import", "gopkg.in/validator.v2"));
-                addedValidator = true;
-            }
-
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+            if (hasOneOf(model) && model.oneOf.contains("nil")) {
                 model.isNullable = true;
                 model.oneOf.remove("nil");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+            if (hasAnyOf(model) && model.anyOf.contains("nil")) {
                 model.isNullable = true;
                 model.anyOf.remove("nil");
             }
@@ -833,6 +912,33 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return postProcessModelsEnum(objs);
     }
 
+    /**
+     * Replaces each control character and byte order mark with a regexp escape such as {@code \\x00}. The
+     * backslash is doubled because Go unquotes the struct tag value before the validator compiles the pattern.
+     * A single backslash would put the raw byte back, which is not valid UTF-8 above {@code 0x7f}.
+     *
+     * @param value the text to escape
+     * @return the text with no control characters or byte order marks
+     */
+    static String escapeControlCharacters(String value) {
+        StringBuilder escaped = new StringBuilder(value.length());
+        value.codePoints().forEach(codePoint -> {
+            if (Character.isISOControl(codePoint)) {
+                escaped.append(String.format(Locale.ROOT, "\\\\x%02x", codePoint));
+            } else if (codePoint == 0xFEFF) {
+                escaped.append("\\\\x{feff}");
+            } else {
+                escaped.appendCodePoint(codePoint);
+            }
+        });
+        return escaped.toString();
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
@@ -850,6 +956,18 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return input.replace("\"", "");
     }
 
+    /**
+     * checks if the data should be classified as "string" in enum
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equalsIgnoreCase(dataType);
+    }
+
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
@@ -865,6 +983,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String toEnumValue(String value, String datatype) {
         if (isNumberType(datatype) || "bool".equals(datatype)) {
+            return value;
+        } else if (isDataTypeString(datatype) && value.indexOf("\"") == 0 && value.lastIndexOf("\"") == value.length() - 1) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
@@ -944,6 +1064,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -969,20 +1090,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
             // e.g. "gofmt -w yourcode.go"
             // e.g. "go fmt path/to/your/package"
-            String command = goPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{goPostProcessFile, file.toString()});
         }
     }
 

@@ -66,7 +66,7 @@ import org.openapitools.client.auth.OAuthFlow;
  */
 public class ApiClient {
 
-    private String basePath = "http://petstore.swagger.io/v2";
+    protected String basePath = "http://petstore.swagger.io/v2";
     protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io/v2",
@@ -76,26 +76,27 @@ public class ApiClient {
   ));
     protected Integer serverIndex = 0;
     protected Map<String, String> serverVariables = null;
-    private boolean debugging = false;
-    private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-    private Map<String, String> defaultCookieMap = new HashMap<String, String>();
-    private String tempFolderPath = null;
+    protected boolean debugging = false;
+    protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+    protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+    protected String tempFolderPath = null;
 
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
-    private DateFormat dateFormat;
-    private DateFormat datetimeFormat;
-    private boolean lenientDatetimeFormat;
-    private int dateLength;
+    protected DateFormat dateFormat;
+    protected DateFormat datetimeFormat;
+    protected boolean lenientDatetimeFormat;
+    protected int dateLength;
 
-    private InputStream sslCaCert;
-    private boolean verifyingSsl;
-    private KeyManager[] keyManagers;
+    protected InputStream sslCaCert;
+    protected boolean verifyingSsl;
+    protected KeyManager[] keyManagers;
+    protected String tlsServerName;
+    
+    protected OkHttpClient httpClient;
+    protected JSON json;
 
-    private OkHttpClient httpClient;
-    private JSON json;
-
-    private HttpLoggingInterceptor loggingInterceptor;
+    protected HttpLoggingInterceptor loggingInterceptor;
 
     /**
      * Basic constructor for ApiClient
@@ -195,11 +196,11 @@ public class ApiClient {
         authentications = Collections.unmodifiableMap(authentications);
     }
 
-    private void initHttpClient() {
+    protected void initHttpClient() {
         initHttpClient(Collections.<Interceptor>emptyList());
     }
 
-    private void initHttpClient(List<Interceptor> interceptors) {
+    protected void initHttpClient(List<Interceptor> interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(getProgressInterceptor());
         for (Interceptor interceptor: interceptors) {
@@ -209,7 +210,7 @@ public class ApiClient {
         httpClient = builder.build();
     }
 
-    private void init() {
+    protected void init() {
         verifyingSsl = true;
 
         json = new JSON();
@@ -232,8 +233,8 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2
-     * @return An instance of OkHttpClient
+     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2)
+     * @return An instance of ApiClient
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
@@ -281,7 +282,7 @@ public class ApiClient {
      * Set HTTP client, which must never be null.
      *
      * @param newHttpClient An instance of OkHttpClient
-     * @return Api Client
+     * @return ApiClient
      * @throws java.lang.NullPointerException when newHttpClient is null
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
@@ -377,6 +378,29 @@ public class ApiClient {
     }
 
     /**
+     * Get TLS server name for SNI (Server Name Indication).
+     *
+     * @return The TLS server name
+     */
+    public String getTlsServerName() {
+        return tlsServerName;
+    }
+
+    /**
+     * Set TLS server name for SNI (Server Name Indication).
+     * This is used to verify the server certificate against a specific hostname
+     * instead of the hostname in the URL.
+     *
+     * @param tlsServerName The TLS server name to use for certificate verification
+     * @return ApiClient
+     */
+    public ApiClient setTlsServerName(String tlsServerName) {
+        this.tlsServerName = tlsServerName;
+        applySslSettings();
+        return this;
+    }
+
+    /**
      * <p>Getter for the field <code>dateFormat</code>.</p>
      *
      * @return a {@link java.text.DateFormat} object
@@ -426,6 +450,17 @@ public class ApiClient {
      */
     public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
         JSON.setLocalDateFormat(dateFormat);
+        return this;
+    }
+
+    /**
+     * <p>Set LocalDateTimeFormat.</p>
+     *
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
+    public ApiClient setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        JSON.setLocalDateTimeFormat(dateFormat);
         return this;
     }
 
@@ -759,6 +794,46 @@ public class ApiClient {
     }
 
     /**
+     * Format the given parameter object as an ASCII-safe JSON string.
+     *
+     * @param param Parameter
+     * @return JSON representation of the parameter
+     */
+    public String parameterToJsonString(Object param) {
+        if (param == null) {
+            return "";
+        }
+        String json = JSON.serialize(param);
+        int firstUnsafe = -1;
+        for (int i = 0; i < json.length(); i++) {
+            if (json.charAt(i) >= 0x7f) {
+                firstUnsafe = i;
+                break;
+            }
+        }
+        if (firstUnsafe == -1) {
+            return json;
+        }
+
+        StringBuilder escaped = new StringBuilder(json.length());
+        escaped.append(json, 0, firstUnsafe);
+        for (int i = firstUnsafe; i < json.length(); i++) {
+            char c = json.charAt(i);
+            if (c >= 0x7f) {
+                escaped.append("\\u");
+                escaped.append(Character.forDigit((c >> 12) & 0xf, 16));
+                escaped.append(Character.forDigit((c >> 8) & 0xf, 16));
+                escaped.append(Character.forDigit((c >> 4) & 0xf, 16));
+                escaped.append(Character.forDigit(c & 0xf, 16));
+            } else {
+                escaped.append(c);
+            }
+        }
+
+        return escaped.toString();
+    }
+
+    /**
      * Formats the specified query parameter to a list containing a single {@code Pair} object.
      *
      * Note that {@code value} must not be a collection.
@@ -789,7 +864,7 @@ public class ApiClient {
      * @param value The value of the parameter.
      * @return A list of {@code Pair} objects.
      */
-    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
+    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection<?> value) {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
@@ -828,6 +903,31 @@ public class ApiClient {
 
         return params;
     }
+
+   /**
+    * Formats the specified free-form query parameters to a list of {@code Pair} objects.
+    *
+    * @param value The free-form query parameters.
+    * @return A list of {@code Pair} objects.
+    */
+    public List<Pair> freeFormParameterToPairs(Object value) {
+        List<Pair> params = new ArrayList<>();
+
+        // preconditions
+        if (value == null || !(value instanceof Map )) {
+            return params;
+        }
+
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> valuesMap = (Map<String, Object>) value;
+
+        for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
+            params.add(new Pair(entry.getKey(), parameterToString(entry.getValue())));
+        }
+
+        return params;
+    }
+
 
     /**
      * Formats the specified collection path parameter to a string value.
@@ -871,7 +971,7 @@ public class ApiClient {
      * @return The sanitized filename
      */
     public String sanitizeFilename(String filename) {
-        return filename.replaceAll(".*[/\\\\]", "");
+        return filename.replaceFirst("^.*[/\\\\]", "");
     }
 
     /**
@@ -981,17 +1081,8 @@ public class ApiClient {
             return (T) downloadFileFromResponse(response);
         }
 
-        String respBody;
-        try {
-            if (response.body() != null)
-                respBody = response.body().string();
-            else
-                respBody = null;
-        } catch (IOException e) {
-            throw new ApiException(e);
-        }
-
-        if (respBody == null || "".equals(respBody)) {
+        ResponseBody respBody = response.body();
+        if (respBody == null) {
             return null;
         }
 
@@ -1000,17 +1091,35 @@ public class ApiClient {
             // ensuring a default content type
             contentType = "application/json";
         }
-        if (isJsonMime(contentType)) {
-            return JSON.deserialize(respBody, returnType);
-        } else if (returnType.equals(String.class)) {
-            // Expecting string, return the raw response body.
-            return (T) respBody;
-        } else {
-            throw new ApiException(
+        try {
+            if (isJsonMime(contentType)) {
+                if (returnType.equals(String.class)) {
+                    String respBodyString = respBody.string();
+                    if (respBodyString.isEmpty()) {
+                        return null;
+                    }
+                    // Use String-based deserialize for String return type with fallback
+                    return JSON.deserialize(respBodyString, returnType);
+                } else {
+                    // Use InputStream-based deserialize which supports responses > 2GB
+                    return JSON.deserialize(respBody.byteStream(), returnType);
+                }
+            } else if (returnType.equals(String.class)) {
+                String respBodyString = respBody.string();
+                if (respBodyString.isEmpty()) {
+                    return null;
+                }
+                // Expecting string, return the raw response body.
+                return (T) respBodyString;
+            } else {
+                throw new ApiException(
                     "Content type \"" + contentType + "\" is not supported for type: " + returnType,
                     response.code(),
                     response.headers().toMultimap(),
-                    respBody);
+                    response.body().string());
+            }
+        } catch (IOException e) {
+            throw new ApiException(e);
         }
     }
 
@@ -1267,10 +1376,6 @@ public class ApiClient {
      * @throws org.openapitools.client.ApiException If fail to serialize the request body object
      */
     public Request buildRequest(String baseUrl, String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
-        // aggregate queryParams (non-collection) and collectionQueryParams into allQueryParams
-        List<Pair> allQueryParams = new ArrayList<Pair>(queryParams);
-        allQueryParams.addAll(collectionQueryParams);
-
         final String url = buildUrl(baseUrl, path, queryParams, collectionQueryParams);
 
         // prepare HTTP request body
@@ -1298,10 +1403,12 @@ public class ApiClient {
             reqBody = serialize(body, contentType);
         }
 
-        // update parameters with authentication settings
-        updateParamsForAuth(authNames, allQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+        List<Pair> updatedQueryParams = new ArrayList<>(queryParams);
 
-        final Request.Builder reqBuilder = new Request.Builder().url(url);
+        // update parameters with authentication settings
+        updateParamsForAuth(authNames, updatedQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+
+        final Request.Builder reqBuilder = new Request.Builder().url(buildUrl(baseUrl, path, updatedQueryParams, collectionQueryParams));
         processHeaderParams(headerParams, reqBuilder);
         processCookieParams(cookieParams, reqBuilder);
 
@@ -1339,7 +1446,8 @@ public class ApiClient {
             if (serverIndex != null) {
                 if (serverIndex < 0 || serverIndex >= servers.size()) {
                     throw new ArrayIndexOutOfBoundsException(String.format(
-                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                        java.util.Locale.ROOT,
+                        "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
                     ));
                 }
                 baseURL = servers.get(serverIndex).URL(serverVariables);
@@ -1411,11 +1519,11 @@ public class ApiClient {
      */
     public void processCookieParams(Map<String, String> cookieParams, Request.Builder reqBuilder) {
         for (Entry<String, String> param : cookieParams.entrySet()) {
-            reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
+            reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
         }
         for (Entry<String, String> param : defaultCookieMap.entrySet()) {
             if (!cookieParams.containsKey(param.getKey())) {
-                reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
+                reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
             }
         }
     }
@@ -1508,7 +1616,7 @@ public class ApiClient {
      * @param key The key of the Header element
      * @param file The file to add to the Header
      */ 
-    private void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, File file) {
+    protected void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, File file) {
         Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"; filename=\"" + file.getName() + "\"");
         MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
         mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
@@ -1521,7 +1629,7 @@ public class ApiClient {
      * @param key The key of the Header element
      * @param obj The complex object to add to the Header
      */
-    private void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, Object obj) {
+    protected void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, Object obj) {
         RequestBody requestBody;
         if (obj instanceof String) {
             requestBody = RequestBody.create((String) obj, MediaType.parse("text/plain"));
@@ -1543,7 +1651,7 @@ public class ApiClient {
      * Get network interceptor to add it to the httpClient to track download progress for
      * async requests.
      */
-    private Interceptor getProgressInterceptor() {
+    protected Interceptor getProgressInterceptor() {
         return new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -1564,7 +1672,7 @@ public class ApiClient {
      * Apply SSL related settings to httpClient according to the current values of
      * verifyingSsl and sslCaCert.
      */
-    private void applySslSettings() {
+    protected void applySslSettings() {
         try {
             TrustManager[] trustManagers;
             HostnameVerifier hostnameVerifier;
@@ -1612,7 +1720,17 @@ public class ApiClient {
                     trustManagerFactory.init(caKeyStore);
                 }
                 trustManagers = trustManagerFactory.getTrustManagers();
-                hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                if (tlsServerName != null && !tlsServerName.isEmpty()) {
+                    hostnameVerifier = new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String hostname, SSLSession session) {
+                            // Verify the certificate against tlsServerName instead of the actual hostname
+                            return OkHostnameVerifier.INSTANCE.verify(tlsServerName, session);
+                        }
+                    };
+                } else {
+                    hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                }
             }
 
             SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -1626,7 +1744,7 @@ public class ApiClient {
         }
     }
 
-    private KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {
+    protected KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {
         try {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, password);
@@ -1643,7 +1761,7 @@ public class ApiClient {
      * @return The string representation of the HTTP request body
      * @throws org.openapitools.client.ApiException If fail to serialize the request body object into a string
      */
-    private String requestBodyToString(RequestBody requestBody) throws ApiException {
+    protected String requestBodyToString(RequestBody requestBody) throws ApiException {
         if (requestBody != null) {
             try {
                 final Buffer buffer = new Buffer();

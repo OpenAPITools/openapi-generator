@@ -1,0 +1,40 @@
+{{>License}}
+
+#include "{{{apiClassnameInPascalCase}}}ApiImpl.h"
+#include <stdexcept>
+
+namespace {{apiNamespace}} {
+
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+/**
+ * Implementation stub for {{handlerFunctionName}}
+ * TODO: Implement your business logic here
+ */
+{{#hasAnyResponseSchema}}{{classname}}::{{responseType}}{{/hasAnyResponseSchema}}{{^hasAnyResponseSchema}}void{{/hasAnyResponseSchema}} {{classname}}::{{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{classname}}::{{requestType}}& params{{/hasAnyRequestSchema}})
+{
+    // TODO: Implement your business logic here
+    {{#hasAnyResponseSchema}}
+    {{#hasSingleResponseType}}
+    // Return a default/stub response
+    {{responseType}} response;
+    // Initialize response fields as needed
+    return response;
+    {{/hasSingleResponseType}}
+    {{^hasSingleResponseType}}
+    // Return first success type as default
+    {{#successCodeToTypes}}{{#-first}}
+    {{successType}} response;
+    // Initialize response fields as needed
+    return response;
+    {{/-first}}{{/successCodeToTypes}}
+    {{/hasSingleResponseType}}
+    {{/hasAnyResponseSchema}}
+}
+
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+
+} // namespace {{apiNamespace}}

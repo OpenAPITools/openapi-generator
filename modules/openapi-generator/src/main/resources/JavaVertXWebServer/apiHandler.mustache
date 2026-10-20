@@ -27,10 +27,12 @@ public class {{classname}}Handler {
         this.api = api;
     }
 
+{{^interfaceOnly}}
     @Deprecated
     public {{classname}}Handler() {
         this(new {{classname}}Impl());
     }
+{{/interfaceOnly}}
 
     public void mount(RouterBuilder builder) {
 {{#operations}}
@@ -50,7 +52,17 @@ public class {{classname}}Handler {
 
 {{#allParams}}{{>headerParams}}{{>pathParams}}{{>queryParams}}{{>formParams}}{{>bodyParams}}{{/allParams}}
 {{#allParams}}
+{{#isPassword}}
+        logger.debug("Parameter {{paramName}} is (redacted)");
+{{/isPassword}}
+{{^isPassword}}
+{{#isBodyParam}}
+        logger.debug("Parameter {{paramName}} is (body omitted)");
+{{/isBodyParam}}
+{{^isBodyParam}}
         logger.debug("Parameter {{paramName}} is {}", {{paramName}});
+{{/isBodyParam}}
+{{/isPassword}}
 {{/allParams}}
 
         api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})

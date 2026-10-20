@@ -51,8 +51,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -86,9 +92,9 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| Pet id to delete | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| Pet id to delete | |
 | **apiKey** | **kotlin.String**|  | [optional] |
 
 ### Return type
@@ -98,8 +104,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -108,7 +120,7 @@ Configure petstore_auth:
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.collections.List&lt;Pet&gt;? findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -141,13 +153,19 @@ try {
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;?**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -156,7 +174,7 @@ Configure petstore_auth:
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List&lt;Pet&gt;? findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -189,13 +207,19 @@ try {
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;?**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -204,7 +228,7 @@ Configure petstore_auth:
 
 <a id="getPetById"></a>
 # **getPetById**
-> Pet getPetById(petId)
+> Pet? getPetById(petId)
 
 Find pet by ID
 
@@ -237,7 +261,7 @@ try {
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**Pet?**](Pet.md)
 
 ### Authorization
 
@@ -288,8 +312,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -324,10 +354,10 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
-| **name** | **kotlin.String**| Updated name of the pet | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
+| **name** | **kotlin.String**| Updated name of the pet | [optional] |
 | **status** | **kotlin.String**| Updated status of the pet | [optional] |
 
 ### Return type
@@ -337,8 +367,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -347,7 +383,7 @@ Configure petstore_auth:
 
 <a id="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse? uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -374,21 +410,27 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet to update | |
-| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 | **file** | **java.io.File**| file to upload | [optional] |
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ModelApiResponse?**](ModelApiResponse.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 

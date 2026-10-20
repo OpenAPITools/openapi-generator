@@ -15,6 +15,7 @@ func {{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}As{{classname}}(v *{
 
 {{/oneOf}}
 
+{{#vendorExtensions.x-go-generate-unmarshal-json}}
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var err error
@@ -58,8 +59,8 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into {{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
 	err = json.Unmarshal(data, &dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
 	if err == nil {
-		json{{{.}}}, _ := json.Marshal(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
-		if string(json{{{.}}}) == "{}" { // empty struct
+		json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}, _ := json.Marshal(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
+		if string(json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}) == "{}" { // empty struct
 			dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 		} else {
 			match++
@@ -79,6 +80,10 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf({{classname}}): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf({{classname}})")
 	}
 	{{/discriminator}}
@@ -114,11 +119,16 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf({{classname}}): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf({{classname}})")
 	}
 	{{/useOneOfDiscriminatorLookup}}
 }
 
+{{/vendorExtensions.x-go-generate-unmarshal-json}}
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src {{classname}}) MarshalJSON() ([]byte, error) {
 {{#oneOf}}
@@ -145,4 +155,17 @@ func (obj *{{classname}}) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj {{classname}}) GetActualInstanceValue() (interface{}) {
+{{#oneOf}}
+	if obj.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		return *obj.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
+	}
+
+{{/oneOf}}
+	// all schemas are nil
+	return nil
+}
+
 {{>nullable_model}}
+

@@ -37,18 +37,20 @@ import org.openapitools.client.ApiClient;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() { 
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -58,21 +60,21 @@ public class BananaReq {
    * @return lengthCm
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -82,16 +84,16 @@ public class BananaReq {
    * @return sweet
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getSweet() {
     return sweet;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 
@@ -132,10 +134,7 @@ public class BananaReq {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -172,12 +171,12 @@ public class BananaReq {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     // add `sweet` to the URL query string
     if (getSweet() != null) {
-      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSweet()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssweet%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSweet()))));
     }
 
     return joiner.toString();

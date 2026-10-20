@@ -28,20 +28,22 @@ import org.hibernate.validator.constraints.*;
 /**
  * Model for testing model name starting with number
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private Integer name;
 
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
+  @javax.annotation.Nullable
   private String propertyClass;
 
   public Model200Response() {
   }
 
-  public Model200Response name(Integer name) {
+  public Model200Response name(@javax.annotation.Nullable Integer name) {
     
     this.name = name;
     return this;
@@ -59,11 +61,11 @@ public class Model200Response {
   }
 
 
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nullable Integer name) {
     this.name = name;
   }
 
-  public Model200Response propertyClass(String propertyClass) {
+  public Model200Response propertyClass(@javax.annotation.Nullable String propertyClass) {
     
     this.propertyClass = propertyClass;
     return this;
@@ -81,9 +83,10 @@ public class Model200Response {
   }
 
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -118,10 +121,7 @@ public class Model200Response {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

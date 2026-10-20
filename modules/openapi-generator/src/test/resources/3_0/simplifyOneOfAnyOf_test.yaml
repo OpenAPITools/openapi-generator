@@ -123,3 +123,29 @@ components:
         - type: integer
         - type: array
           items: {}
+    AnyOfParentRefTest:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - type: null
+            - $ref: '#/components/schemas/IntegerRef'
+          writeOnly: true
+        number2:
+          anyOf:
+            - type: null
+            - $ref: '#/components/schemas/IntegerRef'
+          readOnly: true
+    OneOfParentRefTest:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - type: null
+            - $ref: '#/components/schemas/IntegerRef'
+          writeOnly: true
+        number2:
+          oneOf:
+            - type: null
+            - $ref: '#/components/schemas/IntegerRef'
+          readOnly: true

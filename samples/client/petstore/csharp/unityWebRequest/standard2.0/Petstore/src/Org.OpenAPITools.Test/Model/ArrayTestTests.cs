@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ArrayTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ArrayOfString'
         /// </summary>

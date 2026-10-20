@@ -1,0 +1,37 @@
+{{>licenseInfo}}
+package {{packageName}}
+
+import io.circe.{Decoder, Encoder, Json, ACursor}
+import java.time.{Instant, LocalDate, OffsetDateTime}
+import java.util.UUID
+
+package object models {
+
+  given decodeUUID: Decoder[UUID] =
+    Decoder.decodeString.map(str => UUID.fromString(str))
+
+  given encodeUUID: Encoder[UUID] =
+    Encoder.encodeString.contramap[UUID](uuid => uuid.toString)
+
+  given decodeInstant: Decoder[Instant] =
+    Decoder.decodeString.map(str => OffsetDateTime.parse(str).toInstant)
+
+  given encodeInstant: Encoder[Instant] =
+    Encoder.encodeString.contramap[Instant](_.toString)
+
+  given decodeLocalDate: Decoder[LocalDate] =
+    Decoder.decodeString.map(str => LocalDate.parse(str))
+
+  given encodeLocalDate: Encoder[LocalDate] =
+    Encoder.encodeString.contramap[LocalDate](_.toString)
+
+  given decodeJson: Decoder[Json] =
+    Decoder.decodeString.map(str => Json.fromString(str))
+
+  given encodeJson: Encoder[Json] =
+    Encoder.encodeString.contramap[Json](_.toString)
+
+  def mapEmptyStringToNull(f: ACursor): ACursor =
+    f.withFocus(json => if json.toString == "\"\"" then Json.Null else json)
+
+}

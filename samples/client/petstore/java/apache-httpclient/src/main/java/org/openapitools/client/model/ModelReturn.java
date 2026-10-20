@@ -33,15 +33,16 @@ import java.util.StringJoiner;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
+  @javax.annotation.Nullable
   private Integer _return;
 
   public ModelReturn() {
   }
 
-  public ModelReturn _return(Integer _return) {
+  public ModelReturn _return(@javax.annotation.Nullable Integer _return) {
     
     this._return = _return;
     return this;
@@ -52,7 +53,7 @@ public class ModelReturn {
    * @return _return
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getReturn() {
@@ -60,11 +61,12 @@ public class ModelReturn {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReturn(Integer _return) {
+  public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -97,10 +99,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -138,7 +137,7 @@ public class ModelReturn {
     // add `return` to the URL query string
     if (getReturn() != null) {
       try {
-        joiner.add(String.format("%sreturn%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getReturn()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sreturn%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getReturn()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

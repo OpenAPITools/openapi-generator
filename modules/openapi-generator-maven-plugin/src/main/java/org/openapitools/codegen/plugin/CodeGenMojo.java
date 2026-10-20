@@ -17,26 +17,35 @@
 
 package org.openapitools.codegen.plugin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.parser.OpenAPIResolver;
 import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.*;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.config.MergedSpecBuilder;
@@ -47,7 +56,10 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -60,7 +72,7 @@ import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresDependencyResolution = ResolutionScope.COMPILE, threadSafe = true)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
@@ -73,8 +85,14 @@ public class CodeGenMojo extends AbstractMojo {
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
 
+    /**
+     * Enable verbose output during code generation.
+     */
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
+
+    @Parameter(name = "quiet", property = "openapi.generator.maven.plugin.quiet", defaultValue = "false")
+    private boolean quiet;
 
     /**
      * The name of the generator to use.
@@ -88,6 +106,10 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    /**
+     * When {@code true}, the output directory is deleted and recreated before code generation.
+     * Useful for ensuring no stale generated files remain between runs.
+     */
     @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
     private boolean cleanupOutput;
 
@@ -108,6 +130,55 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;
+
+    /**
+     * Name that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoName", property = "openapi.generator.maven.plugin.mergedFileInfoName", defaultValue = "merged spec")
+    private String mergedFileInfoName;
+
+    /**
+     * Description that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoDescription", property = "openapi.generator.maven.plugin.mergedFileInfoDescription", defaultValue = "merged spec")
+    private String mergedFileInfoDescription;
+
+    /**
+     * Version that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoVersion", property = "openapi.generator.maven.plugin.mergedFileInfoVersion", defaultValue = "1.0.0")
+    private String mergedFileInfoVersion;
+
+    /**
+     * Explicit ordered list of spec files to merge. When set, these files are merged in the given
+     * order instead of scanning inputSpecRootDirectory. Takes precedence over inputSpecRootDirectory.
+     * Use with mergedFileOutputDir (required), mergeMode, and mergeConflictStrategy.
+     */
+    @Parameter(name = "inputSpecFiles", property = "openapi.generator.maven.plugin.inputSpecFiles")
+    private List<String> inputSpecFiles;
+
+    /**
+     * Directory where the merged spec file is written when inputSpecFiles is used.
+     * Required when inputSpecFiles is set.
+     */
+    @Parameter(name = "mergedFileOutputDir", property = "openapi.generator.maven.plugin.mergedFileOutputDir")
+    private File mergedFileOutputDir;
+
+    /**
+     * Strategy when two specs define the same component name or path+method with different
+     * definitions. Accepted values: WARN (default, keep the first definition and log a warning)
+     * or FAIL (abort the build with an error). Only applies when mergeMode is DEEP.
+     */
+    @Parameter(name = "mergeConflictStrategy", property = "openapi.generator.maven.plugin.mergeConflictStrategy", defaultValue = "WARN")
+    private String mergeConflictStrategy;
+
+    /**
+     * How multiple spec files are merged. Accepted values: REF (default, original $ref-based
+     * shallow merge, backward-compatible) or DEEP (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @Parameter(name = "mergeMode", property = "openapi.generator.maven.plugin.mergeMode", defaultValue = "REF")
+    private String mergeMode;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -154,7 +225,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
-    @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
+    @Parameter(name = "engine", defaultValue = "mustache", property = "openapi.generator.maven.plugin.engine")
     private String engine;
 
     /**
@@ -295,6 +366,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "generateAliasAsModel", property = "openapi.generator.maven.plugin.generateAliasAsModel")
     private Boolean generateAliasAsModel;
+
+    /**
+     * Only write output files that have changed.
+     */
+    @Parameter(name = "minimalUpdate", property = "openapi.generator.maven.plugin.minimalUpdate")
+    private Boolean minimalUpdate;
 
     /**
      * A map of language-specific parameters as passed with the -c option to the command line
@@ -532,16 +609,71 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
-            LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
-            throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
+        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory) && (inputSpecFiles == null || inputSpecFiles.isEmpty())) {
+            LOGGER.error("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
+            throw new MojoExecutionException("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
         }
 
-        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
-                .buildMergedSpec();
+        if (inputSpecFiles != null && !inputSpecFiles.isEmpty()) {
+            if (mergedFileOutputDir == null) {
+                throw new MojoExecutionException("mergedFileOutputDir must be set when inputSpecFiles is used");
+            }
+            MergedSpecBuilder.MergeMode resolvedMergeMode;
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+                        + "'. Valid values are: REF, DEEP");
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecFiles, mergedFileOutputDir.getAbsolutePath(),
+                    mergedFileName, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+                    .withMergeMode(resolvedMergeMode);
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+                            + "'. Valid values are: WARN, FAIL");
+                }
+            }
+
+            inputSpec = builder.buildMergedSpec();
+            LOGGER.info("Merged input spec from explicit file list: {}", inputSpec);
+        } else if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            // make sure the path can be processed correct under Windows OS
+            inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
+
+            MergedSpecBuilder.MergeMode resolvedMergeMode;
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+                        + "'. Valid values are: REF, DEEP");
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+                    .withMergeMode(resolvedMergeMode);
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+                            + "'. Valid values are: WARN, FAIL");
+                }
+            }
+
+            inputSpec = builder.buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
+
+        // make sure the path can be processed correct under Windows OS
+        inputSpec = inputSpec.replaceAll("\\\\", "/");
 
         File inputSpecFile = new File(inputSpec);
 
@@ -570,7 +702,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
 
-            if (buildContext != null && inputSpec != null ) {
+            if (buildContext != null && inputSpec != null) {
                 if (buildContext.isIncremental() &&
                         inputSpecFile.exists() &&
                         !buildContext.hasDelta(inputSpecFile)) {
@@ -609,6 +741,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             configurator.setVerbose(verbose);
+            configurator.setQuiet(quiet);
 
             if (skipOverwrite != null) {
                 configurator.setSkipOverwrite(skipOverwrite);
@@ -623,13 +756,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (isNotEmpty(inputSpec)) {
-                URL url = inputSpecRemoteUrl();
-
-                if ((! inputSpecFile.exists()) && url != null) {
-                    configurator.setInputSpec(url.toString());
-                } else {
-                    configurator.setInputSpec(inputSpec);
-                }
+                configurator.setInputSpec(inputSpec);
             }
 
             if (isNotEmpty(gitHost)) {
@@ -668,8 +795,12 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setEnablePostProcessFile(enablePostProcessFile);
             }
 
-            if (generateAliasAsModel  != null) {
+            if (generateAliasAsModel != null) {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
+            }
+
+            if (minimalUpdate != null) {
+                configurator.setEnableMinimalUpdate(minimalUpdate);
             }
 
             if (isNotEmpty(generatorName)) {
@@ -871,7 +1002,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             // Apply Parameter Name Mappings
-            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
+            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("parameter-name-mappings"))) {
                 applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
             }
 
@@ -978,7 +1109,7 @@ public class CodeGenMojo extends AbstractMojo {
                 File parent = new File(storedInputSpecHashFile.getParent());
                 if (!parent.mkdirs()) {
                     throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
-                                               " to store the checksum of the input spec.");
+                            " to store the checksum of the input spec.");
                 }
             }
 
@@ -997,7 +1128,7 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Calculate an SHA256 hash for the openapi specification. 
+     * Calculate an SHA256 hash for the openapi specification.
      * If the specification is hosted on a remote resource it is downloaded first.
      *
      * @param inputSpec - Openapi specification input file. Can denote a URL or file path.
@@ -1006,57 +1137,53 @@ public class CodeGenMojo extends AbstractMojo {
     private String calculateInputSpecHash(String inputSpec) {
         final ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
-        
+
         final URL remoteUrl = inputSpecRemoteUrl();
-        return Hashing.sha256().hashBytes(
-            new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), null, parseOptions)
-                .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
-        ).toString();
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+
+        final OpenAPI spec = new OpenAPIParser()
+                .readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
+                .getOpenAPI();
+
+        // If the specification is not parsable, a unique string is returned so the subsequent steps are not skipped.
+        // It is up to them to parse it again and deal with the error.
+        if (spec == null)
+            return "INVALID-HASH-" + System.currentTimeMillis();
+
+        final ObjectMapper mapper = spec.getSpecVersion() == SpecVersion.V30 ? Json.mapper() : Json31.mapper();
+
+        try {
+            return Hashing.sha256().hashBytes(mapper.writeValueAsBytes(spec)).toString();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
-     * Try to parse inputSpec setting string into URL (truly remote or resource)
+     * Try to parse inputSpec setting string into URL
+     *
      * @return A valid URL or null if inputSpec is not a valid URL
      */
     private URL inputSpecRemoteUrl() {
-        URL url = dependencyClassLoader().getResource(inputSpec);
-
-        if (url == null) {
-            try {
-                url = new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
-            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
-            }
+        try {
+            return new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException ignored) {
+            return null;
         }
-
-        return url;
-    }
-
-    private ClassLoader dependencyClassLoader() {
-        List<URL> list = new ArrayList<>();
-
-        for (Artifact artifact : project.getArtifacts()) {
-            try {
-                if (artifact.isResolved() && artifact.getType().equals("jar")) {
-                    list.add(new URL("jar:" + artifact.getFile().toURI() + "!/"));
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        return new URLClassLoader(list.toArray(new URL[] { }), getClass().getClassLoader());
     }
 
     /**
      * Get specification hash file
+     *
      * @param inputSpecFile - Openapi specification input file to calculate its hash.
-     *                        Does not take into account if input spec is hosted on remote resource
+     *                      Does not take into account if input spec is hosted on remote resource
      * @return a file with previously calculated hash
      */
     private File getHashFile(File inputSpecFile) {
         String name = inputSpecFile.getName();
 
         URL url = inputSpecRemoteUrl();
-        if (inputSpecFile.exists() && url != null) {
+        if (url != null) {
             String[] segments = url.getPath().split("/");
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
@@ -1115,7 +1242,9 @@ public class CodeGenMojo extends AbstractMojo {
         // Merge the OpenAPI spec file.
         final var parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
-        final var openApiMerged = new OpenAPIResolver(new OpenAPIV3Parser().readLocation(inputSpec, null, parseOptions).getOpenAPI()).resolve();
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+
+        final var openApiMerged = new OpenAPIResolver(new OpenAPIV3Parser().readLocation(inputSpec, authorizationValues, parseOptions).getOpenAPI()).resolve();
 
         // Switch based on JSON or YAML.
         final var extension = inputSpec.toLowerCase(Locale.ROOT).endsWith(".json") ? ".json" : ".yaml";

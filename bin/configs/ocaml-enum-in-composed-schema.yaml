@@ -1,0 +1,6 @@
+generatorName: ocaml
+outputDir: samples/client/petstore/ocaml-enum-in-composed-schema
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ocaml/enum-in-composed-schema.yaml
+templateDir: modules/openapi-generator/src/main/resources/ocaml
+additionalProperties:
+  packageName: petstore_client

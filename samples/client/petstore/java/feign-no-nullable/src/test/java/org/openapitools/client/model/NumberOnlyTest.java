@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for NumberOnly
  */

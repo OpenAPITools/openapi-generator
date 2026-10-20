@@ -18,1064 +18,349 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- * 
- * @export
- * @interface AdditionalPropertiesClass
- */
 export interface AdditionalPropertiesClass {
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof AdditionalPropertiesClass
-     */
     'map_property'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
-     * @memberof AdditionalPropertiesClass
-     */
     'map_of_map_property'?: { [key: string]: { [key: string]: string; }; };
 }
-/**
- * 
- * @export
- * @interface Animal
- */
 export interface Animal {
-    /**
-     * 
-     * @type {string}
-     * @memberof Animal
-     */
     'className': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Animal
-     */
     'color'?: string;
 }
-/**
- * 
- * @export
- * @interface ApiResponse
- */
 export interface ApiResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiResponse
-     */
     'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiResponse
-     */
     'type'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiResponse
-     */
     'message'?: string;
 }
-/**
- * 
- * @export
- * @interface Apple
- */
 export interface Apple {
-    /**
-     * 
-     * @type {string}
-     * @memberof Apple
-     */
     'cultivar'?: string;
 }
-/**
- * 
- * @export
- * @interface AppleReq
- */
 export interface AppleReq {
-    /**
-     * 
-     * @type {string}
-     * @memberof AppleReq
-     */
     'cultivar': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AppleReq
-     */
     'mealy'?: boolean;
 }
-/**
- * 
- * @export
- * @interface ArrayOfArrayOfNumberOnly
- */
 export interface ArrayOfArrayOfNumberOnly {
-    /**
-     * 
-     * @type {Array<Array<number>>}
-     * @memberof ArrayOfArrayOfNumberOnly
-     */
     'ArrayArrayNumber'?: Array<Array<number>>;
 }
-/**
- * 
- * @export
- * @interface ArrayOfNumberOnly
- */
 export interface ArrayOfNumberOnly {
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof ArrayOfNumberOnly
-     */
     'ArrayNumber'?: Array<number>;
 }
-/**
- * 
- * @export
- * @interface ArrayTest
- */
 export interface ArrayTest {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ArrayTest
-     */
     'array_of_string'?: Array<string>;
-    /**
-     * 
-     * @type {Array<Array<number>>}
-     * @memberof ArrayTest
-     */
     'array_array_of_integer'?: Array<Array<number>>;
-    /**
-     * 
-     * @type {Array<Array<ReadOnlyFirst>>}
-     * @memberof ArrayTest
-     */
     'array_array_of_model'?: Array<Array<ReadOnlyFirst>>;
 }
-/**
- * 
- * @export
- * @interface Banana
- */
 export interface Banana {
     [key: string]: any;
 
-    /**
-     * 
-     * @type {number}
-     * @memberof Banana
-     */
     'lengthCm'?: number;
 }
-/**
- * 
- * @export
- * @interface BananaReq
- */
 export interface BananaReq {
-    /**
-     * 
-     * @type {number}
-     * @memberof BananaReq
-     */
     'lengthCm': number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof BananaReq
-     */
     'sweet'?: boolean;
 }
-/**
- * 
- * @export
- * @interface Capitalization
- */
 export interface Capitalization {
-    /**
-     * 
-     * @type {string}
-     * @memberof Capitalization
-     */
     'smallCamel'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Capitalization
-     */
     'CapitalCamel'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Capitalization
-     */
     'small_Snake'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Capitalization
-     */
     'Capital_Snake'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Capitalization
-     */
     'SCA_ETH_Flow_Points'?: string;
     /**
      * Name of the pet 
-     * @type {string}
-     * @memberof Capitalization
      */
     'ATT_NAME'?: string;
 }
-/**
- * 
- * @export
- * @interface Cat
- */
 export interface Cat extends Animal {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Cat
-     */
     'declawed'?: boolean;
 }
-/**
- * 
- * @export
- * @interface Category
- */
 export interface Category {
-    /**
-     * 
-     * @type {number}
-     * @memberof Category
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Category
-     */
     'name': string;
 }
 /**
  * Model for testing model with \"_class\" property
- * @export
- * @interface ClassModel
  */
 export interface ClassModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof ClassModel
-     */
     '_class'?: string;
 }
-/**
- * 
- * @export
- * @interface Client
- */
 export interface Client {
-    /**
-     * 
-     * @type {string}
-     * @memberof Client
-     */
     'client'?: string;
 }
-/**
- * 
- * @export
- * @interface Dog
- */
 export interface Dog extends Animal {
-    /**
-     * 
-     * @type {string}
-     * @memberof Dog
-     */
     'breed'?: string;
 }
-/**
- * 
- * @export
- * @interface EnumArrays
- */
 export interface EnumArrays {
-    /**
-     * 
-     * @type {string}
-     * @memberof EnumArrays
-     */
     'just_symbol'?: EnumArraysJustSymbolEnum;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof EnumArrays
-     */
     'array_enum'?: Array<EnumArraysArrayEnumEnum>;
 }
 
 export const EnumArraysJustSymbolEnum = {
     GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 export const EnumArraysArrayEnumEnum = {
     Fish: 'fish',
-    Crab: 'crab'
+    Crab: 'crab',
 } as const;
 
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const EnumClass = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
 
 
-/**
- * 
- * @export
- * @interface EnumTest
- */
 export interface EnumTest {
-    /**
-     * 
-     * @type {string}
-     * @memberof EnumTest
-     */
     'enum_string'?: EnumTestEnumStringEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof EnumTest
-     */
     'enum_string_required': EnumTestEnumStringRequiredEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof EnumTest
-     */
     'enum_integer'?: EnumTestEnumIntegerEnum;
-    /**
-     * 
-     * @type {number}
-     * @memberof EnumTest
-     */
     'enum_number'?: EnumTestEnumNumberEnum;
-    /**
-     * 
-     * @type {OuterEnum}
-     * @memberof EnumTest
-     */
     'outerEnum'?: OuterEnum | null;
-    /**
-     * 
-     * @type {OuterEnumInteger}
-     * @memberof EnumTest
-     */
     'outerEnumInteger'?: OuterEnumInteger;
-    /**
-     * 
-     * @type {OuterEnumDefaultValue}
-     * @memberof EnumTest
-     */
     'outerEnumDefaultValue'?: OuterEnumDefaultValue;
-    /**
-     * 
-     * @type {OuterEnumIntegerDefaultValue}
-     * @memberof EnumTest
-     */
     'outerEnumIntegerDefaultValue'?: OuterEnumIntegerDefaultValue;
 }
 
 export const EnumTestEnumStringEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 export const EnumTestEnumStringRequiredEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_MINUS_1: -1,
 } as const;
 
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 export const EnumTestEnumNumberEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
-/**
- * 
- * @export
- * @interface FileSchemaTestClass
- */
 export interface FileSchemaTestClass {
-    /**
-     * 
-     * @type {any}
-     * @memberof FileSchemaTestClass
-     */
     'file'?: any;
-    /**
-     * 
-     * @type {Array<any>}
-     * @memberof FileSchemaTestClass
-     */
     'files'?: Array<any>;
 }
-/**
- * 
- * @export
- * @interface Foo
- */
 export interface Foo {
-    /**
-     * 
-     * @type {string}
-     * @memberof Foo
-     */
     'bar'?: string;
 }
-/**
- * 
- * @export
- * @interface FooGetDefaultResponse
- */
 export interface FooGetDefaultResponse {
-    /**
-     * 
-     * @type {Foo}
-     * @memberof FooGetDefaultResponse
-     */
     'string'?: Foo;
 }
-/**
- * 
- * @export
- * @interface FormatTest
- */
 export interface FormatTest {
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'integer'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'int32'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'int64'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'number': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'float'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof FormatTest
-     */
     'double'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'string'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'byte': string;
-    /**
-     * 
-     * @type {File}
-     * @memberof FormatTest
-     */
     'binary'?: File;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'date': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'dateTime'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'uuid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FormatTest
-     */
     'password': string;
     /**
      * A string that is a 10 digit number. Can have leading zeros.
-     * @type {string}
-     * @memberof FormatTest
      */
     'pattern_with_digits'?: string;
     /**
      * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
-     * @type {string}
-     * @memberof FormatTest
      */
     'pattern_with_digits_and_delimiter'?: string;
 }
 /**
  * @type Fruit
- * @export
  */
 export type Fruit = Apple | Banana;
 
 /**
  * @type FruitReq
- * @export
  */
 export type FruitReq = AppleReq | BananaReq;
 
-/**
- * 
- * @export
- * @interface GmFruit
- */
 export interface GmFruit {
-    /**
-     * 
-     * @type {string}
-     * @memberof GmFruit
-     */
     'color'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GmFruit
-     */
     'cultivar'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof GmFruit
-     */
     'lengthCm'?: number;
 }
-/**
- * 
- * @export
- * @interface HasOnlyReadOnly
- */
 export interface HasOnlyReadOnly {
-    /**
-     * 
-     * @type {string}
-     * @memberof HasOnlyReadOnly
-     */
     'bar'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HasOnlyReadOnly
-     */
     'foo'?: string;
 }
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
- * @export
- * @interface HealthCheckResult
  */
 export interface HealthCheckResult {
-    /**
-     * 
-     * @type {string}
-     * @memberof HealthCheckResult
-     */
     'NullableMessage'?: string | null;
 }
-/**
- * 
- * @export
- * @interface List
- */
 export interface List {
-    /**
-     * 
-     * @type {string}
-     * @memberof List
-     */
     '123-list'?: string;
 }
 /**
  * @type Mammal
- * @export
  */
 export type Mammal = { className: 'whale' } & Whale | { className: 'zebra' } & Zebra;
 
-/**
- * 
- * @export
- * @interface MapTest
- */
 export interface MapTest {
-    /**
-     * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
-     * @memberof MapTest
-     */
     'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof MapTest
-     */
-    'map_of_enum_string'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof MapTest
-     */
+    'map_of_enum_string'?: { [key: string]: MapTestMapOfEnumStringEnum; };
     'direct_map'?: { [key: string]: boolean; };
-    /**
-     * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof MapTest
-     */
     'indirect_map'?: { [key: string]: boolean; };
 }
 
 export const MapTestMapOfEnumStringEnum = {
     Upper: 'UPPER',
-    Lower: 'lower'
+    Lower: 'lower',
 } as const;
 
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
-/**
- * 
- * @export
- * @interface MixedPropertiesAndAdditionalPropertiesClass
- */
 export interface MixedPropertiesAndAdditionalPropertiesClass {
-    /**
-     * 
-     * @type {string}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
-     */
     'uuid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
-     */
     'dateTime'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: Animal; }}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
-     */
     'map'?: { [key: string]: Animal; };
 }
 /**
  * Model for testing model name starting with number
- * @export
- * @interface Model200Response
  */
 export interface Model200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof Model200Response
-     */
     'name'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Model200Response
-     */
     'class'?: string;
 }
 /**
  * Must be named `File` for test.
- * @export
- * @interface ModelFile
  */
 export interface ModelFile {
     /**
      * Test capitalization
-     * @type {string}
-     * @memberof ModelFile
      */
     'sourceURI'?: string;
 }
 /**
  * Model for testing model name same as property name
- * @export
- * @interface Name
  */
 export interface Name {
-    /**
-     * 
-     * @type {number}
-     * @memberof Name
-     */
     'name': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Name
-     */
     'snake_case'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Name
-     */
     'property'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Name
-     */
     '123Number'?: number;
 }
-/**
- * 
- * @export
- * @interface NullableClass
- */
 export interface NullableClass {
     [key: string]: object | any;
 
-    /**
-     * 
-     * @type {number}
-     * @memberof NullableClass
-     */
     'integer_prop'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof NullableClass
-     */
     'number_prop'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof NullableClass
-     */
     'boolean_prop'?: boolean | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof NullableClass
-     */
     'string_prop'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof NullableClass
-     */
     'date_prop'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof NullableClass
-     */
     'datetime_prop'?: string | null;
-    /**
-     * 
-     * @type {Array<object>}
-     * @memberof NullableClass
-     */
     'array_nullable_prop'?: Array<object> | null;
-    /**
-     * 
-     * @type {Array<object>}
-     * @memberof NullableClass
-     */
-    'array_and_items_nullable_prop'?: Array<object> | null;
-    /**
-     * 
-     * @type {Array<object>}
-     * @memberof NullableClass
-     */
-    'array_items_nullable'?: Array<object>;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof NullableClass
-     */
+    'array_and_items_nullable_prop'?: Array<object | null> | null;
+    'array_items_nullable'?: Array<object | null>;
     'object_nullable_prop'?: { [key: string]: object; } | null;
-    /**
-     * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
-     */
     'object_and_items_nullable_prop'?: { [key: string]: object | null; } | null;
-    /**
-     * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
-     */
     'object_items_nullable'?: { [key: string]: object | null; };
 }
-/**
- * 
- * @export
- * @interface NumberOnly
- */
 export interface NumberOnly {
-    /**
-     * 
-     * @type {number}
-     * @memberof NumberOnly
-     */
     'JustNumber'?: number;
 }
-/**
- * 
- * @export
- * @interface Order
- */
 export interface Order {
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'petId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'quantity'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
     'shipDate'?: string;
     /**
      * Order Status
-     * @type {string}
-     * @memberof Order
      */
     'status'?: OrderStatusEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Order
-     */
     'complete'?: boolean;
 }
 
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
-/**
- * 
- * @export
- * @interface OuterComposite
- */
 export interface OuterComposite {
-    /**
-     * 
-     * @type {number}
-     * @memberof OuterComposite
-     */
     'my_number'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof OuterComposite
-     */
     'my_string'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof OuterComposite
-     */
     'my_boolean'?: boolean;
 }
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const OuterEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 
 
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const OuterEnumDefaultValue = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
 
 
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const OuterEnumInteger = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
 
 
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const OuterEnumIntegerDefaultValue = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
 
 
-/**
- * 
- * @export
- * @interface Pet
- */
 export interface Pet {
-    /**
-     * 
-     * @type {number}
-     * @memberof Pet
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {Category}
-     * @memberof Pet
-     */
     'category'?: Category;
-    /**
-     * 
-     * @type {string}
-     * @memberof Pet
-     */
     'name': string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Pet
-     */
     'photoUrls': Array<string>;
-    /**
-     * 
-     * @type {Array<Tag>}
-     * @memberof Pet
-     */
     'tags'?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      * @deprecated
      */
     'status'?: PetStatusEnum;
@@ -1084,267 +369,85 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
-/**
- * 
- * @export
- * @interface ReadOnlyFirst
- */
 export interface ReadOnlyFirst {
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyFirst
-     */
     'bar'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyFirst
-     */
     'baz'?: string;
 }
-/**
- * 
- * @export
- * @interface ReadOnlyWithDefault
- */
 export interface ReadOnlyWithDefault {
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
     'prop1'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
     'prop2'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
     'prop3'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReadOnlyWithDefault
-     */
     'boolProp1'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReadOnlyWithDefault
-     */
     'boolProp2'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReadOnlyWithDefault
-     */
     'intProp1'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReadOnlyWithDefault
-     */
     'intProp2'?: number;
 }
 /**
  * Model for testing reserved words
- * @export
- * @interface Return
  */
 export interface Return {
-    /**
-     * 
-     * @type {number}
-     * @memberof Return
-     */
     'return'?: number;
 }
-/**
- * 
- * @export
- * @interface SpecialModelName
- */
 export interface SpecialModelName {
-    /**
-     * 
-     * @type {number}
-     * @memberof SpecialModelName
-     */
     '$special[property.name]'?: number;
 }
-/**
- * 
- * @export
- * @interface Tag
- */
 export interface Tag {
-    /**
-     * 
-     * @type {number}
-     * @memberof Tag
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Tag
-     */
     'name'?: string;
 }
-/**
- * 
- * @export
- * @interface TestInlineFreeformAdditionalPropertiesRequest
- */
 export interface TestInlineFreeformAdditionalPropertiesRequest {
     [key: string]: any;
 
-    /**
-     * 
-     * @type {string}
-     * @memberof TestInlineFreeformAdditionalPropertiesRequest
-     */
     'someProperty'?: string;
 }
-/**
- * 
- * @export
- * @interface User
- */
 export interface User {
-    /**
-     * 
-     * @type {number}
-     * @memberof User
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'username'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'firstName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'lastName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'password'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'phone'?: string;
     /**
      * User Status
-     * @type {number}
-     * @memberof User
      */
     'userStatus'?: number;
     /**
      * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
-     * @type {object}
-     * @memberof User
      */
     'arbitraryObject'?: object;
     /**
      * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
-     * @type {object}
-     * @memberof User
      */
     'arbitraryNullableObject'?: object | null;
     /**
      * test code generation for any type Value can be any type - string, number, boolean, array or object.
-     * @type {any}
-     * @memberof User
      */
     'arbitraryTypeValue'?: any;
     /**
      * test code generation for any type Value can be any type - string, number, boolean, array, object or the \'null\' value.
-     * @type {any}
-     * @memberof User
      */
     'arbitraryNullableTypeValue'?: any | null;
 }
-/**
- * 
- * @export
- * @interface Whale
- */
 export interface Whale {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Whale
-     */
     'hasBaleen'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Whale
-     */
     'hasTeeth'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Whale
-     */
     'className': string;
 }
-/**
- * 
- * @export
- * @interface Zebra
- */
 export interface Zebra {
-    /**
-     * 
-     * @type {string}
-     * @memberof Zebra
-     */
     'type'?: ZebraTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof Zebra
-     */
     'className': string;
 }
 
 export const ZebraTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
@@ -1352,7 +455,6 @@ export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
 
 /**
  * AnotherFakeApi - axios parameter creator
- * @export
  */
 export const AnotherFakeApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1378,9 +480,8 @@ export const AnotherFakeApiAxiosParamCreator = function (configuration?: Configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1397,7 +498,6 @@ export const AnotherFakeApiAxiosParamCreator = function (configuration?: Configu
 
 /**
  * AnotherFakeApi - functional programming interface
- * @export
  */
 export const AnotherFakeApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AnotherFakeApiAxiosParamCreator(configuration)
@@ -1420,7 +520,6 @@ export const AnotherFakeApiFp = function(configuration?: Configuration) {
 
 /**
  * AnotherFakeApi - factory interface
- * @export
  */
 export const AnotherFakeApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AnotherFakeApiFp(configuration)
@@ -1432,7 +531,7 @@ export const AnotherFakeApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _123testSpecialTags(client: Client, options?: any): AxiosPromise<Client> {
+        _123testSpecialTags(client: Client, options?: RawAxiosRequestConfig): AxiosPromise<Client> {
             return localVarFp._123testSpecialTags(client, options).then((request) => request(axios, basePath));
         },
     };
@@ -1440,9 +539,6 @@ export const AnotherFakeApiFactory = function (configuration?: Configuration, ba
 
 /**
  * AnotherFakeApi - object-oriented interface
- * @export
- * @class AnotherFakeApi
- * @extends {BaseAPI}
  */
 export class AnotherFakeApi extends BaseAPI {
     /**
@@ -1451,7 +547,6 @@ export class AnotherFakeApi extends BaseAPI {
      * @param {Client} client client model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AnotherFakeApi
      */
     public _123testSpecialTags(client: Client, options?: RawAxiosRequestConfig) {
         return AnotherFakeApiFp(this.configuration)._123testSpecialTags(client, options).then((request) => request(this.axios, this.basePath));
@@ -1462,7 +557,6 @@ export class AnotherFakeApi extends BaseAPI {
 
 /**
  * DefaultApi - axios parameter creator
- * @export
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1484,8 +578,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1500,7 +594,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 /**
  * DefaultApi - functional programming interface
- * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
@@ -1521,7 +614,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
 
 /**
  * DefaultApi - factory interface
- * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = DefaultApiFp(configuration)
@@ -1531,7 +623,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fooGet(options?: any): AxiosPromise<FooGetDefaultResponse> {
+        fooGet(options?: RawAxiosRequestConfig): AxiosPromise<FooGetDefaultResponse> {
             return localVarFp.fooGet(options).then((request) => request(axios, basePath));
         },
     };
@@ -1539,16 +631,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 
 /**
  * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public fooGet(options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
@@ -1559,7 +647,6 @@ export class DefaultApi extends BaseAPI {
 
 /**
  * FakeApi - axios parameter creator
- * @export
  */
 export const FakeApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1582,8 +669,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1612,9 +699,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1645,9 +731,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1678,9 +763,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1711,9 +795,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1747,8 +830,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1782,8 +863,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1824,8 +903,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['query'] = query;
             }
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1860,9 +937,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1924,62 +1000,60 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (integer !== undefined) { 
                 localVarFormParams.set('integer', integer as any);
             }
-    
+
             if (int32 !== undefined) { 
                 localVarFormParams.set('int32', int32 as any);
             }
-    
+
             if (int64 !== undefined) { 
                 localVarFormParams.set('int64', int64 as any);
             }
-    
+
             if (number !== undefined) { 
                 localVarFormParams.set('number', number as any);
             }
-    
+
             if (_float !== undefined) { 
                 localVarFormParams.set('float', _float as any);
             }
-    
+
             if (_double !== undefined) { 
                 localVarFormParams.set('double', _double as any);
             }
-    
+
             if (string !== undefined) { 
                 localVarFormParams.set('string', string as any);
             }
-    
+
             if (patternWithoutDelimiter !== undefined) { 
                 localVarFormParams.set('pattern_without_delimiter', patternWithoutDelimiter as any);
             }
-    
+
             if (_byte !== undefined) { 
                 localVarFormParams.set('byte', _byte as any);
             }
-    
+
             if (binary !== undefined) { 
                 localVarFormParams.set('binary', binary as any);
             }
-    
+
             if (date !== undefined) { 
                 localVarFormParams.set('date', date as any);
             }
-    
+
             if (dateTime !== undefined) { 
                 localVarFormParams.set('dateTime', dateTime as any);
             }
-    
+
             if (password !== undefined) { 
                 localVarFormParams.set('password', password as any);
             }
-    
+
             if (callback !== undefined) { 
                 localVarFormParams.set('callback', callback as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2034,27 +1108,23 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['enum_query_double'] = enumQueryDouble;
             }
 
-            if (enumHeaderStringArray) {
-                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
-                localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
-            }
-
-            if (enumHeaderString != null) {
-                localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
-            }
-
             if (enumFormStringArray) {
                 localVarFormParams.set('enum_form_string_array', enumFormStringArray.join(COLLECTION_FORMATS.csv));
             }
 
-    
+
             if (enumFormString !== undefined) { 
                 localVarFormParams.set('enum_form_string', enumFormString as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
+            if (enumHeaderStringArray) {
+                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
+                localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
+            }
+            if (enumHeaderString != null) {
+                localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2116,20 +1186,17 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['int64_group'] = int64Group;
             }
 
+
             if (requiredBooleanGroup != null) {
                 localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
                     ? requiredBooleanGroup
-                    : JSON.stringify(requiredBooleanGroup);
+                    : JSON.stringify(requiredBooleanGroup, replaceWithSerializableTypeIfNeeded);
             }
-
             if (booleanGroup != null) {
                 localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
                     ? booleanGroup
-                    : JSON.stringify(booleanGroup);
+                    : JSON.stringify(booleanGroup, replaceWithSerializableTypeIfNeeded);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2161,8 +1228,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2197,8 +1262,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2241,14 +1304,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (param !== undefined) { 
                 localVarFormParams.set('param', param as any);
             }
-    
+
             if (param2 !== undefined) { 
                 localVarFormParams.set('param2', param2 as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2313,7 +1374,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2345,8 +1405,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2387,13 +1445,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['queryUnique'] = Array.from(queryUnique);
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             if (headerUnique) {
-                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['headerUnique'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2408,7 +1465,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * FakeApi - functional programming interface
- * @export
  */
 export const FakeApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FakeApiAxiosParamCreator(configuration)
@@ -2675,7 +1731,6 @@ export const FakeApiFp = function(configuration?: Configuration) {
 
 /**
  * FakeApi - factory interface
- * @export
  */
 export const FakeApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FakeApiFp(configuration)
@@ -2686,7 +1741,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeHealthGet(options?: any): AxiosPromise<HealthCheckResult> {
+        fakeHealthGet(options?: RawAxiosRequestConfig): AxiosPromise<HealthCheckResult> {
             return localVarFp.fakeHealthGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -2695,7 +1750,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterBooleanSerialize(body?: boolean, options?: any): AxiosPromise<boolean> {
+        fakeOuterBooleanSerialize(body?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
             return localVarFp.fakeOuterBooleanSerialize(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2704,7 +1759,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterCompositeSerialize(outerComposite?: OuterComposite, options?: any): AxiosPromise<OuterComposite> {
+        fakeOuterCompositeSerialize(outerComposite?: OuterComposite, options?: RawAxiosRequestConfig): AxiosPromise<OuterComposite> {
             return localVarFp.fakeOuterCompositeSerialize(outerComposite, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2713,7 +1768,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterNumberSerialize(body?: number, options?: any): AxiosPromise<number> {
+        fakeOuterNumberSerialize(body?: number, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.fakeOuterNumberSerialize(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2722,7 +1777,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterStringSerialize(body?: string, options?: any): AxiosPromise<string> {
+        fakeOuterStringSerialize(body?: string, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.fakeOuterStringSerialize(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2732,7 +1787,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: any): AxiosPromise<void> {
+        testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testAdditionalPropertiesReference(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2741,7 +1796,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, options?: any): AxiosPromise<void> {
+        testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testBodyWithFileSchema(fileSchemaTestClass, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2751,7 +1806,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testBodyWithQueryParams(query: string, user: User, options?: any): AxiosPromise<void> {
+        testBodyWithQueryParams(query: string, user: User, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testBodyWithQueryParams(query, user, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2761,7 +1816,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testClientModel(client: Client, options?: any): AxiosPromise<Client> {
+        testClientModel(client: Client, options?: RawAxiosRequestConfig): AxiosPromise<Client> {
             return localVarFp.testClientModel(client, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2784,7 +1839,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: any): AxiosPromise<void> {
+        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2801,7 +1856,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: any): AxiosPromise<void> {
+        testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2816,7 +1871,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: any): AxiosPromise<void> {
+        testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2826,7 +1881,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: any): AxiosPromise<void> {
+        testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testInlineAdditionalProperties(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2836,7 +1891,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: any): AxiosPromise<void> {
+        testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2847,7 +1902,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testJsonFormData(param: string, param2: string, options?: any): AxiosPromise<void> {
+        testJsonFormData(param: string, param2: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testJsonFormData(param, param2, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2860,7 +1915,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: any): AxiosPromise<void> {
+        testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2870,7 +1925,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testStringMapReference(requestBody: { [key: string]: string; }, options?: any): AxiosPromise<void> {
+        testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testStringMapReference(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2880,7 +1935,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: any): AxiosPromise<Set<Pet>> {
+        testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: RawAxiosRequestConfig): AxiosPromise<Set<Pet>> {
             return localVarFp.testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique, headerUnique, options).then((request) => request(axios, basePath));
         },
     };
@@ -2888,9 +1943,6 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * FakeApi - object-oriented interface
- * @export
- * @class FakeApi
- * @extends {BaseAPI}
  */
 export class FakeApi extends BaseAPI {
     /**
@@ -2898,7 +1950,6 @@ export class FakeApi extends BaseAPI {
      * @summary Health check endpoint
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public fakeHealthGet(options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeHealthGet(options).then((request) => request(this.axios, this.basePath));
@@ -2909,7 +1960,6 @@ export class FakeApi extends BaseAPI {
      * @param {boolean} [body] Input boolean as post body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public fakeOuterBooleanSerialize(body?: boolean, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeOuterBooleanSerialize(body, options).then((request) => request(this.axios, this.basePath));
@@ -2920,7 +1970,6 @@ export class FakeApi extends BaseAPI {
      * @param {OuterComposite} [outerComposite] Input composite as post body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeOuterCompositeSerialize(outerComposite, options).then((request) => request(this.axios, this.basePath));
@@ -2931,7 +1980,6 @@ export class FakeApi extends BaseAPI {
      * @param {number} [body] Input number as post body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public fakeOuterNumberSerialize(body?: number, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeOuterNumberSerialize(body, options).then((request) => request(this.axios, this.basePath));
@@ -2942,7 +1990,6 @@ export class FakeApi extends BaseAPI {
      * @param {string} [body] Input string as post body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public fakeOuterStringSerialize(body?: string, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeOuterStringSerialize(body, options).then((request) => request(this.axios, this.basePath));
@@ -2954,7 +2001,6 @@ export class FakeApi extends BaseAPI {
      * @param {{ [key: string]: any; }} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testAdditionalPropertiesReference(requestBody, options).then((request) => request(this.axios, this.basePath));
@@ -2965,7 +2011,6 @@ export class FakeApi extends BaseAPI {
      * @param {FileSchemaTestClass} fileSchemaTestClass 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testBodyWithFileSchema(fileSchemaTestClass, options).then((request) => request(this.axios, this.basePath));
@@ -2977,7 +2022,6 @@ export class FakeApi extends BaseAPI {
      * @param {User} user 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testBodyWithQueryParams(query: string, user: User, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testBodyWithQueryParams(query, user, options).then((request) => request(this.axios, this.basePath));
@@ -2989,7 +2033,6 @@ export class FakeApi extends BaseAPI {
      * @param {Client} client client model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testClientModel(client: Client, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testClientModel(client, options).then((request) => request(this.axios, this.basePath));
@@ -3014,7 +2057,6 @@ export class FakeApi extends BaseAPI {
      * @param {string} [callback] None
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
@@ -3033,7 +2075,6 @@ export class FakeApi extends BaseAPI {
      * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(this.axios, this.basePath));
@@ -3050,7 +2091,6 @@ export class FakeApi extends BaseAPI {
      * @param {number} [int64Group] Integer in group parameters
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, options).then((request) => request(this.axios, this.basePath));
@@ -3062,7 +2102,6 @@ export class FakeApi extends BaseAPI {
      * @param {{ [key: string]: string; }} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testInlineAdditionalProperties(requestBody, options).then((request) => request(this.axios, this.basePath));
@@ -3074,7 +2113,6 @@ export class FakeApi extends BaseAPI {
      * @param {TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, options).then((request) => request(this.axios, this.basePath));
@@ -3087,7 +2125,6 @@ export class FakeApi extends BaseAPI {
      * @param {string} param2 field2
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testJsonFormData(param: string, param2: string, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testJsonFormData(param, param2, options).then((request) => request(this.axios, this.basePath));
@@ -3102,7 +2139,6 @@ export class FakeApi extends BaseAPI {
      * @param {Array<string>} context 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
@@ -3114,7 +2150,6 @@ export class FakeApi extends BaseAPI {
      * @param {{ [key: string]: string; }} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testStringMapReference(requestBody, options).then((request) => request(this.axios, this.basePath));
@@ -3126,85 +2161,59 @@ export class FakeApi extends BaseAPI {
      * @param {Set<string>} headerUnique 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeApi
      */
     public testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique, headerUnique, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-/**
- * @export
- */
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumHeaderStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumQueryStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumQueryStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumQueryIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumQueryDoubleEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumFormStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
-/**
- * @export
- */
 export const TestEnumParametersEnumFormStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
 
 /**
  * FakeClassnameTags123Api - axios parameter creator
- * @export
  */
 export const FakeClassnameTags123ApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -3233,9 +2242,8 @@ export const FakeClassnameTags123ApiAxiosParamCreator = function (configuration?
             // authentication api_key_query required
             await setApiKeyToObject(localVarQueryParameter, "api_key_query", configuration)
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3252,7 +2260,6 @@ export const FakeClassnameTags123ApiAxiosParamCreator = function (configuration?
 
 /**
  * FakeClassnameTags123Api - functional programming interface
- * @export
  */
 export const FakeClassnameTags123ApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FakeClassnameTags123ApiAxiosParamCreator(configuration)
@@ -3275,7 +2282,6 @@ export const FakeClassnameTags123ApiFp = function(configuration?: Configuration)
 
 /**
  * FakeClassnameTags123Api - factory interface
- * @export
  */
 export const FakeClassnameTags123ApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FakeClassnameTags123ApiFp(configuration)
@@ -3287,7 +2293,7 @@ export const FakeClassnameTags123ApiFactory = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testClassname(client: Client, options?: any): AxiosPromise<Client> {
+        testClassname(client: Client, options?: RawAxiosRequestConfig): AxiosPromise<Client> {
             return localVarFp.testClassname(client, options).then((request) => request(axios, basePath));
         },
     };
@@ -3295,9 +2301,6 @@ export const FakeClassnameTags123ApiFactory = function (configuration?: Configur
 
 /**
  * FakeClassnameTags123Api - object-oriented interface
- * @export
- * @class FakeClassnameTags123Api
- * @extends {BaseAPI}
  */
 export class FakeClassnameTags123Api extends BaseAPI {
     /**
@@ -3306,7 +2309,6 @@ export class FakeClassnameTags123Api extends BaseAPI {
      * @param {Client} client client model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FakeClassnameTags123Api
      */
     public testClassname(client: Client, options?: RawAxiosRequestConfig) {
         return FakeClassnameTags123ApiFp(this.configuration).testClassname(client, options).then((request) => request(this.axios, this.basePath));
@@ -3317,7 +2319,6 @@ export class FakeClassnameTags123Api extends BaseAPI {
 
 /**
  * PetApi - axios parameter creator
- * @export
  */
 export const PetApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -3349,8 +2350,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication http_signature_test required
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3375,7 +2374,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('deletePet', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3391,12 +2390,10 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
+
             if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3438,8 +2435,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3482,8 +2479,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3504,7 +2501,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('getPetById', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3519,8 +2516,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication api_key required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3558,8 +2555,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication http_signature_test required
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3585,7 +2580,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('updatePetWithForm', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3606,14 +2601,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (name !== undefined) { 
                 localVarFormParams.set('name', name as any);
             }
-    
+
             if (status !== undefined) { 
                 localVarFormParams.set('status', status as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3637,7 +2630,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3658,14 +2651,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (additionalMetadata !== undefined) { 
                 localVarFormParams.append('additionalMetadata', additionalMetadata as any);
             }
-    
+
             if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3691,7 +2683,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'requiredFile' is not null or undefined
             assertParamExists('uploadFileWithRequiredFile', 'requiredFile', requiredFile)
             const localVarPath = `/fake/{petId}/uploadImageWithRequiredFile`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3712,14 +2704,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (additionalMetadata !== undefined) { 
                 localVarFormParams.append('additionalMetadata', additionalMetadata as any);
             }
-    
+
             if (requiredFile !== undefined) { 
                 localVarFormParams.append('requiredFile', requiredFile as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3735,7 +2726,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 /**
  * PetApi - functional programming interface
- * @export
  */
 export const PetApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PetApiAxiosParamCreator(configuration)
@@ -3870,7 +2860,6 @@ export const PetApiFp = function(configuration?: Configuration) {
 
 /**
  * PetApi - factory interface
- * @export
  */
 export const PetApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = PetApiFp(configuration)
@@ -3882,7 +2871,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(pet: Pet, options?: any): AxiosPromise<void> {
+        addPet(pet: Pet, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.addPet(pet, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3893,7 +2882,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<void> {
+        deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deletePet(petId, apiKey, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3903,7 +2892,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>> {
             return localVarFp.findPetsByStatus(status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3914,7 +2903,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @deprecated
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>> {
             return localVarFp.findPetsByTags(tags, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3924,7 +2913,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options?: any): AxiosPromise<Pet> {
+        getPetById(petId: number, options?: RawAxiosRequestConfig): AxiosPromise<Pet> {
             return localVarFp.getPetById(petId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3934,7 +2923,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(pet: Pet, options?: any): AxiosPromise<void> {
+        updatePet(pet: Pet, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.updatePet(pet, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3946,7 +2935,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<void> {
+        updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.updatePetWithForm(petId, name, status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3958,7 +2947,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: any): AxiosPromise<ApiResponse> {
+        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3970,7 +2959,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: any): AxiosPromise<ApiResponse> {
+        uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(axios, basePath));
         },
     };
@@ -3978,9 +2967,6 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
 
 /**
  * PetApi - object-oriented interface
- * @export
- * @class PetApi
- * @extends {BaseAPI}
  */
 export class PetApi extends BaseAPI {
     /**
@@ -3989,7 +2975,6 @@ export class PetApi extends BaseAPI {
      * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public addPet(pet: Pet, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).addPet(pet, options).then((request) => request(this.axios, this.basePath));
@@ -4002,7 +2987,6 @@ export class PetApi extends BaseAPI {
      * @param {string} [apiKey] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
@@ -4014,7 +2998,6 @@ export class PetApi extends BaseAPI {
      * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
@@ -4027,7 +3010,6 @@ export class PetApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
@@ -4039,7 +3021,6 @@ export class PetApi extends BaseAPI {
      * @param {number} petId ID of pet to return
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public getPetById(petId: number, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
@@ -4051,7 +3032,6 @@ export class PetApi extends BaseAPI {
      * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public updatePet(pet: Pet, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePet(pet, options).then((request) => request(this.axios, this.basePath));
@@ -4065,7 +3045,6 @@ export class PetApi extends BaseAPI {
      * @param {string} [status] Updated status of the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
@@ -4079,7 +3058,6 @@ export class PetApi extends BaseAPI {
      * @param {File} [file] file to upload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
@@ -4093,27 +3071,22 @@ export class PetApi extends BaseAPI {
      * @param {string} [additionalMetadata] Additional data to pass to server
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-/**
- * @export
- */
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
 
 /**
  * StoreApi - axios parameter creator
- * @export
  */
 export const StoreApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -4128,7 +3101,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('deleteOrder', 'orderId', orderId)
             const localVarPath = `/store/order/{order_id}`
-                .replace(`{${"order_id"}}`, encodeURIComponent(String(orderId)));
+                .replace('{order_id}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4141,7 +3114,6 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4173,8 +3145,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // authentication api_key required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4195,7 +3167,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('getOrderById', 'orderId', orderId)
             const localVarPath = `/store/order/{order_id}`
-                .replace(`{${"order_id"}}`, encodeURIComponent(String(orderId)));
+                .replace('{order_id}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4207,8 +3179,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4240,9 +3212,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4259,7 +3230,6 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * StoreApi - functional programming interface
- * @export
  */
 export const StoreApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = StoreApiAxiosParamCreator(configuration)
@@ -4320,7 +3290,6 @@ export const StoreApiFp = function(configuration?: Configuration) {
 
 /**
  * StoreApi - factory interface
- * @export
  */
 export const StoreApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = StoreApiFp(configuration)
@@ -4332,7 +3301,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
+        deleteOrder(orderId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4341,7 +3310,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
+        getInventory(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
@@ -4351,7 +3320,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
+        getOrderById(orderId: number, options?: RawAxiosRequestConfig): AxiosPromise<Order> {
             return localVarFp.getOrderById(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4361,7 +3330,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(order: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(order: Order, options?: RawAxiosRequestConfig): AxiosPromise<Order> {
             return localVarFp.placeOrder(order, options).then((request) => request(axios, basePath));
         },
     };
@@ -4369,9 +3338,6 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * StoreApi - object-oriented interface
- * @export
- * @class StoreApi
- * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI {
     /**
@@ -4380,7 +3346,6 @@ export class StoreApi extends BaseAPI {
      * @param {string} orderId ID of the order that needs to be deleted
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
@@ -4391,7 +3356,6 @@ export class StoreApi extends BaseAPI {
      * @summary Returns pet inventories by status
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public getInventory(options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
@@ -4403,7 +3367,6 @@ export class StoreApi extends BaseAPI {
      * @param {number} orderId ID of pet that needs to be fetched
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
@@ -4415,7 +3378,6 @@ export class StoreApi extends BaseAPI {
      * @param {Order} order order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public placeOrder(order: Order, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
@@ -4426,7 +3388,6 @@ export class StoreApi extends BaseAPI {
 
 /**
  * UserApi - axios parameter creator
- * @export
  */
 export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -4452,8 +3413,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4488,8 +3447,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4524,8 +3481,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4549,7 +3504,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'username' is not null or undefined
             assertParamExists('deleteUser', 'username', username)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4562,7 +3517,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4583,7 +3537,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'username' is not null or undefined
             assertParamExists('getUserByName', 'username', username)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4595,8 +3549,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4639,8 +3593,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['password'] = password;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4670,7 +3624,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -4694,7 +3647,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'user' is not null or undefined
             assertParamExists('updateUser', 'user', user)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4706,8 +3659,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4725,7 +3676,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * UserApi - functional programming interface
- * @export
  */
 export const UserApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
@@ -4840,7 +3790,6 @@ export const UserApiFp = function(configuration?: Configuration) {
 
 /**
  * UserApi - factory interface
- * @export
  */
 export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = UserApiFp(configuration)
@@ -4852,7 +3801,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(user: User, options?: any): AxiosPromise<void> {
+        createUser(user: User, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.createUser(user, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4862,7 +3811,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(user: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithArrayInput(user: Array<User>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.createUsersWithArrayInput(user, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4872,7 +3821,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(user: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithListInput(user: Array<User>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.createUsersWithListInput(user, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4882,7 +3831,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options?: any): AxiosPromise<void> {
+        deleteUser(username: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteUser(username, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4892,7 +3841,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByName(username: string, options?: any): AxiosPromise<User> {
+        getUserByName(username: string, options?: RawAxiosRequestConfig): AxiosPromise<User> {
             return localVarFp.getUserByName(username, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4903,7 +3852,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginUser(username: string, password: string, options?: any): AxiosPromise<string> {
+        loginUser(username: string, password: string, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.loginUser(username, password, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4912,7 +3861,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutUser(options?: any): AxiosPromise<void> {
+        logoutUser(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.logoutUser(options).then((request) => request(axios, basePath));
         },
         /**
@@ -4923,7 +3872,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, user: User, options?: any): AxiosPromise<void> {
+        updateUser(username: string, user: User, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.updateUser(username, user, options).then((request) => request(axios, basePath));
         },
     };
@@ -4931,9 +3880,6 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * UserApi - object-oriented interface
- * @export
- * @class UserApi
- * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI {
     /**
@@ -4942,7 +3888,6 @@ export class UserApi extends BaseAPI {
      * @param {User} user Created user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUser(user: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUser(user, options).then((request) => request(this.axios, this.basePath));
@@ -4954,7 +3899,6 @@ export class UserApi extends BaseAPI {
      * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUsersWithArrayInput(user: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithArrayInput(user, options).then((request) => request(this.axios, this.basePath));
@@ -4966,7 +3910,6 @@ export class UserApi extends BaseAPI {
      * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUsersWithListInput(user: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithListInput(user, options).then((request) => request(this.axios, this.basePath));
@@ -4978,7 +3921,6 @@ export class UserApi extends BaseAPI {
      * @param {string} username The name that needs to be deleted
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public deleteUser(username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
@@ -4990,7 +3932,6 @@ export class UserApi extends BaseAPI {
      * @param {string} username The name that needs to be fetched. Use user1 for testing.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public getUserByName(username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
@@ -5003,7 +3944,6 @@ export class UserApi extends BaseAPI {
      * @param {string} password The password for login in clear text
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public loginUser(username: string, password: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
@@ -5014,7 +3954,6 @@ export class UserApi extends BaseAPI {
      * @summary Logs out current logged in user session
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public logoutUser(options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
@@ -5027,7 +3966,6 @@ export class UserApi extends BaseAPI {
      * @param {User} user Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public updateUser(username: string, user: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));

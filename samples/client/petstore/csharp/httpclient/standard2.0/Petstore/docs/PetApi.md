@@ -13,6 +13,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data |
 | [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 | [**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
+| [**UploadFiles**](PetApi.md#uploadfiles) | **POST** /pet/{petId}/uploadImages | uploads an images |
 
 <a id="addpet"></a>
 # **AddPet**
@@ -38,6 +39,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+            // Configure OAuth2 access token for authorization: petstore_auth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
@@ -91,7 +94,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth), [petstore_auth2](../README.md#petstore_auth2), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -296,6 +299,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
+| **2XX** | Anything within 200-299 |  -  |
+| **4XX** | Anything within 400-499 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -424,9 +429,9 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
+            config.AddApiKey("api-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
+            // config.AddApiKeyPrefix("api-key", "Bearer");
             // Configure API key authorization: api_key_query
             config.AddApiKey("api_key_query", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -885,6 +890,104 @@ catch (ApiException e)
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="uploadfiles"></a>
+# **UploadFiles**
+> ApiResponse UploadFiles (long petId, List<FileParameter> files)
+
+uploads an images
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class UploadFilesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            // Configure OAuth2 access token for authorization: petstore_auth
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
+            var petId = 789L;  // long | ID of pet to update
+            var files = new List<FileParameter>(); // List<FileParameter> | 
+
+            try
+            {
+                // uploads an images
+                ApiResponse result = apiInstance.UploadFiles(petId, files);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling PetApi.UploadFiles: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UploadFilesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // uploads an images
+    ApiResponse<ApiResponse> response = apiInstance.UploadFilesWithHttpInfo(petId, files);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling PetApi.UploadFilesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **petId** | **long** | ID of pet to update |  |
+| **files** | **List&lt;FileParameter&gt;** |  |  |
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 
 ### HTTP response details

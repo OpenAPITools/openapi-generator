@@ -1,4 +1,4 @@
-# # HealthCheckResult
+# HealthCheckResult
 
 ## Properties
 

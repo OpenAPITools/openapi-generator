@@ -10,13 +10,17 @@ pub mod callbacks;
 
 {{/hasCallbacks}}
 {{>server-paths}}
+
 {{>server-make-service}}
+
 {{>server-service-header}}
+
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
 {{>server-operation}}
+
       {{/operation}}
     {{/operations}}
   {{/apis}}
@@ -25,6 +29,19 @@ pub mod callbacks;
             _ if path.matched(paths::ID_{{PATH_ID}}) => method_not_allowed(),
 {{/pathSet}}
 {{>server-service-footer}}
+
+{{! Per-operation handler functions — extracted from the match arms in run() to
+    reduce per-function compilation-unit size and avoid rustc OOM on large APIs. }}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>server-operation-handler}}
+
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
@@ -36,7 +53,7 @@ impl<T> RequestParser<T> for ApiRequestParser {
     {{#operations}}
       {{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Some("{{{operationId}}}"),
+            hyper::Method::{{{exts.x-http-method}}} if path.matched(paths::ID_{{{exts.x-path-id}}}) => Some("{{{operationId}}}"),
       {{/operation}}
     {{/operations}}
   {{/apis}}

@@ -2,11 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -16,11 +17,13 @@ import jakarta.annotation.Generated;
  * Category
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Category {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name = "default-name";
 
   public Category() {
@@ -34,7 +37,7 @@ public class Category {
     this.name = name;
   }
 
-  public Category id(Long id) {
+  public Category id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -43,13 +46,13 @@ public class Category {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
@@ -62,12 +65,12 @@ public class Category {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -104,11 +107,8 @@ public class Category {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

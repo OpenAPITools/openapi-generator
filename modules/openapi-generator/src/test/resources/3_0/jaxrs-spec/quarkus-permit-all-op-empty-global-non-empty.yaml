@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: Quarkus op-level empty overrides non-empty global -- emits @PermitAll for that op
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+security:
+  - oauth2_scheme: []
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Inherits global oauth2:[] -- emits @RolesAllowed({"**"})
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Op-level security:[] overrides global -- emits @PermitAll
+      security: []
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes: {}

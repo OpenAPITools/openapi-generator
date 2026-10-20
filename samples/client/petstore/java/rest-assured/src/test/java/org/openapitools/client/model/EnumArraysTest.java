@@ -20,23 +20,23 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for EnumArrays
  */
-public class EnumArraysTest {
+class EnumArraysTest {
     private final EnumArrays model = new EnumArrays();
 
     /**
      * Model tests for EnumArrays
      */
     @Test
-    public void testEnumArrays() {
+    void testEnumArrays() {
         // TODO: test EnumArrays
     }
 
@@ -44,7 +44,7 @@ public class EnumArraysTest {
      * Test the property 'justSymbol'
      */
     @Test
-    public void justSymbolTest() {
+    void justSymbolTest() {
         // TODO: test justSymbol
     }
 
@@ -52,7 +52,7 @@ public class EnumArraysTest {
      * Test the property 'arrayEnum'
      */
     @Test
-    public void arrayEnumTest() {
+    void arrayEnumTest() {
         // TODO: test arrayEnum
     }
 

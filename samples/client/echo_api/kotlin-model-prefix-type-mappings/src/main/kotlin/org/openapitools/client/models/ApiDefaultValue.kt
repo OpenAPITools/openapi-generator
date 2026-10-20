@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -22,14 +30,14 @@ import com.google.gson.annotations.SerializedName
 /**
  * to test the default value of properties
  *
- * @param arrayStringEnumRefDefault 
- * @param arrayStringEnumDefault 
- * @param arrayStringDefault 
- * @param arrayIntegerDefault 
- * @param arrayString 
- * @param arrayStringNullable 
- * @param arrayStringExtensionNullable 
- * @param stringNullable 
+ * @param arrayStringEnumRefDefault
+ * @param arrayStringEnumDefault
+ * @param arrayStringDefault
+ * @param arrayIntegerDefault
+ * @param arrayString
+ * @param arrayStringNullable
+ * @param arrayStringExtensionNullable
+ * @param stringNullable
  */
 
 
@@ -62,8 +70,6 @@ data class ApiDefaultValue (
 ) {
 
     /**
-     * 
-     *
      * Values: SUCCESS,FAILURE,UNCLASSIFIED
      */
     enum class ArrayStringEnumDefault(val value: kotlin.String) {

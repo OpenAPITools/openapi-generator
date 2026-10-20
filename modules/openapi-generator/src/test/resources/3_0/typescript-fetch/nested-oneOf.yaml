@@ -1,0 +1,84 @@
+openapi: "3.0.3"
+info:
+  title: Nested OneOf Test
+  description: >
+    Tests that a oneOf variant referencing another oneOf via allOf generates
+    correct TypeScript types.  The outer union (Outer) is discriminated by
+    "outerDiscriminator"; one of its variants (OuterComposed) uses allOf to
+    compose a fixed discriminator value with a $ref to an inner union (Inner)
+    discriminated by "innerDiscriminator".  A plain variant (OuterPlain) is
+    included to verify normal interface generation is unaffected.
+  version: "1.0"
+paths:
+  /items:
+    get:
+      operationId: getItems
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Outer"
+components:
+  schemas:
+    # ── Outer oneOf (discriminated by "outerDiscriminator") ──────────────
+    Outer:
+      oneOf:
+        - $ref: "#/components/schemas/OuterPlain"
+        - $ref: "#/components/schemas/OuterComposed"
+      discriminator:
+        propertyName: outerDiscriminator
+        mapping:
+          plain: "#/components/schemas/OuterPlain"
+          composed: "#/components/schemas/OuterComposed"
+
+    OuterPlain:
+      type: object
+      required: [outerDiscriminator, plainValue]
+      properties:
+        outerDiscriminator:
+          type: string
+        plainValue:
+          type: string
+
+    # Uses allOf to merge a fixed discriminator value with a nested oneOf ref
+    OuterComposed:
+      allOf:
+        - type: object
+          required: [outerDiscriminator]
+          properties:
+            outerDiscriminator:
+              type: string
+        - $ref: "#/components/schemas/Inner"
+
+    # ── Inner oneOf (discriminated by "innerDiscriminator") ─────────────
+    Inner:
+      oneOf:
+        - $ref: "#/components/schemas/InnerA"
+        - $ref: "#/components/schemas/InnerB"
+      discriminator:
+        propertyName: innerDiscriminator
+        mapping:
+          a: "#/components/schemas/InnerA"
+          b: "#/components/schemas/InnerB"
+
+    InnerA:
+      type: object
+      required: [innerDiscriminator, fieldA]
+      properties:
+        innerDiscriminator:
+          type: string
+        fieldA:
+          type: string
+
+    InnerB:
+      type: object
+      required: [innerDiscriminator, fieldB]
+      properties:
+        innerDiscriminator:
+          type: string
+        fieldB:
+          type: integer

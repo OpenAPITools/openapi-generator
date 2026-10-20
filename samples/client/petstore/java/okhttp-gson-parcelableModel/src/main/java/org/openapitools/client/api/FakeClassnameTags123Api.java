@@ -79,12 +79,13 @@ public class FakeClassnameTags123Api {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameCall(Client body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testClassnameCall(@javax.annotation.Nonnull Client body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -130,7 +131,7 @@ public class FakeClassnameTags123Api {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testClassnameValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testClassnameValidateBeforeCall(@javax.annotation.Nonnull Client body, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testClassname(Async)");
@@ -147,12 +148,13 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Client testClassname(Client body) throws ApiException {
+    public Client testClassname(@javax.annotation.Nonnull Client body) throws ApiException {
         ApiResponse<Client> localVarResp = testClassnameWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -164,12 +166,13 @@ public class FakeClassnameTags123Api {
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
+    public ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client body) throws ApiException {
         okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -183,12 +186,13 @@ public class FakeClassnameTags123Api {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call testClassnameAsync(@javax.annotation.Nonnull Client body, final ApiCallback<Client> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();

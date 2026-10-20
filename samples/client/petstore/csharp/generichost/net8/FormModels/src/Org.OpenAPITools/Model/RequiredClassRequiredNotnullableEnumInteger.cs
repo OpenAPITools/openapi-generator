@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static RequiredClassRequiredNotnullableEnumInteger FromString(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNotnullableEnumInteger.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNotnullableEnumInteger.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type RequiredClassRequiredNotnullableEnumInteger: '{value}'");
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static RequiredClassRequiredNotnullableEnumInteger? FromStringOrDefault(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNotnullableEnumInteger.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNotnullableEnumInteger.NUMBER_MINUS_1;
 
             return null;
@@ -104,15 +104,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNotnullableEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
-
-            RequiredClassRequiredNotnullableEnumInteger? result = rawValue == null
-                ? null
-                : RequiredClassRequiredNotnullableEnumIntegerValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            RequiredClassRequiredNotnullableEnumInteger? result = RequiredClassRequiredNotnullableEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -124,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumInteger requiredClassRequiredNotnullableEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNotnullableEnumInteger.ToString());
+            writer.WriteNumberValue(RequiredClassRequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumInteger));
         }
     }
 
@@ -142,27 +137,28 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNotnullableEnumInteger? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            RequiredClassRequiredNotnullableEnumInteger? result = rawValue == null
-                ? null
-                : RequiredClassRequiredNotnullableEnumIntegerValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            RequiredClassRequiredNotnullableEnumInteger? result = RequiredClassRequiredNotnullableEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the RequiredClassRequiredNotnullableEnumInteger to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="requiredClassRequiredNotnullableEnumInteger"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumInteger? requiredClassRequiredNotnullableEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNotnullableEnumInteger?.ToString() ?? "null");
+            if (requiredClassRequiredNotnullableEnumInteger.HasValue)
+                writer.WriteNumberValue(RequiredClassRequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumInteger.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -58,17 +58,17 @@ final case class {{classname}}Routes[
       {{#vendorExtensions.x-generic-body}}
       req.contentType match {
         case Some(`Content-Type`(MediaType.application.json, _)) =>
-          {{>delegateCallJson}}
+          {{>delegateCallJson}}{{! prevent indent}}
         case _ =>
-          {{>delegateCallGeneric}}
+          {{>delegateCallGeneric}}{{! prevent indent}}
       }
       {{/vendorExtensions.x-generic-body}}
       {{^vendorExtensions.x-generic-body}}
-        {{>delegateCallJson}}
+        {{>delegateCallJson}}{{! prevent indent}}
       {{/vendorExtensions.x-generic-body}}
       {{/vendorExtensions.x-json-body}}
       {{^vendorExtensions.x-json-body}}
-        {{>delegateCallGeneric}}
+        {{>delegateCallGeneric}}{{! prevent indent}}
       {{/vendorExtensions.x-json-body}}
     }
 
@@ -80,17 +80,17 @@ final case class {{classname}}Routes[
       {{#vendorExtensions.x-generic-body}}
       req.contentType match {
         case Some(`Content-Type`(MediaType.application.json, _)) =>
-          {{>delegateCallJson}}
+          {{>delegateCallJson}}{{! prevent indent}}
         case _ =>
-          {{>delegateCallGeneric}}
+          {{>delegateCallGeneric}}{{! prevent indent}}
       }
       {{/vendorExtensions.x-generic-body}}
       {{^vendorExtensions.x-generic-body}}
-        {{>delegateCallJson}}
+        {{>delegateCallJson}}{{! prevent indent}}
       {{/vendorExtensions.x-generic-body}}
       {{/vendorExtensions.x-json-body}}
       {{^vendorExtensions.x-json-body}}
-        {{>delegateCallGeneric}}
+        {{>delegateCallGeneric}}{{! prevent indent}}
       {{/vendorExtensions.x-json-body}}
     }
 {{/vendorExtensions.x-authed}}

@@ -51,12 +51,27 @@ func NewPathAPIController(s PathAPIServicer, opts ...PathAPIOption) *PathAPICont
 func (c *PathAPIController) Routes() Routes {
 	return Routes{
 		"Path": Route{
+			"Path",
 			strings.ToUpper("Get"),
 			"/path/endpoint/{pathParam}",
 			c.Path,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the PathAPIController
+func (c *PathAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"Path",
+			strings.ToUpper("Get"),
+			"/path/endpoint/{pathParam}",
+			c.Path,
+		},
+	}
+}
+
+
 
 // Path - summary
 func (c *PathAPIController) Path(w http.ResponseWriter, r *http.Request) {

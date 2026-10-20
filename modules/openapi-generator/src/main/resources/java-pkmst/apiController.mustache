@@ -1,6 +1,6 @@
 package {{package}};
 
-{{^jdk8-no-delegate}}
+{{^isDelegate}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -8,9 +8,9 @@ import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-{{/jdk8-no-delegate}}
+{{/isDelegate}}
 import org.springframework.stereotype.Controller;
-{{^jdk8-no-delegate}}
+{{^isDelegate}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -26,7 +26,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.Callable;
 {{/async}}
-{{/jdk8-no-delegate}}
+{{/isDelegate}}
 {{^useSpringCloudClient}}
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -41,6 +41,7 @@ import {{javaxPackage}}.validation.Valid;
  *
  */
 {{>generatedAnnotation}}
+
 @Controller
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
@@ -59,7 +60,7 @@ public class {{classname}}Controller implements {{classname}} {
     }
 
 {{/isDelegate}}
-{{^jdk8-no-delegate}}
+{{^isDelegate}}
 {{#operation}}
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
         {{/allParams}}@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
@@ -110,6 +111,6 @@ public class {{classname}}Controller implements {{classname}} {
     }
 
 {{/operation}}
-{{/jdk8-no-delegate}}
+{{/isDelegate}}
 }
 {{/operations}}

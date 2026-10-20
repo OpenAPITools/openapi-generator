@@ -28,6 +28,7 @@ import {{javaxPackage}}.ws.rs.*;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(description = "the {{baseName}} API")
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}}  {
    private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();

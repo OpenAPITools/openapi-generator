@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,16 +16,20 @@ import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.model.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * OpenAPI generator for Postman Collection format v2.1
+ * <p>Mustache templates are located in {@code src/main/resources/postman-collection/}.
  */
 public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -77,15 +82,15 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    public Map<PostmanRequestFolder, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
     public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
     /**
      * Configures the type of generator.
      *
-     * @return  the CodegenType for this generator
-     * @see     org.openapitools.codegen.CodegenType
+     * @return the CodegenType for this generator
+     * @see org.openapitools.codegen.CodegenType
      */
     @Override
     public CodegenType getTag() {
@@ -136,7 +141,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         // create Postman variable from every path parameter
-        if(pathParamsAsVariables && parameter.isPathParam) {
+        if (pathParamsAsVariables && parameter.isPathParam) {
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
                     .addType(mapToPostmanType(parameter.dataType))
@@ -153,7 +158,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     @Override
     public List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables) {
 
-        if(variables != null){
+        if (variables != null) {
             variables.entrySet().stream().forEach(serverVariableEntry -> this.variables.add(new PostmanVariable()
                     .addName(serverVariableEntry.getKey())
                     .addType("string")
@@ -166,7 +171,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-        if(additionalProperties().containsKey(FOLDER_STRATEGY)) {
+        if (additionalProperties().containsKey(FOLDER_STRATEGY)) {
             folderStrategy = additionalProperties().get(FOLDER_STRATEGY).toString();
         }
 
@@ -174,33 +179,33 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             pathParamsAsVariables = Boolean.parseBoolean(additionalProperties.get(PATH_PARAMS_AS_VARIABLES).toString());
         }
 
-        if(additionalProperties().containsKey(REQUEST_PARAMETER_GENERATION)) {
+        if (additionalProperties().containsKey(REQUEST_PARAMETER_GENERATION)) {
             requestParameterGeneration = additionalProperties().get(REQUEST_PARAMETER_GENERATION).toString();
         }
 
-        if(additionalProperties().containsKey(POSTMAN_VARIABLES)) {
+        if (additionalProperties().containsKey(POSTMAN_VARIABLES)) {
             postmanVariables = Boolean.parseBoolean(additionalProperties.get(POSTMAN_VARIABLES).toString());
         }
 
-        if(additionalProperties().containsKey(POSTMAN_GUID)) {
+        if (additionalProperties().containsKey(POSTMAN_GUID)) {
             postmanGuid = Boolean.parseBoolean(additionalProperties.get(POSTMAN_GUID).toString());
         }
 
-        if(additionalProperties().containsKey(POSTMAN_GUID_PLACEHOLDER_NAME)) {
+        if (additionalProperties().containsKey(POSTMAN_GUID_PLACEHOLDER_NAME)) {
             postmanGuidPlaceholderName = additionalProperties.get(POSTMAN_GUID_PLACEHOLDER_NAME).toString();
         }
 
-        if(additionalProperties().containsKey(POSTMAN_ISO_TIMESTAMP)) {
+        if (additionalProperties().containsKey(POSTMAN_ISO_TIMESTAMP)) {
             postmanIsoTimestamp = Boolean.parseBoolean(additionalProperties.get(POSTMAN_ISO_TIMESTAMP).toString());
         }
 
-        if(additionalProperties().containsKey(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME)) {
+        if (additionalProperties().containsKey(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME)) {
             postmanIsoTimestampPlaceholderName = additionalProperties.get(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME).toString();
         }
 
         super.vendorExtensions().put("variables", variables);
 
-        if(folderStrategy.equalsIgnoreCase("tags")) {
+        if (folderStrategy.equalsIgnoreCase("tags")) {
             this.additionalProperties().put("codegenOperationsByTag", codegenOperationsByTag);
         } else {
             this.additionalProperties().put("codegenOperationsList", codegenOperationsList);
@@ -218,14 +223,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         OperationMap ops = results.getOperations();
         List<CodegenOperation> opList = ops.getOperation();
 
-        for(CodegenOperation codegenOperation : opList) {
+        for (CodegenOperation codegenOperation : opList) {
 
             // use Postman notation for path parameter
             codegenOperation.path = replacesBracesInPath(codegenOperation.path);
 
-            if(pathParamsAsVariables) {
+            if (pathParamsAsVariables) {
                 // set value of path parameter with corresponding env variable
-                for(CodegenParameter codegenParameter : codegenOperation.pathParams) {
+                for (CodegenParameter codegenParameter : codegenOperation.pathParams) {
                     codegenParameter.defaultValue = "{{" + codegenParameter.paramName + "}}";
                 }
             }
@@ -233,7 +238,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             codegenOperation.summary = getSummary(codegenOperation);
 
             // request headers
-            if(codegenOperation.produces != null && codegenOperation.produces.get(0) != null) {
+            if (codegenOperation.produces != null && codegenOperation.produces.get(0) != null) {
                 // produces mediaType as `Accept` header (use first mediaType only)
                 String mediaType = codegenOperation.produces.get(0).get("mediaType");
                 CodegenParameter acceptHeader = new CodegenParameter();
@@ -245,7 +250,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 codegenOperation.headerParams.add(0, acceptHeader);
             }
 
-            if(codegenOperation.consumes != null && codegenOperation.consumes.get(0) != null) {
+            if (codegenOperation.consumes != null && codegenOperation.consumes.get(0) != null) {
                 // consumes mediaType as `Content-Type` header (use first mediaType only)
                 String mediaType = codegenOperation.consumes.get(0).get("mediaType");
                 CodegenParameter contentTypeHeader = new CodegenParameter();
@@ -264,21 +269,21 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             codegenOperation.responses.stream().forEach(r -> r.vendorExtensions.put("pathSegments", pathSegments));
 
             List<PostmanRequestItem> postmanRequests = getPostmanRequests(codegenOperation);
-            if(postmanRequests != null) {
-                if(postmanVariables) {
+            if (postmanRequests != null) {
+                if (postmanVariables) {
                     postmanRequests = createPostmanVariables(postmanRequests);
                 }
-                if(postmanGuid) {
+                if (postmanGuid) {
                     postmanRequests = setPostmanGuid(postmanRequests);
                 }
-                if(postmanIsoTimestamp) {
+                if (postmanIsoTimestamp) {
                     postmanRequests = setPostmanIsoTimestamp(postmanRequests);
                 }
                 codegenOperation.vendorExtensions.put("postmanRequests", postmanRequests);
             }
 
             // set all available responses
-            for(CodegenResponse codegenResponse : codegenOperation.responses) {
+            for (CodegenResponse codegenResponse : codegenOperation.responses) {
 
                 codegenResponse.vendorExtensions.put("status", getStatus(codegenResponse));
 
@@ -297,7 +302,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
             }
 
-            if(folderStrategy.equalsIgnoreCase("tags")) {
+            if (folderStrategy.equalsIgnoreCase("tags")) {
                 addToMap(codegenOperation);
             } else {
                 addToList(codegenOperation);
@@ -312,25 +317,35 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     /**
      * Add the CodegenOperation to the map that is passed to the Mustache templates
      * The map groups the CodegenOperations by tag as defined in the OpenAPI spec
+     *
      * @param codegenOperation Codegen operation instance
      */
-    public void addToMap(CodegenOperation codegenOperation){
-
-        String key = null;
-        if(codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
-            key = "default";
+    public void addToMap(CodegenOperation codegenOperation) {
+        String tagName;
+        String tagDescription;
+        if (codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
+            tagName = "Default";
+            tagDescription = "Default tag";
         } else {
-            key = codegenOperation.tags.get(0).getName();
+            tagName = codegenOperation.tags.get(0).getName();
+            tagDescription = codegenOperation.tags.get(0).getDescription();
+            if (tagDescription == null) {
+                tagDescription = tagName + " tag";
+            }
         }
 
-        List<CodegenOperation> list = codegenOperationsByTag.get(key);
+        tagName = escapeJsonString(tagName);
+        tagDescription = escapeJsonString(tagDescription);
 
-        if(list == null) {
+        PostmanRequestFolder folder = new PostmanRequestFolder(tagName, tagDescription);
+        List<CodegenOperation> list = codegenOperationsByTag.get(folder);
+
+        if (list == null) {
             list = new ArrayList<>();
         }
         list.add(codegenOperation);
 
-        codegenOperationsByTag.put(key, list);
+        codegenOperationsByTag.put(folder, list);
 
         // sort requests by path
         Collections.sort(list, Comparator.comparing(obj -> obj.path));
@@ -347,19 +362,19 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     String getResponseBody(CodegenResponse codegenResponse) {
         String responseBody = "";
 
-        if(codegenResponse.getContent() != null && codegenResponse.getContent().get("application/json") != null &&
+        if (codegenResponse.getContent() != null && codegenResponse.getContent().get("application/json") != null &&
                 codegenResponse.getContent().get("application/json").getExamples() != null) {
             // find in components/examples
             String exampleRef = codegenResponse.getContent().get("application/json").getExamples()
                     .values().iterator().next().get$ref();
-            if(exampleRef != null) {
+            if (exampleRef != null) {
                 Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
                 responseBody = getJsonFromExample(example);
             }
-        } else if(codegenResponse.getContent() != null) {
+        } else if (codegenResponse.getContent() != null) {
             // find in context examples
             Map<String, Example> maxExamples = codegenResponse.getContent().get("application/json").getExamples();
-            if(maxExamples != null && maxExamples.values().iterator().hasNext()) {
+            if (maxExamples != null && maxExamples.values().iterator().hasNext()) {
                 responseBody = getJsonFromExample(maxExamples.values().iterator().next());
             }
         }
@@ -371,7 +386,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     List<PostmanRequestItem> getPostmanRequests(CodegenOperation codegenOperation) {
         List<PostmanRequestItem> items = new ArrayList<>();
 
-        if(codegenOperation.getHasBodyParam()) {
+        if (codegenOperation.getHasBodyParam()) {
             // operation with bodyParam
             if (requestParameterGeneration.equalsIgnoreCase("Schema")) {
                 // get from schema
@@ -381,17 +396,19 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
                         codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
                     for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
-                        if(entry.getValue().get$ref() != null) {
+                        if (entry.getValue().get$ref() != null) {
                             // find in components/examples
                             String exampleRef = entry.getValue().get$ref();
                             Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
                             String exampleAsString = getJsonFromExample(example);
+                            String exampleName = entry.getKey();
 
-                            items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
+                            items.add(new PostmanRequestItem(exampleName, example.getSummary(), exampleAsString));
                         } else if (entry.getValue().getValue() != null && entry.getValue().getValue() instanceof ObjectNode) {
                             // find inline
                             String exampleAsString = convertToJson((ObjectNode) entry.getValue().getValue());
-                            items.add(new PostmanRequestItem(entry.getKey(), exampleAsString));
+                            String exampleName = entry.getKey();
+                            items.add(new PostmanRequestItem(exampleName, entry.getKey(), exampleAsString));
                         }
                     }
                 } else if (codegenOperation.bodyParam.example != null) {
@@ -413,14 +430,32 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             items.add(new PostmanRequestItem(codegenOperation.summary, ""));
         }
 
+        // Grabbing responses
+        List<CodegenResponse> responses = codegenOperation.responses;
+        List<PostmanResponse> allPostmanResponses = new ArrayList<>();
+        for (CodegenResponse response : responses) {
+            List<PostmanResponse> postmanResponses = getResponseExamples(response, response.message);
+            allPostmanResponses.addAll(postmanResponses);
+        }
+
+        // Adding responses to corresponding requests
+        for(PostmanRequestItem item: items){
+            List<PostmanResponse> postmanResponses = allPostmanResponses.stream().filter( r -> Objects.equals(r.getId(), item.getId())).collect(Collectors.toList());
+            if(!postmanResponses.isEmpty()){
+                postmanResponses.forEach(r -> r.setOriginalRequest(item));
+                item.addResponses(postmanResponses);
+            }
+        }
+
+
         return items;
     }
 
     // from placeholders (ie {{VAR_1}}) create Postman variables
     public List<PostmanRequestItem> createPostmanVariables(List<PostmanRequestItem> postmanRequests) {
 
-        for(PostmanRequestItem requestItem : postmanRequests) {
-            for(String var: extractPlaceholders(requestItem.getBody())) {
+        for (PostmanRequestItem requestItem : postmanRequests) {
+            for (String var : extractPlaceholders(requestItem.getBody())) {
                 variables.add(new PostmanVariable()
                         .addName(var)
                         .addType("string")
@@ -434,7 +469,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     // replace postmanGuid placeholder (ie {{UNIQUE_REFERENCE}}) with Postman formula {{$guid}}
     List<PostmanRequestItem> setPostmanGuid(List<PostmanRequestItem> postmanRequests) {
 
-        for(PostmanRequestItem requestItem : postmanRequests) {
+        for (PostmanRequestItem requestItem : postmanRequests) {
             requestItem.setBody(requestItem.getBody().replace("{{" + postmanGuidPlaceholderName + "}}", "{{$guid}}"));
         }
 
@@ -444,12 +479,43 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     // replace postman placeholder (ie {{ISO_TIMESTAMP}}) with Postman formula {{$isoTimestamp}}
     List<PostmanRequestItem> setPostmanIsoTimestamp(List<PostmanRequestItem> postmanRequests) {
 
-        for(PostmanRequestItem requestItem : postmanRequests) {
+        for (PostmanRequestItem requestItem : postmanRequests) {
             requestItem.setBody(requestItem.getBody().replace("{{" + postmanIsoTimestampPlaceholderName + "}}", "{{$isoTimestamp}}"));
         }
 
         return postmanRequests;
     }
+
+    List<PostmanResponse> getResponseExamples(CodegenResponse codegenResponse, String message) {
+        List<PostmanResponse> postmanResponses = new ArrayList<>();
+
+        if (codegenResponse.getContent() != null && codegenResponse.getContent().get("application/json") != null &&
+                codegenResponse.getContent().get("application/json").getExamples() != null) {
+
+            var examples = codegenResponse.getContent().get("application/json").getExamples();
+            for (Map.Entry<String, Example> entry : examples.entrySet()) {
+                String key = entry.getKey();
+                String ref = entry.getValue().get$ref();
+
+                String response;
+                if (ref != null) {
+                    // get example by $ref
+                    Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(ref));
+                    response = getJsonFromExample(example);
+                } else {
+                    // get inline example
+                    response = getJsonFromExample(entry.getValue());
+                }
+                postmanResponses.add(new PostmanResponse(key, codegenResponse, message, response));
+            }
+
+        } else if (codegenResponse.getContent() != null) {
+            // TODO : Implement
+        }
+
+        return postmanResponses;
+    }
+
 
     /**
      * Returns human-friendly help for the generator.  Provide the consumer with help
@@ -532,12 +598,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String mapToPostmanType(String openApiDataType) {
         String ret = "any";  // default value
 
-        if(openApiDataType.equalsIgnoreCase("string")) {
+        if (openApiDataType.equalsIgnoreCase("string")) {
             ret = "string";
-        } else if(openApiDataType.equalsIgnoreCase("number") ||
+        } else if (openApiDataType.equalsIgnoreCase("number") ||
                 openApiDataType.equalsIgnoreCase("integer")) {
             ret = "number";
-        } else if(openApiDataType.equalsIgnoreCase("boolean")) {
+        } else if (openApiDataType.equalsIgnoreCase("boolean")) {
             ret = "boolean";
         }
 
@@ -546,6 +612,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     /**
      * get HTTP Status Code as text
+     *
      * @param codegenResponse
      * @return
      */
@@ -595,7 +662,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     String getSummary(CodegenOperation codegenOperation) {
         String ret = null;
 
-        if(codegenOperation.summary != null) {
+        if (codegenOperation.summary != null) {
             ret = codegenOperation.summary;
         } else if (codegenOperation.operationId != null) {
             ret = codegenOperation.operationId;
@@ -607,6 +674,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     /**
      * Format text to include in JSON file
+     *
      * @param description Text to format
      * @return Formatted text
      */
@@ -619,8 +687,16 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         return description;
     }
 
+    String escapeJsonString(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new String(JsonStringEncoder.getInstance().quoteAsString(value));
+    }
+
     /**
      * Extract all placeholders (string delimited by curly braces ie {{PLACEHOLDER}}) from the input string
+     *
      * @param input String containing the placeholders
      * @return Set of placeholders found in the string
      */
@@ -630,16 +706,16 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         Pattern pattern = Pattern.compile("\\{\\{([^}]*)\\}\\}");
         Matcher matcher = pattern.matcher(input);
 
-        while(matcher.find()) {
-            if(postmanGuidPlaceholderName.equalsIgnoreCase(matcher.group(1))) {
+        while (matcher.find()) {
+            if (postmanGuidPlaceholderName.equalsIgnoreCase(matcher.group(1))) {
                 // skip if it is postmanGuid placeholder
                 break;
             }
-            if(postmanIsoTimestampPlaceholderName.equalsIgnoreCase(matcher.group(1))) {
+            if (postmanIsoTimestampPlaceholderName.equalsIgnoreCase(matcher.group(1))) {
                 // skip if it is postmanIsoTimestamp placeholder
                 break;
             }
-            if(isPostmanDynamicVariable(matcher.group(1))) {
+            if (isPostmanDynamicVariable(matcher.group(1))) {
                 // skip if it is reserved words
                 break;
             }
@@ -653,7 +729,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public boolean isPostmanDynamicVariable(String value) {
         boolean ret = false;
 
-        if(value.equals("$guid") || value.equals("$timestamp")) {
+        if (value.equals("$guid") || value.equals("$timestamp")) {
             ret = true;
         }
 
@@ -672,7 +748,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + codegenProperty.baseName + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                     JSON_ESCAPE_DOUBLE_QUOTE + "<" + getPostmanType(codegenProperty) + ">" + JSON_ESCAPE_DOUBLE_QUOTE;
 
-            if(counter < numVars) {
+            if (counter < numVars) {
                 // add comma unless last attribute
                 ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
             }
@@ -688,14 +764,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String getJsonFromExample(Example example) {
         String ret = "";
 
-        if(example == null) {
+        if (example == null) {
             return ret;
         }
 
-        if(example.getValue() instanceof ObjectNode) {
-            ret = convertToJson((ObjectNode)example.getValue());
-        } else if(example.getValue() instanceof LinkedHashMap) {
-            ret = convertToJson((LinkedHashMap)example.getValue());
+        if (example.getValue() instanceof ObjectNode) {
+            ret = convertToJson((ObjectNode) example.getValue());
+        } else if (example.getValue() instanceof LinkedHashMap) {
+            ret = convertToJson((LinkedHashMap) example.getValue());
         }
 
         return ret;
@@ -750,9 +826,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             String key = mapElement.getKey();
             Object value = mapElement.getValue();
 
-            if(value instanceof String) {
+            if (value instanceof String) {
                 // unescape double quotes already escaped
-                value = ((String)value).replace("\\\"", "\"");
+                value = ((String) value).replace("\\\"", "\"");
 
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         JSON_ESCAPE_DOUBLE_QUOTE + value + JSON_ESCAPE_DOUBLE_QUOTE;
@@ -764,14 +840,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                         value;
             } else if (value instanceof LinkedHashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
-                ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
+                ret = traverseMap(((LinkedHashMap<String, Object>) value), in);
             } else if (value instanceof ArrayList<?>) {
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + getJsonArray((ArrayList<Object>) value);
             } else {
                 LOGGER.warn("Value type unrecognised: " + value.getClass());
             }
 
-            if(counter < numVars) {
+            if (counter < numVars) {
                 // add comma unless last attribute
                 ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
             }
@@ -786,15 +862,15 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     String getJsonArray(ArrayList<Object> list) {
         String ret = "";
 
-        for(Object element: list) {
-            if(element instanceof String) {
+        for (Object element : list) {
+            if (element instanceof String) {
                 ret = ret + getStringArrayElement((String) element) + ", ";
-            } else if(element instanceof LinkedHashMap) {
+            } else if (element instanceof LinkedHashMap) {
                 ret = traverseMap((LinkedHashMap<String, Object>) element, ret) + ", ";
             }
         }
 
-        if(ret.endsWith(", ")) {
+        if (ret.endsWith(", ")) {
             ret = ret.substring(0, ret.length() - 2);
         }
 
@@ -804,7 +880,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     String getStringArrayElement(String element) {
         String ret = "";
 
-        if(element.startsWith("{")) {
+        if (element.startsWith("{")) {
             // isJson (escape all double quotes)
             ret = ret + element.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
         } else {
@@ -816,22 +892,58 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String getPostmanType(CodegenProperty codegenProperty) {
-        if(codegenProperty.isNumeric) {
+        if (codegenProperty.isNumeric) {
             return "number";
-        } else if(codegenProperty.isDate) {
+        } else if (codegenProperty.isDate) {
             return "date";
         } else {
             return "string";
         }
     }
 
-    // Supporting models
-    @Getter @Setter public class PostmanRequestItem {
+    @Getter
+    public static class PostmanRequestFolder {
+        private final String name;
+        private final String description;
 
+        public PostmanRequestFolder(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PostmanRequestFolder that = (PostmanRequestFolder) o;
+            return Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, description);
+        }
+    }
+
+    // Supporting models
+    @Getter
+    @Setter
+    public class PostmanRequestItem {
+
+        private String id;
         private String name;
         private String body;
+        private List<PostmanResponse> responses;
+
+        private PostmanRequestItem originalRequest;
 
         public PostmanRequestItem() {
+        }
+
+        public PostmanRequestItem(String id, String name, String body) {
+            this.id = id;
+            this.name = name;
+            this.body = body;
         }
 
         public PostmanRequestItem(String name, String body) {
@@ -839,9 +951,48 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.body = body;
         }
 
+        public void addResponses(List<PostmanResponse> responses) {
+            if(this.responses == null) { this.responses = new ArrayList<>(); }
+
+            this.responses.addAll(responses);
+        }
+
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
+    public class PostmanResponse {
+
+        private String id;
+        private String code;
+        private String status;
+        private String name;
+        private String body;
+        private PostmanRequestItem originalRequest;
+
+        public PostmanResponse(String id, CodegenResponse response, String name, String body) {
+            this.id = id;
+            this.code = response.code;
+            this.status = PostmanCollectionCodegen.this.getStatus(response);
+            this.name = name;
+            this.body = body;
+            this.originalRequest = null; // Setting this here explicitly for clarity
+        }
+
+
+        public PostmanRequestItem getOriginalRequest() {
+            return originalRequest;
+        }
+
+        public void setOriginalRequest(PostmanRequestItem originalRequest) {
+            this.originalRequest = originalRequest;
+        }
+
+
+    }
+
+    @Getter
+    @Setter
     class PostmanVariable {
 
         private String name;

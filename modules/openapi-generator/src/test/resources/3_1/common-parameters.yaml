@@ -76,6 +76,18 @@ paths:
       security:
         - api_key: []
 components:
+  responses:
+    JustAnotherResponse:
+      description: JustAnotherResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: integer
+              label:
+                type: string
   requestBodies:
     Pet:
       content:

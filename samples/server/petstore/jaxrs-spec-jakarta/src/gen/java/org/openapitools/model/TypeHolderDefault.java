@@ -16,17 +16,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("TypeHolderDefault")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TypeHolderDefault  implements Serializable {
   private String stringItem = "what";
   private BigDecimal numberItem;
   private Integer integerItem;
   private Boolean boolItem = true;
-  private @Valid List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   protected TypeHolderDefault(TypeHolderDefaultBuilder<?, ?> b) {
     this.stringItem = b.stringItem;
@@ -39,6 +40,21 @@ public class TypeHolderDefault  implements Serializable {
   public TypeHolderDefault() {
   }
 
+  @JsonCreator
+  public TypeHolderDefault(
+    @JsonProperty(required = true, value = "string_item") String stringItem,
+    @JsonProperty(required = true, value = "number_item") BigDecimal numberItem,
+    @JsonProperty(required = true, value = "integer_item") Integer integerItem,
+    @JsonProperty(required = true, value = "bool_item") Boolean boolItem,
+    @JsonProperty(required = true, value = "array_item") List<Integer> arrayItem
+  ) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
+
   /**
    **/
   public TypeHolderDefault stringItem(String stringItem) {
@@ -48,12 +64,12 @@ public class TypeHolderDefault  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("string_item")
+  @JsonProperty(required = true, value = "string_item")
   @NotNull public String getStringItem() {
     return stringItem;
   }
 
-  @JsonProperty("string_item")
+  @JsonProperty(required = true, value = "string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -67,12 +83,12 @@ public class TypeHolderDefault  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("number_item")
+  @JsonProperty(required = true, value = "number_item")
   @NotNull @Valid public BigDecimal getNumberItem() {
     return numberItem;
   }
 
-  @JsonProperty("number_item")
+  @JsonProperty(required = true, value = "number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -86,12 +102,12 @@ public class TypeHolderDefault  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("integer_item")
+  @JsonProperty(required = true, value = "integer_item")
   @NotNull public Integer getIntegerItem() {
     return integerItem;
   }
 
-  @JsonProperty("integer_item")
+  @JsonProperty(required = true, value = "integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -105,12 +121,12 @@ public class TypeHolderDefault  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("bool_item")
+  @JsonProperty(required = true, value = "bool_item")
   @NotNull public Boolean getBoolItem() {
     return boolItem;
   }
 
-  @JsonProperty("bool_item")
+  @JsonProperty(required = true, value = "bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
@@ -124,12 +140,12 @@ public class TypeHolderDefault  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("array_item")
+  @JsonProperty(required = true, value = "array_item")
   @NotNull public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
-  @JsonProperty("array_item")
+  @JsonProperty(required = true, value = "array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
@@ -191,10 +207,7 @@ public class TypeHolderDefault  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -202,7 +215,7 @@ public class TypeHolderDefault  implements Serializable {
     return new TypeHolderDefaultBuilderImpl();
   }
 
-  private static class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
+  private static final class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
 
     @Override
     protected TypeHolderDefaultBuilderImpl self() {
@@ -247,4 +260,3 @@ public class TypeHolderDefault  implements Serializable {
     }
   }
 }
-

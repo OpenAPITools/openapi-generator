@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ActionContainer {
     #[serde(rename = "action")]
-    pub action: Box<models::Baz>,
+    pub action: models::Baz,
 }
 
 impl ActionContainer {
     pub fn new(action: models::Baz) -> ActionContainer {
         ActionContainer {
-            action: Box::new(action),
+            action,
         }
     }
 }

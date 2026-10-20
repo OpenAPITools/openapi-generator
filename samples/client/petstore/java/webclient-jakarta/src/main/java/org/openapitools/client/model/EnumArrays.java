@@ -33,15 +33,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
   public enum JustSymbolEnum {
-    GREATER_THAN_OR_EQUAL_TO(">="),
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
     
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -71,15 +71,16 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @jakarta.annotation.Nullable
   private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
    */
   public enum ArrayEnumEnum {
-    FISH("fish"),
+    FISH(String.valueOf("fish")),
     
-    CRAB("crab");
+    CRAB(String.valueOf("crab"));
 
     private String value;
 
@@ -109,12 +110,13 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @jakarta.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(@jakarta.annotation.Nullable JustSymbolEnum justSymbol) {
     
     this.justSymbol = justSymbol;
     return this;
@@ -125,7 +127,7 @@ public class EnumArrays {
    * @return justSymbol
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
@@ -133,13 +135,13 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(@jakarta.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays arrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;
     return this;
@@ -158,7 +160,7 @@ public class EnumArrays {
    * @return arrayEnum
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -166,11 +168,12 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -205,10 +208,7 @@ public class EnumArrays {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

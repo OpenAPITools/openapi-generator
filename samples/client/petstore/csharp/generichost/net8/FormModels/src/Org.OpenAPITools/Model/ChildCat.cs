@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ChildCat(Option<string> name = default) : base()
         {
+            PetType = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), this.GetType().Name);
             NameOption = name;
             OnCreated();
         }
@@ -46,21 +47,21 @@ namespace Org.OpenAPITools.Model
         /// The discriminator
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public new ChildCatAllOfPetType PetType { get; } = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), "ChildCat");
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new ChildCatAllOfPetType PetType { get; }
 
         /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string Name { get { return this.NameOption.Value; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -80,8 +81,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
-    public class ChildCatJsonConverter : JsonConverter<ChildCat>
+    public partial class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatJsonConverter" /> class.
+        /// </summary>
+        public ChildCatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ChildCat" />
         /// </summary>
@@ -118,9 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            string petTypeRawValue = utf8JsonReader.GetString();
-                            if (petTypeRawValue != null)
-                                petType = new Option<ChildCatAllOfPetType?>(ChildCatAllOfPetTypeValueConverter.FromStringOrDefault(petTypeRawValue));
+                            petType = new Option<ChildCatAllOfPetType?>(JsonSerializer.Deserialize<ChildCatAllOfPetType?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "name":
                             name = new Option<string>(utf8JsonReader.GetString());
@@ -132,13 +141,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
+                throw new JsonException("Property is required for class ChildCat: pet_type.");
 
             if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
+                throw new JsonException("Property is not nullable for class ChildCat: pet_type.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
+                throw new JsonException("Property is not nullable for class ChildCat: name.");
 
             return new ChildCat(name);
         }
@@ -149,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="childCat"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -164,11 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="childCat"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
             if (childCat.NameOption.IsSet && childCat.Name == null)
-                throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
+                throw new JsonException("Cannot write null property ChildCat.Name to non-nullable JSON property 'name'.");
 
             writer.WriteString("pet_type", ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCat.PetType));
 

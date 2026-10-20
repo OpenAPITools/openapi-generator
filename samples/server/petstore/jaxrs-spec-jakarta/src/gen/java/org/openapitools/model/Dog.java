@@ -13,11 +13,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("Dog")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   private String breed;
 
@@ -27,6 +28,15 @@ public class Dog extends Animal implements Serializable {
   }
 
   public Dog() {
+  }
+
+  @JsonCreator
+  public Dog(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
   }
 
   /**
@@ -82,10 +92,7 @@ public class Dog extends Animal implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -93,7 +100,7 @@ public class Dog extends Animal implements Serializable {
     return new DogBuilderImpl();
   }
 
-  private static class DogBuilderImpl extends DogBuilder<Dog, DogBuilderImpl> {
+  private static final class DogBuilderImpl extends DogBuilder<Dog, DogBuilderImpl> {
 
     @Override
     protected DogBuilderImpl self() {
@@ -115,4 +122,3 @@ public class Dog extends Animal implements Serializable {
     }
   }
 }
-

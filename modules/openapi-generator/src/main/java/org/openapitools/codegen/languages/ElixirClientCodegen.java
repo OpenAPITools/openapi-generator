@@ -48,22 +48,23 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
-    private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
+    private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-|@)\\z");
 
-    protected String apiVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     @Setter protected String moduleName;
     protected static final String defaultModuleName = "OpenAPI.Client";
 
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
+    protected static final String TESLA = "tesla";
+    protected static final String REQ = "req";
 
-    String supportedElixirVersion = "1.10";
+    String supportedElixirVersion = "1.18";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.7\"}",
-            "{:jason, \"~> 1.4\"}",
-            "{:ex_doc, \"~> 0.30\", only: :dev, runtime: false}",
-            "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}");
+            "{:tesla, \"~> 1.14\"}",
+            "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
+            "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}");
 
     public ElixirClientCodegen() {
         super();
@@ -72,7 +73,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth))
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -80,8 +82,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         GlobalFeature.ParameterStyling)
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism)
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie)
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath)
                 .includeDataTypeFeatures(
@@ -148,12 +148,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "__CALLER__"));
 
         /**
-         * Additional Properties. These values can be passed to the templates and
-         * are available in models, apis, and supporting files
-         */
-        additionalProperties.put("apiVersion", apiVersion);
-
-        /**
          * Supporting Files. You can write single files for the generator with the
          * entire object tree available. If the input file has a suffix of `.mustache
          * it will be processed by the template engine. Otherwise, it will be copied
@@ -187,49 +181,80 @@ public class ElixirClientCodegen extends DefaultCodegen {
          */
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
-                        "Integer",
-                        "Float",
-                        "Decimal",
-                        "Boolean",
-                        "String",
-                        "List",
-                        "Atom",
-                        "Map",
-                        "AnyType",
-                        "Tuple",
-                        "PID",
-                        // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec
-                        // datetype to evaluate the primitive
+                        "integer()",
+                        "float()",
+                        "number()",
+                        "boolean()",
+                        "String.t",
+                        "Date.t",
+                        "DateTime.t",
+                        "binary()",
+                        "list()",
                         "map()",
-                        "any()"));
+                        "any()",
+                        "nil"));
 
         // ref:
         // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<>();
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("number", "Float");
-        typeMapping.put("float", "Float");
-        typeMapping.put("double", "Float");
-        typeMapping.put("string", "String");
-        typeMapping.put("byte", "Integer");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("Date", "Date");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("file", "String");
-        typeMapping.put("map", "Map");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("object", "Map");
-        typeMapping.put("binary", "String");
-        typeMapping.put("ByteArray", "String");
-        typeMapping.put("UUID", "String");
-        typeMapping.put("URI", "String");
+        // primitive types
+        typeMapping.put("string", "String.t");
+        typeMapping.put("number", "number()");
+        typeMapping.put("integer", "integer()");
+        typeMapping.put("boolean", "boolean()");
+        typeMapping.put("array", "list()");
+        typeMapping.put("object", "map()");
+        typeMapping.put("map", "map()");
+        typeMapping.put("null", "nil");
+        // string formats
+        typeMapping.put("byte", "String.t");
+        typeMapping.put("binary", "binary()");
+        typeMapping.put("password", "String.t");
+        typeMapping.put("uuid", "String.t");
+        typeMapping.put("email", "String.t");
+        typeMapping.put("uri", "String.t");
+        typeMapping.put("file", "String.t");
+        // integer formats
+        typeMapping.put("int32", "integer()");
+        typeMapping.put("int64", "integer()");
+        typeMapping.put("long", "integer()");
+        // float formats
+        typeMapping.put("float", "float()");
+        typeMapping.put("double", "float()");
+        typeMapping.put("decimal", "float()");
+        // date-time formats
+        typeMapping.put("date", "Date.t");
+        typeMapping.put("date-time", "DateTime.t");
+        // other
+        typeMapping.put("AnyType", "any()");
+        typeMapping.put("ByteArray", "binary()");
+        typeMapping.put("DateTime", "DateTime.t");
+        typeMapping.put("UUID", "String.t");
+
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE,
                 "The main namespace to use for all classes. e.g. Yay.Pets"));
         cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Elixir package name (convention: lowercase)."));
+
+        supportedLibraries.put(TESLA, "Tesla >= 1.14 (https://github.com/elixir-tesla/tesla)");
+        supportedLibraries.put(REQ, "Req >= 0.6.0 (excluding 0.7.0-0.7.2) (https://github.com/wojtekmach/req)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY,
+                "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        libraryOption.setDefault(TESLA);
+        cliOptions.add(libraryOption);
+        setLibrary(TESLA);
+    }
+
+    @Override
+    public void setLibrary(String library) {
+        if (library != null && !supportedLibraries.containsKey(library)) {
+            throw new IllegalArgumentException("Invalid HTTP library " + library
+                    + ". Only tesla and req are supported.");
+        }
+        super.setLibrary(library);
     }
 
     /**
@@ -269,9 +294,27 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            setLibrary(String.valueOf(additionalProperties.get(CodegenConstants.LIBRARY)));
+        }
+
+        boolean isTesla = TESLA.equals(getLibrary());
+        boolean isReq = REQ.equals(getLibrary());
+        if (!isTesla && !isReq) {
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary()
+                    + ". Only tesla and req are supported.");
+        }
+
+        deps = new ArrayList<>(Arrays.asList(
+                isReq ? "{:req, \"~> 0.6.0 or ~> 0.7.3\"}" : "{:tesla, \"~> 1.14\"}",
+                "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
+                "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}"));
         additionalProperties.put("supportedElixirVersion", supportedElixirVersion);
         additionalProperties.put("extraApplications", join(",", extraApplications));
         additionalProperties.put("deps", deps);
+        additionalProperties.put("isTesla", isTesla);
+        additionalProperties.put("isReq", isReq);
         additionalProperties.put("underscored", new Mustache.Lambda() {
             @Override
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
@@ -301,6 +344,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        }
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
     }
 
     @Override
@@ -579,39 +626,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
-        } else if (ModelUtils.isPasswordSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isEmailSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isByteArraySchema(p)) {
-            return "binary()";
-        } else if (ModelUtils.isUUIDSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date.t";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "DateTime.t";
-        } else if (ModelUtils.isObjectSchema(p)) {
-            return "map()";
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            return "integer()";
-        } else if (ModelUtils.isNumberSchema(p)) {
-            return "float()";
-        } else if (ModelUtils.isBinarySchema(p) || ModelUtils.isFileSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isBooleanSchema(p)) {
-            return "boolean()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            switch (super.getTypeDeclaration(p)) {
-                case "String":
-                    return "String.t";
-                default:
-                    return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
+            String refType = super.getTypeDeclaration(p);
+            if (languageSpecificPrimitives.contains(refType)) {
+                return refType;
+            } else {
+                return this.moduleName + ".Model." + refType + ".t";
             }
-        } else if (ModelUtils.isFileSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isStringSchema(p)) {
-            return "String.t";
         } else if (p.getType() == null) {
             return "any()";
         }
@@ -629,14 +650,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
         if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return toModelName(type);
-        } else
-            type = openAPIType;
-        return toModelName(type);
+            return typeMapping.get(openAPIType);
+        } else {
+            return toModelName(openAPIType);
+        }
     }
 
     class ExtendedCodegenResponse extends CodegenResponse {
@@ -696,7 +714,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
-            // Let Jason decode the entire response into a generic blob
+            // Decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
             }
@@ -718,9 +736,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     }
 
-    @Getter @Setter class ExtendedCodegenOperation extends CodegenOperation {
+    @Getter
+    @Setter
+    class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
+        private List<String> successTypes;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -730,7 +751,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.hasAuthMethods = o.hasAuthMethods;
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
             this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
@@ -740,12 +760,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;
@@ -781,28 +795,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        private void translateBaseType(StringBuilder returnEntry, String baseType) {
-            switch (baseType) {
-                case "AnyType":
-                    returnEntry.append("any()");
-                    break;
-                case "Boolean":
-                    returnEntry.append("boolean()");
-                    break;
-                case "Float":
-                    returnEntry.append("float()");
-                    break;
-                default:
-                    returnEntry.append(baseType);
-                    returnEntry.append(".t");
-                    break;
-            }
-        }
-
         public String typespec() {
             StringBuilder sb = new StringBuilder("@spec ");
             sb.append(underscore(operationId));
-            sb.append("(Tesla.Env.client, ");
+            sb.append(isLibrary(REQ) ? "(Req.Request.t(), " : "(Tesla.Env.client, ");
 
             for (CodegenParameter param : allParams) {
                 if (param.required) {
@@ -812,44 +808,55 @@ public class ElixirClientCodegen extends DefaultCodegen {
             }
 
             sb.append("keyword()) :: ");
-            HashSet<String> uniqueResponseTypes = new HashSet<>();
-            for (CodegenResponse response : this.responses) {
-                ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
-                StringBuilder returnEntry = new StringBuilder();
-                if (exResponse.baseType == null) {
-                    returnEntry.append("nil");
-                } else if (exResponse.containerType == null) { // not container (array, map, set)
-                    returnEntry.append(normalizeTypeName(exResponse.dataType, exResponse.primitiveType));
-                } else {
-                    if (exResponse.containerType.equals("array") || exResponse.containerType.equals("set")) {
-                        returnEntry.append(exResponse.dataType);
-                    } else if (exResponse.containerType.equals("map")) {
-                        returnEntry.append("map()");
-                    }
-                }
-                uniqueResponseTypes.add(returnEntry.toString());
-            }
-
-            for (String returnType : uniqueResponseTypes) {
+            for (String returnType : successTypes()) {
                 sb.append("{:ok, ").append(returnType).append("} | ");
             }
 
-            sb.append("{:error, Tesla.Env.t}");
+            sb.append(isLibrary(REQ) ? "{:error, term()}" : "{:error, Tesla.Env.t}");
             return sb.toString();
+        }
+
+        public String successTypesDoc() {
+            StringBuilder sb = new StringBuilder();
+            for (String returnType : successTypes()) {
+                if (sb.length() > 0) {
+                    sb.append(" | ");
+                }
+                sb.append("{:ok, ").append(returnType).append("}");
+            }
+            return sb.toString();
+        }
+
+        private List<String> successTypes() {
+            if (successTypes == null) {
+                successTypes = new ArrayList<>();
+                for (CodegenResponse response : this.responses) {
+                    ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
+                    String returnType;
+                    if (exResponse.decodedStruct().equals("false")) {
+                        returnType = isLibrary(REQ) ? "Req.Response.t()" : "Tesla.Env.t";
+                    } else if (exResponse.schema != null) {
+                        returnType = getTypeDeclaration((Schema) exResponse.schema);
+                    } else {
+                        returnType = normalizeTypeName(exResponse.dataType, exResponse.primitiveType);
+                    }
+                    if (!successTypes.contains(returnType)) {
+                        successTypes.add(returnType);
+                    }
+                }
+            }
+            return successTypes;
         }
 
         private String normalizeTypeName(String baseType, boolean isPrimitive) {
             if (baseType == null) {
                 return "nil";
             }
-            if (isPrimitive || "String.t".equals(baseType)) {
+            if (isPrimitive || languageSpecificPrimitives.contains(baseType)) {
                 return baseType;
             }
             if (!baseType.startsWith(moduleName + ".Model.")) {
-                baseType = moduleName + ".Model." + baseType;
-            }
-            if (!baseType.endsWith(".t")) {
-                baseType += ".t";
+                baseType = moduleName + ".Model." + baseType + ".t";
             }
             return baseType;
         }
@@ -857,6 +864,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
+            } else if (param.isAnyType) {
+                sb.append("any()");
+            } else if(param.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
@@ -876,6 +887,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
             if (property == null) {
                 LOGGER.error(
                         "CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
+            } else if (property.isAnyType) {
+                sb.append("any()");
+            } else if(property.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);

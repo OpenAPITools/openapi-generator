@@ -9,11 +9,12 @@ repository: {{.}}
 publish_to: {{.}}
 {{/pubPublishTo}}
 
+
 environment:
-  sdk: '>={{#useJsonSerializable}}2.17.0{{/useJsonSerializable}}{{^useJsonSerializable}}2.15.0{{/useJsonSerializable}} <4.0.0'
+  sdk: '>={{#useBuiltValue}}2.18.0{{/useBuiltValue}}{{#useJsonSerializable}}3.5.0{{/useJsonSerializable}}{{#useFreezed}}3.8.0{{/useFreezed}} <4.0.0'
 
 dependencies:
-  dio: '^5.2.0'
+  dio: '^5.7.0'
 {{#useBuiltValue}}
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'
@@ -21,13 +22,20 @@ dependencies:
   built_collection: '>=5.1.1 <6.0.0'
 {{/useBuiltValue}}
 {{#useEquatable}}
-  equatable: '^2.0.5'
+  equatable: '^2.0.7'
 {{/useEquatable}}
 {{#useJsonSerializable}}
-  json_annotation: '^4.4.0'
+  {{^skipCopyWith}}
+  copy_with_extension: '^7.1.0'
+  {{/skipCopyWith}}
+  json_annotation: '^4.9.0'
 {{/useJsonSerializable}}
+{{#useFreezed}}
+  freezed_annotation: '^3.0.0'
+  json_annotation: '^4.9.0'
+{{/useFreezed}}
 {{#useDateLibTimeMachine}}
-  time_machine: ^0.9.16
+  time_machine: ^0.9.17
 {{/useDateLibTimeMachine}}
 
 dev_dependencies:
@@ -37,6 +45,14 @@ dev_dependencies:
 {{/useBuiltValue}}
 {{#useJsonSerializable}}
   build_runner: any
-  json_serializable: '^6.1.5'
+  {{^skipCopyWith}}
+  copy_with_extension_gen: ^7.1.0
+  {{/skipCopyWith}}
+  json_serializable: '^6.9.3'
 {{/useJsonSerializable}}
-  test: ^1.16.0
+{{#useFreezed}}
+  build_runner: any
+  freezed: '^3.0.0'
+  json_serializable: '^6.9.3'
+{{/useFreezed}}
+  test: '^1.16.0'

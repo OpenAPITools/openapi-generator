@@ -25,14 +25,32 @@ case class Pet(
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
 )
-
 object PetEnums {
 
-  type Status = Status.Value
-  object Status extends Enumeration {
-    val Available = Value("available")
-    val Pending = Value("pending")
-    val Sold = Value("sold")
-  }
+  sealed trait Status
+  object Status {
+    case object Available extends Status { override def toString: String = "available" }
+    case object Pending extends Status { override def toString: String = "pending" }
+    case object Sold extends Status { override def toString: String = "sold" }
 
+    import org.json4s._
+
+    implicit object StatusSerializer extends Serializer[Status] {
+      def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), Status] = {
+        case (TypeInfo(clazz, _), json) if classOf[Status].isAssignableFrom(clazz) =>
+          json match {
+            case JString("available") => Available
+            case JString("pending") => Pending
+            case JString("sold") => Sold
+            case other => throw new MappingException(s"Invalid Status: $other")
+          }
+      }
+
+      def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+        case Available => JString("available")
+        case Pending => JString("pending")
+        case Sold => JString("sold")
+      }
+    }
+  }
 }

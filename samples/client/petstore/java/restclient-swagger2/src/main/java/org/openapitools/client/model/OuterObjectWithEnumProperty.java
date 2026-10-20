@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * OuterObjectWithEnumProperty
@@ -31,15 +32,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
+  @jakarta.annotation.Nonnull
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
   }
 
-  public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty value(@jakarta.annotation.Nonnull OuterEnumInteger value) {
     
     this.value = value;
     return this;
@@ -51,7 +53,7 @@ public class OuterObjectWithEnumProperty {
    */
   @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public OuterEnumInteger getValue() {
@@ -59,11 +61,12 @@ public class OuterObjectWithEnumProperty {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setValue(OuterEnumInteger value) {
+  public void setValue(@jakarta.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -96,10 +99,7 @@ public class OuterObjectWithEnumProperty {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

@@ -45,6 +45,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="int32Range">int32Range.</param>
+        /// <param name="int64Positive">int64Positive.</param>
+        /// <param name="int64Negative">int64Negative.</param>
+        /// <param name="int64PositiveExclusive">int64PositiveExclusive.</param>
+        /// <param name="int64NegativeExclusive">int64NegativeExclusive.</param>
         /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
         /// <param name="unsignedLong">unsignedLong.</param>
@@ -62,7 +67,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal.</param>
+        /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
+        /// <param name="duplicatePropertyName2">duplicatePropertyName2.</param>
+        /// <param name="duplicatePropertyName">duplicatePropertyName.</param>
+        public FormatTest(int? integer = default, int? int32 = default, int? int32Range = default, int? int64Positive = default, int? int64Negative = default, int? int64PositiveExclusive = default, int? int64NegativeExclusive = default, uint? unsignedInteger = default, long? int64 = default, ulong? unsignedLong = default, decimal number = default, float? varFloat = default, double? varDouble = default, decimal? varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime? dateTime = default, Guid? uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal? stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
         {
             this._Number = number;
             // to ensure "varByte" is required (not null)
@@ -78,44 +87,70 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this._Password = password;
-            this._Integer = integer;
-            if (this.Integer != null)
+            this._StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
+            if (integer != null)
             {
+                this._Integer = integer.Value;
                 this._flagInteger = true;
             }
-            this._Int32 = int32;
-            if (this.Int32 != null)
+            if (int32 != null)
             {
+                this._Int32 = int32.Value;
                 this._flagInt32 = true;
             }
-            this._UnsignedInteger = unsignedInteger;
-            if (this.UnsignedInteger != null)
+            if (int32Range != null)
             {
+                this._Int32Range = int32Range.Value;
+                this._flagInt32Range = true;
+            }
+            if (int64Positive != null)
+            {
+                this._Int64Positive = int64Positive.Value;
+                this._flagInt64Positive = true;
+            }
+            if (int64Negative != null)
+            {
+                this._Int64Negative = int64Negative.Value;
+                this._flagInt64Negative = true;
+            }
+            if (int64PositiveExclusive != null)
+            {
+                this._Int64PositiveExclusive = int64PositiveExclusive.Value;
+                this._flagInt64PositiveExclusive = true;
+            }
+            if (int64NegativeExclusive != null)
+            {
+                this._Int64NegativeExclusive = int64NegativeExclusive.Value;
+                this._flagInt64NegativeExclusive = true;
+            }
+            if (unsignedInteger != null)
+            {
+                this._UnsignedInteger = unsignedInteger.Value;
                 this._flagUnsignedInteger = true;
             }
-            this._Int64 = int64;
-            if (this.Int64 != null)
+            if (int64 != null)
             {
+                this._Int64 = int64.Value;
                 this._flagInt64 = true;
             }
-            this._UnsignedLong = unsignedLong;
-            if (this.UnsignedLong != null)
+            if (unsignedLong != null)
             {
+                this._UnsignedLong = unsignedLong.Value;
                 this._flagUnsignedLong = true;
             }
-            this._Float = varFloat;
-            if (this.Float != null)
+            if (varFloat != null)
             {
+                this._Float = varFloat.Value;
                 this._flagFloat = true;
             }
-            this._Double = varDouble;
-            if (this.Double != null)
+            if (varDouble != null)
             {
+                this._Double = varDouble.Value;
                 this._flagDouble = true;
             }
-            this._Decimal = varDecimal;
-            if (this.Decimal != null)
+            if (varDecimal != null)
             {
+                this._Decimal = varDecimal.Value;
                 this._flagDecimal = true;
             }
             this._String = varString;
@@ -128,14 +163,14 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagBinary = true;
             }
-            this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (dateTime != null)
             {
+                this._DateTime = dateTime.Value;
                 this._flagDateTime = true;
             }
-            this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (uuid != null)
             {
+                this._Uuid = uuid.Value;
                 this._flagUuid = true;
             }
             this._PatternWithDigits = patternWithDigits;
@@ -152,6 +187,21 @@ namespace Org.OpenAPITools.Model
             if (this.PatternWithBackslash != null)
             {
                 this._flagPatternWithBackslash = true;
+            }
+            if (stringFormattedAsDecimal != null)
+            {
+                this._StringFormattedAsDecimal = stringFormattedAsDecimal.Value;
+                this._flagStringFormattedAsDecimal = true;
+            }
+            this._DuplicatePropertyName2 = duplicatePropertyName2;
+            if (this.DuplicatePropertyName2 != null)
+            {
+                this._flagDuplicatePropertyName2 = true;
+            }
+            this._DuplicatePropertyName = duplicatePropertyName;
+            if (this.DuplicatePropertyName != null)
+            {
+                this._flagDuplicatePropertyName = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -203,6 +253,126 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeInt32()
         {
             return _flagInt32;
+        }
+        /// <summary>
+        /// Gets or Sets Int32Range
+        /// </summary>
+        [DataMember(Name = "int32Range", EmitDefaultValue = false)]
+        public int Int32Range
+        {
+            get{ return _Int32Range;}
+            set
+            {
+                _Int32Range = value;
+                _flagInt32Range = true;
+            }
+        }
+        private int _Int32Range;
+        private bool _flagInt32Range;
+
+        /// <summary>
+        /// Returns false as Int32Range should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeInt32Range()
+        {
+            return _flagInt32Range;
+        }
+        /// <summary>
+        /// Gets or Sets Int64Positive
+        /// </summary>
+        [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
+        public long Int64Positive
+        {
+            get{ return _Int64Positive;}
+            set
+            {
+                _Int64Positive = value;
+                _flagInt64Positive = true;
+            }
+        }
+        private long _Int64Positive;
+        private bool _flagInt64Positive;
+
+        /// <summary>
+        /// Returns false as Int64Positive should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeInt64Positive()
+        {
+            return _flagInt64Positive;
+        }
+        /// <summary>
+        /// Gets or Sets Int64Negative
+        /// </summary>
+        [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
+        public long Int64Negative
+        {
+            get{ return _Int64Negative;}
+            set
+            {
+                _Int64Negative = value;
+                _flagInt64Negative = true;
+            }
+        }
+        private long _Int64Negative;
+        private bool _flagInt64Negative;
+
+        /// <summary>
+        /// Returns false as Int64Negative should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeInt64Negative()
+        {
+            return _flagInt64Negative;
+        }
+        /// <summary>
+        /// Gets or Sets Int64PositiveExclusive
+        /// </summary>
+        [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
+        public long Int64PositiveExclusive
+        {
+            get{ return _Int64PositiveExclusive;}
+            set
+            {
+                _Int64PositiveExclusive = value;
+                _flagInt64PositiveExclusive = true;
+            }
+        }
+        private long _Int64PositiveExclusive;
+        private bool _flagInt64PositiveExclusive;
+
+        /// <summary>
+        /// Returns false as Int64PositiveExclusive should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeInt64PositiveExclusive()
+        {
+            return _flagInt64PositiveExclusive;
+        }
+        /// <summary>
+        /// Gets or Sets Int64NegativeExclusive
+        /// </summary>
+        [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
+        public long Int64NegativeExclusive
+        {
+            get{ return _Int64NegativeExclusive;}
+            set
+            {
+                _Int64NegativeExclusive = value;
+                _flagInt64NegativeExclusive = true;
+            }
+        }
+        private long _Int64NegativeExclusive;
+        private bool _flagInt64NegativeExclusive;
+
+        /// <summary>
+        /// Returns false as Int64NegativeExclusive should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeInt64NegativeExclusive()
+        {
+            return _flagInt64NegativeExclusive;
         }
         /// <summary>
         /// Gets or Sets UnsignedInteger
@@ -447,7 +617,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /*
+        <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        */
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         public DateTime Date
@@ -473,7 +645,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>2007-12-03T10:15:30+01:00</example>
+        /*
+        <example>2007-12-03T10:15:30+01:00</example>
+        */
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime
         {
@@ -498,7 +672,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid
         {
@@ -620,6 +796,102 @@ namespace Org.OpenAPITools.Model
             return _flagPatternWithBackslash;
         }
         /// <summary>
+        /// Gets or Sets StringFormattedAsDecimal
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
+        public decimal StringFormattedAsDecimal
+        {
+            get{ return _StringFormattedAsDecimal;}
+            set
+            {
+                _StringFormattedAsDecimal = value;
+                _flagStringFormattedAsDecimal = true;
+            }
+        }
+        private decimal _StringFormattedAsDecimal;
+        private bool _flagStringFormattedAsDecimal;
+
+        /// <summary>
+        /// Returns false as StringFormattedAsDecimal should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeStringFormattedAsDecimal()
+        {
+            return _flagStringFormattedAsDecimal;
+        }
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimalRequired
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal_required", IsRequired = true, EmitDefaultValue = true)]
+        public decimal StringFormattedAsDecimalRequired
+        {
+            get{ return _StringFormattedAsDecimalRequired;}
+            set
+            {
+                _StringFormattedAsDecimalRequired = value;
+                _flagStringFormattedAsDecimalRequired = true;
+            }
+        }
+        private decimal _StringFormattedAsDecimalRequired;
+        private bool _flagStringFormattedAsDecimalRequired;
+
+        /// <summary>
+        /// Returns false as StringFormattedAsDecimalRequired should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeStringFormattedAsDecimalRequired()
+        {
+            return _flagStringFormattedAsDecimalRequired;
+        }
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName2
+        /// </summary>
+        [DataMember(Name = "duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName2
+        {
+            get{ return _DuplicatePropertyName2;}
+            set
+            {
+                _DuplicatePropertyName2 = value;
+                _flagDuplicatePropertyName2 = true;
+            }
+        }
+        private string _DuplicatePropertyName2;
+        private bool _flagDuplicatePropertyName2;
+
+        /// <summary>
+        /// Returns false as DuplicatePropertyName2 should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeDuplicatePropertyName2()
+        {
+            return _flagDuplicatePropertyName2;
+        }
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName
+        /// </summary>
+        [DataMember(Name = "@duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName
+        {
+            get{ return _DuplicatePropertyName;}
+            set
+            {
+                _DuplicatePropertyName = value;
+                _flagDuplicatePropertyName = true;
+            }
+        }
+        private string _DuplicatePropertyName;
+        private bool _flagDuplicatePropertyName;
+
+        /// <summary>
+        /// Returns false as DuplicatePropertyName should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeDuplicatePropertyName()
+        {
+            return _flagDuplicatePropertyName;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -635,6 +907,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int32Range: ").Append(Int32Range).Append("\n");
+            sb.Append("  Int64Positive: ").Append(Int64Positive).Append("\n");
+            sb.Append("  Int64Negative: ").Append(Int64Negative).Append("\n");
+            sb.Append("  Int64PositiveExclusive: ").Append(Int64PositiveExclusive).Append("\n");
+            sb.Append("  Int64NegativeExclusive: ").Append(Int64NegativeExclusive).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
@@ -652,6 +929,10 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
+            sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
+            sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
+            sb.Append("  DuplicatePropertyName2: ").Append(DuplicatePropertyName2).Append("\n");
+            sb.Append("  DuplicatePropertyName: ").Append(DuplicatePropertyName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -697,6 +978,11 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
@@ -744,6 +1030,16 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
+                if (this.DuplicatePropertyName2 != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName2.GetHashCode();
+                }
+                if (this.DuplicatePropertyName != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
@@ -781,6 +1077,42 @@ namespace Org.OpenAPITools.Model
             if (this.Int32 < (int)20)
             {
                 yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // Int32Range (int) maximum
+            if (this.Int32Range > (int)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
+            }
+
+            // Int32Range (int) minimum
+            if (this.Int32Range < (int)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
+            }
+
+            // Int64Positive (long) minimum
+            if (this.Int64Positive < (long)2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
+            }
+
+            // Int64Negative (long) maximum
+            if (this.Int64Negative > (long)-2147483649)
+            {
+                yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
+            }
+
+            // Int64PositiveExclusive (long) minimum
+            if (this.Int64PositiveExclusive < (long)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
+            }
+
+            // Int64NegativeExclusive (long) maximum
+            if (this.Int64NegativeExclusive <= (long)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
             }
 
             // UnsignedInteger (uint) maximum

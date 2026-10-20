@@ -36,15 +36,16 @@ import java.util.StringJoiner;
   TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
 })
 @JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
+  @javax.annotation.Nullable
   private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
 
-  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(List<String> values) {
+  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(@javax.annotation.Nullable List<String> values) {
     
     this.values = values;
     return this;
@@ -63,7 +64,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {
@@ -71,11 +72,12 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValues(List<String> values) {
+  public void setValues(@javax.annotation.Nullable List<String> values) {
     this.values = values;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -108,10 +110,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -150,8 +149,8 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     if (getValues() != null) {
       for (int i = 0; i < getValues().size(); i++) {
         try {
-          joiner.add(String.format("%svalues%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%svalues%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getValues().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

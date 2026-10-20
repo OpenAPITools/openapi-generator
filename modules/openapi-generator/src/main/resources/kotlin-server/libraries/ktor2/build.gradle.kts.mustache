@@ -1,0 +1,61 @@
+
+val kotlin_version: String by project
+val logback_version: String by project
+
+group = "{{groupId}}"
+version = "{{artifactVersion}}"
+
+plugins {
+    kotlin("jvm") version "2.0.20"
+    id("io.ktor.plugin") version "2.3.12"
+}
+
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
+
+    val isDevelopment: Boolean = project.ext.has("development")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+{{#hasAuthMethods}}
+    implementation("com.typesafe:config:1.4.1")
+{{/hasAuthMethods}}
+    implementation("io.ktor:ktor-server-auth")
+{{#hasAuthMethods}}
+    implementation("io.ktor:ktor-client-apache")
+{{/hasAuthMethods}}
+{{#featureAutoHead}}
+    implementation("io.ktor:ktor-server-auto-head-response")
+{{/featureAutoHead}}
+    implementation("io.ktor:ktor-server-default-headers")
+    implementation("io.ktor:ktor-server-content-negotiation")
+    implementation("io.ktor:ktor-serialization-gson")
+{{#featureResources}}
+    implementation("io.ktor:ktor-server-resources")
+{{/featureResources}}
+{{#featureHSTS}}
+    implementation("io.ktor:ktor-server-hsts")
+{{/featureHSTS}}
+{{#featureCORS}}
+    implementation("io.ktor:ktor-server-cors")
+{{/featureCORS}}
+{{#featureConditionalHeaders}}
+    implementation("io.ktor:ktor-server-conditional-headers")
+{{/featureConditionalHeaders}}
+{{#featureCompression}}
+    implementation("io.ktor:ktor-server-compression")
+{{/featureCompression}}
+{{#featureMetrics}}
+    implementation("io.dropwizard.metrics:metrics-core:4.1.18")
+    implementation("io.ktor:ktor-server-metrics")
+{{/featureMetrics}}
+    implementation("io.ktor:ktor-server-netty")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}

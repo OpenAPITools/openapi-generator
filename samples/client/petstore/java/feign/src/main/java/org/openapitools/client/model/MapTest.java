@@ -34,18 +34,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
    */
   public enum InnerEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 
@@ -75,18 +76,21 @@ public class MapTest {
   }
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  @javax.annotation.Nullable
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
+  @javax.annotation.Nullable
   private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
+  @javax.annotation.Nullable
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
 
-  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public MapTest mapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     
     this.mapMapOfString = mapMapOfString;
     return this;
@@ -105,7 +109,7 @@ public class MapTest {
    * @return mapMapOfString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -113,14 +117,14 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public void setMapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
 
-  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public MapTest mapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     
     this.mapOfEnumString = mapOfEnumString;
     return this;
@@ -139,7 +143,7 @@ public class MapTest {
    * @return mapOfEnumString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -147,14 +151,14 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public void setMapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
 
-  public MapTest directMap(Map<String, Boolean> directMap) {
+  public MapTest directMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     
     this.directMap = directMap;
     return this;
@@ -173,7 +177,7 @@ public class MapTest {
    * @return directMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getDirectMap() {
@@ -181,14 +185,14 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDirectMap(Map<String, Boolean> directMap) {
+  public void setDirectMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
 
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     
     this.indirectMap = indirectMap;
     return this;
@@ -207,7 +211,7 @@ public class MapTest {
    * @return indirectMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getIndirectMap() {
@@ -215,9 +219,9 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -259,10 +263,7 @@ public class MapTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

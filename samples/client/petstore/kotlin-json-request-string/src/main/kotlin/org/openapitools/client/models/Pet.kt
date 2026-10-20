@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -32,11 +40,11 @@ import kotlinx.parcelize.Parcelize
 /**
  * A pet for sale in the pet store
  *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 @Parcelize
@@ -70,7 +78,7 @@ data class Pet (
      *
      * Values: available,pending,sold,unknown_default_open_api
      */
-    @Serializable(with = PetSerializer::class)
+    @Serializable(with = StatusSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
@@ -78,13 +86,12 @@ data class Pet (
         @SerialName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
 
-    @Serializer(forClass = Status::class)
     internal object StatusSerializer : KSerializer<Status> {
         override val descriptor = kotlin.String.serializer().descriptor
 
         override fun deserialize(decoder: Decoder): Status {
             val value = decoder.decodeSerializableValue(kotlin.String.serializer())
-            return Status.values().firstOrNull { it.value == value }
+            return Status.entries.firstOrNull { it.value == value }
                 ?: Status.unknown_default_open_api
         }
 

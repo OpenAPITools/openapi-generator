@@ -41,6 +41,7 @@ import {{javaxPackage}}.validation.Valid;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @Tag(description = "the {{{baseName}}} API", name = "")
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}}  {
 

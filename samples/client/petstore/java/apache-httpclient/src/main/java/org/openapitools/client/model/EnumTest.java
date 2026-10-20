@@ -48,17 +48,17 @@ import java.util.StringJoiner;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
    */
   public enum EnumStringEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -88,17 +88,18 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
+  @javax.annotation.Nullable
   private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
    */
   public enum EnumStringRequiredEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -128,6 +129,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
+  @javax.annotation.Nonnull
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -166,6 +168,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
+  @javax.annotation.Nullable
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -204,24 +207,29 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
+  @javax.annotation.Nullable
   private EnumNumberEnum enumNumber;
 
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
+  @javax.annotation.Nullable
   private JsonNullable<OuterEnum> outerEnum = JsonNullable.<OuterEnum>undefined();
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER = "outerEnumInteger";
+  @javax.annotation.Nullable
   private OuterEnumInteger outerEnumInteger;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
+  @javax.annotation.Nullable
   private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
+  @javax.annotation.Nullable
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   public EnumTest() {
   }
 
-  public EnumTest enumString(EnumStringEnum enumString) {
+  public EnumTest enumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     
     this.enumString = enumString;
     return this;
@@ -232,7 +240,7 @@ public class EnumTest {
    * @return enumString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumStringEnum getEnumString() {
@@ -240,13 +248,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
-  public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public EnumTest enumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     
     this.enumStringRequired = enumStringRequired;
     return this;
@@ -257,7 +265,7 @@ public class EnumTest {
    * @return enumStringRequired
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -265,13 +273,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
-  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+  public EnumTest enumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     
     this.enumInteger = enumInteger;
     return this;
@@ -282,7 +290,7 @@ public class EnumTest {
    * @return enumInteger
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumIntegerEnum getEnumInteger() {
@@ -290,13 +298,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
-  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+  public EnumTest enumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     
     this.enumNumber = enumNumber;
     return this;
@@ -307,7 +315,7 @@ public class EnumTest {
    * @return enumNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumNumberEnum getEnumNumber() {
@@ -315,13 +323,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTest outerEnum(OuterEnum outerEnum) {
+  public EnumTest outerEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
     
     return this;
@@ -338,23 +346,23 @@ public class EnumTest {
         return outerEnum.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
     return outerEnum;
   }
   
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
   }
 
-  public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+  public EnumTest outerEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     
     this.outerEnumInteger = outerEnumInteger;
     return this;
@@ -365,7 +373,7 @@ public class EnumTest {
    * @return outerEnumInteger
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OuterEnumInteger getOuterEnumInteger() {
@@ -373,13 +381,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
+  public void setOuterEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
   }
 
-  public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+  public EnumTest outerEnumDefaultValue(@javax.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
     
     this.outerEnumDefaultValue = outerEnumDefaultValue;
     return this;
@@ -390,7 +398,7 @@ public class EnumTest {
    * @return outerEnumDefaultValue
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
@@ -398,13 +406,13 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+  public void setOuterEnumDefaultValue(@javax.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
   }
 
-  public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+  public EnumTest outerEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
     return this;
@@ -415,7 +423,7 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
@@ -423,11 +431,12 @@ public class EnumTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+  public void setOuterEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -485,10 +494,7 @@ public class EnumTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -526,7 +532,7 @@ public class EnumTest {
     // add `enum_string` to the URL query string
     if (getEnumString() != null) {
       try {
-        joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -536,7 +542,7 @@ public class EnumTest {
     // add `enum_string_required` to the URL query string
     if (getEnumStringRequired() != null) {
       try {
-        joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -546,7 +552,7 @@ public class EnumTest {
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
       try {
-        joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -556,7 +562,7 @@ public class EnumTest {
     // add `enum_number` to the URL query string
     if (getEnumNumber() != null) {
       try {
-        joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -566,7 +572,7 @@ public class EnumTest {
     // add `outerEnum` to the URL query string
     if (getOuterEnum() != null) {
       try {
-        joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -576,7 +582,7 @@ public class EnumTest {
     // add `outerEnumInteger` to the URL query string
     if (getOuterEnumInteger() != null) {
       try {
-        joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -586,7 +592,7 @@ public class EnumTest {
     // add `outerEnumDefaultValue` to the URL query string
     if (getOuterEnumDefaultValue() != null) {
       try {
-        joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -596,7 +602,7 @@ public class EnumTest {
     // add `outerEnumIntegerDefaultValue` to the URL query string
     if (getOuterEnumIntegerDefaultValue() != null) {
       try {
-        joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

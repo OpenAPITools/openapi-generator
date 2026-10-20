@@ -32,7 +32,7 @@ class  User
 {
 public:
     User();
-    virtual ~User() = default;
+    virtual ~User();
 
 
     /// <summary>

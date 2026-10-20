@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
-        public Pig(BasquePig basquePig)
+        internal Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
             OnCreated();
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
-        public Pig(DanishPig danishPig)
+        internal Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
             OnCreated();
@@ -104,8 +104,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pig" />
     /// </summary>
-    public class PigJsonConverter : JsonConverter<Pig>
+    public partial class PigJsonConverter : JsonConverter<Pig>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PigJsonConverter" /> class.
+        /// </summary>
+        public PigJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pig" />
         /// </summary>
@@ -183,10 +193,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
+                throw new JsonException("Property is required for class Pig: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+                throw new JsonException("Property is not nullable for class Pig: className.");
 
             if (basquePig != null)
                 return new Pig(basquePig);
@@ -203,7 +213,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -230,7 +239,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
 

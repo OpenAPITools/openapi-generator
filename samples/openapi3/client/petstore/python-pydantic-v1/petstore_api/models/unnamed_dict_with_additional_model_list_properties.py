@@ -81,14 +81,12 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
             return UnnamedDictWithAdditionalModelListProperties.parse_obj(obj)
 
         _obj = UnnamedDictWithAdditionalModelListProperties.parse_obj({
-            "dict_property": dict(
-                (_k,
-                        [CreatureInfo.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("dictProperty").items()
-            )
+            "dict_property": {
+                _k: [CreatureInfo.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["dictProperty"].items()
+            }
+            if obj.get("dictProperty") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

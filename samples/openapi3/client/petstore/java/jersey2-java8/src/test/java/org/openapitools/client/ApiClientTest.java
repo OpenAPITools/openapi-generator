@@ -9,7 +9,6 @@ import java.lang.Exception;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.*;
 import java.net.URI;
-import org.junit.*;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 

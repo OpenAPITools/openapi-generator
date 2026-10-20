@@ -1,0 +1,42 @@
+openapi: 3.0.3
+paths:
+  /api/kotlin-test:
+    post:
+      description: Example get
+      responses:
+        '200':
+          description: The request sent by the client was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unicorn'
+components:
+  schemas:
+    Animal:
+      type: "object"
+      properties:
+        nameOpt:
+          type: "string"
+        nameReq:
+          type: "string"
+      discriminator:
+        propertyName: animalType
+        mapping:
+          pegasi: "#/components/schemas/Pony"
+    Pony:
+      allOf:
+        - $ref: "#/components/schemas/Animal"
+        - type: "object"
+      discriminator:
+        propertyName: ponyType
+        mapping:
+          pegasi: "#/components/schemas/Pegasi"
+          unicorn: "#/components/schemas/Unicorn"
+    Pegasi:
+      allOf:
+        - $ref: "#/components/schemas/Pony"
+        - type: "object"
+    Unicorn:
+      allOf:
+        - $ref: "#/components/schemas/Pony"
+        - type: "object"

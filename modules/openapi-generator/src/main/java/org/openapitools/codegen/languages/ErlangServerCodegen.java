@@ -35,6 +35,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/erlang-server/}.
+ */
 public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangServerCodegen.class);
@@ -99,9 +102,9 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          */
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
-                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
-                        "rem", "try", "when", "xor"
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor",
+                        "case", "catch", "cond", "div", "end", "fun", "if", "let", "maybe", "not",
+                        "of", "or", "orelse", "receive", "rem", "try", "when", "xor"
                 )
         );
 
@@ -172,13 +175,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("router.mustache", "", toSourceFilePath("router", "erl")));
         supportingFiles.add(new SupportingFile("api.mustache", "", toSourceFilePath("api", "erl")));
         supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
-        supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
         supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
-        supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -223,7 +224,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return this.packageName + "_default_handler";
+            return this.packageName + "_handler";
         }
         return this.packageName + "_" + underscore(name) + "_handler";
     }
@@ -328,5 +329,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

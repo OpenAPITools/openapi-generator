@@ -44,9 +44,9 @@ use JMS\Serializer\Annotation\SerializedName;
  */
 enum EnumStringModel: string
 {
-        case AVAILABLE = "available";
-        case PENDING = "pending";
-        case SOLD = "sold";
+        case AVAILABLE = 'available';
+        case PENDING = 'pending';
+        case SOLD = 'sold';
 }
 
 

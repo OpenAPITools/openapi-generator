@@ -1,0 +1,13 @@
+generatorName: crystal
+outputDir: samples/client/others/crystal-qdrant
+inputSpec: modules/openapi-generator/src/test/resources/3_0/crystal/qdrant.json
+templateDir: modules/openapi-generator/src/main/resources/crystal
+globalProperties:
+  apiTests: "true"
+  modelTests: "true"
+  apiDocs: "false"
+  modelDocs: "false"
+additionalProperties:
+  moduleName: Qdrant::Api
+  shardName: qdrant-api
+  apiNamespace: ""

@@ -20,22 +20,21 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for EnumTest
  */
-public class EnumTestTest {
+class EnumTestTest {
     private final EnumTest model = new EnumTest();
 
     /**
      * Model tests for EnumTest
      */
     @Test
-    public void testEnumTest() {
+    void testEnumTest() {
         // TODO: test EnumTest
     }
 
@@ -43,7 +42,7 @@ public class EnumTestTest {
      * Test the property 'enumString'
      */
     @Test
-    public void enumStringTest() {
+    void enumStringTest() {
         // TODO: test enumString
     }
 
@@ -51,7 +50,7 @@ public class EnumTestTest {
      * Test the property 'enumStringRequired'
      */
     @Test
-    public void enumStringRequiredTest() {
+    void enumStringRequiredTest() {
         // TODO: test enumStringRequired
     }
 
@@ -59,7 +58,7 @@ public class EnumTestTest {
      * Test the property 'enumInteger'
      */
     @Test
-    public void enumIntegerTest() {
+    void enumIntegerTest() {
         // TODO: test enumInteger
     }
 
@@ -67,7 +66,7 @@ public class EnumTestTest {
      * Test the property 'enumNumber'
      */
     @Test
-    public void enumNumberTest() {
+    void enumNumberTest() {
         // TODO: test enumNumber
     }
 
@@ -75,7 +74,7 @@ public class EnumTestTest {
      * Test the property 'outerEnum'
      */
     @Test
-    public void outerEnumTest() {
+    void outerEnumTest() {
         // TODO: test outerEnum
     }
 

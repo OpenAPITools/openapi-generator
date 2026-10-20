@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,22 +49,26 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private Integer name;
 
   public static final String SERIALIZED_NAME_SNAKE_CASE = "snake_case";
   @SerializedName(SERIALIZED_NAME_SNAKE_CASE)
+  @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String SERIALIZED_NAME_PROPERTY = "property";
   @SerializedName(SERIALIZED_NAME_PROPERTY)
+  @javax.annotation.Nullable
   private String property;
 
   public static final String SERIALIZED_NAME_123NUMBER = "123Number";
   @SerializedName(SERIALIZED_NAME_123NUMBER)
+  @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() {
@@ -79,7 +83,7 @@ public class Name {
     this._123number = _123number;
   }
 
-  public Name name(Integer name) {
+  public Name name(@javax.annotation.Nonnull Integer name) {
     this.name = name;
     return this;
   }
@@ -93,7 +97,7 @@ public class Name {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -109,7 +113,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@javax.annotation.Nullable String property) {
     this.property = property;
     return this;
   }
@@ -123,7 +127,7 @@ public class Name {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
   }
 
@@ -177,10 +181,7 @@ public class Name {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -189,15 +190,10 @@ public class Name {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("name");
-    openapiFields.add("snake_case");
-    openapiFields.add("property");
-    openapiFields.add("123Number");
+    openapiFields = new HashSet<String>(Arrays.asList("name", "snake_case", "property", "123Number"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
   }
 
   /**
@@ -209,7 +205,7 @@ public class Name {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Name.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Name is not found in the empty JSON string", Name.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Name is not found in the empty JSON string", Name.openapiRequiredFields.toString()));
         }
       }
 
@@ -217,19 +213,19 @@ public class Name {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Name.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Name` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `Name` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : Name.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("property") != null && !jsonObj.get("property").isJsonNull()) && !jsonObj.get("property").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `property` to be a primitive type in the JSON string but got `%s`", jsonObj.get("property").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `property` to be a primitive type in the JSON string but got `%s`", jsonObj.get("property").toString()));
       }
   }
 

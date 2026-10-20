@@ -20,6 +20,6 @@ import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
 
 public class CommonMavenProjectStub extends MavenProjectStub {
     public CommonMavenProjectStub() {
-        StubUtility.configureStub(this,"common-maven", "common-maven.xml");
+        StubUtility.configureStub(this, "common-maven", "common-maven.xml");
     }
 }

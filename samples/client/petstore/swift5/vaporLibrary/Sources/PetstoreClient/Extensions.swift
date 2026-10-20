@@ -59,9 +59,13 @@ extension KeyedEncodingContainerProtocol {
     }
 
     public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
-        var mutableValue = value
-        let stringValue = NSDecimalString(&mutableValue, Locale(identifier: "en_US"))
-        try encode(stringValue, forKey: key)
+        let decimalNumber = NSDecimalNumber(decimal: value)
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.usesGroupingSeparator = false
+        let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
+        try encode(formattedString, forKey: key)
     }
 
     public mutating func encodeIfPresent(_ value: Decimal?, forKey key: Self.Key) throws {

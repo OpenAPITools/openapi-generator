@@ -21,6 +21,42 @@ class {{classname}} {
         }
         var match = 0;
         var errorMessages = [];
+        {{#discriminator}}
+        // if discriminator exists, use it.
+        if (instance && typeof instance === 'object' && instance['{{{discriminator.propertyBaseName}}}'] !== undefined) {
+            var discriminatorValue = instance['{{{discriminator.propertyBaseName}}}'];
+            switch (discriminatorValue) {
+            {{#discriminator.mappedModels}}
+                case '{{mappingName}}':
+                    try {
+                        {{modelName}}.validateJSON(instance);
+                        this.actualInstance = {{modelName}}.constructFromObject(instance);
+                        return;
+                    } catch(err) {
+                        throw new Error("Failed to construct {{modelName}} using discriminator value '{{mappingName}}': " + err);
+                    }
+            {{/discriminator.mappedModels}}
+            {{^discriminator.mappedModels}}
+            {{#composedSchemas.oneOf}}
+            {{^isPrimitiveType}}
+                case '{{{dataType}}}':
+                    try {
+                        {{{dataType}}}.validateJSON(instance);
+                        this.actualInstance = {{{dataType}}}.constructFromObject(instance);
+                        return;
+                    } catch(err) {
+                        throw new Error("Failed to construct {{{dataType}}} using discriminator value '{{{dataType}}}': " + err);
+                    }
+            {{/isPrimitiveType}}
+            {{/composedSchemas.oneOf}}
+            {{/discriminator.mappedModels}}
+                default:
+                    throw new Error("Unrecognized discriminator value '" + discriminatorValue + "' constructing `{{{classname}}}`. Expected one of: {{#discriminator.mappedModels}}{{mappingName}}{{^-last}}, {{/-last}}{{/discriminator.mappedModels}}{{^discriminator.mappedModels}}{{#composedSchemas.oneOf}}{{^isPrimitiveType}}{{{dataType}}}{{^-last}}, {{/-last}}{{/isPrimitiveType}}{{/composedSchemas.oneOf}}{{/discriminator.mappedModels}}.");
+            }
+        }
+        // else try to construct using oneOf
+
+        {{/discriminator}}
         {{#composedSchemas.oneOf}}
         {{#description}}
         // {{{description}}}
@@ -199,7 +235,7 @@ class {{classname}} {
             this.actualInstance = instance;
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
-            if (typeof instance === "{{{dataType}}}") {
+            if (instance instanceof {{{dataType}}}) {
                 this.actualInstance = instance;
             } else {
                 // plain JS object

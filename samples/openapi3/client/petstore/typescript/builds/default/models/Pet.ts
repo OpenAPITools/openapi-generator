@@ -25,10 +25,13 @@ export class Pet {
     'tags'?: Array<Tag>;
     /**
     * pet status in the store
+    * @deprecated
     */
     'status'?: PetStatusEnum;
 
     static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
@@ -75,7 +78,6 @@ export class Pet {
     public constructor() {
     }
 }
-
 
 export enum PetStatusEnum {
     Available = 'available',

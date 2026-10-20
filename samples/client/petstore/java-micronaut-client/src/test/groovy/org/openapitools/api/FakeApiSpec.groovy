@@ -4,19 +4,21 @@ import java.math.BigDecimal
 import java.io.File
 import org.openapitools.model.FileSchemaTestClass
 import java.time.LocalDate
-import java.time.LocalDateTime
 import org.openapitools.model.ModelClient
+import java.time.OffsetDateTime
 import org.openapitools.model.OuterComposite
 import org.openapitools.model.User
 import org.openapitools.model.XmlItem
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 import jakarta.inject.Inject
-import reactor.core.publisher.Mono
+import spock.lang.Ignore
+import java.util.Arrays
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import java.util.Map
+import java.util.HashSet
 
 
 /**
@@ -34,13 +36,15 @@ class FakeApiSpec extends Specification {
      *
      * this route creates an XmlItem
      */
-    void "createXmlItem() test"() {
+    @Ignore("Not Implemented")
+    void 'createXmlItem() test'() {
         given:
-        XmlItem xmlItem = null
-        // api.createXmlItem(xmlItem).block()
-        // Mono<Void> asyncResponse = api.createXmlItem(xmlItem)
+        XmlItem xmlItem = new XmlItem()
 
-        expect:
+        when:
+        api.createXmlItem(xmlItem).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -51,13 +55,15 @@ class FakeApiSpec extends Specification {
      *
      * Test serialization of outer boolean types
      */
-    void "fakeOuterBooleanSerialize() test"() {
+    @Ignore("Not Implemented")
+    void 'fakeOuterBooleanSerialize() test'() {
         given:
-        Boolean _body = null
-        // Boolean response = api.fakeOuterBooleanSerialize(_body).block()
-        // Mono<Boolean> asyncResponse = api.fakeOuterBooleanSerialize(_body)
+        Boolean _body = false
 
-        expect:
+        when:
+        Boolean body = api.fakeOuterBooleanSerialize(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -68,13 +74,15 @@ class FakeApiSpec extends Specification {
      *
      * Test serialization of object with outer number type
      */
-    void "fakeOuterCompositeSerialize() test"() {
+    @Ignore("Not Implemented")
+    void 'fakeOuterCompositeSerialize() test'() {
         given:
-        OuterComposite _body = null
-        // OuterComposite response = api.fakeOuterCompositeSerialize(_body).block()
-        // Mono<OuterComposite> asyncResponse = api.fakeOuterCompositeSerialize(_body)
+        OuterComposite _body = new OuterComposite()
 
-        expect:
+        when:
+        OuterComposite body = api.fakeOuterCompositeSerialize(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -85,13 +93,15 @@ class FakeApiSpec extends Specification {
      *
      * Test serialization of outer number types
      */
-    void "fakeOuterNumberSerialize() test"() {
+    @Ignore("Not Implemented")
+    void 'fakeOuterNumberSerialize() test'() {
         given:
-        BigDecimal _body = null
-        // BigDecimal response = api.fakeOuterNumberSerialize(_body).block()
-        // Mono<BigDecimal> asyncResponse = api.fakeOuterNumberSerialize(_body)
+        BigDecimal _body = new BigDecimal(78)
 
-        expect:
+        when:
+        BigDecimal body = api.fakeOuterNumberSerialize(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -102,13 +112,15 @@ class FakeApiSpec extends Specification {
      *
      * Test serialization of outer string types
      */
-    void "fakeOuterStringSerialize() test"() {
+    @Ignore("Not Implemented")
+    void 'fakeOuterStringSerialize() test'() {
         given:
-        String _body = null
-        // String response = api.fakeOuterStringSerialize(_body).block()
-        // Mono<String> asyncResponse = api.fakeOuterStringSerialize(_body)
+        String _body = 'example'
 
-        expect:
+        when:
+        String body = api.fakeOuterStringSerialize(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -119,13 +131,15 @@ class FakeApiSpec extends Specification {
      *
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      */
-    void "testBodyWithFileSchema() test"() {
+    @Ignore("Not Implemented")
+    void 'testBodyWithFileSchema() test'() {
         given:
-        FileSchemaTestClass _body = null
-        // api.testBodyWithFileSchema(_body).block()
-        // Mono<Void> asyncResponse = api.testBodyWithFileSchema(_body)
+        FileSchemaTestClass _body = new FileSchemaTestClass()
 
-        expect:
+        when:
+        api.testBodyWithFileSchema(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -134,14 +148,16 @@ class FakeApiSpec extends Specification {
     /**
      * 
      */
-    void "testBodyWithQueryParams() test"() {
+    @Ignore("Not Implemented")
+    void 'testBodyWithQueryParams() test'() {
         given:
-        String query = null
-        User _body = null
-        // api.testBodyWithQueryParams(query, _body).block()
-        // Mono<Void> asyncResponse = api.testBodyWithQueryParams(query, _body)
+        String query = 'example'
+        User _body = new User()
 
-        expect:
+        when:
+        api.testBodyWithQueryParams(query, _body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -152,13 +168,15 @@ class FakeApiSpec extends Specification {
      *
      * To test \&quot;client\&quot; model
      */
-    void "testClientModel() test"() {
+    @Ignore("Not Implemented")
+    void 'testClientModel() test'() {
         given:
-        ModelClient _body = null
-        // ModelClient response = api.testClientModel(_body).block()
-        // Mono<ModelClient> asyncResponse = api.testClientModel(_body)
+        ModelClient _body = new ModelClient()
 
-        expect:
+        when:
+        ModelClient body = api.testClientModel(_body).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -169,26 +187,28 @@ class FakeApiSpec extends Specification {
      *
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      */
-    void "testEndpointParameters() test"() {
+    @Ignore("Not Implemented")
+    void 'testEndpointParameters() test'() {
         given:
-        BigDecimal number = null
-        Double _double = null
-        String patternWithoutDelimiter = null
+        BigDecimal number = new BigDecimal(78)
+        Double _double = 3.4D
+        String patternWithoutDelimiter = 'example'
         byte[] _byte = null
-        Integer integer = null
-        Integer int32 = null
-        Long int64 = null
-        Float _float = null
-        String string = null
+        Integer integer = 56
+        Integer int32 = 56
+        Long int64 = 56L
+        Float _float = 3.4F
+        String string = 'example'
         File binary = null
-        LocalDate date = null
-        LocalDateTime dateTime = null
-        String password = null
-        String paramCallback = null
-        // api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).block()
-        // Mono<Void> asyncResponse = api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+        LocalDate date = LocalDate.of(2001, 2, 3)
+        OffsetDateTime dateTime = OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of("+02:00"))
+        String password = 'example'
+        String paramCallback = 'example'
 
-        expect:
+        when:
+        api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -199,20 +219,22 @@ class FakeApiSpec extends Specification {
      *
      * To test enum parameters
      */
-    void "testEnumParameters() test"() {
+    @Ignore("Not Implemented")
+    void 'testEnumParameters() test'() {
         given:
-        List<String> enumHeaderStringArray = null
-        String enumHeaderString = null
-        List<String> enumQueryStringArray = null
-        String enumQueryString = null
-        Integer enumQueryInteger = null
-        Double enumQueryDouble = null
-        List<String> enumFormStringArray = null
-        String enumFormString = null
-        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString).block()
-        // Mono<Void> asyncResponse = api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+        List<String> enumHeaderStringArray = ['$']
+        String enumHeaderString = '-efg'
+        List<String> enumQueryStringArray = ['$']
+        String enumQueryString = '-efg'
+        Integer enumQueryInteger = 56
+        Double enumQueryDouble = 3.4D
+        List<String> enumFormStringArray = ['$']
+        String enumFormString = '-efg'
 
-        expect:
+        when:
+        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -223,18 +245,20 @@ class FakeApiSpec extends Specification {
      *
      * Fake endpoint to test group parameters (optional)
      */
-    void "testGroupParameters() test"() {
+    @Ignore("Not Implemented")
+    void 'testGroupParameters() test'() {
         given:
-        Integer requiredStringGroup = null
-        Boolean requiredBooleanGroup = null
-        Long requiredInt64Group = null
-        Integer stringGroup = null
-        Boolean booleanGroup = null
-        Long int64Group = null
-        // api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).block()
-        // Mono<Void> asyncResponse = api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+        Integer requiredStringGroup = 56
+        Boolean requiredBooleanGroup = false
+        Long requiredInt64Group = 56L
+        Integer stringGroup = 56
+        Boolean booleanGroup = false
+        Long int64Group = 56L
 
-        expect:
+        when:
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -243,13 +267,15 @@ class FakeApiSpec extends Specification {
     /**
      * test inline additionalProperties
      */
-    void "testInlineAdditionalProperties() test"() {
+    @Ignore("Not Implemented")
+    void 'testInlineAdditionalProperties() test'() {
         given:
-        Map<String, String> param = null
-        // api.testInlineAdditionalProperties(param).block()
-        // Mono<Void> asyncResponse = api.testInlineAdditionalProperties(param)
+        Map<String, String> param = [:]
 
-        expect:
+        when:
+        api.testInlineAdditionalProperties(param).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -258,14 +284,16 @@ class FakeApiSpec extends Specification {
     /**
      * test json serialization of form data
      */
-    void "testJsonFormData() test"() {
+    @Ignore("Not Implemented")
+    void 'testJsonFormData() test'() {
         given:
-        String param = null
-        String param2 = null
-        // api.testJsonFormData(param, param2).block()
-        // Mono<Void> asyncResponse = api.testJsonFormData(param, param2)
+        String param = 'example'
+        String param2 = 'example'
 
-        expect:
+        when:
+        api.testJsonFormData(param, param2).block()
+
+        then:
         true
         // TODO: test validations
     }
@@ -276,17 +304,19 @@ class FakeApiSpec extends Specification {
      *
      * To test the collection format in query parameters
      */
-    void "testQueryParameterCollectionFormat() test"() {
+    @Ignore("Not Implemented")
+    void 'testQueryParameterCollectionFormat() test'() {
         given:
-        List<String> pipe = null
-        List<String> ioutil = null
-        List<String> http = null
-        List<String> url = null
-        List<String> context = null
-        // api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context).block()
-        // Mono<Void> asyncResponse = api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+        List<String> pipe = ['example']
+        List<String> ioutil = ['example']
+        List<String> http = ['example']
+        List<String> url = ['example']
+        List<String> context = ['example']
 
-        expect:
+        when:
+        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context).block()
+
+        then:
         true
         // TODO: test validations
     }

@@ -1,0 +1,18 @@
+openapi: 3.1.0
+info:
+  title: Cpp Boost Beast JSON value regression
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    JsonValueContainer:
+      type: object
+      properties:
+        nullValue:
+          type: "null"
+        freeFormValue: {}
+        objectValue:
+          type: object
+        values:
+          type: object
+          additionalProperties: {}

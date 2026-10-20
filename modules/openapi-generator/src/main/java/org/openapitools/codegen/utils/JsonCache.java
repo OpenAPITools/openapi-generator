@@ -16,16 +16,16 @@
 
 package org.openapitools.codegen.utils;
 
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
-
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 /**
  * An interface for querying and mutating a JSON object graph. Clients indicate the location within the graph at which a

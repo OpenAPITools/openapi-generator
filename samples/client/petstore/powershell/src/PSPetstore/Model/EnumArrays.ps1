@@ -42,8 +42,8 @@ function Initialize-PSEnumArrays {
 
 
         $PSO = [PSCustomObject]@{
-            "just_symbol" = ${JustSymbol}
-            "array_enum" = ${ArrayEnum}
+            'just_symbol' = ${JustSymbol}
+            'array_enum' = ${ArrayEnum}
         }
 
 
@@ -81,28 +81,28 @@ function ConvertFrom-PSJsonToEnumArrays {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSEnumArrays
-        $AllProperties = ("just_symbol", "array_enum")
+        $AllProperties = ('just_symbol', 'array_enum')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "just_symbol"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'just_symbol'))) { #optional property not found
             $JustSymbol = $null
         } else {
-            $JustSymbol = $JsonParameters.PSobject.Properties["just_symbol"].value
+            $JustSymbol = $JsonParameters.PSobject.Properties['just_symbol'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_enum"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_enum'))) { #optional property not found
             $ArrayEnum = $null
         } else {
-            $ArrayEnum = $JsonParameters.PSobject.Properties["array_enum"].value
+            $ArrayEnum = $JsonParameters.PSobject.Properties['array_enum'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "just_symbol" = ${JustSymbol}
-            "array_enum" = ${ArrayEnum}
+            'just_symbol' = ${JustSymbol}
+            'array_enum' = ${ArrayEnum}
         }
 
         return $PSO

@@ -1,0 +1,6 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/validation-attributes
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/validation-attributes.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  validationAttributes: true

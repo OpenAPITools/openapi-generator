@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get name
@@ -65,10 +66,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

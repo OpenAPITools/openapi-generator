@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -29,7 +37,7 @@ import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
 
-class PetApi(client: RestClient) : ApiClient(client) {
+open class PetApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)
@@ -92,8 +100,9 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )
@@ -291,6 +300,7 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )

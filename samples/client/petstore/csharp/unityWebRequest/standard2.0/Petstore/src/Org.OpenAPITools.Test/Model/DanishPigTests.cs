@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<DanishPig>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ClassName'
         /// </summary>

@@ -107,3 +107,4 @@ class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckRe
   }
 }
 
+

@@ -1,0 +1,8 @@
+README.md
+build.gradle.kts
+gradle.properties
+settings.gradle
+src/main/kotlin/org/openapitools/server/Main.kt
+src/main/kotlin/org/openapitools/server/models/Cat.kt
+src/main/kotlin/org/openapitools/server/models/Dog.kt
+src/main/kotlin/org/openapitools/server/models/Pet.kt

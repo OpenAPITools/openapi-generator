@@ -24,9 +24,9 @@ public class ExecuteReport {
     Configuration configuration = null;
     ReportBuilder reportBuilder = null;
     {{#resourcePaths}}
-    reportOutputDirectory = new File("./report/{{path}}-report-html/");
+    reportOutputDirectory = new File("./report/{{{path}}}-report-html/");
     jsonFiles = new ArrayList();
-    jsonFiles.add("./report/{{path}}-report-json/{{path}}.json");
+    jsonFiles.add("./report/{{{path}}}-report-json/{{{path}}}.json");
 
     configuration = new Configuration(reportOutputDirectory,projectName);
     // optionally only if you need

@@ -1,0 +1,7 @@
+generatorName: typescript-fetch
+outputDir: samples/client/others/typescript-fetch/infinite-recursion-issue
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/infinite-recursion-issue.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  enumPropertyNaming: "original"
+  enumUnknownDefaultCase: true

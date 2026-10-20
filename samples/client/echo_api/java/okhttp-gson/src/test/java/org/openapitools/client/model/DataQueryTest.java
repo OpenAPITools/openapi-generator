@@ -21,11 +21,11 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Model tests for DataQuery
@@ -42,22 +42,6 @@ public class DataQueryTest {
     }
 
     /**
-     * Test the property 'text'
-     */
-    @Test
-    public void textTest() {
-        // TODO: test text
-    }
-
-    /**
-     * Test the property 'date'
-     */
-    @Test
-    public void dateTest() {
-        // TODO: test date
-    }
-
-    /**
      * Test the property 'id'
      */
     @Test
@@ -71,6 +55,30 @@ public class DataQueryTest {
     @Test
     public void outcomesTest() {
         // TODO: test outcomes
+    }
+
+    /**
+     * Test the property 'suffix'
+     */
+    @Test
+    public void suffixTest() {
+        // TODO: test suffix
+    }
+
+    /**
+     * Test the property 'text'
+     */
+    @Test
+    public void textTest() {
+        // TODO: test text
+    }
+
+    /**
+     * Test the property 'date'
+     */
+    @Test
+    public void dateTest() {
+        // TODO: test date
     }
 
 }

@@ -1,0 +1,8 @@
+generatorName: cpp-boost-beast-server
+outputDir: samples/server/petstore/cpp-boost-beast-server
+inputSpec: modules/openapi-generator/src/test/resources/3_1/cpp-boost-beast-server/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-boost-beast-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: CppBoostBeastPetstoreServer
+  addApiImplStubs: "true"

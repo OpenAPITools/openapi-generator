@@ -31,11 +31,11 @@ public class ValidationRule {
     /**
      * Constructs a new instance of {@link ValidationRule}
      *
-     * @param severity The declared severity if this validation rule fails.
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
+     * @param severity       The declared severity if this validation rule fails.
+     * @param description    A description to help differentiate this rule from others (not intended to be user-facing).
      * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param test The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
+     * @param test           The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
+     *                       the evaluated instance will be considered "valid" according to this rule.
      */
     ValidationRule(Severity severity, String description, String failureMessage, Function<Object, Result> test) {
         this.severity = severity;
@@ -57,7 +57,6 @@ public class ValidationRule {
      * Evaluate an instance of an object against this rule.
      *
      * @param input The instance to be evaluated.
-     *
      * @return <code>true</code> if the object state is valid according to this rule, otherwise <code>false</code>.
      */
     public Result evaluate(Object input) {
@@ -90,19 +89,18 @@ public class ValidationRule {
      * @return An "empty" rule.
      */
     static ValidationRule empty() {
-        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> Fail.empty() );
+        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> Fail.empty());
     }
 
     /**
      * Create an instance of a {@link ValidationRule}
      *
-     * @param severity The declared severity if this validation rule fails.
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
+     * @param severity       The declared severity if this validation rule fails.
+     * @param description    A description to help differentiate this rule from others (not intended to be user-facing).
      * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
-     * @param <T> The type of the object being evaluated.
-     *
+     * @param fn             The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
+     *                       the evaluated instance will be considered "valid" according to this rule.
+     * @param <T>            The type of the object being evaluated.
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
@@ -114,10 +112,9 @@ public class ValidationRule {
      * Create an instance of a {@link ValidationRule} which should result in an error should the evaluate of this rule fail.
      *
      * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
-     * @param <T> The type of the object being evaluated.
-     *
+     * @param fn             The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
+     *                       the evaluated instance will be considered "valid" according to this rule.
+     * @param <T>            The type of the object being evaluated.
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
@@ -128,12 +125,11 @@ public class ValidationRule {
     /**
      * Create an instance of a {@link ValidationRule} which should result in a warning should the evaluate of this rule fail.
      *
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
+     * @param description    A description to help differentiate this rule from others (not intended to be user-facing).
      * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
-     * @param <T> The type of the object being evaluated.
-     *
+     * @param fn             The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
+     *                       the evaluated instance will be considered "valid" according to this rule.
+     * @param <T>            The type of the object being evaluated.
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
@@ -164,17 +160,24 @@ public class ValidationRule {
         }
 
         public abstract boolean passed();
-        public final boolean failed() { return !passed(); }
+
+        public final boolean failed() {
+            return !passed();
+        }
 
         public Throwable getThrowable() {
             return throwable;
         }
 
-        public boolean thrown() { return this.throwable == null; }
+        public boolean thrown() {
+            return this.throwable == null;
+        }
     }
 
     public static final class Pass extends Result {
-        public static Result empty() { return new Pass(); }
+        public static Result empty() {
+            return new Pass();
+        }
 
         public Pass() {
             super();
@@ -192,7 +195,9 @@ public class ValidationRule {
     }
 
     public static final class Fail extends Result {
-        public static Result empty() { return new Fail(); }
+        public static Result empty() {
+            return new Fail();
+        }
 
         public Fail() {
             super();

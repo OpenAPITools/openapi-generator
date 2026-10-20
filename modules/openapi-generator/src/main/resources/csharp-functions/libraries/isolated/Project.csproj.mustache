@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <Authors>{{packageAuthors}}</Authors>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
+    <AzureFunctionsVersion>{{azureFunctionsVersion}}</AzureFunctionsVersion>
+    <OutputType>{{#isLibrary}}Library{{/isLibrary}}{{^isLibrary}}Exe{{/isLibrary}}</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>{{#nullableReferenceTypes}}annotations{{/nullableReferenceTypes}}{{^nullableReferenceTypes}}disable{{/nullableReferenceTypes}}</Nullable>
+    <Version>{{packageVersion}}</Version>
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+    <UserSecretsId>{{userSecretsGuid}}</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+{{#aspNetCoreIntegration}}
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+{{/aspNetCoreIntegration}}
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.7" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi" Version="1.6.0" />
+{{#aspNetCoreIntegration}}
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.0" />
+{{/aspNetCoreIntegration}}
+{{#useNewtonsoft}}
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+{{#aspNetCoreIntegration}}
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.10" />
+{{/aspNetCoreIntegration}}
+{{^aspNetCoreIntegration}}
+    <PackageReference Include="Microsoft.Azure.Core.NewtonsoftJson" Version="2.0.0" />
+{{/aspNetCoreIntegration}}
+{{/useNewtonsoft}}
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

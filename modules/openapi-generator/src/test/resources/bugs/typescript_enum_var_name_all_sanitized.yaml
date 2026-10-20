@@ -1,0 +1,19 @@
+openapi: "3.0.0"
+info:
+  title: Sample project
+  version: '1.0'
+  description: 'Sample API Check "API Key" '
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+paths: {}
+components:
+  schemas:
+    Greeting:
+      type: string
+      enum:
+        - 'こんにちは'
+        - '你好'
+        - '안녕하세요'
+        - '!@#%'
+        - '^&*🍣'

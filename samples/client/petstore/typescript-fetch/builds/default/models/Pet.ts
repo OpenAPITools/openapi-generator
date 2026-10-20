@@ -18,12 +18,14 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 
 /**
@@ -34,38 +36,26 @@ import {
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id?: number;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Pet
      */
     photoUrls: Array<string>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      */
     status?: PetStatusEnum;
 }
@@ -77,7 +67,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
@@ -110,10 +100,15 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+export function PetToJSON(json: any): Pet {
+    return PetToJSONTyped(json, false);
+}
+
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

@@ -31,7 +31,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
@@ -39,7 +39,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -69,7 +69,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -93,7 +93,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -101,7 +101,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -143,7 +143,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

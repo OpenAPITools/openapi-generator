@@ -1,18 +1,18 @@
 package org.openapitools.codegen.templating.mustache;
 
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openapitools.codegen.CodegenConfig;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class LowercaseLambdaTest extends LambdaTest {
 

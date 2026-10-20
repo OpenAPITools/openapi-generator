@@ -1,0 +1,94 @@
+{{>License}}
+
+#include <httplib.h>
+#include <iostream>
+#include <memory>
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#include "api/{{apiClassnameInPascalCase}}Impl.h"
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+{{#hasAuthMethods}}
+#include "api/AuthenticationManager.h"
+
+// Example AuthenticationManager implementation
+class SimpleAuthManager : public {{#apiInfo}}{{#apis}}{{#-first}}{{apiNamespace}}{{/-first}}{{/apis}}{{/apiInfo}}::AuthenticationManager {
+public:
+    bool validateApiKey(const std::string& key) override {
+        // TODO: Implement your API key validation logic
+        return key == "your-api-key"; // Replace with actual validation
+    }
+
+    bool validateBearerToken(const std::string& token) override {
+        // TODO: Implement your Bearer token validation logic
+        return !token.empty(); // Replace with actual validation
+    }
+
+    bool validateBasicAuth(const std::string& username, const std::string& password) override {
+        // TODO: Implement your Basic auth validation logic
+        return username == "admin" && password == "admin"; // Replace with actual validation
+    }
+
+    bool validateOAuth2(const std::string& token, const std::vector<std::string>& scopes) override {
+        // TODO: Implement your OAuth2 validation logic
+        return !token.empty(); // Replace with actual validation
+    }
+};
+{{/hasAuthMethods}}
+
+int main() {
+    httplib::Server svr;
+
+    std::cout << "Starting {{projectName}} server..." << std::endl;
+
+{{#hasAuthMethods}}
+    // Create authentication manager
+    auto authManager = std::make_shared<SimpleAuthManager>();
+{{/hasAuthMethods}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    // Register {{apiClassnameInPascalCase}} routes
+    auto {{#lambda.camelcase}}{{apiClassnameInPascalCase}}{{/lambda.camelcase}}Impl = std::make_shared<{{apiNamespace}}::{{apiClassnameInPascalCase}}Impl>();
+    {{#lambda.camelcase}}{{apiClassnameInPascalCase}}{{/lambda.camelcase}}Impl->registerRoutes(svr{{#hasAnyAuth}}, authManager{{/hasAnyAuth}});
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+    // Health check endpoint
+    svr.Get("/health", [](const httplib::Request&, httplib::Response& res) {
+        res.set_content("{\"status\": \"ok\"}", "application/json");
+    });
+
+    // Configure server
+    const char* host = "0.0.0.0";
+    int port = 8080;
+
+    // Get port from environment variable if available
+    const char* portEnv = std::getenv("PORT");
+    if (portEnv != nullptr)
+    {
+        try
+        {
+            port = std::stoi(portEnv);
+        }
+        catch (...)
+        {
+            std::cerr << "Invalid PORT environment variable, using default: " << port << std::endl;
+        }
+    }
+
+    std::cout << "Server listening on " << host << ":" << port << std::endl;
+    std::cout << "Health check available at: http://" << host << ":" << port << "/health" << std::endl;
+
+    // Start server
+    if (!svr.listen(host, port)) {
+        std::cerr << "Failed to start server on " << host << ":" << port << std::endl;
+        return 1;
+    }
+
+    return 0;
+}

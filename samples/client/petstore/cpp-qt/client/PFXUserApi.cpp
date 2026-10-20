@@ -35,6 +35,10 @@ void PFXUserApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
+    defaultConf.append(PFXServerConfiguration(
+    QUrl("http://localhost:8080/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("createUser", defaultConf);
     _serverIndices.insert("createUser", 0);
     _serverConfigs.insert("createUsersWithArrayInput", defaultConf);
@@ -49,14 +53,21 @@ void PFXUserApi::initializeServerConfigs() {
     _serverIndices.insert("loginUser", 0);
     _serverConfigs.insert("logoutUser", defaultConf);
     _serverIndices.insert("logoutUser", 0);
-    _serverConfigs.insert("updateUser", defaultConf);
-    _serverIndices.insert("updateUser", 0);
+    {
+        QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+        serverConf.append(PFXServerConfiguration(
+        QUrl("http://user.petstore.swagger.io/v2"),
+        "No description provided",
+        QMap<QString, PFXServerVariable>()));
+        _serverConfigs.insert("updateUser", serverConf);
+        _serverIndices.insert("updateUser", 0);
+    }
 }
 
 /**
-* returns 0 on success and -1, -2 or -3 on failure.
-* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
-*/
+ * returns 0 on success and -1, -2 or -3 on failure.
+ * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
+ */
 int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
     auto it = _serverConfigs.find(operation);
     if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
@@ -64,9 +75,21 @@ int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation,
     }
     return -3;
 }
+
+/**
+ * Sets the server index.
+ * @param operation The id to the target operation.
+ * @param serverIndex The server index.
+ */
 void PFXUserApi::setServerIndex(const QString &operation, int serverIndex) {
     if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
         _serverIndices[operation] = serverIndex;
+    }
+}
+
+void PFXUserApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
     }
 }
 
@@ -100,13 +123,13 @@ void PFXUserApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for a specific operation.
-    * @param operation The id to the target operation.
-    * @param url A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    * returns the index of the new server config on success and -1 if the operation is not found
-    */
+ * Appends a new ServerConfiguration to the config map for a specific operation.
+ * @param operation The id to the target operation.
+ * @param url A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ * returns the index of the new server config on success and -1 if the operation is not found
+ */
 int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     if (_serverConfigs.contains(operation)) {
         _serverConfigs[operation].append(PFXServerConfiguration(
@@ -120,29 +143,23 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-    * @param url A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    */
+ * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+ * @param url A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ */
 void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
-#else
-    for (auto &e : _serverIndices.keys()) {
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
-    }
-#endif
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
-    * @param URL A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    */
+ * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+ * @param URL A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ */
 void PFXUserApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 }
@@ -240,19 +257,14 @@ void PFXUserApi::createUser(const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -274,32 +286,6 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT createUserSignal();
         Q_EMIT createUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUserSignalE(error_type, error_str);
-        Q_EMIT createUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUserSignalError(error_type, error_str);
         Q_EMIT createUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -318,19 +304,14 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -352,32 +333,6 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
         Q_EMIT createUsersWithArrayInputSignal();
         Q_EMIT createUsersWithArrayInputSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUsersWithArrayInputSignalE(error_type, error_str);
-        Q_EMIT createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUsersWithArrayInputSignalError(error_type, error_str);
         Q_EMIT createUsersWithArrayInputSignalErrorFull(worker, error_type, error_str);
     }
@@ -396,19 +351,14 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -430,32 +380,6 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
         Q_EMIT createUsersWithListInputSignal();
         Q_EMIT createUsersWithListInputSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUsersWithListInputSignalE(error_type, error_str);
-        Q_EMIT createUsersWithListInputSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUsersWithListInputSignalError(error_type, error_str);
         Q_EMIT createUsersWithListInputSignalErrorFull(worker, error_type, error_str);
     }
@@ -484,19 +408,14 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -518,32 +437,6 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT deleteUserSignal();
         Q_EMIT deleteUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT deleteUserSignalE(error_type, error_str);
-        Q_EMIT deleteUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT deleteUserSignalError(error_type, error_str);
         Q_EMIT deleteUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -572,19 +465,14 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -607,32 +495,6 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getUserByNameSignal(output);
         Q_EMIT getUserByNameSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getUserByNameSignalE(output, error_type, error_str);
-        Q_EMIT getUserByNameSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getUserByNameSignalError(output, error_type, error_str);
         Q_EMIT getUserByNameSignalErrorFull(worker, error_type, error_str);
     }
@@ -655,7 +517,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         else
             fullPath.append("?");
 
-        fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(username));
+        fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
     }
     
     {
@@ -670,7 +532,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         else
             fullPath.append("?");
 
-        fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(password));
+        fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
     }
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -678,19 +540,14 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -714,32 +571,6 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT loginUserSignal(output);
         Q_EMIT loginUserSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT loginUserSignalE(output, error_type, error_str);
-        Q_EMIT loginUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT loginUserSignalError(output, error_type, error_str);
         Q_EMIT loginUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -754,19 +585,14 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -788,32 +614,6 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT logoutUserSignal();
         Q_EMIT logoutUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT logoutUserSignalE(error_type, error_str);
-        Q_EMIT logoutUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT logoutUserSignalError(error_type, error_str);
         Q_EMIT logoutUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -847,19 +647,14 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -881,42 +676,16 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT updateUserSignal();
         Q_EMIT updateUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updateUserSignalE(error_type, error_str);
-        Q_EMIT updateUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updateUserSignalError(error_type, error_str);
         Q_EMIT updateUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
-void PFXUserApi::tokenAvailable(){
+void PFXUserApi::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -926,7 +695,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -936,7 +705,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -946,7 +715,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());

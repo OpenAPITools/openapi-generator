@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for EnumClass
  */
-public class EnumClassTest {
+class EnumClassTest {
     /**
      * Model tests for EnumClass
      */
     @Test
-    public void testEnumClass() {
+    void testEnumClass() {
         // TODO: test EnumClass
     }
 

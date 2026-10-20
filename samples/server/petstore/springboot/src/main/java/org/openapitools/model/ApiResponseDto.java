@@ -2,15 +2,16 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -21,16 +22,19 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ApiResponseDto {
 
-  private Integer code;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer code;
 
-  private String type;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String type;
 
-  private String message;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String message;
 
-  public ApiResponseDto code(Integer code) {
+  public ApiResponseDto code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
@@ -40,17 +44,18 @@ public class ApiResponseDto {
    * @return code
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
-  public Integer getCode() {
+  public @Nullable Integer getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  @JsonProperty("code")
+  public void setCode(@Nullable Integer code) {
     this.code = code;
   }
 
-  public ApiResponseDto type(String type) {
+  public ApiResponseDto type(@Nullable String type) {
     this.type = type;
     return this;
   }
@@ -60,17 +65,18 @@ public class ApiResponseDto {
    * @return type
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
-  public String getType() {
+  public @Nullable String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  @JsonProperty("type")
+  public void setType(@Nullable String type) {
     this.type = type;
   }
 
-  public ApiResponseDto message(String message) {
+  public ApiResponseDto message(@Nullable String message) {
     this.message = message;
     return this;
   }
@@ -80,13 +86,14 @@ public class ApiResponseDto {
    * @return message
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  @JsonProperty("message")
+  public void setMessage(@Nullable String message) {
     this.message = message;
   }
 
@@ -124,11 +131,8 @@ public class ApiResponseDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

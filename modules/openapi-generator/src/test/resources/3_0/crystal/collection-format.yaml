@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Collection Format Test
+  version: 1.0.0
+paths:
+  /search:
+    get:
+      tags: [search]
+      operationId: search
+      parameters:
+        - name: csv_ids
+          in: query
+          style: form
+          explode: false      # -> csv: csv_ids=a,b,c
+          schema:
+            type: array
+            items: { type: string }
+        - name: ssv_ids
+          in: query
+          style: spaceDelimited
+          explode: false       # -> ssv: ssv_ids=a%20b%20c
+          schema:
+            type: array
+            items: { type: string }
+        - name: pipe_ids
+          in: query
+          style: pipeDelimited
+          explode: false       # -> pipes: pipe_ids=a|b|c
+          schema:
+            type: array
+            items: { type: string }
+        - name: multi_ids
+          in: query
+          style: form
+          explode: true        # -> multi: multi_ids=a&multi_ids=b (left as array)
+          schema:
+            type: array
+            items: { type: string }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string

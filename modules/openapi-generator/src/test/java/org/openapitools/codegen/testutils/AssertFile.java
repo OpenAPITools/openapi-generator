@@ -71,7 +71,7 @@ public class AssertFile {
                     Path actualDir = absoluteActual.resolve(relativeExpectedDir);
 
                     if (!Files.exists(actualDir)) {
-                        fail(String.format(Locale.ROOT,"Directory '%s' is missing.", actualDir));
+                        fail(String.format(Locale.ROOT, "Directory '%s' is missing.", actualDir));
                     }
 
                     String[] expected = expectedDir.toFile().list();

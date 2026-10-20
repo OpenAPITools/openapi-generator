@@ -1,4 +1,4 @@
-{{#pattern}} @Pattern(regexp="{{{.}}}"){{/pattern}}{{!
+{{^isUuid}}{{#pattern}} @Pattern(regexp="{{{.}}}"){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}} @Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not
@@ -17,4 +17,4 @@ isInteger set
 isLong set
 }}{{#isLong}}{{#minimum}} @Min({{.}}L){{/minimum}}{{#maximum}} @Max({{.}}L){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
-}}{{^isInteger}}{{^isLong}}{{#minimum}} @DecimalMin("{{.}}"){{/minimum}}{{#maximum}} @DecimalMax("{{.}}"){{/maximum}}{{/isLong}}{{/isInteger}}
+}}{{^isInteger}}{{^isLong}}{{#minimum}} @DecimalMin("{{.}}"){{/minimum}}{{#maximum}} @DecimalMax("{{.}}"){{/maximum}}{{/isLong}}{{/isInteger}}{{/isUuid}}

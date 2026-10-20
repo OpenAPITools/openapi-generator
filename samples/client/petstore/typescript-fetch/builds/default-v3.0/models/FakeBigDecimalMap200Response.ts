@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface FakeBigDecimalMap200Response {
     /**
      * 
-     * @type {number}
-     * @memberof FakeBigDecimalMap200Response
      */
     someId?: number;
     /**
      * 
-     * @type {{ [key: string]: number; }}
-     * @memberof FakeBigDecimalMap200Response
      */
     someMap?: { [key: string]: number; };
 }
@@ -55,10 +51,15 @@ export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function FakeBigDecimalMap200ResponseToJSON(value?: FakeBigDecimalMap200Response | null): any {
+export function FakeBigDecimalMap200ResponseToJSON(json: any): FakeBigDecimalMap200Response {
+    return FakeBigDecimalMap200ResponseToJSONTyped(json, false);
+}
+
+export function FakeBigDecimalMap200ResponseToJSONTyped(value?: FakeBigDecimalMap200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'someId': value['someId'],

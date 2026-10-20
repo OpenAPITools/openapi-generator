@@ -8,8 +8,8 @@ Method | HTTP request | Description
 
 
 # **uuid_default_value**
-> uuid_default_value(_api::FakeApi, uuid_parameter::String; _mediaType=nothing) -> Nothing, OpenAPI.Clients.ApiResponse <br/>
-> uuid_default_value(_api::FakeApi, response_stream::Channel, uuid_parameter::String; _mediaType=nothing) -> Channel{ Nothing }, OpenAPI.Clients.ApiResponse
+> `uuid_default_value`(_api::`FakeApi`, `uuid_parameter`::`String`; _mediaType=nothing) -> `Nothing`, `OpenAPI.Clients.ApiResponse` <br/>
+> `uuid_default_value`(_api::`FakeApi`, response_stream::`Channel`, `uuid_parameter`::`String`; _mediaType=nothing) -> `Channel`{ `Nothing` }, `OpenAPI.Clients.ApiResponse`
 
 test uuid default value
 
@@ -19,12 +19,12 @@ test uuid default value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **_api** | **FakeApi** | API context | 
-**uuid_parameter** | **String**| test uuid default value | [default to nothing]
+ **_api** | **`FakeApi`** | API context | 
+**`uuid_parameter`** | **`String`** | test uuid default value |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 

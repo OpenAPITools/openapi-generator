@@ -6,19 +6,17 @@
 [![Stable releases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22)
 [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE)
 [![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers)](https://opencollective.com/openapi_generator)
-[![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g)
+[![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/zt-36ucx4ybl-jYrN6euoYn6zxXNZdldoZA)
 [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/OpenAPITools/openapi-generator)
 [![Conan Center](https://shields.io/conan/v/openapi-generator)](https://conan.io/center/recipes/openapi-generator)
-[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.openapi-generator.tech/scans)
+[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://community.develocity.cloud/scans?search.rootProjectNames=openapi-generator-project)
 </div>
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.7.0`):
-[![Build Status](https://api.travis-ci.com/OpenAPITools/openapi-generator.svg?branch=master&status=passed)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.27.0`):
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 </div>
@@ -45,80 +43,113 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 
 #### Thank you to our bronze sponsors!
 
-[![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bileto.png" width="128" height="128">](https://www.bileto.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bairesdev.png" width="128" height="128">](https://www.bairesdev.com/sponsoring-open-source-projects/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/dmtech.jpeg" width="128" height="128">](https://www.dmtech.de/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
-[<img src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
+[<img align="left" src="https://openapi-generator.tech/img/companies/namsor.png" width="128" height="128">](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/lightbow.png" width="128" height="128">](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bileto.png" width="128" height="128">](https://www.bileto.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bairesdev.png" width="128" height="128">](https://www.bairesdev.com/sponsoring-open-source-projects/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/dmtech.jpeg" width="128" height="128">](https://www.dmtech.de/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
+[<img align="left" src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
+[<img align="left" src="https://openapi-generator.tech/img/companies/route4me.png" width="128" height="128">](https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/dm.png" width="128" height="128">](https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/clickit.jpg" width="128" height="128">](https://www.clickittech.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/unified_to.jpg" width="128" height="128">](https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship) [<img align="left" src="https://openapi-generator.tech/img/companies/savetwt.jpg" width="128" height="128">](https://savetwt.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/serpapi.png" width="128" height="128">](https://serpapi.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialwick.png" width="128" height="128">](https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/buyfans.png" width="128" height="128">](https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialboom.png" width="128" height="128">](https://socialboom.io/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/mediamister.jpg" width="128" height="128">](https://www.mediamister.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/instantfamous.png" width="128" height="128">](https://www.instant-famous.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/betterfollowers.png" width="128" height="128">](https://betterfollowers.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bulkoid.png" width="128" height="128">](https://bulkoid.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
+<br clear="left">
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
 
-[<img src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[![Linode](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Gradle_logo.png/320px-Gradle_logo.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png" width="150">](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Gradle_logo.svg/330px-Gradle_logo.svg.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+
+<br clear="left">
 
 ## Overview
 
 OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification) (both 2.0 and 3.0 are supported). Currently, the following languages/frameworks are supported:
 
-|                                  | Languages/Frameworks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| -------------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.1, .NET Core 3.1, .NET 5.0. Libraries: RestSharp, GenericHost, HttpClient), **C++** (Arduino, cpp-restsdk, Qt5, Tizen, Unreal Engine 4), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Apache HttpClient 4.x, Apache HttpClient 5.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client, Helidon), **Jetbrains HTTP Client**, **Julia**, **k6**, **Kotlin**, **Lua**, **N4JS**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (hyper, reqwest, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient, pekko), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (9.x - 18.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, redux-query, Rxjs), **XoJo**, **Zapier** |
-| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, Azure Functions), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant, Yesod), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/), [Apache Camel](https://camel.apache.org/), [Helidon](https://helidon.io/)), **Julia**, **Kotlin** (Spring Boot, [Ktor](https://github.com/ktorio/ktor), [Vert.x](https://vertx.io/)), **PHP** ([Flight](https://docs.flightphp.com/), Laravel, Lumen, [Mezzio (fka Zend Expressive)](https://github.com/mezzio/mezzio), Slim, Silex, [Symfony](https://symfony.com/)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** ([rust-server](https://openapi-generator.tech/docs/generators/rust-server/)), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), [Cask](https://github.com/com-lihaoyi/cask), Scalatra)                                                                                                                               |
-| **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**, **Markdown**, **PlantUML**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| **Configuration files**          | [**Apache2**](https://httpd.apache.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **Others**                       | **GraphQL**, **JMeter**, **Ktorm**, **MySQL Schema**, **Postman Collection**, **Protocol Buffer**, **WSDL**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|                                  | Languages/Frameworks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.1, .NET Core 3.1, .NET 5.0. Libraries: RestSharp, GenericHost, HttpClient), **C++** (Arduino, cpp-restsdk, Qt5, Tizen, Unreal Engine 4), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Apache HttpClient 4.x, Apache HttpClient 5.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, Spring 6 RestClient, MicroProfile Rest Client, Helidon), **Jetbrains HTTP Client**, **Julia**, **k6**, **Kotlin**, **Lua**, **N4JS**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (hyper, reqwest, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient, pekko), **Swift** (2.x, 3.x, 4.x, 5.x, 6.x), **Typescript** (AngularJS, Angular (9.x - 19.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, redux-query, Rxjs), **XoJo**, **Zapier** |
+| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, Azure Functions), **C++** (Httplib, Oat++, Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant, Yesod), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/), [Apache Camel](https://camel.apache.org/), [Helidon](https://helidon.io/)), **Julia**, **Kotlin** (Spring Boot, [Ktor](https://github.com/ktorio/ktor), [Vert.x](https://vertx.io/)), **PHP** ([Flight](https://docs.flightphp.com/), Laravel, Lumen, [Mezzio (fka Zend Expressive)](https://github.com/mezzio/mezzio), Slim, Silex, [Symfony](https://symfony.com/)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** ([rust-server](https://openapi-generator.tech/docs/generators/rust-server/)), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), [Cask](https://github.com/com-lihaoyi/cask), Scalatra)                                                                                                                                                    |
+| **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**, **Markdown**, **PlantUML**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| **Configuration files**          | [**Apache2**](https://httpd.apache.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Others**                       | **GraphQL**, **JMeter**, **Ktorm**, **MySQL Schema**, **Postman Collection**, **Protocol Buffer**, **WSDL**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 ## Table of contents
 
-  - [OpenAPI Generator](#openapi-generator)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [1 - Installation](#1---installation)
-    - [1.1 - Compatibility](#11---compatibility)
-    - [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
-    - [1.3 - Download JAR](#13---download-jar)
-    - [1.4 - Build Projects](#14---build-projects)
-    - [1.5 - Homebrew](#15---homebrew)
-    - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)
-  - [2 - Getting Started](#2---getting-started)
-  - [3 - Usage](#3---usage)
-    - [3.1 - Customization](#31---customization)
-    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
-    - [3.3 - Online Generators](#33---online-openapi-generator)
-    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
-    - [3.5 - IDE Integration](#35---ide-integration)
-  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
-  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
-  - [6 - About Us](#6---about-us)
-    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
-    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
-    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
-  - [7 - License](#7---license)
+- [Sponsors](#sponsors)
+    - [Thank you to our bronze sponsors!](#thank-you-to-our-bronze-sponsors)
+    - [Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity](#thank-you-godaddy-for-sponsoring-the-domain-names-linode-for-sponsoring-the-vps-checkly-for-sponsoring-the-api-monitoring-and-gradle-for-sponsoring-develocity)
+- [Overview](#overview)
+- [Table of contents](#table-of-contents)
+- [1 - Installation](#1---installation)
+  - [1.1 - Compatibility](#11---compatibility)
+- [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
+  - [1.3 - Download JAR](#13---download-jar)
+  - [Launcher Script](#launcher-script)
+  - [1.4 - Build Projects](#14---build-projects)
+    - [Nix users](#nix-users)
+  - [1.5 - Homebrew](#15---homebrew)
+  - [1.6 - Docker](#16---docker)
+    - [Public Pre-built Docker images](#public-pre-built-docker-images)
+    - [OpenAPI Generator CLI Docker Image](#openapi-generator-cli-docker-image)
+    - [OpenAPI Generator Online Docker Image](#openapi-generator-online-docker-image)
+    - [Development in docker](#development-in-docker)
+      - [Troubleshooting](#troubleshooting)
+    - [Run Docker in Vagrant](#run-docker-in-vagrant)
+  - [1.7 - NPM](#17---npm)
+  - [1.8 - pip](#18---pip)
+- [2 - Getting Started](#2---getting-started)
+- [3 - Usage](#3---usage)
+  - [To generate a sample client library](#to-generate-a-sample-client-library)
+  - [3.1 - Customization](#31---customization)
+  - [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#32---workflow-integration-maven-gradle-github-cicd)
+  - [3.3 - Online OpenAPI generator](#33---online-openapi-generator)
+  - [3.4 - License information on Generated Code](#34---license-information-on-generated-code)
+  - [3.5 - IDE Integration](#35---ide-integration)
+- [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+- [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+- [6 - About Us](#6---about-us)
+  - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [Core Team Members](#core-team-members)
+    - [Template Creator](#template-creator)
+    - [How to join the core team](#how-to-join-the-core-team)
+  - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [Members of Technical Committee](#members-of-technical-committee)
+  - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+    - [Founding Members (alphabetical order):](#founding-members-alphabetical-order)
+- [7 - License](#7---license)
 
 ## [1 - Installation](#table-of-contents)
 
@@ -128,8 +159,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.7.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.7.0-SNAPSHOT/) | 20.06.2024   | Minor release with breaking changes (with fallback) |
-| [7.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.6.0) (latest stable release)                                                    | 20.05.2024   | Minor release with breaking changes (with fallback) |
+| 7.27.0 (upcoming minor release) [SNAPSHOT](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) | 02.11.2026   | Minor release with breaking changes (with fallback) |
+| [7.26.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.26.0) (latest stable release)                                                    | 06.10.2026   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
@@ -140,7 +171,7 @@ OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0, 3.1 (beta support)
 
 For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
 
-For decomissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
+For decommissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
 
 ## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
@@ -192,16 +223,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.26.0/openapi-generator-cli-7.26.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.26.0/openapi-generator-cli-7.26.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.26.0/openapi-generator-cli-7.26.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -397,12 +428,12 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 
 ##### Troubleshooting
 
-If an error like this occurs, just execute the **./mvnw clean install -U** command:
+If an error like this occurs, just execute the **mvn clean install -U** command:
 
 > org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test (default-test) on project openapi-generator: A type incompatibility occurred while executing org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test: java.lang.ExceptionInInitializerError cannot be cast to java.io.IOException
 
 ```sh
-./run-in-docker.sh ./mvnw clean install -U
+./run-in-docker.sh mvn clean install -U
 ```
 
 > Failed to execute goal org.fortasoft:gradle-maven-plugin:1.0.8:invoke (default) on project openapi-generator-gradle-plugin-mvn-wrapper: org.gradle.tooling.BuildException: Could not execute build using Gradle distribution 'https://services.gradle.org/distributions/gradle-4.7-bin.zip'
@@ -417,7 +448,7 @@ cd openapi-generator
 vagrant up
 vagrant ssh
 cd /vagrant
-./run-in-docker.sh ./mvnw package
+./run-in-docker.sh mvn package
 ```
 
 ### [1.7 - NPM](#table-of-contents)
@@ -436,7 +467,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 7.0.1
+openapi-generator-cli version-manager set 7.26.0
 ```
 
 Or install it as dev-dependency:
@@ -445,6 +476,32 @@ Or install it as dev-dependency:
 npm install @openapitools/openapi-generator-cli -D
 ```
 <!-- /RELEASE_VERSION -->
+
+You can use [locally built JARs](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-locally-built-jar) or [`SNAPSHOT` versions](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-nightly-snapshot-build) as well.
+
+### [1.8 - pip](#table-of-contents)
+
+
+> **Platform(s)**: Linux, macOS, Windows
+**Install** via [PyPI](https://pypi.org/) (`java` executable is needed to run):
+
+```
+pip install openapi-generator-cli
+```
+
+To install a specific version
+```
+pip install openapi-generator-cli==7.26.0
+```
+
+You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
+
+```
+pip install openapi-generator-cli[jdk4py]
+```
+
+Ref: https://github.com/openAPITools/openapi-generator-pip
+
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml), please run the following
@@ -460,7 +517,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.26.0/openapi-generator-cli-7.26.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -576,9 +633,9 @@ Please refer to [online.md](docs/online.md) on how to run and use the `openapi-g
 
 ### [3.4 - License information on Generated Code](#table-of-contents)
 
-The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#license) as specified. In addition, please understand the following points:
+The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#7---license) as specified. In addition, please understand the following points:
 
-* The templates included with this project are subject to the [License](#license).
+* The templates included with this project are subject to the [License](#7---license).
 * Generated code is intentionally _not_ subject to the parent project license
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
@@ -599,19 +656,22 @@ Here is a list of community-contributed IDE plug-ins that integrate with OpenAPI
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [Aalborg University](https://www.aau.dk)
+- [act coding](https://github.com/actcoding)
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
+- [adorsys GmbH & Co.KG](https://adorsys.com/)
 - [Adyen](https://www.adyen.com/)
 - [Agoda](https://www.agoda.com/)
 - [Airthings](https://www.airthings.com/)
 - [Aleri Solutions Gmbh](https://www.aleri.de/)
 - [Allianz](https://www.allianz.com)
+- [AM GmbH](https://www.am-gmbh.de)
+- [Amazon Web Services (AWS)](https://aws.amazon.com/)
 - [Angular.Schule](https://angular.schule/)
 - [Aqovia](https://aqovia.com/)
-- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [Arduino](https://www.arduino.cc/)
 - [ASKUL](https://www.askul.co.jp)
-- [Amazon Web Services (AWS)](https://aws.amazon.com/)
+- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [b<>com](https://b-com.com/en)
 - [百度营销](https://e.baidu.com)
 - [Bandwidth](https://dev.bandwidth.com)
@@ -626,11 +686,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
 - [Carlsberg Group](https://www.carlsberggroup.com/)
+- [CERN](https://home.cern/)
 - [Christopher Queen Consulting](https://www.christopherqueenconsulting.com/)
 - [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)
 - [CoinAPI](https://www.coinapi.io/)
 - [Commencis](https://www.commencis.com/)
+- [ConfigCat](https://configcat.com/)
 - [cronn GmbH](https://www.cronn.de/)
 - [Crossover Health](https://crossoverhealth.com/)
 - [Cupix](https://www.cupix.com/)
@@ -675,6 +737,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [MailSlurp](https://www.mailslurp.com)
 - [Manticore Search](https://manticoresearch.com)
 - [Mastercard](https://developers.mastercard.com)
+- [MCP360](https://mcp360.ai/)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [MoonVision](https://www.moonvision.io/)
@@ -707,6 +770,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [REST United](https://restunited.com)
 - [Robocorp](https://www.robocorp.com)
 - [Robotinfra](https://www.robotinfra.com)
+- [Sarvika Technologies Pvt. Ltd.](https://www.sarvika.com)
 - [SearchApi](https://www.searchapi.io/)
 - [SmartHR](https://smarthr.co.jp/)
 - [Sony Interactive Entertainment](https://www.sie.com/en/index.html)
@@ -717,6 +781,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Telstra](https://dev.telstra.com)
 - [Tencent](https://www.tencent.com)
 - [The University of Aizu](https://www.u-aizu.ac.jp/en/)
+- [TINQIN](https://www.tinqin.com/)
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
@@ -932,15 +997,22 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2023-06-28 - [Generate API contract using OpenAPI Generator Maven plugin](https://huongdanjava.com/generate-api-contract-using-openapi-generator-maven-plugin.html) by [Khanh Nguyen](https://huongdanjava.com/)
 - 2023-06-30 - [Generate Client SDKs with OpenApi Generator in Springboot](https://medium.com/@ramavathvinayak/generate-client-sdks-with-openapi-generator-in-springboot-f9f012e73c0b) by [Vinayak Ramavath](https://medium.com/@ramavathvinayak)
 - 2023-12-10 - [UnityでOpenAPI Generatorを使う](https://www.youtube.com/watch?v=CbNwKVV5LRM) by [Soup Tori](https://www.youtube.com/@souptori8417)
+- 2024-01-24 - [Comment générer des stubs wiremock avec openapi generator](https://www.youtube.com/watch?v=0jhONfBrcKw) by [Alexis Couvreur](https://github.com/acouvreur)
 - 2024-03-04 - [Generating TypeScript Types with OpenAPI for REST API Consumption](https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-rest-api-consumption/) by [PullRequest](https://www.pullrequest.com/)
 - 2024-03-07 - [Fully typed Web Apps with OpenAPI (Part 1)](https://medium.com/@gfox1984/fully-typed-web-apps-with-openapi-part-1-595d55766670) by [Guillaume Renard](https://medium.com/@gfox1984)
 - 2024-03-08 - [Laravel OpenAPIによる "辛くない" スキーマ駆動開発](https://fortee.jp/phperkaigi-2024/proposal/9e2e6c38-d078-4efa-99b4-83ebf9033b34) by [KentarouTakeda](https://twitter.com/KentarouTakeda)
+- 2024-04-04 - [Working with OpenAPI using Rust](https://www.shuttle.dev/blog/2024/04/04/using-openapi-rust) by [Joshua Mo](https://twitter.com/joshmo_dev)
+- 2024-04-08 - [Implement API first strategy with OpenAPI generator plugin](https://medium.com/javarevisited/implement-api-first-strategy-with-openapi-generator-plugin-e4bbe7f0d778) by [Rui Zhou](https://medium.com/@wirelesser)
+- 2024-05-06 - [OpenAPI Generator Custom Templates](https://www.javacodegeeks.com/openapi-generator-custom-templates.html) by [Mary Zheng](https://www.javacodegeeks.com/author/mary-zheng)
+- 2025-02-09 - [Custom validation with OpenApiGenerator and Spring Boot 3](https://medium.com/@jugurtha.aitoufella/custom-validation-with-openapigenerator-and-spring-boot-3-34a656e815c8) by [Jugurtha Aitoufella](https://medium.com/@jugurtha.aitoufella)
+- 2025-02-20 - [Optimizing API Integration in a Large React Application Using OpenAPI Generator](https://www.youtube.com/watch?v=-B33pQnGQUI) by Stefano Marzo
+
 
 ## [6 - About Us](#table-of-contents)
 
 What's the design philosophy or principle behind OpenAPI Generator?
 
-We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 300k weekly downloads via NPM CLI wrapper, 20M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
+We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 600k weekly downloads via NPM CLI wrapper, 30M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
 
 ### [6.1 - OpenAPI Generator Core Team](#table-of-contents)
 
@@ -965,6 +1037,8 @@ Here is a list of template creators:
    * Apex: @asnelling
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
+   * C++ Httplib: @rajvesh
+   * C++ Oat++: @Kraust
    * C++ REST: @Danielku15
    * C++ Tiny: @AndersSpringborg @kaareHH @michelealbano @mkakbas
    * C++ UE4: @Kahncode
@@ -979,7 +1053,6 @@ Here is a list of template creators:
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
-   * Dart (Dio): @josh-burton
    * Elixir: @niku
    * Elm: @eriktim
    * Eiffel: @jvelilla
@@ -988,6 +1061,7 @@ Here is a list of template creators:
    * Groovy: @victorgit
    * Go: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Go (rewritten in 2.3.0): @antihax
+   * Godot (GDScript): @Goutte [:heart:](https://liberapay.com/Goutte)
    * Haskell (http-client): @jonschoning
    * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
@@ -996,6 +1070,7 @@ Here is a list of template creators:
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
    * Java (Spring 5 WebClient): @daonomic
+   * Java (Spring 6 RestClient): @nicklas2751
    * Java (RESTEasy): @gayathrigs
    * Java (Vertx): @lopesmcc
    * Java (Google APIs Client Library): @charlescapps
@@ -1030,18 +1105,23 @@ Here is a list of template creators:
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Ruby (HTTPX): @honeyryderchuck
+   * Ruby (ruby-nextgen): @n-rodriguez
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
    * Scala (Akka): @cchafer
    * Scala (sttp): @chameleon82
    * Scala (sttp4): @flsh86
+   * Scala (scala-sttp4-jsoniter): @lbialy
    * Scala (Pekko): @mickaelmagniez
+   * Scala (http4s): @JennyLeahy
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche
    * Swift 5: @4brunu
+   * Swift 6: @4brunu
    * Swift Combine: @dydus0x14
+   * Terraform: @jasondamour
    * TypeScript (Angular1): @mhardorf
    * TypeScript (Angular2): @roni-frantchi
    * TypeScript (Angular6): @akehir
@@ -1064,9 +1144,11 @@ Here is a list of template creators:
    * C# Azure functions: @Abrhm7786
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
+   * C++ Httplib: @rajvesh
+   * C++ Oat++: @Kraust
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
-   * Erlang Server: @galaxie
+   * Erlang Server: @galaxie @nelsonvides
    * F# (Giraffe) Server: @nmfisher
    * Go Server: @guohuang
    * Go Server (refactored in 7.0.0): @lwj5
@@ -1076,6 +1158,7 @@ Here is a list of template creators:
    * Haskell Servant: @algas
    * Haskell Yesod: @yotsuya
    * Java Camel: @carnevalegiacomo
+   * Java Dubbo: @redoom
    * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
    * Java Undertow: @stevehu
@@ -1084,6 +1167,7 @@ Here is a list of template creators:
    * Java Vert.x: @lwlee2608
    * Java Micronaut: @andriy-dmytruk
    * Java Helidon: @spericas @tjquinno @tvallin
+   * Java WireMock: [@acouvreur](https://github.com/acouvreur)
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
@@ -1093,10 +1177,12 @@ Here is a list of template creators:
    * Kotlin (Spring Boot): @dr4ke616
    * Kotlin (Vertx): @Wooyme
    * Kotlin (JAX-RS): @anttileppa
+   * Kotlin Misk: @andrewwilsonnew @guiarn
    * Kotlin WireMock: @stefankoppier
    * NodeJS Express: @YishTish
    * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon
+   * PHP Laravel (refactor in 7.12.0): @gijs-blanken
    * PHP Lumen: @abcsun
    * PHP Mezzio (with Path Handler): @Articus
    * PHP Slim: @jfastnacht
@@ -1107,11 +1193,13 @@ Here is a list of template creators:
    * Python AIOHTTP:
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
+   * Rust (rust-axum): @linxGnu
    * Scala Akka: @Bouillie
    * Scala Cask: @aaronp
    * Scala Finch: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Scala Lagom: @gmkumar2005
    * Scala Play: @adigerber
+   * TypeScript NestJS: @aryobenholzner
  * Documentation
    * AsciiDoc: @man-at-home
    * HTML Doc 2: @jhitchcock
@@ -1125,6 +1213,7 @@ Here is a list of template creators:
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Ktorm: @Luiz-Monad
    * MySQL: [@ybelenko](https://github.com/ybelenko)
+   * PostgreSQL: [@iri](https://github.com/iri)
    * Postman Collection: @gcatanese
    * Protocol Buffer: @wing328
    * WSDL: @adessoDpd
@@ -1167,43 +1256,43 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Android               | @jaz-ah (2017/09)                                                                                                                                                                                                                                     |
 | Apex                  |                                                                                                                                                                                                                                                       |
 | Bash                  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                                           |
-| C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03)                                                                                                                                                                                        |
-| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                                         |
-| C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05) @iBicha (2023/07)                                                                                                                                          |
+| C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03) @eafer (2024/12)                                                                                                                                                                                        |
+| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) @aminya (2025/05)                                                                                                                                         |
+| C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05)                                                                                                                                          |
 | Clojure               |                                                                                                                                                                                                                                                       |
 | Crystal               | @cyangle (2021/01)                                                                                                                                                                                                                                    |
-| Dart                  | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                        |
+| Dart                  | @jaumard (2018/09) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                        |
 | Eiffel                | @jvelilla (2017/09)                                                                                                                                                                                                                                   |
 | Elixir                | @mrmstn (2018/12)                                                                                                                                                                                                                                     |
 | Elm                   | @eriktim (2018/09)                                                                                                                                                                                                                                    |
-| Erlang                | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                                      |
+| Erlang                | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10) @nelsonvides (2024/09)                                                                                                                                                               |
 | F#                    | @nmfisher (2019/05)                                                                                                                                                                                                                                   |
 | Go                    | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01) @ph4r5h4d (2021/04) @lwj5 (2023/04)                                                                                                                                                   |
 | GraphQL               | @renepardon (2018/12)                                                                                                                                                                                                                                 |
 | Groovy                |                                                                                                                                                                                                                                                       |
 | Haskell               |                                                                                                                                                                                                                                                       |
-| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08)                                                                 |
-| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08)                                                                     |
+| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                 |
+| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                    |
 | JMeter                | @kannkyo (2021/01)                                                                                                                                                                                                                                    |
 | Jetbrains HTTP Client | @jlengrand (2023/01)                                                                                                                                                                                                                                  |
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
-| Kotlin                | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06)                                                        |
+| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10)                                    |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
 | N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
 | NodeJS/Javascript     | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07)                                                                                                                                                                                             |
 | ObjC                  |                                                                                                                                                                                                                                                       |
-| OCaml                 | @cgensoul (2019/08)                                                                                                                                                                                                                                   |
+| OCaml                 | @cgensoul (2019/08), @sir4ur0n (2025/08)                                                                                                                                                                                                              |
 | Perl                  | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                                                   |
 | PHP                   | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                                                                                      |
 | PowerShell            | @wing328 (2020/05)                                                                                                                                                                                                                                    |
-| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) @multani (2023/10) |
+| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) |
 | R                     | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                                           |
 | Ruby                  | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                                                  |
-| Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10)                                                                                                                                                |
-| Scala                 | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04) @fish86 (2023/06)                                                               |
+| Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10) @dsteeley (2025/07)                                                                                                                                               |
+| Scala                 | @clasnake (2017/07), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04) @fish86 (2023/06)                                                               |
 | Swift                 | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11) @dydus0x14 (2023/06)                                                                                                                                                           |
-| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) |
+| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @KannaKim (2026/07) |
 | Xojo                  | @Topheee (2023/04)                                                                                                                                                                                                                                    |
 
 

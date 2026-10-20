@@ -54,9 +54,9 @@ export default class {{classname}} {
   {{operationId}}() {
     return {
       method: '{{httpMethod}}',
-      url: this.basePath + '{{path}}'
+      url: this.basePath + '{{{path}}}'
       {{#pathParams}}
-        .replace('{' + '{{baseName}}' + '}', ':{{paramName}}')
+        .replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, ':{{paramName}}')
       {{/pathParams}}
     }
   }

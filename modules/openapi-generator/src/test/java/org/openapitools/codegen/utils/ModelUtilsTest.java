@@ -18,6 +18,7 @@
 package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -27,7 +28,17 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.testng.Assert.*;
 
 public class ModelUtilsTest {
 
@@ -142,7 +153,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema, openAPI));
     }
 
     @Test
@@ -247,23 +258,114 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema(), openAPI));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31TypedMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25224.yaml");
+        Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI,
+                openAPI.getPaths().get("/widgets").getGet().getResponses().get("200"));
+        Assert.assertTrue(ModelUtils.isMapSchema(responseSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(responseSchema, openAPI));
+    }
+
+    @Test
+    public void testIsFreeFormObjectOas31AdditionalProperties() {
+        final OpenAPI openAPI = new OpenAPI();
+
+        // additionalProperties: true
+        Schema addlTrue = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlTrue.setAdditionalProperties(true);
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlTrue, openAPI));
+
+        // additionalProperties: {}
+        Schema addlEmpty = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlEmpty.setAdditionalProperties(new JsonSchema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(addlEmpty, openAPI));
+
+        // additionalProperties: {type: string}
+        Schema addlString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlString.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("string"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlString));
+
+        // additionalProperties: {type: array}
+        Schema addlArray = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        addlArray.setAdditionalProperties(new JsonSchema().types(new HashSet<>(Set.of("array"))));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlArray, openAPI));
+
+        // additionalProperties: {type: [object, string]} is a constrained union, not free-form
+        Schema addlObjectString = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> objectThenString = new LinkedHashSet<>();
+        objectThenString.add("object");
+        objectThenString.add("string");
+        addlObjectString.setAdditionalProperties(new JsonSchema().types(objectThenString));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlObjectString, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlObjectString));
+
+        // reversing the union must not classify the map as free-form
+        Schema addlStringObject = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Set<String> stringThenObject = new LinkedHashSet<>();
+        stringThenObject.add("string");
+        stringThenObject.add("object");
+        addlStringObject.setAdditionalProperties(new JsonSchema().types(stringThenObject));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlStringObject, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(addlStringObject));
+
+        // additionalProperties constrained only by enum, with no type
+        Schema addlEnum = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema enumValues = new JsonSchema();
+        enumValues.setEnum(Arrays.asList("a", "b"));
+        addlEnum.setAdditionalProperties(enumValues);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnum, openAPI));
+
+        // additionalProperties: {$ref} to an enum schema that also has no type
+        Schema color = new JsonSchema();
+        color.setEnum(Arrays.asList("red", "blue"));
+        OpenAPI openAPIWithEnum = TestUtils.createOpenAPIWithOneSchema("Color", color);
+        Schema addlEnumRef = new JsonSchema().types(new HashSet<>(Set.of("object")));
+        Schema colorRef = new JsonSchema();
+        colorRef.set$ref("#/components/schemas/Color");
+        addlEnumRef.setAdditionalProperties(colorRef);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(addlEnumRef, openAPIWithEnum));
+    }
+
+    @Test(enabled = false)
+    public void testIsFreeFormObjectFromSpec() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        // Create initial "empty" object schema.
+        Schema additionalPropertiesUnset = ModelUtils.getSchema(openAPI, "AdditionalPropertiesUnset");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesUnset, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesUnset));
+
+        Schema additionalPropertiesTrue = ModelUtils.getSchema(openAPI, "AdditionalPropertiesTrue");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesTrue, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesTrue));
+
+        Schema additionalPropertiesFalse = ModelUtils.getSchema(openAPI, "AdditionalPropertiesFalse");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesFalse, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesFalse));
+
+        Schema asdditionalPropertiesSchema = ModelUtils.getSchema(openAPI, "AdditionalPropertiesSchema");
+        Assert.assertFalse(ModelUtils.isFreeFormObject(asdditionalPropertiesSchema, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(asdditionalPropertiesSchema));
     }
 
     @Test
@@ -326,9 +428,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
@@ -348,6 +450,9 @@ public class ModelUtilsTest {
         Assert.assertNull(anyof1Property.getType());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof1Property));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof1Property));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
     }
 
     // 3.1 spec tests
@@ -360,9 +465,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf property
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
@@ -387,7 +492,7 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
 
         Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
-        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
 
         Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
         Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
@@ -461,4 +566,865 @@ public class ModelUtilsTest {
         Assert.assertEquals(deepCopy, schema);
         Assert.assertNotSame(deepCopy, schema);
     }
+
+    @Test
+    public void testGetSchemaItemsWith31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
+        Schema arrayWithPrefixItems = ModelUtils.getSchema(openAPI, "ArrayWithPrefixItems");
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("with_prefixitems")));
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("without_items")));
+    }
+
+    @Test
+    public void simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Schema schema;
+        List<Schema> subSchemas;
+
+        Schema anyOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "AnyOfTest");
+        subSchemas = anyOfWithSeveralSubSchemasButSingleNonNull.getAnyOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("string", schema.getType());
+
+        Schema anyOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "Parent");
+        subSchemas = ((Schema) anyOfWithSingleNonNullSubSchema.getProperties().get("number")).getAnyOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "OneOfTest");
+        subSchemas = oneOfWithSeveralSubSchemasButSingleNonNull.getOneOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("integer", schema.getType());
+
+        Schema oneOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "ParentWithOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSingleNonNullSubSchema.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemas = ModelUtils.getSchema(openAPI, "ParentWithPluralOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemas, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNotNull(oneOfWithSeveralSubSchemas.getProperties().get("number"));
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf().size(), 2);
+    }
+
+    @Test
+    public void simplifyOneOfWithOnlyOneNonNullSubSchemaKeepsReadOnlyWriteOnlyAttribute() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Schema schema;
+        List<Schema> subSchemas;
+
+        Schema oneOfWithNullAndRefSubSchema = ModelUtils.getSchema(openAPI, "OneOfParentRefTest");
+        Schema numberPropertySchema = ((Schema) oneOfWithNullAndRefSubSchema.getProperties().get("number"));
+        subSchemas = numberPropertySchema.getOneOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, numberPropertySchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertNull(schema.getReadOnly());
+        assertTrue(schema.getWriteOnly());
+        assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+
+        Schema number2PropertySchema = ((Schema) oneOfWithNullAndRefSubSchema.getProperties().get("number2"));
+        subSchemas = number2PropertySchema.getOneOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, number2PropertySchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertTrue(schema.getReadOnly());
+        assertNull(schema.getWriteOnly());
+        assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifyOneOfWithOnlyOneNonNullSubSchemaDoesNotMutateSharedSchema() {
+        OpenAPI openAPI = new OpenAPI().specVersion(SpecVersion.V31);
+        Schema sharedRef = new Schema<>().$ref("#/components/schemas/ContentType");
+        Schema nullableParent = new ComposedSchema().oneOf(new ArrayList<>(Arrays.asList(
+                new Schema<>().type("null"),
+                sharedRef)));
+
+        Schema simplified = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI, nullableParent, nullableParent.getOneOf());
+
+        assertNotSame(simplified, sharedRef);
+        assertEquals(simplified.get$ref(), sharedRef.get$ref());
+        assertTrue(simplified.getNullable());
+        assertNull(sharedRef.getNullable());
+    }
+
+    @Test
+    public void simplifyAnyOfWithOnlyOneNonNullSubSchemaKeepsReadOnlyWriteOnlyAttribute() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Schema schema;
+        List<Schema> subSchemas;
+
+        Schema anyOfWithNullAndRefSubSchema = ModelUtils.getSchema(openAPI, "AnyOfParentRefTest");
+        Schema numberPropertySchema = ((Schema) anyOfWithNullAndRefSubSchema.getProperties().get("number"));
+        subSchemas = numberPropertySchema.getAnyOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, numberPropertySchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertNull(schema.getReadOnly());
+        assertTrue(schema.getWriteOnly());
+        assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+
+        Schema number2PropertySchema = ((Schema) anyOfWithNullAndRefSubSchema.getProperties().get("number2"));
+        subSchemas = number2PropertySchema.getAnyOf();
+        schema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, number2PropertySchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertTrue(schema.getReadOnly());
+        assertNull(schema.getWriteOnly());
+        assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifyOneOfAnyOfWithOnlyOneNonNullSubSchemaKeepsParentDescription() {
+        OpenAPI openAPI = new OpenAPI();
+
+        Schema anyOfParent = new Schema().description("Access token");
+        anyOfParent.setAnyOf(new ArrayList<>(Arrays.asList(
+                new StringSchema(),
+                new Schema<>().type("null")
+        )));
+        Schema anyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfParent, anyOfParent.getAnyOf());
+        assertEquals(anyOfSchema.getDescription(), "Access token");
+
+        Schema oneOfParent = new Schema().description("Expires at");
+        oneOfParent.setOneOf(new ArrayList<>(Arrays.asList(
+                new IntegerSchema(),
+                new Schema<>().type("null")
+        )));
+        Schema oneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfParent, oneOfParent.getOneOf());
+        assertEquals(oneOfSchema.getDescription(), "Expires at");
+
+        Schema anyOfParentWithChildDescription = new Schema().description("Parent description");
+        anyOfParentWithChildDescription.setAnyOf(new ArrayList<>(Arrays.asList(
+                new StringSchema().description("Child description"),
+                new Schema<>().type("null")
+        )));
+        Schema anyOfSchemaWithChildDescription = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI,
+                anyOfParentWithChildDescription,
+                anyOfParentWithChildDescription.getAnyOf());
+        assertEquals(anyOfSchemaWithChildDescription.getDescription(), "Child description");
+    }
+
+    @Test
+    public void isNullTypeSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/null_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("IntegerRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("Parent");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // the dummy property is a ref to integer
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getProperties().get("dummy")));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true} with no properties/constraints expresses nullability (OAS 3.0.3)
+        // but only if the normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true} WITH properties is a real object, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("NullableObjectWithProperties");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true, additionalProperties: ...} is a nullable map, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("NullableObjectMap");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
+    public void isNullTypeSchemaTestBareNullableObject() {
+        OpenAPI openAPI = TestUtils.parseSpec(
+                "src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
+        Schema order = (Schema) openAPI.getComponents().getSchemas().get("Order");
+        Schema shippingProp = (Schema) order.getProperties().get("shippingAddress");
+        assertNotNull(shippingProp.getAnyOf(), "shippingAddress should have anyOf");
+
+        List<Schema> anyOf = shippingProp.getAnyOf();
+        assertEquals(anyOf.size(), 2);
+
+        // first sub-schema is the $ref to Address
+        Schema refSchema = anyOf.get(0);
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, refSchema));
+
+        // second sub-schema is {type: object, nullable: true} which is just any type that's also nullable
+        // when normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled
+        Schema bareNullableObject = anyOf.get(1);
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
+                "not `null` (3.1 spec) as normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled");
+    }
+
+    @Test
+    public void isNullTypeSchemaTestWith31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/null_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("IntegerRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("Parent");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // the dummy property is a ref to integer
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getProperties().get("dummy")));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // In 3.1, {type: object, nullable: true} is NOT a null type — it's a real
+        // nullable object. Nullability in 3.1 is expressed via type: ["object", "null"].
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
+    public void isUnsupportedSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        Schema property1 = (Schema) schema.getProperties().get("property1");
+        Schema property2 = (Schema) schema.getProperties().get("property2");
+
+        // a test of string type with allOf (2 patterns)
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(1)));
+
+        // if, then test
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(1)));
+
+        // typical schemas, e.g. boolean, string, array of string (enum)
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("aBooleanCheck")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
+    }
+
+    @Test
+    public void testModelWithPropertiesOnly() {
+        // Schema with no properties
+        Schema testSchema = new ObjectSchema().properties(null);
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Schema with properties
+        testSchema.setProperties(Map.of("foo", new Schema()));
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Explicitly no additional properties
+        testSchema.setAdditionalProperties(false);
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // With additional properties
+        testSchema.setAdditionalProperties(true);
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a schema set to false
+        testSchema.setAdditionalProperties(new Schema().booleanSchemaValue(false));
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a schema set to true
+        testSchema.setAdditionalProperties(new Schema().booleanSchemaValue(true));
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a custom schema
+        testSchema.setAdditionalProperties(new Schema().type("string"));
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+    }
+
+    @Test
+    public void getParentNameMultipleInterfacesTest() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
+        Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();
+        Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
+        assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveMaximumBound
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveMaximumBound_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMaximumBound(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveMaximumBound_noMaximumDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        assertNull(ModelUtils.resolveMaximumBound(openAPI, schema));
+    }
+
+    @Test
+    public void resolveMaximumBound_inclusiveMaximum_returnsInclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(100), bound.maxBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_exclusiveMaximum_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));
+        schema.setExclusiveMaximum(Boolean.TRUE);
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusive_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(10));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusiveStricterThanInclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));         // inclusive 100
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(80)); // exclusive 80 is stricter
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(80), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusiveLooseThanInclusive_inclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));           // inclusive 50 is stricter
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(90)); // exclusive 90 is looser
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_sameValueInclusiveAndExclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // maximum=50 (inclusive) + exclusiveMaximumValue=50 → exclusive 50 is stricter
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(50));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_refToSchemaWithMaximum_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setMaximum(BigDecimal.valueOf(50));
+        refTarget.setExclusiveMaximum(Boolean.TRUE);
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, ref);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_allOf_returnsMostRestrictive() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> loose = new IntegerSchema();
+        loose.setMaximum(BigDecimal.valueOf(200));
+        openAPI.getComponents().addSchemas("Loose", loose);
+
+        Schema<?> strict = new IntegerSchema();
+        strict.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Strict", strict);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Loose"),
+                new Schema<>().$ref("#/components/schemas/Strict")
+        ));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_allOfSameValueDifferentExclusivity_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf: max=50 inclusive vs max=50 exclusive — exclusive is stricter
+        Schema<?> inclusive = new IntegerSchema();
+        inclusive.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Inclusive", inclusive);
+
+        Schema<?> exclusive = new IntegerSchema();
+        exclusive.setMaximum(BigDecimal.valueOf(50));
+        exclusive.setExclusiveMaximum(Boolean.TRUE);
+        openAPI.getComponents().addSchemas("Exclusive", exclusive);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Inclusive"),
+                new Schema<>().$ref("#/components/schemas/Exclusive")
+        ));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setMaximum(BigDecimal.valueOf(30));
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(30), bound.maxBound);
+    }
+
+    @Test
+    public void resolveMaximumBound_allOfItemWithoutMaximum_ignored() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("NoMax", new IntegerSchema());
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMax")));
+        assertNull(ModelUtils.resolveMaximumBound(openAPI, schema));
+    }
+
+    @Test
+    public void resolveMaximumBound_nestedAllOf_recurses() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines maximum=50
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent has allOf → Grandparent (no direct maximum)
+        Schema<?> parent = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child has allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.maxBound, BigDecimal.valueOf(50));
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_nestedAllOf_mostRestrictiveAcrossAllLevels() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines maximum=30 (stricter)
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMaximum(BigDecimal.valueOf(30));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent defines maximum=100 and also allOf → Grandparent
+        Schema<?> parent = new IntegerSchema();
+        parent.setMaximum(BigDecimal.valueOf(100));
+        parent.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.maxBound, BigDecimal.valueOf(30));
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveMinimumBound
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveMinimumBound_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMinimumBound(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveMinimumBound_noMinimumDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        assertNull(ModelUtils.resolveMinimumBound(openAPI, new IntegerSchema()));
+    }
+
+    @Test
+    public void resolveMinimumBound_inclusiveMinimum_returnsInclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(1));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(1), bound.minBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_exclusiveMinimum_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));
+        schema.setExclusiveMinimum(Boolean.TRUE);
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(0), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusive_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(5));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusiveStricterThanInclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));           // inclusive 0
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(3)); // exclusive 3 is stricter
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(3), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusiveLooseThanInclusive_inclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(10));           // inclusive 10 is stricter
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(2)); // exclusive 2 is looser
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.minBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_sameValueInclusiveAndExclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(5));
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(5));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_refToSchemaWithMinimum_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setMinimum(BigDecimal.valueOf(5));
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, ref);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_allOf_returnsMostRestrictive() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> permissive = new IntegerSchema();
+        permissive.setMinimum(BigDecimal.valueOf(1));
+        openAPI.getComponents().addSchemas("Permissive", permissive);
+
+        Schema<?> strict = new IntegerSchema();
+        strict.setMinimum(BigDecimal.valueOf(10));
+        openAPI.getComponents().addSchemas("Strict", strict);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Permissive"),
+                new Schema<>().$ref("#/components/schemas/Strict")
+        ));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.minBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_allOfSameValueDifferentExclusivity_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf: min=5 inclusive vs min=5 exclusive — exclusive is stricter
+        Schema<?> inclusive = new IntegerSchema();
+        inclusive.setMinimum(BigDecimal.valueOf(5));
+        openAPI.getComponents().addSchemas("Inclusive", inclusive);
+
+        Schema<?> exclusive = new IntegerSchema();
+        exclusive.setMinimum(BigDecimal.valueOf(5));
+        exclusive.setExclusiveMinimum(Boolean.TRUE);
+        openAPI.getComponents().addSchemas("Exclusive", exclusive);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Inclusive"),
+                new Schema<>().$ref("#/components/schemas/Exclusive")
+        ));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setMinimum(BigDecimal.valueOf(20));
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(20), bound.minBound);
+    }
+
+    @Test
+    public void resolveMinimumBound_allOfItemWithoutMinimum_ignored() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("NoMin", new IntegerSchema());
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMin")));
+        assertNull(ModelUtils.resolveMinimumBound(openAPI, schema));
+    }
+
+    @Test
+    public void resolveMinimumBound_nestedAllOf_recurses() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines minimum=10
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMinimum(BigDecimal.valueOf(10));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent has allOf → Grandparent (no direct minimum)
+        Schema<?> parent = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child has allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.minBound, BigDecimal.valueOf(10));
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_nestedAllOf_mostRestrictiveAcrossAllLevels() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines minimum=20 (stricter)
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMinimum(BigDecimal.valueOf(20));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent defines minimum=5 and also allOf → Grandparent
+        Schema<?> parent = new IntegerSchema();
+        parent.setMinimum(BigDecimal.valueOf(5));
+        parent.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.minBound, BigDecimal.valueOf(20));
+    }
+
+    /**
+     * `nullable` is not a valid OAS 3.1 keyword, so a naive 3.1 clone drops it. The normalizer
+     * relies on `nullable` to carry an OAS 3.1 `type: [<type>, "null"]` declaration, so cloning
+     * must preserve it.
+     */
+    @Test
+    public void testCloneSchemaPreservesNullableForOpenAPI31() {
+        Schema<?> schema = new Schema<>();
+        schema.setType("string");
+        schema.setNullable(true);
+
+        Schema<?> cloned31 = ModelUtils.cloneSchema(schema, true);
+        assertTrue(Boolean.TRUE.equals(cloned31.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.1 schema");
+
+        Schema<?> cloned30 = ModelUtils.cloneSchema(schema, false);
+        assertTrue(Boolean.TRUE.equals(cloned30.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.0 schema");
+    }
+
+    /**
+     * The OAS 3.1 serializer drops `nullable` at every level of the schema, so cloning must
+     * restore it on nested schemas too, not only on the root. This covers every branch
+     * {@code restoreNullable} recurses into.
+     */
+    @Test
+    public void testCloneSchemaPreservesNestedNullableForOpenAPI31() {
+        Schema<Object> root = new Schema<>();
+        root.setType("object");
+        root.setNullable(true);
+
+        Map<String, Schema> properties = new LinkedHashMap<>();
+        properties.put("inner", nullableStringSchema());
+
+        ArraySchema array = new ArraySchema();
+        array.setItems(nullableStringSchema());
+        properties.put("list", array);
+
+        Schema<Object> map = new Schema<>();
+        map.setType("object");
+        map.setAdditionalProperties(nullableStringSchema());
+        properties.put("map", map);
+
+        Schema<Object> negated = new Schema<>();
+        negated.setNot(nullableStringSchema());
+        properties.put("negated", negated);
+
+        Schema<Object> allOf = new Schema<>();
+        allOf.setAllOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("allOf", allOf);
+
+        Schema<Object> oneOf = new Schema<>();
+        oneOf.setOneOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("oneOf", oneOf);
+
+        Schema<Object> anyOf = new Schema<>();
+        anyOf.setAnyOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("anyOf", anyOf);
+
+        root.setProperties(properties);
+
+        Schema<?> cloned = ModelUtils.cloneSchema(root, true);
+
+        assertTrue(Boolean.TRUE.equals(cloned.getNullable()), "root nullable must be preserved");
+        assertNestedNullable(property(cloned, "inner"), "a nested property");
+        assertNestedNullable(property(cloned, "list").getItems(), "array items");
+        assertNestedNullable((Schema<?>) property(cloned, "map").getAdditionalProperties(), "additionalProperties");
+        assertNestedNullable(property(cloned, "negated").getNot(), "a `not` sub-schema");
+        assertNestedNullable(property(cloned, "allOf").getAllOf().get(0), "an `allOf` sub-schema");
+        assertNestedNullable(property(cloned, "oneOf").getOneOf().get(0), "a `oneOf` sub-schema");
+        assertNestedNullable(property(cloned, "anyOf").getAnyOf().get(0), "an `anyOf` sub-schema");
+    }
+
+    private static Schema<?> property(Schema<?> schema, String name) {
+        return schema.getProperties().get(name);
+    }
+
+    private static void assertNestedNullable(Schema<?> schema, String location) {
+        assertNotNull(schema, "expected a cloned schema at " + location);
+        assertTrue(Boolean.TRUE.equals(schema.getNullable()),
+                "nullable must be preserved on " + location);
+    }
+
+    private static Schema<?> nullableStringSchema() {
+        Schema<?> schema = new Schema<>();
+        schema.setType("string");
+        schema.setNullable(true);
+        return schema;
+    }
+
 }

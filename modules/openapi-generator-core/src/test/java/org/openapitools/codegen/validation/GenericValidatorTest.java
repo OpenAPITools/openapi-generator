@@ -18,11 +18,12 @@ package org.openapitools.codegen.validation;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class GenericValidatorTest {
     static class Person {
@@ -53,7 +54,7 @@ public class GenericValidatorTest {
     }
 
     private static ValidationRule.Result checkNameNormalLength(Person person) {
-        return person.name.length() < 10? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
+        return person.name.length() < 10 ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
     private List<ValidationRule> validationRules = Arrays.asList(
@@ -65,7 +66,7 @@ public class GenericValidatorTest {
     );
 
     @Test
-    public void testGenericValidatorSuccesses(){
+    public void testGenericValidatorSuccesses() {
         Person person = new Person("Jim", 23);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -79,7 +80,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorSingleConditionFails(){
+    public void testGenericValidatorSingleConditionFails() {
         Person person = new Person("Jim", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -98,7 +99,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorMultipleConditionsFail(){
+    public void testGenericValidatorMultipleConditionsFail() {
         Person person = new Person("asdf", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -122,7 +123,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorErrorsAndWarnings(){
+    public void testGenericValidatorErrorsAndWarnings() {
         Person person = new Person("0123456789asdfghjkl", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);

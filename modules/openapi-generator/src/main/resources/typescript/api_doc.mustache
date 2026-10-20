@@ -22,27 +22,31 @@ Method | HTTP request | Description
 
 
 ```typescript
-import { {{{moduleName}}} } from '{{{projectName}}}';
-import * as fs from 'fs';
+{{#hasParams}}
+import { createConfiguration, {{classname}} } from '{{{projectName}}}';
+import type { {{classname}}{{operationIdCamelCase}}Request } from '{{{projectName}}}';
+{{/hasParams}}
+{{^hasParams}}
+import { createConfiguration, {{classname}} } from '{{{projectName}}}';
+{{/hasParams}}
 
-const configuration = {{{moduleName}}}.createConfiguration();
-const apiInstance = new {{{moduleName}}}.{{classname}}(configuration);
+const configuration = createConfiguration();
+const apiInstance = new {{classname}}(configuration);
 
 {{#hasParams}}
-let body:{{{moduleName}}}.{{classname}}{{operationIdCamelCase}}Request = {
+const request: {{classname}}{{operationIdCamelCase}}Request = {
 {{#allParams}}
-  // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}{{^required}} (optional){{/required}}
+  {{#description}}  // {{{description}}}{{^required}} (optional){{/required}}{{/description}}
   {{paramName}}: {{{example}}},
 {{/allParams}}
 };
 {{/hasParams}}
 {{^hasParams}}
-let body:any = {};
+const request = {};
 {{/hasParams}}
 
-apiInstance.{{{operationId}}}(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.{{{operationId}}}(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

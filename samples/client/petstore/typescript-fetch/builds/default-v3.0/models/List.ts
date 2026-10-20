@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface List {
     /**
      * 
-     * @type {string}
-     * @memberof List
      */
     _123list?: string;
 }
@@ -48,10 +46,15 @@ export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List
     };
 }
 
-export function ListToJSON(value?: List | null): any {
+export function ListToJSON(json: any): List {
+    return ListToJSONTyped(json, false);
+}
+
+export function ListToJSONTyped(value?: List | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         '123-list': value['_123list'],

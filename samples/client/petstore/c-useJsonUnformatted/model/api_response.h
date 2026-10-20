@@ -23,9 +23,10 @@ typedef struct api_response_t {
     char *type; // string
     char *message; // string
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } api_response_t;
 
-api_response_t *api_response_create(
+__attribute__((deprecated)) api_response_t *api_response_create(
     int code,
     char *type,
     char *message

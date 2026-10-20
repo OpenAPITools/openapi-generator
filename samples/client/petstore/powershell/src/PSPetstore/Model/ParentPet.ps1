@@ -39,7 +39,7 @@ function Initialize-PSParentPet {
 
 
         $PSO = [PSCustomObject]@{
-            "pet_type" = ${PetType}
+            'pet_type' = ${PetType}
         }
 
 
@@ -77,7 +77,7 @@ function ConvertFrom-PSJsonToParentPet {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSParentPet
-        $AllProperties = ("pet_type")
+        $AllProperties = ('pet_type')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -88,14 +88,14 @@ function ConvertFrom-PSJsonToParentPet {
             throw "Error! Empty JSON cannot be serialized due to the required property 'pet_type' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "pet_type"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'pet_type'))) {
             throw "Error! JSON cannot be serialized due to the required property 'pet_type' missing."
         } else {
-            $PetType = $JsonParameters.PSobject.Properties["pet_type"].value
+            $PetType = $JsonParameters.PSobject.Properties['pet_type'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "pet_type" = ${PetType}
+            'pet_type' = ${PetType}
         }
 
         return $PSO

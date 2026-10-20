@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "Schema Conflict Test Spec"
+  },
+  "servers": [
+    { "url": "api.my-domain.com/my-context-root/v1" }
+  ],
+  "paths": {
+    "/schema-conflict": {
+      "get": {
+        "tags": ["schemaConflict"],
+        "summary": "schema conflict test",
+        "operationId": "schemaConflictOperation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Spec1Model" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Spec1Model": {
+        "type": "object",
+        "properties": {
+          "differentField": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

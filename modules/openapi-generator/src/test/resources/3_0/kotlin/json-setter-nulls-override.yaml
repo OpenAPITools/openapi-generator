@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: Per-property x-jackson-json-setter-nulls override test
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestModel'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TestModel:
+      type: object
+      required:
+        - requiredForcedFail
+      properties:
+        # optional non-nullable with an explicit per-property SKIP override
+        manualSkip:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: SKIP
+        # optional non-nullable with an explicit per-property FAIL override
+        manualFail:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: FAIL
+        # optional non-nullable with a NONE override: no @JsonSetter must be emitted
+        manualNone:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: NONE
+        # required non-nullable forced to FAIL: the override is honored unconditionally
+        requiredForcedFail:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: FAIL
+        # a plain optional non-nullable property with no override for contrast
+        plainOptional:
+          type: string
+          nullable: false

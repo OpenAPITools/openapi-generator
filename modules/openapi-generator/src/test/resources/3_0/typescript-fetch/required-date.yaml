@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Required date properties
+  version: 1.0.0
+paths:
+  /event:
+    get:
+      operationId: getEvent
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+components:
+  schemas:
+    Event:
+      type: object
+      required:
+        - requiredDate
+        - requiredDateTime
+        - requiredNullableDate
+        - requiredNullableDateTime
+      properties:
+        requiredDate:
+          type: string
+          format: date
+        requiredDateTime:
+          type: string
+          format: date-time
+        requiredNullableDate:
+          type: string
+          format: date
+          nullable: true
+        requiredNullableDateTime:
+          type: string
+          format: date-time
+          nullable: true
+        optionalDate:
+          type: string
+          format: date
+        optionalDateTime:
+          type: string
+          format: date-time

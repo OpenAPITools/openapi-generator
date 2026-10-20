@@ -1,4 +1,4 @@
-# # FileSchemaTestClass
+# FileSchemaTestClass
 
 ## Properties
 

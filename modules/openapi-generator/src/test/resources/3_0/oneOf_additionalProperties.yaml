@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: dummy
+paths:
+  /:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/schemaA'
+                - type: object
+                  properties: {}
+                  additionalProperties: true
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    schemaA:
+      type: object
+      properties:
+        propA:
+          type: string

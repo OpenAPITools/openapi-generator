@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: jvm-ktor type:object query param coverage
+  version: 1.0.0
+paths:
+  /probe:
+    get:
+      operationId: probe
+      parameters:
+        - name: scalar_form
+          in: query
+          schema:
+            type: string
+        - name: array_form_explode
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: array_form_noexplode
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: map_form_explode
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: map_form_noexplode
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: map_deep
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: model_form_explode
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+              b:
+                type: integer
+        - name: model_form_noexplode
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+              b:
+                type: integer
+        - name: model_deep
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+              b:
+                type: integer
+      responses:
+        '200':
+          description: ok

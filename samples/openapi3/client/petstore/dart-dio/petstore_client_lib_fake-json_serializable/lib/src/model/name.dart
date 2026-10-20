@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'name.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -31,7 +33,7 @@ class Name {
     
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -43,7 +45,7 @@ class Name {
     
     name: r'snake_case',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -55,7 +57,7 @@ class Name {
     
     name: r'property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -67,7 +69,7 @@ class Name {
     
     name: r'123Number',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

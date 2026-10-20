@@ -9,13 +9,20 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
-import org.junit.Before;
-import org.junit.Test;
+import org.openapitools.client.model.XmlItem;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * API tests for FakeApi
@@ -24,11 +31,23 @@ public class FakeApiTest {
 
     private FakeApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().createService(FakeApi.class);
     }
 
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     */
+    @Test
+    public void createXmlItemTest() {
+        XmlItem xmlItem = null;
+        // api.createXmlItem(xmlItem);
+
+        // TODO: test validations
+    }
     /**
      * 
      *
@@ -48,8 +67,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() {
-        OuterComposite outerComposite = null;
-        // OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
+        OuterComposite body = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
     }
@@ -84,8 +103,8 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() {
-        FileSchemaTestClass fileSchemaTestClass = null;
-        // api.testBodyWithFileSchema(fileSchemaTestClass);
+        FileSchemaTestClass body = null;
+        // api.testBodyWithFileSchema(body);
 
         // TODO: test validations
     }
@@ -97,8 +116,8 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() {
         String query = null;
-        User user = null;
-        // api.testBodyWithQueryParams(query, user);
+        User body = null;
+        // api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
     }
@@ -109,15 +128,15 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() {
-        Client client = null;
-        // Client response = api.testClientModel(client);
+        Client body = null;
+        // Client response = api.testClientModel(body);
 
         // TODO: test validations
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      */
     @Test
     public void testEndpointParametersTest() {
@@ -182,8 +201,8 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
-        Map<String, String> requestBody = null;
-        // api.testInlineAdditionalProperties(requestBody);
+        Map<String, String> param = null;
+        // api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
     }
@@ -197,6 +216,22 @@ public class FakeApiTest {
         String param = null;
         String param2 = null;
         // api.testJsonFormData(param, param2);
+
+        // TODO: test validations
+    }
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        // api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
         // TODO: test validations
     }

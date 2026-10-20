@@ -8,24 +8,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -33,7 +34,6 @@ public class AnotherFakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public AnotherFakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -54,19 +54,18 @@ public class AnotherFakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(Client client) throws WebClientResponseException {
-        Object postBody = client;
+    private ResponseSpec call123testSpecialTagsRequestCreation(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new WebClientResponseException("Missing the required parameter 'client' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -80,7 +79,7 @@ public class AnotherFakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, localVarQueryParams, client, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -91,7 +90,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> call123testSpecialTags(Client client) throws WebClientResponseException {
+    public Mono<Client> call123testSpecialTags(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return call123testSpecialTagsRequestCreation(client).bodyToMono(localVarReturnType);
     }
@@ -104,7 +103,7 @@ public class AnotherFakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -117,7 +116,7 @@ public class AnotherFakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec call123testSpecialTagsWithResponseSpec(Client client) throws WebClientResponseException {
+    public ResponseSpec call123testSpecialTagsWithResponseSpec(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         return call123testSpecialTagsRequestCreation(client);
     }
 }

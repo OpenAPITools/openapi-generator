@@ -2,14 +2,15 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -19,10 +20,10 @@ import jakarta.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MapTest {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -33,7 +34,7 @@ public class MapTest {
     
     LOWER("lower");
 
-    private String value;
+    private final String value;
 
     InnerEnum(String value) {
       this.value = value;
@@ -60,13 +61,13 @@ public class MapTest {
     }
   }
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -86,12 +87,12 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
 
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -113,12 +114,12 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -140,12 +141,12 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
 
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -167,12 +168,12 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
@@ -213,11 +214,8 @@ public class MapTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

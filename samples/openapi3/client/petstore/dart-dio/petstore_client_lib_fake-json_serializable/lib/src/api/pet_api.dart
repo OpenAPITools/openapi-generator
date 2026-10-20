@@ -63,7 +63,8 @@ class PetApi {
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(pet);
+      _bodyData = jsonEncode(pet);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -202,6 +203,7 @@ _bodyData=jsonEncode(pet);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'List<Pet>', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -284,6 +286,7 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Set<Pet>', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -362,6 +365,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -429,7 +433,8 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(pet);
+      _bodyData = jsonEncode(pet);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -503,6 +508,10 @@ _bodyData=jsonEncode(pet);
     dynamic _bodyData;
 
     try {
+      _bodyData = <String, dynamic>{
+        if (name != null) r'name': name,
+        if (status != null) r'status': status,
+      };
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -577,6 +586,10 @@ _bodyData=jsonEncode(pet);
     dynamic _bodyData;
 
     try {
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        if (additionalMetadata != null) r'additionalMetadata': additionalMetadata,
+        if (file != null) r'file': file,
+      });
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -604,6 +617,7 @@ _bodyData=jsonEncode(pet);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -675,6 +689,10 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     dynamic _bodyData;
 
     try {
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        if (additionalMetadata != null) r'additionalMetadata': additionalMetadata,
+        r'requiredFile': requiredFile,
+      });
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -702,6 +720,7 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

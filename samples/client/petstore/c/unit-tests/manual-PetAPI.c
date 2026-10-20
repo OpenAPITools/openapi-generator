@@ -2,8 +2,10 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
+    #include <curl/curl.h>
     #include "../api/PetAPI.h"
 
+    void preInvokeFunc(CURL *curl);
 
     #define EXAMPLE_CATEGORY_NAME "Example Category"
     #define EXAMPLE_CATEGORY_ID 5
@@ -16,16 +18,22 @@
     #define EXAMPLE_TAG_2_ID 542353
     #define EXAMPLE_PET_ID 1234 // Set to 0 to generate a new pet
 
+void preInvokeFunc(CURL *curl) {
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    printf("CURL pre-invoke function called - verbose mode enabled\n");
+}
 
 int main() {
 // Add pet test
 	apiClient_t *apiClient = apiClient_create();
+	apiClient->curl_pre_invoke_func = preInvokeFunc;
 
 	char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) + 1);
 	strcpy(categoryName, EXAMPLE_CATEGORY_NAME);
 
+	long categoryId = EXAMPLE_CATEGORY_ID;
 	category_t *category =
-		category_create(EXAMPLE_CATEGORY_ID, categoryName);
+		category_create(&categoryId, categoryName);
 
 	char *petName = malloc(strlen(EXAMPLE_PET_NAME) + 1);
 	strcpy(petName, EXAMPLE_PET_NAME);
@@ -43,11 +51,13 @@ int main() {
 
 	char *exampleTag1Name = malloc(strlen(EXAMPLE_TAG_1_NAME) + 1);
 	strcpy(exampleTag1Name, EXAMPLE_TAG_1_NAME);
-	tag_t *exampleTag1 = tag_create(EXAMPLE_TAG_1_ID, exampleTag1Name);
+	long tag1Id = EXAMPLE_TAG_1_ID;
+	tag_t *exampleTag1 = tag_create(&tag1Id, exampleTag1Name);
 
 	char *exampleTag2Name = malloc(strlen(EXAMPLE_TAG_2_NAME) + 1);
 	strcpy(exampleTag2Name, EXAMPLE_TAG_2_NAME);
-	tag_t *exampleTag2 = tag_create(EXAMPLE_TAG_2_ID, exampleTag2Name);
+	long tag2Id = EXAMPLE_TAG_2_ID;
+	tag_t *exampleTag2 = tag_create(&tag2Id, exampleTag2Name);
 
 	list_t *tags = list_createList();
 
@@ -55,14 +65,14 @@ int main() {
 	list_addElement(tags, exampleTag2);
 
 
-	status_e status = available;
+	long petId = EXAMPLE_PET_ID;
 	pet_t *pet =
-		pet_create(EXAMPLE_PET_ID,
+		pet_create(&petId,
 		           category,
 		           petName,
 		           photoUrls,
 		           tags,
-		           status);
+		           openapi_petstore_pet_STATUS_available);
 
 	PetAPI_addPet(apiClient, pet);
 	cJSON *JSONR_local = pet_convertToJSON(pet);
@@ -92,16 +102,18 @@ int main() {
 	printf("Data is:%s\n", petJson);
 
 	assert(strcmp(mypet->name, "Rocky Handsome") == 0);
-	assert(mypet->id == EXAMPLE_PET_ID);
+	assert(mypet->id && *mypet->id == EXAMPLE_PET_ID);
 	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
-	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
-	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	assert(mypet->category->id && *mypet->category->id == EXAMPLE_CATEGORY_ID);
+	assert(strcmp(list_getElementAt(mypet->photo_urls,
 	                                0)->data, EXAMPLE_URL_1) == 0);
-	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	assert(strcmp(list_getElementAt(mypet->photo_urls,
 	                                1)->data, EXAMPLE_URL_2) == 0);
 	assert(((tag_t *) list_getElementAt(mypet->tags,
+	                                    0)->data)->id && *((tag_t *) list_getElementAt(mypet->tags,
 	                                    0)->data)->id == EXAMPLE_TAG_1_ID);
 	assert(((tag_t *) list_getElementAt(mypet->tags,
+	                                    1)->data)->id && *((tag_t *) list_getElementAt(mypet->tags,
 	                                    1)->data)->id == EXAMPLE_TAG_2_ID);
 	assert(strcmp(((tag_t *) list_getElementAt(mypet->tags, 0)->data)->name,
 	              EXAMPLE_TAG_1_NAME) == 0);

@@ -1,0 +1,28 @@
+{{#vendorExtensions.x-response-content-types}}
+  {{#-first}}
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
+
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+  {{/-first}}
+                    Ok(ct) if ct.eq_ignore_ascii_case("{{{contentType}}}") => {
+{{>client-response-body-variant-instance}}
+                        {{{variantName}}}(body)
+                    },
+  {{#-last}}
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
+  {{/-last}}
+{{/vendorExtensions.x-response-content-types}}
+{{^vendorExtensions.x-response-content-types}}
+{{>client-response-body-instance}}
+{{/vendorExtensions.x-response-content-types}}

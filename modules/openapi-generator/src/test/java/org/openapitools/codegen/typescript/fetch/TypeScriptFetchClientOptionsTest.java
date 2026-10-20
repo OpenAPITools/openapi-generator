@@ -47,7 +47,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setModelPropertyNaming(TypeScriptFetchClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
         verify(clientCodegen).setParamNaming(TypeScriptFetchClientOptionsProvider.PARAM_NAMING_VALUE);
-        verify(clientCodegen).setSupportsES6(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE);
+        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE));
         verify(clientCodegen).setImportFileExtension(TypeScriptFetchClientOptionsProvider.IMPORT_FILE_EXTENSION_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setWithoutRuntimeChecks(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.WITHOUT_RUNTIME_CHECKS));
@@ -55,6 +55,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.STRING_ENUMS));
         verify(clientCodegen).setFileNaming(TypeScriptFetchClientOptionsProvider.FILE_NAMING_VALUE);
+        verify(clientCodegen).setDateLibrary(TypeScriptFetchClientOptionsProvider.DATE_LIBRARY_VALUE);
     }
 
     @Test(description = "Verify if an exception is thrown when invalid values are used with fileNaming option")

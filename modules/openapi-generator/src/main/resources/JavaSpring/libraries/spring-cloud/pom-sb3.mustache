@@ -6,9 +6,8 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
-        <java.version>8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springDocDocumentationProvider}}
         <springdoc.version>2.2.0</springdoc.version>
@@ -30,21 +29,27 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.3</version>
+        <version>3.3.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
 
-    <repositories>
-        <repository>
-            <id>repository.spring.milestone</id>
-            <name>Spring Milestone Repository</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
+        {{#interfaceOnly}}<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>{{/interfaceOnly}}
     </build>
 
 {{^parentOverridden}}
@@ -53,7 +58,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2022.0.0</version>
+                <version>2023.0.6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -79,6 +84,7 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
+        {{^useJspecify}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -87,6 +93,7 @@
             <version>3.0.2</version>
             {{/parentOverridden}}
         </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -94,9 +101,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            {{^parentOverridden}}
-            <version>6.1.1</version>
-            {{/parentOverridden}}
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
@@ -120,7 +124,7 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         {{^parentOverridden}}
-            <version>0.2.6</version>
+            <version>0.2.12</version>
         {{/parentOverridden}}
         </dependency>
         {{/openApiNullable}}
@@ -147,6 +151,13 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

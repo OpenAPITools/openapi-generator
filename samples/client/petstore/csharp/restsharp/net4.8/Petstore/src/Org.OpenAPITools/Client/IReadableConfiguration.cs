@@ -47,6 +47,12 @@ namespace Org.OpenAPITools.Client
         string OAuthClientSecret { get; }
 
         /// <summary>
+        /// Gets the OAuth token scope.
+        /// </summary>
+        /// <value>OAuth Token scope.</value>
+        string OAuthScope { get; }
+
+        /// <summary>
         /// Gets the OAuth flow.
         /// </summary>
         /// <value>OAuth Flow.</value>
@@ -96,10 +102,10 @@ namespace Org.OpenAPITools.Client
         string TempFolderPath { get; }
 
         /// <summary>
-        /// Gets the HTTP connection timeout (in milliseconds)
+        /// Gets the HTTP connection timeout.
         /// </summary>
         /// <value>HTTP connection timeout.</value>
-        int Timeout { get; }
+        TimeSpan Timeout { get; }
 
         /// <summary>
         /// Gets the proxy.

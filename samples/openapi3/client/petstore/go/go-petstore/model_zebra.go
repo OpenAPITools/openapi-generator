@@ -101,6 +101,7 @@ func (o *Zebra) SetClassName(v string) {
 	o.ClassName = v
 }
 
+
 func (o Zebra) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -131,6 +132,11 @@ func (o *Zebra) UnmarshalJSON(data []byte) (err error) {
 		"className",
 	}
 
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -140,11 +146,23 @@ func (o *Zebra) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varZebra := _Zebra{}
 
 	err = json.Unmarshal(data, &varZebra)

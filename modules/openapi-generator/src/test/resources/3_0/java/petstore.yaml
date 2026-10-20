@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: Test API
+  version: 1.0.0
+tags:
+  - name: pets
+    description: Pet operations
+paths:
+  /pets:
+    get:
+      tags:
+        - pets
+      operationId: listPets
+      summary: List all pets
+      responses:
+        '200':
+          description: OK

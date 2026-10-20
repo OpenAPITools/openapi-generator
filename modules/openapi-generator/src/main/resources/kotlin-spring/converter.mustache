@@ -1,0 +1,38 @@
+package {{configPackage}}
+
+{{#models}}
+    {{#model}}
+        {{#isEnum}}
+import {{modelPackage}}.{{classname}}
+        {{/isEnum}}
+    {{/model}}
+{{/models}}
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.convert.converter.Converter
+
+/**
+ * This class provides Spring Converter beans for the enum models in the OpenAPI specification.
+ *
+ * By default, Spring only converts primitive types to enums using Enum::valueOf, which can prevent
+ * correct conversion if the OpenAPI specification is using an `enumPropertyNaming` other than
+ * `original` or the specification has an integer enum.
+ */
+@Configuration(value = "{{configPackage}}.enumConverterConfiguration")
+class EnumConverterConfiguration {
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+    @Bean(name = ["{{configPackage}}.EnumConverterConfiguration.{{classVarName}}Converter"])
+    fun {{classVarName}}Converter(): Converter<{{{dataType}}}, {{classname}}> {
+        return object: Converter<{{{dataType}}}, {{classname}}> {
+            override fun convert(source: {{{dataType}}}): {{classname}} = {{classname}}.forValue(source)
+        }
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+}

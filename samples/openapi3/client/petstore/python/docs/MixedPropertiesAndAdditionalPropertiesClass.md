@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | **str** |  | [optional] 
+**uuid** | **UUID** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
 **map** | [**Dict[str, Animal]**](Animal.md) |  | [optional] 
 

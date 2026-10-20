@@ -284,7 +284,7 @@ export class UserApi {
      */
     public async deleteUser (username: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
@@ -345,7 +345,7 @@ export class UserApi {
      */
     public async getUserByName (username: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: User;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
@@ -551,7 +551,7 @@ export class UserApi {
      */
     public async updateUser (username: string, body: User, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};

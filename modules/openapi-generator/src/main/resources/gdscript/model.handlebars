@@ -1,0 +1,121 @@
+{{#each models}}
+{{#with model}}
+{{>partials/model_statement_extends}}
+{{>partials/model_statement_class_name}}
+
+
+{{>partials/model_headers}}
+
+
+{{#each vars}}
+{{#if deprecated}}
+# /!.  DEPRECATED
+{{/if}}
+{{#if description}}
+{{! FIXME: multiline description (how?) }}
+# {{{description}}}
+{{/if}}
+{{#if isDate}}
+#       (but it's actually a Date ; no timezones support in Gdscript)
+{{/if}}
+{{#if isDateTime}}
+#       (but it's actually a DateTime ; no timezones support in Gdscript)
+{{/if}}
+# Required: {{#unless required}}False{{/unless}}{{#if required}}True{{/if}}
+{{#if example}}
+# Example: {{{example}}}
+{{/if}}
+# isArray: {{isArray}}
+{{#if isEnum}}
+# Allowed values: {{#with allowableValues}}{{#each values}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}{{/with}}
+{{/if}}
+@export var {{name}}: {{>partials/data_type}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
+	set(value):
+{{#if deprecated}}
+		if str(value) != "":
+			push_warning("{{classname}}: property `{{name}}` is deprecated.")
+{{/if}}
+{{#if isEnum}}
+		if str(value) != "" and not (str(value) in __{{name}}__allowable__values):
+			push_error("{{classname}}: tried to set property `{{name}}` to a value that is not allowed." +
+				"  Allowed values: {{#with allowableValues}}{{#each values}}`{{this}}`{{#unless @last}}, {{/unless}}{{/each}}{{/with}}")
+			return
+{{/if}}
+		__{{name}}__was__set = true
+		{{name}} = value
+{{! Flag used to only serialize what has been explicitly set. (no nullable types, anyway null might be legit) }}
+var __{{name}}__was__set := false
+{{! Store the allowed values if the property is an enum }}
+{{#if isEnum}}
+var __{{name}}__allowable__values := [
+	{{~#with allowableValues}}{{#each values}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}{{~/with~}}
+]
+{{/if}}
+
+{{/each}}
+
+func bzz_collect_missing_properties() -> Array:
+	var bzz_missing_properties := Array()
+{{#each vars}}
+{{#if required}}
+	if not self.__{{name}}__was__set:
+		bzz_missing_properties.append("{{name}}")
+{{/if}}
+{{/each}}
+	return bzz_missing_properties
+
+
+func bzz_normalize() -> Dictionary:
+	var bzz_dictionary := Dictionary()
+{{#each vars}}
+	if self.__{{name}}__was__set:
+		bzz_dictionary["{{name}}"] = self.{{name}}
+{{/each}}
+	return bzz_dictionary
+
+
+# Won't work for JSON+LD
+{{!-- LEAKING if we specify return -> {{classname}} in func def --}}
+static func bzz_denormalize_single(from_dict: Dictionary):
+	var me := new()
+{{#each vars}}
+	if from_dict.has("{{name}}"):
+	{{#if isModel}}
+		me.{{name}} = {{>partials/complex_type}}.bzz_denormalize_single(from_dict["{{name}}"])
+	{{else if isArray}}
+		{{#if mostInnerItems.isModel}}
+		me.{{name}} = {{>partials/complex_type}}.bzz_denormalize_multiple(from_dict["{{name}}"])
+		{{else}}
+		me.{{name}} = from_dict["{{name}}"]
+		{{/if}}
+	{{else}}
+		me.{{name}} = from_dict["{{name}}"]
+	{{/if}}
+{{/each}}
+	return me
+
+
+# Won't work for JSON+LD
+{{!-- LEAKING if we specify return -> {{classname}} in func def --}}
+static func bzz_denormalize_multiple(from_array: Array):
+	var mes := Array()
+	for element in from_array:
+		if element is Array:
+			mes.append(bzz_denormalize_multiple(element))
+		elif element is Dictionary:
+			# TODO: perhaps check first if it looks like a match or an intermediate container
+			mes.append(bzz_denormalize_single(element))
+		else:
+			mes.append(element)
+	return mes
+
+{{!-- UNUSED
+func bzz_normalize_fully() -> Dictionary:
+	return {
+{{#each vars}}
+		"{{name}}": self.{{name}},
+{{/each}}
+	}
+--}}
+{{/with}}
+{{/each}}

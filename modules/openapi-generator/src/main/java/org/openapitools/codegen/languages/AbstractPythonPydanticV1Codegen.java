@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -25,21 +27,24 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen implements CodegenConfig {
@@ -142,6 +147,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PYTHON_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 
@@ -213,6 +220,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return nameMapping.get(name);
         }
 
+        return toVarNameWithoutNameMapping(name);
+    }
+
+    private String toVarNameWithoutNameMapping(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -256,8 +267,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return "param_callback";
         }
 
-        // should be the same as variable name
-        return toVarName(name);
+        // use variable-name normalization without model property mappings
+        return toVarNameWithoutNameMapping(name);
     }
 
     @Override
@@ -296,6 +307,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -306,20 +318,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = pythonPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -363,7 +362,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return example;
         }
 
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (isEnumSchema(schema)) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
@@ -463,7 +462,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (additionalObject instanceof Schema) {
                 Schema additional = (Schema) additionalObject;
                 String theKey = "'key'";
-                if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
+                if (isEnumSchema(additional)) {
                     theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
                         theKey = "'" + escapeText(theKey) + "'";
@@ -492,7 +491,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
             // if required and optionals
             List<String> reqs = new ArrayList<>();
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if (ModelUtils.hasProperties(schema)) {
                 for (Object toAdd : schema.getProperties().keySet()) {
                     reqs.add((String) toAdd);
                 }
@@ -786,6 +785,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return PythonStringUtils.addMustacheLambdas(super.addMustacheLambdas());
+    }
+
+    @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PYTHON;
     }
@@ -849,7 +853,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             }
 
             List<CodegenProperty> codegenProperties = null;
-            if (!model.oneOf.isEmpty()) { // oneOfValidationError
+            if (hasOneOf(model)) {
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 typingImports.add("Any");
                 typingImports.add("List");
@@ -857,7 +861,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
                 pydanticImports.add("validator");
-            } else if (!model.anyOf.isEmpty()) { // anyOF
+            } else if (hasAnyOf(model)) {
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
@@ -872,12 +876,12 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
             }
 
-            if (!model.allOf.isEmpty()) { // allOf
+            if (hasAllOf(model)) {
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray || cp.isMap){ // if array or map
+                        if (cp.isArray || cp.isMap) { // if array or map
                             modelImports.add(cp.items.dataType);
-                        }else{ // if model
+                        } else { // if model
                             modelImports.add(cp.dataType);
                         }
                     }
@@ -917,7 +921,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
                 // field
                 if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                    fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
+                    fields.add("alias=" + PythonStringUtils.toPythonStringLiteral(cp.baseName));
                 }
 
                 if (!StringUtils.isEmpty(cp.description)) { // has description
@@ -957,13 +961,13 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     fieldCustomization = "Field(...)";
                 }
 
-                cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
+                cp.vendorExtensions.put(X_PY_TYPING, typing + " = " + fieldCustomization);
 
                 // setup x-py-name for each oneOf/anyOf schema
-                if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
-                } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
+                if (hasOneOf(model)) {
+                    cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
+                } else if (hasAnyOf(model)) {
+                    cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -976,26 +980,26 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
+                for (EnumVarMap enumVars : EnumUtils.getEnumVars(model.getAllowableValues())) {
+                    if (enumVars.isString()) {
+                        model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // update `name`, e.g.
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "str"));
                     } else {
-                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
+                        enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "int"));
                     }
                 }
             }
 
             // set the extensions if the key is absent
-            model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
-            model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
-            model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
-            model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+            model.getVendorExtensions().putIfAbsent(X_PY_TYPING_IMPORTS, typingImports);
+            model.getVendorExtensions().putIfAbsent(X_PY_PYDANTIC_IMPORTS, pydanticImports);
+            model.getVendorExtensions().putIfAbsent(X_PY_DATETIME_IMPORTS, datetimeImports);
+            model.getVendorExtensions().putIfAbsent(X_PY_READONLY, readOnlyFields);
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
-            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
                 modelImports.removeAll(postponedModelImports);
             }
 
@@ -1010,7 +1014,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
                 }
 
-                model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
+                model.getVendorExtensions().putIfAbsent(X_PY_MODEL_IMPORTS, modelsToImport);
             }
 
             if (!postponedModelImports.isEmpty()) {
@@ -1023,7 +1027,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
                 }
 
-                model.getVendorExtensions().putIfAbsent("x-py-postponed-model-imports", modelsToImport);
+                model.getVendorExtensions().putIfAbsent(X_PY_POSTPONED_MODEL_IMPORTS, modelsToImport);
             }
 
         }
@@ -1101,7 +1105,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 pydanticImports.add("constr");
                 return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -1386,7 +1390,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 pydanticImports.add("constr");
                 return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -1604,6 +1608,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        name = name.replace(".", "_DOT_");
+
         if ("int".equals(datatype)) {
             return "NUMBER_" + name.replace("-", "MINUS_");
         }
@@ -1660,9 +1666,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
@@ -1698,7 +1704,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     /**
-     * Update set of imports from codegen model recursivly
+     * Update set of imports from codegen model recursively
      *
      * @param modelName model name
      * @param cm        codegen model
@@ -1711,9 +1717,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
@@ -1796,9 +1802,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
 
                 if ("Field()".equals(fieldCustomization)) {
-                    param.vendorExtensions.put("x-py-typing", typing);
+                    param.vendorExtensions.put(X_PY_TYPING, typing);
                 } else {
-                    param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
+                    param.vendorExtensions.put(X_PY_TYPING, String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
                     importAnnotated = true;
                 }
             }
@@ -1816,7 +1822,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 for (String exampleImport : exampleImports) {
                     imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import " + exampleImport);
                 }
-                operation.vendorExtensions.put("x-py-example-import", imports);
+                operation.vendorExtensions.put(X_PY_EXAMPLE_IMPORT, imports);
             }
 
             if (!postponedExampleImports.isEmpty()) {
@@ -1825,7 +1831,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import "
                             + exampleImport);
                 }
-                operation.vendorExtensions.put("x-py-example-import", imports);
+                operation.vendorExtensions.put(X_PY_EXAMPLE_IMPORT, imports);
             }
         }
 
@@ -1888,6 +1894,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        property.vendorExtensions.put(
+                X_PY_WIRE_NAME_LITERAL,
+                PythonStringUtils.toPythonStringLiteral(property.baseName));
         postProcessPattern(property.pattern, property.vendorExtensions);
     }
 
@@ -1907,7 +1916,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
-            // TOOD update the check below follow python convention
+            // TODO update the check below follow python convention
             //Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "
@@ -1924,9 +1933,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
             }
 
-            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
-            vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
-            vendorExtensions.put("x-modifiers", modifiers);
+            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
+            vendorExtensions.put(X_PATTERN, pattern.replace("\"", "\\\""));
+            vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
 

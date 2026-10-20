@@ -1,0 +1,3 @@
+request.content().hasEntity()
+                ? {{^required}}Optional.of({{/required}}request.content().{{#isFile}}inputStream(){{/isFile}}{{^isFile}}as({{> paramValueAs }}){{/isFile}}{{> paramValueAsSuffix }}{{^required}}){{/required}}
+                : {{^isContainer}}{{^required}}Optional.empty(){{/required}}{{#required}}null{{/required}}{{/isContainer}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}

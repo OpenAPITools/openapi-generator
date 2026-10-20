@@ -29,15 +29,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   File.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class File {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
+  @javax.annotation.Nullable
   private String sourceURI;
 
   public File() {
   }
 
-  public File sourceURI(String sourceURI) {
+  public File sourceURI(@javax.annotation.Nullable String sourceURI) {
     
     this.sourceURI = sourceURI;
     return this;
@@ -48,7 +49,7 @@ public class File {
    * @return sourceURI
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSourceURI() {
@@ -56,9 +57,9 @@ public class File {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 
@@ -94,10 +95,7 @@ public class File {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

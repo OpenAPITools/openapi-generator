@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets EnumClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public enum EnumClass {
   
   _ABC("_abc"),
@@ -27,7 +26,7 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
-  private String value;
+  private final String value;
 
   EnumClass(String value) {
     this.value = value;

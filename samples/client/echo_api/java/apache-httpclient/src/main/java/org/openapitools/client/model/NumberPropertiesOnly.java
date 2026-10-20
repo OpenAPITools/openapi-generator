@@ -35,21 +35,24 @@ import java.util.StringJoiner;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
+  @javax.annotation.Nullable
   private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
+  @javax.annotation.Nullable
   private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
+  @javax.annotation.Nullable
   private Double _double;
 
   public NumberPropertiesOnly() {
   }
 
-  public NumberPropertiesOnly number(BigDecimal number) {
+  public NumberPropertiesOnly number(@javax.annotation.Nullable BigDecimal number) {
     
     this.number = number;
     return this;
@@ -60,7 +63,7 @@ public class NumberPropertiesOnly {
    * @return number
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getNumber() {
@@ -68,13 +71,13 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@javax.annotation.Nullable BigDecimal number) {
     this.number = number;
   }
 
-  public NumberPropertiesOnly _float(Float _float) {
+  public NumberPropertiesOnly _float(@javax.annotation.Nullable Float _float) {
     
     this._float = _float;
     return this;
@@ -85,7 +88,7 @@ public class NumberPropertiesOnly {
    * @return _float
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -93,13 +96,13 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFloat(Float _float) {
+  public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
-  public NumberPropertiesOnly _double(Double _double) {
+  public NumberPropertiesOnly _double(@javax.annotation.Nullable Double _double) {
     
     this._double = _double;
     return this;
@@ -112,7 +115,7 @@ public class NumberPropertiesOnly {
    * @return _double
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
@@ -120,11 +123,12 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDouble(Double _double) {
+  public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -161,10 +165,7 @@ public class NumberPropertiesOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -202,7 +203,7 @@ public class NumberPropertiesOnly {
     // add `number` to the URL query string
     if (getNumber() != null) {
       try {
-        joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -212,7 +213,7 @@ public class NumberPropertiesOnly {
     // add `float` to the URL query string
     if (getFloat() != null) {
       try {
-        joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -222,7 +223,7 @@ public class NumberPropertiesOnly {
     // add `double` to the URL query string
     if (getDouble() != null) {
       try {
-        joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

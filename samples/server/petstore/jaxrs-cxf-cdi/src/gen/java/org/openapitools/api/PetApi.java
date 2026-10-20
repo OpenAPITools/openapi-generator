@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.openapitools.model.PetRequest;
 import org.openapitools.api.PetApiService;
 
 import javax.ws.rs.*;
@@ -25,10 +26,10 @@ import javax.validation.Valid;
 @Path("/pet")
 @RequestScoped
 
-@Api(description = "the pet API")
+@Api
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 
 public class PetApi  {
 
@@ -51,6 +52,17 @@ public class PetApi  {
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet) {
         return delegate.addPet(pet, securityContext);
+    }
+
+    @POST
+    @Path("/request")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "", notes = "", response = PetRequest.class, tags={ "pet" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "Pet created successfully", response = PetRequest.class) })
+    public Response createPetRequest(@ApiParam(value = "" ,required=true) PetRequest petRequest) {
+        return delegate.createPetRequest(petRequest, securityContext);
     }
 
     @DELETE
@@ -162,7 +174,7 @@ public class PetApi  {
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream _fileInputStream, @Multipart(value = "file" , required = false) Attachment _fileDetail) {
-        return delegate.uploadFile(petId, additionalMetadata, _fileInputStream, _fileDetail, securityContext);
+    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) {
+        return delegate.uploadFile(petId, additionalMetadata, _fileDetail, securityContext);
     }
 }

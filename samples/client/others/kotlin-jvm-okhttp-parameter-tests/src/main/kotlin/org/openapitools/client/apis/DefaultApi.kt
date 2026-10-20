@@ -8,15 +8,23 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 
@@ -36,11 +44,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost")
         }
     }
 
@@ -50,7 +58,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class QueryDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
@@ -59,7 +76,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class HeaderDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
@@ -68,22 +94,32 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class CookieDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
@@ -116,18 +152,19 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
@@ -152,13 +189,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
@@ -187,11 +224,12 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
         headerDefault?.apply { localVariableHeaders["header_default"] = this.toString() }
         headerDefaultEnum?.apply { localVariableHeaders["header_default_enum"] = this.toString() }
         headerDefaultInt?.apply { localVariableHeaders["header_default_int"] = this.toString() }
         headerNullable?.apply { localVariableHeaders["header_nullable"] = this.toString() }
-        
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/test/parameters/{path_default}/{path_nullable}".replace("{"+"path_default"+"}", encodeURIComponent(pathDefault.toString())).replace("{"+"path_nullable"+"}", encodeURIComponent(pathNullable.toString())),

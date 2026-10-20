@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class NumberOnly  {
   
   @ApiModelProperty(value = "")
+
   @Valid
+
   private BigDecimal justNumber;
  /**
    * Get justNumber
@@ -64,10 +66,7 @@ public class NumberOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

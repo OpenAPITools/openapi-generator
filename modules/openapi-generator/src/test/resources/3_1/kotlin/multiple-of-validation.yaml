@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: MultipleOf Validation
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultipleOfModel'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MultipleOfModel:
+      type: object
+      required:
+        - int_val
+        - float_val
+        - double_val
+        - float_values
+        - double_map
+      properties:
+        int_val:
+          type: integer
+          multipleOf: 2
+        float_val:
+          type: number
+          format: float
+          multipleOf: 0.1
+        double_val:
+          type: number
+          format: double
+          multipleOf: 0.1
+        float_values:
+          type: array
+          items:
+            type: number
+            format: float
+            multipleOf: 0.1
+        double_map:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+            multipleOf: 0.01

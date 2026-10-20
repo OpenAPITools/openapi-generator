@@ -8,22 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -31,7 +32,6 @@ public class FakeClassnameTags123Api {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeClassnameTags123Api(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -52,8 +52,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(Client client) throws RestClientResponseException {
-        Object postBody = client;
+    private ResponseSpec testClassnameRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new RestClientResponseException("Missing the required parameter 'client' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -61,7 +60,7 @@ public class FakeClassnameTags123Api {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -78,7 +77,7 @@ public class FakeClassnameTags123Api {
         String[] localVarAuthNames = new String[] { "api_key_query" };
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, localVarQueryParams, client, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -89,7 +88,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Client testClassname(Client client) throws RestClientResponseException {
+    public Client testClassname(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClassnameRequestCreation(client).body(localVarReturnType);
     }
@@ -102,7 +101,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> testClassnameWithHttpInfo(Client client) throws RestClientResponseException {
+    public ResponseEntity<Client> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClassnameRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -115,7 +114,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClassnameWithResponseSpec(Client client) throws RestClientResponseException {
+    public ResponseSpec testClassnameWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return testClassnameRequestCreation(client);
     }
 }

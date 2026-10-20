@@ -2,34 +2,37 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * HasOnlyReadOnly
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> bar = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = Optional.of(bar);
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -38,18 +41,19 @@ public class HasOnlyReadOnly {
    * @return bar
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("bar")
   public Optional<String> getBar() {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = Optional.of(foo);
+    this.foo = Optional.ofNullable(foo);
     return this;
   }
 
@@ -58,12 +62,13 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
   public Optional<String> getFoo() {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
@@ -100,11 +105,8 @@ public class HasOnlyReadOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

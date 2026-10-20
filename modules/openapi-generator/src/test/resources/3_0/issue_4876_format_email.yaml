@@ -17,6 +17,23 @@ paths:
       responses:
         '204':
           description: No Content
+  /person/search:
+    get:
+      operationId: searchPersonByEmail
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/personWithEmail'
 components:
   schemas:
     personWithEmail:

@@ -27,8 +27,9 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Server\Model;
+namespace OpenAPI\Server\Tests\Model;
 
+use OpenAPI\Server\Model\Order;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -58,7 +59,7 @@ class OrderTest extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder(Order::class)->getMockForAbstractClass();
+        $this->object = $this->getMockBuilder(Order::class)->getMockForAbstractClass();
     }
 
     /**

@@ -1,6 +1,6 @@
 # \FakeAPI
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**FakeOuterNumberSerialize**](FakeAPI.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeAPI.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
 [**GetParameterNameMapping**](FakeAPI.md#GetParameterNameMapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+[**QueryArrayWithDefaultValues**](FakeAPI.md#QueryArrayWithDefaultValues) | **Post** /fake/query-array-with-default-values | to test query array with default values
 [**TestAdditionalPropertiesReference**](FakeAPI.md#TestAdditionalPropertiesReference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 [**TestBodyWithFileSchema**](FakeAPI.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeAPI.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
@@ -21,6 +22,7 @@ Method | HTTP request | Description
 [**TestInlineFreeformAdditionalProperties**](FakeAPI.md#TestInlineFreeformAdditionalProperties) | **Post** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**TestJsonFormData**](FakeAPI.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 [**TestQueryDeepObject**](FakeAPI.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
+[**TestQueryDeepObjectAnyof**](FakeAPI.md#TestQueryDeepObjectAnyof) | **Get** /fake/deep_object_anyof_test | 
 [**TestQueryParameterCollectionFormat**](FakeAPI.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
 [**TestStringMapReference**](FakeAPI.md#TestStringMapReference) | **Post** /fake/stringMap-reference | test referenced string map
 [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeAPI.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-parameters | 
@@ -411,6 +413,74 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## QueryArrayWithDefaultValues
+
+> QueryArrayWithDefaultValues(ctx).Arrayparam(arrayparam).Enumarrayparam(enumarrayparam).Stringparam(stringparam).Body(body).Execute()
+
+to test query array with default values
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	arrayparam := []string{"Inner_example"} // []string |  (optional) (default to {"test1", "test2"})
+	enumarrayparam := []openapiclient.ExampleEnum{openapiclient.ExampleEnum("example1")} // []ExampleEnum |  (optional) (default to {"example1"})
+	stringparam := "stringparam_example" // string |  (optional) (default to "test3")
+	body := "body_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.FakeAPI.QueryArrayWithDefaultValues(context.Background()).Arrayparam(arrayparam).Enumarrayparam(enumarrayparam).Stringparam(stringparam).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.QueryArrayWithDefaultValues``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiQueryArrayWithDefaultValuesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **arrayparam** | **[]string** |  | [default to {&quot;test1&quot;, &quot;test2&quot;}]
+ **enumarrayparam** | [**[]ExampleEnum**](ExampleEnum.md) |  | [default to {&quot;example1&quot;}]
+ **stringparam** | **string** |  | [default to &quot;test3&quot;]
+ **body** | **string** |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -1158,6 +1228,68 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **testPet** | [**Pet**](Pet.md) |  | 
  **inputOptions** | [**Category**](Category.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryDeepObjectAnyof
+
+> TestQueryDeepObjectAnyof(ctx).Filter(filter).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	filter := *openapiclient.NewFilterAny() // FilterAny |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.FakeAPI.TestQueryDeepObjectAnyof(context.Background()).Filter(filter).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestQueryDeepObjectAnyof``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryDeepObjectAnyofRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter** | [**FilterAny**](FilterAny.md) |  | 
 
 ### Return type
 

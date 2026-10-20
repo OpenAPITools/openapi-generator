@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -28,8 +29,6 @@ import {
 export interface Dog extends Animal {
     /**
      * 
-     * @type {string}
-     * @memberof Dog
      */
     breed?: string;
 }
@@ -50,17 +49,22 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
         return json;
     }
     return {
-        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
+        ...AnimalFromJSONTyped(json, true),
         'breed': json['breed'] == null ? undefined : json['breed'],
     };
 }
 
-export function DogToJSON(value?: Dog | null): any {
+export function DogToJSON(json: any): Dog {
+    return DogToJSONTyped(json, false);
+}
+
+export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(value, true),
         'breed': value['breed'],
     };
 }

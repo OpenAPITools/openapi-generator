@@ -2,42 +2,46 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
-  private Category category;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -50,7 +54,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -77,7 +81,8 @@ public class Pet {
     }
   }
 
-  private StatusEnum status;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable StatusEnum status;
 
   public Pet() {
     super();
@@ -91,7 +96,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -101,17 +106,18 @@ public class Pet {
    * @return id
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -121,13 +127,14 @@ public class Pet {
    * @return category
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
-  public Category getCategory() {
+  public @Nullable Category getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  @JsonProperty("category")
+  public void setCategory(@Nullable Category category) {
     this.category = category;
   }
 
@@ -141,12 +148,13 @@ public class Pet {
    * @return name
    */
   @NotNull 
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -169,12 +177,13 @@ public class Pet {
    * @return photoUrls
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -196,18 +205,19 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -217,13 +227,14 @@ public class Pet {
    * @return status
    */
   
-  @ApiModelProperty(value = "pet status in the store")
+  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  @JsonProperty("status")
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -267,11 +278,8 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

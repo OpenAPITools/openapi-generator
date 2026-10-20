@@ -8,23 +8,33 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
+import kotlin.jvm.JvmStatic
 
 /**
- * 
- *
  * Values: success,failure,unclassified,unknown_default_open_api
  */
 
-enum class StringEnumRef(val value: kotlin.String) {
+enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
 
     @JsonProperty(value = "success")
     success("success"),
@@ -35,7 +45,7 @@ enum class StringEnumRef(val value: kotlin.String) {
     @JsonProperty(value = "unclassified")
     unclassified("unclassified"),
 
-    @JsonProperty(value = "unknown_default_open_api")
+    @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue
     unknown_default_open_api("unknown_default_open_api");
 
     /**
@@ -54,11 +64,31 @@ enum class StringEnumRef(val value: kotlin.String) {
         fun encode(data: kotlin.Any?): kotlin.String? = if (data is StringEnumRef) "$data" else null
 
         /**
-         * Returns a valid [StringEnumRef] for [data], null otherwise.
+         * Returns a valid [StringEnumRef] for [data].
          */
-        fun decode(data: kotlin.Any?): StringEnumRef? = data?.let {
+        @JvmStatic
+        @JsonCreator
+        fun decode(data: kotlin.Any?): StringEnumRef {
+          if (data == null) {
+            throw IllegalArgumentException("Value for StringEnumRef cannot be null")
+          }
+          val normalizedData = "$data".lowercase()
+          return entries.firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }
+            ?: unknown_default_open_api
+        }
+
+        /**
+         * Returns a valid [StringEnumRef] for [data], or null when [data] is null or does not match a known value.
+         *
+         * Lenient counterpart to [decode], intended for direct calls from Kotlin code.
+         * Jackson deserialization uses [decode], which is strict.
+         */
+        @JvmStatic
+        fun decodeOrNull(data: kotlin.Any?): StringEnumRef? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }

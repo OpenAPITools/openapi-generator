@@ -1,0 +1,12 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/oneof-anyof-non-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-oneOf-anyOf-kotlinx-serialization
+  serializableModel: "false"
+  dateLibrary: java8
+  library: jvm-retrofit2
+  enumUnknownDefaultCase: true
+  serializationLibrary: kotlinx_serialization
+  generateOneOfAnyOfWrappers: true

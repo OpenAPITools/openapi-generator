@@ -8,24 +8,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -33,7 +34,6 @@ public class StoreApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public StoreApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -54,21 +54,20 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteOrderRequestCreation(String orderId) throws WebClientResponseException {
-        Object postBody = null;
+    private ResponseSpec deleteOrderRequestCreation(@jakarta.annotation.Nonnull String orderId) throws WebClientResponseException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new WebClientResponseException("Missing the required parameter 'orderId' when calling deleteOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("order_id", orderId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -77,8 +76,8 @@ public class StoreApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -89,8 +88,8 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteOrder(String orderId) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> deleteOrder(@jakarta.annotation.Nonnull String orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteOrderRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
 
@@ -102,8 +101,8 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(String orderId) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(@jakarta.annotation.Nonnull String orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteOrderRequestCreation(orderId).toEntity(localVarReturnType);
     }
 
@@ -116,9 +115,10 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws WebClientResponseException {
+    public ResponseSpec deleteOrderWithResponseSpec(@jakarta.annotation.Nonnull String orderId) throws WebClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -127,14 +127,13 @@ public class StoreApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec getInventoryRequestCreation() throws WebClientResponseException {
-        Object postBody = null;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -145,8 +144,8 @@ public class StoreApi {
 
         String[] localVarAuthNames = new String[] { "api_key" };
 
-        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -157,7 +156,7 @@ public class StoreApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<Map<String, Integer>> getInventory() throws WebClientResponseException {
-        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getInventoryRequestCreation().bodyToMono(localVarReturnType);
     }
 
@@ -169,7 +168,7 @@ public class StoreApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<Map<String, Integer>>> getInventoryWithHttpInfo() throws WebClientResponseException {
-        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getInventoryRequestCreation().toEntity(localVarReturnType);
     }
 
@@ -183,6 +182,7 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws WebClientResponseException {
         return getInventoryRequestCreation();
     }
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -193,21 +193,20 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getOrderByIdRequestCreation(Long orderId) throws WebClientResponseException {
-        Object postBody = null;
+    private ResponseSpec getOrderByIdRequestCreation(@jakarta.annotation.Nonnull Long orderId) throws WebClientResponseException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new WebClientResponseException("Missing the required parameter 'orderId' when calling getOrderById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("order_id", orderId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -218,8 +217,8 @@ public class StoreApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -232,8 +231,8 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> getOrderById(Long orderId) throws WebClientResponseException {
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+    public Mono<Order> getOrderById(@jakarta.annotation.Nonnull Long orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getOrderByIdRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
 
@@ -247,8 +246,8 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(Long orderId) throws WebClientResponseException {
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+    public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(@jakarta.annotation.Nonnull Long orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getOrderByIdRequestCreation(orderId).toEntity(localVarReturnType);
     }
 
@@ -262,9 +261,10 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws WebClientResponseException {
+    public ResponseSpec getOrderByIdWithResponseSpec(@jakarta.annotation.Nonnull Long orderId) throws WebClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
+
     /**
      * Place an order for a pet
      * 
@@ -274,19 +274,18 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec placeOrderRequestCreation(Order order) throws WebClientResponseException {
-        Object postBody = order;
+    private ResponseSpec placeOrderRequestCreation(@jakarta.annotation.Nonnull Order order) throws WebClientResponseException {
         // verify the required parameter 'order' is set
         if (order == null) {
             throw new WebClientResponseException("Missing the required parameter 'order' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -299,8 +298,8 @@ public class StoreApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, localVarQueryParams, order, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -312,8 +311,8 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> placeOrder(Order order) throws WebClientResponseException {
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+    public Mono<Order> placeOrder(@jakarta.annotation.Nonnull Order order) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return placeOrderRequestCreation(order).bodyToMono(localVarReturnType);
     }
 
@@ -326,8 +325,8 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order order) throws WebClientResponseException {
-        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(@jakarta.annotation.Nonnull Order order) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return placeOrderRequestCreation(order).toEntity(localVarReturnType);
     }
 
@@ -340,7 +339,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec placeOrderWithResponseSpec(Order order) throws WebClientResponseException {
+    public ResponseSpec placeOrderWithResponseSpec(@jakarta.annotation.Nonnull Order order) throws WebClientResponseException {
         return placeOrderRequestCreation(order);
     }
 }

@@ -32,16 +32,17 @@ import org.hibernate.validator.constraints.*;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
+  @javax.annotation.Nullable
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(@javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
@@ -60,7 +61,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
@@ -68,9 +68,10 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(@javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -103,10 +104,7 @@ public class ArrayOfArrayOfNumberOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

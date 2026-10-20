@@ -1,17 +1,16 @@
 package org.openapitools.codegen.asciidoc;
 
+import org.mockito.MockitoAnnotations;
+import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
+import org.openapitools.codegen.templating.mustache.LambdaTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
-
-import org.mockito.MockitoAnnotations;
-import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
-import org.openapitools.codegen.templating.mustache.LambdaTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import org.testng.Assert;
 
 public class LinkMarkupFilterTest extends LambdaTest {
 

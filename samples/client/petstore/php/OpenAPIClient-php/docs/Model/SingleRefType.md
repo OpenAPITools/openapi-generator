@@ -1,4 +1,4 @@
-# # SingleRefType
+# SingleRefType
 
 ## Properties
 

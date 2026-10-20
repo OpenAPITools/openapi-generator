@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: Raw recovery title collision
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    CustomToolParam:
+      type: object
+      required:
+        - name
+        - format
+      properties:
+        name:
+          type: string
+        format:
+          oneOf:
+            - type: object
+              title: Grammar format
+              additionalProperties: false
+              required:
+                - type
+                - grammar
+              properties:
+                type:
+                  type: string
+                  const: grammar
+                grammar:
+                  type: object
+                  title: Grammar format
+                  additionalProperties: false
+                  required:
+                    - definition
+                    - syntax
+                  properties:
+                    definition:
+                      type: string
+                    syntax:
+                      type: string
+                      enum:
+                        - lark
+                        - regex

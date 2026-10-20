@@ -9,24 +9,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -34,7 +35,6 @@ public class UserApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public UserApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -54,19 +54,18 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUserRequestCreation(User user) throws WebClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUserRequestCreation(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -77,8 +76,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user", HttpMethod.POST, pathParams, localVarQueryParams, user, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -88,8 +87,8 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUser(User user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> createUser(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUserRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
@@ -100,8 +99,8 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(User user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUserRequestCreation(user).toEntity(localVarReturnType);
     }
 
@@ -113,9 +112,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUserWithResponseSpec(User user) throws WebClientResponseException {
+    public ResponseSpec createUserWithResponseSpec(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         return createUserRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -123,19 +123,18 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithArrayInputRequestCreation(List<User> user) throws WebClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUsersWithArrayInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithArrayInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -146,8 +145,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, pathParams, localVarQueryParams, user, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -157,8 +156,8 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithArrayInput(List<User> user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> createUsersWithArrayInput(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithArrayInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
@@ -169,8 +168,8 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(List<User> user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithArrayInputRequestCreation(user).toEntity(localVarReturnType);
     }
 
@@ -182,9 +181,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+    public ResponseSpec createUsersWithArrayInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -192,19 +192,18 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithListInputRequestCreation(List<User> user) throws WebClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUsersWithListInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithListInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -215,8 +214,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, pathParams, localVarQueryParams, user, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -226,8 +225,8 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithListInput(List<User> user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> createUsersWithListInput(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithListInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
@@ -238,8 +237,8 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(List<User> user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithListInputRequestCreation(user).toEntity(localVarReturnType);
     }
 
@@ -251,9 +250,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+    public ResponseSpec createUsersWithListInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -262,21 +262,20 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteUserRequestCreation(String username) throws WebClientResponseException {
-        Object postBody = null;
+    private ResponseSpec deleteUserRequestCreation(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling deleteUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -285,8 +284,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -297,8 +296,8 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteUser(String username) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> deleteUser(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteUserRequestCreation(username).bodyToMono(localVarReturnType);
     }
 
@@ -310,8 +309,8 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> deleteUserWithHttpInfo(String username) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> deleteUserWithHttpInfo(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteUserRequestCreation(username).toEntity(localVarReturnType);
     }
 
@@ -324,9 +323,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteUserWithResponseSpec(String username) throws WebClientResponseException {
+    public ResponseSpec deleteUserWithResponseSpec(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         return deleteUserRequestCreation(username);
     }
+
     /**
      * Get user by user name
      * 
@@ -337,21 +337,20 @@ public class UserApi {
      * @return User
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getUserByNameRequestCreation(String username) throws WebClientResponseException {
-        Object postBody = null;
+    private ResponseSpec getUserByNameRequestCreation(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling getUserByName", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -362,8 +361,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -376,8 +375,8 @@ public class UserApi {
      * @return User
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<User> getUserByName(String username) throws WebClientResponseException {
-        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
+    public Mono<User> getUserByName(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
+        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getUserByNameRequestCreation(username).bodyToMono(localVarReturnType);
     }
 
@@ -391,8 +390,8 @@ public class UserApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<User>> getUserByNameWithHttpInfo(String username) throws WebClientResponseException {
-        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
+    public Mono<ResponseEntity<User>> getUserByNameWithHttpInfo(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
+        ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getUserByNameRequestCreation(username).toEntity(localVarReturnType);
     }
 
@@ -406,9 +405,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getUserByNameWithResponseSpec(String username) throws WebClientResponseException {
+    public ResponseSpec getUserByNameWithResponseSpec(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         return getUserByNameRequestCreation(username);
     }
+
     /**
      * Logs user into the system
      * 
@@ -419,8 +419,7 @@ public class UserApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec loginUserRequestCreation(String username, String password) throws WebClientResponseException {
-        Object postBody = null;
+    private ResponseSpec loginUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling loginUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -430,16 +429,16 @@ public class UserApi {
             throw new WebClientResponseException("Missing the required parameter 'password' when calling loginUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -449,8 +448,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/user/login", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/login", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -463,8 +462,8 @@ public class UserApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<String> loginUser(String username, String password) throws WebClientResponseException {
-        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
+    public Mono<String> loginUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return loginUserRequestCreation(username, password).bodyToMono(localVarReturnType);
     }
 
@@ -478,8 +477,8 @@ public class UserApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<String>> loginUserWithHttpInfo(String username, String password) throws WebClientResponseException {
-        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
+    public Mono<ResponseEntity<String>> loginUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return loginUserRequestCreation(username, password).toEntity(localVarReturnType);
     }
 
@@ -493,9 +492,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec loginUserWithResponseSpec(String username, String password) throws WebClientResponseException {
+    public ResponseSpec loginUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         return loginUserRequestCreation(username, password);
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -503,14 +503,13 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec logoutUserRequestCreation() throws WebClientResponseException {
-        Object postBody = null;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -519,8 +518,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -530,7 +529,7 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<Void> logoutUser() throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return logoutUserRequestCreation().bodyToMono(localVarReturnType);
     }
 
@@ -541,7 +540,7 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<Void>> logoutUserWithHttpInfo() throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return logoutUserRequestCreation().toEntity(localVarReturnType);
     }
 
@@ -555,6 +554,7 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws WebClientResponseException {
         return logoutUserRequestCreation();
     }
+
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -564,8 +564,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updateUserRequestCreation(String username, User user) throws WebClientResponseException {
-        Object postBody = user;
+    private ResponseSpec updateUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -575,14 +574,14 @@ public class UserApi {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -593,8 +592,8 @@ public class UserApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, pathParams, localVarQueryParams, user, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -606,8 +605,8 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updateUser(String username, User user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<Void> updateUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return updateUserRequestCreation(username, user).bodyToMono(localVarReturnType);
     }
 
@@ -620,8 +619,8 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(String username, User user) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return updateUserRequestCreation(username, user).toEntity(localVarReturnType);
     }
 
@@ -635,7 +634,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updateUserWithResponseSpec(String username, User user) throws WebClientResponseException {
+    public ResponseSpec updateUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         return updateUserRequestCreation(username, user);
     }
 }

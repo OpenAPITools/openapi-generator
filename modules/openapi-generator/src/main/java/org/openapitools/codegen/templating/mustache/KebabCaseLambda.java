@@ -25,12 +25,12 @@ import java.util.Locale;
 
 /**
  * Converts text in a fragment to snake case.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("kebabcase", new KebabCaseLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#kebabcase}}{{summary}}{{/kebabcase}}

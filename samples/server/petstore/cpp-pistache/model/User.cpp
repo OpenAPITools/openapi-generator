@@ -40,6 +40,8 @@ User::User()
     
 }
 
+User::~User() = default;
+
 void User::validate() const
 {
     std::stringstream msg;

@@ -37,18 +37,20 @@ import org.hibernate.validator.constraints.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
+  @javax.annotation.Nullable
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
+  @javax.annotation.Nullable
   private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
 
-  public FileSchemaTestClass _file(ModelFile _file) {
+  public FileSchemaTestClass _file(@javax.annotation.Nullable ModelFile _file) {
     
     this._file = _file;
     return this;
@@ -61,7 +63,7 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public ModelFile getFile() {
@@ -69,13 +71,13 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFile(ModelFile _file) {
+  public void setFile(@javax.annotation.Nullable ModelFile _file) {
     this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
+  public FileSchemaTestClass files(@javax.annotation.Nullable List<@Valid ModelFile> files) {
     
     this.files = files;
     return this;
@@ -94,9 +96,8 @@ public class FileSchemaTestClass {
    * @return files
    */
   @javax.annotation.Nullable
-  @Valid
 
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<@Valid ModelFile> getFiles() {
@@ -104,11 +105,12 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFiles(List<@Valid ModelFile> files) {
+  public void setFiles(@javax.annotation.Nullable List<@Valid ModelFile> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -143,10 +145,7 @@ public class FileSchemaTestClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

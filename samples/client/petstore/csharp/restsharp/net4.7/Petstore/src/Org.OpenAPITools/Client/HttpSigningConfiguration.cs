@@ -33,6 +33,8 @@ namespace Org.OpenAPITools.Client
         {
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
+            _skipUrlEncode = RuntimeInformation.FrameworkDescription.StartsWith(".NET ") &&
+                int.TryParse(RuntimeInformation.FrameworkDescription.Substring(5).Split('.')[0], out int fwMajor) && fwMajor >= 9;
         }
 
         /// <summary>
@@ -74,6 +76,14 @@ namespace Org.OpenAPITools.Client
         /// Gets the Signature validity period in seconds
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
+
+        // On .NET 9+, HttpUtility.ParseQueryString already URL-encodes keys internally,
+        // so calling UrlEncode again would cause double-encoding and produce a signature
+        // that does not match the actual request sent by RestSharp 112+.
+        // On .NET 8 and earlier, keys must be explicitly URL-encoded so that special
+        // characters (e.g. '$' in OData params like $filter) are encoded the same way
+        // in the signature as they are in the outgoing HTTP request.
+        private readonly bool _skipUrlEncode;
 
         private enum PrivateKeyType
         {
@@ -141,16 +151,17 @@ namespace Org.OpenAPITools.Client
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
+                string key = _skipUrlEncode ? parameter.Key : HttpUtility.UrlEncode(parameter.Key);
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
+                        httpValues.Add(key + "[]", value);
                     }
                 }
                 else
                 {
-                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
+                    httpValues.Add(key, parameter.Value[0]);
                 }
 #else
                 if (parameter.Value.Count > 1)
@@ -356,7 +367,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate invalid signature occasionally.
         /// </summary>
         /// <param name="signedBytes"></param>
         /// <returns></returns>
@@ -465,7 +476,7 @@ namespace Org.OpenAPITools.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -495,7 +506,7 @@ namespace Org.OpenAPITools.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

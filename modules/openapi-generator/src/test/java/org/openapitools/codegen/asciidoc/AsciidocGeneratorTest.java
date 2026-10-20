@@ -1,12 +1,6 @@
 package org.openapitools.codegen.asciidoc;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -19,12 +13,53 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import io.swagger.v3.oas.models.OpenAPI;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-/** unit test asciidoc markup generation against ping.yaml openapi spec. */
+/**
+ * unit test asciidoc markup generation against ping.yaml openapi spec.
+ */
 public class AsciidocGeneratorTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
+
+    @Test
+    public void testPipeInPatternIsEscapedInGeneratedTables() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/issue24119-asciidoc-table-cell-pipe.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        List<File> generatedFiles = generator.opts(configurator.toClientOptInput()).generate();
+        TestUtils.ensureContainsFile(generatedFiles, output, "index.adoc");
+
+        String markupContent = FileUtils.readFileToString(
+                new File(output, "index.adoc"), StandardCharsets.UTF_8);
+
+        Assert.assertFalse(markupContent.contains("/^([0-9A-Z]{3})|([0-9A-Z]{5})$/"),
+                "unescaped pipe should not appear in generated table cell: " + markupContent);
+        Assert.assertTrue(markupContent.contains("/^([0-9A-Z]{3})\\|([0-9A-Z]{5})$/"),
+                "expected escaped pipe in pattern column: " + markupContent);
+
+        Assert.assertFalse(markupContent.contains("Accepts AAA|BBBBB"),
+                "unescaped pipe should not appear in generated description cell: " + markupContent);
+        Assert.assertTrue(markupContent.contains("Accepts AAA\\|BBBBB"),
+                "expected escaped pipe in description column: " + markupContent);
+
+        // a pipe that is already backslash-escaped in the source pattern must not be
+        // escaped a second time.
+        Assert.assertTrue(markupContent.contains("/^A\\|B$/"),
+                "expected already-escaped pipe to remain single-escaped: " + markupContent);
+        Assert.assertFalse(markupContent.contains("/^A\\\\|B$/"),
+                "already-escaped pipe should not be double-escaped: " + markupContent);
+    }
 
     @Test
     public void testPingSpecTitle() throws Exception {

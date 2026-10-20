@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // FruitReq - struct for FruitReq
@@ -84,6 +84,10 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(FruitReq): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(FruitReq)")
 	}
 }
@@ -112,6 +116,20 @@ func (obj *FruitReq) GetActualInstance() (interface{}) {
 
 	if obj.BananaReq != nil {
 		return obj.BananaReq
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj FruitReq) GetActualInstanceValue() (interface{}) {
+	if obj.AppleReq != nil {
+		return *obj.AppleReq
+	}
+
+	if obj.BananaReq != nil {
+		return *obj.BananaReq
 	}
 
 	// all schemas are nil

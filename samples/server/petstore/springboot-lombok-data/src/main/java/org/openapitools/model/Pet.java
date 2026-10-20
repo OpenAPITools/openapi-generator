@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,15 +11,16 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A pet for sale in the pet store
@@ -29,24 +31,51 @@ import javax.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
 
-  private Category category;
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private @Nullable Long id;
 
+  @Valid 
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("category")
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private @Nullable Category category;
+
+  @NotNull 
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @Valid
+  
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("photoUrls")
+
+  @lombok.Builder.Default
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tags")
+
+  @lombok.Builder.Default
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -54,7 +83,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -81,8 +110,13 @@ public class Pet {
     }
   }
 
+  
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
 }
 

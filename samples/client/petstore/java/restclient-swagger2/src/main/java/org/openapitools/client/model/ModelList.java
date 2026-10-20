@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ModelList
@@ -31,15 +32,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
+  @jakarta.annotation.Nullable
   private String _123list;
 
   public ModelList() {
   }
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@jakarta.annotation.Nullable String _123list) {
     
     this._123list = _123list;
     return this;
@@ -51,7 +53,7 @@ public class ModelList {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String get123list() {
@@ -59,11 +61,12 @@ public class ModelList {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set123list(String _123list) {
+  public void set123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -96,10 +99,7 @@ public class ModelList {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

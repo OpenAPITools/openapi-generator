@@ -14,11 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("_foo_get_default_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FooGetDefaultResponse  implements Serializable {
   private Foo string;
 
@@ -81,10 +82,7 @@ public class FooGetDefaultResponse  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -92,7 +90,7 @@ public class FooGetDefaultResponse  implements Serializable {
     return new FooGetDefaultResponseBuilderImpl();
   }
 
-  private static class FooGetDefaultResponseBuilderImpl extends FooGetDefaultResponseBuilder<FooGetDefaultResponse, FooGetDefaultResponseBuilderImpl> {
+  private static final class FooGetDefaultResponseBuilderImpl extends FooGetDefaultResponseBuilder<FooGetDefaultResponse, FooGetDefaultResponseBuilderImpl> {
 
     @Override
     protected FooGetDefaultResponseBuilderImpl self() {
@@ -117,4 +115,3 @@ public class FooGetDefaultResponse  implements Serializable {
     }
   }
 }
-

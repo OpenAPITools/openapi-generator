@@ -4,7 +4,8 @@
     #   the data deserialized from response body (may be a Tempfile or nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
-      tempfile = download_file(request) if opts[:return_type] == 'File'
+      tempfile = nil
+      (download_file(request) { tempfile = _1 }) if opts[:return_type] == 'File'
       response = request.run
 
       if @config.debugging
@@ -145,17 +146,15 @@
         chunk.force_encoding(encoding)
         tempfile.write(chunk)
       end
-      # run the request to ensure the tempfile is created successfully before returning it
-      request.run
-      if tempfile
+      request.on_complete do
+        if !tempfile
+          fail ApiError.new("Failed to create the tempfile based on the HTTP response from the server: #{request.inspect}")
+        end
         tempfile.close
         @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
                             "will be deleted automatically with GC. It's also recommended to delete the temp file "\
                             "explicitly with `tempfile.delete`"
-      else
-        fail ApiError.new("Failed to create the tempfile based on the HTTP response from the server: #{request.inspect}") 
+        yield tempfile if block_given?
       end
-
-      tempfile
     end

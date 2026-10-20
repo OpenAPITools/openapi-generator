@@ -118,6 +118,16 @@
         done();
       });
     });
+    describe('testAdditionalPropertiesReference', function() {
+      it('should call testAdditionalPropertiesReference successfully', function(done) {
+        //uncomment below and update the code to test testAdditionalPropertiesReference
+        //instance.testAdditionalPropertiesReference(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('testBodyWithBinary', function() {
       it('should call testBodyWithBinary successfully', function(done) {
         //uncomment below and update the code to test testBodyWithBinary
@@ -198,6 +208,16 @@
         done();
       });
     });
+    describe('testInlineFreeformAdditionalProperties', function() {
+      it('should call testInlineFreeformAdditionalProperties successfully', function(done) {
+        //uncomment below and update the code to test testInlineFreeformAdditionalProperties
+        //instance.testInlineFreeformAdditionalProperties(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('testJsonFormData', function() {
       it('should call testJsonFormData successfully', function(done) {
         //uncomment below and update the code to test testJsonFormData
@@ -212,6 +232,16 @@
       it('should call testQueryParameterCollectionFormat successfully', function(done) {
         //uncomment below and update the code to test testQueryParameterCollectionFormat
         //instance.testQueryParameterCollectionFormat(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('testStringMapReference', function() {
+      it('should call testStringMapReference successfully', function(done) {
+        //uncomment below and update the code to test testStringMapReference
+        //instance.testStringMapReference(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

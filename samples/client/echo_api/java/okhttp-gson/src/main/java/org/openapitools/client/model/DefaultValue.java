@@ -33,6 +33,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,10 +53,11 @@ import org.openapitools.client.JSON;
 /**
  * to test the default value of properties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class DefaultValue {
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @javax.annotation.Nullable
   private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
 
   /**
@@ -115,43 +116,50 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT)
+  @javax.annotation.Nullable
   private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_DEFAULT = "array_string_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_DEFAULT)
+  @javax.annotation.Nullable
   private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
 
   public static final String SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT = "array_integer_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT)
+  @javax.annotation.Nullable
   private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
+  @javax.annotation.Nullable
   private List<String> arrayString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
+  @javax.annotation.Nullable
   private List<String> arrayStringNullable;
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE)
+  @javax.annotation.Nullable
   private List<String> arrayStringExtensionNullable;
 
   public static final String SERIALIZED_NAME_STRING_NULLABLE = "string_nullable";
   @SerializedName(SERIALIZED_NAME_STRING_NULLABLE)
+  @javax.annotation.Nullable
   private String stringNullable;
 
   public DefaultValue() {
   }
 
-  public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+  public DefaultValue arrayStringEnumRefDefault(@javax.annotation.Nullable List<StringEnumRef> arrayStringEnumRefDefault) {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
     return this;
   }
 
   public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
     if (this.arrayStringEnumRefDefault == null) {
-      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+      this.arrayStringEnumRefDefault = new ArrayList<>();
     }
     this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
     return this;
@@ -166,19 +174,19 @@ public class DefaultValue {
     return arrayStringEnumRefDefault;
   }
 
-  public void setArrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+  public void setArrayStringEnumRefDefault(@javax.annotation.Nullable List<StringEnumRef> arrayStringEnumRefDefault) {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
   }
 
 
-  public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
+  public DefaultValue arrayStringEnumDefault(@javax.annotation.Nullable List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
     return this;
   }
 
   public DefaultValue addArrayStringEnumDefaultItem(ArrayStringEnumDefaultEnum arrayStringEnumDefaultItem) {
     if (this.arrayStringEnumDefault == null) {
-      this.arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
+      this.arrayStringEnumDefault = new ArrayList<>();
     }
     this.arrayStringEnumDefault.add(arrayStringEnumDefaultItem);
     return this;
@@ -193,19 +201,19 @@ public class DefaultValue {
     return arrayStringEnumDefault;
   }
 
-  public void setArrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
+  public void setArrayStringEnumDefault(@javax.annotation.Nullable List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
   }
 
 
-  public DefaultValue arrayStringDefault(List<String> arrayStringDefault) {
+  public DefaultValue arrayStringDefault(@javax.annotation.Nullable List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
     return this;
   }
 
   public DefaultValue addArrayStringDefaultItem(String arrayStringDefaultItem) {
     if (this.arrayStringDefault == null) {
-      this.arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
+      this.arrayStringDefault = new ArrayList<>();
     }
     this.arrayStringDefault.add(arrayStringDefaultItem);
     return this;
@@ -220,19 +228,19 @@ public class DefaultValue {
     return arrayStringDefault;
   }
 
-  public void setArrayStringDefault(List<String> arrayStringDefault) {
+  public void setArrayStringDefault(@javax.annotation.Nullable List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
   }
 
 
-  public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
+  public DefaultValue arrayIntegerDefault(@javax.annotation.Nullable List<Integer> arrayIntegerDefault) {
     this.arrayIntegerDefault = arrayIntegerDefault;
     return this;
   }
 
   public DefaultValue addArrayIntegerDefaultItem(Integer arrayIntegerDefaultItem) {
     if (this.arrayIntegerDefault == null) {
-      this.arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
+      this.arrayIntegerDefault = new ArrayList<>();
     }
     this.arrayIntegerDefault.add(arrayIntegerDefaultItem);
     return this;
@@ -247,12 +255,12 @@ public class DefaultValue {
     return arrayIntegerDefault;
   }
 
-  public void setArrayIntegerDefault(List<Integer> arrayIntegerDefault) {
+  public void setArrayIntegerDefault(@javax.annotation.Nullable List<Integer> arrayIntegerDefault) {
     this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
 
-  public DefaultValue arrayString(List<String> arrayString) {
+  public DefaultValue arrayString(@javax.annotation.Nullable List<String> arrayString) {
     this.arrayString = arrayString;
     return this;
   }
@@ -274,12 +282,12 @@ public class DefaultValue {
     return arrayString;
   }
 
-  public void setArrayString(List<String> arrayString) {
+  public void setArrayString(@javax.annotation.Nullable List<String> arrayString) {
     this.arrayString = arrayString;
   }
 
 
-  public DefaultValue arrayStringNullable(List<String> arrayStringNullable) {
+  public DefaultValue arrayStringNullable(@javax.annotation.Nullable List<String> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
     return this;
   }
@@ -301,12 +309,12 @@ public class DefaultValue {
     return arrayStringNullable;
   }
 
-  public void setArrayStringNullable(List<String> arrayStringNullable) {
+  public void setArrayStringNullable(@javax.annotation.Nullable List<String> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
   }
 
 
-  public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+  public DefaultValue arrayStringExtensionNullable(@javax.annotation.Nullable List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
     return this;
   }
@@ -328,12 +336,12 @@ public class DefaultValue {
     return arrayStringExtensionNullable;
   }
 
-  public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+  public void setArrayStringExtensionNullable(@javax.annotation.Nullable List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
   }
 
 
-  public DefaultValue stringNullable(String stringNullable) {
+  public DefaultValue stringNullable(@javax.annotation.Nullable String stringNullable) {
     this.stringNullable = stringNullable;
     return this;
   }
@@ -347,7 +355,7 @@ public class DefaultValue {
     return stringNullable;
   }
 
-  public void setStringNullable(String stringNullable) {
+  public void setStringNullable(@javax.annotation.Nullable String stringNullable) {
     this.stringNullable = stringNullable;
   }
 
@@ -409,10 +417,7 @@ public class DefaultValue {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -421,18 +426,10 @@ public class DefaultValue {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("array_string_enum_ref_default");
-    openapiFields.add("array_string_enum_default");
-    openapiFields.add("array_string_default");
-    openapiFields.add("array_integer_default");
-    openapiFields.add("array_string");
-    openapiFields.add("array_string_nullable");
-    openapiFields.add("array_string_extension_nullable");
-    openapiFields.add("string_nullable");
+    openapiFields = new HashSet<String>(Arrays.asList("array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -444,7 +441,7 @@ public class DefaultValue {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!DefaultValue.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in DefaultValue is not found in the empty JSON string", DefaultValue.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in DefaultValue is not found in the empty JSON string", DefaultValue.openapiRequiredFields.toString()));
         }
       }
 
@@ -452,40 +449,40 @@ public class DefaultValue {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DefaultValue.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DefaultValue` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `DefaultValue` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string_enum_ref_default") != null && !jsonObj.get("array_string_enum_ref_default").isJsonNull() && !jsonObj.get("array_string_enum_ref_default").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_ref_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_ref_default").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string_enum_ref_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_ref_default").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string_enum_default") != null && !jsonObj.get("array_string_enum_default").isJsonNull() && !jsonObj.get("array_string_enum_default").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_default").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string_enum_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_default").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string_default") != null && !jsonObj.get("array_string_default").isJsonNull() && !jsonObj.get("array_string_default").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_default").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_default").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_integer_default") != null && !jsonObj.get("array_integer_default").isJsonNull() && !jsonObj.get("array_integer_default").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_integer_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_integer_default").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_integer_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_integer_default").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string") != null && !jsonObj.get("array_string").isJsonNull() && !jsonObj.get("array_string").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string_nullable") != null && !jsonObj.get("array_string_nullable").isJsonNull() && !jsonObj.get("array_string_nullable").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_nullable").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_nullable").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_string_extension_nullable") != null && !jsonObj.get("array_string_extension_nullable").isJsonNull() && !jsonObj.get("array_string_extension_nullable").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_string_extension_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_extension_nullable").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_string_extension_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_extension_nullable").toString()));
       }
       if ((jsonObj.get("string_nullable") != null && !jsonObj.get("string_nullable").isJsonNull()) && !jsonObj.get("string_nullable").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `string_nullable` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_nullable").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `string_nullable` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_nullable").toString()));
       }
   }
 

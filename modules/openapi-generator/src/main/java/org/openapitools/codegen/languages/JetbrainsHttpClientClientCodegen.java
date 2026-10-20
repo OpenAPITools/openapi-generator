@@ -28,14 +28,6 @@ import io.swagger.v3.oas.models.examples.Example;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
@@ -44,10 +36,20 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /*
 Note : This code has been MASSIVELY inspired by PostmanCollectionCodegen from @gcatanese.
 
 Hopefully one day we can merge the similar code, as both generators stabilize
+ */
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/jetbrains-http-client/}.
  */
 public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -129,9 +131,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         bodyVariables.forEach(variable -> customVariables.put(variable, ""));
-        for(String header: customHeaders) {
+        for (String header : customHeaders) {
             List<String> variables = extractDoubleCurlyBraces(header);
-            if(!variables.isEmpty()) {
+            if (!variables.isEmpty()) {
                 variables.forEach(v -> customVariables.put(v, ""));
             }
         }
@@ -277,16 +279,19 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public void postProcess() {
-        System.out.println("##########################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
-        System.out.println("#                                                                                        #");
-        System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
-        System.out.println("##########################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("##########################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
+            System.out.println("#                                                                                        #");
+            System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
+            System.out.println("##########################################################################################");
+        }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public class RequestItem {
 
         private String name;

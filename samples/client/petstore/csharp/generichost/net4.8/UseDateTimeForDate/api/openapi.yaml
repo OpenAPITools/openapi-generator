@@ -16,7 +16,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_now_get_200_response'
+                $ref: "#/components/schemas/_now_get_200_response"
           description: now dates
 components:
   schemas:

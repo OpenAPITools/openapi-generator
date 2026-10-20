@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -32,15 +34,16 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   DanishPig.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class DanishPig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public DanishPig() { 
   }
 
-  public DanishPig className(String className) {
+  public DanishPig className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -50,7 +53,7 @@ public class DanishPig {
    * @return className
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getClassName() {
@@ -58,9 +61,9 @@ public class DanishPig {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -70,19 +73,12 @@ public class DanishPig {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DanishPig danishPig = (DanishPig) o;
-    return Objects.equals(this.className, danishPig.className);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -99,10 +95,7 @@ public class DanishPig {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

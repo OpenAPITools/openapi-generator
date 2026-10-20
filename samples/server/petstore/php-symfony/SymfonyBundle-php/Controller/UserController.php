@@ -87,7 +87,7 @@ class UserController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
+        $asserts[] = new Assert\Type('OpenAPI\Server\Model\User');
         $asserts[] = new Assert\Valid();
         $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
@@ -316,7 +316,7 @@ class UserController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($username, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -391,7 +391,7 @@ class UserController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($username, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -469,7 +469,7 @@ class UserController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $asserts[] = new Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/");
         $response = $this->validate($username, $asserts);
         if ($response instanceof Response) {
@@ -477,7 +477,7 @@ class UserController extends Controller
         }
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($password, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -609,14 +609,14 @@ class UserController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($username, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
+        $asserts[] = new Assert\Type('OpenAPI\Server\Model\User');
         $asserts[] = new Assert\Valid();
         $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {

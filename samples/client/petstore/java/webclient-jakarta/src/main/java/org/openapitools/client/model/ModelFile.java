@@ -30,15 +30,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
+  @jakarta.annotation.Nullable
   private String sourceURI;
 
   public ModelFile() {
   }
 
-  public ModelFile sourceURI(String sourceURI) {
+  public ModelFile sourceURI(@jakarta.annotation.Nullable String sourceURI) {
     
     this.sourceURI = sourceURI;
     return this;
@@ -49,7 +50,7 @@ public class ModelFile {
    * @return sourceURI
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSourceURI() {
@@ -57,11 +58,12 @@ public class ModelFile {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@jakarta.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -94,10 +96,7 @@ public class ModelFile {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

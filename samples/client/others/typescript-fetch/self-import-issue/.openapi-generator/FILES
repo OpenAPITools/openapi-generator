@@ -1,0 +1,11 @@
+docs/AbstractUserDto.md
+docs/BranchDto.md
+docs/InternalAuthenticatedUserDto.md
+docs/RemoteAuthenticatedUserDto.md
+index.ts
+models/AbstractUserDto.ts
+models/BranchDto.ts
+models/InternalAuthenticatedUserDto.ts
+models/RemoteAuthenticatedUserDto.ts
+models/index.ts
+runtime.ts

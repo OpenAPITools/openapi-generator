@@ -17,18 +17,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
   private String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -90,6 +91,15 @@ public class Pet  implements Serializable {
   public Pet() {
   }
 
+  @JsonCreator
+  public Pet(
+    @JsonProperty(required = true, value = "name") String name,
+    @JsonProperty(required = true, value = "photoUrls") Set<String> photoUrls
+  ) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   /**
    **/
   public Pet id(Long id) {
@@ -137,12 +147,12 @@ public class Pet  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "doggie", required = true, description = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -156,12 +166,12 @@ public class Pet  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("photoUrls")
+  @JsonProperty(required = true, value = "photoUrls")
   @NotNull public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  @JsonProperty("photoUrls")
+  @JsonProperty(required = true, value = "photoUrls")
   @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -193,7 +203,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("tags")
-  @Valid public List<@Valid Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
@@ -281,10 +291,7 @@ public class Pet  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -292,7 +299,7 @@ public class Pet  implements Serializable {
     return new PetBuilderImpl();
   }
 
-  private static class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
+  private static final class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
 
     @Override
     protected PetBuilderImpl self() {
@@ -310,7 +317,7 @@ public class Pet  implements Serializable {
     private Category category;
     private String name;
     private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<@Valid Tag> tags = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
     private StatusEnum status;
     protected abstract B self();
 
@@ -332,7 +339,7 @@ public class Pet  implements Serializable {
       this.photoUrls = photoUrls;
       return self();
     }
-    public B tags(List<@Valid Tag> tags) {
+    public B tags(List<Tag> tags) {
       this.tags = tags;
       return self();
     }
@@ -342,4 +349,3 @@ public class Pet  implements Serializable {
     }
   }
 }
-

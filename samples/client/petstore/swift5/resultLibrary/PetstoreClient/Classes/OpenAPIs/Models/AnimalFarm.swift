@@ -10,4 +10,4 @@ import Foundation
 import AnyCodable
 #endif
 
-public typealias AnimalFarm = [Animal]
+internal typealias AnimalFarm = [Animal]

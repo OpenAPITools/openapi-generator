@@ -136,10 +136,10 @@ public class Example {
 ## {{operationId}}WithHttpInfo
 
 {{^vendorExtensions.x-group-parameters}}
-> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}} {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 {{/vendorExtensions.x-group-parameters}}
 {{#vendorExtensions.x-group-parameters}}
-> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}} {{operationId}}WithHttpInfo({{#hasParams}}{{operationId}}Request{{/hasParams}})
+> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#hasParams}}{{operationId}}Request{{/hasParams}})
 {{/vendorExtensions.x-group-parameters}}
 
 {{summary}}{{#notes}}

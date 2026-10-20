@@ -14,66 +14,6 @@ To test class name in snake case
 
 To test class name in snake case
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class TestClassnameExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure API key authorization: api_key_query
-            config.AddApiKey("api_key_query", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key_query", "Bearer");
-
-            var apiInstance = new FakeClassnameTags123Api(config);
-            var modelClient = new ModelClient(); // ModelClient | client model
-
-            try
-            {
-                // To test class name in snake case
-                ModelClient result = apiInstance.TestClassname(modelClient);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling FakeClassnameTags123Api.TestClassname: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the TestClassnameWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // To test class name in snake case
-    ApiResponse<ModelClient> response = apiInstance.TestClassnameWithHttpInfo(modelClient);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling FakeClassnameTags123Api.TestClassnameWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

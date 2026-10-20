@@ -2,13 +2,14 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -19,16 +20,19 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterCompositeDto {
 
-  private BigDecimal myNumber;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable BigDecimal myNumber;
 
-  private String myString;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String myString;
 
-  private Boolean myBoolean;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Boolean myBoolean;
 
-  public OuterCompositeDto myNumber(BigDecimal myNumber) {
+  public OuterCompositeDto myNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -37,17 +41,17 @@ public class OuterCompositeDto {
    * Get myNumber
    * @return myNumber
    */
-  
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  public @Nullable BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  @JsonProperty("my_number")
+  public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
-  public OuterCompositeDto myString(String myString) {
+  public OuterCompositeDto myString(@Nullable String myString) {
     this.myString = myString;
     return this;
   }
@@ -56,17 +60,17 @@ public class OuterCompositeDto {
    * Get myString
    * @return myString
    */
-  
   @JsonProperty("my_string")
-  public String getMyString() {
+  public @Nullable String getMyString() {
     return myString;
   }
 
-  public void setMyString(String myString) {
+  @JsonProperty("my_string")
+  public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
 
-  public OuterCompositeDto myBoolean(Boolean myBoolean) {
+  public OuterCompositeDto myBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
@@ -75,13 +79,13 @@ public class OuterCompositeDto {
    * Get myBoolean
    * @return myBoolean
    */
-  
   @JsonProperty("my_boolean")
-  public Boolean getMyBoolean() {
+  public @Nullable Boolean getMyBoolean() {
     return myBoolean;
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  @JsonProperty("my_boolean")
+  public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
@@ -119,11 +123,8 @@ public class OuterCompositeDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

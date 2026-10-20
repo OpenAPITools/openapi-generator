@@ -1,5 +1,7 @@
 pub mod addressable;
 pub use self::addressable::Addressable;
+pub mod animal;
+pub use self::animal::Animal;
 pub mod apple;
 pub use self::apple::Apple;
 pub mod banana;
@@ -12,6 +14,10 @@ pub mod bar_ref;
 pub use self::bar_ref::BarRef;
 pub mod bar_ref_or_value;
 pub use self::bar_ref_or_value::BarRefOrValue;
+pub mod cat;
+pub use self::cat::Cat;
+pub mod dog;
+pub use self::dog::Dog;
 pub mod entity;
 pub use self::entity::Entity;
 pub mod entity_ref;

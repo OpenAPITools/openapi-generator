@@ -1,0 +1,48 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: >-
+    This is a sample server Petstore server
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  '/pet/{petId}':
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      title: a Pet
+      description: A pet for sale in the pet store
+      type: object
+      required:
+        - requiredNonNullableMap
+      properties:
+        # Test for issue 21890.
+        # As this map is required and non-nullable, the generated java class should initialise this Map with new HashMap()
+        requiredNonNullableMap:
+          additionalProperties:
+            type: string

@@ -21,39 +21,27 @@ import { mapValues } from '../runtime';
 export interface Capitalization {
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     smallCamel?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     capitalCamel?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     smallSnake?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     capitalSnake?: string;
     /**
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     sCAETHFlowPoints?: string;
     /**
      * Name of the pet
      * 
-     * @type {string}
-     * @memberof Capitalization
      */
     aTTNAME?: string;
 }
@@ -84,10 +72,15 @@ export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function CapitalizationToJSON(value?: Capitalization | null): any {
+export function CapitalizationToJSON(json: any): Capitalization {
+    return CapitalizationToJSONTyped(json, false);
+}
+
+export function CapitalizationToJSONTyped(value?: Capitalization | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'smallCamel': value['smallCamel'],

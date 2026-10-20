@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 15204 Int Array Enum'
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: operation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithIntArrayEnum'
+components:
+  schemas:
+    ModelWithIntArrayEnum:
+      required:
+        - daysOfWeek
+      properties:
+        daysOfWeek:
+          type: array
+          items:
+            type: integer
+            enum: [0, 1, 2, 3, 4, 5, 6]

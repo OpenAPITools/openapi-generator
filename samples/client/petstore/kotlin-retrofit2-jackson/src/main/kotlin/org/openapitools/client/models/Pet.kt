@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -19,39 +27,46 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
 
 /**
  * A pet for sale in the pet store
  *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 
 
 data class Pet (
 
-    @field:JsonProperty("name")
+    @param:JsonProperty("name")
+    @get:JsonProperty("name")
     val name: kotlin.String,
 
-    @field:JsonProperty("photoUrls")
+    @param:JsonProperty("photoUrls")
+    @get:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @field:JsonProperty("id")
+    @param:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("category")
+    @param:JsonProperty("category")
+    @get:JsonProperty("category")
     val category: Category? = null,
 
-    @field:JsonProperty("tags")
+    @param:JsonProperty("tags")
+    @get:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
-    @field:JsonProperty("status")
+    @param:JsonProperty("status")
+    @get:JsonProperty("status")
     @Deprecated(message = "This property is deprecated.")
     val status: Pet.Status? = null
 
@@ -65,7 +80,7 @@ data class Pet (
      *
      * Values: AVAILABLE,PENDING,SOLD
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
         @JsonProperty(value = "sold") SOLD("sold");

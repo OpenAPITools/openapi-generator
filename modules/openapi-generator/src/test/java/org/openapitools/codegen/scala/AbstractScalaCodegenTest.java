@@ -2,12 +2,7 @@ package org.openapitools.codegen.scala;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-
+import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractScalaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -103,6 +98,27 @@ public class AbstractScalaCodegenTest {
                 "BigDecimal is a Scala type and must not be imported");
         Assert.assertFalse(fakeScalaCodegen.importMapping().containsKey("BigInt"),
                 "BigInt is a Scala type and must not be imported");
+    }
+
+    @Test
+    void checkDateTimeLocalTypeMappingJava8() {
+        P_AbstractScalaCodegen codegen = new P_AbstractScalaCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.typeMapping().get("date-time-local"), "LocalDateTime",
+                "date-time-local format should map to LocalDateTime");
+        Assert.assertEquals(codegen.importMapping().get("LocalDateTime"), "java.time.LocalDateTime",
+                "LocalDateTime should import from java.time when using java8 date library");
+    }
+
+    @Test
+    void checkDateTimeLocalTypeDeclaration() {
+        P_AbstractScalaCodegen codegen = new P_AbstractScalaCodegen();
+        codegen.processOpts();
+        Schema<?> schema = new ObjectSchema();
+        schema.setType("string");
+        schema.setFormat("date-time-local");
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "LocalDateTime",
+                "Schema with date-time-local format should produce LocalDateTime type");
     }
 
     @Test

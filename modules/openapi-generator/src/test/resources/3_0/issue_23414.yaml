@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Cross-tag path shadowing test
+  version: 1.0.0
+paths:
+  /foo/bar/one:
+    get:
+      tags: [tag-one]
+      operationId: getOne
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /foo/bar/two:
+    get:
+      tags: [tag-one]
+      operationId: getTwo
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /foo/bar/three:
+    get:
+      tags: [tag-two]
+      operationId: getThree
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /baz/bar/four:
+    get:
+      tags: [tag-two]
+      operationId: getFour
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string

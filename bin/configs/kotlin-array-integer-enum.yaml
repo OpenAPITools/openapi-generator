@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-array-integer-enum
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue15204-int-array-enum.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-array-integer-enum
+  serializableModel: "true"
+  dateLibrary: java8

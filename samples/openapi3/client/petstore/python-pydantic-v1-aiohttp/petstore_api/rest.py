@@ -137,6 +137,8 @@ class RESTClientObject:
             if re.search('json', headers['Content-Type'], re.IGNORECASE):
                 if body is not None:
                     body = json.dumps(body)
+                if body is None and post_params:
+                    body = json.dumps(dict(post_params))
                 args["data"] = body
             elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
                 args["data"] = aiohttp.FormData(post_params)
@@ -153,6 +155,11 @@ class RESTClientObject:
                                        filename=v[0],
                                        content_type=v[2])
                     else:
+                        # Ensures that dict objects are serialized
+                        if isinstance(v, dict):
+                            v = json.dumps(v)
+                        elif isinstance(v, int):
+                            v = str(v)
                         data.add_field(k, v)
                 args["data"] = data
 

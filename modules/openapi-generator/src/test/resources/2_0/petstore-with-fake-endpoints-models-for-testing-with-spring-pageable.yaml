@@ -137,6 +137,31 @@ paths:
           items:
             type: string
           collectionFormat: csv
+        - name: size
+          in: header
+          description: 'A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.'
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: 'The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.'
+          required: true
+          type: integer
+          minimum: 1
+          default: 20
+        - name: page
+          in: query
+          description: 'The page to return, starting with page 0. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.'
+          required: true
+          type: integer
+          minimum: 0
+          default: 0
+        - name: sort
+          in: query
+          description: 'The sorting to apply to the Pageable object. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.'
+          required: true
+          type: string
+          default: id,asc
       responses:
         '200':
           description: successful operation

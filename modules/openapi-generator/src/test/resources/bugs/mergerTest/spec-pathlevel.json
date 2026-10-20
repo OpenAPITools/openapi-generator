@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Path Level Test",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "api.my-domain.com/my-context-root/v1" }
+  ],
+  "paths": {
+    "/spec1": {
+      "x-path-ext": "path-level-extension-from-incoming",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-ID",
+          "schema": { "type": "string" },
+          "required": false
+        }
+      ],
+      "patch": {
+        "tags": ["spec1"],
+        "summary": "patch spec1",
+        "operationId": "patchSpec1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Spec1Model" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Spec1Model": {
+        "type": "object",
+        "properties": {
+          "spec1Field": { "type": "string" }
+        }
+      }
+    }
+  }
+}

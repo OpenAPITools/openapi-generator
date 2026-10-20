@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Apple>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Cultivar'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Cultivar'
         }
+
         /// <summary>
         /// Test the property 'Origin'
         /// </summary>
@@ -73,6 +72,13 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Origin'
         }
 
+        /// <summary>
+        /// Test the property 'ColorCode'
+        /// </summary>
+        [Fact]
+        public void ColorCodeTest()
+        {
+            // TODO unit test for the property 'ColorCode'
+        }
     }
-
 }

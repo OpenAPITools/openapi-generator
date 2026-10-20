@@ -3,9 +3,6 @@ package {{package}}
 import java.util.Objects
 {{#imports}}import {{import}}
 {{/imports}}
-{{#serializableModel}}
-import java.io.Serializable
-{{/serializableModel}}
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.DecimalMax
 import {{javaxPackage}}.validation.constraints.DecimalMin
@@ -26,6 +23,6 @@ import io.swagger.annotations.ApiModelProperty
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{>dataClass}}{{/isEnum}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>dataClass}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
 {{/model}}
 {{/models}}

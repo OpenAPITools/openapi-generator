@@ -12,13 +12,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OuterComposite  {
   
   @ApiModelProperty(value = "")
+
   @Valid
+
   private BigDecimal myNumber;
 
   @ApiModelProperty(value = "")
+
   private String myString;
 
   @ApiModelProperty(value = "")
+
   private Boolean myBoolean;
  /**
    * Get myNumber
@@ -110,10 +114,7 @@ public class OuterComposite  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

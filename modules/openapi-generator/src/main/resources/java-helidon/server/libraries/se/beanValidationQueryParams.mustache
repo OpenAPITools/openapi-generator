@@ -1,2 +1,2 @@
 {{#required}}{{!}}
-                {{!}}ValidatorUtils.checkNonNull({{paramName}});{{/required}}{{#isPrimitiveType}}{{>beanValidationCore}}{{/isPrimitiveType}}
+        {{#x-helidon-v3}}        {{!}}ValidatorUtils.checkNonNull({{/x-helidon-v3}}{{^x-helidon-v3}}validator.require("{{paramName}}", {{/x-helidon-v3}}{{paramName}});{{/required}}{{#isPrimitiveType}}{{>beanValidationCore}}{{/isPrimitiveType}}

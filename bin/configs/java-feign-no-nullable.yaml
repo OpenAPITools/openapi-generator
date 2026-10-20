@@ -6,6 +6,8 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   booleanGetterPrefix: is
   artifactId: petstore-feign-no-nullable
-  hideGenerationTimestamp: "true"
+  hideGenerationTimestamp: true
   additionalModelTypeAnnotations: '@javax.annotation.concurrent.Immutable'
-  openApiNullable: "false"
+  openApiNullable: false
+  useReflectionEqualsHashCode: true
+  annotationLibrary: "swagger1"

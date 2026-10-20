@@ -28,9 +28,9 @@ end
 
 
 Params:
-- pet::Pet (required)
+- `pet`::`Pet` (required)
 
-Return: Pet, OpenAPI.Clients.ApiResponse
+Return: `Pet`, `OpenAPI.Clients.ApiResponse`
 """
 function add_pet(_api::PetApi, pet::Pet; _mediaType=nothing)
     _ctx = _oacinternal_add_pet(_api, pet; _mediaType=_mediaType)
@@ -60,10 +60,10 @@ end
 
 
 Params:
-- pet_id::Int64 (required)
-- api_key::String
+- `pet_id`::`Int64` (required)
+- `api_key`::`String`
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function delete_pet(_api::PetApi, pet_id::Int64; api_key=nothing, _mediaType=nothing)
     _ctx = _oacinternal_delete_pet(_api, pet_id; api_key=api_key, _mediaType=_mediaType)
@@ -82,7 +82,7 @@ const _returntypes_find_pets_by_status_PetApi = Dict{Regex,Type}(
 
 function _oacinternal_find_pets_by_status(_api::PetApi, status::Vector{String}; _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_find_pets_by_status_PetApi, "/pet/findByStatus", ["petstore_auth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "status", status)  # type Vector{String}
+    OpenAPI.Clients.set_param(_ctx.query, "status", status; style="form", is_explode=false)  # type Vector{String}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/xml", "application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -93,9 +93,9 @@ end
 Multiple status values can be provided with comma separated strings
 
 Params:
-- status::Vector{String} (required)
+- `status`::`Vector{String}` (required)
 
-Return: Vector{Pet}, OpenAPI.Clients.ApiResponse
+Return: `Vector{Pet}`, `OpenAPI.Clients.ApiResponse`
 """
 function find_pets_by_status(_api::PetApi, status::Vector{String}; _mediaType=nothing)
     _ctx = _oacinternal_find_pets_by_status(_api, status; _mediaType=_mediaType)
@@ -114,7 +114,7 @@ const _returntypes_find_pets_by_tags_PetApi = Dict{Regex,Type}(
 
 function _oacinternal_find_pets_by_tags(_api::PetApi, tags::Vector{String}; _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_find_pets_by_tags_PetApi, "/pet/findByTags", ["petstore_auth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "tags", tags)  # type Vector{String}
+    OpenAPI.Clients.set_param(_ctx.query, "tags", tags; style="form", is_explode=false)  # type Vector{String}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/xml", "application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -125,9 +125,9 @@ end
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 Params:
-- tags::Vector{String} (required)
+- `tags`::`Vector{String}` (required)
 
-Return: Vector{Pet}, OpenAPI.Clients.ApiResponse
+Return: `Vector{Pet}`, `OpenAPI.Clients.ApiResponse`
 """
 function find_pets_by_tags(_api::PetApi, tags::Vector{String}; _mediaType=nothing)
     _ctx = _oacinternal_find_pets_by_tags(_api, tags; _mediaType=_mediaType)
@@ -158,9 +158,9 @@ end
 Returns a single pet
 
 Params:
-- pet_id::Int64 (required)
+- `pet_id`::`Int64` (required)
 
-Return: Pet, OpenAPI.Clients.ApiResponse
+Return: `Pet`, `OpenAPI.Clients.ApiResponse`
 """
 function get_pet_by_id(_api::PetApi, pet_id::Int64; _mediaType=nothing)
     _ctx = _oacinternal_get_pet_by_id(_api, pet_id; _mediaType=_mediaType)
@@ -191,9 +191,9 @@ end
 
 
 Params:
-- pet::Pet (required)
+- `pet`::`Pet` (required)
 
-Return: Pet, OpenAPI.Clients.ApiResponse
+Return: `Pet`, `OpenAPI.Clients.ApiResponse`
 """
 function update_pet(_api::PetApi, pet::Pet; _mediaType=nothing)
     _ctx = _oacinternal_update_pet(_api, pet; _mediaType=_mediaType)
@@ -224,11 +224,11 @@ end
 
 
 Params:
-- pet_id::Int64 (required)
-- name::String
-- status::String
+- `pet_id`::`Int64` (required)
+- `name`::`String`
+- `status`::`String`
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function update_pet_with_form(_api::PetApi, pet_id::Int64; name=nothing, status=nothing, _mediaType=nothing)
     _ctx = _oacinternal_update_pet_with_form(_api, pet_id; name=name, status=status, _mediaType=_mediaType)
@@ -248,7 +248,7 @@ function _oacinternal_upload_file(_api::PetApi, pet_id::Int64; additional_metada
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_upload_file_PetApi, "/pet/{petId}/uploadImage", ["petstore_auth", ])
     OpenAPI.Clients.set_param(_ctx.path, "petId", pet_id)  # type Int64
     OpenAPI.Clients.set_param(_ctx.form, "additionalMetadata", additional_metadata)  # type String
-    OpenAPI.Clients.set_param(_ctx.file, "file", file)  # type Vector{UInt8}
+    OpenAPI.Clients.set_param(_ctx.file, "file", file)  # type String
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["multipart/form-data", ] : [_mediaType])
     return _ctx
@@ -259,11 +259,11 @@ end
 
 
 Params:
-- pet_id::Int64 (required)
-- additional_metadata::String
-- file::String
+- `pet_id`::`Int64` (required)
+- `additional_metadata`::`String`
+- `file`::`String`
 
-Return: ApiResponse, OpenAPI.Clients.ApiResponse
+Return: `ApiResponse`, `OpenAPI.Clients.ApiResponse`
 """
 function upload_file(_api::PetApi, pet_id::Int64; additional_metadata=nothing, file=nothing, _mediaType=nothing)
     _ctx = _oacinternal_upload_file(_api, pet_id; additional_metadata=additional_metadata, file=file, _mediaType=_mediaType)

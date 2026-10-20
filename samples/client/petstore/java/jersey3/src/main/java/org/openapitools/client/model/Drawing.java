@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -51,9 +53,10 @@ import org.openapitools.client.JSON;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
+  @jakarta.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
@@ -63,12 +66,13 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes = new ArrayList<>();
+  @jakarta.annotation.Nullable
+  private List<@Valid Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
 
-  public Drawing mainShape(Shape mainShape) {
+  public Drawing mainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
     return this;
   }
@@ -80,7 +84,7 @@ public class Drawing {
   @jakarta.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Shape getMainShape() {
@@ -88,14 +92,14 @@ public class Drawing {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMainShape(Shape mainShape) {
+  public void setMainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
-  public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
+  public Drawing shapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
     return this;
   }
@@ -113,7 +117,7 @@ public class Drawing {
         return shapeOrNull.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<ShapeOrNull> getShapeOrNull_JsonNullable() {
@@ -125,12 +129,12 @@ public class Drawing {
     this.shapeOrNull = shapeOrNull;
   }
 
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+  public void setShapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
   }
 
 
-  public Drawing nullableShape(NullableShape nullableShape) {
+  public Drawing nullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
     return this;
   }
@@ -148,7 +152,7 @@ public class Drawing {
         return nullableShape.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
@@ -160,12 +164,12 @@ public class Drawing {
     this.nullableShape = nullableShape;
   }
 
-  public void setNullableShape(NullableShape nullableShape) {
+  public void setNullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
   }
 
 
-  public Drawing shapes(List<Shape> shapes) {
+  public Drawing shapes(@jakarta.annotation.Nullable List<@Valid Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -183,19 +187,18 @@ public class Drawing {
    * @return shapes
    */
   @jakarta.annotation.Nullable
-  @Valid
 
-  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<Shape> getShapes() {
+  public List<@Valid Shape> getShapes() {
     return shapes;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapes(List<Shape> shapes) {
+  public void setShapes(@jakarta.annotation.Nullable List<@Valid Shape> shapes) {
     this.shapes = shapes;
   }
 
@@ -242,18 +245,7 @@ public class Drawing {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Drawing drawing = (Drawing) o;
-    return Objects.equals(this.mainShape, drawing.mainShape) &&
-        equalsNullable(this.shapeOrNull, drawing.shapeOrNull) &&
-        equalsNullable(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes)&&
-        Objects.equals(this.additionalProperties, drawing.additionalProperties);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -262,7 +254,7 @@ public class Drawing {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, hashCodeNullable(shapeOrNull), hashCodeNullable(nullableShape), shapes, additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -290,10 +282,7 @@ public class Drawing {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

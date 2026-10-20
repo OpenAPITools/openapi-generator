@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -23,11 +31,11 @@ import com.google.gson.annotations.SerializedName
 /**
  * A pet for sale in the pet store
  *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 
@@ -51,6 +59,7 @@ data class Pet (
 
     /* pet status in the store */
     @SerializedName("status")
+    @Deprecated(message = "This property is deprecated.")
     val status: Pet.Status? = null
 
 ) {

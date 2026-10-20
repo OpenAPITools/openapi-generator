@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -33,8 +41,9 @@ import io.vertx.uritemplate.UriTemplate
 import org.openapitools.client.infrastructure.*
 
 @Suppress ("UNUSED")
-class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: String? = null, apiKey: MutableMap<String, String> = mutableMapOf(), apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), username: String? = null, password: String? = null, vertx: Vertx): ApiClient(basePath, accessToken, apiKey, apiKeyPrefix, username, password, vertx) {
+open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: String? = null, apiKey: MutableMap<String, String> = mutableMapOf(), apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), username: String? = null, password: String? = null, vertx: Vertx): ApiClient(basePath, accessToken, apiKey, apiKeyPrefix, username, password, vertx) {
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param user Created user object
@@ -65,6 +74,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param user Created user object
@@ -103,6 +113,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param user List of user object
@@ -133,6 +144,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param user List of user object
@@ -171,6 +183,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param user List of user object
@@ -201,6 +214,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param user List of user object
@@ -239,6 +253,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -269,6 +284,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -305,6 +321,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -336,6 +353,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -366,6 +384,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -398,6 +417,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -431,6 +451,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return void
@@ -460,6 +481,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return ApiResponse<Unit?>
@@ -495,6 +517,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
@@ -526,6 +549,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted

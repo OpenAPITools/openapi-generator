@@ -1,0 +1,21 @@
+openapi: "3.0.0"
+info:
+  version: 2.0.0
+  title: test
+paths:
+  /pets:
+    get:
+      summary: bla
+      operationId: getCustomer
+      parameters:
+        - name: first
+          in: header
+          schema:
+            type: string
+        - name: cookieParameter
+          in: cookie
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

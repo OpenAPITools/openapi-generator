@@ -16,30 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -49,7 +25,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -59,8 +34,22 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.apache.commons.lang3.Strings;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
+import static org.openapitools.codegen.CodegenConstants.X_REGEX;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
@@ -319,8 +308,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public String toApiName(String name) {
-        if (name == null || name.length() == 0) {
-            return "DefaultController";
+        if (name == null || name.length() == 0 || "default".equalsIgnoreCase(name)) {
+            // Operations without a tag are grouped under the "default" tag. Honor the
+            // configurable defaultController module name for them (issue #1891); this
+            // drives both the generated controller file name and connexion's
+            // x-openapi-router-controller routing, keeping the two consistent.
+            String controller = defaultController != null ? defaultController : "default_controller";
+            return camelize(controller);
         }
         return camelize(name) + "Controller";
     }
@@ -613,7 +607,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
+        if (Strings.CS.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";
@@ -629,6 +623,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (StringUtils.isNotEmpty(property.pattern)) {
             addImport(model, "import re");
+        }
+        if (anyPropertyMatches(property, p -> p.isUuid)) {
+            addImport(model, "from uuid import UUID");
         }
         postProcessPattern(property.pattern, property.vendorExtensions);
     }
@@ -757,8 +754,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
 
-            vendorExtensions.put("x-regex", regex);
-            vendorExtensions.put("x-modifiers", modifiers);
+            vendorExtensions.put(X_REGEX, regex);
+            vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
 }

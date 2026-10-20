@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -18,38 +26,45 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * An order for a pets from the pet store
  *
- * @param id 
- * @param petId 
- * @param quantity 
- * @param shipDate 
+ * @param id
+ * @param petId
+ * @param quantity
+ * @param shipDate
  * @param status Order Status
- * @param complete 
+ * @param complete
  */
 
 
 data class Order (
 
-    @field:JsonProperty("id")
+    @param:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("petId")
+    @param:JsonProperty("petId")
+    @get:JsonProperty("petId")
     val petId: kotlin.Long? = null,
 
-    @field:JsonProperty("quantity")
+    @param:JsonProperty("quantity")
+    @get:JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
 
-    @field:JsonProperty("shipDate")
+    @param:JsonProperty("shipDate")
+    @get:JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
-    @field:JsonProperty("status")
+    @param:JsonProperty("status")
+    @get:JsonProperty("status")
     val status: Order.Status? = null,
 
-    @field:JsonProperty("complete")
+    @param:JsonProperty("complete")
+    @get:JsonProperty("complete")
     val complete: kotlin.Boolean? = false
 
 ) {
@@ -59,7 +74,7 @@ data class Order (
      *
      * Values: PLACED,APPROVED,DELIVERED,UNKNOWN_DEFAULT_OPEN_API
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "placed") PLACED("placed"),
         @JsonProperty(value = "approved") APPROVED("approved"),
         @JsonProperty(value = "delivered") DELIVERED("delivered"),

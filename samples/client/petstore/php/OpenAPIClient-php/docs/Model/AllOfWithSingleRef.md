@@ -1,4 +1,4 @@
-# # AllOfWithSingleRef
+# AllOfWithSingleRef
 
 ## Properties
 

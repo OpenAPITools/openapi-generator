@@ -1,8 +1,10 @@
 Dockerfile
 README.md
-build.gradle
+build.gradle.kts
 gradle.properties
+gradle/wrapper/gradle-wrapper.properties
 settings.gradle
+src/main/kotlin/org/openapitools/server/AllApis.kt
 src/main/kotlin/org/openapitools/server/AppMain.kt
 src/main/kotlin/org/openapitools/server/Configuration.kt
 src/main/kotlin/org/openapitools/server/Paths.kt

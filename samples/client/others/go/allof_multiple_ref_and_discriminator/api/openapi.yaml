@@ -9,13 +9,13 @@ components:
   schemas:
     FinalItem:
       allOf:
-      - $ref: '#/components/schemas/base.item'
-      - $ref: '#/components/schemas/AdditionalData'
+      - $ref: "#/components/schemas/base.item"
+      - $ref: "#/components/schemas/AdditionalData"
       type: object
     base.item:
       discriminator:
         mapping:
-          FINAL: '#/components/schemas/FinalItem'
+          FINAL: "#/components/schemas/FinalItem"
         propertyName: type
       properties:
         title:

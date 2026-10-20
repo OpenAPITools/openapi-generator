@@ -17,12 +17,18 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/graphql-schema/}.
+ */
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);
@@ -47,19 +53,19 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
 
         modifyFeatureSet(features -> features
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
+                        .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                        .securityFeatures(EnumSet.noneOf(
+                                SecurityFeature.class
+                        ))
+                        .excludeGlobalFeatures(
+                                GlobalFeature.XMLStructureDefinitions,
+                                GlobalFeature.Callbacks,
+                                GlobalFeature.LinkObjects,
+                                GlobalFeature.ParameterStyling
+                        )
+                        .excludeSchemaSupportFeatures(
+                                SchemaSupportFeature.Polymorphism
+                        )
         );
 
         outputFolder = "generated-code/graphql-schema";
@@ -103,5 +109,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GRAPH_QL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GRAPH_QL;
+    }
 }

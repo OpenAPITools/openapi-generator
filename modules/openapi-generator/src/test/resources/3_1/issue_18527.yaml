@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: oneOf with arrays
+  description: Ensure different names for kinds in enum when using oneOf with arrays.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Option1OrOption2:
+      type: object
+      properties:
+        Options:
+          oneOf:
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: integer

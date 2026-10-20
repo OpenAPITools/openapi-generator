@@ -21,20 +21,14 @@ import { mapValues } from '../runtime';
 export interface OuterComposite {
     /**
      * 
-     * @type {number}
-     * @memberof OuterComposite
      */
     myNumber?: number;
     /**
      * 
-     * @type {string}
-     * @memberof OuterComposite
      */
     myString?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof OuterComposite
      */
     myBoolean?: boolean;
 }
@@ -62,10 +56,15 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function OuterCompositeToJSON(value?: OuterComposite | null): any {
+export function OuterCompositeToJSON(json: any): OuterComposite {
+    return OuterCompositeToJSONTyped(json, false);
+}
+
+export function OuterCompositeToJSONTyped(value?: OuterComposite | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'my_number': value['myNumber'],

@@ -31,15 +31,16 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
+  @jakarta.annotation.Nullable
   private String propertyClass;
 
   public ClassModel() {
   }
 
-  public ClassModel propertyClass(String propertyClass) {
+  public ClassModel propertyClass(@jakarta.annotation.Nullable String propertyClass) {
     
     this.propertyClass = propertyClass;
     return this;
@@ -51,7 +52,7 @@ public class ClassModel {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -59,11 +60,12 @@ public class ClassModel {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@jakarta.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -96,10 +98,7 @@ public class ClassModel {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

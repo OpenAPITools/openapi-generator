@@ -9,6 +9,8 @@
 
 import json
 import tables
+import marshal
+import options
 
 import model_category
 import model_tag
@@ -20,23 +22,35 @@ type Status* {.pure.} = enum
 
 type Pet* = object
   ## A pet for sale in the pet store
-  id*: int64
-  category*: Category
+  id*: Option[int64]
+  category*: Option[Category]
   name*: string
   photoUrls*: seq[string]
-  tags*: seq[Tag]
-  status*: Status ## pet status in the store
+  tags*: Option[seq[Tag]]
+  status*: Option[Status] ## pet status in the store
 
 func `%`*(v: Status): JsonNode =
-  let str = case v:
-    of Status.Available: "available"
-    of Status.Pending: "pending"
-    of Status.Sold: "sold"
-
-  JsonNode(kind: JString, str: str)
-
+  result = case v:
+    of Status.Available: %"available"
+    of Status.Pending: %"pending"
+    of Status.Sold: %"sold"
 func `$`*(v: Status): string =
   result = case v:
-    of Status.Available: "available"
-    of Status.Pending: "pending"
-    of Status.Sold: "sold"
+    of Status.Available: $("available")
+    of Status.Pending: $("pending")
+    of Status.Sold: $("sold")
+
+proc to*(node: JsonNode, T: typedesc[Status]): Status =
+  if node.kind != JString:
+    raise newException(ValueError, "Expected string for enum Status, got " & $node.kind)
+  let strVal = node.getStr()
+  case strVal:
+  of $("available"):
+    return Status.Available
+  of $("pending"):
+    return Status.Pending
+  of $("sold"):
+    return Status.Sold
+  else:
+    raise newException(ValueError, "Invalid enum value for Status: " & strVal)
+

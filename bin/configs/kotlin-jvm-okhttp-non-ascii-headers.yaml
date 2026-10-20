@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-jvm-okhttp-non-ascii-headers
+library: jvm-okhttp4
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  useNonAsciiHeaders: true
+  artifactId: kotlin-petstore-jvm-okhttp-non-ascii-headers

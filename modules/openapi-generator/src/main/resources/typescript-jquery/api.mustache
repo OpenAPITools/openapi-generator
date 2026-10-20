@@ -60,7 +60,7 @@ export class {{classname}} {
     { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+        let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         let queryParameters: any = {};
         let headerParams: any = {};

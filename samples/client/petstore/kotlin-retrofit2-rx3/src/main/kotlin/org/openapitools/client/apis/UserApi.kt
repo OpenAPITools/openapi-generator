@@ -11,6 +11,7 @@ import org.openapitools.client.models.User
 
 interface UserApi {
     /**
+     * POST user
      * Create user
      * This can only be done by the logged in user.
      * Responses:
@@ -23,6 +24,7 @@ interface UserApi {
     fun createUser(@Body body: User): Completable
 
     /**
+     * POST user/createWithArray
      * Creates list of users with given input array
      * 
      * Responses:
@@ -35,6 +37,7 @@ interface UserApi {
     fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Completable
 
     /**
+     * POST user/createWithList
      * Creates list of users with given input array
      * 
      * Responses:
@@ -47,6 +50,7 @@ interface UserApi {
     fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Completable
 
     /**
+     * DELETE user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * Responses:
@@ -60,6 +64,7 @@ interface UserApi {
     fun deleteUser(@Path("username") username: kotlin.String): Completable
 
     /**
+     * GET user/{username}
      * Get user by user name
      * 
      * Responses:
@@ -74,6 +79,7 @@ interface UserApi {
     fun getUserByName(@Path("username") username: kotlin.String): Single<User>
 
     /**
+     * GET user/login
      * Logs user into the system
      * 
      * Responses:
@@ -88,6 +94,7 @@ interface UserApi {
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Single<kotlin.String>
 
     /**
+     * GET user/logout
      * Logs out current logged in user session
      * 
      * Responses:
@@ -99,6 +106,7 @@ interface UserApi {
     fun logoutUser(): Completable
 
     /**
+     * PUT user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * Responses:

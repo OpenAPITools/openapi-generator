@@ -23,10 +23,11 @@ import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
@@ -55,7 +56,7 @@ public class FakeApiTest {
 
     private FakeApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
@@ -208,7 +209,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment binary = null;
+        File binary = null;
         LocalDate date = null;
         Date dateTime = null;
         String password = null;

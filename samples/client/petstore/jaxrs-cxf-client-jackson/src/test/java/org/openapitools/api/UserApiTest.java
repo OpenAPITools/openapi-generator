@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -13,18 +13,19 @@
 
 package org.openapitools.api;
 
+import java.util.Date;
 import org.openapitools.model.User;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import tools.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,23 +40,23 @@ import java.util.Map;
  *
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
- * API tests for UserApi 
+ * API tests for UserApi
  */
 public class UserApiTest {
 
 
     private UserApi api;
-    
-    @Before
+
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
         providers.add(provider);
-        
+
         api = JAXRSClientFactory.create("http://petstore.swagger.io/v2", UserApi.class, providers);
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
+
+        ClientConfiguration config = WebClient.getConfig(client);
     }
 
     
@@ -73,8 +74,8 @@ public class UserApiTest {
         //api.createUser(body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -89,8 +90,8 @@ public class UserApiTest {
         //api.createUsersWithArrayInput(body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -105,8 +106,8 @@ public class UserApiTest {
         //api.createUsersWithListInput(body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -123,8 +124,8 @@ public class UserApiTest {
         //api.deleteUser(username);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -139,8 +140,8 @@ public class UserApiTest {
         //User response = api.getUserByName(username);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -156,8 +157,8 @@ public class UserApiTest {
         //String response = api.loginUser(username, password);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -171,8 +172,8 @@ public class UserApiTest {
         //api.logoutUser();
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -190,8 +191,8 @@ public class UserApiTest {
         //api.updateUser(username, body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
 }

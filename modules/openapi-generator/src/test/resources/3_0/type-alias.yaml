@@ -6,6 +6,7 @@ info:
 paths:
   /type-alias:
     get:
+      operationId: edge case !@# 123
       responses:
         200:
           description: OK

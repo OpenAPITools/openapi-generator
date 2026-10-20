@@ -5,7 +5,7 @@ title: Debugging
 
 ## Generation
 
-As a user there may be times when generated outputs don't match your expectations it's unclear why. The CLI supports a `--dry-run` option which may be used to inspect the anticipated file operations without making changes to the file system.
+As a user there may be times when generated outputs don't match your expectations and it's unclear why. The CLI supports a `--dry-run` option which may be used to inspect the anticipated file operations without making changes to the file system.
 
 Suppose you generate using the `--minimal-update` option, and you notice on subsequent generations of a client that no files have changed. This is by design.
 
@@ -200,6 +200,23 @@ The steps are shown here for a specific version of the generator, but apply the 
   Listening for transport dt_socket at address: 5005
   ```
 * Set breakpoints in code, and then attach your remote debugger from your IDE (see above). The generator will automatically unblock once the remote debugger is attached. You can now step through the code.
+
+    For VSCode you can use the following launch configuration (`launch.json`):
+    ```json
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "java",
+                "name": "Debug (Attach)",
+                "request": "attach",
+                "hostName": "localhost",
+                "port": 5005
+            }
+        ]
+    }
+    ```
+    to attach the suspended process above.
 
 ## Logs
 

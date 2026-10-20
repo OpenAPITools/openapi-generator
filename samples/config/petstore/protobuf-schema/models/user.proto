@@ -19,9 +19,9 @@ message User {
 
   string username = 265713450;
 
-  string firstName = 132835675;
+  string first_name = 160985414;
 
-  string lastName = 385857985;
+  string last_name = 402509463;
 
   string email = 96619420;
 
@@ -30,6 +30,7 @@ message User {
   string phone = 106642798;
 
   // User Status
-  int32 userStatus = 517890975;
+  int32 user_status = 150530330;
 
 }
+

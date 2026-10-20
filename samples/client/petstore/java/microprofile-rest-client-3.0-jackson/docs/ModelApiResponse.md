@@ -2,7 +2,6 @@
 
 # ModelApiResponse
 
-Describes the result of uploading an image resource
 
 ## Properties
 

@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
@@ -148,12 +148,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public StatusEnum? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>doggie</example>
+        /* <example>doggie</example> */
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -167,40 +167,40 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Category
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Category?> CategoryOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get { return this.CategoryOption; } set { this.CategoryOption = new(value); } }
+        public Category? Category { get { return this.CategoryOption.Value; } set { this.CategoryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Tags
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Tag>?> TagsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get { return this.TagsOption; } set { this.TagsOption = new(value); } }
+        public List<Tag>? Tags { get { return this.TagsOption.Value; } set { this.TagsOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -241,8 +241,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pet" />
     /// </summary>
-    public class PetJsonConverter : JsonConverter<Pet>
+    public partial class PetJsonConverter : JsonConverter<Pet>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetJsonConverter" /> class.
+        /// </summary>
+        public PetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pet" />
         /// </summary>
@@ -286,25 +296,26 @@ namespace Org.OpenAPITools.Model
                             name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "photoUrls":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            photoUrls = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "category":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                category = new Option<Category?>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            category = new Option<Category?>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
                             if (statusRawValue != null)
-                                status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
+                            {
+                                Pet.StatusEnum? statusValue = Pet.StatusEnumFromStringOrDefault(statusRawValue);
+                                if (statusValue == null)
+                                    throw new JsonException();
+                                status = new Option<Pet.StatusEnum?>(statusValue);
+                            }
                             break;
                         case "tags":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                tags = new Option<List<Tag>?>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            tags = new Option<List<Tag>?>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -313,28 +324,28 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(name));
+                throw new JsonException("Property is required for class Pet: name.");
 
             if (!photoUrls.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(photoUrls));
+                throw new JsonException("Property is required for class Pet: photoUrls.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: name.");
 
             if (photoUrls.IsSet && photoUrls.Value == null)
-                throw new ArgumentNullException(nameof(photoUrls), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: photoUrls.");
 
             if (category.IsSet && category.Value == null)
-                throw new ArgumentNullException(nameof(category), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: category.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: id.");
 
             if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: status.");
 
             if (tags.IsSet && tags.Value == null)
-                throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: tags.");
 
             return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags);
         }
@@ -345,7 +356,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -360,20 +370,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pet.Name == null)
-                throw new ArgumentNullException(nameof(pet.Name), "Property is required for class Pet.");
-
-            if (pet.PhotoUrls == null)
-                throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
-
             if (pet.CategoryOption.IsSet && pet.Category == null)
-                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Category to non-nullable JSON property 'category'.");
+
+            if (pet.IdOption.IsSet && pet.Id == null)
+                throw new JsonException("Cannot write null property Pet.Id to non-nullable JSON property 'id'.");
+
+            if (pet.StatusOption.IsSet && pet.Status == null)
+                throw new JsonException("Cannot write null property Pet.Status to non-nullable JSON property 'status'.");
 
             if (pet.TagsOption.IsSet && pet.Tags == null)
-                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Tags to non-nullable JSON property 'tags'.");
 
             writer.WriteString("name", pet.Name);
 

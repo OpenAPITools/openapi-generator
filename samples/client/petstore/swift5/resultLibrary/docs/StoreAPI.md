@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete purchase order by ID
@@ -62,7 +62,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
+    internal class func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
 ```
 
 Returns pet inventories by status
@@ -108,7 +108,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    internal class func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Find purchase order by ID
@@ -158,7 +158,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    internal class func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Place an order for a pet

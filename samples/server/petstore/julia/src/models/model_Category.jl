@@ -18,23 +18,30 @@ Base.@kwdef mutable struct Category <: OpenAPI.APIModel
     name::Union{Nothing, String} = nothing
 
     function Category(id, name, )
-        OpenAPI.validate_property(Category, Symbol("id"), id)
-        OpenAPI.validate_property(Category, Symbol("name"), name)
-        return new(id, name, )
+        o = new(id, name, )
+        OpenAPI.validate_properties(o)
+        return o
     end
 end # type Category
 
 const _property_types_Category = Dict{Symbol,String}(Symbol("id")=>"Int64", Symbol("name")=>"String", )
 OpenAPI.property_type(::Type{ Category }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_Category[name]))}
 
-function check_required(o::Category)
+function OpenAPI.check_required(o::Category)
     true
 end
 
+function OpenAPI.validate_properties(o::Category)
+    OpenAPI.validate_property(Category, Symbol("id"), o.id)
+    OpenAPI.validate_property(Category, Symbol("name"), o.name)
+end
+
 function OpenAPI.validate_property(::Type{ Category }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "Category", :format, val, "int64")
     end
+
     if name === Symbol("name")
         OpenAPI.validate_param(name, "Category", :pattern, val, r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
     end

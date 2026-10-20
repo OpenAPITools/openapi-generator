@@ -125,7 +125,8 @@ class AnyOfPig(BaseModel):
         if callable(to_json):
             return self.actual_instance.to_dict()
         else:
-            return json.dumps(self.actual_instance)
+            # primitive type
+            return self.actual_instance
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

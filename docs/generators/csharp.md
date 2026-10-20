@@ -22,20 +22,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiName|Must be a valid C# class name. Only used in Generic Host library. Default: Api| |Api|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
 |conditionalSerialization|Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.| |false|
-|dateFormat|The default Date format (only `generichost` library supports this option).| |yyyy'-'MM'-'dd|
-|dateTimeFormat|The default DateTime format (only `generichost` library supports this option).| |yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |equatable|Overrides Equals and GetHashCode methods.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
-|library|HTTP library template (sub-template) to use|<dl><dt>**generichost**</dt><dd>HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) (Experimental. Subject to breaking changes without notice.)</dd><dt>**httpclient**</dt><dd>HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Experimental. Subject to breaking changes without notice.)</dd><dt>**unityWebRequest**</dt><dd>UnityWebRequest (...) (Experimental. Subject to breaking changes without notice.)</dd><dt>**restsharp**</dt><dd>RestSharp (https://github.com/restsharp/RestSharp)</dd></dl>|restsharp|
+|library|HTTP library template (sub-template) to use|<dl><dt>**generichost**</dt><dd>HttpClient, Generic Host integration, and System.Text.Json (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host)</dd><dt>**httpclient**</dt><dd>HttpClient and Newtonsoft (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Experimental. Subject to breaking changes without notice.)</dd><dt>**unityWebRequest**</dt><dd>UnityWebRequest (...) (Experimental. Subject to breaking changes without notice.)</dd><dt>**restsharp**</dt><dd>RestSharp (https://github.com/restsharp/RestSharp)</dd></dl>|generichost|
 |licenseId|The identifier of the license| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
-|modelPropertySorting|One of legacy, alphabetical, default (only `generichost` library supports this option).| |legacy|
+|modelPropertySorting|One of legacy, alphabetical, default.| |default|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer. Starting in .NET 6.0 the default is true.| |false|
-|operationParameterSorting|One of legacy, alphabetical, default (only `generichost` library supports this option).| |legacy|
+|operationParameterSorting|One of legacy, alphabetical, default.| |default|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
@@ -44,17 +42,28 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTags|Tags to identify the package| |null|
 |packageVersion|C# package version.| |1.0.0|
-|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1</dd><dt>**net47**</dt><dd>.NET Framework 4.7</dd><dt>**net48**</dt><dd>.NET Framework 4.8</dd><dt>**net6.0**</dt><dd>.NET 6.0 (End of Support 12 November 2024)</dd><dt>**net7.0**</dt><dd>.NET 7.0</dd><dt>**net8.0**</dt><dd>.NET 8.0</dd></dl>|net8.0|
+|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1</dd><dt>**net47**</dt><dd>.NET Framework 4.7</dd><dt>**net48**</dt><dd>.NET Framework 4.8</dd><dt>**net8.0**</dt><dd>.NET 8.0 (End of Support 10 November 2026)</dd><dt>**net9.0**</dt><dd>.NET 9.0 (End of Support 10 November 2026)</dd><dt>**net10.0**</dt><dd>.NET 10.0 (End of Support 14 November 2028)</dd></dl>|net10.0|
+|throwOnAnyError|Throw ApiException on deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse&lt;T&gt; discards as null Data). HTTP error statuses keep going through ExceptionFactory. Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)| |false|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
+|useIntForTimeout|Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |useSourceGeneration|Use source generation where available (only `generichost` library supports this option).| |false|
+|useVirtualForHooks|Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).| |false|
 |validatable|Generates self-validatable models.| |true|
 |zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+|x-csharp-date-format|The exact .NET format used to deserialize and serialize a date property in the C# Generic Host client|FIELD|null
+|x-csharp-datetime-format|The exact .NET format used to deserialize and serialize a date-time property in the C# Generic Host client|FIELD|null
+
 
 ## IMPORT MAPPING
 

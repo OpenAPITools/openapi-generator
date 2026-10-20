@@ -12,21 +12,19 @@
 package org.openapitools.server.models
 
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 /**
  * Describes the result of uploading an image resource
  * @param code 
  * @param type 
  * @param message 
  */
+@Serializable
 data class ModelApiResponse(
     val code: kotlin.Int? = null,
     val type: kotlin.String? = null,
     val message: kotlin.String? = null
-) : Serializable 
+)
 {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
 }
 

@@ -1,1 +1,19 @@
-{{#bodyParam}}_bodyData=jsonEncode({{{paramName}}});{{/bodyParam}}
+      {{#hasFormParams}}
+      {{#isMultipart}}
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        {{#formParams}}
+        {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}{{#isModel}}jsonEncode({{{paramName}}}){{/isModel}}{{^isModel}}{{#items.isModel}}jsonEncode({{{paramName}}}{{#uniqueItems}}.toList(){{/uniqueItems}}){{/items.isModel}}{{^items.isModel}}{{{paramName}}}{{/items.isModel}}{{/isModel}}{{/isFile}},
+        {{/formParams}}
+      });
+      {{/isMultipart}}
+      {{^isMultipart}}
+      _bodyData = <String, dynamic>{
+        {{#formParams}}
+        {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': {{#isModel}}jsonEncode({{{paramName}}}){{/isModel}}{{^isModel}}{{#items.isModel}}jsonEncode({{{paramName}}}{{#uniqueItems}}.toList(){{/uniqueItems}}){{/items.isModel}}{{^items.isModel}}{{{paramName}}}{{/items.isModel}}{{/isModel}},
+        {{/formParams}}
+      };
+      {{/isMultipart}}
+      {{/hasFormParams}}
+      {{#bodyParam}}
+      _bodyData = jsonEncode({{{paramName}}});
+      {{/bodyParam}}

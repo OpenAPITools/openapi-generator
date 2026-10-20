@@ -72,6 +72,11 @@ func (o *Foo) SetBar(v string) {
 	o.Bar = v
 }
 
+// GetDefaultBar returns the default value "bar" of the Bar field.
+func (o *Foo) GetDefaultBar() interface{}  {
+	return "bar"
+}
+
 // GetMap returns the Map field value if set, zero value otherwise.
 func (o *Foo) GetMap() map[string][]time.Time {
 	if o == nil || IsNil(o.Map) {
@@ -114,6 +119,9 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 
 func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if _, exists := toSerialize["bar"]; !exists {
+		toSerialize["bar"] = o.GetDefaultBar()
+	}
 	toSerialize["bar"] = o.Bar
 	if !IsNil(o.Map) {
 		toSerialize["map"] = o.Map
@@ -134,6 +142,12 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 		"bar",
 	}
 
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+		"bar": o.GetDefaultBar,
+	}
+	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -143,11 +157,23 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFoo := _Foo{}
 
 	err = json.Unmarshal(data, &varFoo)

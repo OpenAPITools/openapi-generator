@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/animal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'dog.g.dart';
@@ -11,6 +12,7 @@ part 'dog.g.dart';
 // ignore_for_file: unused_import
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -32,7 +34,7 @@ class Dog {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -44,7 +46,7 @@ class Dog {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +58,7 @@ class Dog {
     
     name: r'breed',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

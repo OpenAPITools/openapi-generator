@@ -36,15 +36,16 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  @javax.annotation.Nullable
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
 
-  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+  public ArrayOfNumberOnly arrayNumber(@javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     
     this.arrayNumber = arrayNumber;
     return this;
@@ -63,7 +64,7 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<BigDecimal> getArrayNumber() {
@@ -71,11 +72,12 @@ public class ArrayOfNumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumber(@javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -108,10 +110,7 @@ public class ArrayOfNumberOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -151,8 +150,8 @@ public class ArrayOfNumberOnly {
       for (int i = 0; i < getArrayNumber().size(); i++) {
         if (getArrayNumber().get(i) != null) {
           try {
-            joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(java.util.Locale.ROOT, "%sArrayNumber%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported

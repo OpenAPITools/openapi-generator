@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,26 +22,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing reserved words
  */
+@ApiModel(description = "Model for testing reserved words")
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
+  @javax.annotation.Nullable
   private Integer _return;
 
   public ModelReturn() {
   }
 
-  public ModelReturn _return(Integer _return) {
+  public ModelReturn _return(@javax.annotation.Nullable Integer _return) {
     
     this._return = _return;
     return this;
@@ -50,7 +56,8 @@ public class ModelReturn {
    * @return _return
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @ApiModelProperty(value = "")
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getReturn() {
@@ -58,28 +65,21 @@ public class ModelReturn {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReturn(Integer _return) {
+  public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
 
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_return);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -96,10 +96,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

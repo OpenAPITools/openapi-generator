@@ -18,8 +18,8 @@ import okhttp3.MultipartBody;
 {{/imports}}
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public interface {{classname}} {
    * {{summary}}
    * {{notes}}
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @return Call&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
 {{#isDeprecated}}

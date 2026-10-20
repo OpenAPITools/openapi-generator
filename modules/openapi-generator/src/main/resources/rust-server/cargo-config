@@ -6,7 +6,8 @@ rustflags = [
 
     "-W", "trivial_numeric_casts",  # detects trivial casts of numeric types which could be removed
 
-    "-W", "unsafe_code",  # usage of `unsafe` code
+    # unsafe is used in `TokioIo` bridging code copied from `hyper`.
+    # "-W", "unsafe_code",  # usage of `unsafe` code
 
     "-W", "unused_qualifications",  # detects unnecessarily qualified names
 

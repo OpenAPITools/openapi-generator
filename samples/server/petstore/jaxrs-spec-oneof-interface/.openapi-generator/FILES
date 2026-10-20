@@ -1,0 +1,11 @@
+README.md
+pom.xml
+src/gen/java/org/openapitools/api/PetsApi.java
+src/gen/java/org/openapitools/api/RestApplication.java
+src/gen/java/org/openapitools/api/RestResourceRoot.java
+src/gen/java/org/openapitools/model/CatRequest.java
+src/gen/java/org/openapitools/model/DogRequest.java
+src/gen/java/org/openapitools/model/PetBase.java
+src/gen/java/org/openapitools/model/PetRequest.java
+src/gen/java/org/openapitools/model/PetType.java
+src/main/openapi/openapi.yaml

@@ -5,7 +5,7 @@
 function uuid_default_value_read(handler)
     function uuid_default_value_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
-        headers = Dict{String,String}(HTTP.headers(req))
+        headers = Dict{String,String}(req.headers)
         openapi_params["uuid_parameter"] = OpenAPI.Servers.to_param(String, headers, "uuid_parameter", required=true, )
         req.context[:openapi_params] = openapi_params
 
@@ -16,7 +16,20 @@ end
 function uuid_default_value_validate(handler)
     function uuid_default_value_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "uuid_default_value"
         
+        n = "uuid_parameter"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end

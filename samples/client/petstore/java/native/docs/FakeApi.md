@@ -110,7 +110,7 @@ No authorization required
 
 ## fakeBigDecimalMapWithHttpInfo
 
-> ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap fakeBigDecimalMapWithHttpInfo()
+> ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapWithHttpInfo()
 
 
 
@@ -234,7 +234,7 @@ No authorization required
 
 ## fakeHealthGetWithHttpInfo
 
-> ApiResponse<HealthCheckResult> fakeHealthGet fakeHealthGetWithHttpInfo()
+> ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo()
 
 Health check endpoint
 
@@ -362,7 +362,7 @@ No authorization required
 
 ## fakeOuterBooleanSerializeWithHttpInfo
 
-> ApiResponse<Boolean> fakeOuterBooleanSerialize fakeOuterBooleanSerializeWithHttpInfo(body)
+> ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(body)
 
 
 
@@ -496,7 +496,7 @@ No authorization required
 
 ## fakeOuterCompositeSerializeWithHttpInfo
 
-> ApiResponse<OuterComposite> fakeOuterCompositeSerialize fakeOuterCompositeSerializeWithHttpInfo(outerComposite)
+> ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(outerComposite)
 
 
 
@@ -630,7 +630,7 @@ No authorization required
 
 ## fakeOuterNumberSerializeWithHttpInfo
 
-> ApiResponse<BigDecimal> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
+> ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(body)
 
 
 
@@ -764,7 +764,7 @@ No authorization required
 
 ## fakeOuterStringSerializeWithHttpInfo
 
-> ApiResponse<String> fakeOuterStringSerialize fakeOuterStringSerializeWithHttpInfo(body)
+> ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(body)
 
 
 
@@ -892,7 +892,7 @@ No authorization required
 
 ## getApplicationJsonUtf8WithHttpInfo
 
-> ApiResponse<List<OuterEnum>> getApplicationJsonUtf8 getApplicationJsonUtf8WithHttpInfo()
+> ApiResponse<List<OuterEnum>> getApplicationJsonUtf8WithHttpInfo()
 
 application/json UTF8
 
@@ -1014,7 +1014,7 @@ No authorization required
 
 ## getArrayOfEnumsWithHttpInfo
 
-> ApiResponse<List<OuterEnum>> getArrayOfEnums getArrayOfEnumsWithHttpInfo()
+> ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo()
 
 Array of Enums
 
@@ -1141,7 +1141,7 @@ No authorization required
 
 ## testAdditionalPropertiesReferenceWithHttpInfo
 
-> ApiResponse<Void> testAdditionalPropertiesReference testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
+> ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
 
 test referenced additionalProperties
 
@@ -1273,7 +1273,7 @@ No authorization required
 
 ## testBodyWithFileSchemaWithHttpInfo
 
-> ApiResponse<Void> testBodyWithFileSchema testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
+> ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
 
 
 
@@ -1405,7 +1405,7 @@ No authorization required
 
 ## testBodyWithQueryParamsWithHttpInfo
 
-> ApiResponse<Void> testBodyWithQueryParams testBodyWithQueryParamsWithHttpInfo(query, user)
+> ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(query, user)
 
 
 
@@ -1538,7 +1538,7 @@ No authorization required
 
 ## testClientModelWithHttpInfo
 
-> ApiResponse<Client> testClientModel testClientModelWithHttpInfo(client)
+> ApiResponse<Client> testClientModelWithHttpInfo(client)
 
 To test \&quot;client\&quot; model
 
@@ -1704,7 +1704,7 @@ null (empty response body)
 
 ## testEndpointParametersWithHttpInfo
 
-> ApiResponse<Void> testEndpointParameters testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> ApiResponse<Void> testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1884,7 +1884,7 @@ No authorization required
 
 ## testEnumParametersWithHttpInfo
 
-> ApiResponse<Void> testEnumParameters testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> ApiResponse<Void> testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -2049,7 +2049,7 @@ null (empty response body)
 
 ## testGroupParametersWithHttpInfo
 
-> ApiResponse<Void> testGroupParameters testGroupParametersWithHttpInfo(testGroupParametersRequest)
+> ApiResponse<Void> testGroupParametersWithHttpInfo(testGroupParametersRequest)
 
 Fake endpoint to test group parameters (optional)
 
@@ -2214,7 +2214,7 @@ No authorization required
 
 ## testInlineAdditionalPropertiesWithHttpInfo
 
-> ApiResponse<Void> testInlineAdditionalProperties testInlineAdditionalPropertiesWithHttpInfo(requestBody)
+> ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(requestBody)
 
 test inline additionalProperties
 
@@ -2346,7 +2346,7 @@ No authorization required
 
 ## testInlineFreeformAdditionalPropertiesWithHttpInfo
 
-> ApiResponse<Void> testInlineFreeformAdditionalProperties testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
+> ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
 
 test inline free-form additionalProperties
 
@@ -2480,7 +2480,7 @@ No authorization required
 
 ## testJsonFormDataWithHttpInfo
 
-> ApiResponse<Void> testJsonFormData testJsonFormDataWithHttpInfo(param, param2)
+> ApiResponse<Void> testJsonFormDataWithHttpInfo(param, param2)
 
 test json serialization of form data
 
@@ -2622,7 +2622,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormatWithHttpInfo
 
-> ApiResponse<Void> testQueryParameterCollectionFormat testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
+> ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
 
 
 
@@ -2762,7 +2762,7 @@ No authorization required
 
 ## testStringMapReferenceWithHttpInfo
 
-> ApiResponse<Void> testStringMapReference testStringMapReferenceWithHttpInfo(requestBody)
+> ApiResponse<Void> testStringMapReferenceWithHttpInfo(requestBody)
 
 test referenced string map
 

@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -12,6 +12,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +31,10 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbSubtype;
+import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.json.bind.annotation.JsonbTypeInfo;
+import jakarta.json.bind.annotation.JsonbCreator;
 
 /**
   * A pet for sale in the pet store
@@ -35,19 +43,19 @@ import jakarta.json.bind.annotation.JsonbProperty;
 public class Pet  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("category")
-  private Category category;
+  protected Category category;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  protected List<String> photoUrls = new ArrayList<>();
 
   @JsonbProperty("tags")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -95,7 +103,8 @@ public class Pet  {
   * pet status in the store
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
+
 
   /**
    * Get id
@@ -235,6 +244,27 @@ public class Pet  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   /**
    * Create a string representation of this pojo.
@@ -259,10 +289,7 @@ public class Pet  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

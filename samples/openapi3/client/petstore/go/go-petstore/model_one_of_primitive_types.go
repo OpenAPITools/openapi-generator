@@ -13,8 +13,8 @@ package petstore
 import (
 	"encoding/json"
 	"time"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
@@ -85,6 +85,10 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(OneOfPrimitiveTypes): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(OneOfPrimitiveTypes)")
 	}
 }
@@ -113,6 +117,20 @@ func (obj *OneOfPrimitiveTypes) GetActualInstance() (interface{}) {
 
 	if obj.TimeTime != nil {
 		return obj.TimeTime
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj OneOfPrimitiveTypes) GetActualInstanceValue() (interface{}) {
+	if obj.String != nil {
+		return *obj.String
+	}
+
+	if obj.TimeTime != nil {
+		return *obj.TimeTime
 	}
 
 	// all schemas are nil

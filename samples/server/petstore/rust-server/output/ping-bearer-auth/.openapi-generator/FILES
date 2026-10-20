@@ -1,8 +1,9 @@
-.cargo/config
+.cargo/config.toml
 .gitignore
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/default_api.md
 examples/ca.pem
 examples/client/client_auth.rs
@@ -20,3 +21,4 @@ src/lib.rs
 src/models.rs
 src/server/mod.rs
 src/server/server_auth.rs
+tests/auth_scheme_precedence.rs

@@ -3,17 +3,12 @@
 # flake8: noqa
 
 import unittest
-import weakref
 
-from tests.util import async_test
 import petstore_api
 
 
-class TestApiClient(unittest.TestCase):
-
-    @async_test
+class TestApiClient(unittest.IsolatedAsyncioTestCase):
     async def test_context_manager_closes_client(self):
-
         async with petstore_api.ApiClient() as client:
             # pool_manager
             self.assertFalse(client.rest_client.pool_manager.closed)

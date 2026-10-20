@@ -13,64 +13,62 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+        
 case class User(
-  id: Option[Long] = None ,
-
+    id: Option[Long] = None ,
     username: Option[String] = None ,
-
     firstName: Option[String] = None ,
-
     lastName: Option[String] = None ,
-
     email: Option[String] = None ,
-
     password: Option[String] = None ,
-
     phone: Option[String] = None ,
+        /* User Status */
+    userStatus: Option[Int] = None 
 
-  /* User Status */
-  userStatus: Option[Int] = None 
 
-  ) {
+) {
 
-  def asJson: String = asData.asJson
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
 
-  def asData : UserData = {
-    UserData(
-            id = id.getOrElse(0),
-            username = username.getOrElse(""),
-            firstName = firstName.getOrElse(""),
-            lastName = lastName.getOrElse(""),
-            email = email.getOrElse(""),
-            password = password.getOrElse(""),
-            phone = phone.getOrElse(""),
-            userStatus = userStatus.getOrElse(0)
-    )
-  }
+def asData : UserData = {
+UserData(
+    id = id.getOrElse(0) /*  1 */,
+    username = username.getOrElse("") /*  1 */,
+    firstName = firstName.getOrElse("") /*  1 */,
+    lastName = lastName.getOrElse("") /*  1 */,
+    email = email.getOrElse("") /*  1 */,
+    password = password.getOrElse("") /*  1 */,
+    phone = phone.getOrElse("") /*  1 */,
+    userStatus = userStatus.getOrElse(0) /*  1 */
+
+)
+}
+}
+
+object User {
+given RW[User] = summon[RW[ujson.Value]].bimap[User](_.asJson, json => read[UserData](json).asModel)
+
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case username extends Fields("username")
+    case firstName extends Fields("firstName")
+    case lastName extends Fields("lastName")
+    case email extends Fields("email")
+    case password extends Fields("password")
+    case phone extends Fields("phone")
+    case userStatus extends Fields("userStatus")
+}
+
 
 }
 
-object User{
-
-    given RW[User] = UserData.readWriter.bimap[User](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case username extends Fields("username")
-            case firstName extends Fields("firstName")
-            case lastName extends Fields("lastName")
-            case email extends Fields("email")
-            case password extends Fields("password")
-            case phone extends Fields("phone")
-            case userStatus extends Fields("userStatus")
-    }
-
-
-}
 

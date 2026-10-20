@@ -11,21 +11,21 @@ import AnyCodable
 #endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public struct ClassModel: Codable, JSONEncodable, Hashable {
+internal struct ClassModel: Codable, JSONEncodable {
 
-    public var _class: String?
+    internal private(set) var _class: String?
 
-    public init(_class: String? = nil) {
+    internal init(_class: String? = nil) {
         self._class = _class
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _class
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
     }

@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **uuid_default_value**
-> uuid_default_value(req::HTTP.Request, uuid_parameter::String;) -> Nothing
+> `uuid_default_value`(req::`HTTP.Request`, `uuid_parameter`::`String`;) -> `Nothing`
 
 test uuid default value
 
@@ -18,12 +18,12 @@ test uuid default value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**uuid_parameter** | **String**| test uuid default value | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`uuid_parameter`** | **`String`**| test uuid default value |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 

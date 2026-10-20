@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -23,12 +31,12 @@ import kotlinx.serialization.encoding.*
 /**
  * An order for a pets from the pet store
  *
- * @param id 
- * @param petId 
- * @param quantity 
- * @param shipDate 
+ * @param id
+ * @param petId
+ * @param quantity
+ * @param shipDate
  * @param status Order Status
- * @param complete 
+ * @param complete
  */
 @Serializable
 
@@ -40,7 +48,7 @@ data class Order (
 
     @SerialName(value = "quantity") val quantity: kotlin.Int? = null,
 
-    @SerialName(value = "shipDate") val shipDate: kotlinx.datetime.Instant? = null,
+    @SerialName(value = "shipDate") val shipDate: kotlin.time.Instant? = null,
 
     /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,
@@ -59,6 +67,7 @@ data class Order (
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),
         @SerialName(value = "delivered") delivered("delivered");
+        override fun toString(): kotlin.String = value
     }
 
 }

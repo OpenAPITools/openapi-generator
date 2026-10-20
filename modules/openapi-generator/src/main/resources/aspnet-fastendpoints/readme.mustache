@@ -1,0 +1,18 @@
+# {{packageName}} - FastEndpoints ASP.NET Server
+{{#appDescriptionWithNewLines}}
+{{{.}}}
+{{/appDescriptionWithNewLines}}
+
+## Documentation
+
+This generated project include basic configuration for FastEndpoints ASP.NET Server.
+For more information regarding FastEndpoints, please visit the [FastEndpoints website](https://fast-endpoints.com).
+
+## Enabled Features
+
+The following feature have been enabled in this project :
+{{^useProblemDetails}}{{^useAuthentication}}{{^useValidators}}{{^useResponseCaching}}- No additional features enabled{{/useResponseCaching}}{{/useValidators}}{{/useAuthentication}}{{/useProblemDetails}}
+{{#useProblemDetails}}- [Problem Details](https://fast-endpoints.com/docs/configuration-settings#rfc7807-rfc9457-compatible-problem-details){{/useProblemDetails}}
+{{#useAuthentication}}- [Authentication](https://fast-endpoints.com/docs/security){{/useAuthentication}}
+{{#useValidators}}- [Validation](https://fast-endpoints.com/docs/validation){{/useValidators}}
+{{#useResponseCaching}}- [Response Caching](https://fast-endpoints.com/docs/response-caching){{/useResponseCaching}}

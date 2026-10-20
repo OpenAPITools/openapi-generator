@@ -1,0 +1,14 @@
+openapi: 3.0.1
+info: {title: Disc, version: 1.0.0}
+paths: {/x: {get: {operationId: getX, tags: [x], responses: {"200": {description: ok}}}}}
+components:
+  schemas:
+    Cat: {type: object, properties: {petType: {type: string}, name: {type: string}}}
+    Dog: {type: object, properties: {petType: {type: string}, name: {type: string}}}
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping: {cat: '#/components/schemas/Cat', dog: '#/components/schemas/Dog'}

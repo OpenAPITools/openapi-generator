@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ModelList
  */
-public class ModelListTest {
+class ModelListTest {
     private final ModelList model = new ModelList();
 
     /**
      * Model tests for ModelList
      */
     @Test
-    public void testModelList() {
+    void testModelList() {
         // TODO: test ModelList
     }
 
@@ -40,7 +40,7 @@ public class ModelListTest {
      * Test the property '_123list'
      */
     @Test
-    public void _123listTest() {
+    void _123listTest() {
         // TODO: test _123list
     }
 

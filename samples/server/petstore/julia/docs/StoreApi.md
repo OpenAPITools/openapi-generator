@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **delete_order**
-> delete_order(req::HTTP.Request, order_id::String;) -> Nothing
+> `delete_order`(req::`HTTP.Request`, `order_id`::`String`;) -> `Nothing`
 
 Delete purchase order by ID
 
@@ -21,12 +21,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**order_id** | **String**| ID of the order that needs to be deleted | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`order_id`** | **`String`**| ID of the order that needs to be deleted |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -40,7 +40,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_inventory**
-> get_inventory(req::HTTP.Request;) -> Dict{String, Int64}
+> `get_inventory`(req::`HTTP.Request`;) -> `Dict{String, Int64}`
 
 Returns pet inventories by status
 
@@ -51,7 +51,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict{String, Int64}**
+**`Dict{String, Int64}`**
 
 ### Authorization
 
@@ -65,7 +65,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_order_by_id**
-> get_order_by_id(req::HTTP.Request, order_id::Int64;) -> Order
+> `get_order_by_id`(req::`HTTP.Request`, `order_id`::`Int64`;) -> `Order`
 
 Find purchase order by ID
 
@@ -75,12 +75,12 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**order_id** | **Int64**| ID of pet that needs to be fetched | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`order_id`** | **`Int64`**| ID of pet that needs to be fetched |
 
 ### Return type
 
-[**Order**](Order.md)
+[**`Order`**](Order.md)
 
 ### Authorization
 
@@ -94,7 +94,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> place_order(req::HTTP.Request, order::Order;) -> Order
+> `place_order`(req::`HTTP.Request`, `order`::`Order`;) -> `Order`
 
 Place an order for a pet
 
@@ -104,12 +104,12 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`order`** | [**`Order`**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**Order**](Order.md)
+[**`Order`**](Order.md)
 
 ### Authorization
 

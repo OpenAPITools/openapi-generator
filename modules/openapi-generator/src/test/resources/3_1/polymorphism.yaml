@@ -1,0 +1,50 @@
+# https://spec.openapis.org/oas/v3.2.0.html#models-with-polymorphism-support
+# 4.24.8.7 Models with Polymorphism Support
+# The following example describes a Pet model that can represent either a cat or a dog, as distinguished by the petType property. Each type of pet has other properties beyond those of the base Pet model. An instance without a petType property, or with a petType property that does not match either cat or dog, is invalid.
+openapi: 3.1.0
+info:
+  title: Basic polymorphism example without discriminator
+  version: "1.0"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+        - petType
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Cat:
+      description: A pet cat
+      type: object
+      properties:
+        petType:
+          const: 'cat'
+        huntingSkill:
+          type: string
+          description: The measured skill for hunting
+          enum:
+            - clueless
+            - lazy
+            - adventurous
+            - aggressive
+      required:
+        - huntingSkill
+    Dog:
+      description: A pet dog
+      type: object
+      properties:
+        petType:
+          const: 'dog'
+        packSize:
+          type: integer
+          format: int32
+          description: the size of the pack the dog is from
+          default: 0
+          minimum: 0
+      required:
+        - packSize

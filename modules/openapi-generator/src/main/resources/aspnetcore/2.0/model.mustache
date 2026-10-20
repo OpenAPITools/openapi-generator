@@ -22,12 +22,14 @@ namespace {{packageName}}.Models
         {{#items}}
         {{^complexType}}
 {{>enumClass}}
+
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>enumClass}}
+
         {{/complexType}}
         {{/isEnum}}
         /// <summary>
@@ -37,7 +39,7 @@ namespace {{packageName}}.Models
         /// <value>{{.}}</value>
         {{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         {{#required}}
         [Required]

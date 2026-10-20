@@ -27,7 +27,6 @@ public abstract class AbstractTemplatingEngineAdapter implements TemplatingEngin
      * Gets all possible template paths for a given location.
      *
      * @param location The full location of the template.
-     *
      * @return A new array of locations, modified according to the extensions or other adapter rules.
      */
     protected String[] getModifiedFileLocation(String location) {
@@ -44,7 +43,6 @@ public abstract class AbstractTemplatingEngineAdapter implements TemplatingEngin
      * Returns the path without an extension for an input location.
      *
      * @param location The location of the file, with original file extension intact.
-     *
      * @return The full path, without extension (e.g. /path/to/file.txt => /path/to/file)
      */
     private String getPathWithoutExtension(String location) {

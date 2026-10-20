@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: JSON header serialization
+  version: 1.0.0
+paths:
+  /json:
+    get:
+      operationId: getJson
+      parameters:
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Optional-Json-Arg
+          in: header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Plain-Arg
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+  /vendor:
+    get:
+      operationId: getVendor
+      parameters:
+        - name: X-Vendor-Arg
+          in: header
+          required: true
+          content:
+            application/vnd.example+json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '204':
+          description: No content
+  /referenced:
+    get:
+      operationId: getReferenced
+      parameters:
+        - $ref: '#/components/parameters/JsonHeader'
+      responses:
+        '204':
+          description: No content
+components:
+  parameters:
+    JsonHeader:
+      name: X-Referenced-Json-Arg
+      in: header
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HeaderArg'
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        file_path:
+          type: string

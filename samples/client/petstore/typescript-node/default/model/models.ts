@@ -53,6 +53,23 @@ let typeMap: {[index: string]: any} = {
     "User": User,
 }
 
+// Check if a string starts with another string without using es6 features
+function startsWith(str: string, match: string): boolean {
+    return str.substring(0, match.length) === match;
+}
+
+// Check if a string ends with another string without using es6 features
+function endsWith(str: string, match: string): boolean {
+    return str.length >= match.length && str.substring(str.length - match.length) === match;
+}
+
+const nullableSuffix = " | null";
+const optionalSuffix = " | undefined";
+const arrayPrefix = "Array<";
+const arraySuffix = ">";
+const mapPrefix = "{ [key: string]: ";
+const mapSuffix = "; }";
+
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
         if (data == undefined) {
@@ -89,21 +106,39 @@ export class ObjectSerializer {
         }
     }
 
-    public static serialize(data: any, type: string) {
+    public static serialize(data: any, type: string): any {
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
-            let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
-            subType = subType.substring(0, subType.length - 1); // Type> => Type
+        } else if (endsWith(type, nullableSuffix)) {
+            let subType: string = type.slice(0, -nullableSuffix.length); // Type | null => Type
+            return ObjectSerializer.serialize(data, subType);
+        } else if (endsWith(type, optionalSuffix)) {
+            let subType: string = type.slice(0, -optionalSuffix.length); // Type | undefined => Type
+            return ObjectSerializer.serialize(data, subType);
+        } else if (startsWith(type, arrayPrefix)) {
+            let subType: string = type.slice(arrayPrefix.length, -arraySuffix.length); // Array<Type> => Type
             let transformedData: any[] = [];
             for (let index = 0; index < data.length; index++) {
                 let datum = data[index];
                 transformedData.push(ObjectSerializer.serialize(datum, subType));
             }
             return transformedData;
+        } else if (startsWith(type, mapPrefix)) {
+            let subType: string = type.slice(mapPrefix.length, -mapSuffix.length); // { [key: string]: Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.serialize(
+                    data[key],
+                    subType,
+                );
+            }
+            return transformedData;
         } else if (type === "Date") {
+            if (!(data instanceof Date)) {
+                return data;
+            }
             return data.toISOString();
         } else {
             if (enumsMap[type]) {
@@ -121,26 +156,46 @@ export class ObjectSerializer {
             let instance: {[index: string]: any} = {};
             for (let index = 0; index < attributeTypes.length; index++) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
+                const value = Object.prototype.hasOwnProperty.call(data, attributeType.name)
+                    ? data[attributeType.name]
+                    : Object.prototype.hasOwnProperty.call(data, attributeType.baseName)
+                        ? data[attributeType.baseName]
+                        : undefined;
+                instance[attributeType.baseName] = ObjectSerializer.serialize(value, attributeType.type);
             }
             return instance;
         }
     }
 
-    public static deserialize(data: any, type: string) {
+    public static deserialize(data: any, type: string): any {
         // polymorphism may change the actual type.
         type = ObjectSerializer.findCorrectType(data, type);
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
-            let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
-            subType = subType.substring(0, subType.length - 1); // Type> => Type
+        } else if (endsWith(type, nullableSuffix)) {
+            let subType: string = type.slice(0, -nullableSuffix.length); // Type | null => Type
+            return ObjectSerializer.deserialize(data, subType);
+        } else if (endsWith(type, optionalSuffix)) {
+            let subType: string = type.slice(0, -optionalSuffix.length); // Type | undefined => Type
+            return ObjectSerializer.deserialize(data, subType);
+        } else if (startsWith(type, arrayPrefix)) {
+            let subType: string = type.slice(arrayPrefix.length, -arraySuffix.length); // Array<Type> => Type
             let transformedData: any[] = [];
             for (let index = 0; index < data.length; index++) {
                 let datum = data[index];
                 transformedData.push(ObjectSerializer.deserialize(datum, subType));
+            }
+            return transformedData;
+        } else if (startsWith(type, mapPrefix)) {
+            let subType: string = type.slice(mapPrefix.length, -mapSuffix.length); // { [key: string]: Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.deserialize(
+                    data[key],
+                    subType,
+                );
             }
             return transformedData;
         } else if (type === "Date") {

@@ -9,28 +9,18 @@ import Foundation
 internal struct SynchronizedDictionary<K: Hashable, V> {
 
     private var dictionary = [K: V]()
-    private let queue = DispatchQueue(
-        label: "SynchronizedDictionary",
-        qos: DispatchQoS.userInitiated,
-        attributes: [DispatchQueue.Attributes.concurrent],
-        autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.inherit,
-        target: nil
-    )
+    private let lock = NSRecursiveLock()
 
     internal subscript(key: K) -> V? {
         get {
-            var value: V?
-
-            queue.sync {
-                value = self.dictionary[key]
-            }
-
-            return value
+            lock.lock()
+            defer { lock.unlock() }
+            return self.dictionary[key]
         }
         set {
-            queue.sync(flags: DispatchWorkItemFlags.barrier) {
-                self.dictionary[key] = newValue
-            }
+            lock.lock()
+            defer { lock.unlock() }
+            self.dictionary[key] = newValue
         }
     }
 }

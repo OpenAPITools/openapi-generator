@@ -32,6 +32,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,24 +52,27 @@ import org.openapitools.client.JSON;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterComposite implements Parcelable {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
+  @javax.annotation.Nullable
   private BigDecimal myNumber;
 
   public static final String SERIALIZED_NAME_MY_STRING = "my_string";
   @SerializedName(SERIALIZED_NAME_MY_STRING)
+  @javax.annotation.Nullable
   private String myString;
 
   public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
+  @javax.annotation.Nullable
   private Boolean myBoolean;
 
   public OuterComposite() {
   }
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(@javax.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -83,12 +86,12 @@ public class OuterComposite implements Parcelable {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(@javax.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
 
-  public OuterComposite myString(String myString) {
+  public OuterComposite myString(@javax.annotation.Nullable String myString) {
     this.myString = myString;
     return this;
   }
@@ -102,12 +105,12 @@ public class OuterComposite implements Parcelable {
     return myString;
   }
 
-  public void setMyString(String myString) {
+  public void setMyString(@javax.annotation.Nullable String myString) {
     this.myString = myString;
   }
 
 
-  public OuterComposite myBoolean(Boolean myBoolean) {
+  public OuterComposite myBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
@@ -121,7 +124,7 @@ public class OuterComposite implements Parcelable {
     return myBoolean;
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
@@ -162,10 +165,7 @@ public class OuterComposite implements Parcelable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -199,13 +199,10 @@ public class OuterComposite implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("my_number");
-    openapiFields.add("my_string");
-    openapiFields.add("my_boolean");
+    openapiFields = new HashSet<String>(Arrays.asList("my_number", "my_string", "my_boolean"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -217,7 +214,7 @@ public class OuterComposite implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!OuterComposite.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
 
@@ -225,12 +222,12 @@ public class OuterComposite implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!OuterComposite.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `OuterComposite` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `OuterComposite` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonNull()) && !jsonObj.get("my_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
       }
   }
 

@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.StringEnumRef;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for PathApi
  */
-public class PathApiTest {
+class PathApiTest {
 
     private final PathApi api = new PathApi();
 
@@ -42,7 +42,7 @@ public class PathApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() throws ApiException {
+    void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() throws ApiException {
         //
         //String pathString = null;
         //

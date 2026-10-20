@@ -30,6 +30,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,16 +50,17 @@ import org.openapitools.client.JSON;
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
+  @javax.annotation.Nullable
   private BigDecimal justNumber;
 
   public NumberOnly() {
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -73,7 +74,7 @@ public class NumberOnly {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 
@@ -110,10 +111,7 @@ public class NumberOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -122,11 +120,10 @@ public class NumberOnly {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("JustNumber");
+    openapiFields = new HashSet<String>(Arrays.asList("JustNumber"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -138,7 +135,7 @@ public class NumberOnly {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in NumberOnly is not found in the empty JSON string", NumberOnly.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in NumberOnly is not found in the empty JSON string", NumberOnly.openapiRequiredFields.toString()));
         }
       }
 
@@ -146,7 +143,7 @@ public class NumberOnly {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!NumberOnly.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NumberOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `NumberOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

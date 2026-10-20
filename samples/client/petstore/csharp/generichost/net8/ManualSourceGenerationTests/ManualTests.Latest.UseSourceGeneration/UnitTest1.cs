@@ -19,7 +19,7 @@ public class UnitTest1
 
         public SerializationTests()
         {
-            IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+            IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
             {
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? "Token not found.";
                 ApiKeyToken apiKeyToken = new(apiKeyTokenValue, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));

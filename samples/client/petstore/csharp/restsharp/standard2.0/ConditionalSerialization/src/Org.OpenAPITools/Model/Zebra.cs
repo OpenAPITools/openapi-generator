@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string))
+        public Zebra(TypeEnum? type = default, string className = default)
         {
             // to ensure "className" is required (not null)
             if (className == null)
@@ -104,9 +104,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
             }
             this._ClassName = className;
-            this._Type = type;
-            if (this.Type != null)
+            if (type != null)
             {
+                this._Type = type.Value;
                 this._flagType = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();

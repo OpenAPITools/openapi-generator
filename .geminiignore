@@ -1,0 +1,64 @@
+# .geminiignore
+# This file specifies intentionally untracked files that Gemini CLI should ignore.
+# It uses the same pattern matching rules as .gitignore.
+
+# Build artifacts
+target/
+build/
+*.jar
+*.war
+*.ear
+*.class
+*.log
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Maven/Gradle wrapper directories
+.mvn/wrapper/
+.gradle/
+
+# Node.js dependencies for website
+website/node_modules/
+website/build/
+
+# Generated sources by OpenAPI Generator (usually not to be touched directly)
+# This includes sample outputs which are generated code for various languages.
+samples/
+
+# Temporary files
+tmp/
+.DS_Store
+# Eclipse
+.classpath
+.project
+.settings
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.iwp
+.vscode/
+
+# MacOS
+.DS_Store
+
+# ReSharper
+*.resharper
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Other
+*.bak
+*.swp
+*~
+.#*

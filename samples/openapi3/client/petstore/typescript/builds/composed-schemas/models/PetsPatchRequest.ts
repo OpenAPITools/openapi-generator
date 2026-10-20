@@ -14,54 +14,21 @@ import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
 import { HttpFile } from '../http/http';
 
-export class PetsPatchRequest {
-    'hunts'?: boolean;
-    'age'?: number;
-    'bark'?: boolean;
-    'breed'?: PetsPatchRequestBreedEnum;
+/**
+ * @type PetsPatchRequest
+ * Type
+ * @export
+ */
+export type PetsPatchRequest = Cat | Dog | any;
 
+/**
+* @type PetsPatchRequestClass
+* @export
+*/
+export class PetsPatchRequestClass {
     static readonly discriminator: string | undefined = "petType";
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "hunts",
-            "baseName": "hunts",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "age",
-            "baseName": "age",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "bark",
-            "baseName": "bark",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "breed",
-            "baseName": "breed",
-            "type": "PetsPatchRequestBreedEnum",
-            "format": ""
-        }    ];
-
-    static getAttributeTypeMap() {
-        return PetsPatchRequest.attributeTypeMap;
-    }
-
-    public constructor() {
-        this.petType = "PetsPatchRequest";
-    }
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
 }
 
-
-export enum PetsPatchRequestBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
 

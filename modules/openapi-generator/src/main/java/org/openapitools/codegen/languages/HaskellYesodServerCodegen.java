@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -42,6 +41,9 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/haskell-yesod/}.
+ */
 public class HaskellYesodServerCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String API_MODULE_NAME = "apiModuleName";
@@ -189,6 +191,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'HASKELL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -563,6 +567,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -573,23 +578,12 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{haskellPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

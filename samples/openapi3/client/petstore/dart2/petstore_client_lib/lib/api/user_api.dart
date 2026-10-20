@@ -26,7 +26,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<Response> createUserWithHttpInfo(User user,) async {
+  Future<Response> createUserWithHttpInfo(User user, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user';
 
@@ -48,6 +48,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -59,8 +60,8 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<void> createUser(User user,) async {
-    final response = await createUserWithHttpInfo(user,);
+  Future<void> createUser(User user, { Future<void>? abortTrigger, }) async {
+    final response = await createUserWithHttpInfo(user, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -76,7 +77,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user,) async {
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/createWithArray';
 
@@ -98,6 +99,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -109,8 +111,8 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithArrayInput(List<User> user,) async {
-    final response = await createUsersWithArrayInputWithHttpInfo(user,);
+  Future<void> createUsersWithArrayInput(List<User> user, { Future<void>? abortTrigger, }) async {
+    final response = await createUsersWithArrayInputWithHttpInfo(user, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -126,7 +128,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user,) async {
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/createWithList';
 
@@ -148,6 +150,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -159,8 +162,8 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithListInput(List<User> user,) async {
-    final response = await createUsersWithListInputWithHttpInfo(user,);
+  Future<void> createUsersWithListInput(List<User> user, { Future<void>? abortTrigger, }) async {
+    final response = await createUsersWithListInputWithHttpInfo(user, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -176,7 +179,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<Response> deleteUserWithHttpInfo(String username,) async {
+  Future<Response> deleteUserWithHttpInfo(String username, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/{username}'
       .replaceAll('{username}', username);
@@ -199,6 +202,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -210,8 +214,8 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<void> deleteUser(String username,) async {
-    final response = await deleteUserWithHttpInfo(username,);
+  Future<void> deleteUser(String username, { Future<void>? abortTrigger, }) async {
+    final response = await deleteUserWithHttpInfo(username, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -227,7 +231,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<Response> getUserByNameWithHttpInfo(String username,) async {
+  Future<Response> getUserByNameWithHttpInfo(String username, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/{username}'
       .replaceAll('{username}', username);
@@ -250,6 +254,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -261,8 +266,8 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<User?> getUserByName(String username,) async {
-    final response = await getUserByNameWithHttpInfo(username,);
+  Future<User?> getUserByName(String username, { Future<void>? abortTrigger, }) async {
+    final response = await getUserByNameWithHttpInfo(username, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -289,7 +294,7 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<Response> loginUserWithHttpInfo(String username, String password,) async {
+  Future<Response> loginUserWithHttpInfo(String username, String password, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/login';
 
@@ -314,6 +319,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -328,8 +334,8 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<String?> loginUser(String username, String password,) async {
-    final response = await loginUserWithHttpInfo(username, password,);
+  Future<String?> loginUser(String username, String password, { Future<void>? abortTrigger, }) async {
+    final response = await loginUserWithHttpInfo(username, password, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -348,7 +354,7 @@ class UserApi {
   /// 
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> logoutUserWithHttpInfo() async {
+  Future<Response> logoutUserWithHttpInfo({ Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/logout';
 
@@ -370,14 +376,15 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
   /// Logs out current logged in user session
   ///
   /// 
-  Future<void> logoutUser() async {
-    final response = await logoutUserWithHttpInfo();
+  Future<void> logoutUser({ Future<void>? abortTrigger, }) async {
+    final response = await logoutUserWithHttpInfo(abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -396,7 +403,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<Response> updateUserWithHttpInfo(String username, User user,) async {
+  Future<Response> updateUserWithHttpInfo(String username, User user, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/user/{username}'
       .replaceAll('{username}', username);
@@ -419,6 +426,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -433,8 +441,8 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<void> updateUser(String username, User user,) async {
-    final response = await updateUserWithHttpInfo(username, user,);
+  Future<void> updateUser(String username, User user, { Future<void>? abortTrigger, }) async {
+    final response = await updateUserWithHttpInfo(username, user, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

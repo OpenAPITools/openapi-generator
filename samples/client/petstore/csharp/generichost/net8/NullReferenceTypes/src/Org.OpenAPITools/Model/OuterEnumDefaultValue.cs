@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue.ToString());
+            writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue).ToString());
         }
     }
 
@@ -164,6 +164,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumDefaultValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             OuterEnumDefaultValue? result = rawValue == null
@@ -177,14 +180,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the OuterEnumDefaultValue to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerEnumDefaultValue"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue? outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue?.ToString() ?? "null");
+            if (outerEnumDefaultValue.HasValue)
+                writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

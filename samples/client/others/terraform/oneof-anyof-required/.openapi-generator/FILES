@@ -1,0 +1,12 @@
+.gitignore
+GNUmakefile
+README.md
+examples/provider/provider.tf
+go.mod
+internal/client/client.go
+internal/client/model_nested_object1.go
+internal/client/model_nested_object2.go
+internal/client/model_object.go
+internal/client/model_object2.go
+internal/provider/provider.go
+main.go

@@ -2,6 +2,7 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.OffsetDateTime;
@@ -10,32 +11,35 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.virtualan.model.Animal;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
-  private UUID uuid;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable UUID uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
-  @Valid
-  private Map<String, Animal> map = new HashMap<>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, @Valid Animal> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -47,15 +51,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  @JsonProperty("uuid")
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -67,15 +72,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  @JsonProperty("dateTime")
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }
@@ -92,14 +98,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
    */
-  @Valid 
+  
   @Schema(name = "map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  @JsonProperty("map")
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 
@@ -137,11 +144,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

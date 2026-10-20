@@ -43,13 +43,6 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public new string PetType { get; } = "ParentPet";
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -66,8 +59,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ParentPet" />
     /// </summary>
-    public class ParentPetJsonConverter : JsonConverter<ParentPet>
+    public partial class ParentPetJsonConverter : JsonConverter<ParentPet>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParentPetJsonConverter" /> class.
+        /// </summary>
+        public ParentPetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ParentPet" />
         /// </summary>
@@ -117,10 +120,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class ParentPet.", nameof(petType));
+                throw new JsonException("Property is required for class ParentPet: pet_type.");
 
             if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
+                throw new JsonException("Property is not nullable for class ParentPet: pet_type.");
 
             return new ParentPet();
         }
@@ -131,7 +134,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentPet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parentPet is ChildCat childCat){
@@ -151,7 +153,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentPet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", parentPet.PetType);

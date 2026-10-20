@@ -1,10 +1,9 @@
 package org.openapitools.codegen.java.assertions;
 
-import java.util.List;
-
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import org.assertj.core.util.CanIgnoreReturnValue;
 
-import com.github.javaparser.ast.expr.AnnotationExpr;
+import java.util.List;
 
 @CanIgnoreReturnValue
 public class PropertyAnnotationsAssert extends AbstractAnnotationsAssert<PropertyAnnotationsAssert> {

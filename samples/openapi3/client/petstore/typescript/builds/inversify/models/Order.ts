@@ -28,6 +28,8 @@ export class Order {
 
     static readonly discriminator: string | undefined = undefined;
 
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
             "name": "id",
@@ -73,7 +75,6 @@ export class Order {
     public constructor() {
     }
 }
-
 
 export enum OrderStatusEnum {
     Placed = 'placed',

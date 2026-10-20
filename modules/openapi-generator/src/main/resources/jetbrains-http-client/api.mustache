@@ -5,7 +5,7 @@
 {{#vendorExtensions.requests}}
 ### {{#summary}}{{summary}}{{/summary}}
 ## {{name}}
-{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}{{>queryParams}}
+{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{{path}}}{{/lambda.doubleMustache}}{{>queryParams}}
 {{#consumes}}
 Content-Type: {{{mediaType}}}
 {{/consumes}}

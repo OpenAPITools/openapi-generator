@@ -27,13 +27,13 @@ namespace {{this}} {
 class {{classname}} : public {{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
 public:
     {{classname}}();
-    {{classname}}(QString json);
+    {{classname}}(const QString &json);
     ~{{classname}}() override;
 
     QString asJson() const override;
     QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const override;
     void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 {{^isEnum}}{{#vars}}
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});

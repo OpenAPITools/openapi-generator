@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: "test"
+  version: "0.1.1"
+  description: "test"
+paths:
+  /api/test:
+    delete:
+      operationId: "test_delete"
+      description: "Delete method"
+      responses:
+        204:
+          description: "delete"
+      security:
+        - apiKey: []
+    post:
+      tags:
+        - firsttag
+        - secondtag
+        - thirdtag
+      operationId: "test_post"
+      description: "Post method"
+      responses:
+        201:
+          description: "post"
+      security:
+        - apiKey: []
+  /api/test/{testId}:
+    get:
+      tags:
+        - firsttag
+        - secondtag
+        - thirdtag
+      operationId: "testGet"
+      description: "Get method"
+      parameters:
+        - name: testId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "get"
+      security:
+        - apiKey: [ ]
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-API-Key
+      in: header

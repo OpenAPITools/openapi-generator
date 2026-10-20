@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -32,11 +40,9 @@ import com.google.gson.annotations.SerializedName
 import java.io.IOException
 
 /**
- * 
+ * A schema that can be either a User or a Pet
  *
  */
-
-
 data class ApiUserOrPet(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -115,4 +121,44 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
             }.nullSafe() as TypeAdapter<T>
         }
     }
+
+    companion object {
+        /**
+        * Validates the JSON Element and throws an exception if issues found
+        *
+        * @param jsonElement JSON Element
+        * @throws IOException if the JSON Element is invalid with respect to ApiUserOrPet
+        */
+        @Throws(IOException::class)
+        fun validateJsonElement(jsonElement: JsonElement?) {
+            requireNotNull(jsonElement) {
+                "Provided json element must not be null"
+            }
+            var match = 0
+            val errorMessages = ArrayList<String>()
+            // validate the json string with ApiUser
+            try {
+                // validate the JSON object to see if any exception is thrown
+                ApiUser.validateJsonElement(jsonElement)
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for ApiUser failed with `%s`.", e.message))
+            }
+            // validate the json string with ApiPet
+            try {
+                // validate the JSON object to see if any exception is thrown
+                ApiPet.validateJsonElement(jsonElement)
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for ApiPet failed with `%s`.", e.message))
+            }
+
+            if (match != 1) {
+                throw IOException(String.format("Failed validation for ApiUserOrPet: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+            }
+        }
+    }
 }
+

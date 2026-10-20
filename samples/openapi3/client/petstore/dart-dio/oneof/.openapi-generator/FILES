@@ -5,6 +5,7 @@ doc/Apple.md
 doc/Banana.md
 doc/DefaultApi.md
 doc/Fruit.md
+doc/Orange.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/default_api.dart
@@ -19,5 +20,6 @@ lib/src/model/apple.dart
 lib/src/model/banana.dart
 lib/src/model/date.dart
 lib/src/model/fruit.dart
+lib/src/model/orange.dart
 lib/src/serializers.dart
 pubspec.yaml

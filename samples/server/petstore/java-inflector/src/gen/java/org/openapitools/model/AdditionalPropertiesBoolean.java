@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   @JsonProperty("name")
   private String name;
@@ -44,12 +44,12 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
       return false;
     }
     AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
-    return Objects.equals(name, additionalPropertiesBoolean.name);
+    return super.equals(o) && Objects.equals(name, additionalPropertiesBoolean.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(super.hashCode(), name);
   }
 
   @Override

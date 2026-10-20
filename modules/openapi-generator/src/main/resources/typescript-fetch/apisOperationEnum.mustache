@@ -1,0 +1,28 @@
+{{! Declares the enum type of one operation parameter, named after the operation. Context: an enum
+    parameter, with its operation up the stack. Written flush left, like the enums it replaces. }}
+{{#stringEnums}}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}},
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * @export
+ */
+export const {{operationIdCamelCase}}{{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}: {{{value}}},
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+export type {{operationIdCamelCase}}{{enumName}} = typeof {{operationIdCamelCase}}{{enumName}}[keyof typeof {{operationIdCamelCase}}{{enumName}}];
+{{/stringEnums}}

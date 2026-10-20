@@ -49,7 +49,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the fake API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeApi  {
 
    private final FakeApiService delegate;
@@ -108,7 +108,7 @@ public class FakeApi  {
             },security = {
             @SecurityRequirement(name = "http_signature_test")
         }, tags={ "fake", }) 
-    public Response fakeHttpSignatureTest(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Schema(description = "query parameter") @QueryParam("query_1")  String query1,@Schema(description = "header parameter" )@HeaderParam("header_1") String header1,@Context SecurityContext securityContext)
+    public Response fakeHttpSignatureTest(@Schema(description = "Pet object that needs to be added to the store", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  Pet pet,@Schema(description = "query parameter") @QueryParam("query_1")  String query1,@Schema(description = "header parameter" )@HeaderParam("header_1") String header1,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeHttpSignatureTest(pet, query1, header1, securityContext);
     }
@@ -173,7 +173,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "Output enum (int)", content = 
                 @Content(schema = @Schema(implementation = OuterObjectWithEnumProperty.class))),
             }, tags={ "fake", }) 
-    public Response fakePropertyEnumIntegerSerialize(@Schema(description = "Input enum (int) as post body", required = true) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
+    public Response fakePropertyEnumIntegerSerialize(@Schema(description = "Input enum (int) as post body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
@@ -185,7 +185,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testAdditionalPropertiesReference(@Schema(description = "request body", required = true) @NotNull  Map<String, Object> requestBody,@Context SecurityContext securityContext)
+    public Response testAdditionalPropertiesReference(@Schema(description = "request body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  Map<String, Object> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testAdditionalPropertiesReference(requestBody, securityContext);
     }
@@ -197,7 +197,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testBodyWithBinary(@Schema(description = "image to upload", required = true) @NotNull  File body,@Context SecurityContext securityContext)
+    public Response testBodyWithBinary(@Schema(description = "image to upload", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  File body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithBinary(body, securityContext);
     }
@@ -209,7 +209,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testBodyWithFileSchema(@Schema(description = "", required = true) @NotNull @Valid  FileSchemaTestClass fileSchemaTestClass,@Context SecurityContext securityContext)
+    public Response testBodyWithFileSchema(@Schema(description = "", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  FileSchemaTestClass fileSchemaTestClass,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass, securityContext);
     }
@@ -221,7 +221,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testBodyWithQueryParams(@Schema(description = "") @QueryParam("query") @NotNull  String query,@Schema(description = "", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response testBodyWithQueryParams(@Schema(description = "") @QueryParam("query") @NotNull  String query,@Schema(description = "", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, user, securityContext);
     }
@@ -233,7 +233,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Client.class))),
             }, tags={ "fake", }) 
-    public Response testClientModel(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
+    public Response testClientModel(@Schema(description = "client model", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client, securityContext);
     }
@@ -248,7 +248,7 @@ public class FakeApi  {
             },security = {
             @SecurityRequirement(name = "http_basic_test")
         }, tags={ "fake", }) 
-    public Response testEndpointParameters(@Schema(description = "None") @QueryParam("number") BigDecimal number,@Schema(description = "None") @QueryParam("double") Double _double,@Schema(description = "None") @QueryParam("pattern_without_delimiter") String patternWithoutDelimiter,@Schema(description = "None") @QueryParam("byte") byte[] _byte,@Schema(description = "None") @QueryParam("integer") Integer integer,@Schema(description = "None") @QueryParam("int32") Integer int32,@Schema(description = "None") @QueryParam("int64") Long int64,@Schema(description = "None") @QueryParam("float") Float _float,@Schema(description = "None") @QueryParam("string") String string,@FormDataParam("binary") FormDataBodyPart binaryBodypart,@Schema(description = "None") @QueryParam("date") Date date,@Schema(description = "None") @QueryParam("dateTime") Date dateTime,@Schema(description = "None") @QueryParam("password") String password,@Schema(description = "None") @QueryParam("callback") String paramCallback,@Context SecurityContext securityContext)
+    public Response testEndpointParameters(@Schema(description = "None") @FormParam("number") BigDecimal number,@Schema(description = "None") @FormParam("double") Double _double,@Schema(description = "None") @FormParam("pattern_without_delimiter") String patternWithoutDelimiter,@Schema(description = "None") @FormParam("byte") byte[] _byte,@Schema(description = "None") @FormParam("integer") Integer integer,@Schema(description = "None") @FormParam("int32") Integer int32,@Schema(description = "None") @FormParam("int64") Long int64,@Schema(description = "None") @FormParam("float") Float _float,@Schema(description = "None") @FormParam("string") String string,@FormDataParam("binary") FormDataBodyPart binaryBodypart,@Schema(description = "None") @FormParam("date") Date date,@Schema(description = "None") @FormParam("dateTime") Date dateTime,@Schema(description = "None") @FormParam("password") String password,@Schema(description = "None") @FormParam("callback") String paramCallback,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binaryBodypart, date, dateTime, password, paramCallback, securityContext);
     }
@@ -261,7 +261,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "404", description = "Not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testEnumParameters(@Schema(description = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@Schema(description = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,@Schema(description = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@Schema(description = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,@Schema(description = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger,@Schema(description = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble,@Schema(description = "") @QueryParam("enum_query_model_array")  List<EnumClass> enumQueryModelArray,@Schema(description = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @DefaultValue("$") @QueryParam("enum_form_string_array") List<String> enumFormStringArray,@Schema(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_form_string") String enumFormString,@Context SecurityContext securityContext)
+    public Response testEnumParameters(@Schema(description = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@Schema(description = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,@Schema(description = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@Schema(description = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,@Schema(description = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger,@Schema(description = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble,@Schema(description = "") @QueryParam("enum_query_model_array")  List<EnumClass> enumQueryModelArray,@Schema(description = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @DefaultValue("$") @FormParam("enum_form_string_array") List<String> enumFormStringArray,@Schema(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @FormParam("enum_form_string") String enumFormString,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, securityContext);
     }
@@ -273,7 +273,7 @@ public class FakeApi  {
             },security = {
             @SecurityRequirement(name = "bearer_test")
         }, tags={ "fake", }) 
-    public Response testGroupParameters(@Schema(description = "Required String in group parameters") @QueryParam("required_string_group") @NotNull  Integer requiredStringGroup,@Schema(description = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup,@Schema(description = "Required Integer in group parameters") @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group,@Schema(description = "String in group parameters") @QueryParam("string_group")  Integer stringGroup,@Schema(description = "Boolean in group parameters" )@HeaderParam("boolean_group") Boolean booleanGroup,@Schema(description = "Integer in group parameters") @QueryParam("int64_group")  Long int64Group,@Context SecurityContext securityContext)
+    public Response testGroupParameters(@Schema(description = "Required String in group parameters") @QueryParam("required_string_group") @NotNull  Integer requiredStringGroup,@Schema(description = "Required Boolean in group parameters" , requiredMode = Schema.RequiredMode.REQUIRED)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup,@Schema(description = "Required Integer in group parameters") @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group,@Schema(description = "String in group parameters") @QueryParam("string_group")  Integer stringGroup,@Schema(description = "Boolean in group parameters" )@HeaderParam("boolean_group") Boolean booleanGroup,@Schema(description = "Integer in group parameters") @QueryParam("int64_group")  Long int64Group,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, securityContext);
     }
@@ -285,7 +285,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testInlineAdditionalProperties(@Schema(description = "request body", required = true) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
+    public Response testInlineAdditionalProperties(@Schema(description = "request body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
     }
@@ -297,7 +297,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testInlineFreeformAdditionalProperties(@Schema(description = "request body", required = true) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
+    public Response testInlineFreeformAdditionalProperties(@Schema(description = "request body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, securityContext);
     }
@@ -309,7 +309,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testJsonFormData(@Schema(description = "field1") @QueryParam("param") String param,@Schema(description = "field2") @QueryParam("param2") String param2,@Context SecurityContext securityContext)
+    public Response testJsonFormData(@Schema(description = "field1") @FormParam("param") String param,@Schema(description = "field2") @FormParam("param2") String param2,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
@@ -321,7 +321,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testNullable(@Schema(description = "request body", required = true) @NotNull @Valid  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
+    public Response testNullable(@Schema(description = "request body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testNullable(childWithNullable, securityContext);
     }
@@ -344,7 +344,7 @@ public class FakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "fake", }) 
-    public Response testStringMapReference(@Schema(description = "request body", required = true) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
+    public Response testStringMapReference(@Schema(description = "request body", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testStringMapReference(requestBody, securityContext);
     }
@@ -359,7 +359,7 @@ public class FakeApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response uploadFileWithRequiredFile(@Schema(description= "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,@FormDataParam("requiredFile") FormDataBodyPart requiredFileBodypart,@Schema(description = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata,@Context SecurityContext securityContext)
+    public Response uploadFileWithRequiredFile(@Schema(description= "ID of pet to update", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("petId") @NotNull  Long petId,@FormDataParam("requiredFile") FormDataBodyPart requiredFileBodypart,@Schema(description = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.uploadFileWithRequiredFile(petId, requiredFileBodypart, additionalMetadata, securityContext);
     }

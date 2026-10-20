@@ -27,6 +27,7 @@ src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt
 src/main/kotlin/org/openapitools/client/infrastructure/InstantAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
+src/main/kotlin/org/openapitools/client/infrastructure/LocalTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/main/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt

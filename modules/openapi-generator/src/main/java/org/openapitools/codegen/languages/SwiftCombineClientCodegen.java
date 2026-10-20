@@ -34,21 +34,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoField;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/swift-combine/}.
+ */
 public class SwiftCombineClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(SwiftCombineClientCodegen.class);
 
@@ -225,6 +228,8 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'SWIFT_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // Setup project name
@@ -393,7 +398,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+        if (isEnumSchema(p)) {
             if (p.getDefault() != null) {
                 return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
             }
@@ -694,6 +699,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -703,20 +709,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file.toString();
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{swiftPostProcessFile, file.toString()});
         }
     }
 
@@ -757,8 +750,8 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
             CodegenModel baseModel = modelMaps.get(cp.items.dataType);
             boolean isBaseTypeEnum = cp.items.isEnum || cp.isEnum || (baseModel != null && baseModel.isEnum);
             cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
-            boolean isBaseTypeUdid = cp.items.isUuid || cp.isUuid;
-            cp.vendorExtensions.put("x-swift-is-base-type-udid", isBaseTypeUdid);
+            boolean isBaseTypeUuid = cp.items.isUuid || cp.isUuid;
+            cp.vendorExtensions.put("x-swift-is-base-type-uuid", isBaseTypeUuid);
 
             boolean useEncoder = !isBaseTypeEnum && !cp.items.isString || (baseModel != null && !baseModel.isString);
             cp.vendorExtensions.put("x-swift-use-encoder", useEncoder);
@@ -791,10 +784,12 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

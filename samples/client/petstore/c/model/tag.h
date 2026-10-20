@@ -19,13 +19,14 @@ typedef struct tag_t tag_t;
 
 
 typedef struct tag_t {
-    long id; //numeric
+    long *id; //numeric
     char *name; // string
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } tag_t;
 
-tag_t *tag_create(
-    long id,
+__attribute__((deprecated)) tag_t *tag_create(
+    long *id,
     char *name
 );
 

@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 22534 Jackson numeric enum regression'
+  version: latest
+paths:
+  '/example':
+    get:
+      operationId: getExample
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleModel'
+components:
+  schemas:
+    ExampleModel:
+      required:
+        - source
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ExampleNumericEnum'
+    ExampleNumericEnum:
+      type: integer
+      format: int32
+      enum:
+        - -1
+        - 0
+        - 1

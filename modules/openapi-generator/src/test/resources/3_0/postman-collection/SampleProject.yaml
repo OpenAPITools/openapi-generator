@@ -156,15 +156,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
               examples:
-                Updated User Rebecca Baker:
-                  value:
-                    id: 13
-                    firstName: Rebecca
-                    lastName: Baker
-                    email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
-                    emailVerified: false
-                    createDate: '2019-08-24'
+                success:
+                  $ref: '#/components/examples/response-success'
+                anotherSuccess:
+                  $ref: '#/components/examples/another-response-success'
         '404':
           description: User Not Found
         '409':
@@ -188,17 +183,10 @@ paths:
                 dateOfBirth:
                   type: string
             examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-                  verified: true
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: '1985-10-02'
+              success:
+                $ref: '#/components/examples/patch-user'
+              anotherSuccess:
+                $ref: '#/components/examples/patch-user-2'
         description: Patch user properties to update.
   /user:
     post:
@@ -362,6 +350,40 @@ components:
         tags:
           - user
           - admin
+          - guest
+    patch-user:
+      summary: Example patch user
+      value:
+        firstName: John
+        tags:
+          - user
+    patch-user-2:
+      summary: Example patch another user
+      value:
+        firstName: Bill
+        tags:
+          - admin
+    response-success:
+      summary: Response 200
+      value:
+        id: 001
+        firstName: Ron
+        lastName: Edwardz
+        email: ron.edwardz@example.com
+        dateOfBirth: '1980-10-31'
+        emailVerified: true
+        tags:
+          - admin
+    another-response-success:
+      summary: Another Response 200
+      value:
+        id: 002
+        firstName: Rik
+        lastName: Tom
+        email: rik.tom@example.com
+        dateOfBirth: '1981-10-11'
+        emailVerified: true
+        tags:
           - guest
 tags:
   - name: basic

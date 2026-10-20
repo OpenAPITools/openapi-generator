@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Sample for Array of Lists
+paths:
+  /list:
+    get:
+      operationId: list
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPaged'
+components:
+  schemas:
+      ListPaged:
+        type: 'object'
+        properties:
+          data:
+            type: 'array'
+            items:
+              $ref: '#/components/schemas/List'
+      List:
+        type: 'object'
+        properties:
+          id:
+            type: 'integer'

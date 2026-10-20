@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: oneOf interface petstore
+  description: >
+    A minimal, self-consistent oneOf-interface spec for the Java (microprofile) client generator.
+    The oneOf container and the shared base both declare the discriminator property so the interface
+    getter resolves to the enum type. Children inherit the base via allOf and only implement the
+    generated interface.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '200':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRequest'
+components:
+  schemas:
+    PetType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+      description: Discriminator value identifying the type of pet
+
+    PetRequest:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    PetBase:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+        name:
+          type: string
+
+    CatRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - indoor
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - trained
+          properties:
+            trained:
+              type: boolean

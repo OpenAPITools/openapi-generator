@@ -7,7 +7,7 @@ import javax.ws.rs.core.Application;
     info = @org.eclipse.microprofile.openapi.annotations.info.Info(
         version="1.0.0"
         ,title = "OpenAPI Petstore"
-        ,description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
+        ,description = "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters."
         ,license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "Apache-2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html")
         
 ))

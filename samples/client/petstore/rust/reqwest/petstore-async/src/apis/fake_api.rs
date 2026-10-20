@@ -10,19 +10,22 @@
 
 
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
+use super::{Error, configuration, ContentType};
 
 /// struct for passing parameters to the method [`test_nullable_required_param`]
 #[derive(Clone, Debug)]
 pub struct TestNullableRequiredParamParams {
     /// The name that needs to be fetched. Use user1 for testing.
-    pub username: String,
+    pub user_name: String,
     /// To test nullable required parameters
     pub dummy_required_nullable_param: Option<String>,
+    pub any_type: String,
     /// To test parameter names in upper case
-    pub uppercase: Option<String>
+    pub uppercase: Option<String>,
+    /// To test escaping of parameters in rust code works
+    pub content: Option<String>
 }
 
 
@@ -46,44 +49,38 @@ pub enum TestNullableRequiredParamError {
 
 /// 
 pub async fn test_nullable_required_param(configuration: &configuration::Configuration, params: TestNullableRequiredParamParams) -> Result<ResponseContent<TestNullableRequiredParamSuccess>, Error<TestNullableRequiredParamError>> {
-    let local_var_configuration = configuration;
 
-    // unbox the parameters
-    let username = params.username;
-    let dummy_required_nullable_param = params.dummy_required_nullable_param;
-    let uppercase = params.uppercase;
+    let uri_str = format!("{}/fake/user/{user_name}", configuration.base_path, user_name=crate::apis::urlencode(params.user_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/fake/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    if let Some(ref param_value) = params.content {
+        req_builder = req_builder.query(&[("content", &param_value.to_string())]);
     }
-    match dummy_required_nullable_param {
-        Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", local_var_param_value.to_string()); },
-        None => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", ""); },
+    req_builder = req_builder.query(&[("anyType", &params.any_type.to_string())]);
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(local_var_param_value) = uppercase {
-        local_var_req_builder = local_var_req_builder.header("UPPERCASE", local_var_param_value.to_string());
+    match params.dummy_required_nullable_param {
+        Some(param_value) => { req_builder = req_builder.header("dummy_required_nullable_param", param_value.to_string()); },
+        None => { req_builder = req_builder.header("dummy_required_nullable_param", ""); },
+    }
+    if let Some(param_value) = params.uppercase {
+        req_builder = req_builder.header("UPPERCASE", param_value.to_string());
     }
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let status = resp.status();
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<TestNullableRequiredParamSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestNullableRequiredParamSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
     } else {
-        let local_var_entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        let content = resp.text().await?;
+        let entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 

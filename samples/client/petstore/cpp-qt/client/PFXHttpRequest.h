@@ -24,9 +24,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    #include <QRandomGenerator>
-#endif
+#include <QRandomGenerator>
 
 #include "PFXHttpFileElement.h"
 
@@ -51,10 +49,10 @@ public:
     QByteArray request_body;
 
     PFXHttpRequestInput();
-    PFXHttpRequestInput(QString v_url_str, QString v_http_method);
+    PFXHttpRequestInput(const QString &v_url_str, const QString &v_http_method);
     void initialize();
-    void add_var(QString key, QString value);
-    void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
+    void add_var(const QString &key, const QString &value);
+    void add_file(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime_type);
 };
 
 class PFXHttpRequestWorker : public QObject {
@@ -69,7 +67,7 @@ public:
     QString error_str;
 
     QMap<QString, QString> getResponseHeaders() const;
-    QString http_attribute_encode(QString attribute_name, QString input);
+    QString http_attribute_encode(const QString &attribute_name, const QString &input);
     void execute(PFXHttpRequestInput *input);
     static QSslConfiguration *sslDefaultConfiguration;
     void setTimeOut(int timeOutMs);
@@ -81,7 +79,8 @@ public:
     int  getHttpResponseCode() const;
 
 Q_SIGNALS:
-    void on_execution_finished(PFXHttpRequestWorker *worker);
+    void on_execution_finished(test_namespace::PFXHttpRequestWorker *worker);
+    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     enum PFXCompressionType{
@@ -97,9 +96,7 @@ private:
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
     int  httpResponseCode;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     QRandomGenerator randomGenerator;
-#endif
 
     void on_reply_timeout(QNetworkReply *reply);
     void on_reply_finished(QNetworkReply *reply);

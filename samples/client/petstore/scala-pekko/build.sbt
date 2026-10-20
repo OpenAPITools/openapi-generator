@@ -2,7 +2,7 @@ version := "1.0.0"
 name := "scala-pekko-petstore-client"
 organization := "org.openapitools"
 
-scalaVersion := "2.13.12"
+scalaVersion := "2.13.16"
 val PekkoVersion = "1.0.2"
 
 libraryDependencies ++= Seq(
@@ -26,4 +26,4 @@ scalacOptions := Seq(
   "-feature"
 )
 
-publishArtifact in (Compile, packageDoc) := false
+Compile / packageDoc / publishArtifact := false

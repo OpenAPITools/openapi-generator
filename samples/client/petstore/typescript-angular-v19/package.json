@@ -1,0 +1,38 @@
+{
+  "name": "typescript-angular-v19-unit-tests",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^19.0.0",
+    "@angular/common": "^22.0.2",
+    "@angular/compiler": "^20.3.27",
+    "@angular/core": "^19.2.20",
+    "@angular/forms": "^22.0.1",
+    "@angular/platform-browser": "^22.0.1",
+    "@angular/platform-browser-dynamic": "^22.0.1",
+    "@angular/router": "^22.0.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^21.2.16",
+    "@angular/cli": "^21.2.26",
+    "@angular/compiler-cli": "^19.0.0",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.4.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.6.2"
+  }
+}

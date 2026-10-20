@@ -17,20 +17,20 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template.Fragment;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Replaces duplicate whitespace characters in a fragment with single space.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lambdaTrimWhitespace}}{{name}}{{/lambdaTrimWhitespace}}

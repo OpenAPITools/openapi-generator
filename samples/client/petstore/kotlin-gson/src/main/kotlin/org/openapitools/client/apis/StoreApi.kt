@@ -8,15 +8,23 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 import org.openapitools.client.models.Order
@@ -37,15 +45,16 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 
     /**
+     * DELETE /store/order/{orderId}
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
@@ -76,6 +85,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * DELETE /store/order/{orderId}
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
@@ -103,6 +113,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
@@ -114,6 +125,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * GET /store/inventory
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -144,6 +156,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * GET /store/inventory
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
@@ -182,6 +195,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * GET /store/order/{orderId}
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
@@ -213,6 +227,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * GET /store/order/{orderId}
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
@@ -253,9 +268,10 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * POST /store/order
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return Order
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -265,8 +281,8 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun placeOrder(body: Order) : Order {
-        val localVarResponse = placeOrderWithHttpInfo(body = body)
+    fun placeOrder(order: Order) : Order {
+        val localVarResponse = placeOrderWithHttpInfo(order = order)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
@@ -284,17 +300,18 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     }
 
     /**
+     * POST /store/order
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return ApiResponse<Order?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun placeOrderWithHttpInfo(body: Order) : ApiResponse<Order?> {
-        val localVariableConfig = placeOrderRequestConfig(body = body)
+    fun placeOrderWithHttpInfo(order: Order) : ApiResponse<Order?> {
+        val localVariableConfig = placeOrderRequestConfig(order = order)
 
         return request<Order, Order>(
             localVariableConfig
@@ -304,13 +321,14 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     /**
      * To obtain the request config of the operation placeOrder
      *
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return RequestConfig
      */
-    fun placeOrderRequestConfig(body: Order) : RequestConfig<Order> {
-        val localVariableBody = body
+    fun placeOrderRequestConfig(order: Order) : RequestConfig<Order> {
+        val localVariableBody = order
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(

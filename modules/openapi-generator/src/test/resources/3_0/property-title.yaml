@@ -19,9 +19,11 @@ components:
         simpleProperty:
           type: string
           title: Simple-Property-Title
+          example: Simple-Property-Example
         refProperty:
           type: string
           title: Ref-Property-Title
+          example: Ref-Property-Example
           allOf:
             - $ref: '#/components/schemas/RefObject'
       type: object

@@ -22,8 +22,6 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
     [key: string]: any | any;
     /**
      * 
-     * @type {string}
-     * @memberof TestInlineFreeformAdditionalPropertiesRequest
      */
     someProperty?: string;
 }
@@ -50,10 +48,15 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json:
     };
 }
 
-export function TestInlineFreeformAdditionalPropertiesRequestToJSON(value?: TestInlineFreeformAdditionalPropertiesRequest | null): any {
+export function TestInlineFreeformAdditionalPropertiesRequestToJSON(json: any): TestInlineFreeformAdditionalPropertiesRequest {
+    return TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(json, false);
+}
+
+export function TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(value?: TestInlineFreeformAdditionalPropertiesRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
             ...value,

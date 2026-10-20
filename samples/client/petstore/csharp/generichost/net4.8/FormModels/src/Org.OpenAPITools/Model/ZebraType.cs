@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZebraType zebraType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zebraType.ToString());
+            writer.WriteStringValue(ZebraTypeValueConverter.ToJsonValue(zebraType).ToString());
         }
     }
 
@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override ZebraType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             ZebraType? result = rawValue == null
@@ -175,14 +178,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the ZebraType to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="zebraType"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZebraType? zebraType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zebraType?.ToString() ?? "null");
+            if (zebraType.HasValue)
+                writer.WriteStringValue(ZebraTypeValueConverter.ToJsonValue(zebraType.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

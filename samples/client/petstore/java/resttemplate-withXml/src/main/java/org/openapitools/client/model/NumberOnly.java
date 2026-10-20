@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -34,19 +35,20 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @XmlRootElement(name = "NumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NumberOnly")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @XmlElement(name = "JustNumber")
+  @javax.annotation.Nullable
   private BigDecimal justNumber;
 
   public NumberOnly() {
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     
     this.justNumber = justNumber;
     return this;
@@ -57,7 +59,7 @@ public class NumberOnly {
    * @return justNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "JustNumber")
 
@@ -66,12 +68,13 @@ public class NumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "JustNumber")
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -104,10 +107,7 @@ public class NumberOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

@@ -1,1 +1,6 @@
-{{#isFormParam}}{{^isFile}}{{>dataType}} {{paramName}} = {{>paramValue}}{{/isFile}}{{#isFile}}{{#isArray}}List<{{/isArray}}InputStream{{#isArray}}>{{/isArray}} {{paramName}} = {{>paramValue}}{{/isFile}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{/isFormParam}}
+{{!
+
+    Starting with v4 we process each part in multipart content as a form param because that's how the generator presents parts.
+
+}}{{#isFormParam}}{{> paramDecl}} = {{>paramValue}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{!
+}}{{/isFormParam}}

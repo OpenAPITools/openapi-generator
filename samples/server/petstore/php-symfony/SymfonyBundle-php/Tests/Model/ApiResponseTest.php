@@ -27,8 +27,9 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Server\Model;
+namespace OpenAPI\Server\Tests\Model;
 
+use OpenAPI\Server\Model\ApiResponse;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -58,7 +59,7 @@ class ApiResponseTest extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder(ApiResponse::class)->getMockForAbstractClass();
+        $this->object = $this->getMockBuilder(ApiResponse::class)->getMockForAbstractClass();
     }
 
     /**

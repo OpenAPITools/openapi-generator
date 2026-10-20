@@ -23,6 +23,7 @@ secondaryColor: '#464446',
     --ifm-color-primary-lightest: #97eb2e;
     --button-margin: 0.25rem;
     --ifm-code-font-size: 90%;
+    --ifm-container-width-xl: 1900px;
 }
 
 html[data-theme='light'] {

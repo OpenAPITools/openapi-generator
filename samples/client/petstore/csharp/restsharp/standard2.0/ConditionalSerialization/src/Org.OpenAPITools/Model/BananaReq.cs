@@ -42,12 +42,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public BananaReq(decimal lengthCm = default, bool? sweet = default)
         {
             this._LengthCm = lengthCm;
-            this._Sweet = sweet;
-            if (this.Sweet != null)
+            if (sweet != null)
             {
+                this._Sweet = sweet.Value;
                 this._flagSweet = true;
             }
         }

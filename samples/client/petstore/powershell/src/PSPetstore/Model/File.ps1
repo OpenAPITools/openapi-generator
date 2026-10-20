@@ -35,7 +35,7 @@ function Initialize-PSFile {
 
 
         $PSO = [PSCustomObject]@{
-            "sourceURI" = ${SourceURI}
+            'sourceURI' = ${SourceURI}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToFile {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSFile
-        $AllProperties = ("sourceURI")
+        $AllProperties = ('sourceURI')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "sourceURI"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'sourceURI'))) { #optional property not found
             $SourceURI = $null
         } else {
-            $SourceURI = $JsonParameters.PSobject.Properties["sourceURI"].value
+            $SourceURI = $JsonParameters.PSobject.Properties['sourceURI'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "sourceURI" = ${SourceURI}
+            'sourceURI' = ${SourceURI}
         }
 
         return $PSO

@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: 'Kotlin client — nullable array items'
+  description: Regression spec for nullable items inside list/array properties.
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: getModel
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayWithNullableItemsModel'
+components:
+  schemas:
+    ArrayWithNullableItemsModel:
+      type: object
+      required:
+        - requiredItems
+      properties:
+        requiredItems:
+          type: array
+          items:
+            type: string
+            nullable: true
+        optionalItems:
+          type: array
+          items:
+            type: string
+            nullable: true

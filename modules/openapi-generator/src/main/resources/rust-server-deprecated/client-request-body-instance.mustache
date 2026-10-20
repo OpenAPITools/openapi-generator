@@ -1,0 +1,104 @@
+{{#vendorExtensions}}
+  {{#x-consumes-multipart-form}}
+
+        // Consumes multipart/form body
+{{>client-request-body-multipart-form}}
+  {{/x-consumes-multipart-form}}
+  {{#x-consumes-multipart-related}}
+
+        // Consumes multipart/related body
+    {{#formParams}}
+{{>generate-multipart-related}}
+    {{/formParams}}
+
+        let header = "multipart/related";
+        request.headers_mut().insert(CONTENT_TYPE,
+        match HeaderValue::from_bytes(
+            &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
+        ) {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
+        });
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
+  {{/x-consumes-multipart-related}}
+  {{#x-consumes-form}}
+
+        // Consumes form body
+    {{#formParams}}
+      {{#-first}}
+        let mut params = vec![];
+      {{/-first}}
+      {{^required}}
+        if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
+      {{/required}}
+      {{#isArray}}
+        // style=form,explode=true
+        for param_{{{paramName}}} in param_{{{paramName}}} {
+      {{/isArray}}
+        #[allow(clippy::uninlined_format_args)]
+        params.push(("{{{baseName}}}",
+      {{^isString}}
+            format!("{{{vendorExtensions.x-format-string}}}", param_{{{paramName}}})
+      {{/isString}}
+      {{#isString}}
+        {{#isArray}}
+            param_{{{paramName}}}.to_string()
+        {{/isArray}}
+        {{^isArray}}
+            param_{{{paramName}}}
+        {{/isArray}}
+      {{/isString}}
+        ));
+      {{#isArray}}
+        }
+      {{/isArray}}
+      {{^required}}
+        }
+      {{/required}}
+      {{#-last}}
+
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+
+        *request.body_mut() = Body::from(body.into_bytes());
+
+        let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+      {{/-last}}
+    {{/formParams}}
+  {{/x-consumes-form}}
+  {{#x-consumes-basic}}
+
+        // Consumes basic body
+    {{#bodyParam}}
+        // Body parameter
+      {{^required}}
+        if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
+      {{/required}}
+      {{#vendorExtensions}}
+        {{#x-consumes-plain-text}}
+          {{#isByteArray}}
+        let body = param_{{{paramName}}}.0;
+          {{/isByteArray}}
+          {{^isByteArray}}
+        let body = param_{{{paramName}}};
+          {{/isByteArray}}
+        {{/x-consumes-plain-text}}
+        {{#x-consumes-xml}}
+        let body = param_{{{paramName}}}.as_xml();
+        {{/x-consumes-xml}}
+        {{#x-consumes-json}}
+        let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
+        {{/x-consumes-json}}
+      {{/vendorExtensions}}
+        *request.body_mut() = Body::from(body);
+      {{^required}}
+        }
+      {{/required}}
+
+        let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+    {{/bodyParam}}
+  {{/x-consumes-basic}}
+{{/vendorExtensions}}

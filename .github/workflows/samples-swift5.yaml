@@ -1,0 +1,47 @@
+name: Samples Swift 5
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift5/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift5/**
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        sample:
+          - samples/client/petstore/swift5/alamofireLibrary
+          - samples/client/petstore/swift5/asyncAwaitLibrary
+          - samples/client/petstore/swift5/combineLibrary
+          - samples/client/petstore/swift5/default
+          - samples/client/petstore/swift5/objcCompatible
+          - samples/client/petstore/swift5/oneOf
+          - samples/client/petstore/swift5/promisekitLibrary
+          - samples/client/petstore/swift5/resultLibrary
+          - samples/client/petstore/swift5/rxswiftLibrary
+          - samples/client/petstore/swift5/urlsessionLibrary
+          - samples/client/petstore/swift5/validation
+          # NOTE: disabled as vaporLibrary doesnt build when adding this CI config
+          #- samples/client/petstore/swift5/vaporLibrary
+        include:
+        # the ubuntu builds run in the official swift image: swift-actions/setup-swift
+        # fails on current ubuntu runners while verifying the toolchain signature
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift5/alamofireLibrary
+          container: swift:5.10-noble
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift5/urlsessionLibrary
+          container: swift:5.10-noble
+    name: Build Swift samples
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: swift build

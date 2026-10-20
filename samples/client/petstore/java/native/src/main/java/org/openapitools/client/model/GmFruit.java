@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -38,20 +40,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
@@ -83,7 +86,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
         @Override
         public GmFruit deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
 
             Object deserialized = null;
             // deserialize Apple
@@ -108,7 +111,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
+            throw new IOException("Failed deserialization for GmFruit: no match found");
         }
 
         /**

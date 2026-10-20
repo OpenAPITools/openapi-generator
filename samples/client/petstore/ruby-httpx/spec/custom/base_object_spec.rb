@@ -94,7 +94,7 @@ end
 
 describe 'BaseObject' do
   describe 'boolean values' do
-    let(:obj) { Petstore::Cat.new(declawed: false) }
+    let(:obj) { Petstore::Cat.new(class_name: "CAT", declawed: false) }
 
     it 'should have values set' do
       expect(obj.declawed).not_to be_nil
@@ -164,6 +164,36 @@ describe 'BaseObject' do
       expect_data[:boolean_true_arr].map! { true }
       expect_data[:boolean_false_arr].map! { false }
       expect(obj.to_hash).to eq(expect_data)
+    end
+  end
+
+  describe 'attributes inherited from an allOf parent' do
+    it 'build_from_hash and to_hash include the parent attributes' do
+      cat = Petstore::Cat.build_from_hash({ 'className' => 'Cat', 'color' => 'black', 'declawed' => true })
+
+      expect(cat).to be_instance_of(Petstore::Cat)
+      expect(cat.class_name).to eq('Cat')
+      expect(cat.color).to eq('black')
+      expect(cat.declawed).to eq(true)
+      expect(cat.to_hash).to eq({ className: 'Cat', color: 'black', declawed: true })
+    end
+
+    # passes on master too: guards that a subclass narrowing attribute_map is not handed its parent's attributes
+    it 'a subclass that narrows attribute_map is only handed the attributes it accepts' do
+      narrowed = Class.new(Petstore::Animal) do
+        def self.attribute_map
+          { :class_name => :className }
+        end
+
+        def self.openapi_types
+          { :class_name => :'String' }
+        end
+      end
+
+      obj = narrowed.build_from_hash({ 'className' => 'Cat', 'color' => 'black' })
+
+      expect(obj.class_name).to eq('Cat')
+      expect(obj.to_hash).to eq({ className: 'Cat' })
     end
   end
 end

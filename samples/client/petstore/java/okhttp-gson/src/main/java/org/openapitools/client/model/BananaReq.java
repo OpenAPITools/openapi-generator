@@ -30,6 +30,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,20 +50,22 @@ import org.openapitools.client.JSON;
 /**
  * BananaReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String SERIALIZED_NAME_SWEET = "sweet";
   @SerializedName(SERIALIZED_NAME_SWEET)
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() {
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -77,12 +79,12 @@ public class BananaReq {
     return lengthCm;
   }
 
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -96,7 +98,7 @@ public class BananaReq {
     return sweet;
   }
 
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 
@@ -135,10 +137,7 @@ public class BananaReq {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -147,13 +146,10 @@ public class BananaReq {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("lengthCm");
-    openapiFields.add("sweet");
+    openapiFields = new HashSet<String>(Arrays.asList("lengthCm", "sweet"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("lengthCm");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("lengthCm"));
   }
 
   /**
@@ -165,7 +161,7 @@ public class BananaReq {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!BananaReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in BananaReq is not found in the empty JSON string", BananaReq.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in BananaReq is not found in the empty JSON string", BananaReq.openapiRequiredFields.toString()));
         }
       }
 
@@ -173,14 +169,14 @@ public class BananaReq {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!BananaReq.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `BananaReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `BananaReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : BananaReq.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

@@ -20,180 +20,87 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** UserData a data transfer object, primarily for simple json serialisation.
+
+        /** UserData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class UserData(
   id: Long = 0 ,
-
-    username: String = "" ,
-
-    firstName: String = "" ,
-
-    lastName: String = "" ,
-
-    email: String = "" ,
-
-    password: String = "" ,
-
-    phone: String = "" ,
-
-  /* User Status */
+  username: String = "" ,
+  firstName: String = "" ,
+  lastName: String = "" ,
+  email: String = "" ,
+  password: String = "" ,
+  phone: String = "" ,
+/* User Status */
   userStatus: Int = 0 
+  
 
-  ) {
+) derives RW {
 
-  def asJson: String = write(this)
+  def asJsonString: String = asJson.toString()
 
-  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // username
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // firstName
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // lastName
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // email
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // password
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // phone
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // userStatus
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-    errors.toSeq
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
   }
 
+  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
+        // ================== id validation ==================
+        
+        
+        
+        
+
+        // ================== username validation ==================
+        
+        
+        
+        
+
+        // ================== firstName validation ==================
+        
+        
+        
+        
+
+        // ================== lastName validation ==================
+        
+        
+        
+        
+
+        // ================== email validation ==================
+        
+        
+        
+        
+
+        // ================== password validation ==================
+        
+        
+        
+        
+
+        // ================== phone validation ==================
+        
+        
+        
+        
+
+        // ================== userStatus validation ==================
+        
+        
+        
+        
+
+    _allValidationErrors.toSeq
+  }
+
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[User] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -204,51 +111,38 @@ case class UserData(
   /** use 'validated' to check validation */
   def asModel : User = {
     User(
-        id = Option(
-        id
-        )
-        ,
-        username = Option(
-        username
-        )
-        ,
-        firstName = Option(
-        firstName
-        )
-        ,
-        lastName = Option(
-        lastName
-        )
-        ,
-        email = Option(
-        email
-        )
-        ,
-        password = Option(
-        password
-        )
-        ,
-        phone = Option(
-        phone
-        )
-        ,
-        userStatus = Option(
-        userStatus
-        )
-        
+        id = Option(id) /* 1 */,
+        username = Option(username) /* 1 */,
+        firstName = Option(firstName) /* 1 */,
+        lastName = Option(lastName) /* 1 */,
+        email = Option(email) /* 1 */,
+        password = Option(password) /* 1 */,
+        phone = Option(phone) /* 1 */,
+        userStatus = Option(userStatus) /* 1 */
+    
     )
   }
 }
 
 object UserData {
 
-  given readWriter : RW[UserData] = macroRW
+  def validated(d8a : UserData, failFast : Boolean) : scala.util.Try[User] = d8a.validated(failFast)
 
-  def fromJsonString(jason : String) : UserData = try {
-        read[UserData](jason)
-     } catch {
+  def fromJson(jason : ujson.Value) : UserData = try {
+        val data = read[UserData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating UserData from json '$jason': $e")
+  }
+
+  def fromJsonString(jason : String) : UserData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[UserData] = try {
         read[List[UserData]](jason)

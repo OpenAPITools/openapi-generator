@@ -33,6 +33,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-rxjs/}.
+ */
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
@@ -348,9 +351,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.hasAuthMethods = o.hasAuthMethods;
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
             this.hasOptionalParams = o.hasOptionalParams;
-            this.hasRequiredParams = o.hasRequiredParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
@@ -360,12 +361,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.isDeprecated = o.isDeprecated;
             this.isCallbackRequest = o.isCallbackRequest;
             this.path = o.path;
@@ -420,5 +415,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

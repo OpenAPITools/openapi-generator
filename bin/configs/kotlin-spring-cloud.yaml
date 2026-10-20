@@ -4,9 +4,11 @@ library: spring-cloud
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   documentationProvider: none
   annotationLibrary: none
   useSwaggerUI: "false"
   serializableModel: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"
   interfaceOnly: "true"

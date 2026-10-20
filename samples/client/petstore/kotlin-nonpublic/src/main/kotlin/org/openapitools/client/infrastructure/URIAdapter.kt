@@ -6,7 +6,7 @@ import java.net.URI
 
 internal class URIAdapter {
     @ToJson
-    fun toJson(uri: URI) = uri.toString()
+    fun toJson(uri: URI): String = uri.toString()
 
     @FromJson
     fun fromJson(s: String): URI = URI.create(s)

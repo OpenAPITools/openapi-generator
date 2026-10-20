@@ -1,0 +1,66 @@
+{{>partial_header}}
+//! {{#appName}}{{.}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} handlers
+//!
+//! API version: {{#appVersion}}{{.}}{{/appVersion}}{{^appVersion}}1.0.0{{/appVersion}}
+//!
+
+use salvo::prelude::*;
+use salvo::oapi::extract::{JsonBody, PathParam, QueryParam, HeaderParam, FormBody};
+use serde::{Deserialize, Serialize};
+{{#hasUUIDs}}
+use uuid::Uuid;
+{{/hasUUIDs}}
+{{#enableRequestValidation}}
+use validator::Validate;
+{{/enableRequestValidation}}
+
+use crate::models::{self, *};
+
+{{#operations}}
+{{#operation}}
+{{#notes}}
+/// {{.}}
+{{/notes}}
+{{^notes}}
+/// {{summary}}{{^summary}}{{operationId}}{{/summary}}
+{{/notes}}
+#[salvo::oapi::endpoint(
+    operation_id = "{{operationId}}",
+    tags("{{classname}}"){{#vendorExtensions.x-has-auth}},
+    security({{#vendorExtensions.x-salvo-auth-schemes}}("{{schemaName}}" = [{{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}}]){{^-last}}, {{/-last}}{{/vendorExtensions.x-salvo-auth-schemes}}){{/vendorExtensions.x-has-auth}}
+)]
+pub async fn {{operationId}}(
+{{#hasParams}}
+{{#allParams}}
+{{#isQueryParam}}
+    {{paramName}}: QueryParam<{{{dataType}}}, {{#required}}true{{/required}}{{^required}}false{{/required}}>,
+{{/isQueryParam}}
+{{#isPathParam}}
+    {{paramName}}: PathParam<{{{dataType}}}>,
+{{/isPathParam}}
+{{#isHeaderParam}}
+    {{paramName}}: HeaderParam<{{{dataType}}}, {{#required}}true{{/required}}{{^required}}false{{/required}}>,
+{{/isHeaderParam}}
+{{#isBodyParam}}
+    {{paramName}}: JsonBody<{{{dataType}}}>,
+{{/isBodyParam}}
+{{#isFormParam}}
+    {{paramName}}: FormBody<{{{dataType}}}>,
+{{/isFormParam}}
+{{/allParams}}
+{{/hasParams}}
+    res: &mut Response,
+) -> Result<(), StatusError> {
+    {{#notes}}
+    // {{.}}
+    {{/notes}}
+    {{^notes}}
+    // TODO: Implement {{operationId}}
+    {{/notes}}
+
+    res.status_code(StatusCode::NOT_IMPLEMENTED);
+    Ok(())
+}
+
+{{/operation}}
+{{/operations}}

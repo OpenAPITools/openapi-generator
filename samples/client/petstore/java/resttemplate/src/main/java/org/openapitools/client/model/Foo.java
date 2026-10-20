@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Foo
@@ -29,9 +30,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @javax.annotation.Nullable
   private String bar = "bar";
 
   public Foo() {
@@ -40,11 +42,11 @@ public class Foo {
   /**
    * Constructor with all args parameters
    */
-  public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
+  public Foo(@JsonProperty(JSON_PROPERTY_BAR) @javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
 
-  public Foo bar(String bar) {
+  public Foo bar(@javax.annotation.Nullable String bar) {
     
     this.bar = bar;
     return this;
@@ -55,7 +57,7 @@ public class Foo {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -63,11 +65,12 @@ public class Foo {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
+  public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -100,10 +103,7 @@ public class Foo {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

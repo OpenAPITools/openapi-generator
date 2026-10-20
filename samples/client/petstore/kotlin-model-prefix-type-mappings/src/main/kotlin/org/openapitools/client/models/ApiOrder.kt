@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -30,12 +38,12 @@ import com.google.gson.annotations.SerializedName
 /**
  * An order for a pets from the pet store
  *
- * @param id 
- * @param petId 
- * @param quantity 
- * @param shipDate 
+ * @param id
+ * @param petId
+ * @param quantity
+ * @param shipDate
  * @param status Order Status
- * @param complete 
+ * @param complete
  */
 
 
@@ -68,8 +76,17 @@ data class ApiOrder (
      * Values: PLACED,APPROVED,DELIVERED
      */
     enum class Status(val value: kotlin.String) {
+        /**
+        * An order is placed but not yet approved.
+        */
         @SerializedName(value = "placed") PLACED("placed"),
+        /**
+        * An order is approved and delivery is in progress.
+        */
         @SerializedName(value = "approved") APPROVED("approved"),
+        /**
+        * An order is delivered and finalized.
+        */
         @SerializedName(value = "delivered") DELIVERED("delivered");
     }
 
@@ -102,7 +119,7 @@ data class ApiOrder (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("id")
@@ -113,7 +130,7 @@ data class ApiOrder (
             openapiFields.add("complete")
 
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *
@@ -135,7 +152,7 @@ data class ApiOrder (
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.value == jsonObj["status"].asString }) {
+                require(Status.entries.any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }

@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: Quarkus AND group — API key AND scoped OAuth2 (single scoped scheme)
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: AND group with one scopeless scheme (apiKey) and one scoped scheme (oauth2)
+      security:
+        - api_key: []
+          oauth2_scheme:
+            - admin
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access

@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Tag {
     /**
      * 
-     * @type {number}
-     * @memberof Tag
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Tag
      */
     name?: string;
 }
@@ -55,10 +51,15 @@ export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
     };
 }
 
-export function TagToJSON(value?: Tag | null): any {
+export function TagToJSON(json: any): Tag {
+    return TagToJSONTyped(json, false);
+}
+
+export function TagToJSONTyped(value?: Tag | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

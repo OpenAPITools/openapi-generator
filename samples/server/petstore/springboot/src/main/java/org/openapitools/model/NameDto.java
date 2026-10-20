@@ -2,15 +2,16 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -20,18 +21,22 @@ import javax.annotation.Generated;
  * Model for testing model name same as property name
  */
 
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(name = "Name", description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NameDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
-  private Integer snakeCase;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String property;
 
-  private Integer _123Number;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer _123Number;
 
   public NameDto() {
     super();
@@ -54,17 +59,18 @@ public class NameDto {
    * @return name
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public Integer getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-  public NameDto snakeCase(Integer snakeCase) {
+  public NameDto snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -74,17 +80,18 @@ public class NameDto {
    * @return snakeCase
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  @JsonProperty("snake_case")
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public NameDto property(String property) {
+  public NameDto property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -94,17 +101,18 @@ public class NameDto {
    * @return property
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  @JsonProperty("property")
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public NameDto _123Number(Integer _123Number) {
+  public NameDto _123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
     return this;
   }
@@ -114,13 +122,14 @@ public class NameDto {
    * @return _123Number
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")
-  public Integer get123Number() {
+  public @Nullable Integer get123Number() {
     return _123Number;
   }
 
-  public void set123Number(Integer _123Number) {
+  @JsonProperty("123Number")
+  public void set123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
   }
 
@@ -160,11 +169,8 @@ public class NameDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

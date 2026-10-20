@@ -10,6 +10,7 @@ import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
+import okhttp3.Headers.Builder
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.MultipartBody
 import okhttp3.Call
@@ -26,30 +27,91 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
+import java.util.regex.Pattern
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import com.google.gson.reflect.TypeToken
 
- val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+        protected const val CONTENT_TYPE: String = "Content-Type"
+        @Deprecated(
+          message = "Please use the capitalized constant `CONTENT_TYPE` instead.",
+          replaceWith = ReplaceWith("CONTENT_TYPE")
+        )
+        protected const val ContentType: String = CONTENT_TYPE
+
+        protected const val ACCEPT: String = "Accept"
+        @Deprecated(
+          message = "Please use the capitalized constant `ACCEPT` instead.",
+          replaceWith = ReplaceWith("ACCEPT")
+        )
+        protected const val Accept: String = ACCEPT
+
+        protected const val AUTHORIZATION: String = "Authorization"
+        @Deprecated(
+          message = "Please use the capitalized constant `AUTHORIZATION` instead.",
+          replaceWith = ReplaceWith("AUTHORIZATION")
+        )
+        protected const val Authorization: String = AUTHORIZATION
+
+        protected const val JSON_MEDIA_TYPE: String = "application/json"
+        @Deprecated(
+          message = "Please use the capitalized constant `JSON_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("JSON_MEDIA_TYPE")
+        )
+        protected const val JsonMediaType: String = JSON_MEDIA_TYPE
+
+        protected const val FORM_DATA_MEDIA_TYPE: String = "multipart/form-data"
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_DATA_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_DATA_MEDIA_TYPE")
+        )
+        protected const val FormDataMediaType: String = FORM_DATA_MEDIA_TYPE
+
+        protected const val FORM_URL_ENC_MEDIA_TYPE: String = "application/x-www-form-urlencoded"
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_URL_ENC_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_URL_ENC_MEDIA_TYPE")
+        )
+        protected const val FormUrlEncMediaType: String = FORM_URL_ENC_MEDIA_TYPE
+
+        protected const val XML_MEDIA_TYPE: String = "application/xml"
+        @Deprecated(
+          message = "Please use the capitalized constant `XML_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("XML_MEDIA_TYPE")
+        )
+        protected const val XmlMediaType: String = XML_MEDIA_TYPE
+
+        protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
+        @Deprecated(
+          message = "Please use the capitalized constant `OCTET_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("OCTET_MEDIA_TYPE")
+        )
+        protected const val OctetMediaType: String = OCTET_MEDIA_TYPE
+
+        protected const val TEXT_MEDIA_TYPE: String = "text/plain"
+        @Deprecated(
+          message = "Please use the capitalized constant `TEXT_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("TEXT_MEDIA_TYPE")
+        )
+        protected const val TextMediaType: String = TEXT_MEDIA_TYPE
+
+        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        const val baseUrlKey: String = BASE_URL_KEY
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {
@@ -58,6 +120,24 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         @JvmStatic
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    }
+
+    var userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    var accessTokenProvider: () -> String? = { accessToken }
+
+    /**
+     * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
+     *
+     * @param byteArray The given file
+     * @return The guessed Content-Type
+     */
+    protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
+        val contentType = try {
+            URLConnection.guessContentTypeFromStream(byteArray.inputStream())
+        } catch (_: IOException) {
+            "application/octet-stream"
+        }
+        return contentType
     }
 
     /**
@@ -71,35 +151,115 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         return contentType ?: "application/octet-stream"
     }
 
+    /**
+     * Builds headers for a multipart form-data part.
+     * OkHttp requires Content-Type to be passed via the RequestBody parameter, not in headers.
+     * This function filters out Content-Type and builds the appropriate Content-Disposition header.
+     *
+     * @param name The field name
+     * @param headers The headers from the PartConfig (may include Content-Type)
+     * @param filename Optional filename for file uploads
+     * @return Headers object ready for addPart()
+     */
+    protected fun buildPartHeaders(name: String, headers: Map<String, String>, filename: String? = null): Headers {
+        val disposition = if (filename != null) {
+            "form-data; name=\"$name\"; filename=\"$filename\""
+        } else {
+            "form-data; name=\"$name\""
+        }
+        return (headers.filterKeys { it != "Content-Type" } + ("Content-Disposition" to disposition)).toHeaders()
+    }
+
+    /**
+     * Adds a File to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is a File
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param file The file that will be added as the field value
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
+        val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
+        addPart(
+            buildPartHeaders(name, headers, file.name),
+            file.asRequestBody(fileMediaType)
+        )
+    }
+
+    /**
+     * Serializes a multipart body part based on its content type.
+     * Uses JSON serialization for application/json content types, otherwise converts to string.
+     *
+     * @param obj The object to serialize
+     * @param contentType The Content-Type header value, if any
+     * @param serializer Optional custom serializer (used for kotlinx.serialization to preserve type info)
+     * @return The serialized string representation
+     */
+    protected fun serializePartBody(obj: Any?, contentType: String?, serializer: ((Any?) -> String)?): String {
+        // Use custom serializer if provided (for kotlinx.serialization with captured type info)
+        if (serializer != null) {
+            return serializer(obj)
+        }
+
+        return if (contentType?.contains("json") == true) {
+            Serializer.gson.toJson(obj)
+        } else {
+            parameterToString(obj)
+        }
+    }
+
+    /**
+     * Adds any type to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is not a File.
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param obj The field name to add in the request
+     * @param serializer Optional custom serializer for this part
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: Any?, serializer: ((Any?) -> String)? = null) {
+        val partContentType = headers["Content-Type"]
+        val partMediaType = partContentType?.toMediaTypeOrNull()
+        val partBody = serializePartBody(obj, partContentType, serializer)
+        addPart(
+            buildPartHeaders(name, headers),
+            partBody.toRequestBody(partMediaType)
+        )
+    }
+
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
+            content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            mediaType == FormDataMediaType ->
+            mediaType == FORM_DATA_MEDIA_TYPE ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
+                            when (part.body) {
+                                is File -> addPartToMultiPart(name, part.headers, part.body)
+                                is List<*> -> {
+                                    part.body.forEach {
+                                        if (it is File) {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        } else {
+                                            addPartToMultiPart(name, part.headers, it, part.serializer)
+                                        }
+                                    }
+                               }
+                               else -> addPartToMultiPart(name, part.headers, part.body, part.serializer)
                             }
                         }
                     }.build()
-            mediaType == FormUrlEncMediaType -> {
+            mediaType == FORM_URL_ENC_MEDIA_TYPE -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
@@ -113,23 +273,70 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                     EMPTY_REQUEST
                 } else {
                     Serializer.gson.toJson(content, T::class.java)
-                        .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
+                        .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
-            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == OctetMediaType && content is ByteArray ->
-                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
+            mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
+            mediaType == TEXT_MEDIA_TYPE -> {
+                val textualContent = when (content) {
+                    is Char, is CharSequence -> content.toString()
+                    is Number -> content.toString()
+                    is Boolean -> content.toString()
+                    else -> throw UnsupportedOperationException("requestBody currently only supports text body containing primitive types: characters, numbers, or booleans.")
+                }
+                textualContent.toRequestBody(mediaType.toMediaTypeOrNull())
+            }
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null) {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
+        val body = response.body ?: return null
+
+        if (T::class.java == Unit::class.java) {
+            // No need to parse the body when we're not interested in the body
+            // Useful when API is returning other Content-Type
             return null
-        }
-        if (T::class.java == File::class.java) {
+        } else if (T::class.java == File::class.java) {
             // return tempFile
-            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            val contentDisposition = response.header("Content-Disposition")
+
+            val fileName = if (contentDisposition != null) {
+                // Get filename from the Content-Disposition header.
+                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
+                val matcher = pattern.matcher(contentDisposition)
+                if (matcher.find()) {
+                    matcher.group(1)
+                        ?.replace(".*[/\\\\]", "")
+                        ?.replace(";", "")
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+            var prefix: String?
+            val suffix: String?
+            if (fileName == null) {
+                prefix = "download"
+                suffix = ""
+            } else {
+                val pos = fileName.lastIndexOf(".")
+                if (pos == -1) {
+                    prefix = fileName
+                    suffix = null
+                } else {
+                    prefix = fileName.substring(0, pos)
+                    suffix = fileName.substring(pos)
+                }
+                // Files.createTempFile requires the prefix to be at least three characters long
+                if (prefix.length < 3) {
+                    prefix = "download"
+                }
+            }
+
+            // Attention: if you are developing an android app that supports API Level 25 and below, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
+            val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             tempFile.deleteOnExit()
             body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
@@ -147,15 +354,16 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                 }
                 Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             }
-            mediaType == OctetMediaType -> body.bytes() as? T
-            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+            mediaType == OCTET_MEDIA_TYPE -> body.bytes() as? T
+            mediaType == TEXT_MEDIA_TYPE -> body.string() as? T
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
+            accessTokenProvider()?.let { token ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $token "
             }
         }
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
@@ -186,21 +394,21 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers[ContentType] = JsonMediaType
+        if (requestConfig.body != null && requestConfig.headers[CONTENT_TYPE].isNullOrEmpty()) {
+            requestConfig.headers[CONTENT_TYPE] = JSON_MEDIA_TYPE
         }
-        if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers[Accept] = JsonMediaType
+        if (requestConfig.headers[ACCEPT].isNullOrEmpty()) {
+            requestConfig.headers[ACCEPT] = JSON_MEDIA_TYPE
         }
         val headers = requestConfig.headers
 
-        if (headers[Accept].isNullOrEmpty()) {
-            throw kotlin.IllegalStateException("Missing Accept header. This is required.")
+        if (headers[ACCEPT].isNullOrEmpty()) {
+            throw kotlin.IllegalStateException("Missing ACCEPT header. This is required.")
         }
 
-        val contentType = if (headers[ContentType] != null) {
+        val contentType = if (headers[CONTENT_TYPE] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
+            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -214,7 +422,11 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }.apply {
-            headers.forEach { header -> addHeader(header.key, header.value) }
+            val headersBuilder = Headers.Builder()
+            headers.forEach { header ->
+                headersBuilder.add(header.key, header.value)
+            }
+            this.headers(headersBuilder.build())
         }.build()
 
         val response: Response = suspendCancellableCoroutine { continuation ->
@@ -230,7 +442,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             })
         }
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
@@ -246,7 +458,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                     it.headers.toMultimap()
                 )
                 it.isSuccessful -> Success(
-                    responseBody(it.body, accept),
+                    responseBody(it, accept),
                     it.code,
                     it.headers.toMultimap()
                 )
@@ -270,8 +482,11 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
-            parseDateToQueryString(value)
+        is OffsetDateTime -> parseDateToQueryString<OffsetDateTime>(value)
+        is OffsetTime -> parseDateToQueryString<OffsetTime>(value)
+        is LocalDateTime -> parseDateToQueryString<LocalDateTime>(value)
+        is LocalDate -> parseDateToQueryString<LocalDate>(value)
+        is LocalTime -> parseDateToQueryString<LocalTime>(value)
         else -> value.toString()
     }
 

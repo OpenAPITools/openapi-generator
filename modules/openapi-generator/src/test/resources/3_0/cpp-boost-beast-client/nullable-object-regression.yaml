@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast nullable object regression
+  version: 1.0.0
+  description: >
+    OAS 3.0 nullable object schema.  An object property tagged nullable: true
+    must accept and round-trip JSON null at both the root schema and property
+    value level.  The generator must produce a type that can distinguish
+    between "value absent" and "value explicitly null" for a nullable property.
+paths:
+  /nullable-object:
+    post:
+      operationId: postNullableObject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullableObjectRoot'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableObjectRoot'
+  /nullable-property:
+    get:
+      operationId: getNullableProperty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullablePropertyContainer'
+components:
+  schemas:
+    NullableObjectRoot:
+      description: >
+        OAS 3.0 nullable object root.  The schema itself is nullable: true,
+        meaning the entire object value can be JSON null.  Must generate
+        a type that wraps the object in std::optional or equivalent.
+      type: object
+      nullable: true
+      properties:
+        value:
+          type: string
+        count:
+          type: integer
+          format: int32
+      required:
+        - value
+
+    NullablePropertyContainer:
+      description: >
+        Container with an OAS 3.0 nullable string property tagged
+        nullable: true.  The generator must distinguish missing,
+        present-value, and explicit-null wire states.
+      type: object
+      properties:
+        name:
+          type: string
+        nullableValue:
+          type: string
+          nullable: true

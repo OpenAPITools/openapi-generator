@@ -1,4 +1,4 @@
-# # OuterEnumDefaultValue
+# OuterEnumDefaultValue
 
 ## Properties
 

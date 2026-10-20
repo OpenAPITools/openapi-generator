@@ -2,7 +2,7 @@ group "{{groupId}}"
 version "{{artifactVersion}}"
 
 wrapper {
-    gradleVersion = '6.9'
+    gradleVersion = '7.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -20,7 +20,7 @@ buildscript {
 {{#useMutiny}}
     ext.mutiny_version = "2.2.0"
 {{/useMutiny}}
-    ext.jackson_version = "2.17.1"
+    ext.jackson_version = "2.18.9"
 {{#useBeanValidation}}
     ext.beanvalidation_version = "2.0.2"
 {{/useBeanValidation}}
@@ -37,14 +37,14 @@ apply plugin: "java"
 apply plugin: "kotlin"
 apply plugin: "application"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 repositories {

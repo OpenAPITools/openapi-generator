@@ -26,7 +26,7 @@ class FakeClassnameTags123Api {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient,) async {
+  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake_classname_test';
 
@@ -48,6 +48,7 @@ class FakeClassnameTags123Api {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -59,8 +60,8 @@ class FakeClassnameTags123Api {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> testClassname(ModelClient modelClient,) async {
-    final response = await testClassnameWithHttpInfo(modelClient,);
+  Future<ModelClient?> testClassname(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
+    final response = await testClassnameWithHttpInfo(modelClient, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

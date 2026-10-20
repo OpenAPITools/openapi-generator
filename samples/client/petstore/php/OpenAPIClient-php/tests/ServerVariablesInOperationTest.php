@@ -30,10 +30,10 @@ class ServerVariablesInOperationTest extends TestCase
         $this->api->addPet($this->pet, 2);
         $request = $this->fakeHttpClient->getLastRequest();
 
-        $this->assertEquals('petstore.swagger.io', $request->getUri()->getHost(), 'Server variable set to default value.');
+        $this->assertEquals('path-server-test.petstore.local', $request->getUri()->getHost(), 'Server variable set to default value.');
 
         # Test variables substitution
-        $this->api->addPet($this->pet, 2, [ 'server' => 'qa-petstore', 'port' => '8080']);
+        $this->api->addPet($this->pet, 3, [ 'server' => 'qa-petstore', 'port' => '8080']);
         $request = $this->fakeHttpClient->getLastRequest();
 
         $this->assertEquals('qa-petstore.swagger.io', $request->getUri()->getHost(), 'Server set to "qa-petstore"');
@@ -43,7 +43,7 @@ class ServerVariablesInOperationTest extends TestCase
     public function testLegacyServerChoiceInOperation(): void
     {
         # Test legacy behavior (set server using api->setHostIndex()
-        $this->api->setHostIndex(1);
+        $this->api->setHostIndex(2);
         $this->api->addPet($this->pet);
         $request = $this->fakeHttpClient->getLastRequest();
 
@@ -53,6 +53,6 @@ class ServerVariablesInOperationTest extends TestCase
     public function testInvalidVariableValueInOperation(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->api->addPet($this->pet, 2,['server' => 'invalid-value']);
+        $this->api->addPet($this->pet, 3,['server' => 'invalid-value']);
     }
 }

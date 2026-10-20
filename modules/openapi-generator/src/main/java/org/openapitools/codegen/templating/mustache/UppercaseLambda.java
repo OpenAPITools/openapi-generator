@@ -26,12 +26,12 @@ import java.util.Locale;
 
 /**
  * Converts text in a fragment to uppercase.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("uppercase", new UppercaseLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#uppercase}}{{summary}}{{/uppercase}}

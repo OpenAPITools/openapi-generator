@@ -1,0 +1,69 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:3000/'
+info:
+  version: 1.0.0
+  title: Echo API for Kotlin Multipart JSON Test
+  description: Echo server API to test multipart/form-data with JSON content-type
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: body
+    description: Test body operations
+paths:
+  /body/multipart/formdata/with_json_part:
+    post:
+      tags:
+        - body
+      summary: Test multipart with JSON part
+      description: Test multipart/form-data with a part that has Content-Type application/json
+      operationId: testBodyMultipartFormdataWithJsonPart
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - metadata
+                - file
+              properties:
+                metadata:
+                  $ref: '#/components/schemas/FileMetadata'
+                file:
+                  type: string
+                  format: binary
+                  description: File to upload
+            encoding:
+              metadata:
+                contentType: application/json
+              file:
+                contentType: image/jpeg
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    FileMetadata:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        name:
+          type: string
+          example: test-file
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["tag1", "tag2"]

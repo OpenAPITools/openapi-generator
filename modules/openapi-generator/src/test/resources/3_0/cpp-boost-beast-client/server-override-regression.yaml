@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Server override regression
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /root:
+    get:
+      tags:
+        - ServerOverride
+      operationId: getRoot
+      responses:
+        '204':
+          description: No content
+  /path-root:
+    servers:
+      - url: /
+    get:
+      tags:
+        - ServerOverride
+      operationId: getPathRoot
+      responses:
+        '204':
+          description: No content
+  /operation-root:
+    get:
+      tags:
+        - ServerOverride
+      operationId: getOperationRoot
+      servers:
+        - url: /
+      responses:
+        '204':
+          description: No content
+  /relative:
+    get:
+      tags:
+        - ServerOverride
+      operationId: getRelative
+      servers:
+        - url: api
+      responses:
+        '204':
+          description: No content

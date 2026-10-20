@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXOrder::PFXOrder(QString json) {
+PFXOrder::PFXOrder(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -52,7 +52,7 @@ void PFXOrder::initializeModel() {
     m_complete_isValid = false;
 }
 
-void PFXOrder::fromJson(QString jsonString) {
+void PFXOrder::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

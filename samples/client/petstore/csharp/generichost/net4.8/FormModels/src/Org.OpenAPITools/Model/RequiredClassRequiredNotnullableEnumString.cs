@@ -214,7 +214,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumString requiredClassRequiredNotnullableEnumString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNotnullableEnumString.ToString());
+            writer.WriteStringValue(RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString).ToString());
         }
     }
 
@@ -232,6 +232,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNotnullableEnumString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             RequiredClassRequiredNotnullableEnumString? result = rawValue == null
@@ -245,14 +248,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the RequiredClassRequiredNotnullableEnumString to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="requiredClassRequiredNotnullableEnumString"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumString? requiredClassRequiredNotnullableEnumString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNotnullableEnumString?.ToString() ?? "null");
+            if (requiredClassRequiredNotnullableEnumString.HasValue)
+                writer.WriteStringValue(RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

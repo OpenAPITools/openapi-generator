@@ -1,0 +1,10 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v21-provided-in-root/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 21.0.0
+  supportsES6: true
+  ngVersion21: true
+enumNameMappings:
+  delivered: SHIPPED

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -62,7 +64,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -94,7 +96,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
         @Override
         public Triangle deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             Triangle newTriangle = new Triangle();
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
@@ -113,7 +115,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     newTriangle.setActualInstance(deserialized);
                     return newTriangle;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
+                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
             }
 
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
@@ -172,7 +174,7 @@ public class Triangle extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
 
         /**

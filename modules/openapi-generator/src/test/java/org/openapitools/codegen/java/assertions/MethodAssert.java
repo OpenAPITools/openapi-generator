@@ -30,8 +30,8 @@ public class MethodAssert extends AbstractMethodAssert<MethodAssert> {
     public ParameterAssert assertParameter(final String paramName) {
         final Optional<Parameter> parameter = actual.getParameterByName(paramName);
         Assertions.assertThat(parameter)
-            .withFailMessage("Method %s should have parameter %s, but it doesn't", methodSignature, paramName)
-            .isPresent();
+                .withFailMessage("Method %s should have parameter %s, but it doesn't", methodSignature, paramName)
+                .isPresent();
 
         return new ParameterAssert(this, parameter.get());
     }

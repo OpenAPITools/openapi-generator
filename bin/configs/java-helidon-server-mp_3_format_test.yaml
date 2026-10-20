@@ -1,0 +1,10 @@
+generatorName: java-helidon-server
+library: mp
+outputDir: samples/server/others/java-helidon-server/v3/mp-format-test
+inputSpec: modules/openapi-generator/src/test/resources/3_0/helidon/format-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-helidon/server
+additionalProperties:
+  helidonVersion: 3.2.7
+  artifactId: format-helidon-server-mp
+  hideGenerationTimestamp: "true"
+  fullProject: "true"

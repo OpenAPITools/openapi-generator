@@ -6,7 +6,7 @@ Model for testing reserved words
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_return** | **int** |  | [optional] 
+**AliasChoices** | **int** |  | [optional]
 
 ## Example
 

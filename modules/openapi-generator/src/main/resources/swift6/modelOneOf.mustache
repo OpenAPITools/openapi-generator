@@ -1,0 +1,70 @@
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
+    {{#oneOf}}
+    case type{{#transformArrayType}}{{.}}{{/transformArrayType}}({{.}})
+    {{/oneOf}}
+    {{#oneOfUnknownDefaultCase}}
+    case unknownDefaultOpenApi
+    {{/oneOfUnknownDefaultCase}}
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        {{#oneOf}}
+        case .type{{#transformArrayType}}{{.}}{{/transformArrayType}}(let value):
+            try container.encode(value)
+        {{/oneOf}}
+        {{#oneOfUnknownDefaultCase}}
+        case .unknownDefaultOpenApi:
+            try container.encodeNil()
+        {{/oneOfUnknownDefaultCase}}
+        }
+    }
+{{#discriminator}}
+
+    private enum DiscriminatorCodingKey: String, CodingKey {
+        case {{discriminator.propertyName}} = "{{discriminator.propertyBaseName}}"
+    }
+{{/discriminator}}
+
+    public init(from decoder: Decoder) throws {
+{{#discriminator}}        let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)
+        let discriminatorValue = try keyedContainer.decode(String.self, forKey: .{{discriminator.propertyName}})
+
+        switch discriminatorValue {
+        {{#discriminator.mappedModels}}
+        case "{{mappingName}}":
+            self = .type{{#transformArrayType}}{{modelName}}{{/transformArrayType}}(try {{modelName}}(from: decoder))
+        {{/discriminator.mappedModels}}
+        default:
+            {{#oneOfUnknownDefaultCase}}
+            self = .unknownDefaultOpenApi
+            {{/oneOfUnknownDefaultCase}}
+            {{^oneOfUnknownDefaultCase}}
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Unknown discriminator value '\(discriminatorValue)' for {{classname}}"
+                )
+            )
+            {{/oneOfUnknownDefaultCase}}
+        }
+{{/discriminator}}{{^discriminator}}        let container = try decoder.singleValueContainer()
+        {{#oneOf}}
+        {{#-first}}
+        if let value = try? container.decode({{.}}.self){{#enumUnknownDefaultCase}}, (value as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true{{/enumUnknownDefaultCase}} {
+        {{/-first}}
+        {{^-first}}
+        } else if let value = try? container.decode({{.}}.self){{#enumUnknownDefaultCase}}, (value as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true{{/enumUnknownDefaultCase}} {
+        {{/-first}}
+            self = .type{{#transformArrayType}}{{.}}{{/transformArrayType}}(value)
+        {{/oneOf}}
+        } else {
+            {{#oneOfUnknownDefaultCase}}
+            self = .unknownDefaultOpenApi
+            {{/oneOfUnknownDefaultCase}}
+            {{^oneOfUnknownDefaultCase}}
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
+            {{/oneOfUnknownDefaultCase}}
+        }
+{{/discriminator}}    }
+}

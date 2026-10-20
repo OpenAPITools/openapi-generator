@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: JsonInclude invalid manual override test
+  version: 1.0.0
+  description: >
+    A single schema whose property carries an invalid x-jackson-json-include-policy value.
+    Generation must fail fast with an actionable error rather than emitting uncompilable output.
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidOverride'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    InvalidOverride:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: NOT_A_REAL_POLICY

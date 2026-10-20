@@ -81,7 +81,8 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
@@ -142,7 +143,8 @@ public class BodyApi {
      * @return File
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
@@ -158,7 +160,8 @@ public class BodyApi {
      * @return ApiResponse&lt;File&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
@@ -176,7 +179,8 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
@@ -195,12 +199,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyApplicationOctetstreamBinaryCall(File body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testBodyApplicationOctetstreamBinaryCall(@javax.annotation.Nullable File body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -246,7 +251,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyApplicationOctetstreamBinaryValidateBeforeCall(File body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testBodyApplicationOctetstreamBinaryValidateBeforeCall(@javax.annotation.Nullable File body, final ApiCallback _callback) throws ApiException {
         return testBodyApplicationOctetstreamBinaryCall(body, _callback);
 
     }
@@ -258,12 +263,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testBodyApplicationOctetstreamBinary(File body) throws ApiException {
+    public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws ApiException {
         ApiResponse<String> localVarResp = testBodyApplicationOctetstreamBinaryWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -275,12 +281,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws ApiException {
+    public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws ApiException {
         okhttp3.Call localVarCall = testBodyApplicationOctetstreamBinaryValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -294,12 +301,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyApplicationOctetstreamBinaryAsync(File body, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testBodyApplicationOctetstreamBinaryAsync(@javax.annotation.Nullable File body, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testBodyApplicationOctetstreamBinaryValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -313,12 +321,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyMultipartFormdataArrayOfBinaryCall(List<File> files, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testBodyMultipartFormdataArrayOfBinaryCall(@javax.annotation.Nonnull List<File> files, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -368,7 +377,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyMultipartFormdataArrayOfBinaryValidateBeforeCall(List<File> files, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testBodyMultipartFormdataArrayOfBinaryValidateBeforeCall(@javax.annotation.Nonnull List<File> files, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'files' is set
         if (files == null) {
             throw new ApiException("Missing the required parameter 'files' when calling testBodyMultipartFormdataArrayOfBinary(Async)");
@@ -385,12 +394,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws ApiException {
+    public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws ApiException {
         ApiResponse<String> localVarResp = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
         return localVarResp.getData();
     }
@@ -402,12 +412,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws ApiException {
+    public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files) throws ApiException {
         okhttp3.Call localVarCall = testBodyMultipartFormdataArrayOfBinaryValidateBeforeCall(files, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -421,12 +432,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyMultipartFormdataArrayOfBinaryAsync(List<File> files, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testBodyMultipartFormdataArrayOfBinaryAsync(@javax.annotation.Nonnull List<File> files, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testBodyMultipartFormdataArrayOfBinaryValidateBeforeCall(files, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -440,12 +452,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyMultipartFormdataSingleBinaryCall(File myFile, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testBodyMultipartFormdataSingleBinaryCall(@javax.annotation.Nullable File myFile, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -495,7 +508,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyMultipartFormdataSingleBinaryValidateBeforeCall(File myFile, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testBodyMultipartFormdataSingleBinaryValidateBeforeCall(@javax.annotation.Nullable File myFile, final ApiCallback _callback) throws ApiException {
         return testBodyMultipartFormdataSingleBinaryCall(myFile, _callback);
 
     }
@@ -507,12 +520,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
+    public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws ApiException {
         ApiResponse<String> localVarResp = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
         return localVarResp.getData();
     }
@@ -524,12 +538,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws ApiException {
+    public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile) throws ApiException {
         okhttp3.Call localVarCall = testBodyMultipartFormdataSingleBinaryValidateBeforeCall(myFile, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -543,12 +558,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testBodyMultipartFormdataSingleBinaryAsync(File myFile, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testBodyMultipartFormdataSingleBinaryAsync(@javax.annotation.Nullable File myFile, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testBodyMultipartFormdataSingleBinaryValidateBeforeCall(myFile, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -562,12 +578,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyAllOfPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyAllOfPetCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -613,7 +630,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyAllOfPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyAllOfPetValidateBeforeCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         return testEchoBodyAllOfPetCall(pet, _callback);
 
     }
@@ -625,12 +642,13 @@ public class BodyApi {
      * @return Pet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+    public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws ApiException {
         ApiResponse<Pet> localVarResp = testEchoBodyAllOfPetWithHttpInfo(pet);
         return localVarResp.getData();
     }
@@ -642,12 +660,13 @@ public class BodyApi {
      * @return ApiResponse&lt;Pet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws ApiException {
+    public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyAllOfPetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -661,12 +680,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyAllOfPetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyAllOfPetAsync(@javax.annotation.Nullable Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyAllOfPetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -680,12 +700,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyFreeFormObjectResponseStringCall(Object body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyFreeFormObjectResponseStringCall(@javax.annotation.Nullable Object body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -731,7 +752,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyFreeFormObjectResponseStringValidateBeforeCall(Object body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyFreeFormObjectResponseStringValidateBeforeCall(@javax.annotation.Nullable Object body, final ApiCallback _callback) throws ApiException {
         return testEchoBodyFreeFormObjectResponseStringCall(body, _callback);
 
     }
@@ -743,12 +764,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEchoBodyFreeFormObjectResponseString(Object body) throws ApiException {
+    public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws ApiException {
         ApiResponse<String> localVarResp = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -760,12 +782,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws ApiException {
+    public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyFreeFormObjectResponseStringValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -779,12 +802,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyFreeFormObjectResponseStringAsync(Object body, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyFreeFormObjectResponseStringAsync(@javax.annotation.Nullable Object body, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyFreeFormObjectResponseStringValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -798,12 +822,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyPetCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -849,7 +874,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyPetValidateBeforeCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         return testEchoBodyPetCall(pet, _callback);
 
     }
@@ -861,12 +886,13 @@ public class BodyApi {
      * @return Pet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Pet testEchoBodyPet(Pet pet) throws ApiException {
+    public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws ApiException {
         ApiResponse<Pet> localVarResp = testEchoBodyPetWithHttpInfo(pet);
         return localVarResp.getData();
     }
@@ -878,12 +904,13 @@ public class BodyApi {
      * @return ApiResponse&lt;Pet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws ApiException {
+    public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyPetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -897,12 +924,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyPetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyPetAsync(@javax.annotation.Nullable Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyPetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -916,12 +944,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyPetResponseStringCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyPetResponseStringCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -967,7 +996,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyPetResponseStringValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyPetResponseStringValidateBeforeCall(@javax.annotation.Nullable Pet pet, final ApiCallback _callback) throws ApiException {
         return testEchoBodyPetResponseStringCall(pet, _callback);
 
     }
@@ -979,12 +1008,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
+    public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws ApiException {
         ApiResponse<String> localVarResp = testEchoBodyPetResponseStringWithHttpInfo(pet);
         return localVarResp.getData();
     }
@@ -996,12 +1026,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws ApiException {
+    public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyPetResponseStringValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1015,12 +1046,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyPetResponseStringAsync(Pet pet, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyPetResponseStringAsync(@javax.annotation.Nullable Pet pet, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyPetResponseStringValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -1034,12 +1066,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyStringEnumCall(String body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyStringEnumCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1085,7 +1118,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyStringEnumValidateBeforeCall(String body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyStringEnumValidateBeforeCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
         return testEchoBodyStringEnumCall(body, _callback);
 
     }
@@ -1097,12 +1130,13 @@ public class BodyApi {
      * @return StringEnumRef
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public StringEnumRef testEchoBodyStringEnum(String body) throws ApiException {
+    public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
         ApiResponse<StringEnumRef> localVarResp = testEchoBodyStringEnumWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -1114,12 +1148,13 @@ public class BodyApi {
      * @return ApiResponse&lt;StringEnumRef&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws ApiException {
+    public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<StringEnumRef>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1133,12 +1168,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyStringEnumAsync(String body, final ApiCallback<StringEnumRef> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyStringEnumAsync(@javax.annotation.Nullable String body, final ApiCallback<StringEnumRef> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<StringEnumRef>(){}.getType();
@@ -1152,12 +1188,13 @@ public class BodyApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyTagResponseStringCall(Tag tag, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyTagResponseStringCall(@javax.annotation.Nullable Tag tag, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1203,7 +1240,7 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyTagResponseStringValidateBeforeCall(Tag tag, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEchoBodyTagResponseStringValidateBeforeCall(@javax.annotation.Nullable Tag tag, final ApiCallback _callback) throws ApiException {
         return testEchoBodyTagResponseStringCall(tag, _callback);
 
     }
@@ -1215,12 +1252,13 @@ public class BodyApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
+    public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws ApiException {
         ApiResponse<String> localVarResp = testEchoBodyTagResponseStringWithHttpInfo(tag);
         return localVarResp.getData();
     }
@@ -1232,12 +1270,13 @@ public class BodyApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws ApiException {
+    public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag) throws ApiException {
         okhttp3.Call localVarCall = testEchoBodyTagResponseStringValidateBeforeCall(tag, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1251,12 +1290,13 @@ public class BodyApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyTagResponseStringAsync(Tag tag, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyTagResponseStringAsync(@javax.annotation.Nullable Tag tag, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEchoBodyTagResponseStringValidateBeforeCall(tag, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();

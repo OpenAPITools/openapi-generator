@@ -1,0 +1,69 @@
+# Regression spec for #21905, consumed by
+# PythonFastAPIServerCodegenTest#testWireStringParamsUseCoercibleTypes.
+#
+# Focus: parameters that arrive on the wire as strings (path, query, header, cookie)
+# must be generated with coercible Pydantic types (int/bool/str). Strict types
+# (StrictInt/StrictBool/StrictStr, strict=True) would disable Pydantic's string
+# coercion and make FastAPI reject valid requests with a 422.
+openapi: 3.0.3
+info:
+  title: Wire-string parameter coercion (#21905)
+  version: 1.0.0
+paths:
+  /items/{itemId}:
+    get:
+      operationId: getItem
+      tags:
+        - item
+      parameters:
+        # one parameter per wire-string location; all must come out non-strict
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            # constraints must be preserved while strict=True is dropped
+            minimum: 1
+            maximum: 100
+        - name: x_verbose
+          in: header
+          schema:
+            type: boolean
+        - name: session_id
+          in: cookie
+          schema:
+            type: integer
+        - name: dark_mode
+          in: cookie
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+  /items:
+    post:
+      operationId: createItem
+      tags:
+        - item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    # counter-assertion: JSON bodies carry real JSON types, so model properties
+    # must keep strict typing (count stays Optional[StrictInt])
+    Item:
+      type: object
+      properties:
+        count:
+          type: integer

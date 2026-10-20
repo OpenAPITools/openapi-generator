@@ -1,0 +1,33 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Simple no path and body param spec
+
+paths:
+  /getPath/latest:
+    get:
+      tags:
+        - dev
+      summary: summary
+      description: description
+      operationId: getLatest
+      responses:
+        '204':
+          description: successful operation
+  /getPath/{id}:
+    get:
+      tags:
+        - dev
+      summary: summary
+      description: description
+      operationId: GetById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successful operation

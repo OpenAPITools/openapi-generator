@@ -94,31 +94,31 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(long? id = default, long? petId = default, int? quantity = default, DateTime? shipDate = default, StatusEnum? status = default, bool complete = false)
         {
-            this._Id = id;
-            if (this.Id != null)
+            if (id != null)
             {
+                this._Id = id.Value;
                 this._flagId = true;
             }
-            this._PetId = petId;
-            if (this.PetId != null)
+            if (petId != null)
             {
+                this._PetId = petId.Value;
                 this._flagPetId = true;
             }
-            this._Quantity = quantity;
-            if (this.Quantity != null)
+            if (quantity != null)
             {
+                this._Quantity = quantity.Value;
                 this._flagQuantity = true;
             }
-            this._ShipDate = shipDate;
-            if (this.ShipDate != null)
+            if (shipDate != null)
             {
+                this._ShipDate = shipDate.Value;
                 this._flagShipDate = true;
             }
-            this._Status = status;
-            if (this.Status != null)
+            if (status != null)
             {
+                this._Status = status.Value;
                 this._flagStatus = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -199,7 +199,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        /// <example>2020-02-02T20:20:20.000222Z</example>
+        /*
+        <example>2020-02-02T20:20:20.000222Z</example>
+        */
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate
         {

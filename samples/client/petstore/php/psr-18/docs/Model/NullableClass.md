@@ -1,4 +1,4 @@
-# # NullableClass
+# NullableClass
 
 ## Properties
 

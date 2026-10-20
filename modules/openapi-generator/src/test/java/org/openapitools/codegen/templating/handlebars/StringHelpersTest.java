@@ -3,7 +3,6 @@ package org.openapitools.codegen.templating.handlebars;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.context.FieldValueResolver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -21,7 +20,7 @@ public class StringHelpersTest {
         Context context = Context
                 .newBuilder(data)
                 .resolver(
-                        FieldValueResolver.INSTANCE)
+                        AccessAwareFieldValueResolver.INSTANCE)
                 .build();
 
         Template tmpl = handlebars.compileInline(template);

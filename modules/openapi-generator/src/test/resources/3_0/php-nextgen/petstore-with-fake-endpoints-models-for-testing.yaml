@@ -17,6 +17,26 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /fake/oneof:
+    post:
+      tags:
+        - fake
+      summary: test oneOf polymorphism
+      description: Accepts and returns oneOf schemas to exercise polymorphism support
+      operationId: testOneOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mammal'
+        required: true
+      responses:
+        '200':
+          description: a fruit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
   /foo:
     get:
       responses:
@@ -31,6 +51,7 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
+    - url: 'http://localhost/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
@@ -1303,6 +1324,192 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/enum/endpoint:
+    get:
+      tags:
+        - fake
+      summary: test endpoint with enum parameter
+      operationId: fake-enum-endpoint
+      parameters:
+        - name: enum-class
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+              $ref: '#/components/schemas/EnumClass'
+        - name: enum-class-array
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnumClass'
+        - name: enum-class-map
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EnumClass'
+      responses:
+        200:
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumClass'
+  /fake/with_400_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 response http code with dataType
+      operationId: fake-with_400_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_4xx_range_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400-499 range response http code with dataType
+      operationId: fake-with_4xx_range_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '4xx':
+          description: Range of HTTP code 400-499
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_4xx_range_response_no_4xx_datatype/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400-499 range response http code without dataType
+      operationId: fake-with_4xx_range_response_no_4xx_datatype-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '4xx':
+          description: Range of HTTP code 400-499
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_400_and_4xx_range_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 and 400-499 range response http code with dataType
+      operationId: fake-with_400_and_4xx_range_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '4xx':
+          description: Range of HTTP code 400-499
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 and 400-499 range response http code without dataType
+      operationId: fake-with_400_and_4xx_range_response_no_4xx_datatype-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+        '4xx':
+          description: Range of HTTP code 400-499
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  "/error":
+    get:
+      summary: Will always generate an error
+      operationId: error
+      responses: &commonErrors
+        "400":
+          description: The supplied request was not valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Requested item was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: The input to the operation was not valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/fake/pet/{pet_id}":
+    delete:
+      operationId: fakeDeletePet
+      tags:
+        - fake
+      parameters:
+        - name: pet_id
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Returns 204 No Content on success."
+        <<: *commonErrors
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2067,3 +2274,189 @@ components:
       type: array
       items:
         type: string
+    EnumWithNameAndDescription:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      x-enum-varnames:
+        - ONE
+        - "2"
+        - " 3"
+      x-enum-descriptions:
+        - The word one
+        - The digit two
+        - The digit three prefixed by a space
+    ErrorResponse:
+      type: object
+      properties:
+        response_code:
+          type: integer
+        error:
+          type: string
+
+    Error:
+      title: Error
+      description: "Returned when the server encounters an error, either in client input or internally"
+      properties:
+        error:
+          type: string
+          description: "A human readable error message"
+        errors:
+          type: array
+          items:
+            type: string
+          description: "Optional array of multiple errors encountered during processing"
+      required:
+        - error
+
+    DiscriminatorBase:
+      type: object
+      discriminator:
+        propertyName: type
+      required:
+        - type
+      properties:
+        type:
+          type: string
+
+    DiscriminatorChild:
+      allOf:
+        - $ref: '#/components/schemas/DiscriminatorBase'
+        - type: object
+          properties:
+            childProperty:
+              type: string
+
+    Apple:
+      type: object
+      properties:
+        cultivar:
+          type: string
+        origin:
+          type: string
+
+    Banana:
+      type: object
+      properties:
+        lengthCm:
+          type: number
+
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+
+    Whale:
+      type: object
+      required:
+        - className
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+
+    Zebra:
+      type: object
+      required:
+        - className
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+
+    Mammal:
+      oneOf:
+        - $ref: '#/components/schemas/Whale'
+        - $ref: '#/components/schemas/Zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/Whale'
+          zebra: '#/components/schemas/Zebra'
+
+    Zoo:
+      type: object
+      description: A model that uses oneOf and anyOf schemas as property types.
+      required:
+        - favoriteMammal
+        - favoriteReptile
+      properties:
+        favoriteMammal:
+          # required, discriminated oneOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        optionalMammal:
+          # optional, discriminated oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        snack:
+          # optional, discriminator-less oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Fruit'
+        mammals:
+          # array of oneOf -> degrades to an `array` type hint (the union lives in the phpdoc)
+          type: array
+          items:
+            $ref: '#/components/schemas/Mammal'
+        favoriteReptile:
+          # required, discriminated anyOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Reptile'
+        drink:
+          # optional, discriminator-less anyOf -> nullable PHP union
+          $ref: '#/components/schemas/Smoothie'
+        featuredCreature:
+          # optional anyOf whose members are THEMSELVES composed (Mammal, Reptile) -> the union
+          # must flatten transitively to their leaves, not the intermediate composed types
+          $ref: '#/components/schemas/Creature'
+
+    Lizard:
+      type: object
+      required:
+        - reptileType
+      properties:
+        lovesRocks:
+          type: boolean
+        reptileType:
+          type: string
+
+    Snake:
+      type: object
+      required:
+        - reptileType
+      properties:
+        venomous:
+          type: boolean
+        reptileType:
+          type: string
+
+    Reptile:
+      anyOf:
+        - $ref: '#/components/schemas/Lizard'
+        - $ref: '#/components/schemas/Snake'
+      discriminator:
+        propertyName: reptileType
+        mapping:
+          lizard: '#/components/schemas/Lizard'
+          snake: '#/components/schemas/Snake'
+
+    Smoothie:
+      anyOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+
+    Creature:
+      # anyOf whose members are themselves composed: Mammal (oneOf Whale/Zebra) and Reptile
+      # (anyOf Lizard/Snake). A property referencing Creature must flatten transitively to the
+      # leaves (Whale|Zebra|Lizard|Snake), since the deserializer unwraps to the leaf instance.
+      anyOf:
+        - $ref: '#/components/schemas/Mammal'
+        - $ref: '#/components/schemas/Reptile'
+

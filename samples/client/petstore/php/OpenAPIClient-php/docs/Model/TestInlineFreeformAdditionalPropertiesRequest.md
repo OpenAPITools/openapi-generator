@@ -1,4 +1,4 @@
-# # TestInlineFreeformAdditionalPropertiesRequest
+# TestInlineFreeformAdditionalPropertiesRequest
 
 ## Properties
 

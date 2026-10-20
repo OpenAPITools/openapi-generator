@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: solidite du discriminant
+  version: 1.0.0
+paths:
+  # body optionnel, aucun autre parametre
+  /reports:
+    post:
+      operationId: createReport
+      tags: [report]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ReportXml'
+      responses:
+        '200': { description: ok, content: { application/json: { schema: { $ref: '#/components/schemas/Receipt' } } } }
+  # meme chose, mais avec un parametre requis en plus : le membre par defaut n'est plus "weak"
+  /projects/{projectId}/reports:
+    post:
+      operationId: createProjectReport
+      tags: [report]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ReportXml'
+      responses:
+        '200': { description: ok, content: { application/json: { schema: { $ref: '#/components/schemas/Receipt' } } } }
+  /projects/{projectId}/drafts:
+    post:
+      operationId: createDraft
+      tags: [report]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ReportXml'
+      responses:
+        '200': { description: ok, content: { application/json: { schema: { $ref: '#/components/schemas/Receipt' } } } }
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    ReportXml:
+      type: object
+      properties:
+        ref: { type: string }
+    Receipt:
+      type: object
+      properties:
+        number: { type: string }

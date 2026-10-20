@@ -1,0 +1,50 @@
+openapi: "3.0.0"
+info:
+  title: Built-value optional / nullable property test
+  version: "1.0.0"
+paths:
+  /widget/{id}:
+    get:
+      operationId: getWidget
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Widget"
+components:
+  schemas:
+    Widget:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        # required + non-nullable: deserialize as `int`.
+        id:
+          type: integer
+        # required + non-nullable: deserialize as `String`.
+        name:
+          type: string
+        # optional + non-nullable in OpenAPI: dart getter is `String?`
+        # because Dart can't distinguish "missing" from "null". The
+        # deserializer must therefore ALSO accept null and skip the
+        # assignment, otherwise the cast `as String` throws when the
+        # API returns the field as null.
+        iconUrl:
+          type: string
+        # optional + non-nullable, integer flavor: same shape as iconUrl
+        # but exercises FullType(int) instead of FullType(String).
+        priority:
+          type: integer
+        # optional + explicitly nullable: existing behavior, kept as a
+        # regression guard so the fix doesn't break it.
+        explicitlyNullable:
+          type: string
+          nullable: true

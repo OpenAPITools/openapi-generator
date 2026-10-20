@@ -14,55 +14,54 @@
 // this model was generated using model.mustache
 package sample.cask.model
 import java.time.OffsetDateTime
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+        
 case class Order(
-  id: Option[Long] = None ,
-
+    id: Option[Long] = None ,
     petId: Option[Long] = None ,
-
     quantity: Option[Int] = None ,
-
     shipDate: Option[OffsetDateTime] = None ,
-
-  /* Order Status */
-  status: Option[Order.StatusEnum] = None ,
-
+        /* Order Status */
+    status: Option[Order.StatusEnum] = None ,
     complete: Option[Boolean] = None 
 
-  ) {
 
-  def asJson: String = asData.asJson
+) {
 
-  def asData : OrderData = {
-    OrderData(
-            id = id.getOrElse(0),
-            petId = petId.getOrElse(0),
-            quantity = quantity.getOrElse(0),
-            shipDate = shipDate.getOrElse(null),
-            status = status.getOrElse(null),
-            complete = complete.getOrElse(false)
-    )
-  }
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
 
+def asData : OrderData = {
+OrderData(
+    id = id.getOrElse(0) /*  1 */,
+    petId = petId.getOrElse(0) /*  1 */,
+    quantity = quantity.getOrElse(0) /*  1 */,
+    shipDate = shipDate.getOrElse(null) /*  1 */,
+    status = status.getOrElse(null) /*  1 */,
+    complete = complete.getOrElse(false) /*  1 */
+
+)
+}
 }
 
-object Order{
+object Order {
+given RW[Order] = summon[RW[ujson.Value]].bimap[Order](_.asJson, json => read[OrderData](json).asModel)
 
-    given RW[Order] = OrderData.readWriter.bimap[Order](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case petId extends Fields("petId")
-            case quantity extends Fields("quantity")
-            case shipDate extends Fields("shipDate")
-            case status extends Fields("status")
-            case complete extends Fields("complete")
-    }
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case petId extends Fields("petId")
+    case quantity extends Fields("quantity")
+    case shipDate extends Fields("shipDate")
+    case status extends Fields("status")
+    case complete extends Fields("complete")
+}
 
         // baseName=status
         // nameInCamelCase = status
@@ -73,4 +72,5 @@ object Order{
         }
 
 }
+
 

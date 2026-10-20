@@ -1,7 +1,7 @@
   {{#description}}
   # {{{.}}}
   {{/description}}
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}{{^parent}} < ApiModelBase{{/parent}}
   {{#vars}}
     {{#description}}
     # {{{.}}}
@@ -42,14 +42,19 @@
       }
     end
 
-    # Returns all the JSON keys this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns attribute mapping this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
+    def self.acceptable_attribute_map
+      {{^parentModel}}
+      attribute_map
+      {{/parentModel}}
+      {{#parentModel}}
+      superclass.acceptable_attribute_map.merge(attribute_map)
+      {{/parentModel}}
+    end
+
+    # Returns all the JSON keys this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_attributes
-      {{^parent}}
-      attribute_map.values
-      {{/parent}}
-      {{#parent}}
-      attribute_map.values.concat(superclass.acceptable_attributes)
-      {{/parent}}
+      acceptable_attribute_map.values
     end
 
     # Attribute type mapping.
@@ -70,6 +75,26 @@
         {{/isNullable}}
         {{/vars}}
       ])
+    end
+
+    # Returns attribute type mapping{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
+    def self.acceptable_openapi_types
+      {{^parentModel}}
+      openapi_types
+      {{/parentModel}}
+      {{#parentModel}}
+      superclass.acceptable_openapi_types.merge(openapi_types)
+      {{/parentModel}}
+    end
+
+    # Returns the nullable attributes{{#parentModel}}, including the ones defined in its parent(s) that it does not redeclare{{/parentModel}}
+    def self.acceptable_openapi_nullable
+      {{^parentModel}}
+      openapi_nullable
+      {{/parentModel}}
+      {{#parentModel}}
+      (superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable
+      {{/parentModel}}
     end
 
     {{#anyOf}}
@@ -115,17 +140,18 @@
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
+      acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
-        if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `{{{moduleName}}}::{{{classname}}}`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        if (!acceptable_attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `{{{moduleName}}}::{{{classname}}}`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
-      {{#parent}}
+      {{#parentModel}}
 
       # call parent's initialize
       super(attributes)
-      {{/parent}}
+      {{/parentModel}}
       {{#vars}}
 
       if attributes.key?(:'{{{name}}}')
@@ -179,7 +205,7 @@
       {{/maxLength}}
       {{#minLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length < {{{minLength}}}
-        invalid_properties.push('invalid value for "{{{name}}}", the character length must be great than or equal to {{{minLength}}}.')
+        invalid_properties.push('invalid value for "{{{name}}}", the character length must be greater than or equal to {{{minLength}}}.')
       end
 
       {{/minLength}}
@@ -312,7 +338,7 @@
       {{/maxLength}}
       {{#minLength}}
       if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}}.to_s.length < {{{minLength}}}
-        fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be great than or equal to {{{minLength}}}.'
+        fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be greater than or equal to {{{minLength}}}.'
       end
 
       {{/minLength}}
@@ -351,6 +377,22 @@
     end
 
     {{/hasValidation}}
+    {{^hasValidation}}
+    {{^isNullable}}
+    {{#required}}
+    # Custom attribute writer method with validation
+    # @param [Object] {{{name}}} Value to be assigned
+    def {{{name}}}=({{{name}}})
+      if {{{name}}}.nil?
+        fail ArgumentError, '{{{name}}} cannot be nil'
+      end
+
+      @{{{name}}} = {{{name}}}
+    end
+
+    {{/required}}
+    {{/isNullable}}
+    {{/hasValidation}}
     {{/isEnum}}
     {{/vars}}
     # Checks equality by comparing each attribute.
@@ -374,4 +416,5 @@
     end
 
 {{> base_object}}
+
   end

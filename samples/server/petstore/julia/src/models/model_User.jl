@@ -36,29 +36,42 @@ Base.@kwdef mutable struct User <: OpenAPI.APIModel
     userStatus::Union{Nothing, Int64} = nothing
 
     function User(id, username, firstName, lastName, email, password, phone, userStatus, )
-        OpenAPI.validate_property(User, Symbol("id"), id)
-        OpenAPI.validate_property(User, Symbol("username"), username)
-        OpenAPI.validate_property(User, Symbol("firstName"), firstName)
-        OpenAPI.validate_property(User, Symbol("lastName"), lastName)
-        OpenAPI.validate_property(User, Symbol("email"), email)
-        OpenAPI.validate_property(User, Symbol("password"), password)
-        OpenAPI.validate_property(User, Symbol("phone"), phone)
-        OpenAPI.validate_property(User, Symbol("userStatus"), userStatus)
-        return new(id, username, firstName, lastName, email, password, phone, userStatus, )
+        o = new(id, username, firstName, lastName, email, password, phone, userStatus, )
+        OpenAPI.validate_properties(o)
+        return o
     end
 end # type User
 
 const _property_types_User = Dict{Symbol,String}(Symbol("id")=>"Int64", Symbol("username")=>"String", Symbol("firstName")=>"String", Symbol("lastName")=>"String", Symbol("email")=>"String", Symbol("password")=>"String", Symbol("phone")=>"String", Symbol("userStatus")=>"Int64", )
 OpenAPI.property_type(::Type{ User }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_User[name]))}
 
-function check_required(o::User)
+function OpenAPI.check_required(o::User)
     true
 end
 
+function OpenAPI.validate_properties(o::User)
+    OpenAPI.validate_property(User, Symbol("id"), o.id)
+    OpenAPI.validate_property(User, Symbol("username"), o.username)
+    OpenAPI.validate_property(User, Symbol("firstName"), o.firstName)
+    OpenAPI.validate_property(User, Symbol("lastName"), o.lastName)
+    OpenAPI.validate_property(User, Symbol("email"), o.email)
+    OpenAPI.validate_property(User, Symbol("password"), o.password)
+    OpenAPI.validate_property(User, Symbol("phone"), o.phone)
+    OpenAPI.validate_property(User, Symbol("userStatus"), o.userStatus)
+end
+
 function OpenAPI.validate_property(::Type{ User }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "User", :format, val, "int64")
     end
+
+
+
+
+
+
+
     if name === Symbol("userStatus")
         OpenAPI.validate_param(name, "User", :format, val, "int32")
     end

@@ -19,19 +19,23 @@ package org.openapitools.codegen.ruby;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -71,8 +75,45 @@ public class RubyClientCodegenTest {
         }
     }
 
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/exploded-object-query-param.yaml");
+        RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        File apiFile = files.stream()
+                .filter(f -> f.getName().equals("default_api.rb"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("default_api.rb not found in generated files"));
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Assigning the whole hash under the parameter name left the http
+        // library to serialize it in bracket style, which is what used to happen. A nil entry is
+        // left out.
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'filter'].nil?");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "query_params[:'filter']");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'typed_filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'typed_filter'].nil?");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "query_params[:'deepFilter'] = opts[:'deep_filter'] if !opts[:'deep_filter'].nil?",
+                "query_params[:'flatFilter'] = opts[:'flat_filter'] if !opts[:'flat_filter'].nil?");
+    }
+
     @Test
-    public void testInitialConfigValues() throws Exception {
+    public void testInitialConfigValues() {
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.processOpts();
 
@@ -85,7 +126,7 @@ public class RubyClientCodegenTest {
     }
 
     @Test
-    public void testSettersForConfigValues() throws Exception {
+    public void testSettersForConfigValues() {
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
@@ -95,7 +136,7 @@ public class RubyClientCodegenTest {
     }
 
     @Test
-    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+    public void testAdditionalPropertiesPutForConfigValues() {
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "ruby-models");
@@ -183,7 +224,6 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
-        final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("NullablePet");
         codegen.setOpenAPI(openAPI);
@@ -212,7 +252,6 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
-        final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
         codegen.setOpenAPI(openAPI);
@@ -368,6 +407,7 @@ public class RubyClientCodegenTest {
         Set<String> oneOf = new TreeSet<String>();
         oneOf.add("Apple");
         oneOf.add("Banana");
+        oneOf.add("Orange");
         Assert.assertEquals(fruit.oneOf, oneOf);
     }
 
@@ -450,7 +490,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
-        List<String> allVars  =
+        List<String> allVars =
                 child.getAllVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
@@ -467,7 +507,7 @@ public class RubyClientCodegenTest {
         Assert.assertTrue(allVars.containsAll(allVarsExpected));
 
         // to test vars (without parent's properties)
-        List<String> vars  =
+        List<String> vars =
                 child.getVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
@@ -479,14 +519,14 @@ public class RubyClientCodegenTest {
         Assert.assertTrue(vars.containsAll(varsExpected));
 
         // to test requiredVars
-        List<String> requiredVars  =
+        List<String> requiredVars =
                 child.getRequiredVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
         List<String> requiredVarsExpected = Arrays.asList(
                 "duplicated_required",
                 "person_required"
-                );
+        );
         Assert.assertEquals(vars.size(), requiredVarsExpected.size());
         Assert.assertTrue(requiredVars.containsAll(requiredVarsExpected));
     }
@@ -563,8 +603,8 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(superMan);
 
         // to test all properties
-        Assert.assertEquals(superMan.getVars().size(), 6);
-        Assert.assertEquals(superMan.getAllVars().size(), 6);
+        Assert.assertEquals(superMan.getVars().size(), 7);
+        Assert.assertEquals(superMan.getAllVars().size(), 7);
         Assert.assertEquals(superMan.getMandatory().size(), 3);
         Assert.assertEquals(superMan.getAllMandatory().size(), 3);
 
@@ -577,44 +617,54 @@ public class RubyClientCodegenTest {
         Assert.assertFalse(cp1.required);
 
         CodegenProperty cp2 = superMan.getVars().get(2);
-        Assert.assertEquals(cp2.name, "reward");
+        Assert.assertEquals(cp2.name, "nickname");
         Assert.assertFalse(cp2.required);
+        Assert.assertTrue(cp2.deprecated);
 
         CodegenProperty cp3 = superMan.getVars().get(3);
-        Assert.assertEquals(cp3.name, "origin");
-        Assert.assertTrue(cp3.required);
+        Assert.assertEquals(cp3.name, "reward");
+        Assert.assertFalse(cp3.required);
 
         CodegenProperty cp4 = superMan.getVars().get(4);
-        Assert.assertEquals(cp4.name, "category");
-        Assert.assertFalse(cp4.required);
+        Assert.assertEquals(cp4.name, "origin");
+        Assert.assertTrue(cp4.required);
 
         CodegenProperty cp5 = superMan.getVars().get(5);
-        Assert.assertEquals(cp5.name, "level");
-        Assert.assertTrue(cp5.required);
+        Assert.assertEquals(cp5.name, "category");
+        Assert.assertFalse(cp5.required);
 
-        CodegenProperty cp6 = superMan.getAllVars().get(0);
-        Assert.assertEquals(cp6.name, "id");
+        CodegenProperty cp6 = superMan.getVars().get(6);
+        Assert.assertEquals(cp6.name, "level");
         Assert.assertTrue(cp6.required);
 
-        CodegenProperty cp7 = superMan.getAllVars().get(1);
-        Assert.assertEquals(cp7.name, "name");
-        Assert.assertFalse(cp7.required);
+        CodegenProperty cp7 = superMan.getAllVars().get(0);
+        Assert.assertEquals(cp7.name, "id");
+        Assert.assertTrue(cp7.required);
 
-        CodegenProperty cp8 = superMan.getAllVars().get(2);
-        Assert.assertEquals(cp8.name, "reward");
+        CodegenProperty cp8 = superMan.getAllVars().get(1);
+        Assert.assertEquals(cp8.name, "name");
         Assert.assertFalse(cp8.required);
 
-        CodegenProperty cp9 = superMan.getAllVars().get(3);
-        Assert.assertEquals(cp9.name, "origin");
-        Assert.assertTrue(cp9.required);
+        CodegenProperty cp9 = superMan.getAllVars().get(2);
+        Assert.assertEquals(cp9.name, "nickname");
+        Assert.assertFalse(cp9.required);
+        Assert.assertTrue(cp9.deprecated);
 
-        CodegenProperty cp10 = superMan.getAllVars().get(4);
-        Assert.assertEquals(cp10.name, "category");
+        CodegenProperty cp10 = superMan.getAllVars().get(3);
+        Assert.assertEquals(cp10.name, "reward");
         Assert.assertFalse(cp10.required);
 
-        CodegenProperty cp11 = superMan.getAllVars().get(5);
-        Assert.assertEquals(cp11.name, "level");
+        CodegenProperty cp11 = superMan.getAllVars().get(4);
+        Assert.assertEquals(cp11.name, "origin");
         Assert.assertTrue(cp11.required);
+
+        CodegenProperty cp12 = superMan.getAllVars().get(5);
+        Assert.assertEquals(cp12.name, "category");
+        Assert.assertFalse(cp12.required);
+
+        CodegenProperty cp13 = superMan.getAllVars().get(6);
+        Assert.assertEquals(cp13.name, "level");
+        Assert.assertTrue(cp13.required);
 
     }
 
@@ -739,5 +789,153 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(op.allParams.get(7).pattern, "/ax$|/bx$");
         // patten_starts_ends_with_slash '/root/'
         Assert.assertEquals(op.allParams.get(8).pattern, "/root/");
+    }
+
+    @Test
+    public void testQueryParamJsonSerializationSetsQueryIsJsonMimeType() {
+        RubyClientCodegen codegen = new RubyClientCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/echo_api.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/query/style_jsonSerialization/object";
+        CodegenOperation op = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        Assert.assertEquals(op.queryParams.size(), 2);
+        assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
+                "All content:application/json query params should have queryIsJsonMimeType=true");
+    }
+
+    @Test(description = "an allOf child's build_from_hash and to_hash include the attributes inherited from its parents")
+    public void testBuildFromHashMapsInheritedAttributes() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        // Lizard < Reptile < Pet: types and nullability merge along the ancestry, the nearest declaration wins
+        Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        TestUtils.assertFileContains(lizard,
+                "superclass.acceptable_openapi_types.merge(openapi_types)",
+                "(superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable");
+        // build_from_hash and to_hash use the merged maps
+        TestUtils.assertFileContains(lizard,
+                "acceptable_openapi_types.each_pair do |key, type|",
+                "self.class.acceptable_attribute_map.each_pair do |attr, param|",
+                "is_nullable = self.class.acceptable_openapi_nullable.include?(attr)");
+        // the super call that built and discarded a second instance is gone
+        TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+        // a root model has no parent to merge
+        TestUtils.assertFileNotContains(new File(output, "lib/openapi_client/models/pet.rb").toPath(), "superclass.acceptable_openapi_types");
+        // a generated parent still receives the initializer call
+        TestUtils.assertFileContains(lizard, "# call parent's initialize\n      super(attributes)");
+    }
+
+    @Test(description = "a model whose superclass is not a generated model (an alias to an array) does not delegate to it")
+    public void testAliasModelDoesNotDelegateToItsBuiltInSuperclass() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/features/generate-alias-as-model.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        ModelUtils.setGenerateAliasAsModel(true);
+        try {
+            new DefaultGenerator().opts(clientOptInput).generate();
+        } finally {
+            ModelUtils.setGenerateAliasAsModel(false);
+        }
+
+        // ArrayAlias < Array: Array has none of the helpers, so each one is its own base case
+        Path arrayAlias = new File(output, "lib/openapi_client/models/array_alias.rb").toPath();
+        TestUtils.assertFileContains(arrayAlias,
+                "class ArrayAlias < Array",
+                "def self.acceptable_attribute_map\n      attribute_map\n    end",
+                "def self.acceptable_openapi_types\n      openapi_types\n    end",
+                "def self.acceptable_openapi_nullable\n      openapi_nullable\n    end");
+        TestUtils.assertFileNotContains(arrayAlias, "superclass.", "super(attributes)");
+    }
+
+    @Test(description = "enumUnknownDefaultCase=true makes build_from_hash fall back to the unknown default member")
+    public void testEnumUnknownDefaultCaseBuildFromHashFallback() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath(); 
+        TestUtils.assertFileContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API = \"unknown_default_open_api\".freeze");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      UNKNOWN_DEFAULT_OPEN_API\n" +
+                "    end");
+        TestUtils.assertFileNotContains(stringEnum, "raise \"Invalid ENUM value");
+
+        // the integer enum's unknown-default member keeps its (pre-existing) numeric-prefixed name
+        Path integerEnum = new File(output, "lib/openapi_client/models/integer_enum.rb").toPath();
+        TestUtils.assertFileContains(integerEnum, "Nunknown_default_open_api = 11184809.freeze");
+        TestUtils.assertFileContains(integerEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if IntegerEnum.all_vars.include?(value)\n" +
+                "      Nunknown_default_open_api\n" +
+                "    end");
+        TestUtils.assertFileNotContains(integerEnum, "raise \"Invalid ENUM value");
+    }
+
+    @Test(description = "without enumUnknownDefaultCase build_from_hash still raises on unknown values")
+    public void testEnumBuildFromHashRaisesByDefault() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        TestUtils.assertFileNotContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      raise \"Invalid ENUM value #{value} for class #Type\"\n" +
+                "    end");
+    }
+
+    @Test(description = "a property named object_id must not override Object#object_id")
+    public void objectIdPropertyIsEscapedTest() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final Schema schema = new ObjectSchema().addProperty("ObjectId", new StringSchema());
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Association", schema);
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty objectId = codegen.fromModel("Association", schema).getVars().get(0);
+        Assert.assertEquals(objectId.name, "_object_id");
+        Assert.assertEquals(objectId.baseName, "ObjectId");
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        Path association = new File(output, "lib/openapi_client/models/association.rb").toPath();
+        TestUtils.assertFileContains(association, "attr_accessor :_object_id");
+        TestUtils.assertFileContains(association, ":'_object_id' => :'ObjectId'");
+        TestUtils.assertFileNotContains(association, "attr_accessor :object_id");
     }
 }

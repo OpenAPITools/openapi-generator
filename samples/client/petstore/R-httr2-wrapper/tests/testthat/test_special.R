@@ -5,23 +5,51 @@ context("Test Special")
 
 model_instance <- Special$new()
 
-test_that("self", {
-  # tests for the property `self` (integer)
+test_that("set_test", {
+  # tests for the property `set_test` (set[character])
 
   # uncomment below to test the property
-  #expect_equal(model.instance$`self`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`set_test`, "EXPECTED_RESULT")
 })
 
-test_that("private", {
-  # tests for the property `private` (character)
+test_that("item_self", {
+  # tests for the property `item_self` (integer)
 
   # uncomment below to test the property
-  #expect_equal(model.instance$`private`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`item_self`, "EXPECTED_RESULT")
 })
 
-test_that("super", {
-  # tests for the property `super` (character)
+test_that("item_private", {
+  # tests for the property `item_private` (character)
 
   # uncomment below to test the property
-  #expect_equal(model.instance$`super`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`item_private`, "EXPECTED_RESULT")
+})
+
+test_that("item_super", {
+  # tests for the property `item_super` (character)
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`item_super`, "EXPECTED_RESULT")
+})
+
+test_that("123_number", {
+  # tests for the property `123_number` (character)
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`123_number`, "EXPECTED_RESULT")
+})
+
+test_that("array[test]", {
+  # tests for the property `array[test]` (character)
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`array[test]`, "EXPECTED_RESULT")
+})
+
+test_that("empty_string", {
+  # tests for the property `empty_string` (character)
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`empty_string`, "EXPECTED_RESULT")
 })

@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'model200_response.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -27,7 +29,7 @@ class Model200Response {
     
     name: r'name',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +41,7 @@ class Model200Response {
     
     name: r'class',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface FileSchemaTestClass {
     /**
      * 
-     * @type {any}
-     * @memberof FileSchemaTestClass
      */
     file?: any;
     /**
      * 
-     * @type {Array<any>}
-     * @memberof FileSchemaTestClass
      */
     files?: Array<any>;
 }
@@ -55,10 +51,15 @@ export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): any {
+export function FileSchemaTestClassToJSON(json: any): FileSchemaTestClass {
+    return FileSchemaTestClassToJSONTyped(json, false);
+}
+
+export function FileSchemaTestClassToJSONTyped(value?: FileSchemaTestClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'file': value['file'],

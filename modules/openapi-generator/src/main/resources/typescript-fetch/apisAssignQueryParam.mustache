@@ -1,0 +1,12 @@
+{{! Assign query parameters based on their type }}
+{{#isDateTimeType}}
+            queryParameters['{{baseName}}'] = runtime.serializeDateTime(requestParameters['{{paramName}}'] as any);
+{{/isDateTimeType}}
+{{^isDateTimeType}}
+{{#isDateType}}
+            queryParameters['{{baseName}}'] = runtime.serializeDate(requestParameters['{{paramName}}'] as any);
+{{/isDateType}}
+{{^isDateType}}
+            queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
+{{/isDateType}}
+{{/isDateTimeType}}

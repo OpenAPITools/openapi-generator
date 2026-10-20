@@ -9,12 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Tag")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Tag  implements Serializable {
   private Long id;
   private String name;
@@ -100,10 +101,7 @@ public class Tag  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -111,7 +109,7 @@ public class Tag  implements Serializable {
     return new TagBuilderImpl();
   }
 
-  private static class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
+  private static final class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
 
     @Override
     protected TagBuilderImpl self() {
@@ -141,4 +139,3 @@ public class Tag  implements Serializable {
     }
   }
 }
-

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Drawing>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'MainShape'
         /// </summary>

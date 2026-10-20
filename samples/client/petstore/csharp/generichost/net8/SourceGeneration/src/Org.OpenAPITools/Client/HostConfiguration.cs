@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
-    public class HostConfiguration
+    public partial class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -39,10 +39,6 @@ namespace Org.OpenAPITools.Client
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
-            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
-            _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
-            _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new ActivityJsonConverter());
             _jsonOptions.Converters.Add(new ActivityOutputElementRepresentationJsonConverter());
             _jsonOptions.Converters.Add(new AdditionalPropertiesClassJsonConverter());
@@ -62,11 +58,15 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ChildCatJsonConverter());
             _jsonOptions.Converters.Add(new ClassModelJsonConverter());
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
+            _jsonOptions.Converters.Add(new CopyActivityJsonConverter());
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
+            _jsonOptions.Converters.Add(new Descendant1JsonConverter());
+            _jsonOptions.Converters.Add(new Descendant2JsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
+            _jsonOptions.Converters.Add(new EntityBaseJsonConverter());
             _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
@@ -83,12 +83,12 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new GrandparentAnimalJsonConverter());
             _jsonOptions.Converters.Add(new HasOnlyReadOnlyJsonConverter());
             _jsonOptions.Converters.Add(new HealthCheckResultJsonConverter());
+            _jsonOptions.Converters.Add(new InjectedVendorExtensionsTestJsonConverter());
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ListJsonConverter());
             _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
-            _jsonOptions.Converters.Add(new MixLogJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfContentJsonConverter());
             _jsonOptions.Converters.Add(new MixedOneOfJsonConverter());
@@ -125,6 +125,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
             _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
+            _jsonOptions.Converters.Add(new ResultJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -137,7 +138,11 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestDescendantsJsonConverter());
             _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
@@ -169,11 +174,15 @@ namespace Org.OpenAPITools.Client
                 new ChildCatSerializationContext(),
                 new ClassModelSerializationContext(),
                 new ComplexQuadrilateralSerializationContext(),
+                new CopyActivitySerializationContext(),
                 new DanishPigSerializationContext(),
                 new DateOnlyClassSerializationContext(),
                 new DeprecatedObjectSerializationContext(),
+                new Descendant1SerializationContext(),
+                new Descendant2SerializationContext(),
                 new DogSerializationContext(),
                 new DrawingSerializationContext(),
+                new EntityBaseSerializationContext(),
                 new EnumArraysSerializationContext(),
                 new EnumClassSerializationContext(),
                 new EnumTestSerializationContext(),
@@ -189,12 +198,12 @@ namespace Org.OpenAPITools.Client
                 new GrandparentAnimalSerializationContext(),
                 new HasOnlyReadOnlySerializationContext(),
                 new HealthCheckResultSerializationContext(),
+                new InjectedVendorExtensionsTestSerializationContext(),
                 new IsoscelesTriangleSerializationContext(),
                 new ListSerializationContext(),
                 new LiteralStringClassSerializationContext(),
                 new MammalSerializationContext(),
                 new MapTestSerializationContext(),
-                new MixLogSerializationContext(),
                 new MixedAnyOfSerializationContext(),
                 new MixedAnyOfContentSerializationContext(),
                 new MixedOneOfSerializationContext(),
@@ -226,6 +235,7 @@ namespace Org.OpenAPITools.Client
                 new QuadrilateralInterfaceSerializationContext(),
                 new ReadOnlyFirstSerializationContext(),
                 new RequiredClassSerializationContext(),
+                new ResultSerializationContext(),
                 new ReturnSerializationContext(),
                 new RolesReportsHashSerializationContext(),
                 new RolesReportsHashRoleSerializationContext(),
@@ -238,7 +248,10 @@ namespace Org.OpenAPITools.Client
                 new TagSerializationContext(),
                 new TestCollectionEndingWithWordListSerializationContext(),
                 new TestCollectionEndingWithWordListObjectSerializationContext(),
+                new TestDescendantsSerializationContext(),
                 new TestInlineFreeformAdditionalPropertiesRequestSerializationContext(),
+                new TestResultSerializationContext(),
+                new TestResultCodeSerializationContext(),
                 new TriangleSerializationContext(),
                 new TriangleInterfaceSerializationContext(),
                 new UserSerializationContext(),
@@ -251,19 +264,23 @@ namespace Org.OpenAPITools.Client
 
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
-            _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
             _services.AddSingleton<DefaultApiEvents>();
-            _services.AddTransient<IDefaultApi, DefaultApi>();
             _services.AddSingleton<FakeApiEvents>();
-            _services.AddTransient<IFakeApi, FakeApi>();
             _services.AddSingleton<FakeClassnameTags123ApiEvents>();
-            _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
             _services.AddSingleton<PetApiEvents>();
-            _services.AddTransient<IPetApi, PetApi>();
             _services.AddSingleton<StoreApiEvents>();
-            _services.AddTransient<IStoreApi, StoreApi>();
             _services.AddSingleton<UserApiEvents>();
-            _services.AddTransient<IUserApi, UserApi>();
+            OnHostConfigurationCreated();
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(Action<IHttpClientBuilder>? builder = null)
+        {
+            return AddApiHttpClients((Action<IServiceProvider, HttpClient>?)null, builder);
         }
 
         /// <summary>
@@ -272,31 +289,80 @@ namespace Org.OpenAPITools.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration AddApiHttpClients
-        (
-            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
+        public HostConfiguration AddApiHttpClients(
+            Action<HttpClient>? client,
+            Action<IHttpClientBuilder>? builder = null)
+        {
+            var wrapped = client != null ? new Action<IServiceProvider, HttpClient>((_, httpClient) =>
+            {
+                client(httpClient);
+            }) : null;
+            return AddApiHttpClients(wrapped, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(
+            Action<IServiceProvider, HttpClient>? client,
+            Action<IHttpClientBuilder>? builder = null)
         {
             if (client == null)
-                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+                client = (_, c) => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IPetApi, PetApi>(client));
-            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>(client));
-            builders.Add(_services.AddHttpClient<IUserApi, UserApi>(client));
-            
-            if (builder != null)
-                foreach (IHttpClientBuilder instance in builders)
-                    builder(instance);
+            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>("Org.OpenAPITools.Api.IAnotherFakeApi", client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>("Org.OpenAPITools.Api.IDefaultApi", client));
+            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>("Org.OpenAPITools.Api.IFakeApi", client));
+            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>("Org.OpenAPITools.Api.IFakeClassnameTags123Api", client));
+            builders.Add(_services.AddHttpClient<IPetApi, PetApi>("Org.OpenAPITools.Api.IPetApi", client));
+            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>("Org.OpenAPITools.Api.IStoreApi", client));
+            builders.Add(_services.AddHttpClient<IUserApi, UserApi>("Org.OpenAPITools.Api.IUserApi", client));
+
+            foreach (IHttpClientBuilder instance in builders)
+            {
+                bool suppressDefault = false;
+                OnAddApiHttpClientBuilder(instance, builder, ref suppressDefault);
+                if (!suppressDefault)
+                    builder?.Invoke(instance);
+            }
 
             HttpClientsAdded = true;
 
             return this;
         }
+
+        /// <summary>
+        /// Applies configuration to each HttpClient.
+        /// Implement this partial method to prepend configuration, invoke <paramref name="userBuilder"/> at the
+        /// desired position, and append further configuration. Set <paramref name="suppressDefault"/> to
+        /// <c>true</c> when you invoke <paramref name="userBuilder"/> yourself to prevent a second invocation,
+        /// or to ignore the user's builder entirely.
+        /// If this method is not implemented, <paramref name="userBuilder"/> is invoked automatically.
+        /// </summary>
+        /// <param name="builder">The <see cref="IHttpClientBuilder"/> to configure.</param>
+        /// <param name="userBuilder">The caller-supplied builder action, or <c>null</c> if none was provided.</param>
+        /// <param name="suppressDefault">Set to <c>true</c> to prevent the default invocation of <paramref name="userBuilder"/>.</param>
+        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder, Action<IHttpClientBuilder>? userBuilder, ref bool suppressDefault);
+
+        /// <summary>
+        /// Called at the end of the constructor after all JSON converters and services are registered.
+        /// Implement this partial method to further configure <c>_jsonOptions</c> or register additional singletons via <c>_services</c>.
+        /// </summary>
+        partial void OnHostConfigurationCreated();
+
+        /// <summary>
+        /// Called after all services have been registered.
+        /// Implement this partial method to register additional services.
+        /// </summary>
+        /// <param name="services"></param>
+        partial void OnServicesAdded(IServiceCollection services);
+
+        internal void NotifyServicesAdded(IServiceCollection services) => OnServicesAdded(services);
 
         /// <summary>
         /// Configures the JsonSerializerSettings

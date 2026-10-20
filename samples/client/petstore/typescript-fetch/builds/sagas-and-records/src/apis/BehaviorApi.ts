@@ -12,24 +12,29 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetBehaviorPermissionsResponse,
-  GetBehaviorTypeResponse,
-} from '../models/index';
 import {
+    type GetBehaviorPermissionsResponse,
     GetBehaviorPermissionsResponseFromJSON,
     GetBehaviorPermissionsResponseToJSON,
+} from '../models/GetBehaviorPermissionsResponse';
+import {
+    type GetBehaviorTypeResponse,
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
-} from '../models/index';
+} from '../models/GetBehaviorTypeResponse';
 
 export interface GetBehaviorPermissionsRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 
 export interface GetBehaviorTypeRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 
@@ -39,9 +44,9 @@ export interface GetBehaviorTypeRequest {
 export class BehaviorApi extends runtime.BaseAPI {
 
     /**
-     * Get permissions for the behavior
+     * Creates request options for getBehaviorPermissions without sending the request
      */
-    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
+    async getBehaviorPermissionsRequestOpts(requestParameters: GetBehaviorPermissionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -53,12 +58,24 @@ export class BehaviorApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
+
+        let urlPath = `/fake_behavior/{behavior-id}/permissions`;
+        urlPath = urlPath.replace('{behavior-id}', encodeURIComponent(String(requestParameters['behaviorId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get permissions for the behavior
+     */
+    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
+        const requestOptions = await this.getBehaviorPermissionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorPermissionsResponseFromJSON(jsonValue));
     }
@@ -72,9 +89,9 @@ export class BehaviorApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the type of behavior
+     * Creates request options for getBehaviorType without sending the request
      */
-    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
+    async getBehaviorTypeRequestOpts(requestParameters: GetBehaviorTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -86,12 +103,24 @@ export class BehaviorApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
+
+        let urlPath = `/fake_behavior/{behavior-id}/type`;
+        urlPath = urlPath.replace('{behavior-id}', encodeURIComponent(String(requestParameters['behaviorId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the type of behavior
+     */
+    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
+        const requestOptions = await this.getBehaviorTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorTypeResponseFromJSON(jsonValue));
     }

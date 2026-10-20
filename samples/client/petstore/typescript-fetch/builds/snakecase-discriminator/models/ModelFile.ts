@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface ModelFile {
     /**
      * Test capitalization
-     * @type {string}
-     * @memberof ModelFile
      */
     sourceURI?: string;
 }
@@ -48,10 +46,15 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ModelFileToJSON(value?: ModelFile | null): any {
+export function ModelFileToJSON(json: any): ModelFile {
+    return ModelFileToJSONTyped(json, false);
+}
+
+export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'sourceURI': value['sourceURI'],

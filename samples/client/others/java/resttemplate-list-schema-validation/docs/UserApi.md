@@ -10,7 +10,7 @@ All URIs are relative to *http://api.example.xyz/v1*
 
 ## userGet
 
-> userGet(username)
+> User userGet(username)
 
 
 
@@ -32,7 +32,8 @@ public class Example {
         UserApi apiInstance = new UserApi(defaultClient);
         List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username = Arrays.asList(); // List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> | The name of the user
         try {
-            apiInstance.userGet(username);
+            User result = apiInstance.userGet(username);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#userGet");
             System.err.println("Status code: " + e.getCode());
@@ -53,7 +54,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**User**](User.md)
 
 ### Authorization
 
@@ -62,7 +63,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ### HTTP response details

@@ -12,22 +12,29 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     GetBehaviorPermissionsResponse,
+} from '../models/GetBehaviorPermissionsResponse';
+import {
     GetBehaviorPermissionsResponseRecord,
     getBehaviorPermissionsResponseRecordUtils,
+} from '../models/GetBehaviorPermissionsResponseRecord';
+import {
     GetBehaviorTypeResponse,
+} from '../models/GetBehaviorTypeResponse';
+import {
     GetBehaviorTypeResponseRecord,
     getBehaviorTypeResponseRecordUtils,
+} from '../models/GetBehaviorTypeResponseRecord';
+import {
     BehaviorType,
-} from '../models/index';
+} from '../models/BehaviorType';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_behaviorApi"});
 
@@ -78,7 +85,7 @@ export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehavi
             yield put(getBehaviorPermissionsSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getBehaviorPermissionsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -122,7 +129,7 @@ export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>
             yield put(getBehaviorTypeSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getBehaviorTypeFailure({error, requestPayload: _action_.payload}));
         return error;

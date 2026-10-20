@@ -22,7 +22,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for ClassModel
  */

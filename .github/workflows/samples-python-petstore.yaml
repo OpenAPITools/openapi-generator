@@ -4,10 +4,27 @@ on:
   pull_request:
     paths:
       - samples/openapi3/client/petstore/python-aiohttp/**
+      - samples/openapi3/client/petstore/python-httpx2/**
+      - samples/openapi3/client/petstore/python-httpx2-sync/**
+      - samples/openapi3/client/petstore/python-httpx/**
+      - samples/openapi3/client/petstore/python-httpx-sync/**
       - samples/openapi3/client/petstore/python/**
+      - samples/openapi3/client/petstore/python-lazyImports/**
       - .github/workflows/samples-python-petstore.yaml
 
 jobs:
+  validate-pyproject-toml:
+    name: Validate pyproject.toml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Install validator
+        run: pip install 'validate-pyproject[all]'
+      - name: Validate
+        run: validate-pyproject samples/openapi3/client/petstore/python/pyproject.toml
   build:
     name: Test Python client
     runs-on: ubuntu-latest
@@ -15,14 +32,19 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - "3.7"
-          - "3.8"
-          - "3.9"
-          - "3.10"
           - "3.11"
+          - "3.12"
+          - "3.13"
+          - "3.14"
+          - "3.15"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
+          - samples/openapi3/client/petstore/python-httpx2
+          - samples/openapi3/client/petstore/python-httpx2-sync
+          - samples/openapi3/client/petstore/python-httpx
+          - samples/openapi3/client/petstore/python-httpx-sync
           - samples/openapi3/client/petstore/python
+          - samples/openapi3/client/petstore/python-lazyImports
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -32,14 +54,14 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         id: py
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           key: ${{ runner.os }}-python-${{ steps.py.outputs.python-version }}-
           path: |
@@ -47,10 +69,14 @@ jobs:
             ~/.local/pipx/venvs/poetry/
             .mypy_cache/
 
+      - name: Install via pip
+        working-directory: ${{ matrix.sample }}
+        run: pip install -r requirements.txt
+
       - name: Install poetry
         run: pipx install --python '${{ steps.py.outputs.python-path }}' poetry
 
-      - name: Install
+      - name: Install via poetry
         working-directory: ${{ matrix.sample }}
         run: poetry install
 

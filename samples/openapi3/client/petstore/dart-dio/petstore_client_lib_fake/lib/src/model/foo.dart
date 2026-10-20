@@ -74,8 +74,9 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
         case r'bar':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.bar = valueDes;
           break;
         default:
@@ -106,4 +107,5 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
     return result.build();
   }
 }
+
 

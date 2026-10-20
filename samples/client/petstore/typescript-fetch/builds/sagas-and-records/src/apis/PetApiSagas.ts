@@ -12,34 +12,57 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     Category,
+} from '../models/Category';
+import {
     CategoryRecord,
     categoryRecordUtils,
+} from '../models/CategoryRecord';
+import {
     FindPetsByStatusResponse,
+} from '../models/FindPetsByStatusResponse';
+import {
     FindPetsByStatusResponseRecord,
     findPetsByStatusResponseRecordUtils,
+} from '../models/FindPetsByStatusResponseRecord';
+import {
     FindPetsByUserResponse,
+} from '../models/FindPetsByUserResponse';
+import {
     FindPetsByUserResponseRecord,
     findPetsByUserResponseRecordUtils,
+} from '../models/FindPetsByUserResponseRecord';
+import {
     ModelApiResponse,
+} from '../models/ModelApiResponse';
+import {
     ModelApiResponseRecord,
     modelApiResponseRecordUtils,
+} from '../models/ModelApiResponseRecord';
+import {
     Pet,
+} from '../models/Pet';
+import {
     PetRecord,
     petRecordUtils,
+} from '../models/PetRecord';
+import {
     PetRegionsResponse,
+} from '../models/PetRegionsResponse';
+import {
     PetRegionsResponseRecord,
     petRegionsResponseRecordUtils,
+} from '../models/PetRegionsResponseRecord';
+import {
     UserRecord,
-} from '../models/index';
+} from '../models/UserRecord';
 
 import {
     FindPetsByStatusStatusEnum,
@@ -86,7 +109,7 @@ export function *addPetSaga() {
     yield takeLatest(addPet, addPetSagaImp);
 }
 
-export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
+export function *addPetSagaImp(_action_: Action<PayloadAddPet>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -102,7 +125,7 @@ export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
             yield put(addPetSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(addPetFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -129,7 +152,7 @@ export function *deletePetSaga() {
     yield takeLatest(deletePet, deletePetSagaImp);
 }
 
-export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
+export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -147,7 +170,7 @@ export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
             yield put(deletePetSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(deletePetFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -200,7 +223,7 @@ export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(findPetsByIdsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -253,7 +276,7 @@ export function *findPetsByStatusSagaImp(_action_: Action<PayloadFindPetsByStatu
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(findPetsByStatusFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -306,7 +329,7 @@ export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) 
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(findPetsByTagsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -359,7 +382,7 @@ export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUser
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(findPetsByUserIdsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -412,7 +435,7 @@ export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getPetByIdFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -456,7 +479,7 @@ export function *getPetRegionsSagaImp(_action_: Action<PayloadGetPetRegions>) {
             yield put(getPetRegionsSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getPetRegionsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -482,7 +505,7 @@ export function *updatePetSaga() {
     yield takeLatest(updatePet, updatePetSagaImp);
 }
 
-export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
+export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -498,7 +521,7 @@ export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
             yield put(updatePetSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updatePetFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -545,7 +568,7 @@ export function *updatePetRegionsSagaImp(_action_: Action<PayloadUpdatePetRegion
             yield put(updatePetRegionsSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updatePetRegionsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -573,7 +596,7 @@ export function *updatePetWithFormSaga() {
     yield takeLatest(updatePetWithForm, updatePetWithFormSagaImp);
 }
 
-export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithForm>) {
+export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithForm>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -593,7 +616,7 @@ export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithF
             yield put(updatePetWithFormSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updatePetWithFormFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -652,7 +675,7 @@ export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(uploadFileFailure({error, requestPayload: _action_.payload}));
         return error;

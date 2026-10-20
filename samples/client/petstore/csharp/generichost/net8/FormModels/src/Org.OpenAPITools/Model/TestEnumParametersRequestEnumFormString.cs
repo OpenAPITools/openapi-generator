@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormString testEnumParametersRequestEnumFormString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormString.ToString());
+            writer.WriteStringValue(TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString).ToString());
         }
     }
 
@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersRequestEnumFormString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             TestEnumParametersRequestEnumFormString? result = rawValue == null
@@ -176,14 +179,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TestEnumParametersRequestEnumFormString to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testEnumParametersRequestEnumFormString"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormString? testEnumParametersRequestEnumFormString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormString?.ToString() ?? "null");
+            if (testEnumParametersRequestEnumFormString.HasValue)
+                writer.WriteStringValue(TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

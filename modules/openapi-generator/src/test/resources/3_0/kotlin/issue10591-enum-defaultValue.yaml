@@ -102,3 +102,30 @@ components:
           - CHRISTMAS_DAY
           - BOXING_DAY
       description: The DayType describe during which the assignment applies
+    # Demonstrates bestEffortBacktick: sort/order enum values that contain commas and hyphens
+    # are preserved as backtick-escaped identifiers (e.g. `name,asc`) instead of being mangled.
+    ComplexEnum:
+      type: string
+      enum:
+        # Already valid plain Kotlin identifiers — used as-is
+        - active
+        - inactive
+        # Contain a hyphen — wrapped in backticks: `in-progress`, `not-started`
+        - in-progress
+        - not-started
+        # Contain a comma — typical sort/order values; wrapped in backticks
+        - "name,asc"
+        - "name,desc"
+        - "id,asc"
+        - "id,desc"
+        # Contains a space — wrapped in backticks
+        - "not started"
+        # Kotlin reserved word — wrapped in backticks: `class`
+        - class
+        # Contains a backtick — cannot use backtick escaping, falls back to sanitization: fooBacktickBar
+        - "foo`bar"
+        # starts with $ symbol - no need for backticks
+        - $yolo
+        # emoji
+        - 🎉
+

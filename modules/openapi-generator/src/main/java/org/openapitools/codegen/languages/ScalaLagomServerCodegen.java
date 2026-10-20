@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -30,8 +32,12 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-lagom-server/}.
+ */
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
 
@@ -60,6 +66,10 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
                         ParameterFeature.Cookie
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         outputFolder = "generated-code/scala-lagom-server";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -149,12 +159,12 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     @Override
     public String getName() {
-        return "scala-lagom-server";
+        return "scala-lagom-server-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Lagom API server (Beta) in scala";
+        return "Generates a Lagom API server (Beta) in scala. IMPORTANT: this generator has been deprecated";
     }
 
     @Override
@@ -180,7 +190,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
             for (CodegenProperty var : cm.vars) {
                 if (var.isEnum) {
-                    List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
+                    List<Object> enumValues = getEnumValues(var.allowableValues);
 
                     for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {
                         final String element = String.valueOf(i.next());
@@ -220,6 +230,4 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         }
         return objs;
     }
-
-
 }

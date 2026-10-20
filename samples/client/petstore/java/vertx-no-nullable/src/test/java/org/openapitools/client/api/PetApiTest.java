@@ -19,11 +19,10 @@ import java.util.Set;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -34,6 +33,8 @@ import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.Async;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,24 +43,16 @@ import java.util.Map;
 /**
  * API tests for PetApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class PetApiTest {
 
     private PetApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new PetApiImpl();
     }
-    
+
     /**
      * Add a new pet to the store
      * 
@@ -75,7 +68,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Deletes a pet
      * 
@@ -92,7 +84,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -108,7 +99,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -124,7 +114,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Find pet by ID
      * Returns a single pet
@@ -140,7 +129,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Update an existing pet
      * 
@@ -156,7 +144,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * Updates a pet in the store with form data
      * 
@@ -174,7 +161,6 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
     /**
      * uploads an image
      * 
@@ -186,13 +172,12 @@ public class PetApiTest {
         Async async = testContext.async();
         Long petId = null;
         String additionalMetadata = null;
-        AsyncFile file = null;
-        api.uploadFile(petId, additionalMetadata, file, result -> {
+        AsyncFile _file = null;
+        api.uploadFile(petId, additionalMetadata, _file, result -> {
             // TODO: test validations
             async.complete();
         });
     }
-    
     /**
      * uploads an image (required)
      * 
@@ -210,5 +195,4 @@ public class PetApiTest {
             async.complete();
         });
     }
-    
 }

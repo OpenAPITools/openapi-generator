@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: Quarkus global empty security -- no annotation emitted on any operation
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+security: []
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Inherits the global empty security list -- no annotation
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Same as GET -- inherits the global empty security list
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes: {}

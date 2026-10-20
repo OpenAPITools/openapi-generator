@@ -1,0 +1,11 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/petstore-model-name-prefix
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: petstore-reqwest-model-name-prefix
+  modelNamePrefix: "Foo"
+enumNameMappings:
+  delivered: shipped

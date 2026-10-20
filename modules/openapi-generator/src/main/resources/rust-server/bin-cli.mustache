@@ -1,0 +1,353 @@
+//! CLI tool driving the API client
+use anyhow::{anyhow, Context, Result};
+use clap::Parser;
+{{#apiHasDeleteMethods}}
+use dialoguer::Confirm;
+{{/apiHasDeleteMethods}}
+use log::{debug, info};
+// models may be unused if all inputs are primitive types
+#[allow(unused_imports)]
+use {{{externCrateName}}}::{
+    models, ApiNoContext, Client, ContextWrapperExt,
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+    {{{operationId}}}Response,
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+};
+use simple_logger::SimpleLogger;
+use swagger::{AuthData, ContextBuilder, EmptyContext, Push, XSpanIdString};
+
+type ClientContext = swagger::make_context_ty!(
+    ContextBuilder,
+    EmptyContext,
+    Option<AuthData>,
+    XSpanIdString
+);
+
+{{! See code in RustServerCodegen if you are adding additional short option usage here. }}
+#[derive(Parser, Debug)]
+#[clap(
+    name = "{{appName}}",
+    version = "{{version}}",
+    about = "CLI access to {{appName}}"
+)]
+struct Cli {
+    #[clap(subcommand)]
+    operation: Operation,
+
+    /// Address or hostname of the server hosting this API, including optional port
+    #[clap(short = 'a', long, default_value = "http://localhost")]
+    server_address: String,
+
+    /// Path to the client private key if using client-side TLS authentication
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
+    client_key: Option<String>,
+
+    /// Path to the client's public certificate associated with the private key
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[clap(long, requires_all(&["client_key", "server_certificate"]))]
+    client_certificate: Option<String>,
+
+    /// Path to CA certificate used to authenticate the server
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[clap(long)]
+    server_certificate: Option<String>,
+
+    /// If set, write output to file instead of stdout
+    #[clap(short, long)]
+    output_file: Option<String>,
+
+    #[command(flatten)]
+    verbosity: clap_verbosity_flag::Verbosity,
+{{#apiHasDeleteMethods}}
+
+    /// Don't ask for any confirmation prompts
+    #[allow(dead_code)]
+    #[clap(short, long)]
+    force: bool,
+{{/apiHasDeleteMethods}}
+{{#hasHttpBearerMethods}}
+
+    /// Bearer token if used for authentication
+    #[arg(env = "{{#lambda.uppercase}}{{externCrateName}}{{/lambda.uppercase}}_BEARER_TOKEN", hide_env = true)]
+    bearer_token: Option<String>,
+{{/hasHttpBearerMethods}}
+{{^hasHttpBearerMethods}}
+{{#hasOAuthMethods}}
+
+    /// Bearer token if used for authentication
+    #[arg(env = "{{#lambda.uppercase}}{{externCrateName}}{{/lambda.uppercase}}_BEARER_TOKEN", hide_env = true)]
+    bearer_token: Option<String>,
+{{/hasOAuthMethods}}
+{{/hasHttpBearerMethods}}
+{{#hasApiKeyMethods}}
+
+    /// API key for authentication
+    #[arg(long, env = "{{#lambda.uppercase}}{{externCrateName}}{{/lambda.uppercase}}_API_KEY", hide_env = true)]
+    api_key: Option<String>,
+{{/hasApiKeyMethods}}
+}
+
+#[derive(Parser, Debug)]
+enum Operation {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#summary}}
+    /// {{{summary}}}
+        {{/summary}}
+    {{operationId}} {
+      {{#allParams}}
+        {{#description}}
+        /// {{{description}}}
+        {{/description}}
+        {{^isPrimitiveType}}
+        #[clap(value_parser = parse_json::<{{{dataType}}}>{{#isArray}}, long{{/isArray}})]
+        {{/isPrimitiveType}}
+        {{#isByteArray}}
+        #[clap(value_parser = parse_json::<{{{dataType}}}>)]
+        {{/isByteArray}}
+        {{#isBinary}}
+        #[clap(value_parser = parse_json::<{{{dataType}}}>)]
+        {{/isBinary}}
+        {{#isBoolean}}
+          {{#isPrimitiveType}}
+            {{#exts.x-provide-cli-short-opt}}
+        #[clap(short, long)]
+            {{/exts.x-provide-cli-short-opt}}
+            {{^exts.x-provide-cli-short-opt}}
+        #[clap(long)]
+            {{/exts.x-provide-cli-short-opt}}
+          {{/isPrimitiveType}}
+        {{/isBoolean}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+      {{/allParams}}
+    },
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}
+
+// On Linux/Unix with OpenSSL (client-tls feature), support certificate pinning and mutual TLS
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
+    if args.client_certificate.is_some() {
+        debug!("Using mutual TLS");
+        let client = Client::try_new_https_mutual(
+            &args.server_address,
+            args.server_certificate.clone().unwrap(),
+            args.client_key.clone().unwrap(),
+            args.client_certificate.clone().unwrap(),
+        )
+        .context("Failed to create HTTPS client")?;
+        Ok(Box::new(client.with_context(context)))
+    } else if args.server_certificate.is_some() {
+        debug!("Using TLS with pinned server certificate");
+        let client =
+            Client::try_new_https_pinned(&args.server_address, args.server_certificate.clone().unwrap())
+                .context("Failed to create HTTPS client")?;
+        Ok(Box::new(client.with_context(context)))
+    } else {
+        debug!("Using client without certificates");
+        let client =
+            Client::try_new(&args.server_address).context("Failed to create HTTP(S) client")?;
+        Ok(Box::new(client.with_context(context)))
+    }
+}
+
+// On macOS/Windows/iOS or without client-tls feature, use simple client (no cert pinning/mutual TLS)
+#[cfg(any(
+    not(feature = "client-tls"),
+    all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios"))
+))]
+fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
+    // Client::try_new() automatically detects the URL scheme (http:// or https://)
+    // and creates the appropriate client.
+    // Note: Certificate pinning and mutual TLS are only available on Linux/Unix with OpenSSL
+    let client =
+        Client::try_new(&args.server_address).context("Failed to create HTTP(S) client")?;
+    Ok(Box::new(client.with_context(context)))
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let args = Cli::parse();
+    if let Some(log_level) = args.verbosity.log_level() {
+        SimpleLogger::new().with_level(log_level.to_level_filter()).init()?;
+    }
+
+    debug!("Arguments: {:?}", &args);
+
+{{#hasHttpBearerMethods}}
+    let mut auth_data: Option<AuthData> = None;
+
+    if let Some(ref bearer_token) = args.bearer_token {
+        debug!("Using bearer token");
+        auth_data = AuthData::bearer(bearer_token);
+    }
+{{#hasApiKeyMethods}}
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
+{{/hasHttpBearerMethods}}
+{{^hasHttpBearerMethods}}
+  {{#hasOAuthMethods}}
+    let mut auth_data: Option<AuthData> = None;
+
+    if let Some(ref bearer_token) = args.bearer_token {
+        debug!("Using bearer token");
+        auth_data = AuthData::bearer(bearer_token);
+    }
+{{#hasApiKeyMethods}}
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
+  {{/hasOAuthMethods}}
+{{/hasHttpBearerMethods}}
+{{^hasHttpBearerMethods}}
+  {{^hasOAuthMethods}}
+{{#hasApiKeyMethods}}
+    let mut auth_data: Option<AuthData> = None;
+
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
+{{^hasApiKeyMethods}}
+    let auth_data: Option<AuthData> = None;
+{{/hasApiKeyMethods}}
+  {{/hasOAuthMethods}}
+{{/hasHttpBearerMethods}}
+
+    #[allow(trivial_casts)]
+    let context = swagger::make_context!(
+        ContextBuilder,
+        EmptyContext,
+        auth_data,
+        XSpanIdString::default()
+    );
+
+    let client = create_client(&args, context)?;
+
+    let result = match args.operation {
+      {{#apiInfo}}
+        {{#apis}}
+          {{#operations}}
+            {{#operation}}
+        Operation::{{operationId}} {
+          {{#allParams}}
+            {{paramName}},
+          {{/allParams}}
+        } => {
+          {{#exts.x-is-delete}}
+            prompt(args.force, "This will delete the given entry, are you sure?")?;
+          {{/exts.x-is-delete}}
+            info!("Performing a {{operationId}} request{{^pathParams}}");{{/pathParams}}{{#pathParams}}{{#-first}} on {:?}", ({{/-first}}{{/pathParams}}
+              {{#pathParams}}
+                &{{paramName}}{{^-last}},{{/-last}}
+                {{#-last}}
+            ));
+                {{/-last}}
+              {{/pathParams}}
+
+            let result = client.{{{exts.x-operation-id}}}(
+              {{#allParams}}
+                {{{paramName}}}{{#isArray}}.as_ref(){{/isArray}},
+              {{/allParams}}
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+              {{#responses}}
+                {{{operationId}}}Response::{{{exts.x-response-id}}}
+                {{#dataType}}
+                  {{^hasHeaders}}
+                (body)
+                  {{/hasHeaders}}
+                  {{#hasHeaders}}
+                {
+                    body,
+                  {{/hasHeaders}}
+                {{/dataType}}
+                {{^dataType}}
+                  {{#hasHeaders}}
+                {
+                  {{/hasHeaders}}
+                {{/dataType}}
+                {{#headers}}
+                    {{{name}}},
+                  {{#-last}}
+                }
+                  {{/-last}}
+                {{/headers}}
+                => "{{{exts.x-response-id}}}\n".to_string()
+                  {{#dataType}}
+                   +
+                  {{/dataType}}
+                  {{^dataType}}
+                    {{#hasHeaders}}
+                    +
+                    {{/hasHeaders}}
+                    {{^hasHeaders}}
+                    ,
+                    {{/hasHeaders}}
+                  {{/dataType}}
+                {{#dataType}}
+                  {{^hasHeaders}}
+                    &serde_json::to_string_pretty(&body)?,
+                  {{/hasHeaders}}
+                  {{#hasHeaders}}
+                    &format!("body: {}\n", serde_json::to_string_pretty(&body)?) +
+                  {{/hasHeaders}}
+                {{/dataType}}
+                {{#headers}}
+                    &format!(
+                        "{{{name}}}: {}\n",
+                        serde_json::to_string_pretty(&{{{name}}})?
+                    ){{^-last}} +{{/-last}}{{#-last}},{{/-last}}
+                {{/headers}}
+              {{/responses}}
+            }
+        }
+            {{/operation}}
+          {{/operations}}
+        {{/apis}}
+      {{/apiInfo}}
+    };
+
+    if let Some(output_file) = args.output_file {
+        std::fs::write(output_file, result)?
+    } else {
+        println!("{}", result);
+    }
+    Ok(())
+}
+{{#apiHasDeleteMethods}}
+
+fn prompt(force: bool, text: &str) -> Result<()> {
+    if force || Confirm::new().with_prompt(text).interact()? {
+        Ok(())
+    } else {
+        Err(anyhow!("Aborting"))
+    }
+}
+{{/apiHasDeleteMethods}}
+
+// May be unused if all inputs are primitive types
+#[allow(dead_code)]
+fn parse_json<T: serde::de::DeserializeOwned>(json_string: &str) -> Result<T> {
+    serde_json::from_str(json_string).map_err(|err| anyhow!("Error parsing input: {}", err))
+}

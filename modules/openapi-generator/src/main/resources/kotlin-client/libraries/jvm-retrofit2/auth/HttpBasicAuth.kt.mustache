@@ -8,12 +8,12 @@ import okhttp3.Interceptor.Chain
 import okhttp3.Response
 import okhttp3.Credentials
 
-class HttpBasicAuth(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class HttpBasicAuth(
     private var username: String = "",
     private var password: String = ""
 ) : Interceptor {
 
-    fun setCredentials(username: String, password: String) {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setCredentials(username: String, password: String) {
         this.username = username
         this.password = password
     }

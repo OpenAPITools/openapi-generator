@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Form and body params test
+  version: 1.0.0
+paths:
+  /no-body-no-form:
+    get:
+      operationId: noBodyNoForm
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /body-param:
+    post:
+      operationId: bodyParam
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      responses:
+        '200':
+          description: OK
+  /form-param:
+    post:
+      operationId: formParam
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                count:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string

@@ -1,4 +1,5 @@
 {{#description}}
     /* {{{.}}} */
 {{/description}}
-    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+    {{! Note that required properties may be nullable according to the OpenAPI specification. }}
+    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}

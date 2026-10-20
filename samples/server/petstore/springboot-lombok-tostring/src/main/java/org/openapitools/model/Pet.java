@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -30,24 +32,29 @@ import jakarta.annotation.Generated;
 @lombok.EqualsAndHashCode
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
-  private Category category;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -55,7 +62,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -82,8 +89,9 @@ public class Pet {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   public Pet() {
     super();
@@ -97,13 +105,13 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -143,7 +151,7 @@ public class Pet {
   }
 
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }

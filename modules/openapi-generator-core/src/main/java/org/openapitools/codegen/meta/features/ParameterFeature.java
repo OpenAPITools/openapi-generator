@@ -45,7 +45,7 @@ public enum ParameterFeature {
      * Supports body parameters.
      *
      * <p>
-     *     OAS 3.x specification supports this structurally rather than as an "in" parameter.
+     * OAS 3.x specification supports this structurally rather than as an "in" parameter.
      * </p>
      */
     @OAS2
@@ -53,7 +53,7 @@ public enum ParameterFeature {
 
     /**
      * Supports form encoded parameters.
-     *
+     * <p>
      * OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
      */
     @OAS2

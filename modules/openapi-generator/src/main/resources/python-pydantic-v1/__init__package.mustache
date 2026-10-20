@@ -4,29 +4,47 @@
 
 {{>partial_header}}
 
+
 __version__ = "{{packageVersion}}"
 
+# Define package exports
+__all__ = [
+    {{#apiInfo}}{{#apis}}"{{classname}}",
+    {{/apis}}{{/apiInfo}}"ApiResponse",
+    "ApiClient",
+    "Configuration",
+    "OpenApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
+    "ApiException",
+    {{#hasHttpSignatureMethods}}"HttpSigningConfiguration",
+    {{/hasHttpSignatureMethods}}{{#models}}{{#model}}"{{classname}}"{{^-last}},
+    {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
+]
+
 # import apis into sdk package
-{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}}
+{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}} as {{classname}}
 {{/apis}}{{/apiInfo}}
 # import ApiClient
-from {{packageName}}.api_response import ApiResponse
-from {{packageName}}.api_client import ApiClient
-from {{packageName}}.configuration import Configuration
-from {{packageName}}.exceptions import OpenApiException
-from {{packageName}}.exceptions import ApiTypeError
-from {{packageName}}.exceptions import ApiValueError
-from {{packageName}}.exceptions import ApiKeyError
-from {{packageName}}.exceptions import ApiAttributeError
-from {{packageName}}.exceptions import ApiException
+from {{packageName}}.api_response import ApiResponse as ApiResponse
+from {{packageName}}.api_client import ApiClient as ApiClient
+from {{packageName}}.configuration import Configuration as Configuration
+from {{packageName}}.exceptions import OpenApiException as OpenApiException
+from {{packageName}}.exceptions import ApiTypeError as ApiTypeError
+from {{packageName}}.exceptions import ApiValueError as ApiValueError
+from {{packageName}}.exceptions import ApiKeyError as ApiKeyError
+from {{packageName}}.exceptions import ApiAttributeError as ApiAttributeError
+from {{packageName}}.exceptions import ApiException as ApiException
 {{#hasHttpSignatureMethods}}
-from {{packageName}}.signing import HttpSigningConfiguration
+from {{packageName}}.signing import HttpSigningConfiguration as HttpSigningConfiguration
 {{/hasHttpSignatureMethods}}
 
 # import models into sdk package
 {{#models}}
 {{#model}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}
+from {{modelPackage}}.{{classFilename}} import {{classname}} as {{classname}}
 {{/model}}
 {{/models}}
 {{#recursionLimit}}

@@ -7,13 +7,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -35,6 +38,50 @@ public class JSONTest {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
         order = new Order();
+    }
+
+    @Test
+    public void testAdditionalPropertiesRoundTripOnAllOfChild() {
+        Gson gson = json.getGson();
+
+        // Dog extends Animal and both allow additional properties; gson used to refuse Dog outright
+        Dog dog = gson.fromJson("{\"className\":\"Dog\",\"breed\":\"b\",\"extra\":\"e\"}", Dog.class);
+        assertEquals(Collections.singletonMap("extra", "e"), dog.getAdditionalProperties());
+        assertEquals("e", gson.toJsonTree(dog).getAsJsonObject().get("extra").getAsString());
+    }
+
+    @Test
+    public void testAnyOfWithNullableRequiredFields() {
+        Gson gson = json.getGson();
+
+        // Test: anyOf response with nullable required fields set to null should deserialize
+        // This reproduces the bug where Record<string, { before: string | null, after: string | null }>
+        // fails anyOf matching when field values are null.
+        String jsonStr = "{\"status\":\"success\",\"positions\":{\"comment1\":{\"before\":null,\"after\":\"3\"},\"comment2\":{\"before\":\"1\",\"after\":null}}}";
+        NullableFieldsMapResponse response = gson.fromJson(jsonStr, NullableFieldsMapResponse.class);
+        assertNotNull(response);
+        NullableFieldsMapSuccess success = response.getNullableFieldsMapSuccess();
+        assertNotNull(success);
+        assertEquals("success", success.getStatus());
+        assertNotNull(success.getPositions());
+        assertNull(success.getPositions().get("comment1").getBefore());
+        assertEquals("3", success.getPositions().get("comment1").getAfter());
+        assertEquals("1", success.getPositions().get("comment2").getBefore());
+        assertNull(success.getPositions().get("comment2").getAfter());
+    }
+
+    @Test
+    public void testAnyOfWithNullableRequiredFieldsBothNull() {
+        Gson gson = json.getGson();
+
+        // Both nullable fields are null
+        String jsonStr = "{\"status\":\"success\",\"positions\":{\"comment1\":{\"before\":null,\"after\":null}}}";
+        NullableFieldsMapResponse response = gson.fromJson(jsonStr, NullableFieldsMapResponse.class);
+        assertNotNull(response);
+        NullableFieldsMapSuccess success = response.getNullableFieldsMapSuccess();
+        assertNotNull(success);
+        assertNull(success.getPositions().get("comment1").getBefore());
+        assertNull(success.getPositions().get("comment1").getAfter());
     }
 
     @Test
@@ -160,6 +207,39 @@ public class JSONTest {
     }
 
     @Test
+    public void testLocalDateTimeTypeAdapter() {
+        final String str = "\"2016-09-09T08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(str, json.serialize(date));
+        assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        assertNull(json.deserialize("null", LocalDateTime.class));
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapterWithSpaceSeparator() {
+        // RFC 3339 section 5.6 permits a space in place of the ISO 8601 'T' separator
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(json.deserialize("\"2016-09-09 08:02:03\"", LocalDateTime.class), date);
+        assertEquals("\"2016-09-09T08:02:03\"", json.serialize(date));
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapterWithCustomFormat() {
+        final String str = "\"2016-09-09 08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        JSON.setLocalDateTimeFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        try {
+            assertEquals(str, json.serialize(date));
+            assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        } finally {
+            JSON.setLocalDateTimeFormat(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+    }
+
+    @Test
     public void testDefaultDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
@@ -274,13 +354,13 @@ public class JSONTest {
         assertEquals(t2.getName(), "tag test 1");
         assertEquals(t2.getId(), null);
 
-        // with all required fields 
+        // with all required fields
         String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
         Pet t3 = gson.fromJson(json3, Pet.class);
         assertEquals(t3.getName(), "pet test 1");
         assertEquals(t3.getId(), Long.valueOf(5847));
 
-        // with all required fields and tags (optional) 
+        // with all required fields and tags (optional)
         String json4 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"id\":\"tag 123\"}]}";
         Pet t4 = gson.fromJson(json3, Pet.class);
         assertEquals(t4.getName(), "pet test 1");
@@ -460,6 +540,59 @@ public class JSONTest {
             });
             //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}", exception.getMessage());
             assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
+        }
+    }
+
+    /**
+     * Validate an anyOf schema can be deserialized into the expected class.
+     * The anyOf schema has a discriminator.
+     */
+    @Test
+    public void testAnyOfSchemaWithDiscriminator() throws Exception {
+        {
+            // Zebra is listed after Whale in anyOf, and a zebra payload also satisfies Whale
+            // (className is Whale's only required field), so without the discriminator lookup
+            // this deserializes as Whale.
+            String str = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra inst = (Zebra) o.getActualInstance();
+            assertEquals(inst.getClassName(), "zebra");
+            assertEquals(inst.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(o.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+        }
+        {
+            String str = "{ \"className\": \"whale\", \"hasBaleen\": false, \"hasTeeth\": false }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "whale");
+            assertEquals(inst.getHasBaleen(), false);
+            assertEquals(inst.getHasTeeth(), false);
+            assertEquals(inst.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(json.getGson().toJson(o), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(o.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+        }
+        {
+            // an unmapped discriminator value falls back to matching the anyOf schemas in order
+            String str = "{ \"className\": \"dolphin\", \"hasBaleen\": true }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "dolphin");
+            assertEquals(inst.getHasBaleen(), true);
+        }
+        {
+            // Try to deserialize empty object. This should fail 'anyOf' because none will match
+            // whale, zebra or Pig.
+            String str = "{ }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                json.getGson().fromJson(str, MammalAnyof.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for MammalAnyof"));
         }
     }
 
@@ -670,5 +803,22 @@ public class JSONTest {
             });
             assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
         }
+    }
+
+    @Test
+    public void testRequiredNullableBody() throws Exception {
+        final String json1 = "{\"integer_prop\":null,\"number_prop\":null,\"boolean_prop\":null,\"string_prop\":null,\"date_prop\":null,\"datetime_prop\":null,\"array_nullable_prop\":null,\"array_and_items_nullable_prop\":null,\"array_items_nullable\":[],\"object_nullable_prop\":null,\"object_and_items_nullable_prop\":null,\"object_items_nullable\":{},\"custom_ref_enum\":null,\"custom_enum\":null}";
+        final RequiredNullableBody body = new RequiredNullableBody();
+
+        assertEquals("{\"array_items_nullable\":[],\"object_items_nullable\":{}}", json.serialize(body));
+        assertEquals(json.deserialize(json1, RequiredNullableBody.class), body);
+    }
+
+    @Test
+    public void testDeserializeInputStream() throws Exception {
+        final String str = "\"2016-09-09\"";
+        final InputStream inputStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
+        final LocalDate date = LocalDate.of(2016, 9, 9);
+        assertEquals(date, json.deserialize(inputStream, LocalDate.class));
     }
 }

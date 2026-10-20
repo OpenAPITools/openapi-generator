@@ -36,6 +36,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -44,7 +45,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -56,24 +56,27 @@ import org.openapitools.client.JSON;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
+  @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
+  @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
+  @javax.annotation.Nullable
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -87,12 +90,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -106,12 +109,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
     return this;
   }
@@ -133,7 +136,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
 
@@ -174,10 +177,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -211,13 +211,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("uuid");
-    openapiFields.add("dateTime");
-    openapiFields.add("map");
+    openapiFields = new HashSet<String>(Arrays.asList("uuid", "dateTime", "map"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -229,7 +226,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
 
@@ -237,12 +234,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `MixedPropertiesAndAdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `MixedPropertiesAndAdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
   }
 

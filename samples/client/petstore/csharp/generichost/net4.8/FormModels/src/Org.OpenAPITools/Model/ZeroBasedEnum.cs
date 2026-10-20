@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnum zeroBasedEnum, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zeroBasedEnum.ToString());
+            writer.WriteStringValue(ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum).ToString());
         }
     }
 
@@ -148,6 +148,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override ZeroBasedEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             ZeroBasedEnum? result = rawValue == null
@@ -161,14 +164,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the ZeroBasedEnum to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="zeroBasedEnum"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnum? zeroBasedEnum, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zeroBasedEnum?.ToString() ?? "null");
+            if (zeroBasedEnum.HasValue)
+                writer.WriteStringValue(ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

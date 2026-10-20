@@ -14,38 +14,38 @@
  * limitations under the License.
  */
 
- package org.openapitools.codegen.templating.mustache;
+package org.openapitools.codegen.templating.mustache;
 
- import com.samskivert.mustache.Mustache;
- import com.samskivert.mustache.Template;
- import org.openapitools.codegen.utils.CamelizeOption;
- 
- import java.io.IOException;
- import java.io.Writer;
- 
- import static org.openapitools.codegen.utils.StringUtils.camelize;
- 
- /**
-  * Converts text in a fragment to camelCase.
-  *
-  * Register:
-  * <pre>
-  * additionalProperties.put("camelcase", new CamelCaseLambda());
-  * </pre>
-  *
-  * Use:
-  * <pre>
-  * {{#camelcase}}{{name}}{{/camelcase}}
-  * </pre>
-  */
- public class CamelCaseLambda implements Mustache.Lambda {
-     public CamelCaseLambda() {
-     }
- 
-     @Override
-     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-         String text = fragment.execute();
-         text = camelize(text, CamelizeOption.LOWERCASE_FIRST_CHAR);
-         writer.write(text);
-     }
- }
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import org.openapitools.codegen.utils.CamelizeOption;
+
+import java.io.IOException;
+import java.io.Writer;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+/**
+ * Converts text in a fragment to camelCase.
+ * <p>
+ * Register:
+ * <pre>
+ * additionalProperties.put("camelcase", new CamelCaseLambda());
+ * </pre>
+ * <p>
+ * Use:
+ * <pre>
+ * {{#camelcase}}{{name}}{{/camelcase}}
+ * </pre>
+ */
+public class CamelCaseLambda implements Mustache.Lambda {
+    public CamelCaseLambda() {
+    }
+
+    @Override
+    public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+        String text = fragment.execute();
+        text = camelize(text, CamelizeOption.LOWERCASE_FIRST_CHAR);
+        writer.write(text);
+    }
+}

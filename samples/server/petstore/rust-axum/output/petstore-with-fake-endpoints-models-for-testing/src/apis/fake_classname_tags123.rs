@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -18,15 +19,18 @@ pub enum TestClassnameResponse {
 /// FakeClassnameTags123
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait FakeClassnameTags123 {
+pub trait FakeClassnameTags123<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     /// To test class name in snake case.
     ///
     /// TestClassname - PATCH /v2/fake_classname_test
     async fn test_classname(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: models::Client,
-    ) -> Result<TestClassnameResponse, String>;
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::Client,
+    ) -> Result<TestClassnameResponse, E>;
 }

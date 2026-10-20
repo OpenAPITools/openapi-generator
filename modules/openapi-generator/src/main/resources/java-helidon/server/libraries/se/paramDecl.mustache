@@ -1,0 +1,10 @@
+{{!
+    Declares a parameter, including the correct datatype and parameter name. Suitable for declaring a variable or
+    method parameter.
+}}{{#x-helidon-v3}}{{>dataType}} {{paramName}}{{/x-helidon-v3}}{{!
+
+}}{{^x-helidon-v3}}{{^isBodyParam}}{{!
+    }}{{> paramDeclType }} {{paramName}}{{!
+}}{{/isBodyParam}}{{#isBodyParam}}{{!
+    }}{{> bodyParamDecl }}{{/isBodyParam}}{{!
+}}{{/x-helidon-v3}}

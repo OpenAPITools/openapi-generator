@@ -17,6 +17,7 @@
 package org.openapitools.codegen.api;
 
 // TODO: 6.0 Remove
+
 /**
  * interface to the full template content
  * implementers might take into account the -t cli option,

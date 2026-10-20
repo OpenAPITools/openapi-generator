@@ -24,7 +24,10 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -38,6 +41,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/clojure/}.
+ */
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ClojureClientCodegen.class);
     private static final String PROJECT_NAME = "projectName";
@@ -400,5 +406,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CLOJURE; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.CLOJURE;
+    }
 }

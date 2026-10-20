@@ -23,11 +23,13 @@ import {{rootJavaEEPackage}}.validation.Valid;{{/useBeanValidation}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
+
 public {{^useAbstractClass}}interface{{/useAbstractClass}}{{#useAbstractClass}}abstract class{{/useAbstractClass}} {{classname}} {
 {{#operations}}
 {{#operation}}
 
 {{>apiAbstract}}
+
 {{/operation}}
 }
 {{/operations}}

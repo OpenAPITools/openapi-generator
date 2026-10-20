@@ -18,6 +18,7 @@ import {
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
+    ItemIdToJSONTyped,
 } from './ItemId';
 
 /**
@@ -28,26 +29,18 @@ import {
 export interface ModelError {
     /**
      * Usually contains the simple name of the exception
-     * @type {string}
-     * @memberof ModelError
      */
     type: string;
     /**
      * 
-     * @type {ItemId}
-     * @memberof ModelError
      */
     itemInfo?: ItemId;
     /**
      * Simple explanation of the error
-     * @type {string}
-     * @memberof ModelError
      */
     details?: string;
     /**
      * Message of the exception that will help developer to debug this problem if needed
-     * @type {string}
-     * @memberof ModelError
      */
     exception?: string;
 }
@@ -77,10 +70,15 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ModelErrorToJSON(value?: ModelError | null): any {
+export function ModelErrorToJSON(json: any): ModelError {
+    return ModelErrorToJSONTyped(json, false);
+}
+
+export function ModelErrorToJSONTyped(value?: ModelError | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

@@ -12,13 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Name  implements Serializable {
   private Integer name;
   private Integer snakeCase;
@@ -35,6 +36,13 @@ public class Name  implements Serializable {
   public Name() {
   }
 
+  @JsonCreator
+  public Name(
+    @JsonProperty(required = true, value = "name") Integer name
+  ) {
+    this.name = name;
+  }
+
   /**
    **/
   public Name name(Integer name) {
@@ -44,12 +52,12 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public Integer getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -150,10 +158,7 @@ public class Name  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -161,7 +166,7 @@ public class Name  implements Serializable {
     return new NameBuilderImpl();
   }
 
-  private static class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
+  private static final class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
 
     @Override
     protected NameBuilderImpl self() {
@@ -201,4 +206,3 @@ public class Name  implements Serializable {
     }
   }
 }
-

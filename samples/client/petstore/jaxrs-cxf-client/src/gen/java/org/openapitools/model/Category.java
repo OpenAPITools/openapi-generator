@@ -1,22 +1,24 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A category for a pet
- **/
+ * A category for a pet
+ */
 @ApiModel(description="A category for a pet")
 
 public class Category  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get id
@@ -88,10 +90,7 @@ public class Category  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

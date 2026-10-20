@@ -20,65 +20,50 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** CategoryData a data transfer object, primarily for simple json serialisation.
+
+        /** CategoryData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class CategoryData(
   id: Long = 0 ,
+  name: String = "" 
+  
 
-    name: String = "" 
+) derives RW {
 
-  ) {
+  def asJsonString: String = asJson.toString()
 
-  def asJson: String = write(this)
-
-  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // name
-        // validate against pattern '^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$'
-        if (errors.isEmpty || !failFast) {
-           val regex = """^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"""
-           if name == null || !regex.r.matches(name) then
-              errors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
-        }
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-    errors.toSeq
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
   }
 
+  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
+        // ================== id validation ==================
+        
+        
+        
+        
+
+        // ================== name validation ==================
+        // validate against pattern '^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$'
+        if (_allValidationErrors.isEmpty || !failFast) {
+           val regex = """^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"""
+           if name == null || !regex.r.matches(name) then
+              _allValidationErrors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
+        }
+        
+        
+        
+        
+
+    _allValidationErrors.toSeq
+  }
+
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Category] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -89,27 +74,32 @@ case class CategoryData(
   /** use 'validated' to check validation */
   def asModel : Category = {
     Category(
-        id = Option(
-        id
-        )
-        ,
-        name = Option(
-        name
-        )
-        
+        id = Option(id) /* 1 */,
+        name = Option(name) /* 1 */
+    
     )
   }
 }
 
 object CategoryData {
 
-  given readWriter : RW[CategoryData] = macroRW
+  def validated(d8a : CategoryData, failFast : Boolean) : scala.util.Try[Category] = d8a.validated(failFast)
 
-  def fromJsonString(jason : String) : CategoryData = try {
-        read[CategoryData](jason)
-     } catch {
+  def fromJson(jason : ujson.Value) : CategoryData = try {
+        val data = read[CategoryData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating CategoryData from json '$jason': $e")
+  }
+
+  def fromJsonString(jason : String) : CategoryData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[CategoryData] = try {
         read[List[CategoryData]](jason)

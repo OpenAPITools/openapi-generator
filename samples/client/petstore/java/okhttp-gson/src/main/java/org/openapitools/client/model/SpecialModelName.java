@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +49,22 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
+  @javax.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String SERIALIZED_NAME_SPECIAL_MODEL_NAME = "_special_model.name_";
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
+  @javax.annotation.Nullable
   private String specialModelName;
 
   public SpecialModelName() {
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -76,12 +78,12 @@ public class SpecialModelName {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
-  public SpecialModelName specialModelName(String specialModelName) {
+  public SpecialModelName specialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
     return this;
   }
@@ -95,7 +97,7 @@ public class SpecialModelName {
     return specialModelName;
   }
 
-  public void setSpecialModelName(String specialModelName) {
+  public void setSpecialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }
 
@@ -180,10 +182,7 @@ public class SpecialModelName {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -192,12 +191,10 @@ public class SpecialModelName {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("$special[property.name]");
-    openapiFields.add("_special_model.name_");
+    openapiFields = new HashSet<String>(Arrays.asList("$special[property.name]", "_special_model.name_"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -209,12 +206,12 @@ public class SpecialModelName {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonNull()) && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `_special_model.name_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_special_model.name_").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `_special_model.name_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_special_model.name_").toString()));
       }
   }
 
@@ -247,7 +244,9 @@ public class SpecialModelName {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -275,7 +274,7 @@ public class SpecialModelName {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

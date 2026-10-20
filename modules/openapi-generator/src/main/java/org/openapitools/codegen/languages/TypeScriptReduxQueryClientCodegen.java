@@ -29,10 +29,15 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-redux-query/}.
+ */
 public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -44,7 +49,6 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     private boolean useSingleRequestParameter = true;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
-
 
     public TypeScriptReduxQueryClientCodegen() {
         super();
@@ -60,7 +64,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         outputFolder = "generated-code/typescript-redux-query";
         embeddedTemplateDir = templateDir = "typescript-redux-query";
 
-        this.apiPackage = "src" + File.separator +"apis";
+        this.apiPackage = "src" + File.separator + "apis";
         this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
@@ -146,13 +150,14 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             }
             if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<>();
-                for (String im : cm.imports) {
-                    if (cm.oneOf.contains(im)) {
-                        oneOfRefs.add(im);
-                    }
+                TreeSet<String> oneOfRefs = new TreeSet<>(cm.oneOf);
+                List<CodegenProperty> oneOfProperties = Optional.ofNullable(cm.getComposedSchemas())
+                        .map(CodegenComposedSchemas::getOneOf)
+                        .orElse(Collections.emptyList());
+                for (CodegenProperty oneOfProperty : oneOfProperties) {
+                    oneOfRefs.addAll(oneOfProperty.getImports(false, true, generatorMetadata.getFeatureSet()));
                 }
-                cm.imports = oneOfRefs;
+                cm.imports.retainAll(oneOfRefs);
             }
         }
 
@@ -241,7 +246,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
         for (CodegenOperation op : operations.getOperations().getOperation()) {
-            if("object".equals(op.returnType)) {
+            if ("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
             }
@@ -282,5 +287,10 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

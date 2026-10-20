@@ -24,6 +24,7 @@ interface QueryApi {
     }
 
     /**
+     * GET query/enum_ref_string
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:
@@ -37,6 +38,7 @@ interface QueryApi {
     suspend fun testEnumRefString(@Query("enum_nonref_string_query") enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, @Query("enum_ref_string_query") enumRefStringQuery: ApiStringEnumRef? = null): Response<kotlin.String>
 
     /**
+     * GET query/datetime/date/string
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:
@@ -51,6 +53,7 @@ interface QueryApi {
     suspend fun testQueryDatetimeDateString(@Query("datetime_query") datetimeQuery: java.time.OffsetDateTime? = null, @Query("date_query") dateQuery: java.time.LocalDate? = null, @Query("string_query") stringQuery: kotlin.String? = null): Response<kotlin.String>
 
     /**
+     * GET query/integer/boolean/string
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:
@@ -65,6 +68,7 @@ interface QueryApi {
     suspend fun testQueryIntegerBooleanString(@Query("integer_query") integerQuery: kotlin.Int? = null, @Query("boolean_query") booleanQuery: kotlin.Boolean? = null, @Query("string_query") stringQuery: kotlin.String? = null): Response<kotlin.String>
 
     /**
+     * GET query/style_deepObject/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:
@@ -77,6 +81,7 @@ interface QueryApi {
     suspend fun testQueryStyleDeepObjectExplodeTrueObject(@Query("query_object") queryObject: ApiPet? = null): Response<kotlin.String>
 
     /**
+     * GET query/style_form/explode_true/array_string
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:
@@ -89,6 +94,7 @@ interface QueryApi {
     suspend fun testQueryStyleFormExplodeTrueArrayString(@Query("values") values: kotlin.collections.List<kotlin.String>? = null): Response<kotlin.String>
 
     /**
+     * GET query/style_form/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * Responses:

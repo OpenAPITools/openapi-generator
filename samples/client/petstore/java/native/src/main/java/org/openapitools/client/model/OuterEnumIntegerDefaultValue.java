@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -73,7 +75,7 @@ public enum OuterEnumIntegerDefaultValue {
       prefix = "";
     }
 
-    return String.format("%s=%s", prefix, this.toString());
+    return String.format(java.util.Locale.ROOT, "%s=%s", prefix, this.toString());
   }
 
 }

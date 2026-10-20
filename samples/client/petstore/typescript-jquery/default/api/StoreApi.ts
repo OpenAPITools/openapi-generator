@@ -55,7 +55,7 @@ export class StoreApi {
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{orderId}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -177,7 +177,7 @@ export class StoreApi {
     { response: JQueryXHR; body: models.Order;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{orderId}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};

@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -24,11 +24,12 @@ import java.util.Set;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+
 
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 /**
  * OpenAPI Petstore
@@ -120,7 +121,7 @@ public interface PetApi  {
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws ApiException, ProcessingException;
+    void updatePetWithForm(@PathParam("petId") Long petId, @FormParam("name")  String name, @FormParam("status")  String status) throws ApiException, ProcessingException;
 
     /**
      * uploads an image
@@ -132,5 +133,5 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") File _fileDetail) throws ApiException, ProcessingException;
 }

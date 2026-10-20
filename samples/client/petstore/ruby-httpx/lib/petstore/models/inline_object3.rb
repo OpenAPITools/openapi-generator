@@ -251,7 +251,7 @@ module Petstore
       end
 
       if !@password.nil? && @password.to_s.length < 10
-        invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
+        invalid_properties.push('invalid value for "password", the character length must be greater than or equal to 10.')
       end
 
       invalid_properties
@@ -388,7 +388,7 @@ module Petstore
       end
 
       if !password.nil? && password.to_s.length < 10
-        fail ArgumentError, 'invalid value for "password", the character length must be great than or equal to 10.'
+        fail ArgumentError, 'invalid value for "password", the character length must be greater than or equal to 10.'
       end
 
       @password = password

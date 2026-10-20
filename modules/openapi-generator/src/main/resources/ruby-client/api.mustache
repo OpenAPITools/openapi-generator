@@ -1,5 +1,6 @@
 =begin
 {{> api_info}}
+
 =end
 
 require 'cgi'
@@ -131,7 +132,7 @@ module {{moduleName}}
       {{/maxLength}}
       {{#minLength}}
       if @api_client.config.client_side_validation && {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.to_s.length < {{{minLength}}}
-        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.'
+        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, the character length must be greater than or equal to {{{minLength}}}.'
       end
 
       {{/minLength}}
@@ -169,18 +170,60 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
       query_params = opts[:query_params] || {}
       {{#queryParams}}
       {{#required}}
+      {{#queryIsJsonMimeType}}
+      query_params[:'{{{baseName}}}'] = {{{paramName}}}.to_json
+      {{/queryIsJsonMimeType}}
+      {{^queryIsJsonMimeType}}
+      {{#isMap}}
+      {{#isExplode}}
+      {{^isDeepObject}}
+      # form style, explode: one query parameter per entry, keyed by the property name; nil is left out
+      {{{paramName}}}.compact.each { |name, value| query_params[name.to_s] = value }
+      {{/isDeepObject}}
+      {{#isDeepObject}}
+      query_params[:'{{{baseName}}}'] = {{{paramName}}}
+      {{/isDeepObject}}
+      {{/isExplode}}
+      {{^isExplode}}
+      query_params[:'{{{baseName}}}'] = {{{paramName}}}
+      {{/isExplode}}
+      {{/isMap}}
+      {{^isMap}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      {{/isMap}}
+      {{/queryIsJsonMimeType}}
       {{/required}}
       {{/queryParams}}
       {{#queryParams}}
       {{^required}}
+      {{#queryIsJsonMimeType}}
+      query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'].to_json if !opts[:'{{{paramName}}}'].nil?
+      {{/queryIsJsonMimeType}}
+      {{^queryIsJsonMimeType}}
+      {{#isMap}}
+      {{#isExplode}}
+      {{^isDeepObject}}
+      # form style, explode: one query parameter per entry, keyed by the property name; nil is left out
+      opts[:'{{{paramName}}}'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'{{{paramName}}}'].nil?
+      {{/isDeepObject}}
+      {{#isDeepObject}}
+      query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if !opts[:'{{{paramName}}}'].nil?
+      {{/isDeepObject}}
+      {{/isExplode}}
+      {{^isExplode}}
+      query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if !opts[:'{{{paramName}}}'].nil?
+      {{/isExplode}}
+      {{/isMap}}
+      {{^isMap}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{{paramName}}}'].nil?
+      {{/isMap}}
+      {{/queryIsJsonMimeType}}
       {{/required}}
       {{/queryParams}}
 
@@ -188,7 +231,7 @@ module {{moduleName}}
       header_params = opts[:header_params] || {}
       {{#hasProduces}}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])
+      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}]) unless header_params['Accept']
       {{/hasProduces}}
       {{#hasConsumes}}
       # HTTP header 'Content-Type'

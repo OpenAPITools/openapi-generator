@@ -46,6 +46,7 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
 }
 
   @ApiModelProperty(value = "")
+
   private KindEnum kind;
  /**
    * Get kind
@@ -101,10 +102,7 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

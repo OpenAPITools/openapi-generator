@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -18,15 +19,18 @@ pub enum TestSpecialTagsResponse {
 /// AnotherFake
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait AnotherFake {
+pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     /// To test special tags.
     ///
     /// TestSpecialTags - PATCH /v2/another-fake/dummy
     async fn test_special_tags(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: models::Client,
-    ) -> Result<TestSpecialTagsResponse, String>;
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::Client,
+    ) -> Result<TestSpecialTagsResponse, E>;
 }

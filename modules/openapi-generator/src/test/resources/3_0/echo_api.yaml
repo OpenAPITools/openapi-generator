@@ -466,6 +466,35 @@ paths:
             text/plain:
               schema:
                 type: string
+  /query/style_jsonSerialization/object:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_jsonSerialization/object
+      parameters:
+        - in: query
+          name: json_serialized_object_ref_string_query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        - in: query
+          name: json_serialized_object_array_ref_string_query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # body parameter tests
   /body/application/octetstream/binary:
     post:

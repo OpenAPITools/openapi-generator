@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -13,20 +11,132 @@
 
 
 import copy
+import http.client as httplib
 import logging
 from logging import FileHandler
 import multiprocessing
+import ssl
 import sys
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
+from urllib.parse import urlparse
+from urllib.request import getproxies
+from typing_extensions import NotRequired, Self
+
 import urllib3
 
-import http.client as httplib
+from petstore_api.signing import HttpSigningConfiguration
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'multipleOf', 'maximum', 'exclusiveMaximum',
     'minimum', 'exclusiveMinimum', 'maxLength',
     'minLength', 'pattern', 'maxItems', 'minItems'
 }
+
+ServerVariablesT = Dict[str, str]
+
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
+    {
+        "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
+        "in": str,
+        "key": str,
+        "value": Optional[str],
+    },
+)
+
+
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": Optional[str],
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
+
+
+AuthSettings = TypedDict(
+    "AuthSettings",
+    {
+        "petstore_auth": OAuth2AuthSetting,
+        "api_key": APIKeyAuthSetting,
+        "api_key_query": APIKeyAuthSetting,
+        "http_basic_test": BasicAuthSetting,
+        "bearer_test": BearerFormatAuthSetting,
+        "http_signature_test": HTTPSignatureAuthSetting,
+    },
+    total=False,
+)
+
+
+class HostSettingVariable(TypedDict):
+    description: str
+    default_value: str
+    enum_values: List[str]
+
+
+class HostSetting(TypedDict):
+    url: str
+    description: str
+    variables: NotRequired[Dict[str, HostSettingVariable]]
+
 
 class Configuration:
     """This class contains various settings of the API client.
@@ -57,9 +167,27 @@ class Configuration:
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum
       values before.
+    :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
+      when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: Number of retries for API requests.
+    :param retries: int | urllib3.util.retry.Retry - Retry configuration.
+    :param ca_cert_data: verify the peer using concatenated CA certificate data
+      in PEM (str) or DER (bytes) format.
+    :param cert_file: the path to a client certificate file, for mTLS.
+    :param key_file: the path to a client key file, for mTLS.
+    :param assert_hostname: Set this to True/False to enable/disable SSL hostname verification.
+    :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
+    :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
+    :param proxy: Proxy URL.
+    :param no_proxy: Comma-separated hosts that bypass the proxy.
+    :param proxy_headers: Proxy headers.
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
+    :param safe_chars_for_path_param: Safe characters for path parameter encoding.
+    :param client_side_validation: Enable client-side validation. Default True.
+    :param socket_options: Options to pass down to the underlying urllib3 socket.
+    :param datetime_format: Datetime format string for serialization.
+    :param date_format: Date format string for serialization.
 
     :Example:
 
@@ -138,21 +266,43 @@ conf = petstore_api.Configuration(
 )
     """
 
-    _default = None
+    _default: ClassVar[Optional[Self]] = None
 
-    def __init__(self, host=None,
-                 api_key=None, api_key_prefix=None,
-                 username=None, password=None,
-                 access_token=None,
-                 signing_info=None,
-                 server_index=None, server_variables=None,
-                 server_operation_index=None, server_operation_variables=None,
-                 ignore_operation_servers=False,
-                 ssl_ca_cert=None,
-                 retries=None,
-                 *,
-                 debug: Optional[bool] = None
-                 ) -> None:
+    def __init__(
+        self,
+        host: Optional[str]=None,
+        api_key: Optional[Dict[str, str]]=None,
+        api_key_prefix: Optional[Dict[str, str]]=None,
+        username: Optional[str]=None,
+        password: Optional[str]=None,
+        access_token: Optional[str]=None,
+        signing_info: Optional[HttpSigningConfiguration]=None,
+        server_index: Optional[int]=None,
+        server_variables: Optional[ServerVariablesT]=None,
+        server_operation_index: Optional[Dict[int, int]]=None,
+        server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
+        ignore_operation_servers: bool=False,
+        ssl_ca_cert: Optional[str]=None,
+        retries: Optional[Union[int, urllib3.util.retry.Retry]] = None,
+        ca_cert_data: Optional[Union[str, bytes]] = None,
+        cert_file: Optional[str]=None,
+        key_file: Optional[str]=None,
+        verify_ssl: bool=True,
+        assert_hostname: Optional[bool]=None,
+        tls_server_name: Optional[str]=None,
+        connection_pool_maxsize: Optional[int]=None,
+        proxy: Optional[str]=None,
+        no_proxy: Optional[str]=None,
+        proxy_headers: Optional[Any]=None,
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
+        safe_chars_for_path_param: str='',
+        client_side_validation: bool=True,
+        socket_options: Optional[Any]=None,
+        datetime_format: str="%Y-%m-%dT%H:%M:%S.%f%z",
+        date_format: str="%Y-%m-%d",
+        *,
+        debug: Optional[bool] = None,
+    ) -> None:
         """Constructor
         """
         self._base_path = "http://petstore.swagger.io:80/v2" if host is None else host
@@ -224,7 +374,7 @@ conf = petstore_api.Configuration(
         """Debug switch
         """
 
-        self.verify_ssl = True
+        self.verify_ssl = verify_ssl
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
@@ -232,70 +382,92 @@ conf = petstore_api.Configuration(
         self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
         """
-        self.cert_file = None
+        self.ca_cert_data = ca_cert_data
+        """Set this to verify the peer using PEM (str) or DER (bytes)
+           certificate data.
+        """
+        self.cert_file = cert_file
         """client certificate file
         """
-        self.key_file = None
+        self.key_file = key_file
         """client key file
         """
-        self.assert_hostname = None
+        self.assert_hostname = assert_hostname
         """Set this to True/False to enable/disable SSL hostname verification.
         """
-        self.tls_server_name = None
+        self.tls_server_name = tls_server_name
         """SSL/TLS Server Name Indication (SNI)
            Set this to the SNI value expected by the server.
         """
 
-        self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
+        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
-           per pool. urllib3 uses 1 connection as default value, but this is
-           not the best value when you are making a lot of possibly parallel
-           requests to the same host, which is often the case here.
-           cpu_count * 5 is used as default value to increase performance.
+           per pool. None in the constructor is coerced to cpu_count * 5.
         """
 
-        self.proxy: Optional[str] = None
-        """Proxy URL
+        # urllib3 does not read proxy environment variables itself:
+        # https://github.com/urllib3/urllib3/issues/1785
+        # A proxy taken from the environment is re-resolved when the host is
+        # assigned; see the host setter.
+        self._proxy_from_env = proxy is None
+        if proxy is None or no_proxy is None:
+            proxies = getproxies()
+            if proxy is None:
+                proxy = self._env_proxy(proxies, self.host)
+            if no_proxy is None:
+                no_proxy = proxies.get("no")
+        self._proxy = proxy
+        self.no_proxy = no_proxy
+        """Hosts that bypass the proxy
         """
-        self.proxy_headers = None
+        self.proxy_headers = proxy_headers
         """Proxy headers
         """
-        self.safe_chars_for_path_param = ''
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
+        self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
         self.retries = retries
-        """Adding retries to override urllib3 default value 3
+        """Retry configuration
         """
         # Enable client side validation
-        self.client_side_validation = True
+        self.client_side_validation = client_side_validation
 
-        self.socket_options = None
+        self.socket_options = socket_options
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+        self.datetime_format = datetime_format
         """datetime format
         """
 
-        self.date_format = "%Y-%m-%d"
+        self.date_format = date_format
         """date format
         """
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo:  Dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
+        # use setter to re-create the file handler (excluded from __dict__ copy)
         result.logger_file = self.logger_file
-        result.debug = self.debug
+
         return result
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
         if name == "signing_info" and value is not None:
             # Ensure the host parameter from signing info is the same as
@@ -303,7 +475,7 @@ conf = petstore_api.Configuration(
             value.host = self.host
 
     @classmethod
-    def set_default(cls, default):
+    def set_default(cls, default: Optional[Self]) -> None:
         """Set default instance of configuration.
 
         It stores default configuration, which can be
@@ -314,7 +486,7 @@ conf = petstore_api.Configuration(
         cls._default = default
 
     @classmethod
-    def get_default_copy(cls):
+    def get_default_copy(cls) -> Self:
         """Deprecated. Please use `get_default` instead.
 
         Deprecated. Please use `get_default` instead.
@@ -324,7 +496,7 @@ conf = petstore_api.Configuration(
         return cls.get_default()
 
     @classmethod
-    def get_default(cls):
+    def get_default(cls) -> Self:
         """Return the default configuration.
 
         This method returns newly created, based on default constructor,
@@ -334,11 +506,11 @@ conf = petstore_api.Configuration(
         :return: The configuration object.
         """
         if cls._default is None:
-            cls._default = Configuration()
+            cls._default = cls()
         return cls._default
 
     @property
-    def logger_file(self):
+    def logger_file(self) -> Optional[str]:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -350,7 +522,7 @@ conf = petstore_api.Configuration(
         return self.__logger_file
 
     @logger_file.setter
-    def logger_file(self, value):
+    def logger_file(self, value: Optional[str]) -> None:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -369,7 +541,7 @@ conf = petstore_api.Configuration(
                 logger.addHandler(self.logger_file_handler)
 
     @property
-    def debug(self):
+    def debug(self) -> bool:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -378,7 +550,7 @@ conf = petstore_api.Configuration(
         return self.__debug
 
     @debug.setter
-    def debug(self, value):
+    def debug(self, value: bool) -> None:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -400,7 +572,7 @@ conf = petstore_api.Configuration(
             httplib.HTTPConnection.debuglevel = 0
 
     @property
-    def logger_format(self):
+    def logger_format(self) -> str:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -411,7 +583,7 @@ conf = petstore_api.Configuration(
         return self.__logger_format
 
     @logger_format.setter
-    def logger_format(self, value):
+    def logger_format(self, value: str) -> None:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -422,7 +594,7 @@ conf = petstore_api.Configuration(
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
-    def get_api_key_with_prefix(self, identifier, alias=None):
+    def get_api_key_with_prefix(self, identifier: str, alias: Optional[str]=None) -> Optional[str]:
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
@@ -433,13 +605,16 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:
                 return key
 
-    def get_basic_auth_token(self):
+        return None
+
+    def get_basic_auth_token(self) -> Optional[str]:
         """Gets HTTP basic authentication header (string).
 
         :return: The token for basic HTTP authentication.
@@ -450,16 +625,17 @@ conf = petstore_api.Configuration(
         password = ""
         if self.password is not None:
             password = self.password
+
         return urllib3.util.make_headers(
             basic_auth=username + ':' + password
         ).get('authorization')
 
-    def auth_settings(self):
+    def auth_settings(self)-> AuthSettings:
         """Gets Auth Settings dict for api client.
 
         :return: The Auth Settings information dict.
         """
-        auth = {}
+        auth: AuthSettings = {}
         if self.access_token is not None:
             auth['petstore_auth'] = {
                 'type': 'oauth2',
@@ -509,7 +685,7 @@ conf = petstore_api.Configuration(
             }
         return auth
 
-    def to_debug_report(self):
+    def to_debug_report(self) -> str:
         """Gets the essential information for debugging.
 
         :return: The report for debugging.
@@ -521,7 +697,7 @@ conf = petstore_api.Configuration(
                "SDK Package Version: 1.0.0".\
                format(env=sys.platform, pyversion=sys.version)
 
-    def get_host_settings(self):
+    def get_host_settings(self) -> List[HostSetting]:
         """Gets an array of host settings
 
         :return: An array of host settings
@@ -570,7 +746,12 @@ conf = petstore_api.Configuration(
             }
         ]
 
-    def get_host_from_settings(self, index, variables=None, servers=None):
+    def get_host_from_settings(
+        self,
+        index: Optional[int],
+        variables: Optional[ServerVariablesT]=None,
+        servers: Optional[List[HostSetting]]=None,
+    ) -> str:
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
@@ -598,6 +779,7 @@ conf = petstore_api.Configuration(
                 variable_name, variable['default_value'])
 
             if 'enum_values' in variable \
+                    and variable['enum_values'] \
                     and used_value not in variable['enum_values']:
                 raise ValueError(
                     "The variable `{0}` in the host URL has invalid value "
@@ -610,12 +792,32 @@ conf = petstore_api.Configuration(
         return url
 
     @property
-    def host(self):
+    def host(self) -> str:
         """Return generated host."""
         return self.get_host_from_settings(self.server_index, variables=self.server_variables)
 
     @host.setter
-    def host(self, value):
+    def host(self, value: str) -> None:
         """Fix base path."""
         self._base_path = value
         self.server_index = None
+        if self._proxy_from_env:
+            # the scheme-specific proxy depends on the host, which is
+            # commonly assigned after construction
+            self._proxy = self._env_proxy(getproxies(), value)
+
+    @staticmethod
+    def _env_proxy(proxies: Dict[str, str], host: str) -> Optional[str]:
+        """Pick the environment proxy that applies to `host`."""
+        return proxies.get(urlparse(host).scheme) or proxies.get("all")
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """Proxy URL
+        """
+        return self._proxy
+
+    @proxy.setter
+    def proxy(self, value: Optional[str]) -> None:
+        self._proxy = value
+        self._proxy_from_env = False

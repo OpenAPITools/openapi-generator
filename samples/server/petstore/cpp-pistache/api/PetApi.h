@@ -62,7 +62,21 @@ private:
     /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
+    virtual void handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual void handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
@@ -78,7 +92,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void add_pet(const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void add_pet( const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Deletes a pet
     /// </summary>
@@ -87,7 +101,7 @@ private:
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
     /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
-    virtual void delete_pet(const int64_t &petId, const std::optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void delete_pet( const int64_t &petId, const std::optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Finds Pets by status
     /// </summary>
@@ -95,7 +109,7 @@ private:
     /// Multiple status values can be provided with comma separated strings
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
-    virtual void find_pets_by_status(const std::optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_status( const std::optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Finds Pets by tags
     /// </summary>
@@ -103,7 +117,7 @@ private:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    virtual void find_pets_by_tags(const std::optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_tags( const std::optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Find pet by ID
     /// </summary>
@@ -111,7 +125,7 @@ private:
     /// Returns a single pet
     /// </remarks>
     /// <param name="petId">ID of pet to return</param>
-    virtual void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void get_pet_by_id( const int64_t &petId, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Update an existing pet
     /// </summary>
@@ -119,7 +133,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void update_pet(const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void update_pet( const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Updates a pet in the store with form data
     /// </summary>

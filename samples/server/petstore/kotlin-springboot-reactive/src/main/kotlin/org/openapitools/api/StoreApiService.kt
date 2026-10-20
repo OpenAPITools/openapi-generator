@@ -39,11 +39,12 @@ interface StoreApiService {
 
     /**
      * POST /store/order : Place an order for a pet
+     * 
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    suspend fun placeOrder(body: Order): Order
+    suspend fun placeOrder(order: Order): Order
 }

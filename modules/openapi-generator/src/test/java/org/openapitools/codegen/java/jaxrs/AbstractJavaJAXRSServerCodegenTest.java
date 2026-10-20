@@ -30,7 +30,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
@@ -43,9 +45,10 @@ public class AbstractJavaJAXRSServerCodegenTest {
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = mock(
-            AbstractJavaJAXRSServerCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+                AbstractJavaJAXRSServerCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
     }
 

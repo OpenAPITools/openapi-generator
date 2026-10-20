@@ -1,0 +1,6 @@
+generatorName: ocaml
+outputDir: samples/client/petstore/ocaml-additional-properties
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ocaml/additional-properties.yaml
+templateDir: modules/openapi-generator/src/main/resources/ocaml
+additionalProperties:
+  packageName: petstore_client

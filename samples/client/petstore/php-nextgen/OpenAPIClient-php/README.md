@@ -72,8 +72,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**error**](docs/Api/DefaultApi.md#error) | **GET** /error | Will always generate an error
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeBigDecimalMap**](docs/Api/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeDeletePet**](docs/Api/FakeApi.md#fakedeletepet) | **DELETE** /fake/pet/{pet_id} | 
+*FakeApi* | [**fakeEnumEndpoint**](docs/Api/FakeApi.md#fakeenumendpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter
 *FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/Api/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -81,6 +84,11 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fakeWith400And4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseendpoint) | **POST** /fake/with_400_and_4xx_range_response/endpoint | test endpoint with 400 and 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400 and 400-499 range response http code without dataType
+*FakeApi* | [**fakeWith400ResponseEndpoint**](docs/Api/FakeApi.md#fakewith400responseendpoint) | **POST** /fake/with_400_response/endpoint | test endpoint with 400 response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseendpoint) | **POST** /fake/with_4xx_range_response/endpoint | test endpoint with 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400-499 range response http code without dataType
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
@@ -93,6 +101,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/Api/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testNullable**](docs/Api/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
+*FakeApi* | [**testOneOf**](docs/Api/FakeApi.md#testoneof) | **POST** /fake/oneof | test oneOf polymorphism
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**testStringMapReference**](docs/Api/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -124,28 +133,39 @@ Class | Method | HTTP request | Description
 - [AllOfWithSingleRef](docs/Model/AllOfWithSingleRef.md)
 - [Animal](docs/Model/Animal.md)
 - [ApiResponse](docs/Model/ApiResponse.md)
+- [Apple](docs/Model/Apple.md)
 - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
 - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
 - [ArrayTest](docs/Model/ArrayTest.md)
+- [Banana](docs/Model/Banana.md)
 - [Capitalization](docs/Model/Capitalization.md)
 - [Cat](docs/Model/Cat.md)
 - [Category](docs/Model/Category.md)
 - [ChildWithNullable](docs/Model/ChildWithNullable.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
+- [Creature](docs/Model/Creature.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
+- [DiscriminatorBase](docs/Model/DiscriminatorBase.md)
+- [DiscriminatorChild](docs/Model/DiscriminatorChild.md)
 - [Dog](docs/Model/Dog.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
+- [EnumWithNameAndDescription](docs/Model/EnumWithNameAndDescription.md)
+- [Error](docs/Model/Error.md)
+- [ErrorResponse](docs/Model/ErrorResponse.md)
 - [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
 - [FooGetDefaultResponse](docs/Model/FooGetDefaultResponse.md)
 - [FormatTest](docs/Model/FormatTest.md)
+- [Fruit](docs/Model/Fruit.md)
 - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
 - [HealthCheckResult](docs/Model/HealthCheckResult.md)
+- [Lizard](docs/Model/Lizard.md)
+- [Mammal](docs/Model/Mammal.md)
 - [MapTest](docs/Model/MapTest.md)
 - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
 - [Model200Response](docs/Model/Model200Response.md)
@@ -165,11 +185,17 @@ Class | Method | HTTP request | Description
 - [ParentWithNullable](docs/Model/ParentWithNullable.md)
 - [Pet](docs/Model/Pet.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
+- [Reptile](docs/Model/Reptile.md)
 - [SingleRefType](docs/Model/SingleRefType.md)
+- [Smoothie](docs/Model/Smoothie.md)
+- [Snake](docs/Model/Snake.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
 - [TestInlineFreeformAdditionalPropertiesRequest](docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md)
 - [User](docs/Model/User.md)
+- [Whale](docs/Model/Whale.md)
+- [Zebra](docs/Model/Zebra.md)
+- [Zoo](docs/Model/Zoo.md)
 
 ## Authorization
 
@@ -229,5 +255,5 @@ vendor/bin/phpunit
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `1.0.0`
-    - Generator version: `7.7.0-SNAPSHOT`
+    - Generator version: `7.27.0-SNAPSHOT`
 - Build package: `org.openapitools.codegen.languages.PhpNextgenClientCodegen`

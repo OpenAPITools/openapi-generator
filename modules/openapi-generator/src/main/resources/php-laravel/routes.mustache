@@ -1,0 +1,19 @@
+{{>php_file_header}}
+
+use Illuminate\Support\Facades\Route;
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+/**
+ * {{httpMethod}} {{operationId}}
+ * Summary: {{summary}}
+ * Notes: {{notes}}
+ */
+Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', [\{{controllerPackage}}\{{controllerName}}::class, '{{operationId}}'])->name('{{vendorExtensions.x-route-name}}');
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

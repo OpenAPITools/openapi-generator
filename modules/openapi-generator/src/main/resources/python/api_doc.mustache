@@ -12,11 +12,19 @@ Method | HTTP request | Description
 {{#operation}}
 # **{{{operationId}}}**
 > {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{/required}}{{^required}}{{{paramName}}}={{{paramName}}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{#supportHttpxSync}}
 
-{{{summary}}}{{#notes}}
+**Synchronous variant:** `{{{operationId}}}_sync(...)` — same parameters and return type, but blocks until completion instead of requiring `await`.
+{{/supportHttpxSync}}
 
-{{{.}}}{{/notes}}
+{{#summary}}
+{{{summary}}}
 
+{{/summary}}
+{{#unescapedNotes}}
+{{{.}}}
+
+{{/unescapedNotes}}
 ### Example
 
 {{#hasAuthMethods}}
@@ -38,6 +46,7 @@ Method | HTTP request | Description
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{> api_doc_example }}
+
 
 ### Parameters
 

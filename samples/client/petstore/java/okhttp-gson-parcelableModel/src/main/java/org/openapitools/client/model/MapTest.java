@@ -33,6 +33,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,10 +53,11 @@ import org.openapitools.client.JSON;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MapTest implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -113,20 +114,23 @@ public class MapTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
+  @javax.annotation.Nullable
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
   @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
+  @javax.annotation.Nullable
   private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
+  @javax.annotation.Nullable
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
 
-  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public MapTest mapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -148,12 +152,12 @@ public class MapTest implements Parcelable {
     return mapMapOfString;
   }
 
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public void setMapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
 
-  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public MapTest mapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -175,12 +179,12 @@ public class MapTest implements Parcelable {
     return mapOfEnumString;
   }
 
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public void setMapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
 
-  public MapTest directMap(Map<String, Boolean> directMap) {
+  public MapTest directMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
     return this;
   }
@@ -202,12 +206,12 @@ public class MapTest implements Parcelable {
     return directMap;
   }
 
-  public void setDirectMap(Map<String, Boolean> directMap) {
+  public void setDirectMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
 
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -229,7 +233,7 @@ public class MapTest implements Parcelable {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -272,10 +276,7 @@ public class MapTest implements Parcelable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -311,14 +312,10 @@ public class MapTest implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_map_of_string");
-    openapiFields.add("map_of_enum_string");
-    openapiFields.add("direct_map");
-    openapiFields.add("indirect_map");
+    openapiFields = new HashSet<String>(Arrays.asList("map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -330,7 +327,7 @@ public class MapTest implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MapTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in MapTest is not found in the empty JSON string", MapTest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in MapTest is not found in the empty JSON string", MapTest.openapiRequiredFields.toString()));
         }
       }
 
@@ -338,7 +335,7 @@ public class MapTest implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!MapTest.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `MapTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `MapTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

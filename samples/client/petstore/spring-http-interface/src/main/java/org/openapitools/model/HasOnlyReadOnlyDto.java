@@ -2,12 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -18,14 +19,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HasOnlyReadOnlyDto {
 
-  private String bar;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String bar;
 
-  private String foo;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String foo;
 
-  public HasOnlyReadOnlyDto bar(String bar) {
+  public HasOnlyReadOnlyDto bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -34,17 +37,17 @@ public class HasOnlyReadOnlyDto {
    * Get bar
    * @return bar
    */
-  
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  @JsonProperty("bar")
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnlyDto foo(String foo) {
+  public HasOnlyReadOnlyDto foo(@Nullable String foo) {
     this.foo = foo;
     return this;
   }
@@ -53,13 +56,13 @@ public class HasOnlyReadOnlyDto {
    * Get foo
    * @return foo
    */
-  
   @JsonProperty("foo")
-  public String getFoo() {
+  public @Nullable String getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  @JsonProperty("foo")
+  public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
 
@@ -95,11 +98,8 @@ public class HasOnlyReadOnlyDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

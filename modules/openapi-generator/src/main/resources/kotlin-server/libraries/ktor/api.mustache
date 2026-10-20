@@ -1,7 +1,6 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
-import com.google.gson.Gson
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -17,15 +16,19 @@ import io.ktor.server.resources.head
 import io.ktor.server.resources.patch
 {{/featureResources}}
 import io.ktor.server.routing.*
+{{#delegatePattern}}
+import io.ktor.server.request.*
+import io.ktor.http.content.*
+import {{packageName}}.infrastructure.delegates
+import {{packageName}}.infrastructure.BadParameterException
+import {{packageName}}.infrastructure.APINotImplementedException
+{{/delegatePattern}}
 import {{packageName}}.infrastructure.ApiPrincipal
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#operations}}
 fun Route.{{classname}}() {
-    val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
 {{#operation}}
     {{#hasAuthMethods}}
         {{#authMethods}}
@@ -40,14 +43,13 @@ fun Route.{{classname}}() {
     }
     {{/featureResources}}
     {{#featureResources}}
-    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {
+    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> { {{operationId}} ->
         {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
     }
     {{/featureResources}}
     {{#hasAuthMethods}}
     }
     {{/hasAuthMethods}}
-
 {{/operation}}
 }
 {{/operations}}

@@ -21,6 +21,13 @@ paths:
             type: string
             enum:
             - CONSTANT_VALUE
+        - name: CONSTANT_QUERY_STRING_KEY
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - CONSTANT_QUERY_STRING_VALUE
         - name: name
           in: path
           required: true

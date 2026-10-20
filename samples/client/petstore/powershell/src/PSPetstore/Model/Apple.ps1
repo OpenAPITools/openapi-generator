@@ -42,8 +42,8 @@ function Initialize-PSApple {
 
 
         $PSO = [PSCustomObject]@{
-            "cultivar" = ${Cultivar}
-            "origin" = ${Origin}
+            'cultivar' = ${Cultivar}
+            'origin' = ${Origin}
         }
 
 
@@ -81,28 +81,28 @@ function ConvertFrom-PSJsonToApple {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSApple
-        $AllProperties = ("cultivar", "origin")
+        $AllProperties = ('cultivar', 'origin')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "cultivar"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'cultivar'))) { #optional property not found
             $Cultivar = $null
         } else {
-            $Cultivar = $JsonParameters.PSobject.Properties["cultivar"].value
+            $Cultivar = $JsonParameters.PSobject.Properties['cultivar'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "origin"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'origin'))) { #optional property not found
             $Origin = $null
         } else {
-            $Origin = $JsonParameters.PSobject.Properties["origin"].value
+            $Origin = $JsonParameters.PSobject.Properties['origin'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "cultivar" = ${Cultivar}
-            "origin" = ${Origin}
+            'cultivar' = ${Cultivar}
+            'origin' = ${Origin}
         }
 
         return $PSO

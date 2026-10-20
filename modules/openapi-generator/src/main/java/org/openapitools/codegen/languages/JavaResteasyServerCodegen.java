@@ -27,8 +27,13 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/resteasy/}.
+ */
 @Setter
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
@@ -100,7 +105,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         if (generateJbossDeploymentDescriptor) {
             supportingFiles.add(new SupportingFile("jboss-web.mustache",
                     ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
 
         supportingFiles.add(new SupportingFile("RestApplication.mustache",

@@ -3,44 +3,46 @@
 
 context("Test UserApi")
 
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 
-test_that("CreateUser", {
-  # tests for CreateUser
+test_that("create_user", {
+  # tests for create_user
   # base path: http://petstore.swagger.io/v2
   # Create user
   # This can only be done by the logged in user.
-  # @param body User Created user object
+  # @param user User Created user object
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("CreateUsersWithArrayInput", {
-  # tests for CreateUsersWithArrayInput
+test_that("create_users_with_array_input", {
+  # tests for create_users_with_array_input
   # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body array[User] List of user object
+  # 
+  # @param user array[User] List of user object
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("CreateUsersWithListInput", {
-  # tests for CreateUsersWithListInput
+test_that("create_users_with_list_input", {
+  # tests for create_users_with_list_input
   # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body array[User] List of user object
+  # 
+  # @param user array[User] List of user object
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("DeleteUser", {
-  # tests for DeleteUser
+test_that("delete_user", {
+  # tests for delete_user
   # base path: http://petstore.swagger.io/v2
   # Delete user
   # This can only be done by the logged in user.
@@ -51,10 +53,11 @@ test_that("DeleteUser", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("GetUserByName", {
-  # tests for GetUserByName
+test_that("get_user_by_name", {
+  # tests for get_user_by_name
   # base path: http://petstore.swagger.io/v2
   # Get user by user name
+  # 
   # @param username character The name that needs to be fetched. Use user1 for testing.
   # @return [User]
 
@@ -62,10 +65,11 @@ test_that("GetUserByName", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("LoginUser", {
-  # tests for LoginUser
+test_that("login_user", {
+  # tests for login_user
   # base path: http://petstore.swagger.io/v2
   # Logs user into the system
+  # 
   # @param username character The user name for login
   # @param password character The password for login in clear text
   # @return [character]
@@ -74,26 +78,26 @@ test_that("LoginUser", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("LogoutUser", {
-  # tests for LogoutUser
+test_that("logout_user", {
+  # tests for logout_user
   # base path: http://petstore.swagger.io/v2
   # Logs out current logged in user session
+  # 
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("UpdateUser", {
-  # tests for UpdateUser
+test_that("update_user", {
+  # tests for update_user
   # base path: http://petstore.swagger.io/v2
   # Updated user
   # This can only be done by the logged in user.
   # @param username character name that need to be deleted
-  # @param body User Updated user object
+  # @param user User Updated user object
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
-

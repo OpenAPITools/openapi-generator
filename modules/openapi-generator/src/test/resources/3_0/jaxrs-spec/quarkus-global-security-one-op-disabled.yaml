@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Quarkus global security with one operation explicitly disabled
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+security:
+  - basic_auth: []
+  - bearer_auth: []
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Inherits global security (HTTP Basic OR Bearer) — should get @Authenticated
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Explicitly disables security with security:[] — should NOT get @Authenticated
+      security: []
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    basic_auth:
+      type: http
+      scheme: basic
+    bearer_auth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: binary response typing
+  version: 1.0.0
+paths:
+  /resource:
+    get:
+      tags:
+        - resource
+      description: Binary response body (full or partial)
+      operationId: resourceInResponse
+      parameters:
+        - name: Range
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Full binary body
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "206":
+          description: Partial binary body
+          headers:
+            Content-Range:
+              required: true
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary

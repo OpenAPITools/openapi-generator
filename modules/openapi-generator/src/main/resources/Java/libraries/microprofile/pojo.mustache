@@ -4,6 +4,7 @@
 ){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
 {{> xmlAnnotation }}
+
 {{/withXml}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -22,11 +23,11 @@
   * {{{.}}}
   */
 {{/description}}
-{{>additionalModelTypeAnnotations}}
+{{>additionalModelTypeAnnotations}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
@@ -45,18 +46,20 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   */
 {{/description}}
   {{^withXml}}
-  {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
+  {{#jsonb}}{{^isDiscriminator}}@JsonbProperty("{{baseName}}"){{/isDiscriminator}}{{#isDiscriminator}}{{#jsonbPolymorphism}}@JsonbTransient{{/jsonbPolymorphism}}{{^jsonbPolymorphism}}@JsonbProperty("{{baseName}}"){{/jsonbPolymorphism}}{{/isDiscriminator}}{{/jsonb}}
   {{/withXml}}
 {{#vendorExtensions.x-field-extra-annotation}}
-{{{vendorExtensions.x-field-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}protected {{>nullableDatatypeWithEnum}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
 {{^isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}protected {{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
+{{>additional_properties}}
+
 {{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
   public {{classname}}() {
   }
@@ -64,7 +67,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}
@@ -97,18 +100,18 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}} public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}} public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{datatypeWithEnum}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isArray}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -117,11 +120,11 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
    * Set {{name}}
    */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
@@ -129,7 +132,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
     }
     this.{{name}}.add({{name}}Item);
     return this;
@@ -139,7 +142,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+      this.{{name}} = new HashMap<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     return this;
@@ -148,28 +151,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/isReadOnly}}
 
   {{/vars}}
+{{>pojoOverrides}}
 
-  /**
-   * Create a string representation of this pojo.
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class {{classname}} {\n");
-    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
-    {{/vars}}sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }

@@ -40,30 +40,36 @@ import jakarta.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @jakarta.annotation.Nonnull
   private String stringItem;
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @jakarta.annotation.Nonnull
   private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
+  @jakarta.annotation.Nonnull
   private Float floatItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @jakarta.annotation.Nonnull
   private Integer integerItem;
 
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @jakarta.annotation.Nonnull
   private Boolean boolItem;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @jakarta.annotation.Nonnull
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {
   }
 
-  public TypeHolderExample stringItem(String stringItem) {
+  public TypeHolderExample stringItem(@jakarta.annotation.Nonnull String stringItem) {
     
     this.stringItem = stringItem;
     return this;
@@ -76,7 +82,7 @@ public class TypeHolderExample {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getStringItem() {
@@ -84,13 +90,13 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setStringItem(String stringItem) {
+  public void setStringItem(@jakarta.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(@jakarta.annotation.Nonnull BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
@@ -104,7 +110,7 @@ public class TypeHolderExample {
   @NotNull
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumberItem() {
@@ -112,13 +118,13 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(@jakarta.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
-  public TypeHolderExample floatItem(Float floatItem) {
+  public TypeHolderExample floatItem(@jakarta.annotation.Nonnull Float floatItem) {
     
     this.floatItem = floatItem;
     return this;
@@ -131,7 +137,7 @@ public class TypeHolderExample {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Float getFloatItem() {
@@ -139,13 +145,13 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setFloatItem(Float floatItem) {
+  public void setFloatItem(@jakarta.annotation.Nonnull Float floatItem) {
     this.floatItem = floatItem;
   }
 
-  public TypeHolderExample integerItem(Integer integerItem) {
+  public TypeHolderExample integerItem(@jakarta.annotation.Nonnull Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
@@ -158,7 +164,7 @@ public class TypeHolderExample {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getIntegerItem() {
@@ -166,13 +172,13 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItem(@jakarta.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
   }
 
-  public TypeHolderExample boolItem(Boolean boolItem) {
+  public TypeHolderExample boolItem(@jakarta.annotation.Nonnull Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
@@ -185,7 +191,7 @@ public class TypeHolderExample {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getBoolItem() {
@@ -193,13 +199,13 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItem(@jakarta.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
-  public TypeHolderExample arrayItem(List<Integer> arrayItem) {
+  public TypeHolderExample arrayItem(@jakarta.annotation.Nonnull List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
     return this;
@@ -220,7 +226,7 @@ public class TypeHolderExample {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Integer> getArrayItem() {
@@ -228,11 +234,12 @@ public class TypeHolderExample {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItem(@jakarta.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -275,10 +282,7 @@ public class TypeHolderExample {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

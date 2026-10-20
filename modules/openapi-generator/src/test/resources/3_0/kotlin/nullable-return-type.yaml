@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Nullable Return Type Test
+  version: 1.0.0
+paths:
+  /nullable-string:
+    post:
+      operationId: returnNullableString
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PingRequest'
+      responses:
+        "200":
+          description: Successful response, body may be empty
+          content:
+            text/html:
+              schema:
+                type: string
+  /always-empty:
+    get:
+      operationId: returnNothing
+      responses:
+        "204":
+          description: No content
+components:
+  schemas:
+    PingRequest:
+      type: object
+      properties:
+        msg:
+          type: string

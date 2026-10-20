@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import {fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf} from 'immutable';
-import {normalize, NormalizedSchema, schema, Schema} from "normalizr";
-import {ActionDefinition, createAction} from "redux-ts-simple";
+import { fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf } from 'immutable';
+import { normalize, NormalizedSchema, schema, Schema } from "normalizr";
+import { ActionDefinition, createAction } from "redux-ts-simple";
 
 export const knownRecordFactories = new Map<string, any>();
 export const knownIndexedSetByKey: (string | number)[] = [];
@@ -13,7 +13,7 @@ export function appFromJS(any: any): any {
         if (isIndexed(value)) {
             return knownIndexedSetByKey.indexOf(key) !== -1 ? value.toSet() : value.toList();
         } // we're reviving an array -> it's a List
-        const MatchingType = knownRecordFactories.get(value.get('recType')) as { new(input?: any): any }; // check if we know a Record with this type
+        const MatchingType = knownRecordFactories.get(value.get('recType') as string) as { new(input?: any): any }; // check if we know a Record with this type
         if (MatchingType) {
             return new MatchingType(value);
         }

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -25,6 +33,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -123,8 +135,9 @@ open class PetApi : ApiClient {
         pending("pending"),
         
         @SerialName(value = "sold")
-        sold("sold")
+        sold("sold");
         
+        override fun toString(): kotlin.String = value.toString()
     }
 
     /**
@@ -165,7 +178,7 @@ open class PetApi : ApiClient {
         companion object : KSerializer<FindPetsByStatusResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: FindPetsByStatusResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
         }
     }
@@ -208,7 +221,7 @@ open class PetApi : ApiClient {
         companion object : KSerializer<FindPetsByTagsResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: FindPetsByTagsResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
         }
     }
@@ -324,14 +337,14 @@ open class PetApi : ApiClient {
      * @return ModelApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.InputProvider? = null): HttpResponse<ModelApiResponse> {
+    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>? = null): HttpResponse<ModelApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             formData {
                 additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                file?.apply { append("file", file) }
+                file?.apply { append(file) }
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()

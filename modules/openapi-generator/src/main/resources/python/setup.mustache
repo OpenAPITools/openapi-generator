@@ -1,5 +1,3 @@
-# coding: utf-8
-
 {{>partial_header}}
 
 from setuptools import setup, find_packages  # noqa: H301
@@ -12,25 +10,27 @@ from setuptools import setup, find_packages  # noqa: H301
 # http://pypi.python.org/pypi/setuptools
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
-PYTHON_REQUIRES = ">=3.7"
-{{#apiInfo}}
-{{#apis}}
-{{#-last}}
+PYTHON_REQUIRES = ">= 3.11"
 REQUIRES = [
-    "urllib3 >= 1.25.3, < 2.1.0",
-    "python-dateutil",
+{{^async}}
+    "urllib3 >= 2.7.0, < 3.0.0",
+{{/async}}
+    "python-dateutil >= 2.8.2",
 {{#asyncio}}
-    "aiohttp >= 3.0.0",
+    "aiohttp >= 3.14.1",
     "aiohttp-retry >= 2.8.3",
 {{/asyncio}}
-{{#tornado}}
-    "tornado>=4.2,<5",
-{{/tornado}}
+{{#httpx}}
+    "httpx >= 0.28.1",
+{{/httpx}}
+{{#httpx2}}
+    "httpx2 >= 2.13.0, < 3",
+{{/httpx2}}
 {{#hasHttpSignatureMethods}}
-    "pem>=19.3.0",
-    "pycryptodome>=3.9.0",
+    "pem >= 19.3.0",
+    "pycryptodome >= 3.9.0",
 {{/hasHttpSignatureMethods}}
-    "pydantic >= 2",
+    "pydantic >= 2.11",
     "typing-extensions >= 4.7.1",
 ]
 
@@ -43,7 +43,10 @@ setup(
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     install_requires=REQUIRES,
-    packages=find_packages(exclude=["test", "tests"]),
+{{#sourceFolder}}
+    package_dir={"": "{{{sourceFolder}}}"},
+{{/sourceFolder}}
+    packages=find_packages({{#sourceFolder}}where="{{{sourceFolder}}}", {{/sourceFolder}}exclude=["test", "tests"]),
     include_package_data=True,
     {{#licenseInfo}}license="{{.}}",
     {{/licenseInfo}}long_description_content_type='text/markdown',
@@ -52,6 +55,3 @@ setup(
     """,  # noqa: E501
     package_data={"{{{packageName}}}": ["py.typed"]},
 )
-{{/-last}}
-{{/apis}}
-{{/apiInfo}}

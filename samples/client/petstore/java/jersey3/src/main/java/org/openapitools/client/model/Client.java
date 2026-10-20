@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -34,15 +36,16 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
+  @jakarta.annotation.Nullable
   private String client;
 
   public Client() { 
   }
 
-  public Client client(String client) {
+  public Client client(@jakarta.annotation.Nullable String client) {
     this.client = client;
     return this;
   }
@@ -53,7 +56,7 @@ public class Client {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getClient() {
@@ -61,9 +64,9 @@ public class Client {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setClient(String client) {
+  public void setClient(@jakarta.annotation.Nullable String client) {
     this.client = client;
   }
 
@@ -73,19 +76,12 @@ public class Client {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -102,10 +98,7 @@ public class Client {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

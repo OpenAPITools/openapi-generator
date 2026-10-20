@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 docs/Addressable.md
+docs/Animal.md
 docs/Apple.md
 docs/Banana.md
 docs/Bar.md
@@ -10,6 +11,8 @@ docs/BarApi.md
 docs/BarCreate.md
 docs/BarRef.md
 docs/BarRefOrValue.md
+docs/Cat.md
+docs/Dog.md
 docs/Entity.md
 docs/EntityRef.md
 docs/Extensible.md
@@ -29,12 +32,15 @@ src/apis/foo_api.rs
 src/apis/mod.rs
 src/lib.rs
 src/models/addressable.rs
+src/models/animal.rs
 src/models/apple.rs
 src/models/banana.rs
 src/models/bar.rs
 src/models/bar_create.rs
 src/models/bar_ref.rs
 src/models/bar_ref_or_value.rs
+src/models/cat.rs
+src/models/dog.rs
 src/models/entity.rs
 src/models/entity_ref.rs
 src/models/extensible.rs

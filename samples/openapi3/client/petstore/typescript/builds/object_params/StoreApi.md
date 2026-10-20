@@ -19,20 +19,19 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, StoreApi } from 'ts-petstore-client';
+import type { StoreApiDeleteOrderRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.StoreApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new StoreApi(configuration);
 
-let body:petstore.StoreApiDeleteOrderRequest = {
-  // string | ID of the order that needs to be deleted
+const request: StoreApiDeleteOrderRequest = {
+    // ID of the order that needs to be deleted
   orderId: "orderId_example",
 };
 
-apiInstance.deleteOrder(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.deleteOrder(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -74,17 +73,15 @@ Returns a map of status codes to quantities
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, StoreApi } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.StoreApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new StoreApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.getInventory(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.getInventory(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -122,20 +119,19 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, StoreApi } from 'ts-petstore-client';
+import type { StoreApiGetOrderByIdRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.StoreApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new StoreApi(configuration);
 
-let body:petstore.StoreApiGetOrderByIdRequest = {
-  // number | ID of pet that needs to be fetched
+const request: StoreApiGetOrderByIdRequest = {
+    // ID of pet that needs to be fetched
   orderId: 1,
 };
 
-apiInstance.getOrderById(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.getOrderById(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -178,14 +174,14 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, StoreApi } from 'ts-petstore-client';
+import type { StoreApiPlaceOrderRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.StoreApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new StoreApi(configuration);
 
-let body:petstore.StoreApiPlaceOrderRequest = {
-  // Order | order placed for purchasing the pet
+const request: StoreApiPlaceOrderRequest = {
+    // order placed for purchasing the pet
   order: {
     id: 1,
     petId: 1,
@@ -196,9 +192,8 @@ let body:petstore.StoreApiPlaceOrderRequest = {
   },
 };
 
-apiInstance.placeOrder(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.placeOrder(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

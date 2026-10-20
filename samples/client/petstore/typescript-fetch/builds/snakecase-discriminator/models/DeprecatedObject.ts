@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface DeprecatedObject {
     /**
      * 
-     * @type {string}
-     * @memberof DeprecatedObject
      */
     name?: string;
 }
@@ -48,10 +46,15 @@ export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
+export function DeprecatedObjectToJSON(json: any): DeprecatedObject {
+    return DeprecatedObjectToJSONTyped(json, false);
+}
+
+export function DeprecatedObjectToJSONTyped(value?: DeprecatedObject | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

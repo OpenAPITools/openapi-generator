@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info:
+  title: Nullable deprecated in OAS 3.1 test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        # OAS 3.0 'nullable: true' used in a 3.1 spec — deprecated and should trigger a warning
+        proxyUrl:
+          type: string
+          nullable: true

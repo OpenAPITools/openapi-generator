@@ -4,8 +4,10 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
-  documentationProvider: springfox
+  #documentationProvider: springdoc
   java8: "false"
   useBeanValidation: true
   artifactId: spring-boot-beanvalidation-no-nullable

@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: Preserve Additional Properties Regression
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    ExtraFields:
+      type: object
+      required: [name]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+        extraJsonProperties:
+          type: string
+    ExtraFieldsVariant:
+      oneOf:
+        - type: object
+          required: [kind, first]
+          additionalProperties: false
+          properties:
+            kind:
+              type: string
+              const: first
+            first:
+              type: string
+        - type: object
+          required: [kind, second]
+          additionalProperties: false
+          properties:
+            kind:
+              type: string
+              const: second
+            second:
+              type: integer

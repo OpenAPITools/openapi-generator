@@ -2,9 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -28,14 +30,17 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  private Integer code;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer code;
 
-  private String type;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String type;
 
-  private String message;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String message;
 
   public ModelApiResponse() {
     super();
@@ -44,13 +49,13 @@ public class ModelApiResponse {
   /**
    * Constructor with all args parameters
    */
-  public ModelApiResponse(Integer code, String type, String message) {
+  public ModelApiResponse(@Nullable Integer code, @Nullable String type, @Nullable String message) {
       this.code = code;
       this.type = type;
       this.message = message;
   }
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
@@ -64,15 +69,17 @@ public class ModelApiResponse {
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
   @XmlElement(name = "code")
-  public Integer getCode() {
+  public @Nullable Integer getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  @JsonProperty("code")
+  @JacksonXmlProperty(localName = "code")
+  public void setCode(@Nullable Integer code) {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@Nullable String type) {
     this.type = type;
     return this;
   }
@@ -86,15 +93,17 @@ public class ModelApiResponse {
   @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
   @XmlElement(name = "type")
-  public String getType() {
+  public @Nullable String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  @JsonProperty("type")
+  @JacksonXmlProperty(localName = "type")
+  public void setType(@Nullable String type) {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@Nullable String message) {
     this.message = message;
     return this;
   }
@@ -108,11 +117,13 @@ public class ModelApiResponse {
   @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
   @XmlElement(name = "message")
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  @JsonProperty("message")
+  @JacksonXmlProperty(localName = "message")
+  public void setMessage(@Nullable String message) {
     this.message = message;
   }
 
@@ -150,11 +161,8 @@ public class ModelApiResponse {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

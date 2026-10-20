@@ -35,7 +35,7 @@ class Pet(BaseModel):
     """ # noqa: E501
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
-    name: StrictStr
+    name: StrictStr = Field(json_schema_extra={"examples": ["doggie"]})
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
@@ -47,7 +47,7 @@ class Pet(BaseModel):
         if value is None:
             return value
 
-        if value not in ('available', 'pending', 'sold'):
+        if value not in ('available', 'pending', 'sold',):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 

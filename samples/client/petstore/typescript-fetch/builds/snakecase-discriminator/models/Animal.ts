@@ -13,8 +13,8 @@
  */
 
 import { mapValues } from '../runtime';
-import { CatFromJSONTyped } from './Cat';
-import { DogFromJSONTyped } from './Dog';
+import { type Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
+import { type Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
 /**
  * 
  * @export
@@ -23,14 +23,10 @@ import { DogFromJSONTyped } from './Dog';
 export interface Animal {
     /**
      * 
-     * @type {string}
-     * @memberof Animal
      */
     className: string;
     /**
      * 
-     * @type {string}
-     * @memberof Animal
      */
     color?: string;
 }
@@ -39,7 +35,7 @@ export interface Animal {
  * Check if a given object implements the Animal interface.
  */
 export function instanceOfAnimal(value: object): value is Animal {
-    if (!('className' in value) || value['className'] === undefined) return false;
+    if ((!('className' in (value as Record<string, any>)) && !('class_name' in (value as Record<string, any>))) || ((value as Record<string, any>)['className'] === undefined && (value as Record<string, any>)['class_name'] === undefined)) return false;
     return true;
 }
 
@@ -53,11 +49,12 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     }
     if (!ignoreDiscriminator) {
         if (json['class_name'] === 'CAT') {
-            return CatFromJSONTyped(json, true);
+            return CatFromJSONTyped(json, ignoreDiscriminator);
         }
         if (json['class_name'] === 'DOG') {
-            return DogFromJSONTyped(json, true);
+            return DogFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         
@@ -66,10 +63,26 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     };
 }
 
-export function AnimalToJSON(value?: Animal | null): any {
+export function AnimalToJSON(json: any): Animal {
+    return AnimalToJSONTyped(json, false);
+}
+
+export function AnimalToJSONTyped(value?: Animal | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
+    if (!ignoreDiscriminator) {
+        switch (value['className']) {
+            case 'CAT':
+                return CatToJSONTyped(value as Cat, ignoreDiscriminator);
+            case 'DOG':
+                return DogToJSONTyped(value as Dog, ignoreDiscriminator);
+            default:
+                return value;
+        }
+    }
+
     return {
         
         'class_name': value['className'],

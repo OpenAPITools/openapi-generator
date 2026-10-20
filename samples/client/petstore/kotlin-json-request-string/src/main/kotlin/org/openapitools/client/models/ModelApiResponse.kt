@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -30,9 +38,9 @@ import kotlinx.parcelize.Parcelize
 /**
  * Describes the result of uploading an image resource
  *
- * @param code 
- * @param type 
- * @param message 
+ * @param code
+ * @param type
+ * @param message
  */
 @Parcelize
 @Serializable

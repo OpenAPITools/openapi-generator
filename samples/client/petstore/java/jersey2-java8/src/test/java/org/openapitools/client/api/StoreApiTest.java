@@ -13,10 +13,13 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
+import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.Order;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,69 +29,61 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-@Disabled
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
 
-    
     /**
      * Delete purchase order by ID
      *
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deleteOrderTest() throws ApiException {
-        String orderId = null;
-        api.deleteOrder(orderId);
+        //String orderId = null;
+        //api.deleteOrder(orderId);
         // TODO: test validations
     }
-    
+
     /**
      * Returns pet inventories by status
      *
      * Returns a map of status codes to quantities
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getInventoryTest() throws ApiException {
-        Map<String, Integer> response = api.getInventory();
+        //Map<String, Integer> response = api.getInventory();
         // TODO: test validations
     }
-    
+
     /**
      * Find purchase order by ID
      *
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getOrderByIdTest() throws ApiException {
-        Long orderId = null;
-        Order response = api.getOrderById(orderId);
+        //Long orderId = null;
+        //Order response = api.getOrderById(orderId);
         // TODO: test validations
     }
-    
+
     /**
      * Place an order for a pet
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
-        Order response = api.placeOrder(body);
+        //Order body = null;
+        //Order response = api.placeOrder(body);
         // TODO: test validations
     }
-    
+
 }

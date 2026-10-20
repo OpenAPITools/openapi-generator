@@ -54,7 +54,7 @@ module App =
       {{#apis}}
       {{#operations}}
       {{#operation}}
-      {{httpMethod}} >=> {{^hasPathParams}}route{{/hasPathParams}}{{#hasPathParams}}routeBind<{{operationId}}PathParams>{{/hasPathParams}} "{{contextPath}}{{path}}" {{^pathParams}}>=>{{/pathParams}} {{#pathParams}}(fun x -> {{/pathParams}}{{#authMethods}}{{#isOAuth}}requiresAuthentication authFailure{{/isOAuth}}{{#isApiKey}}challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure{{/isApiKey}} >=> {{/authMethods}} {{classname}}Handler.{{operationId}}{{#pathParams}} x){{/pathParams}};
+      {{httpMethod}} >=> {{^hasPathParams}}route{{/hasPathParams}}{{#hasPathParams}}routeBind<{{operationId}}PathParams>{{/hasPathParams}} "{{contextPath}}{{{path}}}" {{^pathParams}}>=>{{/pathParams}} {{#pathParams}}(fun x -> {{/pathParams}}{{#authMethods}}{{#isOAuth}}requiresAuthentication authFailure{{/isOAuth}}{{#isApiKey}}challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure{{/isApiKey}} >=> {{/authMethods}} {{classname}}Handler.{{operationId}}{{#pathParams}} x){{/pathParams}};
       {{/operation}}
       {{/operations}}
       {{/apis}}

@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/others/typescript-angular-v20/builds/query-param-deep-object
+inputSpec: modules/openapi-generator/src/test/resources/3_0/query-param-deep-object.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 20.0.0
+  npmName: sample-angular-20-0-0-query-param-deep-object
+  supportsES6: true

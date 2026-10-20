@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -21,12 +29,12 @@ import com.google.gson.annotations.SerializedName
 /**
  * An order for a pets from the pet store
  *
- * @param id 
- * @param petId 
- * @param quantity 
- * @param shipDate 
+ * @param id
+ * @param petId
+ * @param quantity
+ * @param shipDate
  * @param status Order Status
- * @param complete 
+ * @param complete
  */
 
 
@@ -52,6 +60,7 @@ data class Order (
     val complete: kotlin.Boolean? = false
 
 ) {
+    companion object { }
 
     /**
      * Order Status

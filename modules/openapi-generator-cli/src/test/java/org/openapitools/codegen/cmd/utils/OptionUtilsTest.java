@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.cmd.utils;
 
-import org.openapitools.codegen.utils.OptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.utils.OptionUtils;
 import org.testng.annotations.Test;
 
 import java.util.Collections;

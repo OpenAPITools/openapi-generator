@@ -18,6 +18,7 @@ import {
     OwnerFromJSON,
     OwnerFromJSONTyped,
     OwnerToJSON,
+    OwnerToJSONTyped,
 } from './Owner';
 
 /**
@@ -28,8 +29,6 @@ import {
 export interface Club {
     /**
      * 
-     * @type {Owner}
-     * @memberof Club
      */
     owner?: Owner | null;
 }
@@ -51,14 +50,19 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     }
     return {
         
-        'owner': json['owner'] == null ? undefined : OwnerFromJSON(json['owner']),
+        'owner': json['owner'] === undefined ? undefined : json['owner'] === null ? null : OwnerFromJSON(json['owner']),
     };
 }
 
-export function ClubToJSON(value?: Club | null): any {
+export function ClubToJSON(json: any): Club {
+    return ClubToJSONTyped(json, false);
+}
+
+export function ClubToJSONTyped(value?: Club | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'owner': OwnerToJSON(value['owner']),

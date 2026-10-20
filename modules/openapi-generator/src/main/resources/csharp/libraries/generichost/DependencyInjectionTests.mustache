@@ -17,11 +17,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
@@ -51,11 +51,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
@@ -76,8 +76,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                 {{/httpSignatureMethods}}
                 {{#oauthMethods}}
-                OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken{{-index}});
 
                 {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
@@ -92,7 +92,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}
@@ -129,7 +129,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}

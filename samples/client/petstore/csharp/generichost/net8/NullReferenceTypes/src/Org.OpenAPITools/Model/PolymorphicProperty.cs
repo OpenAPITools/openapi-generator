@@ -126,8 +126,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="PolymorphicProperty" />
     /// </summary>
-    public class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
+    public partial class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolymorphicPropertyJsonConverter" /> class.
+        /// </summary>
+        public PolymorphicPropertyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PolymorphicProperty" />
         /// </summary>
@@ -217,7 +227,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="polymorphicProperty"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -232,7 +241,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="polymorphicProperty"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
 

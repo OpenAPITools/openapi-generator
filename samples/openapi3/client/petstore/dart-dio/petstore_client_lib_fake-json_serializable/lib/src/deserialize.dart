@@ -19,6 +19,7 @@ import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
 import 'package:openapi/src/model/format_test.dart';
+import 'package:openapi/src/model/get_user_info_response.dart';
 import 'package:openapi/src/model/has_only_read_only.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/map_test.dart';
@@ -31,7 +32,12 @@ import 'package:openapi/src/model/model_return.dart';
 import 'package:openapi/src/model/name.dart';
 import 'package:openapi/src/model/nullable_class.dart';
 import 'package:openapi/src/model/number_only.dart';
+import 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 import 'package:openapi/src/model/object_with_deprecated_fields.dart';
+import 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+import 'package:openapi/src/model/object_with_enum.dart';
+import 'package:openapi/src/model/object_with_inline_enum.dart';
+import 'package:openapi/src/model/object_with_inline_enum_default_value.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
@@ -103,6 +109,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return FooGetDefaultResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'FormatTest':
           return FormatTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'GetUserInfoResponse':
+          return GetUserInfoResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'HasOnlyReadOnly':
           return HasOnlyReadOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'HealthCheckResult':
@@ -130,8 +138,18 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return NullableClass.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'NumberOnly':
           return NumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectThatReferencesObjectsWithDuplicateInlineEnums':
+          return ObjectThatReferencesObjectsWithDuplicateInlineEnums.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ObjectWithDeprecatedFields':
           return ObjectWithDeprecatedFields.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithDuplicateInlineEnum':
+          return ObjectWithDuplicateInlineEnum.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithEnum':
+          return ObjectWithEnum.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithInlineEnum':
+          return ObjectWithInlineEnum.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithInlineEnumDefaultValue':
+          return ObjectWithInlineEnumDefaultValue.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Order':
           return Order.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'OuterComposite':
@@ -163,6 +181,9 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'TestEnum':
+          
+          
         case 'TestInlineFreeformAdditionalPropertiesRequest':
           return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
@@ -183,13 +204,13 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
               .toSet() as ReturnType;
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
-            return Map<dynamic, BaseType>.fromIterables(
-              value.keys,
+            targetType = match![1]!.trim(); // ignore: parameter_assignments
+            return Map<String, BaseType>.fromIterables(
+              value.keys as Iterable<String>,
               value.values.map((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable)),
             ) as ReturnType;
           }
           break;
-    } 
+    }
     throw Exception('Cannot deserialize');
   }

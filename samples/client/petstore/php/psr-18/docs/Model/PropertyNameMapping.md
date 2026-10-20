@@ -1,4 +1,4 @@
-# # PropertyNameMapping
+# PropertyNameMapping
 
 ## Properties
 

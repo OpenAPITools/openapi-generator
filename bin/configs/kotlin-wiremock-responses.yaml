@@ -1,0 +1,4 @@
+generatorName: kotlin-wiremock
+outputDir: samples/server/petstore/kotlin-wiremock-responses
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue7193-responses.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-wiremock

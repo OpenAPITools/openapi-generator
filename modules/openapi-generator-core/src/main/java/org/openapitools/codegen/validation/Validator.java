@@ -27,7 +27,6 @@ public interface Validator<TInput> {
      * Validates input, resulting in a instance of {@link ValidationResult} which provides details on all validations performed (success, error, warning).
      *
      * @param input The object instance to be validated.
-     *
      * @return A {@link ValidationResult} which details the success, error, and warning validation results.
      */
     ValidationResult validate(TInput input);

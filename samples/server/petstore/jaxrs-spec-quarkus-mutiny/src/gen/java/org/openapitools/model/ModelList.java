@@ -10,12 +10,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelList  implements Serializable {
   private String _123list;
 
@@ -78,10 +79,7 @@ public class ModelList  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -89,7 +87,7 @@ public class ModelList  implements Serializable {
     return new ModelListBuilderImpl();
   }
 
-  private static class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
+  private static final class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
 
     @Override
     protected ModelListBuilderImpl self() {
@@ -114,4 +112,3 @@ public class ModelList  implements Serializable {
     }
   }
 }
-

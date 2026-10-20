@@ -23,7 +23,7 @@ fun main() {
                 {{#apis}}
                 {{#operations}}
                 {{#operation}}
-                {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{path}}", {{classname}}::{{operationId}})
+                {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{{path}}}", {{classname}}::{{operationId}})
                 {{/operation}}
                 {{/operations}}
 

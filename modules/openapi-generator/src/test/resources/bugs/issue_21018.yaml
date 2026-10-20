@@ -1,0 +1,35 @@
+openapi: "3.0.3"
+info:
+  version: 1.0.0
+  title: test
+paths:
+  /test:
+    get:
+      summary: test
+      operationId: test
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    SomeEnum:
+      type: string
+      enum:
+        - Cat
+        - Dog
+      x-enum-varnames:
+        - CAT
+        - DOG
+    SomeObject:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - Cat
+            - Dog
+          x-enum-varnames:
+            - CAT
+            - DOG

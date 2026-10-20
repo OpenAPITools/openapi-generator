@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
+import org.springframework.http.server.reactive.ServerHttpRequest
 
 import java.util.Optional
 
@@ -14,7 +14,7 @@ import java.util.Optional
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.27.0-SNAPSHOT")
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -26,7 +26,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
@@ -57,7 +57,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]")
+                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}, {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"} ]")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
@@ -78,7 +78,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]")
+                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}, {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"} ]")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
@@ -99,7 +99,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
@@ -120,7 +120,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
@@ -150,7 +150,7 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: Resource?): ResponseEntity<ModelApiResponse> {
+        file: org.springframework.web.multipart.MultipartFile): ResponseEntity<ModelApiResponse> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

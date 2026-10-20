@@ -31,6 +31,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -39,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,14 +51,16 @@ import org.openapitools.client.JSON;
 /**
  * ReadOnlyFirst
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReadOnlyFirst implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -82,7 +84,7 @@ public class ReadOnlyFirst implements Parcelable {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -96,7 +98,7 @@ public class ReadOnlyFirst implements Parcelable {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
 
@@ -135,10 +137,7 @@ public class ReadOnlyFirst implements Parcelable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -170,12 +169,10 @@ public class ReadOnlyFirst implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("bar");
-    openapiFields.add("baz");
+    openapiFields = new HashSet<String>(Arrays.asList("bar", "baz"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -187,7 +184,7 @@ public class ReadOnlyFirst implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ReadOnlyFirst.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }
 
@@ -195,15 +192,15 @@ public class ReadOnlyFirst implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!ReadOnlyFirst.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ReadOnlyFirst` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `ReadOnlyFirst` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
       }
       if ((jsonObj.get("baz") != null && !jsonObj.get("baz").isJsonNull()) && !jsonObj.get("baz").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `baz` to be a primitive type in the JSON string but got `%s`", jsonObj.get("baz").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `baz` to be a primitive type in the JSON string but got `%s`", jsonObj.get("baz").toString()));
       }
   }
 

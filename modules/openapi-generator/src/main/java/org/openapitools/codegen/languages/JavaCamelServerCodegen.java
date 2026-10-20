@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenOperation;
-
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
@@ -64,6 +63,11 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
     }
 
     @Override
+    protected boolean isRecordsSupported() {
+        return false;
+    }
+
+    @Override
     public String getHelp() {
         return "Generates a Java Camel server (beta).";
     }
@@ -72,8 +76,9 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
         super();
         templateDir = "java-camel-server";
         addCliOptions();
+        removeOption(USE_RECORDS);
         artifactId = "openapi-camel";
-        super.library = "";
+        annotationLibrary = AnnotationLibrary.SWAGGER2;
     }
 
     @Override

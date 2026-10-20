@@ -15,7 +15,6 @@
  */
 
 package org.openapitools.codegen.fsharp;
-import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
@@ -24,16 +23,18 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Arrays;
+
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {
 
-  @Test(description = "sort models according to dependency order")
-  public void testModelsAreSortedAccordingToDependencyOrder() throws Exception {
+    @Test(description = "sort models according to dependency order")
+    public void testModelsAreSortedAccordingToDependencyOrder() throws Exception {
         final AbstractFSharpCodegen codegen = new P_AbstractFSharpCodegen();
 
         final CodegenModel wheel = new CodegenModel();
@@ -77,11 +78,11 @@ public class FSharpServerCodegenTest {
 
     @Test(description = "modify model imports to explicit set namespace and package name")
     public void testModelImportsSpecifyNamespaceAndPackageName() throws Exception {
-          final AbstractFSharpCodegen codegen = new FsharpGiraffeServerCodegen();
-          codegen.setPackageName("MyNamespace");
-          codegen.setModelPackage("Model");
-          String modified = codegen.toModelImport("Foo");
-          Assert.assertEquals(modified, "MyNamespace.Model.Foo");
+        final AbstractFSharpCodegen codegen = new FsharpGiraffeServerCodegen();
+        codegen.setPackageName("MyNamespace");
+        codegen.setModelPackage("Model");
+        String modified = codegen.toModelImport("Foo");
+        Assert.assertEquals(modified, "MyNamespace.Model.Foo");
     }
 
     private static class P_AbstractFSharpCodegen extends AbstractFSharpCodegen {

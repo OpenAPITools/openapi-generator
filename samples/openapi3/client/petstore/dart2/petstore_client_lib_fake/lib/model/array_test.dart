@@ -59,10 +59,6 @@ class ArrayTest {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ArrayTest[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ArrayTest[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
@@ -72,12 +68,12 @@ class ArrayTest {
             : const [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
           ? (json[r'array_array_of_integer'] as List).map((e) =>
-              e == null ? const  <int>[] : (e as List).cast<int>()
+              e == null ? const <int>[] : (e as List).map((value) => value as int).toList(growable: false)
             ).toList()
           :  const [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
           ? (json[r'array_array_of_model'] as List).map((e) =>
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+              e == null ? const <ReadOnlyFirst>[] : ReadOnlyFirst.listFromJson(e)
             ).toList()
           :  const [],
       );

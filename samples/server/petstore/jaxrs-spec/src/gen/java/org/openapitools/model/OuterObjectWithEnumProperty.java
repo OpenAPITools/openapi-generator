@@ -13,11 +13,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("OuterObjectWithEnumProperty")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty  implements Serializable {
   private OuterEnumInteger value;
 
@@ -26,6 +27,13 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   }
 
   public OuterObjectWithEnumProperty() {
+  }
+
+  @JsonCreator
+  public OuterObjectWithEnumProperty(
+    @JsonProperty(required = true, value = "value") OuterEnumInteger value
+  ) {
+    this.value = value;
   }
 
   /**
@@ -37,12 +45,12 @@ public class OuterObjectWithEnumProperty  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   public void setValue(OuterEnumInteger value) {
     this.value = value;
   }
@@ -80,10 +88,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -91,7 +96,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     return new OuterObjectWithEnumPropertyBuilderImpl();
   }
 
-  private static class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
+  private static final class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
 
     @Override
     protected OuterObjectWithEnumPropertyBuilderImpl self() {
@@ -116,4 +121,3 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     }
   }
 }
-

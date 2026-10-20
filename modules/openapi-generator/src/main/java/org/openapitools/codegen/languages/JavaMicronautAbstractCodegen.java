@@ -26,7 +26,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 
+/**
+ * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
+ * <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
+ * <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
+ * <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true)
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
@@ -53,6 +63,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
     public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG = "generateOperationOnlyForFirstTag";
+
     public enum SERIALIZATION_LIBRARY_TYPE {jackson, micronaut_serde_jackson}
 
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
@@ -123,10 +134,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                         SecurityFeature.OpenIDConnect
                 ))
         );
-
-        // Set additional properties
-        additionalProperties.put("openbrace", "{");
-        additionalProperties.put("closebrace", "}");
 
         // Set client options that will be presented to user
         updateOption(INVOKER_PACKAGE, this.getInvokerPackage());
@@ -477,8 +484,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 if (models.containsKey(op.returnType)) {
                     CodegenModel m = models.get(op.returnType);
                     List<Object> allowableValues = null;
-                    if (m.allowableValues != null && m.allowableValues.containsKey("values")) {
-                        allowableValues = (List<Object>) m.allowableValues.get("values");
+                    if (hasEnumValues(m.allowableValues)) {
+                        allowableValues = getEnumValues(m.allowableValues);
                     }
                     example = getExampleValue(m.defaultValue, null, m.classname, true,
                             allowableValues, null, null, m.requiredVars, false, false);
@@ -540,7 +547,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
-        for (ModelsMap models: objs.values()) {
+        for (ModelsMap models : objs.values()) {
             CodegenModel model = models.getModels().get(0).getModel();
             if (model.getParentModel() != null) {
                 model.vendorExtensions.put("requiredParentVars", model.getParentModel().requiredVars);
@@ -560,7 +567,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues = p.allowableValues == null ? null : getEnumValues(p.allowableValues);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
@@ -569,7 +576,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues = p.allowableValues == null ? null : getEnumValues(p.allowableValues);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
@@ -627,7 +634,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 if (requiredPropertiesInConstructor) {
                     StringBuilder builder = new StringBuilder();
                     if (isProperty) {
-                        dataType =  importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
+                        dataType = importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
                     }
                     builder.append("new ").append(dataType).append("(");
                     for (int i = 0; i < requiredVars.size(); ++i) {
@@ -691,7 +698,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-            .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
+                .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
     }
 
     private static class ReplaceDotsWithUnderscoreLambda implements Mustache.Lambda {
@@ -710,6 +717,26 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 sb.append("\n  ").append(availableSerializationLibrary.name());
             }
             throw new RuntimeException(sb.toString());
+        }
+    }
+
+    @Override
+    public void postProcess() {
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# WARNING! This generator is outdated. Please use the official generator for   #");
+            System.out.println("# Micronaut: https://github.com/micronaut-projects/micronaut-openapi with the  #");
+            System.out.println("# help of the plugin for Gradle                                                #");
+            System.out.println("# (https://github.com/micronaut-projects/micronaut-gradle-plugin) and Maven    #");
+            System.out.println("# (https://github.com/micronaut-projects/micronaut-maven-plugin).              #");
+            System.out.println("#                                                                              #");
+            System.out.println("# Supported generators for micronaut client / server side, java and kotlin     #");
+            System.out.println("# languages.                                                                   #");
+            System.out.println("################################################################################");
         }
     }
 }

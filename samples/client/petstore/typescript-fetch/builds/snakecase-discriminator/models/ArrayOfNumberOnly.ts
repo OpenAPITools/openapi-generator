@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface ArrayOfNumberOnly {
     /**
      * 
-     * @type {Array<number>}
-     * @memberof ArrayOfNumberOnly
      */
     arrayNumber?: Array<number>;
 }
@@ -48,10 +46,15 @@ export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null): any {
+export function ArrayOfNumberOnlyToJSON(json: any): ArrayOfNumberOnly {
+    return ArrayOfNumberOnlyToJSONTyped(json, false);
+}
+
+export function ArrayOfNumberOnlyToJSONTyped(value?: ArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'ArrayNumber': value['arrayNumber'],

@@ -3,10 +3,13 @@
 # For more information see $JAVA_HOME/jre/lib/logging.properties
 
 # Send messages to the console
-handlers=io.helidon.common.HelidonConsoleHandler
+{{#x-helidon-v3}}handlers=io.helidon.common.HelidonConsoleHandler
+{{/x-helidon-v3}}{{^x-helidon-v3}}handlers=java.util.logging.ConsoleHandler
+{{/x-helidon-v3}}
 
-# HelidonConsoleHandler uses a SimpleFormatter subclass that replaces "!thread!" with the current thread
-java.util.logging.SimpleFormatter.format=%1$tY.%1$tm.%1$td %1$tH:%1$tM:%1$tS %4$s %3$s !thread!: %5$s%6$s%n
+{{#x-helidon-v3}}# HelidonConsoleHandler uses a SimpleFormatter subclass that replaces "!thread!" with the current thread
+{{/x-helidon-v3}}{{!
+}}java.util.logging.SimpleFormatter.format=%1$tY.%1$tm.%1$td %1$tH:%1$tM:%1$tS %4$s %3$s !thread!: %5$s%6$s%n
 
 # Global logging level. Can be overridden by specific loggers
 .level=INFO

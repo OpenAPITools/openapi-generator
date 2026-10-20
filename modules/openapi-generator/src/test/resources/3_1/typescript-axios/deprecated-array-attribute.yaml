@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  description: Test deprecated annotation on array-type properties
+  version: 1.0.0
+  title: Test deprecated array attribute
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /pets:
+    get:
+      tags:
+        - default
+      summary: Finds Pets
+      operationId: findPets
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+    patch:
+      tags:
+        - default
+      summary: Update a Pet
+      operationId: updatePet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetUpdateRequest'
+      responses:
+        '200':
+          description: Pet updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+
+    PetUpdateRequest:
+      type: object
+      description: Payload for updating a pet
+      properties:
+        name:
+          type: string
+          description: New name for the pet
+        age:
+          type: integer
+          format: int32
+          description: Updated age
+          deprecated: true
+        tags:
+          type: array
+          description: List of tags
+          deprecated: true
+          items:
+            type: string
+        oldTags:
+          type: array
+          description: List of old tag objects
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Tag'
+        nicknames:
+          type: array
+          description: List of nicknames (not deprecated)
+          items:
+            type: string
+      required:
+        - name
+
+    Pet:
+      type: object
+      description: Pet object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        tags:
+          type: array
+          items:
+            type: string

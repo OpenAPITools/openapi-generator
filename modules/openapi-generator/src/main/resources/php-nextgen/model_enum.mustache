@@ -1,9 +1,16 @@
-enum {{classname}}: {{vendorExtensions.x-php-enum-type}}
+enum {{classname}}: {{dataType}}
 {
     {{#allowableValues}}
     {{#enumVars}}
-    case {{^isString}}NUMBER_{{/isString}}{{{name}}} = {{{value}}};
+    {{#enumDescription}}
+    /**
+     * {{enumDescription}}
+     */
+    {{/enumDescription}}
+    case {{{name}}} = {{{value}}};
+{{^-last}}
 
+{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
 }

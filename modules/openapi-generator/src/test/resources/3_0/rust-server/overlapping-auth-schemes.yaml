@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: overlapping auth schemes test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /ping:
+    get:
+      operationId: pingGet
+      responses:
+        '201':
+          description: OK
+components:
+  # This spec exists to exercise the auth-scheme blocks generated into context.rs when
+  # several schemes compete for the same request. See issue #24095.
+  #
+  # Two properties matter, and no other rust-server fixture has both:
+  #
+  #  * `basicAuth` and `bearerAuth` are HTTP schemes that both read the `Authorization`
+  #    header, so an unrestricted block for either one also matches the other. This is
+  #    the `isBasicBasic` / `isBasicBearer` pairing; the petstore fixture only covers
+  #    `isBasicBasic` alongside `isOAuth`.
+  #  * `apiKeyAuth` is declared *between* the two HTTP schemes. Blocks are emitted in
+  #    declaration order and each returns early, so an unrestricted Basic block does not
+  #    merely pick the wrong scheme for a bearer-credentialed request - it makes the
+  #    apiKey block below it unreachable, which is an authorization bypass rather than a
+  #    mislabelling. The interleaving is also what makes the bug observable at runtime:
+  #    were the two HTTP blocks adjacent, a broken and a fixed generator would both
+  #    resolve bearer credentials to `AuthData::Bearer` and no request-level test could
+  #    tell them apart.
+  securitySchemes:
+        basicAuth:
+            scheme: basic
+            type: http
+        apiKeyAuth:
+            type: apiKey
+            name: x-api-key
+            in: header
+        bearerAuth:
+            scheme: bearer
+            bearerFormat: token
+            type: http
+security:
+  - basicAuth: []
+  - apiKeyAuth: []
+  - bearerAuth: []

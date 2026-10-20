@@ -33,6 +33,9 @@ import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-restbed-server/}.
+ */
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
@@ -302,11 +305,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     private String convertPathSegmentToResourceNamePart(String pathSegment) {
-        String convertedSegnemt = pathSegment;
+        String convertedSegment = pathSegment;
         if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
-            convertedSegnemt = pathSegment.substring(1, pathSegment.length() - 1);
+            convertedSegment = pathSegment.substring(1, pathSegment.length() - 1);
         }
-        return capitalizeFirstChar(sanitizeName(convertedSegnemt));
+        return capitalizeFirstChar(sanitizeName(convertedSegment));
     }
 
     private String convertPathParamPattern(String pathSegment) {
@@ -332,7 +335,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 resourceNameCamelCase += convertPathSegmentToResourceNamePart(pathSegment);
                 String convertedPathSegment = convertPathParamPattern(pathSegment);
                 joiner.add(convertedPathSegment);
-                    }
+            }
 
             op.path = joiner.toString();
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
@@ -345,11 +348,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
             if (op1 != null) {
                 List<CodegenOperation> currentOtherMethodList = getCodegenXCodegenOtherMethodsOperations(op1);
-                        op.operationIdCamelCase = op1.operationIdCamelCase;
-                        currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
-                    }
-            else {
+                op.operationIdCamelCase = op1.operationIdCamelCase;
+                currentOtherMethodList.add(op);
+                op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
+            } else {
                 newOpList.add(op);
             }
         }
@@ -491,7 +493,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isString = parameter.isString == Boolean.TRUE;
 
         if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.defaultValue =  parameter.dataType + "{}";
+            parameter.defaultValue = parameter.dataType + "{}";
         }
     }
 

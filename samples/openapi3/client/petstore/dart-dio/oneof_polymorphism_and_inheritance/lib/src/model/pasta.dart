@@ -12,12 +12,12 @@ part 'pasta.g.dart';
 /// Pasta
 ///
 /// Properties:
-/// * [vendor] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [vendor] 
 @BuiltValue()
 abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   @BuiltValueField(wireName: r'vendor')
@@ -112,29 +112,33 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
         case r'@schemaLocation':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atSchemaLocation = valueDes;
           break;
         case r'@baseType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.href = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'@type':
@@ -147,8 +151,9 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
         case r'vendor':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.vendor = valueDes;
           break;
         default:
@@ -179,4 +184,5 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
     return result.build();
   }
 }
+
 

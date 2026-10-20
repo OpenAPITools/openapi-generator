@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: Nullable container types
+  version: 1.0.0
+paths:
+  /mappings:
+    get:
+      operationId: listMappings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MappingItemResource'
+components:
+  schemas:
+    MappingItemResource:
+      type: object
+      properties:
+        settings:
+          type:
+            - object
+            - 'null'
+          properties:
+            validation:
+              type:
+                - object
+                - 'null'
+              additionalProperties:
+                type: string
+            requirements:
+              type:
+                - array
+                - 'null'
+              items:
+                type: string
+      required:
+        - settings

@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface GetBehaviorPermissionsResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof GetBehaviorPermissionsResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof GetBehaviorPermissionsResponse
      */
     data?: { [key: string]: boolean; };
 }
@@ -63,10 +60,15 @@ export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null): any {
+export function GetBehaviorPermissionsResponseToJSON(json: any): GetBehaviorPermissionsResponse {
+    return GetBehaviorPermissionsResponseToJSONTyped(json, false);
+}
+
+export function GetBehaviorPermissionsResponseToJSONTyped(value?: GetBehaviorPermissionsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

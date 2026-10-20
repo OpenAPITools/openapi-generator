@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  description: >-
+    Yet another example.
+  version: 1.0.0
+  title: OpenAPI example
+tags:
+  - name: nodesc
+    description: Endpoints have no description
+  - name: desc
+    description: Endpoints have description
+paths:
+  /nodesc:
+    post:
+      tags:
+        - nodesc
+      summary: dummy operation
+      operationId: nodesc
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
+  /desc:
+    post:
+      tags:
+        - desc
+      summary: dummy operation
+      description: 'Description'
+      operationId: desc
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input

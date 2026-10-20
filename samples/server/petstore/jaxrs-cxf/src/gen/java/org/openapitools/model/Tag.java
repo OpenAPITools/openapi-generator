@@ -11,9 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Tag  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get id
@@ -85,10 +87,7 @@ public class Tag  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

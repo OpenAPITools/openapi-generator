@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -25,10 +26,12 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/confluenceWikiDocs/}.
+ */
 public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ALL_OPERATIONS = "";
     protected String invokerPackage = "org.openapitools.client";
@@ -158,5 +161,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

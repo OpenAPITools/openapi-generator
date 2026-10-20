@@ -8,6 +8,8 @@ object Serializer {
     val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(OffsetDateTimeAdapter())
         .add(InstantAdapter())
+        .add(LocalDateAdapter())
+        .add(LocalTimeAdapter())
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
         .add(UUIDAdapter())

@@ -102,7 +102,7 @@ private class OASStoreApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSOrder' => OASOrder.getExample()
+            'oaSOrder' => ''
         };
 
         OASClient client;

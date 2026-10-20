@@ -4,5 +4,13 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/Cat.md
+docs/DefaultApi.md
+docs/Dog.md
+docs/FilePostRequest.md
+docs/PetByAge.md
+docs/PetByType.md
+docs/PetsFilteredPatchRequest.md
+docs/PetsPatchRequest.md
 git_push.sh
 index.ts

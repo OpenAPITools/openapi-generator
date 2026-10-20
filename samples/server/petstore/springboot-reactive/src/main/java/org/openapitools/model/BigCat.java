@@ -3,29 +3,30 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Cat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * BigCat
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -40,7 +41,7 @@ public class BigCat extends Cat {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;
@@ -67,7 +68,8 @@ public class BigCat extends Cat {
     }
   }
 
-  private KindEnum kind;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable KindEnum kind;
 
   public BigCat() {
     super();
@@ -80,7 +82,7 @@ public class BigCat extends Cat {
     super(className);
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -90,13 +92,14 @@ public class BigCat extends Cat {
    * @return kind
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  @JsonProperty("kind")
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 
@@ -147,11 +150,8 @@ public class BigCat extends Cat {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

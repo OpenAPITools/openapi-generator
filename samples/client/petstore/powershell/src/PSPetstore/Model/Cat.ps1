@@ -49,9 +49,9 @@ function Initialize-PSCat {
 
 
         $PSO = [PSCustomObject]@{
-            "className" = ${ClassName}
-            "color" = ${Color}
-            "declawed" = ${Declawed}
+            'className' = ${ClassName}
+            'color' = ${Color}
+            'declawed' = ${Declawed}
         }
 
 
@@ -89,7 +89,7 @@ function ConvertFrom-PSJsonToCat {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSCat
-        $AllProperties = ("className", "color", "declawed")
+        $AllProperties = ('className', 'color', 'declawed')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -100,28 +100,28 @@ function ConvertFrom-PSJsonToCat {
             throw "Error! Empty JSON cannot be serialized due to the required property 'className' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "className"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'className'))) {
             throw "Error! JSON cannot be serialized due to the required property 'className' missing."
         } else {
-            $ClassName = $JsonParameters.PSobject.Properties["className"].value
+            $ClassName = $JsonParameters.PSobject.Properties['className'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "color"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'color'))) { #optional property not found
             $Color = $null
         } else {
-            $Color = $JsonParameters.PSobject.Properties["color"].value
+            $Color = $JsonParameters.PSobject.Properties['color'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "declawed"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'declawed'))) { #optional property not found
             $Declawed = $null
         } else {
-            $Declawed = $JsonParameters.PSobject.Properties["declawed"].value
+            $Declawed = $JsonParameters.PSobject.Properties['declawed'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "className" = ${ClassName}
-            "color" = ${Color}
-            "declawed" = ${Declawed}
+            'className' = ${ClassName}
+            'color' = ${Color}
+            'declawed' = ${Declawed}
         }
 
         return $PSO

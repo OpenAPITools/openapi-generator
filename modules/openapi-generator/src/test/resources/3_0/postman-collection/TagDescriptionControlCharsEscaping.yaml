@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Tag Description Control Chars Escaping
+  version: '1.0'
+servers:
+  - url: 'http://localhost:5001'
+paths:
+  '/users/{userId}':
+    get:
+      summary: Get User
+      operationId: get-users-userId
+      tags:
+        - basic
+      parameters:
+        - description: Unique identifier of the user
+          name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+tags:
+  - name: basic
+    description: "desc with \\t tab, \\b backspace, \\f formfeed, \\r carriage-return, \\n line"

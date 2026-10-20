@@ -1,4 +1,6 @@
-{{#isPrimitiveType}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}InputStream{{/isFile}}{{/isPrimitiveType}}{{!
+{{!
+    Used for v3 only.
+}}{{#isPrimitiveType}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}InputStream{{/isFile}}{{/isPrimitiveType}}{{!
 }}{{^isPrimitiveType}}{{!
     }}{{#isArray}}{{!
         }}{{#isBodyParam}}{{{dataType}}}{{/isBodyParam}}{{!

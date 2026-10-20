@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: content-type split with form bodies
+  version: 1.0.0
+paths:
+  # Cas A : body multipart UNIQUE, mais deux content-types de reponse.
+  # L'axe requete n'est pas decoupe : seul l'axe reponse l'est.
+  /upload:
+    post:
+      operationId: upload
+      tags: [files]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  # Cas B : deux content-types de requete dont un multipart -> axe requete decoupe.
+  /convert:
+    post:
+      operationId: convert
+      tags: [files]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+components:
+  schemas:
+    Receipt:
+      type: object
+      properties:
+        number:
+          type: string

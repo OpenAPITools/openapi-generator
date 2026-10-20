@@ -28,16 +28,17 @@ import org.hibernate.validator.constraints.*;
 /**
  * ModelList
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelList {
   public static final String SERIALIZED_NAME_123LIST = "123-list";
   @SerializedName(SERIALIZED_NAME_123LIST)
+  @javax.annotation.Nullable
   private String _123list;
 
   public ModelList() {
   }
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@javax.annotation.Nullable String _123list) {
     
     this._123list = _123list;
     return this;
@@ -55,9 +56,10 @@ public class ModelList {
   }
 
 
-  public void set123list(String _123list) {
+  public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -90,10 +92,7 @@ public class ModelList {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

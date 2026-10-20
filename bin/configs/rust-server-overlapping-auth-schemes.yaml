@@ -1,0 +1,8 @@
+generatorName: rust-server
+outputDir: samples/server/petstore/rust-server/output/overlapping-auth-schemes
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-server/overlapping-auth-schemes.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-server
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: overlapping-auth-schemes

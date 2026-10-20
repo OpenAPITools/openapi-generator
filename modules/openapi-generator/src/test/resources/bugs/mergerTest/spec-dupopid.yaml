@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: Duplicate OperationId Spec
+  version: 1.0.0
+servers:
+  - url: api.my-domain.com/my-context-root/v1
+paths:
+  /dupop:
+    get:
+      tags:
+        - dup
+      summary: dup
+      operationId: spec1Operation
+      responses:
+        '200':
+          description: OK

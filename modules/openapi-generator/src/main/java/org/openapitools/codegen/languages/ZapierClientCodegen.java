@@ -30,6 +30,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/zapier/}.
+ */
 public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 

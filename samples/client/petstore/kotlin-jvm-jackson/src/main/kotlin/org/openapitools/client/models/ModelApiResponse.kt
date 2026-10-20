@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -22,21 +30,24 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Describes the result of uploading an image resource
  *
- * @param code 
- * @param type 
- * @param message 
+ * @param code
+ * @param type
+ * @param message
  */
 
 
 data class ModelApiResponse (
 
-    @field:JsonProperty("code")
+    @param:JsonProperty("code")
+    @get:JsonProperty("code")
     val code: kotlin.Int? = null,
 
-    @field:JsonProperty("type")
+    @param:JsonProperty("type")
+    @get:JsonProperty("type")
     val type: kotlin.String? = null,
 
-    @field:JsonProperty("message")
+    @param:JsonProperty("message")
+    @get:JsonProperty("message")
     val message: kotlin.String? = null
 
 ) {

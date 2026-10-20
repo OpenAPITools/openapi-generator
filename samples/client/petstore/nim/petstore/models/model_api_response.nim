@@ -9,10 +9,13 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type ApiResponse* = object
   ## Describes the result of uploading an image resource
-  code*: int
-  `type`*: string
-  message*: string
+  code*: Option[int]
+  `type`*: Option[string]
+  message*: Option[string]
+

@@ -1,0 +1,33 @@
+{{>License}}
+
+#pragma once
+
+#include "{{{apiHeaderFileName}}}"
+
+namespace {{apiNamespace}} {
+
+/**
+ * @brief Implementation class for {{apiClassnameInPascalCase}}
+ *
+ * This is a stub implementation that you can use as a starting point.
+ * Override the methods to implement your business logic.
+ */
+class {{apiClassnameInPascalCase}}Impl : public {{apiClassnameInPascalCase}} {
+public:
+    {{apiClassnameInPascalCase}}Impl() = default;
+    virtual ~{{apiClassnameInPascalCase}}Impl() = default;
+
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+    /**
+     * @brief Implementation stub for {{handlerFunctionName}}
+     */
+    {{#hasAnyResponseSchema}}{{responseType}}{{/hasAnyResponseSchema}}{{^hasAnyResponseSchema}}void{{/hasAnyResponseSchema}} {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{requestType}}& params{{/hasAnyRequestSchema}}) override;
+
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+};
+
+} // namespace {{apiNamespace}}

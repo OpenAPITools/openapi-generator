@@ -1,4 +1,4 @@
-# # Animal
+# Animal
 
 ## Properties
 

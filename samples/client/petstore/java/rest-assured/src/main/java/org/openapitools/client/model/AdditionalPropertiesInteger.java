@@ -30,17 +30,18 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesInteger
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesInteger() {
 
   }
 
-  public AdditionalPropertiesInteger name(String name) {
+  public AdditionalPropertiesInteger name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -58,9 +59,10 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -95,10 +97,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

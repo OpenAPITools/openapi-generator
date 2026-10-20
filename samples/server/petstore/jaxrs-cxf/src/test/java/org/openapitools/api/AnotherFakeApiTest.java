@@ -14,10 +14,12 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
@@ -46,7 +48,7 @@ public class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
@@ -69,8 +71,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() {
+        UUID uuidTest = null;
         Client body = null;
-        //Client response = api.call123testSpecialTags(body);
+        //Client response = api.call123testSpecialTags(uuidTest, body);
         //assertNotNull(response);
         // TODO: test validations
 

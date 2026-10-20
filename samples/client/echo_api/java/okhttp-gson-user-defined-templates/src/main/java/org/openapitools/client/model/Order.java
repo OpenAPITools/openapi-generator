@@ -30,6 +30,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,22 +50,26 @@ import org.openapitools.client.JSON;
 /**
  * An order for a pets from the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
   @SerializedName(SERIALIZED_NAME_PET_ID)
+  @javax.annotation.Nullable
   private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
+  @javax.annotation.Nullable
   private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
+  @javax.annotation.Nullable
   private OffsetDateTime shipDate;
 
   /**
@@ -124,16 +128,18 @@ public class Order {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
   @SerializedName(SERIALIZED_NAME_COMPLETE)
+  @javax.annotation.Nullable
   private Boolean complete = false;
 
   public Order() {
   }
 
-  public Order id(Long id) {
+  public Order id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -147,12 +153,12 @@ public class Order {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Order petId(Long petId) {
+  public Order petId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
     return this;
   }
@@ -166,12 +172,12 @@ public class Order {
     return petId;
   }
 
-  public void setPetId(Long petId) {
+  public void setPetId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
   }
 
 
-  public Order quantity(Integer quantity) {
+  public Order quantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -185,12 +191,12 @@ public class Order {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
   }
 
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -204,12 +210,12 @@ public class Order {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
 
-  public Order status(StatusEnum status) {
+  public Order status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -223,12 +229,12 @@ public class Order {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
 
-  public Order complete(Boolean complete) {
+  public Order complete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
     return this;
   }
@@ -242,7 +248,7 @@ public class Order {
     return complete;
   }
 
-  public void setComplete(Boolean complete) {
+  public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
 
@@ -289,10 +295,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -301,16 +304,10 @@ public class Order {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("petId");
-    openapiFields.add("quantity");
-    openapiFields.add("shipDate");
-    openapiFields.add("status");
-    openapiFields.add("complete");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "petId", "quantity", "shipDate", "status", "complete"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -322,7 +319,7 @@ public class Order {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Order.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Order is not found in the empty JSON string", Order.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Order is not found in the empty JSON string", Order.openapiRequiredFields.toString()));
         }
       }
 
@@ -330,12 +327,12 @@ public class Order {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Order.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Order` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `Order` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {

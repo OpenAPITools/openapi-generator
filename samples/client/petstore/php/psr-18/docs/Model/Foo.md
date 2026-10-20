@@ -1,4 +1,4 @@
-# # Foo
+# Foo
 
 ## Properties
 

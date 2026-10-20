@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: OneOf Empty Members Test
+  version: 1.0.0
+paths:
+  /event:
+    post:
+      operationId: sendEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Event:
+      oneOf:
+        - $ref: '#/components/schemas/ClickEvent'
+        - $ref: '#/components/schemas/ViewEvent'
+        - $ref: '#/components/schemas/PurchaseEvent'
+      discriminator:
+        propertyName: eventType
+        mapping:
+          click: '#/components/schemas/ClickEvent'
+          view: '#/components/schemas/ViewEvent'
+          purchase: '#/components/schemas/PurchaseEvent'
+    
+    ClickEvent:
+      type: object
+      required:
+        - eventType
+      properties:
+        eventType:
+          type: string
+          const: click
+    
+    ViewEvent:
+      type: object
+      required:
+        - eventType
+      properties:
+        eventType:
+          type: string
+          const: view
+    
+    PurchaseEvent:
+      type: object
+      required:
+        - eventType
+        - amount
+      properties:
+        eventType:
+          type: string
+          const: purchase
+        amount:
+          type: number
+          description: Purchase amount

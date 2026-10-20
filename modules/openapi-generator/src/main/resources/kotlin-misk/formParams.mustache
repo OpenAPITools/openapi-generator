@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}{{#isModel}}@RequestPart{{/isModel}}{{^isModel}}@QueryParam{{/isModel}}(value = "{{baseName}}") {{{paramName}}}: {{>optionalDataType}} {{/isFile}}{{#isFile}}{{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{paramName}}}: {{>optionalDataType}}HttpCall{{/isFile}}{{/isFormParam}}

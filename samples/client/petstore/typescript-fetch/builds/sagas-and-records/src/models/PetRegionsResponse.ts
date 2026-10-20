@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -28,16 +29,12 @@ import {
 export interface PetRegionsResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof PetRegionsResponse
      */
     meta: ResponseMeta;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
-     * @memberof PetRegionsResponse
      */
-    data?: Array<Array<number>>;
+    data?: Array<Array<number | null>>;
 }
 
 /**
@@ -63,10 +60,15 @@ export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any {
+export function PetRegionsResponseToJSON(json: any): PetRegionsResponse {
+    return PetRegionsResponseToJSONTyped(json, false);
+}
+
+export function PetRegionsResponseToJSONTyped(value?: PetRegionsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

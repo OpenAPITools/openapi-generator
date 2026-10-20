@@ -41,21 +41,24 @@ import org.openapitools.client.ApiClient;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  @javax.annotation.Nullable
   private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
+  @javax.annotation.Nullable
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
+  @javax.annotation.Nullable
   private Instant date;
 
   public DataQuery() { 
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
     return this;
   }
@@ -65,21 +68,21 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSuffix() {
     return suffix;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSuffix(String suffix) {
+  public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
 
-  public DataQuery text(String text) {
+  public DataQuery text(@javax.annotation.Nullable String text) {
     this.text = text;
     return this;
   }
@@ -89,21 +92,21 @@ public class DataQuery extends Query {
    * @return text
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getText() {
     return text;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setText(String text) {
+  public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
   }
 
 
-  public DataQuery date(Instant date) {
+  public DataQuery date(@javax.annotation.Nullable Instant date) {
     this.date = date;
     return this;
   }
@@ -113,28 +116,28 @@ public class DataQuery extends Query {
    * @return date
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Instant getDate() {
     return date;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(Instant date) {
+  public void setDate(@javax.annotation.Nullable Instant date) {
     this.date = date;
   }
 
 
   @Override
-  public DataQuery id(Long id) {
+  public DataQuery id(@javax.annotation.Nullable Long id) {
     this.setId(id);
     return this;
   }
 
   @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+  public DataQuery outcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.setOutcomes(outcomes);
     return this;
   }
@@ -179,10 +182,7 @@ public class DataQuery extends Query {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -219,31 +219,31 @@ public class DataQuery extends Query {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `outcomes` to the URL query string
     if (getOutcomes() != null) {
       for (int i = 0; i < getOutcomes().size(); i++) {
-        joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getOutcomes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%soutcomes%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+            ApiClient.urlEncode(ApiClient.valueToString(getOutcomes().get(i)))));
       }
     }
 
     // add `suffix` to the URL query string
     if (getSuffix() != null) {
-      joiner.add(String.format("%ssuffix%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuffix()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssuffix%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSuffix()))));
     }
 
     // add `text` to the URL query string
     if (getText() != null) {
-      joiner.add(String.format("%stext%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getText()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%stext%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getText()))));
     }
 
     // add `date` to the URL query string
     if (getDate() != null) {
-      joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
     }
 
     return joiner.toString();

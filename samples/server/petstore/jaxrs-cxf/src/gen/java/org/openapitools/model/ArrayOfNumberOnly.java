@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
-  @Valid
+
   private List<BigDecimal> arrayNumber = new ArrayList<>();
  /**
    * Get arrayNumber
@@ -72,10 +72,7 @@ public class ArrayOfNumberOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

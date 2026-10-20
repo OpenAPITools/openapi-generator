@@ -25,16 +25,16 @@ paths:
       description: ""
       operationId: addPet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "405":
           description: Invalid input
@@ -56,16 +56,16 @@ paths:
         url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -104,6 +104,7 @@ paths:
             - sold
             type: string
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -111,13 +112,15 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
           description: successful operation
         "400":
           description: Invalid status value
@@ -146,6 +149,7 @@ paths:
           items:
             type: string
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -153,13 +157,15 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
           description: successful operation
         "400":
           description: Invalid tag value
@@ -223,10 +229,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -257,7 +263,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           description: Invalid input
@@ -289,13 +295,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -319,6 +325,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                type: object
           description: successful operation
       security:
       - api_key: []
@@ -335,7 +342,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -343,10 +350,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid Order
@@ -402,10 +409,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -425,7 +432,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -444,7 +451,7 @@ paths:
       description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -461,7 +468,7 @@ paths:
       description: ""
       operationId: createUsersWithListInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -592,10 +599,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           description: Invalid username supplied
@@ -623,7 +630,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -658,7 +665,7 @@ paths:
       operationId: response_ref_to_no_ref
       responses:
         "200":
-          $ref: '#/components/responses/no_ref'
+          $ref: "#/components/responses/no_ref"
       tags:
       - fake
       x-accepts:
@@ -668,7 +675,7 @@ paths:
       operationId: response_ref_to_ref
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
       x-accepts:
@@ -677,16 +684,44 @@ paths:
     get:
       operationId: ref_to_ref_parameter
       parameters:
-      - $ref: '#/components/parameters/ref_to_uuid'
+      - $ref: "#/components/parameters/ref_to_uuid"
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
       x-accepts:
       - text/plain
     parameters:
-    - $ref: '#/components/parameters/ref_to_uuid'
+    - $ref: "#/components/parameters/ref_to_uuid"
+  /ref/ref_to_path_level_parameter_oneof:
+    get:
+      description: to test $ref to path level parameters
+      operationId: ref_to_ref_parameter_oneof
+      parameters:
+      - $ref: "#/components/parameters/ref_to_oneof"
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+    parameters:
+    - $ref: "#/components/parameters/ref_to_oneof"
+  /ref/ref_to_operation_level_parameter_oneof:
+    get:
+      description: to test $ref to operation level parameters
+      operationId: ref_to_ref_parameter_anyof
+      parameters:
+      - $ref: "#/components/parameters/ref_to_anyof"
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
   /fake/api/changeowner:
     post:
       operationId: op1
@@ -701,7 +736,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op1
       tags:
@@ -722,7 +757,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op2
       tags:
@@ -740,8 +775,9 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/components/schemas/CodesEnum'
+            $ref: "#/components/schemas/CodesEnum"
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -758,7 +794,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                allOf:
+                - $ref: "#/components/schemas/myObject"
+                nullable: true
           description: ""
       tags:
       - fake
@@ -771,7 +809,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                allOf:
+                - $ref: "#/components/schemas/myObject"
+                nullable: true
           description: ""
       tags:
       - fake
@@ -785,8 +825,19 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/myObject'
+                  $ref: "#/components/schemas/myObject"
                 nullable: true
+                type: array
+                default: null
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/path/backslash/GetPetById\(\):
+    get:
+      responses:
+        "200":
           description: ""
       tags:
       - fake
@@ -805,24 +856,43 @@ components:
         format: uuid
         type: string
       style: simple
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      explode: false
+      in: header
+      name: ref_to_oneof
+      required: true
+      schema:
+        $ref: "#/components/schemas/_ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter"
+      style: simple
+    ref_to_anyof:
+      description: to test ref to parameter (anyof)
+      explode: false
+      in: header
+      name: ref_to_anyof
+      required: true
+      schema:
+        $ref: "#/components/schemas/ref_to_ref_parameter_anyof_ref_to_anyof_parameter"
+      style: simple
   requestBodies:
     UserArray:
       content:
         application/json:
           schema:
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
             type: array
+            default: null
       description: List of user object
       required: true
     Pet:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
   responses:
@@ -836,18 +906,18 @@ components:
       content:
         text/plain:
           schema:
-            $ref: '#/components/schemas/simple_text'
+            $ref: "#/components/schemas/simple_text"
       description: required to pass validation
   schemas:
     Order:
       description: An order for a pets from the pet store
       example:
+        id: 0
         petId: 6
         quantity: 1
-        id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
         status: placed
+        complete: false
       properties:
         id:
           format: int64
@@ -877,8 +947,8 @@ components:
     Category:
       description: A category for a pet
       example:
-        name: name
         id: 6
+        name: name
       properties:
         id:
           format: int64
@@ -892,14 +962,14 @@ components:
     User:
       description: A User who is purchasing from the pet store
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
-        password: password
-        userStatus: 6
-        phone: phone
-        id: 0
         email: email
-        username: username
+        password: password
+        phone: phone
+        userStatus: 6
       properties:
         id:
           format: int64
@@ -926,8 +996,8 @@ components:
     Tag:
       description: A tag for a pet
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -940,26 +1010,26 @@ components:
     Pet:
       description: A pet for sale in the pet store
       example:
+        id: 0
+        category:
+          id: 6
+          name: name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -970,13 +1040,15 @@ components:
           xml:
             name: photoUrl
             wrapped: true
+          default: null
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
             wrapped: true
+          default: null
         status:
           deprecated: true
           description: pet status in the store
@@ -1019,13 +1091,13 @@ components:
       - type: integer
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           declawed:
             type: boolean
@@ -1050,15 +1122,15 @@ components:
           items:
             type: string
           type: array
+          default: null
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
-          items:
-            description: TODO default missing array inner type to string
-            type: string
+          items: {}
           maxItems: 5
           minItems: 3
           type: array
+          default: null
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
@@ -1066,38 +1138,40 @@ components:
     ArrayPrefixItems:
       description: |
         An item that was added to the queue.
-      items:
-        description: TODO default missing array inner type to string
-        type: string
+      items: {}
       maxItems: 5
       minItems: 3
       type: array
+      default: null
     circular_reference_1:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_2'
+          $ref: "#/components/schemas/circular_reference_2"
     circular_reference_2:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_3'
+          $ref: "#/components/schemas/circular_reference_3"
     circular_reference_3:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_1'
+          $ref: "#/components/schemas/circular_reference_1"
     array_of_same_ref:
       properties:
         arrayFooOne:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
+          default: null
         arrayFooTwo:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
+          default: null
         arrayFooThree:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
+          default: null
     CodesEnum:
       enum:
       - Code 1
@@ -1110,13 +1184,40 @@ components:
           items:
             type: string
           type: array
+          default: null
       required:
       - arrayOfStrings
     AllOfSimpleModel:
       allOf:
-      - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+      - $ref: "#/components/schemas/SimpleModelWithArrayProperty"
     myObject:
+      example: {}
       type: object
+    SelfReference:
+      items: {}
+      type: array
+      default: null
+    SelfReferenceOneOf:
+      oneOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAnyOf:
+      anyOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAdditionalProperties:
+      additionalProperties: {}
+      properties:
+        dummy:
+          type: string
+    PetWithTypesObjectNullAndRef:
+      properties:
+        first_property:
+          $ref: "#/components/schemas/Pet"
+        second_property:
+          description: just null type
+        third_property:
+          description: null type declared as the OAS 3.1 quoted string
     updatePetWithForm_request:
       properties:
         name:
@@ -1134,6 +1235,37 @@ components:
           description: file to upload
           format: binary
           type: string
+    _ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    ref_to_ref_parameter_anyof_ref_to_anyof_parameter:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+        default: null
+    _fake_webhooks_sources_deleted_post_request_event:
+      properties:
+        event_id:
+          type: string
+      required:
+      - event_id
+    _fake_webhooks_sources_deleted_post_request:
+      description: inline schema in webhooks
+      properties:
+        event_timestamp:
+          format: date-time
+          type: string
+        event_type:
+          type: string
+        event:
+          $ref: "#/components/schemas/_fake_webhooks_sources_deleted_post_request_event"
+      required:
+      - event
+      - event_timestamp
+      - event_type
   securitySchemes:
     petstore_auth:
       flows:

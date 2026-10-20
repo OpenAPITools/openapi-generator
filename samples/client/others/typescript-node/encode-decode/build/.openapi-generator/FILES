@@ -1,0 +1,10 @@
+.gitignore
+api.ts
+api/apis.ts
+api/defaultApi.ts
+git_push.sh
+model/complexObject.ts
+model/compositeObject.ts
+model/models.ts
+package.json
+tsconfig.json

@@ -1,0 +1,50 @@
+using {{packageName}}.Models;
+
+namespace {{packageName}}.{{apiPackage}};
+
+{{#operations}}
+
+    {{#operation}}
+
+/// <summary>
+/// {{summary}}
+/// </summary>
+{{#isDeprecated}}[Obsolete]{{/isDeprecated}}
+public class {{operationId}}Endpoint : {{>endpointType}}{{>endpointRequestType}}{{>endpointResponseType}}
+{
+    public override void Configure()
+    {
+        {{httpMethod}}("{{{basePathWithoutHost}}}{{{path}}}");
+        {{#useApiVersioning}}Version({{apiVersion}});{{/useApiVersioning}}
+        {{#useResponseCaching}}ResponseCache(60);{{/useResponseCaching}}
+        {{^useAuthentication}}AllowAnonymous();{{/useAuthentication}}{{#useAuthentication}}//TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization{{/useAuthentication}}
+        {{#allParams}}{{#isFile}}AllowFileUploads();{{/isFile}}{{/allParams}}
+        Description(x =>
+        {
+            x.WithTags("{{#tags}}{{name}}{{/tags}}");{{#responses}}{{^is2xx}}
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblem{{#useProblemDetails}}Details{{/useProblemDetails}}{{^useProblemDetails}}FE{{/useProblemDetails}}(x, {{code}});{{/is2xx}}{{/responses}}
+        });
+
+        Summary(s => {
+            s.Summary = "{{summary}}";
+            {{#allParams}}
+            s.RequestParam(r => r.{{#isBodyParam}}{{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{nameInPascalCase}}{{/isBodyParam}}, "{{description}}");
+            {{/allParams}}
+            {{#responses}}
+            s.Responses[{{code}}] = "{{message}}";
+            {{/responses}}
+        });
+    }
+
+    public override async Task HandleAsync({{#allParams}}{{#-first}}{{operationId}}Request req, {{/-first}}{{/allParams}}CancellationToken ct)
+    {
+        //Response = new()
+        //{
+            //...
+        //};
+        //return Task.CompletedTask;
+    }
+}
+
+    {{/operation}}
+{{/operations}}

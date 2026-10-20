@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -32,15 +34,16 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ShapeInterface.JSON_PROPERTY_SHAPE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public ShapeInterface() { 
   }
 
-  public ShapeInterface shapeType(String shapeType) {
+  public ShapeInterface shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -50,7 +53,7 @@ public class ShapeInterface {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -58,9 +61,9 @@ public class ShapeInterface {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
@@ -70,19 +73,12 @@ public class ShapeInterface {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ShapeInterface shapeInterface = (ShapeInterface) o;
-    return Objects.equals(this.shapeType, shapeInterface.shapeType);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -99,10 +95,7 @@ public class ShapeInterface {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

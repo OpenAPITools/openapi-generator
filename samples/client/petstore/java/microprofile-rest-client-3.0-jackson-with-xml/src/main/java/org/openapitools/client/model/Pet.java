@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -12,6 +12,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -52,25 +56,25 @@ public class Pet  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   @XmlElement(name = "Category")
-  private Category category;
+  protected Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
-  private String name;
+  protected String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
-  private List<String> photoUrls = new ArrayList<>();
+  protected List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -110,13 +114,14 @@ public class Pet  {
  /**
   * pet status in the store
   */
-  private StatusEnum status;
+  protected StatusEnum status;
+
 
   /**
    * Get id
    * @return id
    **/
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -126,7 +131,7 @@ public class Pet  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
@@ -142,7 +147,7 @@ public class Pet  {
    * Get category
    * @return category
    **/
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Category")
   public Category getCategory() {
@@ -152,7 +157,7 @@ public class Pet  {
   /**
    * Set category
    */
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Category")
   public void setCategory(Category category) {
@@ -168,7 +173,7 @@ public class Pet  {
    * Get name
    * @return name
    **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
   public String getName() {
@@ -178,7 +183,7 @@ public class Pet  {
   /**
    * Set name
    */
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
@@ -194,7 +199,7 @@ public class Pet  {
    * Get photoUrls
    * @return photoUrls
    **/
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
@@ -205,7 +210,7 @@ public class Pet  {
   /**
    * Set photoUrls
    */
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
@@ -230,7 +235,7 @@ public class Pet  {
    * Get tags
    * @return tags
    **/
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -241,7 +246,7 @@ public class Pet  {
   /**
    * Set tags
    */
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -268,7 +273,7 @@ public class Pet  {
    * @deprecated
    **/
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
    public String getStatus() {
@@ -281,7 +286,7 @@ public class Pet  {
   /**
    * Set status
    */
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
   public void setStatus(StatusEnum status) {
@@ -293,6 +298,27 @@ public class Pet  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   /**
    * Create a string representation of this pojo.
@@ -317,10 +343,7 @@ public class Pet  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

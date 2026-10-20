@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @SerializedName(SERIALIZED_NAME_SOME_PROPERTY)
+  @javax.annotation.Nullable
   private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
   }
 
-  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
     return this;
   }
@@ -72,7 +73,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     return someProperty;
   }
 
-  public void setSomeProperty(String someProperty) {
+  public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 
@@ -155,10 +156,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -167,11 +165,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("someProperty");
+    openapiFields = new HashSet<String>(Arrays.asList("someProperty"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -183,12 +180,12 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in TestInlineFreeformAdditionalPropertiesRequest is not found in the empty JSON string", TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in TestInlineFreeformAdditionalPropertiesRequest is not found in the empty JSON string", TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("someProperty") != null && !jsonObj.get("someProperty").isJsonNull()) && !jsonObj.get("someProperty").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `someProperty` to be a primitive type in the JSON string but got `%s`", jsonObj.get("someProperty").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `someProperty` to be a primitive type in the JSON string but got `%s`", jsonObj.get("someProperty").toString()));
       }
   }
 
@@ -221,7 +218,9 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -249,7 +248,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

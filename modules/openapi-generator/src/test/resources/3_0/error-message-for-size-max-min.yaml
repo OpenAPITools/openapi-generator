@@ -1,0 +1,310 @@
+openapi: 3.0.3
+info:
+  title: sample spec
+  version: 1.0.0
+paths:
+  /test/length/{word}:
+    post:
+      operationId: lengthTest
+      parameters:
+        - in: path
+          name: word
+          required: true
+          schema:
+            type: string
+            maxLength: 10
+            x-size-message: "Must be max 10 characters"
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            x-size-message: "Must not be empty"
+        - in: header
+          name: clientId
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 5
+            x-size-message: "Must be between 3 and 5 characters"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LengthTest'
+      responses:
+        201:
+          description: success
+  /test/size/{values}:
+    post:
+      operationId: sizeTest
+      parameters:
+        - in: path
+          name: values
+          required: true
+          schema:
+            type: array
+            maxItems: 10
+            x-size-message: "Must be max 10 elements"
+            items:
+              type: string
+        - in: query
+          name: tokens
+          required: true
+          schema:
+            type: array
+            minItems: 1
+            x-size-message: "Must not be empty"
+            items:
+              type: string
+        - in: header
+          name: clientIds
+          required: true
+          schema:
+            type: array
+            minItems: 3
+            maxItems: 5
+            x-size-message: "Must be between 3 and 5 elements"
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SizeTest'
+      responses:
+        201:
+          description: success
+  /test/number/minmax/{number}:
+    post:
+      operationId: minmaxNumberTest
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: number
+            minimum: 0.1
+            maximum: 99.9
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: number
+            minimum: 0.1
+            maximum: 99.9
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: header
+          name: clientNumber
+          required: true
+          schema:
+            type: number
+            minimum: 0.1
+            maximum: 99.9
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberTest'
+      responses:
+        201:
+          description: success
+  /test/integer/minmax/{number}:
+    post:
+      operationId: minmaxIntegerTest
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: header
+          name: clientNumber
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegerTest'
+      responses:
+        201:
+          description: success
+  /test/long/minmax/{number}:
+    post:
+      operationId: minmaxLongTest
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+        - in: header
+          name: clientNumber
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 99
+            x-minimum-message: "Must be positive"
+            x-maximum-message: "Must be less than 100"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LongTest'
+      responses:
+        201:
+          description: success
+components:
+  schemas:
+    LengthTest:
+      type: object
+      properties:
+        field1:
+          type: string
+          maxLength: 10
+          x-size-message: "Must be max 10 characters"
+        field2:
+          type: string
+          minLength: 1
+          x-size-message: "Must not be empty"
+        field3:
+          type: string
+          minLength: 3
+          maxLength: 5
+          x-size-message: "Must be between 3 and 5 characters"
+        field4:
+          type: string
+          minLength: 3
+          maxLength: 5
+        field5:
+          type: string
+          minLength: 3
+        field6:
+          type: string
+          maxLength: 5
+    SizeTest:
+      type: object
+      properties:
+        field1:
+          type: array
+          maxItems: 10
+          x-size-message: "Must be max 10 elements"
+          items:
+            type: string
+        field2:
+          type: array
+          minItems: 1
+          x-size-message: "Must not be empty"
+          items:
+            type: string
+        field3:
+          type: array
+          minItems: 3
+          maxItems: 5
+          x-size-message: "Must be between 3 and 5 elements"
+          items:
+            type: string
+        field4:
+          type: array
+          minItems: 3
+          maxItems: 5
+          items:
+            type: string
+        field5:
+          type: array
+          minItems: 3
+          items:
+            type: string
+        field6:
+          type: array
+          maxItems: 5
+          items:
+            type: string
+    NumberTest:
+      type: object
+      properties:
+        field1:
+          type: number
+          minimum: 0.1
+          maximum: 99.9
+          x-minimum-message: "Must be positive"
+          x-maximum-message: "Must be less than 100"
+        field2:
+          type: number
+          minimum: 0.1
+          maximum: 99.9
+    IntegerTest:
+      type: object
+      properties:
+        field1:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 99
+          x-minimum-message: "Must be positive"
+          x-maximum-message: "Must be less than 100"
+        field2:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 99
+    LongTest:
+      properties:
+        field1:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 99
+          x-minimum-message: "Must be positive"
+          x-maximum-message: "Must be less than 100"
+        field2:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 99

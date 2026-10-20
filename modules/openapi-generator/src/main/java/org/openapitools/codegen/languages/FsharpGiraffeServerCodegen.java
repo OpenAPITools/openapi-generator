@@ -18,14 +18,13 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
-
 import lombok.Setter;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -38,6 +37,9 @@ import java.util.Map;
 
 import static java.util.UUID.randomUUID;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/fsharp-giraffe-server/}.
+ */
 public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
@@ -280,14 +282,16 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
-        System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
+            System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
+            System.out.println("################################################################################");
+        }
     }
 
 }

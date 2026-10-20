@@ -22,6 +22,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.openapitools.codegen.options.Swift5OptionsProvider;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -45,11 +47,14 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setResponseAs(Swift5OptionsProvider.RESPONSE_AS_VALUE.split(","));
         verify(clientCodegen).setNonPublicApi(Boolean.parseBoolean(Swift5OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
         verify(clientCodegen).setObjcCompatible(Boolean.parseBoolean(Swift5OptionsProvider.OBJC_COMPATIBLE_VALUE));
-        verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift5OptionsProvider.LENIENT_TYPE_CAST_VALUE));
+        verify(clientCodegen).setIdentifiableModels(Boolean.parseBoolean(Swift5OptionsProvider.IDENTIFIABLE_MODELS_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(Swift5OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setReadonlyProperties(Boolean.parseBoolean(Swift5OptionsProvider.READONLY_PROPERTIES_VALUE));
         verify(clientCodegen).setGenerateModelAdditionalProperties(Boolean.parseBoolean(Swift5OptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift5OptionsProvider.HASHABLE_MODELS_VALUE));
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift5OptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setAdditionalModelObjectAttributes(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelEnumAttributes(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_ENUM_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelImports(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_IMPORTS_VALUE));
     }
 }

@@ -33,6 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/resteasy/eap/}.
+ */
 @Setter
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
@@ -63,8 +66,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor",generateJbossDeploymentDescriptor));
-        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator",useSwaggerFeature));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor", generateJbossDeploymentDescriptor));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator", useSwaggerFeature));
 
     }
 
@@ -101,11 +104,11 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         if (generateJbossDeploymentDescriptor) {
             supportingFiles.add(new SupportingFile("jboss-web.mustache", ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
 
         supportingFiles.add(new SupportingFile("RestApplication.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
     }
 

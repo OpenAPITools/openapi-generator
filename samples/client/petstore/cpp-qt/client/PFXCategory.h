@@ -30,13 +30,13 @@ namespace test_namespace {
 class PFXCategory : public PFXObject {
 public:
     PFXCategory();
-    PFXCategory(QString json);
+    PFXCategory(const QString &json);
     ~PFXCategory() override;
 
     QString asJson() const override;
     QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 
     qint64 getId() const;
     void setId(const qint64 &id);

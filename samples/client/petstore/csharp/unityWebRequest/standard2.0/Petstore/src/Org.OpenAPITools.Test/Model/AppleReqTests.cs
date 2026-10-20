@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<AppleReq>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Cultivar'
         /// </summary>

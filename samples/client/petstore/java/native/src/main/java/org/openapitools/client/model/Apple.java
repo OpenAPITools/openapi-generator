@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -36,18 +38,20 @@ import org.openapitools.client.ApiClient;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @javax.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @javax.annotation.Nullable
   private String origin;
 
   public Apple() { 
   }
 
-  public Apple cultivar(String cultivar) {
+  public Apple cultivar(@javax.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -57,21 +61,21 @@ public class Apple {
    * @return cultivar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCultivar() {
     return cultivar;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@javax.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public Apple origin(String origin) {
+  public Apple origin(@javax.annotation.Nullable String origin) {
     this.origin = origin;
     return this;
   }
@@ -81,16 +85,16 @@ public class Apple {
    * @return origin
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getOrigin() {
     return origin;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrigin(String origin) {
+  public void setOrigin(@javax.annotation.Nullable String origin) {
     this.origin = origin;
   }
 
@@ -100,20 +104,12 @@ public class Apple {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Apple apple = (Apple) o;
-    return Objects.equals(this.cultivar, apple.cultivar) &&
-        Objects.equals(this.origin, apple.origin);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cultivar, origin);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -131,10 +127,7 @@ public class Apple {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -171,12 +164,12 @@ public class Apple {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
     }
 
     // add `origin` to the URL query string
     if (getOrigin() != null) {
-      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sorigin%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOrigin()))));
     }
 
     return joiner.toString();

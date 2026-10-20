@@ -40,6 +40,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
  * Created by prokarma on 04/09/17.
+ * <p>Mustache templates are located in {@code src/main/resources/java-pkmst/}.
  */
 @Setter
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
@@ -561,7 +562,8 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static class ResourcePath {
 
         private String path;

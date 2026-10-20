@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -58,8 +58,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -95,8 +99,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -130,8 +138,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -165,8 +177,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public Double getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -232,7 +248,7 @@ public class EnumTest   {
    * @return enumStringRequired
    **/
   @JsonProperty(value = "enum_string_required")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -409,10 +425,7 @@ public class EnumTest   {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

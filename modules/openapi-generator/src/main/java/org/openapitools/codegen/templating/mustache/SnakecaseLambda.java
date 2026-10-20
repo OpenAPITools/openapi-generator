@@ -26,12 +26,12 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
  * Converts text in a fragment to snake case.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("snakecase", new SnakecaseLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#snakecase}}{{summary}}{{/snakecase}}

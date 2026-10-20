@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -28,20 +29,14 @@ import {
 export interface MixedPropertiesAndAdditionalPropertiesClass {
     /**
      * 
-     * @type {string}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     uuid?: string;
     /**
      * 
-     * @type {Date}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     dateTime?: Date;
     /**
      * 
-     * @type {{ [key: string]: Animal; }}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     map?: { [key: string]: Animal; };
 }
@@ -64,19 +59,24 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
     return {
         
         'uuid': json['uuid'] == null ? undefined : json['uuid'],
-        'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'dateTime': json['dateTime'] == null ? undefined : (parseDateTime(json['dateTime'])),
         'map': json['map'] == null ? undefined : (mapValues(json['map'], AnimalFromJSON)),
     };
 }
 
-export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
+export function MixedPropertiesAndAdditionalPropertiesClassToJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
+    return MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(json, false);
+}
+
+export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value?: MixedPropertiesAndAdditionalPropertiesClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'uuid': value['uuid'],
-        'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),
+        'dateTime': value['dateTime'] == null ? value['dateTime'] : serializeDateTime(value['dateTime']),
         'map': value['map'] == null ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }

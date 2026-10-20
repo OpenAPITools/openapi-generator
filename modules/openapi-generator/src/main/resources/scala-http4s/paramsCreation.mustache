@@ -1,0 +1,1 @@
+{{#isContainer}}{{#required}}Some({{paramName}}.map("{{baseName}}" -> _)){{/required}}{{^required}}{{paramName}}.map(x => x.map("{{baseName}}" -> _)){{/required}}{{/isContainer}}{{^isContainer}}{{#required}}Some(Seq("{{baseName}}" -> {{{paramName}}})){{/required}}{{^required}}{{paramName}}.map("{{baseName}}" -> _).map(Seq(_)){{/required}}{{/isContainer}}{{^-last}} ++ {{/-last}}

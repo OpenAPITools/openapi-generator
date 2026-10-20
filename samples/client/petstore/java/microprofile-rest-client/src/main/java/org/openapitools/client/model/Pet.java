@@ -1,6 +1,6 @@
-/**
+/*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,9 +12,15 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import java.lang.reflect.Type;
@@ -27,27 +33,25 @@ import javax.json.bind.serializer.SerializationContext;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbCreator;
 
-/**
-  * A pet for sale in the pet store
-  */
 
 public class Pet  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("category")
-  private Category category;
+  protected Category category;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  protected Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonbProperty("tags")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -95,7 +99,8 @@ public class Pet  {
   * pet status in the store
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
+
 
   /**
    * Get id
@@ -161,25 +166,25 @@ public class Pet  {
    * Get photoUrls
    * @return photoUrls
    **/
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   /**
    * Set photoUrls
    */
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
-      this.photoUrls = new ArrayList<>();
+      this.photoUrls = new LinkedHashSet<>();
     }
     this.photoUrls.add(photoUrlsItem);
     return this;
@@ -216,9 +221,7 @@ public class Pet  {
   /**
    * pet status in the store
    * @return status
-   * @deprecated
    **/
-  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
@@ -235,6 +238,27 @@ public class Pet  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   /**
    * Create a string representation of this pojo.
@@ -259,10 +283,7 @@ public class Pet  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

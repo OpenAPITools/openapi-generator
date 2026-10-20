@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -16,17 +16,17 @@ package org.openapitools.api;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import tools.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,23 +41,23 @@ import java.util.Map;
  *
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
- * API tests for PetApi 
+ * API tests for PetApi
  */
 public class PetApiTest {
 
 
     private PetApi api;
-    
-    @Before
+
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
         providers.add(provider);
-        
+
         api = JAXRSClientFactory.create("http://petstore.swagger.io/v2", PetApi.class, providers);
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
+
+        ClientConfiguration config = WebClient.getConfig(client);
     }
 
     
@@ -73,8 +73,8 @@ public class PetApiTest {
         //api.addPet(body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -90,8 +90,8 @@ public class PetApiTest {
         //api.deletePet(petId, apiKey);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -108,8 +108,8 @@ public class PetApiTest {
         //List<Pet> response = api.findPetsByStatus(status);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -126,8 +126,8 @@ public class PetApiTest {
         //List<Pet> response = api.findPetsByTags(tags);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -144,8 +144,8 @@ public class PetApiTest {
         //Pet response = api.getPetById(petId);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -160,8 +160,8 @@ public class PetApiTest {
         //api.updatePet(body);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -178,8 +178,8 @@ public class PetApiTest {
         //api.updatePetWithForm(petId, name, status);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -192,12 +192,12 @@ public class PetApiTest {
     public void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment file = null;
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
 }

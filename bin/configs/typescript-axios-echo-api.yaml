@@ -2,6 +2,7 @@ generatorName: typescript-axios
 outputDir: samples/client/echo_api/typescript-axios/build
 inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+httpUserAgent: EchoApi/1.0.0
 additionalProperties:
   artifactId: echo-api-typescript-axios
   hideGenerationTimestamp: "true"

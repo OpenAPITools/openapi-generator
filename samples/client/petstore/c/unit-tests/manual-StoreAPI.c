@@ -9,7 +9,6 @@
     #define PET_ID 12345
     #define QUANTITY 50
     #define SHIP_DATE "2018-09-24T10:19:09.592Z"
-    #define STATUS placed
     #define COMPLETE true
 
 /*
@@ -23,12 +22,16 @@ int main() {
 	char *shipdate = malloc(strlen(SHIP_DATE) + 1);
 	strcpy(shipdate, SHIP_DATE);
 
-	order_t *neworder = order_create(ORDER_ID,
-	                                 PET_ID,
-	                                 QUANTITY,
+	long orderId = ORDER_ID;
+	long petId = PET_ID;
+	int quantity = QUANTITY;
+	int complete = COMPLETE;
+	order_t *neworder = order_create(&orderId,
+	                                 &petId,
+	                                 &quantity,
 	                                 shipdate,
-	                                 STATUS,
-	                                 COMPLETE);
+	                                 openapi_petstore_order_STATUS_placed,
+	                                 &complete);
 
 	order_t *returnorder = StoreAPI_placeOrder(apiClient, neworder);
 

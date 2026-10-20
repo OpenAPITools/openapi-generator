@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .ConfigureApi((context, services, options) =>
+            .ConfigureApi((context, options) =>
             {
                 string apiKeyTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 ApiKeyToken apiKeyToken1 = new(apiKeyTokenValue1, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
@@ -76,6 +76,9 @@ namespace Org.OpenAPITools.Test.Api
                 string oauthTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 OAuthToken oauthToken1 = new(oauthTokenValue1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken1);
+                string oauthTokenValue2 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken2 = new(oauthTokenValue2, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
             });
     }
 }

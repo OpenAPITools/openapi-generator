@@ -14,15 +14,20 @@ import sys
 import unittest
 
 import petstore_api
+from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
 from .util import id_gen
 
+HOST = 'http://localhost/v2'
 
 class ApiExceptionTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
+        config = Configuration()
+        config.host = HOST
+        config.access_token = 'ACCESS_TOKEN'
+        self.api_client = petstore_api.ApiClient(config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
 

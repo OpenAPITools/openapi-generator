@@ -1,0 +1,62 @@
+openapi: "3.1.0"
+info:
+  title: Dedup Test
+  version: "1.0"
+paths:
+  /flows:
+    get:
+      operationId: getFlows
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: flow-video.yaml
+  /flow-collections:
+    get:
+      operationId: getFlowCollections
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: flow-collection.yaml
+  /deletions/{id}:
+    get:
+      operationId: getDeletion
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: deletion-request.yaml
+  /deletions/{id}/status:
+    get:
+      operationId: getDeletionStatus
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: deletion-request.yaml
+  /deletions:
+    get:
+      operationId: listDeletions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: deletion-request.yaml
+components: {}

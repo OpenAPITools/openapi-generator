@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: split operations by content-type (issue 6708)
+  description: >
+    Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the
+    option has to handle: a response-only split, a split on both axes, a multipart body, a request
+    split that mixes JSON and multipart, and an enum parameter carried by a split operation. Every
+    media type here is one the generator can actually serialise: the option divides operations by
+    content-type, it does not give the generator encoders it never had.
+  version: 1.0.0
+paths:
+  # Response axis only: the request body is untouched, `accept` selects the return type.
+  /reports/{id}:
+    get:
+      operationId: getReport
+      tags: [report]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+            application/directlog:
+              schema:
+                type: string
+                format: binary
+  # Both axes: `contentType` selects the body's type, `accept` the return type.
+  /reports:
+    post:
+      operationId: createReport
+      tags: [report]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ReportPatch'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  # A single multipart body, two response content-types: only the response axis is split, and the
+  # form body is still assembled the way an unsplit operation assembles it.
+  /upload:
+    post:
+      operationId: upload
+      tags: [files]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  # Request split where one member is multipart: the form body is assembled inside the
+  # content-type switch, where the request union is narrowed to that member.
+  /convert:
+    post:
+      operationId: convert
+      tags: [files]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+  # Inline enum parameter: its generated type is named after the operation, so the merge has to
+  # move it onto the merged name rather than leave it on a variant nobody declares.
+  /orders:
+    get:
+      operationId: getOrders
+      tags: [order]
+      parameters:
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+            enum: [date, amount]
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    ReportPatch:
+      type: object
+      properties:
+        name:
+          type: string
+    Receipt:
+      type: object
+      properties:
+        number:
+          type: string
+    Order:
+      type: object
+      properties:
+        reference:
+          type: string

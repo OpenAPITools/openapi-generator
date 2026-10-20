@@ -32,12 +32,14 @@ import jakarta.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @jakarta.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
+  @jakarta.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -47,7 +49,7 @@ public class ReadOnlyFirst {
    */
   @JsonCreator
   public ReadOnlyFirst(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar
   ) {
     this();
     this.bar = bar;
@@ -59,7 +61,7 @@ public class ReadOnlyFirst {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -68,7 +70,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@jakarta.annotation.Nullable String baz) {
     
     this.baz = baz;
     return this;
@@ -80,7 +82,7 @@ public class ReadOnlyFirst {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBaz() {
@@ -88,11 +90,12 @@ public class ReadOnlyFirst {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBaz(String baz) {
+  public void setBaz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -127,10 +130,7 @@ public class ReadOnlyFirst {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

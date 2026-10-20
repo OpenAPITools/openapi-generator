@@ -58,8 +58,19 @@
             {{/isArray}}
             {{/parent}}
             {{#vars}}
+            {{#vendorExtensions.x-csharp-not-enum-comparison}}
+            // {{{name}}} ({{{dataType}}}) not enum
+            if ({{{vendorExtensions.x-csharp-not-enum-comparison}}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must not be a value excluded by the 'not' schema.", new [] { "{{{name}}}" });
+            }
+
+            {{/vendorExtensions.x-csharp-not-enum-comparison}}
             {{#hasValidation}}
             {{^isEnum}}
+            {{^isDateTime}}
+            {{^isDate}}
+            {{^isTime}}
             {{#maxLength}}
             // {{{name}}} ({{{dataType}}}) maxLength
             if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
@@ -76,19 +87,22 @@
             }
 
             {{/minLength}}
+            {{/isTime}}
+            {{/isDate}}
+            {{/isDateTime}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} > ({{{dataType}}}){{maximum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}<={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} ({{{dataType}}}){{maximum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.", new [] { "{{{name}}}" });
             }
 
             {{/maximum}}
             {{#minimum}}
             // {{{name}}} ({{{dataType}}}) minimum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} < ({{{dataType}}}){{minimum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}<{{/exclusiveMaximum}} ({{{dataType}}}){{minimum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.", new [] { "{{{name}}}" });
             }
 
             {{/minimum}}
@@ -99,7 +113,7 @@
             if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null){
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
-                {{>ValidateRegex}}
+                {{>ValidateRegex}}{{! prevent indent}}
                 {{/lambda.indent4}}
 
                 {{/lambda.trimTrailingWithNewLine}}
@@ -109,7 +123,7 @@
             {{^isNullable}}
             {{#lambda.trimTrailingWithNewLine}}
             {{#lambda.indent3}}
-            {{>ValidateRegex}}
+            {{>ValidateRegex}}{{! prevent indent}}
             {{/lambda.indent3}}
 
             {{/lambda.trimTrailingWithNewLine}}
@@ -119,7 +133,7 @@
             if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null) {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
-                {{>ValidateRegex}}
+                {{>ValidateRegex}}{{! prevent indent}}
                 {{/lambda.indent4}}
 
                 {{/lambda.trimTrailingWithNewLine}}

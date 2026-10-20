@@ -43,8 +43,7 @@ FormatTest <- R6::R6Class(
     `password` = NULL,
     `pattern_with_digits` = NULL,
     `pattern_with_digits_and_delimiter` = NULL,
-    #' Initialize a new FormatTest class.
-    #'
+
     #' @description
     #' Initialize a new FormatTest class.
     #'
@@ -64,7 +63,6 @@ FormatTest <- R6::R6Class(
     #' @param pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
     #' @param pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = "2015-10-28T14:38:02Z", `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
       if (!missing(`number`)) {
         self$`number` <- `number`
@@ -148,14 +146,37 @@ FormatTest <- R6::R6Class(
         self$`pattern_with_digits_and_delimiter` <- `pattern_with_digits_and_delimiter`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return FormatTest in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return FormatTest as a base R list.
+    #' @examples
+    #' # convert array of FormatTest (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert FormatTest to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       FormatTestObject <- list()
       if (!is.null(self$`integer`)) {
         FormatTestObject[["integer"]] <-
@@ -217,16 +238,14 @@ FormatTest <- R6::R6Class(
         FormatTestObject[["pattern_with_digits_and_delimiter"]] <-
           self$`pattern_with_digits_and_delimiter`
       }
-      FormatTestObject
+      return(FormatTestObject)
     },
-    #' Deserialize JSON string into an instance of FormatTest
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of FormatTest
     #'
     #' @param input_json the JSON input
     #' @return the instance of FormatTest
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`integer`)) {
@@ -276,147 +295,23 @@ FormatTest <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return FormatTest in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`integer`)) {
-          sprintf(
-          '"integer":
-            %d
-                    ',
-          self$`integer`
-          )
-        },
-        if (!is.null(self$`int32`)) {
-          sprintf(
-          '"int32":
-            %d
-                    ',
-          self$`int32`
-          )
-        },
-        if (!is.null(self$`int64`)) {
-          sprintf(
-          '"int64":
-            %d
-                    ',
-          self$`int64`
-          )
-        },
-        if (!is.null(self$`number`)) {
-          sprintf(
-          '"number":
-            %d
-                    ',
-          self$`number`
-          )
-        },
-        if (!is.null(self$`float`)) {
-          sprintf(
-          '"float":
-            %d
-                    ',
-          self$`float`
-          )
-        },
-        if (!is.null(self$`double`)) {
-          sprintf(
-          '"double":
-            %d
-                    ',
-          self$`double`
-          )
-        },
-        if (!is.null(self$`string`)) {
-          sprintf(
-          '"string":
-            "%s"
-                    ',
-          self$`string`
-          )
-        },
-        if (!is.null(self$`byte`)) {
-          sprintf(
-          '"byte":
-            "%s"
-                    ',
-          self$`byte`
-          )
-        },
-        if (!is.null(self$`binary`)) {
-          sprintf(
-          '"binary":
-            "%s"
-                    ',
-          self$`binary`
-          )
-        },
-        if (!is.null(self$`date`)) {
-          sprintf(
-          '"date":
-            "%s"
-                    ',
-          self$`date`
-          )
-        },
-        if (!is.null(self$`dateTime`)) {
-          sprintf(
-          '"dateTime":
-            "%s"
-                    ',
-          self$`dateTime`
-          )
-        },
-        if (!is.null(self$`uuid`)) {
-          sprintf(
-          '"uuid":
-            "%s"
-                    ',
-          self$`uuid`
-          )
-        },
-        if (!is.null(self$`password`)) {
-          sprintf(
-          '"password":
-            "%s"
-                    ',
-          self$`password`
-          )
-        },
-        if (!is.null(self$`pattern_with_digits`)) {
-          sprintf(
-          '"pattern_with_digits":
-            "%s"
-                    ',
-          self$`pattern_with_digits`
-          )
-        },
-        if (!is.null(self$`pattern_with_digits_and_delimiter`)) {
-          sprintf(
-          '"pattern_with_digits_and_delimiter":
-            "%s"
-                    ',
-          self$`pattern_with_digits_and_delimiter`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of FormatTest
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of FormatTest
     #'
     #' @param input_json the JSON input
     #' @return the instance of FormatTest
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`integer` <- this_object$`integer`
@@ -436,13 +331,11 @@ FormatTest <- R6::R6Class(
       self$`pattern_with_digits_and_delimiter` <- this_object$`pattern_with_digits_and_delimiter`
       self
     },
-    #' Validate JSON input with respect to FormatTest
-    #'
+
     #' @description
     #' Validate JSON input with respect to FormatTest and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `number`
@@ -472,23 +365,19 @@ FormatTest <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for FormatTest: the required field `password` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of FormatTest
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       if (self$`integer` > 100) {
         return(FALSE)
@@ -566,13 +455,11 @@ FormatTest <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       if (self$`integer` > 100) {
@@ -651,12 +538,9 @@ FormatTest <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

@@ -33,6 +33,9 @@ import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-restbed-server-deprecated/}.
+ */
 public class CppRestbedServerDeprecatedCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";

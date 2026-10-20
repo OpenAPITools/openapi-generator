@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -10,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.CatDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("BigCat")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class BigCatDto extends CatDto {
 
   /**
@@ -39,7 +40,7 @@ public class BigCatDto extends CatDto {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;
@@ -66,13 +67,14 @@ public class BigCatDto extends CatDto {
     }
   }
 
-  private KindEnum kind;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable KindEnum kind;
 
   public BigCatDto() {
     super();
   }
 
-  public BigCatDto kind(KindEnum kind) {
+  public BigCatDto kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -81,13 +83,13 @@ public class BigCatDto extends CatDto {
    * Get kind
    * @return kind
    */
-  
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  @JsonProperty("kind")
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 
@@ -138,11 +140,8 @@ public class BigCatDto extends CatDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

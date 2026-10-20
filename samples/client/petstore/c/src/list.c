@@ -20,7 +20,7 @@ void listEntry_free(listEntry_t *listEntry, void *additionalData) {
 }
 
 void listEntry_printAsInt(listEntry_t *listEntry, void *additionalData) {
-    printf("%i\n", *((int *) (listEntry->data)));
+    printf("%i\n", *(int *)listEntry->data);
 }
 
 list_t *list_createList() {
@@ -176,8 +176,8 @@ char* findStrInStrList(list_t *strList, const char *str)
 
     listEntry_t* listEntry = NULL;
     list_ForEach(listEntry, strList) {
-        if (strstr((char*)listEntry->data, str) != NULL) {
-            return (char*)listEntry->data;
+        if (strstr(listEntry->data, str) != NULL) {
+            return listEntry->data;
         }
     }
 

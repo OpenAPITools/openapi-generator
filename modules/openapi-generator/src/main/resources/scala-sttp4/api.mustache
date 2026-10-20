@@ -18,23 +18,24 @@ class {{classname}}(baseUrl: String) {
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
+
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+  def {{operationId}}({{>methodParameters}}): sttp.client4.Request[{{#separateErrorChannel}}Either[ResponseException[String], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
     basicRequest
-      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
+      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{baseName}}=${ {{paramName}} }{{^-last}}&{{/-last}}{{/queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}{{#queryParams.0}}&{{/queryParams.0}}{{^queryParams.0}}?{{/queryParams.0}}{{keyParamName}}=${apiKeyQuery}{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
       .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
       .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
       .auth.bearer(bearerToken){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
-      .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
-      .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .header("{{keyParamName}}", apiKeyHeader){{/isKeyInHeader}}{{#isKeyInCookie}}
+      .cookie("{{keyParamName}}", apiKeyCookie){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body(Map({{#formParams}}
         {{>paramFormCreation}}{{^-last}},{{/-last}}{{/formParams}}
-      )){{/isMultipart}}{{#isMultipart}}
+      ).collect { case (k, Some(v)) => k -> v }){{/isMultipart}}{{#isMultipart}}
       .multipartBody(Seq({{#formParams}}
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
-      .body({{paramName}}){{/bodyParam}}
+      .body(asJson({{paramName}})){{/bodyParam}}
       .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}

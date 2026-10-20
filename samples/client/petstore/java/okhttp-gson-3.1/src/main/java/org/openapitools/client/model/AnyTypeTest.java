@@ -32,6 +32,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,24 +52,27 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
+  @javax.annotation.Nullable
   private Object anyTypeProperty = null;
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
+  @javax.annotation.Nullable
   private List<String> arrayProp = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems = new ArrayList<>();
+  @javax.annotation.Nullable
+  private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
 
-  public AnyTypeTest anyTypeProperty(Object anyTypeProperty) {
+  public AnyTypeTest anyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
     return this;
   }
@@ -83,12 +86,12 @@ public class AnyTypeTest {
     return anyTypeProperty;
   }
 
-  public void setAnyTypeProperty(Object anyTypeProperty) {
+  public void setAnyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
   }
 
 
-  public AnyTypeTest arrayProp(List<String> arrayProp) {
+  public AnyTypeTest arrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
     return this;
   }
@@ -110,17 +113,17 @@ public class AnyTypeTest {
     return arrayProp;
   }
 
-  public void setArrayProp(List<String> arrayProp) {
+  public void setArrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
     return this;
   }
 
-  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
+  public AnyTypeTest addRefArrayPrefixItemsItem(Object refArrayPrefixItemsItem) {
     if (this.refArrayPrefixItems == null) {
       this.refArrayPrefixItems = new ArrayList<>();
     }
@@ -133,11 +136,11 @@ public class AnyTypeTest {
    * @return refArrayPrefixItems
    */
   @javax.annotation.Nullable
-  public List<String> getRefArrayPrefixItems() {
+  public List<Object> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 
@@ -235,10 +238,7 @@ public class AnyTypeTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -247,13 +247,10 @@ public class AnyTypeTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("any_type_property");
-    openapiFields.add("array_prop");
-    openapiFields.add("ref_array_prefix_items");
+    openapiFields = new HashSet<String>(Arrays.asList("any_type_property", "array_prop", "ref_array_prefix_items"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -265,17 +262,17 @@ public class AnyTypeTest {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AnyTypeTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AnyTypeTest is not found in the empty JSON string", AnyTypeTest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AnyTypeTest is not found in the empty JSON string", AnyTypeTest.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_prop") != null && !jsonObj.get("array_prop").isJsonNull() && !jsonObj.get("array_prop").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("ref_array_prefix_items") != null && !jsonObj.get("ref_array_prefix_items").isJsonNull() && !jsonObj.get("ref_array_prefix_items").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
       }
   }
 
@@ -308,7 +305,9 @@ public class AnyTypeTest {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -336,7 +335,7 @@ public class AnyTypeTest {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

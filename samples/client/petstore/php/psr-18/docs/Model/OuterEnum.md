@@ -1,4 +1,4 @@
-# # OuterEnum
+# OuterEnum
 
 ## Properties
 

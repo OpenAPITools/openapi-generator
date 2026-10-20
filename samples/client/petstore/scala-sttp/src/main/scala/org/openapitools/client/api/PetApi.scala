@@ -55,7 +55,7 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey.toString)
+      .header("api_key", apiKey.map(_.toString()))
       .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
@@ -103,12 +103,12 @@ class PetApi(baseUrl: String) {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(apiKey: String)(petId: Long
+  def getPetById(apiKeyHeader: String)(petId: Long
 ): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
+      .header("api_key", apiKeyHeader)
       .response(asJson[Pet])
 
   /**

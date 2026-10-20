@@ -29,17 +29,18 @@ openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
 
 
 typedef struct pet_t {
-    long id; //numeric
+    long *id; //numeric
     struct category_t *category; //model
     char *name; // string
     list_t *photo_urls; //primitive container
     list_t *tags; //nonprimitive container
     openapi_petstore_pet_STATUS_e status; //enum
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } pet_t;
 
-pet_t *pet_create(
-    long id,
+__attribute__((deprecated)) pet_t *pet_create(
+    long *id,
     category_t *category,
     char *name,
     list_t *photo_urls,

@@ -13,8 +13,9 @@ use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
 use http;
 use secrecy::{SecretString, ExposeSecret};
+pub use reqwest::blocking::Client;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
@@ -24,15 +25,23 @@ pub struct Configuration {
     pub bearer_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
     pub aws_v4_key: Option<AWSv4Key>,
-    // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ApiKey {
     pub prefix: Option<String>,
     pub key: String,
+}
+
+impl std::fmt::Debug for ApiKey {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ApiKey")
+            .field("prefix", &self.prefix)
+            .field("key", &"[REDACTED]")
+            .finish()
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -72,6 +81,23 @@ impl AWSv4Key {
     }
 }
 
+impl std::fmt::Debug for Configuration {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut debug = f.debug_struct("Configuration");
+        debug
+            .field("base_path", &self.base_path)
+            .field("user_agent", &self.user_agent)
+            .field("client", &self.client);
+        debug
+            .field("basic_auth", &self.basic_auth.as_ref().map(|(username, password)| (username, password.as_ref().map(|_| "[REDACTED]"))))
+            .field("oauth_access_token", &self.oauth_access_token.as_ref().map(|_| "[REDACTED]"))
+            .field("bearer_access_token", &self.bearer_access_token.as_ref().map(|_| "[REDACTED]"))
+            .field("api_key", &self.api_key);
+        debug.field("aws_v4_key", &self.aws_v4_key);
+        debug.finish()
+    }
+}
+
 impl Configuration {
     pub fn new() -> Configuration {
         Configuration::default()
@@ -81,7 +107,7 @@ impl Configuration {
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
-            base_path: "http://petstore.swagger.io/v2".to_owned(),
+            base_path: "http://localhost/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
             client: reqwest::blocking::Client::new(),
             basic_auth: None,

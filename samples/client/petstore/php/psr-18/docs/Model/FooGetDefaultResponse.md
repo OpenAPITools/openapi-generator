@@ -1,4 +1,4 @@
-# # FooGetDefaultResponse
+# FooGetDefaultResponse
 
 ## Properties
 

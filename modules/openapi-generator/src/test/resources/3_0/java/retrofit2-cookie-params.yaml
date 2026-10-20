@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: Retrofit2 cookie params
+  description: >
+    Retrofit2 has no annotation for cookie parameters, so they are omitted from
+    the generated interface method signature. This spec exercises cookie params
+    in various positions to ensure the parameter separator logic never produces
+    an uncompilable signature (e.g. a trailing or leading comma).
+  version: 1.0.0
+paths:
+  /cookie-last:
+    get:
+      operationId: cookieLast
+      parameters:
+        - name: x-api-version
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: JSESSIONID
+          in: cookie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /cookie-first:
+    get:
+      operationId: cookieFirst
+      parameters:
+        - name: JSESSIONID
+          in: cookie
+          required: true
+          schema:
+            type: string
+        - name: x-api-version
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: filter
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /cookie-only:
+    get:
+      operationId: cookieOnly
+      parameters:
+        - name: JSESSIONID
+          in: cookie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

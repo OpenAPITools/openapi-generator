@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.FooGetAsync();
             var model = response.Default();
-            Assert.IsType<FooGetDefaultResponse>(model);
+            Assert.IsType<Org.OpenAPITools.Model.FooGetDefaultResponse>(model);
         }
 
         /// <summary>
@@ -83,6 +83,15 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test RedirectOrDefault
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task RedirectOrDefaultAsyncTest()
+        {
+            await _instance.RedirectOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Test RolesReportGet
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -101,7 +110,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.TestAsync();
             var model = response.Ok();
-            Assert.IsType<NotificationtestGetElementsV1ResponseMPayload>(model);
+            Assert.IsType<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>(model);
         }
     }
 }

@@ -15,6 +15,7 @@ import (
 	"fmt"
 )
 
+
 // AnyOfPrimitiveType struct for AnyOfPrimitiveType
 type AnyOfPrimitiveType struct {
 	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
@@ -68,7 +69,7 @@ func (dst *AnyOfPrimitiveType) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
+func (src AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
 	if src.OneOfPrimitiveTypeChild != nil {
 		return json.Marshal(&src.OneOfPrimitiveTypeChild)
 	}
@@ -83,6 +84,7 @@ func (src *AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
 
 	return nil, nil // no data in anyOf schemas
 }
+
 
 type NullableAnyOfPrimitiveType struct {
 	value *AnyOfPrimitiveType

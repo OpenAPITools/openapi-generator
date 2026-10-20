@@ -1,0 +1,23 @@
+# file_streaming_test.yaml
+swagger: "2.0"
+info:
+  title: File Streaming Test API
+  version: 1.0.0
+
+paths:
+    /upload:
+      post:
+        consumes:
+            - application/octet-stream
+        description: Upload a file from the local filesystem
+        operationId: uploadFile
+        parameters:
+          - description: A test file
+            in: body
+            name: inputStream
+            schema:
+              format: binary
+              type: string
+        responses:
+          '200':
+            description: Success

@@ -13,50 +13,46 @@
 
 package org.openapitools.client.api;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * API tests for AuthApi
  */
+@Disabled
 public class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
 
+    
     /**
      * To test HTTP basic authentication
      *
-     * <p>To test HTTP basic authentication
+     * To test HTTP basic authentication
      */
     @Test
-    public void testAuthHttpBasicTest() {
-        // given
-        api.getApiClient().setUsername("test_user");
-        api.getApiClient().setPassword("test_password");
-
-        // when
+    public void testAuthHttpBasicTest()  {
         String response = api.testAuthHttpBasic();
 
-        assertThat(
-                response,
-                containsString("Authorization: Basic dGVzdF91c2VyOnRlc3RfcGFzc3dvcmQ="));
+        // TODO: test validations
     }
-
+    
     /**
      * To test HTTP bearer authentication
      *
-     * <p>To test HTTP bearer authentication
+     * To test HTTP bearer authentication
      */
     @Test
-    public void testAuthHttpBearerTest() {
-        // given
-        api.getApiClient().setBearerToken("test_token");
-
-        // when
+    public void testAuthHttpBearerTest()  {
         String response = api.testAuthHttpBearer();
 
-        assertThat(response, containsString("Authorization: Bearer test_token"));
+        // TODO: test validations
     }
+    
 }

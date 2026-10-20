@@ -11,31 +11,30 @@
 part of openapi.api;
 
 
-class EnumClass {
-  /// Instantiate a new enum with the provided [value].
-  const EnumClass._(this.value);
+enum EnumClass {
+  abc._(r'_abc'),
+  efg._(r'-efg'),
+  leftParenthesisXyzRightParenthesis._(r'(xyz)'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const EnumClass._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const abc = EnumClass._(r'_abc');
-  static const efg = EnumClass._(r'-efg');
-  static const leftParenthesisXyzRightParenthesis = EnumClass._(r'(xyz)');
-
-  /// List of all possible values in this [enum][EnumClass].
-  static const values = <EnumClass>[
-    abc,
-    efg,
-    leftParenthesisXyzRightParenthesis,
-  ];
-
+  /// Returns the instance of [EnumClass] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [EnumClass]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<EnumClass> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumClass>[];
     if (json is List && json.isNotEmpty) {
@@ -57,9 +56,11 @@ class EnumClassTypeTransformer {
 
   const EnumClassTypeTransformer._();
 
-  String encode(EnumClass data) => data.value;
+  /// Encodes this enum as a value suitable for JSON.
+  String encode(EnumClass data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a EnumClass.
+  /// Returns the instance of [EnumClass] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -68,6 +69,9 @@ class EnumClassTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumClass? decode(dynamic data, {bool allowNull = true}) {
+    if (data is EnumClass) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'_abc': return EnumClass.abc;
@@ -82,7 +86,7 @@ class EnumClassTypeTransformer {
     return null;
   }
 
-  /// Singleton [EnumClassTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static EnumClassTypeTransformer? _instance;
 }
 

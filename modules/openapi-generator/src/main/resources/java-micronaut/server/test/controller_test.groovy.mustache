@@ -139,10 +139,10 @@ class {{classname}}Spec extends Specification {
         MutableHttpRequest request = HttpRequest.{{httpMethod}}{{#vendorExtensions.methodAllowsBody}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri, null){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{/vendorExtensions.methodAllowsBody}}{{^vendorExtensions.methodAllowsBody}}(uri){{/vendorExtensions.methodAllowsBody}}
         {{!Fill in all the request parameters}}
         {{#vendorExtensions.x-content-type}}
-            .contentType('{{vendorExtensions.x-content-type}}')
+            .contentType('{{{vendorExtensions.x-content-type}}}')
         {{/vendorExtensions.x-content-type}}
         {{#vendorExtensions.x-accepts}}
-            .accept('{{vendorExtensions.x-accepts}}')
+            .accept('{{{vendorExtensions.x-accepts}}}')
         {{/vendorExtensions.x-accepts}}
         {{#headerParams}}
             .header('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}})

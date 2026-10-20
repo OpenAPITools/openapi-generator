@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Category {
     /**
      * 
-     * @type {number}
-     * @memberof Category
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Category
      */
     name?: string;
 }
@@ -55,10 +51,15 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function CategoryToJSON(value?: Category | null): any {
+export function CategoryToJSON(json: any): Category {
+    return CategoryToJSONTyped(json, false);
+}
+
+export function CategoryToJSONTyped(value?: Category | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

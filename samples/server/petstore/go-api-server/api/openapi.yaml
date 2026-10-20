@@ -25,16 +25,16 @@ paths:
       description: ""
       operationId: addPet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "405":
           description: Invalid input
@@ -52,16 +52,16 @@ paths:
         url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -151,12 +151,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -216,7 +216,7 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
       summary: Search Pets by filters
@@ -262,7 +262,7 @@ paths:
         name: colour
         required: false
         schema:
-          $ref: '#/components/schemas/Colour'
+          $ref: "#/components/schemas/Colour"
         style: form
       responses:
         "200":
@@ -270,12 +270,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -295,7 +295,7 @@ paths:
         name: gender
         required: true
         schema:
-          $ref: '#/components/schemas/Gender'
+          $ref: "#/components/schemas/Gender"
         style: simple
       - description: Species to filter by
         explode: false
@@ -303,7 +303,7 @@ paths:
         name: species
         required: true
         schema:
-          $ref: '#/components/schemas/Species'
+          $ref: "#/components/schemas/Species"
         style: form
       - description: Species to omit from results
         explode: false
@@ -312,7 +312,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/Species'
+            $ref: "#/components/schemas/Species"
           type: array
         style: form
       responses:
@@ -321,12 +321,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -383,10 +383,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -414,7 +414,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           description: Invalid input
@@ -471,13 +471,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -513,7 +513,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -521,10 +521,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid Order
@@ -574,10 +574,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -594,8 +594,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
+        required: true
+      responses:
+        default:
+          description: successful operation
+      security:
+      - api_key: []
+      summary: Create user
+      tags:
+      - user
+    put:
+      description: This can only be done by the logged in user.
+      operationId: createUserNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserNullable"
+        description: "Created user object, with a nullable bodyParam"
         required: true
       responses:
         default:
@@ -610,7 +628,7 @@ paths:
       description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -624,7 +642,7 @@ paths:
       description: ""
       operationId: createUsersWithListInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -761,10 +779,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           description: Invalid username supplied
@@ -789,7 +807,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -820,13 +838,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileArrayOfFiles_request'
+              $ref: "#/components/schemas/uploadFileArrayOfFiles_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -866,7 +884,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       summary: Get the pets by only using boolean query parameters
       tags:
@@ -888,19 +906,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       summary: Get the pets by time
       tags:
       - pet
+  /fake/collection/test:
+    post:
+      operationId: fakePostTest
+      requestBody:
+        $ref: "#/components/requestBodies/TestBody"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: bool
+          description: Successful Operation
+      summary: POST a test batch
+      tags:
+      - fake
 components:
   requestBodies:
+    TestBody:
+      content:
+        text/plain:
+          schema:
+            format: byte
+            type: string
+      description: Test body
+      required: true
     UserArray:
       content:
         application/json:
           schema:
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
             type: array
       description: List of user object
       required: true
@@ -908,12 +949,19 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    SuccessfulOp:
+      content:
+        application/json:
+          schema:
+            type: bool
+      description: Successful Operation
   schemas:
     OrderInfo:
       description: An order info for a pets from the pet store
@@ -946,54 +994,58 @@ components:
         name: OrderInfo
     Order:
       allOf:
-      - $ref: '#/components/schemas/OrderInfo'
-      - $ref: '#/components/schemas/SpecialInfo'
-      description: An order for a pets from the pet store
+      - $ref: "#/components/schemas/OrderInfo"
+      - $ref: "#/components/schemas/SpecialInfo"
+      - description: An order for a pets from the pet store
+        properties:
+          id:
+            format: int64
+            type: integer
+          petId:
+            format: int64
+            type: integer
+          quantity:
+            format: int32
+            type: integer
+          shipDate:
+            format: date-time
+            type: string
+          status:
+            description: Order Status
+            enum:
+            - placed
+            - approved
+            - delivered
+            type: string
+          complete:
+            default: false
+            type: boolean
+          comment:
+            nullable: true
+            type: string
+        required:
+        - comment
+        title: Pet Order
+        type: object
+        example: null
       example:
-        petId: 6
-        quantity: 1
-        comment: comment
-        id: 0
+        petId: 5
+        quantity: 5
         shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
+        promotion: true
+        type: type
+        id: 1
         status: placed
-      properties:
-        id:
-          format: int64
-          type: integer
-        petId:
-          format: int64
-          type: integer
-        quantity:
-          format: int32
-          type: integer
-        shipDate:
-          format: date-time
-          type: string
-        status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
-        complete:
-          default: false
-          type: boolean
-        comment:
-          nullable: true
-          type: string
-      required:
-      - comment
-      title: Pet Order
+        complete: false
+        comment: comment
       type: object
       xml:
         name: Order
     Category:
       description: A category for a pet
       example:
-        name: name
         id: 6
+        name: name
       nullable: true
       properties:
         id:
@@ -1009,160 +1061,160 @@ components:
     User:
       description: A User who is purchasing from the pet store
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
+        email: email
         password: password
-        userStatus: 6
         phone: phone
+        userStatus: 6
         deepSliceModel:
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        id: 0
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
         deepSliceMap:
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
-              tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
-              status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
+                name: name
               name: doggie
-              id: 0
-              category:
-                name: name
-                id: 6
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-        email: email
-        username: username
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
       properties:
         id:
           format: int64
@@ -1191,7 +1243,7 @@ components:
             items:
               description: An array 3-deep.
               items:
-                $ref: '#/components/schemas/Tag'
+                $ref: "#/components/schemas/Tag"
               type: array
             type: array
           nullable: true
@@ -1201,7 +1253,212 @@ components:
           items:
             description: An array 2-deep.
             items:
-              $ref: '#/components/schemas/an_Object'
+              $ref: "#/components/schemas/an_Object"
+            type: array
+          type: array
+      required:
+      - deepSliceModel
+      title: a User
+      type: object
+      xml:
+        name: User
+    UserNullable:
+      description: A User who is purchasing from the pet store
+      example:
+        id: 0
+        username: username
+        firstName: firstName
+        lastName: lastName
+        email: email
+        password: password
+        phone: phone
+        userStatus: 6
+        deepSliceModel:
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
+        deepSliceMap:
+        - - tag:
+              id: 1
+              name: name
+            Pet:
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+          - tag:
+              id: 1
+              name: name
+            Pet:
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+        - - tag:
+              id: 1
+              name: name
+            Pet:
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+          - tag:
+              id: 1
+              name: name
+            Pet:
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
+      nullable: true
+      properties:
+        id:
+          format: int64
+          type: integer
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          nullable: true
+          type: string
+        userStatus:
+          description: User Status
+          format: int32
+          type: integer
+        deepSliceModel:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              description: An array 3-deep.
+              items:
+                $ref: "#/components/schemas/Tag"
+              type: array
+            type: array
+          nullable: true
+          type: array
+        deepSliceMap:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              $ref: "#/components/schemas/an_Object"
             type: array
           type: array
       required:
@@ -1213,8 +1470,8 @@ components:
     Tag:
       description: A tag for a pet
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -1228,26 +1485,26 @@ components:
     Pet:
       description: A pet for sale in the pet store
       example:
+        id: 0
+        category:
+          id: 6
+          name: name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -1261,7 +1518,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           nullable: true
           type: array
           xml:
@@ -1358,44 +1615,44 @@ components:
       description: An array 3-deep.
       example:
         tag:
-          name: name
           id: 1
+          name: name
         Pet:
-        - photoUrls:
-          - photoUrls
-          - photoUrls
-          name: doggie
-          id: 0
+        - id: 0
           category:
-            name: name
             id: 6
+            name: name
+          name: doggie
+          photoUrls:
+          - photoUrls
+          - photoUrls
           tags:
-          - name: name
-            id: 1
-          - name: name
-            id: 1
+          - id: 1
+            name: name
+          - id: 1
+            name: name
           status: available
-        - photoUrls:
-          - photoUrls
-          - photoUrls
-          name: doggie
-          id: 0
+        - id: 0
           category:
-            name: name
             id: 6
+            name: name
+          name: doggie
+          photoUrls:
+          - photoUrls
+          - photoUrls
           tags:
-          - name: name
-            id: 1
-          - name: name
-            id: 1
+          - id: 1
+            name: name
+          - id: 1
+            name: name
           status: available
       properties:
         tag:
-          $ref: '#/components/schemas/Tag'
+          $ref: "#/components/schemas/Tag"
         Pet:
           description: An array of pet.
           items:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
           type: array
       title: an Object
       type: object

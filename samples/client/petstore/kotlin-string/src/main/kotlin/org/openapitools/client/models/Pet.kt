@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -25,11 +33,11 @@ import java.io.Serializable
 /**
  * A pet for sale in the pet store
  *
- * @param id 
- * @param category 
- * @param name 
- * @param photoUrls 
- * @param tags 
+ * @param id
+ * @param category
+ * @param name
+ * @param photoUrls
+ * @param tags
  * @param status pet status in the store
  */
 

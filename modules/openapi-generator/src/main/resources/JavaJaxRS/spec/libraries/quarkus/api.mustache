@@ -5,7 +5,14 @@ package {{package}};
 
 import {{javaxPackage}}.ws.rs.*;
 import {{javaxPackage}}.ws.rs.core.Response;
-
+{{#returnJBossResponse}}
+import org.jboss.resteasy.reactive.RestResponse;
+{{/returnJBossResponse}}
+{{#interfaceOnly}}
+{{#hasResponseStatusAnnotations}}
+import org.jboss.resteasy.reactive.ResponseStatus;
+{{/hasResponseStatusAnnotations}}
+{{/interfaceOnly}}
 {{#useGzipFeature}}
 import org.jboss.resteasy.annotations.GZIP;
 {{/useGzipFeature}}
@@ -13,6 +20,12 @@ import org.jboss.resteasy.annotations.GZIP;
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
+{{#useSwaggerV3Annotations}}
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+{{/useSwaggerV3Annotations}}
 
 {{#supportAsync}}
 {{#useMutiny}}
@@ -24,11 +37,20 @@ import java.util.concurrent.CompletableFuture;
 {{/useMutiny}}
 {{/supportAsync}}
 
+{{#useJakartaEe}}
+{{#hasFileFormParams}}
+import org.jboss.resteasy.reactive.RestForm;
+import org.jboss.resteasy.reactive.multipart.FileUpload;
+
+{{/hasFileFormParams}}
+{{/useJakartaEe}}
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-{{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 
 {{#useMicroProfileOpenAPIAnnotations}}@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
@@ -95,11 +117,13 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
         openIdConnectUrl = "{{openIdConnectUrl}}"
     ){{^-last}}, {{/-last}}{{/isOpenId}}{{/authMethods}}
 }){{/hasAuthMethods}}{{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
-@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+@Tag(name = "{{{baseName}}}"){{/useSwaggerV3Annotations}}
 @Path("{{commonPath}}"){{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
+
 public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
 {{#operations}}
 {{#operation}}

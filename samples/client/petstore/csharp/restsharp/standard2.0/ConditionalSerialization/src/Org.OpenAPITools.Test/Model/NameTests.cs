@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,15 +54,15 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Name>(instance);
         }
 
-
         /// <summary>
-        /// Test the property '_Name'
+        /// Test the property 'VarName'
         /// </summary>
         [Fact]
-        public void _NameTest()
+        public void VarNameTest()
         {
-            // TODO unit test for the property '_Name'
+            // TODO unit test for the property 'VarName'
         }
+
         /// <summary>
         /// Test the property 'SnakeCase'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SnakeCase'
         }
+
         /// <summary>
         /// Test the property 'Property'
         /// </summary>
@@ -80,15 +80,14 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Property'
         }
+
         /// <summary>
-        /// Test the property '_123Number'
+        /// Test the property 'Var123Number'
         /// </summary>
         [Fact]
-        public void _123NumberTest()
+        public void Var123NumberTest()
         {
-            // TODO unit test for the property '_123Number'
+            // TODO unit test for the property 'Var123Number'
         }
-
     }
-
 }

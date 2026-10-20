@@ -2,99 +2,120 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class XmlItem {
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> attributeString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> attributeNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> attributeInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> wrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> nameString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> nameNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> nameInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Boolean> nameBoolean = Optional.empty();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> nameArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> prefixString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> prefixNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> prefixInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> prefixArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> namespaceString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> namespaceNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> namespaceInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> prefixNsString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> prefixNsNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> prefixNsInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
-    this.attributeString = Optional.of(attributeString);
+    this.attributeString = Optional.ofNullable(attributeString);
     return this;
   }
 
@@ -103,18 +124,19 @@ public class XmlItem {
    * @return attributeString
    */
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(name = "attribute_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_string")
   public Optional<String> getAttributeString() {
     return attributeString;
   }
 
+  @JsonProperty("attribute_string")
   public void setAttributeString(Optional<String> attributeString) {
     this.attributeString = attributeString;
   }
 
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
-    this.attributeNumber = Optional.of(attributeNumber);
+    this.attributeNumber = Optional.ofNullable(attributeNumber);
     return this;
   }
 
@@ -123,18 +145,19 @@ public class XmlItem {
    * @return attributeNumber
    */
   @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(name = "attribute_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_number")
   public Optional<BigDecimal> getAttributeNumber() {
     return attributeNumber;
   }
 
+  @JsonProperty("attribute_number")
   public void setAttributeNumber(Optional<BigDecimal> attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
   public XmlItem attributeInteger(Integer attributeInteger) {
-    this.attributeInteger = Optional.of(attributeInteger);
+    this.attributeInteger = Optional.ofNullable(attributeInteger);
     return this;
   }
 
@@ -143,18 +166,19 @@ public class XmlItem {
    * @return attributeInteger
    */
   
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(name = "attribute_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_integer")
   public Optional<Integer> getAttributeInteger() {
     return attributeInteger;
   }
 
+  @JsonProperty("attribute_integer")
   public void setAttributeInteger(Optional<Integer> attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
 
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
-    this.attributeBoolean = Optional.of(attributeBoolean);
+    this.attributeBoolean = Optional.ofNullable(attributeBoolean);
     return this;
   }
 
@@ -163,12 +187,13 @@ public class XmlItem {
    * @return attributeBoolean
    */
   
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(name = "attribute_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_boolean")
   public Optional<Boolean> getAttributeBoolean() {
     return attributeBoolean;
   }
 
+  @JsonProperty("attribute_boolean")
   public void setAttributeBoolean(Optional<Boolean> attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
@@ -191,18 +216,19 @@ public class XmlItem {
    * @return wrappedArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
 
+  @JsonProperty("wrapped_array")
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
   public XmlItem nameString(String nameString) {
-    this.nameString = Optional.of(nameString);
+    this.nameString = Optional.ofNullable(nameString);
     return this;
   }
 
@@ -211,18 +237,19 @@ public class XmlItem {
    * @return nameString
    */
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(name = "name_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_string")
   public Optional<String> getNameString() {
     return nameString;
   }
 
+  @JsonProperty("name_string")
   public void setNameString(Optional<String> nameString) {
     this.nameString = nameString;
   }
 
   public XmlItem nameNumber(BigDecimal nameNumber) {
-    this.nameNumber = Optional.of(nameNumber);
+    this.nameNumber = Optional.ofNullable(nameNumber);
     return this;
   }
 
@@ -231,18 +258,19 @@ public class XmlItem {
    * @return nameNumber
    */
   @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(name = "name_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_number")
   public Optional<BigDecimal> getNameNumber() {
     return nameNumber;
   }
 
+  @JsonProperty("name_number")
   public void setNameNumber(Optional<BigDecimal> nameNumber) {
     this.nameNumber = nameNumber;
   }
 
   public XmlItem nameInteger(Integer nameInteger) {
-    this.nameInteger = Optional.of(nameInteger);
+    this.nameInteger = Optional.ofNullable(nameInteger);
     return this;
   }
 
@@ -251,18 +279,19 @@ public class XmlItem {
    * @return nameInteger
    */
   
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(name = "name_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_integer")
   public Optional<Integer> getNameInteger() {
     return nameInteger;
   }
 
+  @JsonProperty("name_integer")
   public void setNameInteger(Optional<Integer> nameInteger) {
     this.nameInteger = nameInteger;
   }
 
   public XmlItem nameBoolean(Boolean nameBoolean) {
-    this.nameBoolean = Optional.of(nameBoolean);
+    this.nameBoolean = Optional.ofNullable(nameBoolean);
     return this;
   }
 
@@ -271,12 +300,13 @@ public class XmlItem {
    * @return nameBoolean
    */
   
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(name = "name_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_boolean")
   public Optional<Boolean> getNameBoolean() {
     return nameBoolean;
   }
 
+  @JsonProperty("name_boolean")
   public void setNameBoolean(Optional<Boolean> nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
@@ -299,12 +329,13 @@ public class XmlItem {
    * @return nameArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "name_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
     return nameArray;
   }
 
+  @JsonProperty("name_array")
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
@@ -327,18 +358,19 @@ public class XmlItem {
    * @return nameWrappedArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "name_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
 
+  @JsonProperty("name_wrapped_array")
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
   public XmlItem prefixString(String prefixString) {
-    this.prefixString = Optional.of(prefixString);
+    this.prefixString = Optional.ofNullable(prefixString);
     return this;
   }
 
@@ -347,18 +379,19 @@ public class XmlItem {
    * @return prefixString
    */
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(name = "prefix_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_string")
   public Optional<String> getPrefixString() {
     return prefixString;
   }
 
+  @JsonProperty("prefix_string")
   public void setPrefixString(Optional<String> prefixString) {
     this.prefixString = prefixString;
   }
 
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
-    this.prefixNumber = Optional.of(prefixNumber);
+    this.prefixNumber = Optional.ofNullable(prefixNumber);
     return this;
   }
 
@@ -367,18 +400,19 @@ public class XmlItem {
    * @return prefixNumber
    */
   @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(name = "prefix_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_number")
   public Optional<BigDecimal> getPrefixNumber() {
     return prefixNumber;
   }
 
+  @JsonProperty("prefix_number")
   public void setPrefixNumber(Optional<BigDecimal> prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
   public XmlItem prefixInteger(Integer prefixInteger) {
-    this.prefixInteger = Optional.of(prefixInteger);
+    this.prefixInteger = Optional.ofNullable(prefixInteger);
     return this;
   }
 
@@ -387,18 +421,19 @@ public class XmlItem {
    * @return prefixInteger
    */
   
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(name = "prefix_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_integer")
   public Optional<Integer> getPrefixInteger() {
     return prefixInteger;
   }
 
+  @JsonProperty("prefix_integer")
   public void setPrefixInteger(Optional<Integer> prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
 
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
-    this.prefixBoolean = Optional.of(prefixBoolean);
+    this.prefixBoolean = Optional.ofNullable(prefixBoolean);
     return this;
   }
 
@@ -407,12 +442,13 @@ public class XmlItem {
    * @return prefixBoolean
    */
   
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(name = "prefix_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_boolean")
   public Optional<Boolean> getPrefixBoolean() {
     return prefixBoolean;
   }
 
+  @JsonProperty("prefix_boolean")
   public void setPrefixBoolean(Optional<Boolean> prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
@@ -435,12 +471,13 @@ public class XmlItem {
    * @return prefixArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "prefix_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
 
+  @JsonProperty("prefix_array")
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
@@ -463,18 +500,19 @@ public class XmlItem {
    * @return prefixWrappedArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "prefix_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
 
+  @JsonProperty("prefix_wrapped_array")
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
   public XmlItem namespaceString(String namespaceString) {
-    this.namespaceString = Optional.of(namespaceString);
+    this.namespaceString = Optional.ofNullable(namespaceString);
     return this;
   }
 
@@ -483,18 +521,19 @@ public class XmlItem {
    * @return namespaceString
    */
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(name = "namespace_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_string")
   public Optional<String> getNamespaceString() {
     return namespaceString;
   }
 
+  @JsonProperty("namespace_string")
   public void setNamespaceString(Optional<String> namespaceString) {
     this.namespaceString = namespaceString;
   }
 
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
-    this.namespaceNumber = Optional.of(namespaceNumber);
+    this.namespaceNumber = Optional.ofNullable(namespaceNumber);
     return this;
   }
 
@@ -503,18 +542,19 @@ public class XmlItem {
    * @return namespaceNumber
    */
   @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(name = "namespace_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_number")
   public Optional<BigDecimal> getNamespaceNumber() {
     return namespaceNumber;
   }
 
+  @JsonProperty("namespace_number")
   public void setNamespaceNumber(Optional<BigDecimal> namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
   public XmlItem namespaceInteger(Integer namespaceInteger) {
-    this.namespaceInteger = Optional.of(namespaceInteger);
+    this.namespaceInteger = Optional.ofNullable(namespaceInteger);
     return this;
   }
 
@@ -523,18 +563,19 @@ public class XmlItem {
    * @return namespaceInteger
    */
   
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(name = "namespace_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_integer")
   public Optional<Integer> getNamespaceInteger() {
     return namespaceInteger;
   }
 
+  @JsonProperty("namespace_integer")
   public void setNamespaceInteger(Optional<Integer> namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
 
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
-    this.namespaceBoolean = Optional.of(namespaceBoolean);
+    this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
     return this;
   }
 
@@ -543,12 +584,13 @@ public class XmlItem {
    * @return namespaceBoolean
    */
   
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(name = "namespace_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_boolean")
   public Optional<Boolean> getNamespaceBoolean() {
     return namespaceBoolean;
   }
 
+  @JsonProperty("namespace_boolean")
   public void setNamespaceBoolean(Optional<Boolean> namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
@@ -571,12 +613,13 @@ public class XmlItem {
    * @return namespaceArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "namespace_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
 
+  @JsonProperty("namespace_array")
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
@@ -599,18 +642,19 @@ public class XmlItem {
    * @return namespaceWrappedArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "namespace_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
 
+  @JsonProperty("namespace_wrapped_array")
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
   public XmlItem prefixNsString(String prefixNsString) {
-    this.prefixNsString = Optional.of(prefixNsString);
+    this.prefixNsString = Optional.ofNullable(prefixNsString);
     return this;
   }
 
@@ -619,18 +663,19 @@ public class XmlItem {
    * @return prefixNsString
    */
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(name = "prefix_ns_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_string")
   public Optional<String> getPrefixNsString() {
     return prefixNsString;
   }
 
+  @JsonProperty("prefix_ns_string")
   public void setPrefixNsString(Optional<String> prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
 
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
-    this.prefixNsNumber = Optional.of(prefixNsNumber);
+    this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
     return this;
   }
 
@@ -639,18 +684,19 @@ public class XmlItem {
    * @return prefixNsNumber
    */
   @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(name = "prefix_ns_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_number")
   public Optional<BigDecimal> getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
+  @JsonProperty("prefix_ns_number")
   public void setPrefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
-    this.prefixNsInteger = Optional.of(prefixNsInteger);
+    this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
     return this;
   }
 
@@ -659,18 +705,19 @@ public class XmlItem {
    * @return prefixNsInteger
    */
   
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(name = "prefix_ns_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_integer")
   public Optional<Integer> getPrefixNsInteger() {
     return prefixNsInteger;
   }
 
+  @JsonProperty("prefix_ns_integer")
   public void setPrefixNsInteger(Optional<Integer> prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
 
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
-    this.prefixNsBoolean = Optional.of(prefixNsBoolean);
+    this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
     return this;
   }
 
@@ -679,12 +726,13 @@ public class XmlItem {
    * @return prefixNsBoolean
    */
   
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(name = "prefix_ns_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_boolean")
   public Optional<Boolean> getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
 
+  @JsonProperty("prefix_ns_boolean")
   public void setPrefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
@@ -707,12 +755,13 @@ public class XmlItem {
    * @return prefixNsArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "prefix_ns_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
 
+  @JsonProperty("prefix_ns_array")
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
@@ -735,12 +784,13 @@ public class XmlItem {
    * @return prefixNsWrappedArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "prefix_ns_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
 
+  @JsonProperty("prefix_ns_wrapped_array")
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
@@ -831,11 +881,8 @@ public class XmlItem {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

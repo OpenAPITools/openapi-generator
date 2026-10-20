@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -33,19 +34,20 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Client")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @XmlElement(name = "client")
+  @javax.annotation.Nullable
   private String client;
 
   public Client() {
   }
 
-  public Client client(String client) {
+  public Client client(@javax.annotation.Nullable String client) {
     
     this.client = client;
     return this;
@@ -56,7 +58,7 @@ public class Client {
    * @return client
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "client")
 
@@ -65,12 +67,13 @@ public class Client {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "client")
-  public void setClient(String client) {
+  public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -103,10 +106,7 @@ public class Client {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

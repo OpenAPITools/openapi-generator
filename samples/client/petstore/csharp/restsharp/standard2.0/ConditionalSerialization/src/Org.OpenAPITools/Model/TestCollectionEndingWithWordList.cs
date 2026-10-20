@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordList" /> class.
         /// </summary>
         /// <param name="value">value.</param>
-        public TestCollectionEndingWithWordList(string value = default(string))
+        public TestCollectionEndingWithWordList(string value = default)
         {
             this._Value = value;
             if (this.Value != null)

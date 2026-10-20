@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +49,22 @@ import org.openapitools.client.JSON;
 /**
  * IsoscelesTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class IsoscelesTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public IsoscelesTriangle() {
   }
 
-  public IsoscelesTriangle shapeType(String shapeType) {
+  public IsoscelesTriangle shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -76,12 +78,12 @@ public class IsoscelesTriangle {
     return shapeType;
   }
 
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public IsoscelesTriangle triangleType(String triangleType) {
+  public IsoscelesTriangle triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -95,7 +97,7 @@ public class IsoscelesTriangle {
     return triangleType;
   }
 
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -134,10 +136,7 @@ public class IsoscelesTriangle {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -146,14 +145,10 @@ public class IsoscelesTriangle {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("shapeType");
-    openapiFields.add("triangleType");
+    openapiFields = new HashSet<String>(Arrays.asList("shapeType", "triangleType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("shapeType");
-    openapiRequiredFields.add("triangleType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("shapeType", "triangleType"));
   }
 
   /**
@@ -165,7 +160,7 @@ public class IsoscelesTriangle {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!IsoscelesTriangle.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in IsoscelesTriangle is not found in the empty JSON string", IsoscelesTriangle.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in IsoscelesTriangle is not found in the empty JSON string", IsoscelesTriangle.openapiRequiredFields.toString()));
         }
       }
 
@@ -173,22 +168,22 @@ public class IsoscelesTriangle {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!IsoscelesTriangle.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `IsoscelesTriangle` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `IsoscelesTriangle` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : IsoscelesTriangle.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("shapeType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
       if (!jsonObj.get("triangleType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
       }
   }
 

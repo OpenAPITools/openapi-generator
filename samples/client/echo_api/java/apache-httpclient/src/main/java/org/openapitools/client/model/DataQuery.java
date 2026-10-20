@@ -39,22 +39,25 @@ import java.util.StringJoiner;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  @javax.annotation.Nullable
   private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
+  @javax.annotation.Nullable
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
+  @javax.annotation.Nullable
   private OffsetDateTime date;
 
   public DataQuery() {
 
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@javax.annotation.Nullable String suffix) {
     
     this.suffix = suffix;
     return this;
@@ -65,7 +68,7 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
@@ -73,13 +76,13 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSuffix(String suffix) {
+  public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
-  public DataQuery text(String text) {
+  public DataQuery text(@javax.annotation.Nullable String text) {
     
     this.text = text;
     return this;
@@ -90,7 +93,7 @@ public class DataQuery extends Query {
    * @return text
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
@@ -98,13 +101,13 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setText(String text) {
+  public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
   }
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(@javax.annotation.Nullable OffsetDateTime date) {
     
     this.date = date;
     return this;
@@ -115,7 +118,7 @@ public class DataQuery extends Query {
    * @return date
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDate() {
@@ -123,20 +126,21 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(OffsetDateTime date) {
+  public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
 
+
   @Override
-  public DataQuery id(Long id) {
+  public DataQuery id(@javax.annotation.Nullable Long id) {
     this.setId(id);
     return this;
   }
 
   @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+  public DataQuery outcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.setOutcomes(outcomes);
     return this;
   }
@@ -178,10 +182,7 @@ public class DataQuery extends Query {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -219,7 +220,7 @@ public class DataQuery extends Query {
     // add `id` to the URL query string
     if (getId() != null) {
       try {
-        joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -230,8 +231,8 @@ public class DataQuery extends Query {
     if (getOutcomes() != null) {
       for (int i = 0; i < getOutcomes().size(); i++) {
         try {
-          joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%soutcomes%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getOutcomes().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -243,7 +244,7 @@ public class DataQuery extends Query {
     // add `suffix` to the URL query string
     if (getSuffix() != null) {
       try {
-        joiner.add(String.format("%ssuffix%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSuffix()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%ssuffix%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSuffix()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -253,7 +254,7 @@ public class DataQuery extends Query {
     // add `text` to the URL query string
     if (getText() != null) {
       try {
-        joiner.add(String.format("%stext%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getText()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%stext%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getText()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -263,7 +264,7 @@ public class DataQuery extends Query {
     // add `date` to the URL query string
     if (getDate() != null) {
       try {
-        joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

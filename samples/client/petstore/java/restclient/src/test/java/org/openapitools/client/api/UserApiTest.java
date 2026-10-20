@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for UserApi
  */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private final UserApi api = new UserApi();

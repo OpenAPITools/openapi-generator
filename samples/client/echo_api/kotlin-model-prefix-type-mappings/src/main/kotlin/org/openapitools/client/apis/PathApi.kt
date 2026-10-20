@@ -20,6 +20,7 @@ interface PathApi {
     }
 
     /**
+     * GET path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
      * Test path parameter(s)
      * Test path parameter(s)
      * Responses:

@@ -12,15 +12,17 @@
 package org.openapitools.server.models
 
 
+import kotlinx.serialization.Serializable
 /**
  * Describes the result of uploading an image resource
  * @param code 
  * @param type 
  * @param message 
  */
+@Serializable
 data class ModelApiResponse(
     var code: kotlin.Int? = null,
     var type: kotlin.String? = null,
     var message: kotlin.String? = null
-) 
+)
 

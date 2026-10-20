@@ -11,7 +11,7 @@ title: Documentation for the php-laravel Generator
 | generator type | SERVER | |
 | generator language | PHP | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a PHP laravel server library. | |
+| helpTxt | Generates a php-laravel server. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -22,12 +22,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPackage|package for generated api classes| |null|
 |artifactUrl|artifact URL in generated pom.xml| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
+|autowire|Should autowire be enabled.| |false|
 |composerPackageName|The name to use in the composer package name field. e.g. `vendor/project` (must be lowercase and consist of words separated by `-`, `.` or `_`).| |null|
 |developerOrganization|developer organization in generated pom.xml| |null|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |null|
@@ -37,7 +38,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
-|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
+|variableNamingConvention|naming convention of variable name, e.g. camelCase.|<dl><dt>**camelCase**</dt><dd>Use camelCase convention</dd><dt>**PascalCase**</dt><dd>Use PascalCase convention</dd><dt>**snake_case**</dt><dd>Use snake_case convention</dd><dt>**original**</dt><dd>Do not change the variable name</dd></dl>|snake_case|
 
 ## IMPORT MAPPING
 
@@ -57,6 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>\DateTime</li>
+<li>\Illuminate\Http\UploadedFile</li>
 <li>\SplFileObject</li>
 <li>array</li>
 <li>bool</li>
@@ -108,6 +110,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>exit</li>
 <li>extends</li>
 <li>final</li>
+<li>finally</li>
+<li>fn</li>
 <li>for</li>
 <li>foreach</li>
 <li>formparams</li>
@@ -125,6 +129,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>interface</li>
 <li>isset</li>
 <li>list</li>
+<li>match</li>
 <li>namespace</li>
 <li>new</li>
 <li>or</li>
@@ -133,6 +138,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>protected</li>
 <li>public</li>
 <li>queryparams</li>
+<li>readonly</li>
 <li>require</li>
 <li>require_once</li>
 <li>resourcepath</li>
@@ -147,6 +153,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>var</li>
 <li>while</li>
 <li>xor</li>
+<li>yield</li>
 </ul>
 
 ## FEATURE SET
@@ -200,7 +207,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Documentation Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Readme|✓|ToolingExtension
+|Readme|✗|ToolingExtension
 |Model|✓|ToolingExtension
 |Api|✓|ToolingExtension
 
@@ -220,7 +227,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |MultiServer|✗|OAS3
 |ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
-|Callbacks|✗|OAS3
+|Callbacks|✓|OAS3
 |LinkObjects|✗|OAS3
 
 ### Parameter Feature
@@ -239,7 +246,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
@@ -249,14 +256,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
-|OAuth2_Password|✗|OAS2,OAS3
-|OAuth2_ClientCredentials|✗|OAS2,OAS3
-|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✓|OAS2,OAS3
+|OAuth2_ClientCredentials|✓|OAS2,OAS3
+|OAuth2_AuthorizationCode|✓|OAS2,OAS3
 |SignatureAuth|✗|OAS3
 |AWSV4Signature|✗|ToolingExtension
 

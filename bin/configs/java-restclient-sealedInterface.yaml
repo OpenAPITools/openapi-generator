@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/others/java/restclient-sealedInterface
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: sealed-interface-restClient
+  hideGenerationTimestamp: "true"
+  useSealedOneOfInterfaces: true
+  useOneOfInterfaces: true
+  serializableModel: true

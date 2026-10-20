@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -24,6 +32,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -109,7 +121,7 @@ open class UserApi : ApiClient {
         companion object : KSerializer<CreateUsersWithArrayInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
         }
     }
@@ -149,7 +161,7 @@ open class UserApi : ApiClient {
         companion object : KSerializer<CreateUsersWithListInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithListInputRequest) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: CreateUsersWithListInputRequest) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
         }
     }

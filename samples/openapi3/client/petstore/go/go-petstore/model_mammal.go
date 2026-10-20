@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // Mammal - struct for Mammal
@@ -84,6 +84,10 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(Mammal): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(Mammal)")
 	}
 }
@@ -112,6 +116,20 @@ func (obj *Mammal) GetActualInstance() (interface{}) {
 
 	if obj.Zebra != nil {
 		return obj.Zebra
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj Mammal) GetActualInstanceValue() (interface{}) {
+	if obj.Whale != nil {
+		return *obj.Whale
+	}
+
+	if obj.Zebra != nil {
+		return *obj.Zebra
 	}
 
 	// all schemas are nil

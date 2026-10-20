@@ -17,7 +17,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/ByteArrayObject'
+                  $ref: "#/components/schemas/ByteArrayObject"
                 type: array
           description: ""
       summary: ""
@@ -28,8 +28,8 @@ components:
     ByteArrayObject:
       example:
         nullableArray: nullableArray
-        nullableString: nullableString
         normalArray: normalArray
+        nullableString: nullableString
         stringField: stringField
         intField: 0.8008281904610115
       properties:

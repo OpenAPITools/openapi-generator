@@ -17,24 +17,24 @@
 
 package org.openapitools.codegen.cmd;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 @SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
@@ -45,6 +45,9 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
+
+    @Option(name = {"-q", "--quiet"}, description = "quiet mode")
+    private Boolean quiet;
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see list command for list)")
@@ -64,6 +67,23 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(name = "--merged-spec-filename", title = "Name of resulted merged specs file (used along with --input-spec-root-directory option)")
     private String mergedFileName;
+
+    @Option(name = "--merge-conflict-strategy", title = "Merge conflict strategy",
+            description = "Strategy when two specs define the same component/path+method with different definitions: WARN (default, keep first) or FAIL (abort). Only applies with --merge-mode DEEP.")
+    private String mergeConflictStrategy;
+
+    @Option(name = "--merge-mode", title = "Merge mode",
+            description = "How multiple spec files are merged: REF (default, original $ref-based) or DEEP (full inline merge with component deduplication).")
+    private String mergeMode;
+
+    @Option(name = "--input-spec-files", title = "Explicit spec files",
+            description = "Ordered list of spec files to merge (repeat the flag for each file). " +
+                    "Alternative to --input-spec-root-directory; takes precedence when set.")
+    private List<String> inputSpecFiles;
+
+    @Option(name = "--merged-file-output-dir", title = "Merged file output directory",
+            description = "Directory where the merged spec file is written when --input-spec-files is used. Required when --input-spec-files is set.")
+    private String mergedFileOutputDir;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
@@ -101,7 +121,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
-    @Option(name = { "--dry-run" }, title = "Dry run",
+    @Option(name = {"--dry-run"}, title = "Dry run",
             description = "Try things out and report on potential changes (without actually making changes).")
     private Boolean isDryRun;
 
@@ -162,7 +182,7 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(
             name = {"--openapi-generator-ignore-list"},
-            title = ".openapi-generaotr-ignore list",
+            title = ".openapi-generator-ignore list",
             description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
                     + " You can also have multiple occurrences of this option.")
     private List<String> openapiGeneratorIgnoreList = new ArrayList<>();
@@ -229,6 +249,15 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "specifies mappings between the operation id name and the new name in the format of operation_id_name=AnotherName,operation_id_name2=OtherName2."
                     + " You can also have multiple occurrences of this option.")
     private List<String> operationIdNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--inject-model-vendor-extensions"},
+            title = "inject model vendor extensions",
+            description = "injects vendor extensions into model classes or their properties."
+                    + " Class-level format: ModelName.x-extension-name=value."
+                    + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> injectModelVendorExtensions = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -327,15 +356,72 @@ public class Generate extends OpenApiGeneratorCommand {
     private Boolean legacyDiscriminatorBehavior;
 
     @Option(name = {"--minimal-update"},
-        title = "Minimal update",
-        description = "Only write output files that have changed.")
+            title = "Minimal update",
+            description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
+
+    /**
+     * Resolves and applies the merge mode and conflict strategy options to the given builder.
+     * Shared by both the explicit-file-list and root-directory merge entry points so validation
+     * and option handling cannot drift between the two modes.
+     *
+     * <p>The {@code --merge-conflict-strategy} value is validated whenever it is supplied,
+     * regardless of the resolved merge mode, so malformed input consistently fails fast; it is only
+     * applied to the builder in DEEP mode (it has no effect in REF mode).</p>
+     */
+    private void applyMergeOptions(MergedSpecBuilder builder) {
+        MergedSpecBuilder.MergeMode resolvedMergeMode = MergedSpecBuilder.MergeMode.REF;
+        if (StringUtils.isNotBlank(mergeMode)) {
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
+                System.exit(1);
+            }
+            builder.withMergeMode(resolvedMergeMode);
+        }
+
+        if (StringUtils.isNotBlank(mergeConflictStrategy)) {
+            MergedSpecBuilder.MergeConflictStrategy resolvedStrategy = null;
+            try {
+                resolvedStrategy = MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
+                System.exit(1);
+            }
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                builder.withConflictStrategy(resolvedStrategy);
+            }
+        }
+    }
 
     @Override
     public void execute() {
-        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
-                .buildMergedSpec();
+        if (inputSpecFiles != null && !inputSpecFiles.isEmpty()) {
+            if (StringUtils.isBlank(mergedFileOutputDir)) {
+                System.err.println("[error] --merged-file-output-dir must be set when --input-spec-files is used");
+                System.exit(1);
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(
+                    inputSpecFiles,
+                    mergedFileOutputDir,
+                    StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName,
+                    "merged spec", "merged spec", "1.0.0", auth
+            );
+            applyMergeOptions(builder);
+
+            spec = builder.buildMergedSpec();
+            System.out.println("Merged input spec from explicit file list: " + spec);
+        } else if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            MergedSpecBuilder builder = new MergedSpecBuilder(
+                    inputSpecRootDirectory,
+                    StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName,
+                    "merged spec", "merged spec", "1.0.0", auth
+            );
+            applyMergeOptions(builder);
+
+            spec = builder.buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }
 
@@ -374,6 +460,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (verbose != null) {
             configurator.setVerbose(verbose);
+        }
+
+        if (quiet != null) {
+                configurator.setQuiet(quiet);
         }
 
         if (skipOverwrite != null) {
@@ -515,6 +605,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+        applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
         applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);

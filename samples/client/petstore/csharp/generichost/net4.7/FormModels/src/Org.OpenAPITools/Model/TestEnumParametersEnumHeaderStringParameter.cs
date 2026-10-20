@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter.ToString());
+            writer.WriteStringValue(TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter).ToString());
         }
     }
 
@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumHeaderStringParameter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             TestEnumParametersEnumHeaderStringParameter? result = rawValue == null
@@ -175,14 +178,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TestEnumParametersEnumHeaderStringParameter to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testEnumParametersEnumHeaderStringParameter"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumHeaderStringParameter? testEnumParametersEnumHeaderStringParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter?.ToString() ?? "null");
+            if (testEnumParametersEnumHeaderStringParameter.HasValue)
+                writer.WriteStringValue(TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

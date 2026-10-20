@@ -15,11 +15,15 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
+
+    protected static final String VENDOR_EXTENSION_PARAM_IDENTIFIER = "x-rust-param-identifier";
 
     protected List<String> charactersToAllow = Collections.singletonList("_");
     protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(
@@ -181,8 +185,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
                 throw new IllegalArgumentException("Unknown CasingType");
         }
 
-        // Replace hyphens with underscores
-        name = name.replaceAll("-", "_");
+        // Replace hyphens and periods with underscores
+        name = name.replaceAll("[\\.\\-]", "_");
 
         // Apply special character escapes, e.g. "@type" => "At_type"
         // Remove the trailing underscore if necessary
@@ -197,16 +201,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         // Sanitize any other special characters that weren't replaced
         name = sanitizeName(name);
 
-        // Keep track of modifications prior to casing
-        boolean nameWasModified = !originalName.equals(name);
-
         // Convert casing
         name = casingFunction.apply(name);
 
         // If word starts with number add a prefix
         // Note: this must be done after casing since CamelCase will strip leading underscores
         if (name.matches("^\\d.*")) {
-            nameWasModified = true;
             name = casingFunction.apply(escapePrefix + '_' + name);
         }
 
@@ -214,7 +214,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         // There is currently a bug in Rust where this doesn't work for a few reserved words :(
         // https://internals.rust-lang.org/t/raw-identifiers-dont-work-for-all-identifiers/9094
         if (isReservedWord(name)) {
-            nameWasModified = true;
             if (this.keywordsThatDoNotSupportRawIdentifiers.contains(name) || !allowRawIdentifiers) {
                 name = casingFunction.apply(escapePrefix + '_' + name);
             } else {
@@ -223,8 +222,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         }
 
         // If the name had to be modified (not just because of casing), log the change
-        if (nameWasModified) {
-            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casingFunction.apply(originalName), type, name);
+        String casedOriginalName = casingFunction.apply(originalName);
+        if (!casedOriginalName.equals(name)) {
+            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casedOriginalName, type, name);
         }
 
         return name;
@@ -245,8 +245,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         } else if (!org.apache.commons.lang3.StringUtils.isEmpty(p.get$ref())) {
             String datatype;
             try {
-                datatype = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
-                datatype = "models::" + toModelName(datatype);
+                datatype = "models::" + toModelName(ModelUtils.getSimpleRef(p.get$ref()));
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
@@ -291,7 +290,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
-        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+        } else if ((hasAnyOf(mdl)) || (hasOneOf(mdl))) {
             mdl.dataType = getSchemaType(model);
         }
 
@@ -331,7 +330,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return sanitizeIdentifier(operationId, CasingType.SNAKE_CASE, "call", "method", true);
     }
 
-    //// Model naming ////
+    /// / Model naming ////
 
     protected String addModelNamePrefixAndSuffix(String name) {
         if (!Strings.isNullOrEmpty(modelNamePrefix)) {
@@ -345,6 +344,10 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         return sanitizeIdentifier(addModelNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "model", "model", false);
     }
 
@@ -358,7 +361,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toModelName(name);
     }
 
-    //// Enum naming ////
+    /// / Enum naming ////
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (enumNameMapping.containsKey(name)) {
@@ -386,8 +389,14 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // This is the representation of the enum that will be serialized / deserialized
-        // Note: generators currently only support string enums, so checking the type here is pointless
+        if ("integer".equals(datatype) || "number".equals(datatype)
+                || "i8".equals(datatype) || "i16".equals(datatype)
+                || "i32".equals(datatype) || "i64".equals(datatype)
+                || "u8".equals(datatype) || "u16".equals(datatype)
+                || "u32".equals(datatype) || "u64".equals(datatype)
+                || "f32".equals(datatype) || "f64".equals(datatype)) {
+            return value;
+        }
         return escapeText(value);
     }
 
@@ -398,7 +407,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toEnumVarName(value, datatype);
     }
 
-    //// API naming ////
+    /// / API naming ////
 
     protected String addApiNamePrefixAndSuffix(String name) {
         if (Strings.isNullOrEmpty(name)) {
@@ -438,6 +447,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "r#"+ name;
+        return "r#" + name;
     }
 }

@@ -1,0 +1,70 @@
+package {{apiPackage}};
+
+import java.util.logging.Logger;
+
+import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
+
+/**
+ * Utility methods related to handlers for Helidon 4+ support.
+ */
+class HandlerUtils {
+
+    private static final Logger LOGGER = Logger.getLogger(HandlerUtils.class.getName());
+
+    private HandlerUtils() {
+    }
+
+    /**
+     * Handler which accepts a request, response, and a body parameter type and, if the body part is declared as required,
+     * enforces that.
+     *
+     * @param <T> type of the body parameter
+     */
+    static class Handler<T> implements io.helidon.webserver.http.Handler {
+
+        private final Class<T> type;
+        private final boolean isRequired;
+        private final Op<T> op;
+
+        Handler(Class<T> type, boolean isRequired, Op<T> op) {
+            this.type = type;
+            this.isRequired = isRequired;
+            this.op = op;
+        }
+
+        /**
+         * Returns a handler which extracts a body parameter from the content and, if the parameter is required, enforces that.
+         *
+         * @param type       type of the body parameter
+         * @param isRequired whether the body parameter is declared as required
+         * @param op         operation the handler is to invoke with the request, response, and body parameter
+         * @param <T>        type of the body parameter
+         * @return the new handler
+         */
+        static <T> Handler<T> create(Class<T> type, boolean isRequired, Handler.Op<T> op) {
+            return new Handler<>(type, isRequired, op);
+        }
+
+        @Override
+        public void handle(ServerRequest serverRequest, ServerResponse serverResponse)
+                throws Exception {
+            ValidatorUtils.Validator validator = isRequired ? ValidatorUtils.validator() : null;
+            T body = serverRequest.content().as(type);
+            if (isRequired) {
+                validator.require("body", body);
+                validator.execute();
+            }
+            op.apply(serverRequest, serverResponse, body);
+        }
+
+        /**
+         * An operation to which the handler delegates upon receipt of a request and extraction of the body parameter.
+         *
+         * @param <T> type of the body parameter
+         */
+        interface Op<T> {
+            void apply(ServerRequest request, ServerResponse response, T body);
+        }
+    }
+}

@@ -6,6 +6,7 @@ import akka.http.scaladsl.server.directives.BasicDirectives
 import akka.http.scaladsl.unmarshalling.Unmarshaller.UnsupportedContentTypeException
 
 import scala.concurrent.Future
+import scala.language.implicitConversions
 import scala.util.{Failure, Success}
 
 trait StringDirectives {

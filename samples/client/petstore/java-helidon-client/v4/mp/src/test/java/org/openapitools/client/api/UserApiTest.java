@@ -13,7 +13,10 @@
 
 package org.openapitools.client.api;
 
+import java.util.List;
+import java.util.Map;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.openapitools.client.model.User;
 
 import org.junit.jupiter.api.BeforeAll;

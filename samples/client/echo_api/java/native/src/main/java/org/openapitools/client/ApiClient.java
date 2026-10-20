@@ -20,6 +20,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -34,6 +35,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
+import java.util.Optional;
+import java.util.zip.GZIPInputStream;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -51,20 +54,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ApiClient {
 
-  private HttpClient.Builder builder;
-  private ObjectMapper mapper;
-  private String scheme;
-  private String host;
-  private int port;
-  private String basePath;
-  private Consumer<HttpRequest.Builder> interceptor;
-  private Consumer<HttpResponse<InputStream>> responseInterceptor;
-  private Consumer<HttpResponse<String>> asyncResponseInterceptor;
-  private Duration readTimeout;
-  private Duration connectTimeout;
+  protected HttpClient.Builder builder;
+  protected ObjectMapper mapper;
+  protected String scheme;
+  protected String host;
+  protected int port;
+  protected String basePath;
+  protected Consumer<HttpRequest.Builder> interceptor;
+  protected Consumer<HttpResponse<InputStream>> responseInterceptor;
+  protected Consumer<HttpResponse<InputStream>> asyncResponseInterceptor;
+  protected Duration readTimeout;
+  protected Duration connectTimeout;
 
   public static String valueToString(Object value) {
     if (value == null) {
@@ -166,7 +169,7 @@ public class ApiClient {
   public ApiClient() {
     this.builder = createDefaultHttpClientBuilder();
     this.mapper = createDefaultObjectMapper();
-    updateBaseUri(getDefaultBaseUri());
+    updateBaseUri("http://localhost:3000");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -184,7 +187,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
+    updateBaseUri(baseUri != null ? baseUri : "http://localhost:3000");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -192,7 +195,7 @@ public class ApiClient {
     asyncResponseInterceptor = null;
   }
 
-  protected ObjectMapper createDefaultObjectMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -203,18 +206,19 @@ public class ApiClient {
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
     mapper.registerModule(new JsonNullableModule());
+    mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
-    return "http://localhost:3000";
+  protected final String getDefaultBaseUri() {
+    return basePath;
   }
 
-  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+  public static HttpClient.Builder createDefaultHttpClientBuilder() {
     return HttpClient.newBuilder();
   }
 
-  public void updateBaseUri(String baseUri) {
+  public final void updateBaseUri(String baseUri) {
     URI uri = URI.create(baseUri);
     scheme = uri.getScheme();
     host = uri.getHost();
@@ -383,7 +387,7 @@ public class ApiClient {
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<String>> interceptor) {
+  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
     this.asyncResponseInterceptor = interceptor;
     return this;
   }
@@ -393,7 +397,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public Consumer<HttpResponse<String>> getAsyncResponseInterceptor() {
+  public Consumer<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
     return asyncResponseInterceptor;
   }
 
@@ -453,4 +457,32 @@ public class ApiClient {
   public Duration getConnectTimeout() {
     return connectTimeout;
   }
+
+  /**
+   * Returns the response body InputStream, transparently decoding gzip-compressed
+   * payloads when the server sets {@code Content-Encoding: gzip}.
+   *
+   * @param response HTTP response whose body should be consumed
+   * @return Original or decompressed InputStream for the response body
+   * @throws IOException if the response body cannot be accessed or wrapping fails
+   */
+  public static InputStream getResponseBody(HttpResponse<InputStream> response) throws IOException {
+    if (response == null) {
+      return null;
+    }
+    InputStream body = response.body();
+    if (body == null) {
+      return null;
+    }
+    Optional<String> encoding = response.headers().firstValue("Content-Encoding");
+    if (encoding.isPresent()) {
+      for (String token : encoding.get().split(",")) {
+        if ("gzip".equalsIgnoreCase(token.trim())) {
+          return new GZIPInputStream(body, 8192);
+        }
+      }
+    }
+    return body;
+  }
+
 }

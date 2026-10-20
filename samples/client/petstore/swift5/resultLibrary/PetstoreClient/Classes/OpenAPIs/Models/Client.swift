@@ -10,21 +10,21 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Client: Codable, JSONEncodable, Hashable {
+internal struct Client: Codable, JSONEncodable {
 
-    public var client: String?
+    internal private(set) var client: String?
 
-    public init(client: String? = nil) {
+    internal init(client: String? = nil) {
         self.client = client
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case client
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(client, forKey: .client)
     }

@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: Rust Axum Integer Type Mapping Test
+  version: 1.0.0
+paths:
+  /integers:
+    get:
+      operationId: getIntegers
+      parameters:
+        - name: legacy_uint32
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: uint32
+        - name: legacy_uint64
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: uint64
+        - name: positive_int32
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - name: positive_int64
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: small_positive
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 255
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegerTypes'
+components:
+  schemas:
+    IntegerTypes:
+      type: object
+      required:
+        - legacy_uint32
+        - legacy_uint64
+        - positive_int32
+        - positive_int64
+        - small_positive
+      properties:
+        legacy_uint32:
+          type: integer
+          format: uint32
+        legacy_uint64:
+          type: integer
+          format: uint64
+        positive_int32:
+          type: integer
+          format: int32
+          minimum: 0
+        positive_int64:
+          type: integer
+          format: int64
+          minimum: 0
+        small_positive:
+          type: integer
+          minimum: 0
+          maximum: 255

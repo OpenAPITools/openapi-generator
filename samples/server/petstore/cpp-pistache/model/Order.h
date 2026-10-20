@@ -32,7 +32,7 @@ class  Order
 {
 public:
     Order();
-    virtual ~Order() = default;
+    virtual ~Order();
 
 
     /// <summary>

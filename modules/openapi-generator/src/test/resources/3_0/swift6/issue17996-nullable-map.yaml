@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 17996 Nullable map'
+  version: latest
+components:
+  schemas:
+    NullMapNotNullMap:
+      properties:
+        nullableMap:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+        notNullableMap:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: false
+        defaultMap:
+          type: object
+          additionalProperties:
+            type: string

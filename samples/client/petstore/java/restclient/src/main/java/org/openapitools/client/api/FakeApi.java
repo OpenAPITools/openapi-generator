@@ -22,22 +22,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -45,7 +46,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -66,11 +66,10 @@ public class FakeApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fakeBigDecimalMapRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -85,7 +84,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<FakeBigDecimalMap200Response> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/BigDecimalMap", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/BigDecimalMap", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -122,6 +121,7 @@ public class FakeApi {
     public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws RestClientResponseException {
         return fakeBigDecimalMapRequestCreation();
     }
+
     /**
      * Health check endpoint
      * 
@@ -130,11 +130,10 @@ public class FakeApi {
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fakeHealthGetRequestCreation() throws RestClientResponseException {
-        Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -149,7 +148,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<HealthCheckResult> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/health", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/health", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -186,6 +185,7 @@ public class FakeApi {
     public ResponseSpec fakeHealthGetWithResponseSpec() throws RestClientResponseException {
         return fakeHealthGetRequestCreation();
     }
+
     /**
      * test http signature authentication
      * 
@@ -195,8 +195,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeHttpSignatureTestRequestCreation(Pet pet, String query1, String header1) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec fakeHttpSignatureTestRequestCreation(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling fakeHttpSignatureTest", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -204,16 +203,17 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
 
-        if (header1 != null)
-        headerParams.add("header_1", apiClient.parameterToString(header1));
+        if (header1 != null) {
+            headerParams.add("header_1", apiClient.parameterToString(header1));
+        }
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -224,7 +224,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] { "http_signature_test" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/http-signature-test", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/http-signature-test", HttpMethod.GET, pathParams, localVarQueryParams, pet, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -236,7 +236,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws RestClientResponseException {
+    public void fakeHttpSignatureTest(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         fakeHttpSignatureTestRequestCreation(pet, query1, header1).body(localVarReturnType);
     }
@@ -250,7 +250,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, String query1, String header1) throws RestClientResponseException {
+    public ResponseEntity<Void> fakeHttpSignatureTestWithHttpInfo(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1).toEntity(localVarReturnType);
     }
@@ -265,9 +265,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeHttpSignatureTestWithResponseSpec(Pet pet, String query1, String header1) throws RestClientResponseException {
+    public ResponseSpec fakeHttpSignatureTestWithResponseSpec(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1);
     }
+
     /**
      * 
      * Test serialization of outer boolean types
@@ -276,12 +277,11 @@ public class FakeApi {
      * @return Boolean
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterBooleanSerializeRequestCreation(Boolean body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec fakeOuterBooleanSerializeRequestCreation(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -298,7 +298,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Boolean> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/outer/boolean", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/outer/boolean", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -309,7 +309,7 @@ public class FakeApi {
      * @return Boolean
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientResponseException {
+    public Boolean fakeOuterBooleanSerialize(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         ParameterizedTypeReference<Boolean> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterBooleanSerializeRequestCreation(body).body(localVarReturnType);
     }
@@ -322,7 +322,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;Boolean&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws RestClientResponseException {
+    public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         ParameterizedTypeReference<Boolean> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterBooleanSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -335,9 +335,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(Boolean body) throws RestClientResponseException {
+    public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         return fakeOuterBooleanSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of object with outer number type
@@ -346,12 +347,11 @@ public class FakeApi {
      * @return OuterComposite
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterCompositeSerializeRequestCreation(OuterComposite outerComposite) throws RestClientResponseException {
-        Object postBody = outerComposite;
+    private ResponseSpec fakeOuterCompositeSerializeRequestCreation(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -368,7 +368,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<OuterComposite> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/outer/composite", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/outer/composite", HttpMethod.POST, pathParams, localVarQueryParams, outerComposite, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -379,7 +379,7 @@ public class FakeApi {
      * @return OuterComposite
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws RestClientResponseException {
+    public OuterComposite fakeOuterCompositeSerialize(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         ParameterizedTypeReference<OuterComposite> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterCompositeSerializeRequestCreation(outerComposite).body(localVarReturnType);
     }
@@ -392,7 +392,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;OuterComposite&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws RestClientResponseException {
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         ParameterizedTypeReference<OuterComposite> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterCompositeSerializeRequestCreation(outerComposite).toEntity(localVarReturnType);
     }
@@ -405,9 +405,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(OuterComposite outerComposite) throws RestClientResponseException {
+    public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         return fakeOuterCompositeSerializeRequestCreation(outerComposite);
     }
+
     /**
      * 
      * Test serialization of outer number types
@@ -416,12 +417,11 @@ public class FakeApi {
      * @return BigDecimal
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterNumberSerializeRequestCreation(BigDecimal body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec fakeOuterNumberSerializeRequestCreation(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -438,7 +438,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -449,7 +449,7 @@ public class FakeApi {
      * @return BigDecimal
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientResponseException {
+    public BigDecimal fakeOuterNumberSerialize(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterNumberSerializeRequestCreation(body).body(localVarReturnType);
     }
@@ -462,7 +462,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;BigDecimal&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws RestClientResponseException {
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterNumberSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -475,9 +475,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(BigDecimal body) throws RestClientResponseException {
+    public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         return fakeOuterNumberSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of outer string types
@@ -486,12 +487,11 @@ public class FakeApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterStringSerializeRequestCreation(String body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec fakeOuterStringSerializeRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -508,7 +508,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/outer/string", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/outer/string", HttpMethod.POST, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -519,7 +519,7 @@ public class FakeApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String fakeOuterStringSerialize(String body) throws RestClientResponseException {
+    public String fakeOuterStringSerialize(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterStringSerializeRequestCreation(body).body(localVarReturnType);
     }
@@ -532,7 +532,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(String body) throws RestClientResponseException {
+    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakeOuterStringSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -545,9 +545,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(String body) throws RestClientResponseException {
+    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         return fakeOuterStringSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -556,8 +557,7 @@ public class FakeApi {
      * @return OuterObjectWithEnumProperty
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakePropertyEnumIntegerSerializeRequestCreation(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
-        Object postBody = outerObjectWithEnumProperty;
+    private ResponseSpec fakePropertyEnumIntegerSerializeRequestCreation(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         // verify the required parameter 'outerObjectWithEnumProperty' is set
         if (outerObjectWithEnumProperty == null) {
             throw new RestClientResponseException("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -565,7 +565,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -582,7 +582,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<OuterObjectWithEnumProperty> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/property/enum-int", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/property/enum-int", HttpMethod.POST, pathParams, localVarQueryParams, outerObjectWithEnumProperty, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -593,7 +593,7 @@ public class FakeApi {
      * @return OuterObjectWithEnumProperty
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
+    public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         ParameterizedTypeReference<OuterObjectWithEnumProperty> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty).body(localVarReturnType);
     }
@@ -606,7 +606,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;OuterObjectWithEnumProperty&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
+    public ResponseEntity<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         ParameterizedTypeReference<OuterObjectWithEnumProperty> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty).toEntity(localVarReturnType);
     }
@@ -619,9 +619,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
+    public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
+
     /**
      * test referenced additionalProperties
      * 
@@ -629,8 +630,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(Map<String, Object> requestBody) throws RestClientResponseException {
-        Object postBody = requestBody;
+    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new RestClientResponseException("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -638,7 +638,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -653,7 +653,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, pathParams, localVarQueryParams, requestBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -663,7 +663,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws RestClientResponseException {
+    public void testAdditionalPropertiesReference(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testAdditionalPropertiesReferenceRequestCreation(requestBody).body(localVarReturnType);
     }
@@ -675,7 +675,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws RestClientResponseException {
+    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testAdditionalPropertiesReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -688,9 +688,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(Map<String, Object> requestBody) throws RestClientResponseException {
+    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         return testAdditionalPropertiesReferenceRequestCreation(requestBody);
     }
+
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -698,8 +699,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithBinaryRequestCreation(File body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec testBodyWithBinaryRequestCreation(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new RestClientResponseException("Missing the required parameter 'body' when calling testBodyWithBinary", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -707,7 +707,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -722,7 +722,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/body-with-binary", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/body-with-binary", HttpMethod.PUT, pathParams, localVarQueryParams, body, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -732,7 +732,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithBinary(File body) throws RestClientResponseException {
+    public void testBodyWithBinary(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testBodyWithBinaryRequestCreation(body).body(localVarReturnType);
     }
@@ -744,7 +744,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithBinaryWithHttpInfo(File body) throws RestClientResponseException {
+    public ResponseEntity<Void> testBodyWithBinaryWithHttpInfo(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyWithBinaryRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -757,9 +757,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithBinaryWithResponseSpec(File body) throws RestClientResponseException {
+    public ResponseSpec testBodyWithBinaryWithResponseSpec(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         return testBodyWithBinaryRequestCreation(body);
     }
+
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -767,8 +768,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithFileSchemaRequestCreation(FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
-        Object postBody = fileSchemaTestClass;
+    private ResponseSpec testBodyWithFileSchemaRequestCreation(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
         // verify the required parameter 'fileSchemaTestClass' is set
         if (fileSchemaTestClass == null) {
             throw new RestClientResponseException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -776,7 +776,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -791,7 +791,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/body-with-file-schema", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/body-with-file-schema", HttpMethod.PUT, pathParams, localVarQueryParams, fileSchemaTestClass, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -801,7 +801,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
+    public void testBodyWithFileSchema(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testBodyWithFileSchemaRequestCreation(fileSchemaTestClass).body(localVarReturnType);
     }
@@ -813,7 +813,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
+    public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass).toEntity(localVarReturnType);
     }
@@ -826,9 +826,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithFileSchemaWithResponseSpec(FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
+    public ResponseSpec testBodyWithFileSchemaWithResponseSpec(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
+
     /**
      * 
      * 
@@ -837,8 +838,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithQueryParamsRequestCreation(String query, User user) throws RestClientResponseException {
-        Object postBody = user;
+    private ResponseSpec testBodyWithQueryParamsRequestCreation(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new RestClientResponseException("Missing the required parameter 'query' when calling testBodyWithQueryParams", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -850,13 +850,13 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -867,7 +867,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, pathParams, localVarQueryParams, user, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -878,7 +878,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithQueryParams(String query, User user) throws RestClientResponseException {
+    public void testBodyWithQueryParams(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testBodyWithQueryParamsRequestCreation(query, user).body(localVarReturnType);
     }
@@ -891,7 +891,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws RestClientResponseException {
+    public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyWithQueryParamsRequestCreation(query, user).toEntity(localVarReturnType);
     }
@@ -905,9 +905,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithQueryParamsWithResponseSpec(String query, User user) throws RestClientResponseException {
+    public ResponseSpec testBodyWithQueryParamsWithResponseSpec(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return testBodyWithQueryParamsRequestCreation(query, user);
     }
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -916,8 +917,7 @@ public class FakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClientModelRequestCreation(Client client) throws RestClientResponseException {
-        Object postBody = client;
+    private ResponseSpec testClientModelRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new RestClientResponseException("Missing the required parameter 'client' when calling testClientModel", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -925,7 +925,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -942,7 +942,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.PATCH, pathParams, localVarQueryParams, client, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -953,7 +953,7 @@ public class FakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Client testClientModel(Client client) throws RestClientResponseException {
+    public Client testClientModel(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClientModelRequestCreation(client).body(localVarReturnType);
     }
@@ -966,7 +966,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> testClientModelWithHttpInfo(Client client) throws RestClientResponseException {
+    public ResponseEntity<Client> testClientModelWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClientModelRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -979,9 +979,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClientModelWithResponseSpec(Client client) throws RestClientResponseException {
+    public ResponseSpec testClientModelWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return testClientModelRequestCreation(client);
     }
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1003,8 +1004,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEndpointParametersRequestCreation(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testEndpointParametersRequestCreation(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws RestClientResponseException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new RestClientResponseException("Missing the required parameter 'number' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1024,39 +1024,45 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integer != null)
+        if (integer != null) {
             formParams.add("integer", integer);
-        if (int32 != null)
+        }
+        if (int32 != null) {
             formParams.add("int32", int32);
-        if (int64 != null)
+        }
+        if (int64 != null) {
             formParams.add("int64", int64);
-        if (number != null)
-            formParams.add("number", number);
-        if (_float != null)
+        }
+        formParams.add("number", number);
+        if (_float != null) {
             formParams.add("float", _float);
-        if (_double != null)
-            formParams.add("double", _double);
-        if (string != null)
+        }
+        formParams.add("double", _double);
+        if (string != null) {
             formParams.add("string", string);
-        if (patternWithoutDelimiter != null)
-            formParams.add("pattern_without_delimiter", patternWithoutDelimiter);
-        if (_byte != null)
-            formParams.add("byte", _byte);
-        if (binary != null)
+        }
+        formParams.add("pattern_without_delimiter", patternWithoutDelimiter);
+        formParams.add("byte", _byte);
+        if (binary != null) {
             formParams.add("binary", new FileSystemResource(binary));
-        if (date != null)
+        }
+        if (date != null) {
             formParams.add("date", date);
-        if (dateTime != null)
+        }
+        if (dateTime != null) {
             formParams.add("dateTime", dateTime);
-        if (password != null)
+        }
+        if (password != null) {
             formParams.add("password", password);
-        if (paramCallback != null)
+        }
+        if (paramCallback != null) {
             formParams.add("callback", paramCallback);
+        }
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -1068,7 +1074,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] { "http_basic_test" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1092,7 +1098,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    public void testEndpointParameters(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).body(localVarReturnType);
     }
@@ -1118,7 +1124,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).toEntity(localVarReturnType);
     }
@@ -1145,9 +1151,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEndpointParametersWithResponseSpec(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    public ResponseSpec testEndpointParametersWithResponseSpec(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws RestClientResponseException {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -1164,31 +1171,34 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEnumParametersRequestCreation(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testEnumParametersRequestCreation(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<EnumClass> enumQueryModelArray, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
 
-        if (enumHeaderStringArray != null)
-        headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
-        if (enumHeaderString != null)
-        headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
-        if (enumFormStringArray != null)
+        if (enumHeaderStringArray != null) {
+            headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
+        }
+        if (enumHeaderString != null) {
+            headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
+        }
+
+        if (enumFormStringArray != null) {
             formParams.addAll("enum_form_string_array", enumFormStringArray);
-        if (enumFormString != null)
+        }
+        if (enumFormString != null) {
             formParams.add("enum_form_string", enumFormString);
+        }
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -1200,7 +1210,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1219,7 +1229,7 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientResponseException {
+    public void testEnumParameters(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<EnumClass> enumQueryModelArray, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).body(localVarReturnType);
     }
@@ -1240,7 +1250,7 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientResponseException {
+    public ResponseEntity<Void> testEnumParametersWithHttpInfo(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<EnumClass> enumQueryModelArray, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).toEntity(localVarReturnType);
     }
@@ -1262,9 +1272,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientResponseException {
+    public ResponseSpec testEnumParametersWithResponseSpec(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<EnumClass> enumQueryModelArray, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws RestClientResponseException {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -1277,8 +1288,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testGroupParametersRequestCreation(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testGroupParametersRequestCreation(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
             throw new RestClientResponseException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1294,21 +1304,21 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
 
-        if (requiredBooleanGroup != null)
         headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
-        if (booleanGroup != null)
-        headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+        if (booleanGroup != null) {
+            headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+        }
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
@@ -1317,7 +1327,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] { "bearer_test" };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.DELETE, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1332,7 +1342,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientResponseException {
+    public void testGroupParameters(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).body(localVarReturnType);
     }
@@ -1349,7 +1359,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientResponseException {
+    public ResponseEntity<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).toEntity(localVarReturnType);
     }
@@ -1367,9 +1377,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testGroupParametersWithResponseSpec(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientResponseException {
+    public ResponseSpec testGroupParametersWithResponseSpec(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
+
     /**
      * test inline additionalProperties
      * 
@@ -1377,8 +1388,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testInlineAdditionalPropertiesRequestCreation(Map<String, String> requestBody) throws RestClientResponseException {
-        Object postBody = requestBody;
+    private ResponseSpec testInlineAdditionalPropertiesRequestCreation(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new RestClientResponseException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1386,7 +1396,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -1401,7 +1411,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/inline-additionalProperties", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/inline-additionalProperties", HttpMethod.POST, pathParams, localVarQueryParams, requestBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1411,7 +1421,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws RestClientResponseException {
+    public void testInlineAdditionalProperties(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testInlineAdditionalPropertiesRequestCreation(requestBody).body(localVarReturnType);
     }
@@ -1423,7 +1433,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws RestClientResponseException {
+    public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testInlineAdditionalPropertiesRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -1436,9 +1446,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(Map<String, String> requestBody) throws RestClientResponseException {
+    public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
+
     /**
      * test inline free-form additionalProperties
      * 
@@ -1446,8 +1457,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
-        Object postBody = testInlineFreeformAdditionalPropertiesRequest;
+    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
         // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
         if (testInlineFreeformAdditionalPropertiesRequest == null) {
             throw new RestClientResponseException("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1455,7 +1465,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -1470,7 +1480,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/inline-freeform-additionalProperties", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/inline-freeform-additionalProperties", HttpMethod.POST, pathParams, localVarQueryParams, testInlineFreeformAdditionalPropertiesRequest, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1480,7 +1490,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
+    public void testInlineFreeformAdditionalProperties(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).body(localVarReturnType);
     }
@@ -1492,7 +1502,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
+    public ResponseEntity<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).toEntity(localVarReturnType);
     }
@@ -1505,9 +1515,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
+    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
+
     /**
      * test json serialization of form data
      * 
@@ -1516,8 +1527,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testJsonFormDataRequestCreation(String param, String param2) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testJsonFormDataRequestCreation(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new RestClientResponseException("Missing the required parameter 'param' when calling testJsonFormData", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1529,15 +1539,13 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (param != null)
-            formParams.add("param", param);
-        if (param2 != null)
-            formParams.add("param2", param2);
+        formParams.add("param", param);
+        formParams.add("param2", param2);
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -1549,7 +1557,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/jsonFormData", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/jsonFormData", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1560,7 +1568,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testJsonFormData(String param, String param2) throws RestClientResponseException {
+    public void testJsonFormData(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testJsonFormDataRequestCreation(param, param2).body(localVarReturnType);
     }
@@ -1573,7 +1581,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws RestClientResponseException {
+    public ResponseEntity<Void> testJsonFormDataWithHttpInfo(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testJsonFormDataRequestCreation(param, param2).toEntity(localVarReturnType);
     }
@@ -1587,9 +1595,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testJsonFormDataWithResponseSpec(String param, String param2) throws RestClientResponseException {
+    public ResponseSpec testJsonFormDataWithResponseSpec(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
     }
+
     /**
      * test nullable parent property
      * 
@@ -1597,8 +1606,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testNullableRequestCreation(ChildWithNullable childWithNullable) throws RestClientResponseException {
-        Object postBody = childWithNullable;
+    private ResponseSpec testNullableRequestCreation(@jakarta.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientResponseException {
         // verify the required parameter 'childWithNullable' is set
         if (childWithNullable == null) {
             throw new RestClientResponseException("Missing the required parameter 'childWithNullable' when calling testNullable", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1606,7 +1614,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -1621,7 +1629,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/nullable", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/nullable", HttpMethod.POST, pathParams, localVarQueryParams, childWithNullable, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1631,7 +1639,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testNullable(ChildWithNullable childWithNullable) throws RestClientResponseException {
+    public void testNullable(@jakarta.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testNullableRequestCreation(childWithNullable).body(localVarReturnType);
     }
@@ -1643,7 +1651,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable) throws RestClientResponseException {
+    public ResponseEntity<Void> testNullableWithHttpInfo(@jakarta.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testNullableRequestCreation(childWithNullable).toEntity(localVarReturnType);
     }
@@ -1656,9 +1664,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testNullableWithResponseSpec(ChildWithNullable childWithNullable) throws RestClientResponseException {
+    public ResponseSpec testNullableWithResponseSpec(@jakarta.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientResponseException {
         return testNullableRequestCreation(childWithNullable);
     }
+
     /**
      * 
      * To test the collection format in query parameters
@@ -1672,8 +1681,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryParameterCollectionFormatRequestCreation(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testQueryParameterCollectionFormatRequestCreation(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
             throw new RestClientResponseException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1701,19 +1709,19 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("pipes".toUpperCase(Locale.ROOT)), "pipe", pipe));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
-        
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("pipes".toUpperCase(Locale.ROOT)), "pipe", pipe));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
@@ -1722,7 +1730,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/test-query-parameters", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/test-query-parameters", HttpMethod.PUT, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1738,7 +1746,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientResponseException {
+    public void testQueryParameterCollectionFormat(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language).body(localVarReturnType);
     }
@@ -1756,7 +1764,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientResponseException {
+    public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language).toEntity(localVarReturnType);
     }
@@ -1775,9 +1783,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientResponseException {
+    public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
     }
+
     /**
      * test referenced string map
      * 
@@ -1785,8 +1794,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testStringMapReferenceRequestCreation(Map<String, String> requestBody) throws RestClientResponseException {
-        Object postBody = requestBody;
+    private ResponseSpec testStringMapReferenceRequestCreation(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new RestClientResponseException("Missing the required parameter 'requestBody' when calling testStringMapReference", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -1794,7 +1802,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -1809,7 +1817,7 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/fake/stringMap-reference", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/fake/stringMap-reference", HttpMethod.POST, pathParams, localVarQueryParams, requestBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -1819,7 +1827,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testStringMapReference(Map<String, String> requestBody) throws RestClientResponseException {
+    public void testStringMapReference(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         testStringMapReferenceRequestCreation(requestBody).body(localVarReturnType);
     }
@@ -1831,7 +1839,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws RestClientResponseException {
+    public ResponseEntity<Void> testStringMapReferenceWithHttpInfo(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testStringMapReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -1844,7 +1852,7 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testStringMapReferenceWithResponseSpec(Map<String, String> requestBody) throws RestClientResponseException {
+    public ResponseSpec testStringMapReferenceWithResponseSpec(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         return testStringMapReferenceRequestCreation(requestBody);
     }
 }

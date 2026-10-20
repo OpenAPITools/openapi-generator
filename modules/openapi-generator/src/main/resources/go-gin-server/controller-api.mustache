@@ -15,7 +15,7 @@ type {{classname}} struct {
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (api *{{classname}}) {{nickname}}(c *gin.Context) {
+func (api *{{classname}}) {{operationId}}(c *gin.Context) {
 	// Your handler implementation
 	c.JSON(200, gin.H{"status": "OK"})
 }

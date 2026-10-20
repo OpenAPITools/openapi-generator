@@ -18,24 +18,28 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
+    DeploymentRequestStatusToJSONTyped,
 } from './DeploymentRequestStatus';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 import type { WarningCode } from './WarningCode';
 import {
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
+    WarningCodeToJSONTyped,
 } from './WarningCode';
 
 /**
@@ -46,130 +50,88 @@ import {
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id: number;
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     friendId?: number;
     /**
      * 
-     * @type {Array<number>}
-     * @memberof Pet
      */
     otherFriendIds: Array<number>;
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     friendAge: number;
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     age: number;
     /**
      * 
-     * @type {boolean}
-     * @memberof Pet
      */
     isHappy: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof Pet
      */
     isTall: boolean;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category: Category;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     optionalCategory?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Array<Category>}
-     * @memberof Pet
      */
     _entries?: Array<Category>;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     surname?: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Pet
      */
     photoUrls: Array<string>;
     /**
      * 
-     * @type {WarningCode}
-     * @memberof Pet
      */
     warningStatus: WarningCode;
     /**
      * 
-     * @type {DeploymentRequestStatus}
-     * @memberof Pet
      */
     depStatus?: DeploymentRequestStatus;
     /**
      * 
-     * @type {DeploymentRequestStatus}
-     * @memberof Pet
      */
     alternateStatus: DeploymentRequestStatus;
     /**
      * 
-     * @type {Array<DeploymentRequestStatus>}
-     * @memberof Pet
      */
     otherDepStatuses: Array<DeploymentRequestStatus>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags: Array<Tag>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     optionalTags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      */
     status: PetStatusEnum;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
-     * @memberof Pet
      */
-    regions?: Array<Array<number>>;
+    regions?: Array<Array<number | null>>;
 }
 
 
@@ -179,7 +141,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
@@ -239,10 +201,15 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+export function PetToJSON(json: any): Pet {
+    return PetToJSONTyped(json, false);
+}
+
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

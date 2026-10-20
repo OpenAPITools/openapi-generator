@@ -19,7 +19,7 @@ class FakeApi {
   /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> fakeBigDecimalMapWithHttpInfo() async {
+  Future<Response> fakeBigDecimalMapWithHttpInfo({ Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/BigDecimalMap';
 
@@ -41,12 +41,13 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
   /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
-  Future<FakeBigDecimalMap200Response?> fakeBigDecimalMap() async {
-    final response = await fakeBigDecimalMapWithHttpInfo();
+  Future<FakeBigDecimalMap200Response?> fakeBigDecimalMap({ Future<void>? abortTrigger, }) async {
+    final response = await fakeBigDecimalMapWithHttpInfo(abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -60,10 +61,55 @@ class FakeApi {
     return null;
   }
 
+  /// test objects with duplicate inline enums see issue# 21582
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> fakeDuplicateInlineEnumWithHttpInfo({ Future<void>? abortTrigger, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/duplicate-inline-enums';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
+    );
+  }
+
+  /// test objects with duplicate inline enums see issue# 21582
+  Future<ObjectThatReferencesObjectsWithDuplicateInlineEnums?> fakeDuplicateInlineEnum({ Future<void>? abortTrigger, }) async {
+    final response = await fakeDuplicateInlineEnumWithHttpInfo(abortTrigger: abortTrigger,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ObjectThatReferencesObjectsWithDuplicateInlineEnums',) as ObjectThatReferencesObjectsWithDuplicateInlineEnums;
+    
+    }
+    return null;
+  }
+
   /// Health check endpoint
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> fakeHealthGetWithHttpInfo() async {
+  Future<Response> fakeHealthGetWithHttpInfo({ Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/health';
 
@@ -85,12 +131,13 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
   /// Health check endpoint
-  Future<HealthCheckResult?> fakeHealthGet() async {
-    final response = await fakeHealthGetWithHttpInfo();
+  Future<HealthCheckResult?> fakeHealthGet({ Future<void>? abortTrigger, }) async {
+    final response = await fakeHealthGetWithHttpInfo(abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -118,7 +165,7 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String? query1, String? header1, }) async {
+  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String? query1, String? header1, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/http-signature-test';
 
@@ -148,6 +195,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -163,8 +211,8 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<void> fakeHttpSignatureTest(Pet pet, { String? query1, String? header1, }) async {
-    final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1, );
+  Future<void> fakeHttpSignatureTest(Pet pet, { String? query1, String? header1, Future<void>? abortTrigger, }) async {
+    final response = await fakeHttpSignatureTestWithHttpInfo(pet, query1: query1, header1: header1, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -178,7 +226,7 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool? body, }) async {
+  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool? body, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/boolean';
 
@@ -200,6 +248,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -209,8 +258,8 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<bool?> fakeOuterBooleanSerialize({ bool? body, }) async {
-    final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body, );
+  Future<bool?> fakeOuterBooleanSerialize({ bool? body, Future<void>? abortTrigger, }) async {
+    final response = await fakeOuterBooleanSerializeWithHttpInfo(body: body, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -232,7 +281,7 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outerComposite, }) async {
+  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outerComposite, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/composite';
 
@@ -254,6 +303,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -263,8 +313,8 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<OuterComposite?> fakeOuterCompositeSerialize({ OuterComposite? outerComposite, }) async {
-    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite, );
+  Future<OuterComposite?> fakeOuterCompositeSerialize({ OuterComposite? outerComposite, Future<void>? abortTrigger, }) async {
+    final response = await fakeOuterCompositeSerializeWithHttpInfo(outerComposite: outerComposite, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -286,7 +336,7 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num? body, }) async {
+  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num? body, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/number';
 
@@ -308,6 +358,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -317,8 +368,8 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<num?> fakeOuterNumberSerialize({ num? body, }) async {
-    final response = await fakeOuterNumberSerializeWithHttpInfo( body: body, );
+  Future<num?> fakeOuterNumberSerialize({ num? body, Future<void>? abortTrigger, }) async {
+    final response = await fakeOuterNumberSerializeWithHttpInfo(body: body, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -340,7 +391,7 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String? body, }) async {
+  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String? body, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/string';
 
@@ -362,6 +413,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -371,8 +423,8 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<String?> fakeOuterStringSerialize({ String? body, }) async {
-    final response = await fakeOuterStringSerializeWithHttpInfo( body: body, );
+  Future<String?> fakeOuterStringSerialize({ String? body, Future<void>? abortTrigger, }) async {
+    final response = await fakeOuterStringSerializeWithHttpInfo(body: body, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -394,7 +446,7 @@ class FakeApi {
   ///
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/property/enum-int';
 
@@ -416,6 +468,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -425,8 +478,8 @@ class FakeApi {
   ///
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<OuterObjectWithEnumProperty?> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
-    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty,);
+  Future<OuterObjectWithEnumProperty?> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, { Future<void>? abortTrigger, }) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -450,7 +503,7 @@ class FakeApi {
   ///
   /// * [Map<String, Object>] requestBody (required):
   ///   request body
-  Future<Response> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody,) async {
+  Future<Response> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/additionalProperties-reference';
 
@@ -472,6 +525,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -483,8 +537,8 @@ class FakeApi {
   ///
   /// * [Map<String, Object>] requestBody (required):
   ///   request body
-  Future<void> testAdditionalPropertiesReference(Map<String, Object> requestBody,) async {
-    final response = await testAdditionalPropertiesReferenceWithHttpInfo(requestBody,);
+  Future<void> testAdditionalPropertiesReference(Map<String, Object> requestBody, { Future<void>? abortTrigger, }) async {
+    final response = await testAdditionalPropertiesReferenceWithHttpInfo(requestBody, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -498,7 +552,7 @@ class FakeApi {
   ///
   /// * [MultipartFile] body (required):
   ///   image to upload
-  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body,) async {
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/body-with-binary';
 
@@ -520,6 +574,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -529,8 +584,8 @@ class FakeApi {
   ///
   /// * [MultipartFile] body (required):
   ///   image to upload
-  Future<void> testBodyWithBinary(MultipartFile body,) async {
-    final response = await testBodyWithBinaryWithHttpInfo(body,);
+  Future<void> testBodyWithBinary(MultipartFile body, { Future<void>? abortTrigger, }) async {
+    final response = await testBodyWithBinaryWithHttpInfo(body, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -543,7 +598,7 @@ class FakeApi {
   /// Parameters:
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
-  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass,) async {
+  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/body-with-file-schema';
 
@@ -565,6 +620,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -573,8 +629,8 @@ class FakeApi {
   /// Parameters:
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
-  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,) async {
-    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass,);
+  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, { Future<void>? abortTrigger, }) async {
+    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -586,7 +642,7 @@ class FakeApi {
   /// * [String] query (required):
   ///
   /// * [User] user (required):
-  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user,) async {
+  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/body-with-query-params';
 
@@ -610,6 +666,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -618,8 +675,8 @@ class FakeApi {
   /// * [String] query (required):
   ///
   /// * [User] user (required):
-  Future<void> testBodyWithQueryParams(String query, User user,) async {
-    final response = await testBodyWithQueryParamsWithHttpInfo(query, user,);
+  Future<void> testBodyWithQueryParams(String query, User user, { Future<void>? abortTrigger, }) async {
+    final response = await testBodyWithQueryParamsWithHttpInfo(query, user, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -635,7 +692,7 @@ class FakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient,) async {
+  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -657,6 +714,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -668,8 +726,8 @@ class FakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> testClientModel(ModelClient modelClient,) async {
-    final response = await testClientModelWithHttpInfo(modelClient,);
+  Future<ModelClient?> testClientModel(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
+    final response = await testClientModelWithHttpInfo(modelClient, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -732,7 +790,7 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
+  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -793,6 +851,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -843,8 +902,8 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
-    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, );
+  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, Future<void>? abortTrigger, }) async {
+    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -883,7 +942,7 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -934,6 +993,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -968,8 +1028,8 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
-    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
+  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, Future<void>? abortTrigger, }) async {
+    final response = await testEnumParametersWithHttpInfo(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1000,7 +1060,7 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, }) async {
+  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -1036,6 +1096,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1062,8 +1123,8 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, }) async {
-    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, );
+  Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, Future<void>? abortTrigger, }) async {
+    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1079,7 +1140,7 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody,) async {
+  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/inline-additionalProperties';
 
@@ -1101,6 +1162,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1112,8 +1174,8 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<void> testInlineAdditionalProperties(Map<String, String> requestBody,) async {
-    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody,);
+  Future<void> testInlineAdditionalProperties(Map<String, String> requestBody, { Future<void>? abortTrigger, }) async {
+    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1129,7 +1191,7 @@ class FakeApi {
   ///
   /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
   ///   request body
-  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/inline-freeform-additionalProperties';
 
@@ -1151,6 +1213,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1162,8 +1225,8 @@ class FakeApi {
   ///
   /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
   ///   request body
-  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
-    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest,);
+  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, { Future<void>? abortTrigger, }) async {
+    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1182,7 +1245,7 @@ class FakeApi {
   ///
   /// * [String] param2 (required):
   ///   field2
-  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2,) async {
+  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/jsonFormData';
 
@@ -1210,6 +1273,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1224,8 +1288,8 @@ class FakeApi {
   ///
   /// * [String] param2 (required):
   ///   field2
-  Future<void> testJsonFormData(String param, String param2,) async {
-    final response = await testJsonFormDataWithHttpInfo(param, param2,);
+  Future<void> testJsonFormData(String param, String param2, { Future<void>? abortTrigger, }) async {
+    final response = await testJsonFormDataWithHttpInfo(param, param2, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1241,7 +1305,7 @@ class FakeApi {
   ///
   /// * [ChildWithNullable] childWithNullable (required):
   ///   request body
-  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/nullable';
 
@@ -1263,6 +1327,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1274,8 +1339,8 @@ class FakeApi {
   ///
   /// * [ChildWithNullable] childWithNullable (required):
   ///   request body
-  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
-    final response = await testNullableWithHttpInfo(childWithNullable,);
+  Future<void> testNullable(ChildWithNullable childWithNullable, { Future<void>? abortTrigger, }) async {
+    final response = await testNullableWithHttpInfo(childWithNullable, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1300,7 +1365,7 @@ class FakeApi {
   /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/test-query-parameters';
 
@@ -1317,7 +1382,8 @@ class FakeApi {
       queryParams.addAll(_queryParams('csv', 'url', url));
       queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      queryParams.addAll(_queryParams('', 'language', language));
+      // form style, explode: one query parameter per entry, keyed by the property name; a collection repeats the key per non-null element
+      language.forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));
     }
       queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
@@ -1332,6 +1398,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1352,8 +1419,8 @@ class FakeApi {
   /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language, );
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, Future<void>? abortTrigger, }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language: language, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1369,7 +1436,7 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<Response> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody,) async {
+  Future<Response> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/stringMap-reference';
 
@@ -1391,6 +1458,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -1402,8 +1470,8 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<void> testStringMapReference(Map<String, String> requestBody,) async {
-    final response = await testStringMapReferenceWithHttpInfo(requestBody,);
+  Future<void> testStringMapReference(Map<String, String> requestBody, { Future<void>? abortTrigger, }) async {
+    final response = await testStringMapReferenceWithHttpInfo(requestBody, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

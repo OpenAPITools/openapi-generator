@@ -1,0 +1,113 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import com.github.plokhotnyuk.jsoniter_scala.macros.named
+
+{{#models}}
+{{#model}}
+{{#description}}
+{{#javadocRenderer}}
+{{#title}}
+{{{.}}}
+{{/title}}
+{{{description}}}
+{{/javadocRenderer}}
+{{/description}}
+{{^isEnum}}
+case class {{classname}}(
+  {{#vars}}
+  {{#description}}
+  /* {{{.}}} */
+  {{/description}}
+  @named("{{baseName}}") {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = scala.None{{/required}}{{^-last}},{{/-last}}
+  {{/vars}}
+)
+{{/isEnum}}
+
+{{#isEnum}}
+enum {{classname}}:
+{{#allowableValues}}
+  {{#values}}
+  case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+  {{/values}}
+{{/allowableValues}}
+
+object {{classname}}:
+  import com.github.plokhotnyuk.jsoniter_scala.macros.*
+  import com.github.plokhotnyuk.jsoniter_scala.core.*
+  {{#isString}}
+  given {{#fnCodecName}}{{classname}}{{/fnCodecName}}: JsonValueCodec[{{classname}}] = JsonCodecMaker.make {
+    CodecMakerConfig{{#allowableValues}}
+      .withAdtLeafClassNameMapper { x =>
+        JsonCodecMaker.simpleClassName(x) match
+          {{#values}}
+          case "{{#fnEnumLeaf}}{{.}}{{/fnEnumLeaf}}" => "{{.}}"
+          {{/values}}
+      }{{/allowableValues}}
+      .withDiscriminatorFieldName(scala.None)
+  }
+  {{/isString}}
+  {{#isNumber}}
+  given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = new JsonValueCodec[{{datatypeWithEnum}}]:
+    import scala.util.{Try, Success, Failure}
+
+    override val nullValue: {{datatypeWithEnum}} = null
+
+    override def decodeValue(in: JsonReader, default: {{datatypeWithEnum}}): {{datatypeWithEnum}} =
+      val x = in.readByte()
+      Try { {{datatypeWithEnum}}.fromOrdinal(x) } match
+        case Success(v) => v
+        case Failure(_) => in.decodeError(s"unexpected number value: $x")
+
+    override def encodeValue(x: {{datatypeWithEnum}}, out: JsonWriter): Unit = out.writeVal(x.ordinal)
+  {{/isNumber}}
+end {{classname}}
+
+{{/isEnum}}
+{{#hasEnums}}
+object {{classname}}Enums:
+  {{#vars}}
+  {{#isEnum}}
+  enum {{datatypeWithEnum}}:
+    {{#_enum}}
+    case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+    {{/_enum}}
+
+  object {{datatypeWithEnum}}:
+    import com.github.plokhotnyuk.jsoniter_scala.macros.*
+    import com.github.plokhotnyuk.jsoniter_scala.core.*
+    {{#isString}}
+    given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = JsonCodecMaker.make {
+      CodecMakerConfig
+        .withAdtLeafClassNameMapper { x =>
+          JsonCodecMaker.simpleClassName(x) match
+            {{#_enum}}
+            case "{{#fnEnumLeaf}}{{.}}{{/fnEnumLeaf}}" => "{{.}}"
+            {{/_enum}}
+        }
+        .withDiscriminatorFieldName(scala.None)
+    }
+    {{/isString}}
+    {{#isNumber}}
+    given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = new JsonValueCodec[{{datatypeWithEnum}}]:
+      import scala.util.{Try, Success, Failure}
+
+      override val nullValue: {{datatypeWithEnum}} = null
+
+      override def decodeValue(in: JsonReader, default: {{datatypeWithEnum}}): {{datatypeWithEnum}} =
+        val x = in.readByte()
+        Try { {{datatypeWithEnum}}.fromOrdinal(x) } match
+          case Success(v) => v
+          case Failure(_) => in.decodeError(s"unexpected number value: $x")
+
+      override def encodeValue(x: {{datatypeWithEnum}}, out: JsonWriter): Unit = out.writeVal(x.ordinal)
+    {{/isNumber}}
+  {{/isEnum}}
+  {{/vars}}
+end {{classname}}Enums
+{{/hasEnums}}
+{{/model}}
+{{/models}}

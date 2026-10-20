@@ -15,6 +15,7 @@ import java.util.TreeMap;
  */
 @SuppressWarnings("serial")
 {{>generatedAnnotation}}
+
 public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
     private static final long serialVersionUID = 1L;
 
@@ -169,7 +170,7 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
      * @return The exception message
      */
     public String getMessage() {
-        return String.format("Message: %s%nHTTP response code: %s%nHTTP response body: %s%nHTTP response headers: %s",
+        return String.format(java.util.Locale.ROOT, "Message: %s%nHTTP response code: %s%nHTTP response body: %s%nHTTP response headers: %s",
                 super.getMessage(), this.getCode(), this.getResponseBody(), this.getResponseHeaders());
     }
     {{#errorObjectType}}

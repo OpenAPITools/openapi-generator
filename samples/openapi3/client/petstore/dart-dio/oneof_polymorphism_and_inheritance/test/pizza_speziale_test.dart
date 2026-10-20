@@ -12,6 +12,11 @@ void main() {
       // TODO
     });
 
+    // num pizzaSize
+    test('to test the property `pizzaSize`', () async {
+      // TODO
+    });
+
     // Hyperlink reference
     // String href
     test('to test the property `href`', () async {

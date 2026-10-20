@@ -8,3 +8,4 @@ additionalProperties:
   useObjectParameters: true
   projectName: ts-petstore-client
   moduleName: petstore
+  enumType: stringUnion

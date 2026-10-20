@@ -1,0 +1,44 @@
+type t = {
+{{#vars}}
+    {{#isEnum}}
+      {{{name}}}: {{^isMap}}Enums.{{/isMap}}{{{datatypeWithEnum}}}
+        {{^isContainer}}
+          {{#required}}
+            {{#defaultValue}}[@default {{{.}}}]{{/defaultValue}}
+            {{#isNullable}} option [@default
+              {{#defaultValue}}Some({{{.}}}){{/defaultValue}}
+                {{^defaultValue}}None{{/defaultValue}}
+            ]
+            {{/isNullable}}
+          {{/required}}
+          {{^required}} option [@default
+            {{#defaultValue}}Some({{{.}}}){{/defaultValue}}
+            {{^defaultValue}}None{{/defaultValue}}
+          ]
+          {{/required}}
+        {{/isContainer}}; [@key "{{{baseName}}}"]
+    {{/isEnum}}
+    {{^isEnum}}
+      {{{name}}}: {{{datatypeWithEnum}}}
+        {{^isContainer}}
+          {{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}
+          {{^required}} option [@default None]{{/required}}
+        {{/isContainer}}
+        {{#isArray}}{{^required}} [@default []]{{/required}}{{/isArray}}
+        {{#isMap}}{{^required}} [@default []]{{/required}} [@to_yojson JsonSupport.of_map_of [%to_yojson: {{{items.datatypeWithEnum}}}]] [@of_yojson JsonSupport.to_map_of [%of_yojson: {{{items.datatypeWithEnum}}}]]{{/isMap}}
+        ; [@key "{{{baseName}}}"]
+    {{/isEnum}}
+    {{#description}}
+    (** {{{.}}} *)
+    {{/description}}
+{{/vars}}
+} [@@deriving yojson { strict = false }, show, eq ];;
+
+{{#description}}
+(** {{{.}}} *)
+{{/description}}
+let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
+    {{#vars}}
+    {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isContainer}}[]{{/isContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
+    {{/vars}}
+}

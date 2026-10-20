@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
 
@@ -132,7 +132,7 @@ public class Triangle extends AbstractOpenApiSchema {
                                 newTriangle.setActualInstance(deserialized);
                                 return newTriangle;
                             default:
-                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", jsonObject.get("triangleType").getAsString()));
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", jsonObject.get("triangleType").getAsString()));
                         }
                     }
 
@@ -149,7 +149,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
                     }
                     // deserialize IsoscelesTriangle
@@ -161,7 +161,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
                     }
                     // deserialize ScaleneTriangle
@@ -173,7 +173,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
                     }
 
@@ -183,7 +183,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Triangle: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -258,9 +258,11 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `EquilateralTriangle`
      * @throws ClassCastException if the instance is not `EquilateralTriangle`
      */
+    @SuppressWarnings("unchecked")
     public EquilateralTriangle getEquilateralTriangle() throws ClassCastException {
         return (EquilateralTriangle)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
      * the ClassCastException will be thrown.
@@ -268,9 +270,11 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `IsoscelesTriangle`
      * @throws ClassCastException if the instance is not `IsoscelesTriangle`
      */
+    @SuppressWarnings("unchecked")
     public IsoscelesTriangle getIsoscelesTriangle() throws ClassCastException {
         return (IsoscelesTriangle)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
      * the ClassCastException will be thrown.
@@ -278,6 +282,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `ScaleneTriangle`
      * @throws ClassCastException if the instance is not `ScaleneTriangle`
      */
+    @SuppressWarnings("unchecked")
     public ScaleneTriangle getScaleneTriangle() throws ClassCastException {
         return (ScaleneTriangle)super.getActualInstance();
     }
@@ -297,7 +302,7 @@ public class Triangle extends AbstractOpenApiSchema {
             EquilateralTriangle.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with IsoscelesTriangle
@@ -305,7 +310,7 @@ public class Triangle extends AbstractOpenApiSchema {
             IsoscelesTriangle.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with ScaleneTriangle
@@ -313,11 +318,11 @@ public class Triangle extends AbstractOpenApiSchema {
             ScaleneTriangle.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for Triangle with oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for Triangle with oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

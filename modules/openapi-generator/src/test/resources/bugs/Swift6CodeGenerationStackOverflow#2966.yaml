@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  description: This spec is mainly for testing Petstore server
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: pet
+    description: Everything about your Pets
+paths:
+  /pet:
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: ""
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+        description: Pet object that needs to be added to the store
+        required: true
+      responses:
+        "400":
+          description: Invalid input
+servers:
+  - url: http://petstore.swagger.io:80/v2
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        name:
+          type: string
+          example: doggie
+        pets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pet"

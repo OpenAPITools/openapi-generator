@@ -10,6 +10,9 @@ import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/markdown-documentation/}.
+ */
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
@@ -112,7 +115,9 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 
     @Override
     public String escapeUnsafeCharacters(String input) {

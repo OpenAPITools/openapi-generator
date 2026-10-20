@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": "^8.1",
     "dyorg/slim-token-authentication": "dev-slim4",
     "monolog/monolog": "^2.4",
     "neomerx/cors-psr7": "^2.0",

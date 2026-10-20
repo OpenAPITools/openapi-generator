@@ -18,21 +18,25 @@ package org.openapitools.codegen.languages;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.File;
 
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/mysql-schema/}.
+ */
 @SuppressWarnings("unchecked")
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
@@ -62,31 +66,25 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     ));
 
     /**
-     * -- GETTER --
-     *  Returns default database name for all MySQL queries
-     *  This value must be used with backticks only, eg. `database_name`
-     *
-     * @return default database name
+     * Returns default database name for all MySQL queries
+     * This value must be used with backticks only, e.g. `database_name`
      */
     @Getter protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     /**
-     *  Whether JSON data type enabled or disabled in all MySQL queries.
-     *  JSON data type requires MySQL version 5.7.8
+     * Whether JSON data type enabled or disabled in all MySQL queries.
+     * JSON data type requires MySQL version 5.7.8
      */
     @Getter @Setter
     protected Boolean jsonDataTypeEnabled = true;
     /**
-     *  Whether named parameters enabled or disabled in prepared SQLs
+     * Whether named parameters enabled or disabled in prepared SQLs
      */
     @Getter @Setter
     protected Boolean namedParametersEnabled = false;
     /**
-     * -- GETTER --
-     *  Returns identifier naming convention for table names and column names.
-     *
-     * @return identifier naming convention
+     * Returns identifier naming convention for table names and column names.
      */
     @Getter protected String identifierNamingConvention = "original";
 
@@ -385,7 +383,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(allowableValues);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -475,8 +473,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(property.getAllowableValues());
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -617,8 +614,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(property.getAllowableValues());
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {
@@ -826,7 +822,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     /**
      * Generates codegen property for MySQL data type argument
      *
-     * @param value   argument value
+     * @param value argument value
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
@@ -1208,15 +1204,14 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * Slightly modified version of AbstractPhpCodegen.toSrcPath method.
      *
      * @param packageName package name
-     *
      * @return path
      */
     public String toSrcPath(String packageName) {
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
-            // Replace period, backslash, forward slash with file separator in package name
-            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-            File.separator
+                // Replace period, backslash, forward slash with file separator in package name
+                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                File.separator
         );
 
         // Trim trailing file separators from the overall path
@@ -1224,5 +1219,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.MYSQL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.MYSQL;
+    }
 }

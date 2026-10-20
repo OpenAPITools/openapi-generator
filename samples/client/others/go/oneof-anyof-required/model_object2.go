@@ -15,6 +15,7 @@ import (
 	"fmt"
 )
 
+
 // Object2 struct for Object2
 type Object2 struct {
 	NestedObject1 *NestedObject1
@@ -54,7 +55,7 @@ func (dst *Object2) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *Object2) MarshalJSON() ([]byte, error) {
+func (src Object2) MarshalJSON() ([]byte, error) {
 	if src.NestedObject1 != nil {
 		return json.Marshal(&src.NestedObject1)
 	}
@@ -65,6 +66,7 @@ func (src *Object2) MarshalJSON() ([]byte, error) {
 
 	return nil, nil // no data in anyOf schemas
 }
+
 
 type NullableObject2 struct {
 	value *Object2

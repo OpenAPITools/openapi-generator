@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.math.BigDecimal
 import java.util.ArrayList
+import java.util.Arrays
 import java.util.List
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification

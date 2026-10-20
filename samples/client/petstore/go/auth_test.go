@@ -41,6 +41,8 @@ func TestOAuth2(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: []sw.Tag{{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
+	t.Log("Host is: ", client.GetConfig().Scheme+"://"+client.GetConfig().Host+", "+client.GetConfig().Servers[0].URL)
+
 	r, err := client.PetAPI.AddPet(context.Background()).Body(newPet).Execute()
 
 	if err != nil {

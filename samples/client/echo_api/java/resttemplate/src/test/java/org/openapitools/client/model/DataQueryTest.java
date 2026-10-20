@@ -23,21 +23,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for DataQuery
  */
-public class DataQueryTest {
+class DataQueryTest {
     private final DataQuery model = new DataQuery();
 
     /**
      * Model tests for DataQuery
      */
     @Test
-    public void testDataQuery() {
+    void testDataQuery() {
         // TODO: test DataQuery
     }
 
@@ -45,7 +45,7 @@ public class DataQueryTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -53,7 +53,7 @@ public class DataQueryTest {
      * Test the property 'outcomes'
      */
     @Test
-    public void outcomesTest() {
+    void outcomesTest() {
         // TODO: test outcomes
     }
 
@@ -61,7 +61,7 @@ public class DataQueryTest {
      * Test the property 'suffix'
      */
     @Test
-    public void suffixTest() {
+    void suffixTest() {
         // TODO: test suffix
     }
 
@@ -69,7 +69,7 @@ public class DataQueryTest {
      * Test the property 'text'
      */
     @Test
-    public void textTest() {
+    void textTest() {
         // TODO: test text
     }
 
@@ -77,7 +77,7 @@ public class DataQueryTest {
      * Test the property 'date'
      */
     @Test
-    public void dateTest() {
+    void dateTest() {
         // TODO: test date
     }
 

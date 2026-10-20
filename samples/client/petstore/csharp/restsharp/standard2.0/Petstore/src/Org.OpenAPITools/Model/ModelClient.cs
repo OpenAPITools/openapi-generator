@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient.</param>
-        public ModelClient(string varClient = default(string))
+        public ModelClient(string varClient = default)
         {
             this.VarClient = varClient;
             this.AdditionalProperties = new Dictionary<string, object>();

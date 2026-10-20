@@ -1,0 +1,6 @@
+generatorName: python-flask
+outputDir: samples/server/petstore/python-flask-connexion3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python-flask/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-flask
+additionalProperties:
+  useConnexion3: "true"

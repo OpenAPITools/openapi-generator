@@ -1,0 +1,87 @@
+# frozen_string_literal: true
+
+module Petstore
+  # Declarative attribute DSL. `attribute :name, type:, required:, enum:, ...`
+  # generates the accessor, registers the attribute in `openapi_attributes`,
+  # and stores the validation rules. Replaces the per-model EnumAttributeValidator.
+  module Validations
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def openapi_attributes
+        @openapi_attributes ||= superclass.respond_to?(:openapi_attributes) ? superclass.openapi_attributes.dup : {}
+      end
+
+      def attribute(name, type:, json_key: name.to_s, required: false, **rules)
+        openapi_attributes[name] = { type: type, json_key: json_key, required: required, rules: rules }
+        attr_accessor name
+      end
+
+      # Deserialization/builder paths use `allocate` (not `new`) on purpose: they must
+      # stay resilient (a server response may legitimately omit fields the schema marks
+      # required, or drift from the spec), whereas the caller-facing `initialize` is
+      # strict and validating. Bypassing `initialize` keeps those two contracts separate.
+      def build(**attrs)
+        obj = allocate
+        attrs.each { |k, v| obj.public_send("#{k}=", v) }
+        obj
+      end
+
+      def from_hash(hash)
+        obj = allocate
+        openapi_attributes.each do |name, attr|
+          next unless hash.key?(attr[:json_key])
+
+          obj.public_send("#{name}=", Petstore::Polymorphism.coerce(attr[:type], hash[attr[:json_key]]))
+        end
+        if obj.respond_to?(:additional_properties=)
+          known = openapi_attributes.values.map { |a| a[:json_key] }
+          obj.additional_properties = hash.except(*known)
+        end
+        obj
+      end
+
+      def from_json(json)
+        from_hash(JSON.parse(json))
+      end
+    end
+
+    def list_invalid_properties
+      errors = []
+      self.class.openapi_attributes.each do |name, attr|
+        errors.concat(validate_attribute(name, attr, public_send(name)))
+      end
+      errors
+    end
+
+    def valid?
+      list_invalid_properties.empty?
+    end
+
+    private
+
+    def validate_attribute(name, attr, value)
+      out = []
+      if attr[:required] && value.nil?
+        out << "invalid value for \"#{name}\", must be provided"
+        return out
+      end
+      return out if value.nil?
+
+      rules = attr[:rules]
+      out << "invalid value for \"#{name}\", must be one of #{rules[:enum].inspect}" if rules[:enum] && !rules[:enum].include?(value)
+      out << "\"#{name}\" too long (max #{rules[:max_length]})" if rules[:max_length] && value.to_s.length > rules[:max_length]
+      out << "\"#{name}\" too short (min #{rules[:min_length]})" if rules[:min_length] && value.to_s.length < rules[:min_length]
+      # Guard the comparisons: `valid?` must stay a safe, exception-free query even when a
+      # caller assigns the wrong type (a String to a numeric field, a scalar to an array).
+      out << "\"#{name}\" must be <= #{rules[:maximum]}" if rules[:maximum] && value.is_a?(Numeric) && value > rules[:maximum]
+      out << "\"#{name}\" must be >= #{rules[:minimum]}" if rules[:minimum] && value.is_a?(Numeric) && value < rules[:minimum]
+      out << "\"#{name}\" too many items (max #{rules[:max_items]})" if rules[:max_items] && value.respond_to?(:length) && value.length > rules[:max_items]
+      out << "\"#{name}\" too few items (min #{rules[:min_items]})" if rules[:min_items] && value.respond_to?(:length) && value.length < rules[:min_items]
+      out << "\"#{name}\" does not match #{rules[:pattern]}" if rules[:pattern] && value !~ rules[:pattern]
+      out
+    end
+  end
+end

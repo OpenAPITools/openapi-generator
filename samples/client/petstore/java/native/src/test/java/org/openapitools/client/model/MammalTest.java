@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
@@ -28,18 +29,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for Mammal
  */
-public class MammalTest {
+class MammalTest {
     private final Mammal model = new Mammal();
 
     /**
      * Model tests for Mammal
      */
     @Test
-    public void testMammal() {
+    void testMammal() {
         // TODO: test Mammal
     }
 
@@ -47,7 +47,7 @@ public class MammalTest {
      * Test the property 'hasBaleen'
      */
     @Test
-    public void hasBaleenTest() {
+    void hasBaleenTest() {
         // TODO: test hasBaleen
     }
 
@@ -55,7 +55,7 @@ public class MammalTest {
      * Test the property 'hasTeeth'
      */
     @Test
-    public void hasTeethTest() {
+    void hasTeethTest() {
         // TODO: test hasTeeth
     }
 
@@ -63,7 +63,7 @@ public class MammalTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 
@@ -71,7 +71,7 @@ public class MammalTest {
      * Test the property 'type'
      */
     @Test
-    public void typeTest() {
+    void typeTest() {
         // TODO: test type
     }
 

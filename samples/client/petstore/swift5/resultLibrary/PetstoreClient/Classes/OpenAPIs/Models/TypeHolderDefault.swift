@@ -10,15 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TypeHolderDefault: Codable, JSONEncodable, Hashable {
+internal struct TypeHolderDefault: Codable, JSONEncodable {
 
-    public var stringItem: String = "what"
-    public var numberItem: Double
-    public var integerItem: Int
-    public var boolItem: Bool = true
-    public var arrayItem: [Int]
+    internal private(set) var stringItem: String = "what"
+    internal private(set) var numberItem: Double
+    internal private(set) var integerItem: Int
+    internal private(set) var boolItem: Bool = true
+    internal private(set) var arrayItem: [Int]
 
-    public init(stringItem: String = "what", numberItem: Double, integerItem: Int, boolItem: Bool = true, arrayItem: [Int]) {
+    internal init(stringItem: String = "what", numberItem: Double, integerItem: Int, boolItem: Bool = true, arrayItem: [Int]) {
         self.stringItem = stringItem
         self.numberItem = numberItem
         self.integerItem = integerItem
@@ -26,7 +26,7 @@ public struct TypeHolderDefault: Codable, JSONEncodable, Hashable {
         self.arrayItem = arrayItem
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
         case integerItem = "integer_item"
@@ -36,7 +36,7 @@ public struct TypeHolderDefault: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(stringItem, forKey: .stringItem)
         try container.encode(numberItem, forKey: .numberItem)

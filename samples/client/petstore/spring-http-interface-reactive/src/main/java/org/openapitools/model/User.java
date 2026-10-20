@@ -2,11 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -16,26 +17,34 @@ import jakarta.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class User {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
-  private String username;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String username;
 
-  private String firstName;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String firstName;
 
-  private String lastName;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String lastName;
 
-  private String email;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String email;
 
-  private String password;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String password;
 
-  private String phone;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer userStatus;
 
-  public User id(Long id) {
+  public User id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -44,17 +53,17 @@ public class User {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public User username(String username) {
+  public User username(@Nullable String username) {
     this.username = username;
     return this;
   }
@@ -63,17 +72,17 @@ public class User {
    * Get username
    * @return username
    */
-  
   @JsonProperty("username")
-  public String getUsername() {
+  public @Nullable String getUsername() {
     return username;
   }
 
-  public void setUsername(String username) {
+  @JsonProperty("username")
+  public void setUsername(@Nullable String username) {
     this.username = username;
   }
 
-  public User firstName(String firstName) {
+  public User firstName(@Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
@@ -82,17 +91,17 @@ public class User {
    * Get firstName
    * @return firstName
    */
-  
   @JsonProperty("firstName")
-  public String getFirstName() {
+  public @Nullable String getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  @JsonProperty("firstName")
+  public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
   }
 
-  public User lastName(String lastName) {
+  public User lastName(@Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
@@ -101,17 +110,17 @@ public class User {
    * Get lastName
    * @return lastName
    */
-  
   @JsonProperty("lastName")
-  public String getLastName() {
+  public @Nullable String getLastName() {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  @JsonProperty("lastName")
+  public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
   }
 
-  public User email(String email) {
+  public User email(@Nullable String email) {
     this.email = email;
     return this;
   }
@@ -120,17 +129,17 @@ public class User {
    * Get email
    * @return email
    */
-  
   @JsonProperty("email")
-  public String getEmail() {
+  public @Nullable String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  @JsonProperty("email")
+  public void setEmail(@Nullable String email) {
     this.email = email;
   }
 
-  public User password(String password) {
+  public User password(@Nullable String password) {
     this.password = password;
     return this;
   }
@@ -139,17 +148,17 @@ public class User {
    * Get password
    * @return password
    */
-  
   @JsonProperty("password")
-  public String getPassword() {
+  public @Nullable String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  @JsonProperty("password")
+  public void setPassword(@Nullable String password) {
     this.password = password;
   }
 
-  public User phone(String phone) {
+  public User phone(@Nullable String phone) {
     this.phone = phone;
     return this;
   }
@@ -158,17 +167,17 @@ public class User {
    * Get phone
    * @return phone
    */
-  
   @JsonProperty("phone")
-  public String getPhone() {
+  public @Nullable String getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  @JsonProperty("phone")
+  public void setPhone(@Nullable String phone) {
     this.phone = phone;
   }
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
@@ -177,13 +186,13 @@ public class User {
    * User Status
    * @return userStatus
    */
-  
   @JsonProperty("userStatus")
-  public Integer getUserStatus() {
+  public @Nullable Integer getUserStatus() {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  @JsonProperty("userStatus")
+  public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
 
@@ -231,11 +240,8 @@ public class User {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -40,6 +40,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/php-mezzio-ph/}.
+ */
 public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PhpMezzioPathHandlerServerCodegen.class);
     // Custom generator option names
@@ -372,9 +375,9 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in specified schema
      *
-     * @param openAPI OpenAPI object
+     * @param openAPI        OpenAPI object
      * @param visitedSchemas Set of Schemas that have been processed already
-     * @param schema  OAS schema to process
+     * @param schema         OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Set<Schema> visitedSchemas, Schema schema) {
         if (visitedSchemas.contains(schema)) {

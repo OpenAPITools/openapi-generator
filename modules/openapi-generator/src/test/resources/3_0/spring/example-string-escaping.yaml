@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Example string escaping
+  description: "Examples that must survive as Java string literals: quotes, backslashes, a JSON string example."
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080'
+paths:
+  /notes:
+    get:
+      summary: Get a note
+      operationId: getNote
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+  /paths:
+    get:
+      summary: Get a path
+      operationId: getPathExample
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathHolder'
+  /admins:
+    get:
+      summary: List admin wrappers
+      operationId: getAdmins
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminWrapper'
+  /wrappers:
+    get:
+      summary: Get a wrapper
+      operationId: getWrapper
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wrapper'
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note:
+          type: string
+          example: 'has "quote" inside'
+    PathHolder:
+      type: object
+      properties:
+        windowsPath:
+          type: string
+          example: 'C:\temp\file.txt'
+        pattern:
+          type: string
+          example: '\d+'
+    AdminUser:
+      type: object
+      example: '{"userName":"admin.user@example.com"}'
+    AdminWrapper:
+      type: object
+      properties:
+        adminUser:
+          $ref: '#/components/schemas/AdminUser'
+        id:
+          type: string
+    Wrapper:
+      allOf:
+        - type: object
+          properties:
+            data:
+              type: string
+              example: '{"someMeaningfulNumber":25009779801}'
+            someProperty:
+              type: string
+              example: 'someProperty'

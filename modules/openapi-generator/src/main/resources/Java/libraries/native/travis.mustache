@@ -3,7 +3,12 @@
 #
 language: java
 jdk:
+{{^useJackson3}}
   - oraclejdk11
+{{/useJackson3}}
+{{#useJackson3}}
+  - oraclejdk17
+{{/useJackson3}}
 before_install:
   # ensure gradlew has proper permission
   - chmod a+x ./gradlew

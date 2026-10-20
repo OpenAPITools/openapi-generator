@@ -32,6 +32,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,16 +52,17 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfLinkListColumn1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
+  @javax.annotation.Nonnull
   private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
 
   public AllOfModelArrayAnyOfAllOfLinkListColumn1() {
   }
 
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(@javax.annotation.Nonnull List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
     this.value = value;
     return this;
   }
@@ -83,7 +84,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     return value;
   }
 
-  public void setValue(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public void setValue(@javax.annotation.Nonnull List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
     this.value = value;
   }
 
@@ -166,10 +167,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -178,12 +176,10 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("value");
+    openapiFields = new HashSet<String>(Arrays.asList("value"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("value");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("value"));
   }
 
   /**
@@ -195,27 +191,27 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfModelArrayAnyOfAllOfLinkListColumn1.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AllOfModelArrayAnyOfAllOfLinkListColumn1 is not found in the empty JSON string", AllOfModelArrayAnyOfAllOfLinkListColumn1.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AllOfModelArrayAnyOfAllOfLinkListColumn1 is not found in the empty JSON string", AllOfModelArrayAnyOfAllOfLinkListColumn1.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : AllOfModelArrayAnyOfAllOfLinkListColumn1.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      // ensure the json data is an array
-      if (!jsonObj.get("value").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+      if (jsonObj.get("value") != null) {
+        if (!jsonObj.get("value").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+        }
+        JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
+        // validate the required field `value` (array)
+        for (int i = 0; i < jsonArrayvalue.size(); i++) {
+          AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
+        }
       }
-
-      JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
-      // validate the required field `value` (array)
-      for (int i = 0; i < jsonArrayvalue.size(); i++) {
-        AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
-      };
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -247,7 +243,9 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -275,7 +273,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

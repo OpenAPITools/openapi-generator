@@ -1,0 +1,11 @@
+generatorName: terraform-provider
+outputDir: samples/client/petstore/terraform
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/terraform-provider
+gitHost: github.com
+gitUserId: example
+gitRepoId: terraform-provider-petstore
+additionalProperties:
+  providerName: "petstore"
+  providerAddress: "registry.terraform.io/example/petstore"
+  hideGenerationTimestamp: "true"

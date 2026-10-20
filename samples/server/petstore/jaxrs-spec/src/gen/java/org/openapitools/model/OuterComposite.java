@@ -13,11 +13,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   private BigDecimal myNumber;
   private String myString;
@@ -126,10 +127,7 @@ public class OuterComposite  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -137,7 +135,7 @@ public class OuterComposite  implements Serializable {
     return new OuterCompositeBuilderImpl();
   }
 
-  private static class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
+  private static final class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
 
     @Override
     protected OuterCompositeBuilderImpl self() {
@@ -172,4 +170,3 @@ public class OuterComposite  implements Serializable {
     }
   }
 }
-

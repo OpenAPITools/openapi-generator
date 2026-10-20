@@ -12,14 +12,14 @@ part 'foo_ref.g.dart';
 /// FooRef
 ///
 /// Properties:
-/// * [foorefPropA] 
-/// * [name] - Name of the related entity.
-/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
+/// * [foorefPropA] 
 @BuiltValue()
 abstract class FooRef implements EntityRef, Built<FooRef, FooRefBuilder> {
   @BuiltValueField(wireName: r'foorefPropA')
@@ -128,50 +128,57 @@ class _$FooRefSerializer implements PrimitiveSerializer<FooRef> {
         case r'@schemaLocation':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atSchemaLocation = valueDes;
           break;
         case r'@referredType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atReferredType = valueDes;
           break;
         case r'foorefPropA':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.foorefPropA = valueDes;
           break;
         case r'name':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.name = valueDes;
           break;
         case r'@baseType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.href = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'@type':
@@ -209,4 +216,5 @@ class _$FooRefSerializer implements PrimitiveSerializer<FooRef> {
     return result.build();
   }
 }
+
 

@@ -17,31 +17,57 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/JavaJaxRS/spec/} (root templates shared across all libraries) and
+ * {@code src/main/resources/JavaJaxRS/spec/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaJAXRSSpecServerCodegen.class);
+
     public static final String RETURN_RESPONSE = "returnResponse";
+    public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
+    public static final String GENERATE_ROOT_RESOURCES = "generateRootResources";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
+    public static final String USE_SWAGGER_V3_ANNOTATIONS = "useSwaggerV3Annotations";
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
+    public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
+    public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
+    public static final String USE_SEALED = "useSealed";
+    public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -50,11 +76,27 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
     private boolean interfaceOnly = false;
+    private boolean generateRootResources = true;
     private boolean returnResponse = false;
+    private boolean returnJbossResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
+    private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+    private boolean useJakartaSecurityAnnotations = false;
+    private String serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+
+    @Setter
+    private boolean useEnumCaseInsensitive = false;
+
+    @Setter
+    protected boolean useSealed = false;
+
+    private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
+
+    @Getter @Setter
+    protected boolean generateJsonCreator = true;
 
     @Setter
     protected boolean useGzipFeature = false;
@@ -122,13 +164,28 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC).defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ROOT_RESOURCES, "Whether to generate the root resource and application classes, only useful if interfaceOnly is true.", generateRootResources));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_V3_ANNOTATIONS, "Whether to generate Swagger v3 (OpenAPI v3) annotations.", useSwaggerV3Annotations));
         cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_SECURITY_ANNOTATIONS, "Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.", useJakartaSecurityAnnotations));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate a JSON creator constructor for required properties.", generateJsonCreator));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
+        cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
+        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism. Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
+                .defaultValue(SERIALIZATION_LIBRARY_JACKSON);
+        Map<String, String> serializationOptions = new HashMap<>();
+        serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
+        serializationLibraryOption.setEnum(serializationOptions);
+        cliOptions.add(serializationLibraryOption);
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.", useJspecify));
     }
 
     @Override
@@ -136,15 +193,31 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(GENERATE_POM, value -> generatePom = value);
 
         convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
+        convertPropertyToBooleanAndWriteBack(GENERATE_ROOT_RESOURCES, value -> generateRootResources = value);
         convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
+        convertPropertyToBooleanAndWriteBack(RETURN_JBOSS_RESPONSE, value -> returnJbossResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+            // disable Swagger v2 annotations in library modes; MicroProfile or Swagger v3 may be used instead
             useSwaggerAnnotations = false;
         } else {
             convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
         }
-        if (KUMULUZEE_LIBRARY.equals(library)){
+        // Swagger v3 can be used regardless of library
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_V3_ANNOTATIONS, value -> useSwaggerV3Annotations = value);
+        // prefer v3 when requested
+        if (useSwaggerV3Annotations) {
+            useSwaggerAnnotations = false;
+        }
+        if (KUMULUZEE_LIBRARY.equals(library)) {
             super.setSourceFolder("src/main/java");
+        }
+
+        if (useSwaggerAnnotations && useSwaggerV3Annotations) {
+            throw new IllegalArgumentException("Flags 'useSwaggerAnnotations' (v2) and 'useSwaggerV3Annotations' (v3) are mutually exclusive. Please enable only one.");
+        }
+        if (useSwaggerV3Annotations && useMicroProfileOpenAPIAnnotations) {
+            throw new IllegalArgumentException("Flags 'useSwaggerV3Annotations' and 'useMicroProfileOpenAPIAnnotations' are mutually exclusive. Please enable only one.");
         }
 
         if (QUARKUS_LIBRARY.equals(library)) {
@@ -155,11 +228,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
         }
 
+        convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
+        convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
-        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
 
@@ -170,29 +247,64 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             artifactId = "openapi-jaxrs-client";
         }
 
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
+        // JSON-B cannot map the Joda types of the legacy default; select java8 before super.processOpts() applies the date type mappings
+        if (isJsonb() && !additionalProperties.containsKey(DATE_LIBRARY) && "legacy".equals(getDateLibrary())) {
+            setDateLibrary("java8");
+        }
+
         super.processOpts();
+
+        // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
+        if (QUARKUS_LIBRARY.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(USE_JAKARTA_SECURITY_ANNOTATIONS, value -> useJakartaSecurityAnnotations = value);
+        }
+
+        if (useJakartaSecurityAnnotations && !useJakartaEe) {
+            throw new IllegalArgumentException(
+                    "Flag '" + USE_JAKARTA_SECURITY_ANNOTATIONS + "' requires '" + USE_JAKARTA_EE
+                            + "=true'. The generated annotation '@jakarta.annotation.security.RolesAllowed' "
+                            + "is incompatible with the javax.* namespace.");
+        }
+
+        if (isJsonb()) {
+            applyJsonbSerialization();
+        }
+
+        // expose flags to templates
+        additionalProperties.put(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+        additionalProperties.put(USE_SWAGGER_V3_ANNOTATIONS, useSwaggerV3Annotations);
+        additionalProperties.put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
                 .doNotOverwrite());
+
+        // after the clear() above, which would otherwise drop the @NullMarked package-info files
+        if (useJspecify) {
+            applyJspecify();
+        }
+
+        if ((!interfaceOnly) || generateRootResources) {
+            supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
+                    .doNotOverwrite());
+
+            supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+                    .doNotOverwrite());
+        }
 
         if (generatePom) {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
 
-        supportingFiles.add(new SupportingFile("RestApplication.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-                .doNotOverwrite());
-
-        if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
+        if (StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');
             String fileFolder;
             String fileName;
-            if(index >= 0) {
+            if (index >= 0) {
                 fileFolder = openApiSpecFileLocation.substring(0, index);
                 fileName = openApiSpecFileLocation.substring(index + 1);
             } else {
@@ -202,7 +314,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
         }
 
-        if(QUARKUS_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
@@ -211,7 +323,19 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
                     .doNotOverwrite());
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+            if(returnResponse && returnJbossResponse) {
+              String msg = String.format(Locale.ROOT,
+                  "You cannot combine [%s] and [%s] since they are mutually exclusive",
+                  RETURN_RESPONSE, RETURN_JBOSS_RESPONSE);
+              throw new IllegalArgumentException(msg);
+            }
+            if(returnJbossResponse && !useJakartaEe) {
+              String msg = String.format(Locale.ROOT,
+                  "The [%s] requires [%s] to be true, because org.jboss.resteasy.reactive.RestResponse was introduced in Quarkus 2.x",
+                  RETURN_JBOSS_RESPONSE, USE_JAKARTA_EE);
+              throw new IllegalArgumentException(msg);
+            }
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
@@ -222,7 +346,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
                     .doNotOverwrite());
-        } else if(HELIDON_LIBRARY.equals(library)) {
+        } else if (HELIDON_LIBRARY.equals(library)) {
             additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
             supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
                     .doNotOverwrite());
@@ -230,7 +354,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml")
                     .doNotOverwrite());
-        } else if(KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 
@@ -242,6 +366,49 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "jaxrs-spec";
     }
 
+    public String getSerializationLibrary() {
+        return serializationLibrary;
+    }
+
+    public void setSerializationLibrary(String serializationLibrary) {
+        if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+        } else {
+            throw new IllegalArgumentException("Unexpected " + CodegenConstants.SERIALIZATION_LIBRARY + " value: '"
+                    + serializationLibrary + "'. Supported values: " + SERIALIZATION_LIBRARY_JACKSON + ", " + SERIALIZATION_LIBRARY_JSONB);
+        }
+    }
+
+    public boolean isJsonb() {
+        return SERIALIZATION_LIBRARY_JSONB.equals(serializationLibrary);
+    }
+
+    private void applyJsonbSerialization() {
+        if (StringUtils.isNotEmpty(library) && !DEFAULT_LIBRARY.equals(library)) {
+            throw new IllegalArgumentException("'" + CodegenConstants.SERIALIZATION_LIBRARY + "=" + SERIALIZATION_LIBRARY_JSONB
+                    + "' is only supported by the library '" + DEFAULT_LIBRARY + "', not by '" + library + "'.");
+        }
+        if (!getDateLibrary().startsWith("java8")) {
+            throw new IllegalArgumentException("'" + DATE_LIBRARY + "=" + getDateLibrary() + "' is not supported with '"
+                    + CodegenConstants.SERIALIZATION_LIBRARY + "=" + SERIALIZATION_LIBRARY_JSONB + "'. Use 'java8' or 'java8-localdatetime'.");
+        }
+        if (additionalProperties.containsKey(JACKSON) && jackson) {
+            throw new IllegalArgumentException("Flags '" + JACKSON + "=true' and '" + CodegenConstants.SERIALIZATION_LIBRARY + "="
+                    + SERIALIZATION_LIBRARY_JSONB + "' are mutually exclusive. Please enable only one.");
+        }
+        if (additionalProperties.containsKey(OPENAPI_NULLABLE) && openApiNullable) {
+            LOGGER.warn("'{}' is not supported with '{}={}' and will be disabled.",
+                    OPENAPI_NULLABLE, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        }
+        setJackson(false);
+        additionalProperties.put(JACKSON, false);
+        setOpenApiNullable(false);
+        additionalProperties.put(OPENAPI_NULLABLE, false);
+        additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, true);
+    }
+
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
@@ -250,11 +417,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("ApiModel");
         }
         if (!jackson) {
-            codegenModel.imports.remove("JsonSerialize");
-            codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+            codegenModel.imports.remove("JsonTypeName");
         }
+        if (isJsonb() && codegenModel.getAdditionalProperties() != null) {
+            LOGGER.warn("Model '{}' declares additionalProperties and is (de)serialized as a plain map with '{}={}'; declared properties are not mapped to its fields.",
+                    codegenModel.name, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        }
+        if (useJspecify) {
+            codegenModel.imports.add("Nullable");
+        }
+
         return codegenModel;
     }
 
@@ -280,10 +454,126 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        return super.postProcessModels(objs);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
+        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse && useJakartaEe) {
+            for (CodegenOperation op : objs.getOperations().getOperation()) {
+                op.responses.stream()
+                        .filter(r -> r.is2xx && r.code.matches("\\d+"))
+                        .findFirst()
+                        .ifPresent(r -> op.vendorExtensions.put("x-java-success-response-code", r.code));
+            }
+            boolean hasAnnotations = objs.getOperations().getOperation().stream()
+                    .anyMatch(op -> op.vendorExtensions.containsKey("x-java-success-response-code"));
+            // Always set explicitly so Mustache does not fall through to the global additionalProperties
+            // value when this file has no annotated operations.
+            objs.put("hasResponseStatusAnnotations", hasAnnotations);
+            if (hasAnnotations) {
+                // Global flag used by pom.mustache, which is rendered once per project.
+                additionalProperties.put("hasResponseStatusAnnotations", true);
+            }
+        }
+
+        // The quarkus templates bind file form parameters to org.jboss.resteasy.reactive types, so the
+        // corresponding imports must only be emitted for API files that actually declare such a parameter.
+        // Always set explicitly so Mustache does not fall through to the global additionalProperties value.
+        objs.put("hasFileFormParams", objs.getOperations().getOperation().stream()
+                .flatMap(op -> op.formParams.stream())
+                .anyMatch(p -> p.isFile));
         return objs;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+
+        // Index the discriminators of the generated oneOf interfaces by classname. A child of a oneOf
+        // interface (useOneOfInterfaces) inherits a shared base via allOf and therefore has no Java
+        // parentModel carrying the discriminator - the discriminator lives on the interface it implements.
+        Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators = new HashMap<>();
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))
+                        && model.getDiscriminator() != null) {
+                    oneOfInterfaceDiscriminators.put(model.classname, model.getDiscriminator());
+                }
+            }
+        }
+
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                // Resolve the @JsonTypeName mapping value from the Java parent's discriminator, if any,
+                // otherwise from the discriminator of the oneOf interface the model implements.
+                CodegenDiscriminator discriminator = model.parentModel != null
+                        ? model.parentModel.getDiscriminator()
+                        : discriminatorOfImplementedOneOfInterface(model, oneOfInterfaceDiscriminators);
+                if (discriminator != null) {
+                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                        if (mappedModel.getSchemaName().equals(model.schemaName)) {
+                            model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                            break;
+                        }
+                    }
+                }
+                // A oneOf container rendered as a plain class (useOneOfInterfaces disabled or the model
+                // not selected for interface generation) must not be sealed over its oneOf members: they
+                // do not extend it, so a permits clause would not compile. Only child-derived permits
+                // (subclasses that actually extend the model) may remain.
+                if (useSealed && !Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))) {
+                    model.permits.removeAll(model.oneOf);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the discriminator of the oneOf interface (produced by useOneOfInterfaces) that the given
+     * model implements, or {@code null} if the model does not implement such an interface. The interface
+     * name is read from the model's {@code x-implements} vendor extension.
+     */
+    @SuppressWarnings("unchecked")
+    private CodegenDiscriminator discriminatorOfImplementedOneOfInterface(
+            CodegenModel model, Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators) {
+        Object implementsExtension = model.getVendorExtensions().get("x-implements");
+        if (!(implementsExtension instanceof Collection)) {
+            return null;
+        }
+        for (Object intf : (Collection<Object>) implementsExtension) {
+            CodegenDiscriminator discriminator = oneOfInterfaceDiscriminators.get(String.valueOf(intf));
+            if (discriminator != null) {
+                return discriminator;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        if (QUARKUS_LIBRARY.equals(getLibrary()) && useJakartaSecurityAnnotations) {
+            jakartaSecurityAnnotationProcessor.applyTo(op, operation, openAPI);
+        }
+        if (useJspecify) {
+            addNullableImportForOperation(op);
+        }
+        return op;
+    }
+
+    @Override
+    protected void applyJspecify() {
+        super.applyJspecify();
+        // nullable_var_annotations.mustache emits @{{javaxPackage}}.annotation.Nullable; the lambda
+        // finds that and re-injects a bare @Nullable in type-use position, so tell it what to look for.
+        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
     }
 
 }

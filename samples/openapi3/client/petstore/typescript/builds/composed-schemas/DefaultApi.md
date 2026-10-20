@@ -17,22 +17,21 @@ Method | HTTP request | Description
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiFilePostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiFilePostRequest = {
-  // FilePostRequest (optional)
+const request: DefaultApiFilePostRequest = {
+  
   filePostRequest: {
-    file: null,
+null,
   },
 };
 
-apiInstance.filePost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.filePost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -72,20 +71,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiPetsFilteredPatchRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiPetsFilteredPatchRequest = {
-  // PetsFilteredPatchRequest (optional)
+const request: DefaultApiPetsFilteredPatchRequest = {
+  
   petsFilteredPatchRequest: null,
 };
 
-apiInstance.petsFilteredPatch(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.petsFilteredPatch(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -125,20 +123,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiPetsPatchRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiPetsPatchRequest = {
-  // PetsPatchRequest (optional)
+const request: DefaultApiPetsPatchRequest = {
+  
   petsPatchRequest: null,
 };
 
-apiInstance.petsPatch(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.petsPatch(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

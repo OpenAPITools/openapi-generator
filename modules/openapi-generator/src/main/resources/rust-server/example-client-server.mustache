@@ -30,6 +30,7 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
           {{#urls}}
             {{#requests}}
 {{>example-server-operation}}
+
             {{/requests}}
           {{/urls}}
         {{/callbacks}}

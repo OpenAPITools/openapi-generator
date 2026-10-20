@@ -1,33 +1,43 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.PrefixLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.BUNGIE_X_ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getBungieEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -47,6 +57,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_REPOSITORY = "pubRepository";
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    public static final String USE_OPTIONAL = "useOptional";
+    public static final String PATCH_ONLY = "patchOnly";
 
     @Setter protected String pubLibrary = "openapi.api";
     @Setter protected String pubName = "openapi";
@@ -58,8 +70,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Setter protected String pubRepository = null;
     @Setter protected String pubPublishTo = null;
     @Setter protected boolean useEnumExtension = false;
+    @Setter protected boolean useOptional = false;
+    @Setter protected boolean patchOnly = false;
     @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
+
+    protected Set<String> patchRequestSchemas = new HashSet<>();
     protected String apiDocPath = "doc/";
     protected String modelDocPath = "doc/";
     protected String apiTestPath = "test" + File.separator;
@@ -130,7 +146,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "bool",
                 "int",
                 "num",
-                "double"
+                "double",
+                "Object"
         );
 
         typeMapping = new HashMap<>();
@@ -197,6 +214,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
         addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
+        addOption(USE_OPTIONAL, "Use Optional<T> to distinguish absent, null, and present for optional fields (Dart 3+)", String.valueOf(useOptional));
+        addOption(PATCH_ONLY, "Only apply Optional<T> to PATCH operation request bodies (requires useOptional=true)", String.valueOf(patchOnly));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
@@ -229,6 +248,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'DART_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -301,6 +322,24 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
         }
 
+        if (additionalProperties.containsKey(USE_OPTIONAL)) {
+            this.setUseOptional(convertPropertyToBooleanAndWriteBack(USE_OPTIONAL));
+        } else {
+            additionalProperties.put(USE_OPTIONAL, useOptional);
+        }
+
+        if (additionalProperties.containsKey(PATCH_ONLY)) {
+            this.setPatchOnly(convertPropertyToBooleanAndWriteBack(PATCH_ONLY));
+        } else {
+            additionalProperties.put(PATCH_ONLY, patchOnly);
+        }
+
+        if (patchOnly && !useOptional) {
+            LOGGER.warn("patchOnly=true requires useOptional=true. Setting useOptional=true.");
+            this.setUseOptional(true);
+            additionalProperties.put(USE_OPTIONAL, true);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             String srcFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
             this.setSourceFolder(srcFolder.replace('/', File.separatorChar));
@@ -315,6 +354,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (templateDir == null) {
             embeddedTemplateDir = templateDir = "dart2";
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("dartdoc", new PrefixLambda(" * ", false))
+                .put("dartdoc_2", new IndentedLambda(2, " ", " * ", false, false));
     }
 
     @Override
@@ -386,7 +432,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z_][A-Z0-9_]*$")) {
             return name;
         }
 
@@ -524,13 +570,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        return getTypeDeclaration(p, false);
+    }
+
+    private String getTypeDeclaration(Schema p, boolean includeNullableSuffix) {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        String typeDeclaration;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        }
-        if (ModelUtils.isMapSchema(target)) {
+            typeDeclaration = getSchemaType(target) + "<" + getTypeDeclaration(items, true) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = ModelUtils.getAdditionalProperties(target);
@@ -539,9 +589,45 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+            typeDeclaration = getSchemaType(target) + "<String, " + getTypeDeclaration(inner, true) + ">";
+        } else {
+            typeDeclaration = super.getTypeDeclaration(p);
         }
-        return super.getTypeDeclaration(p);
+
+        if (includeNullableSuffix && ModelUtils.isNullable(schema)) {
+            return typeDeclaration + "?";
+        }
+
+        return typeDeclaration;
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (patchOnly && openAPI.getPaths() != null) {
+            openAPI.getPaths().forEach((path, pathItem) -> {
+                if (pathItem.getPatch() != null) {
+                    Operation patchOp = pathItem.getPatch();
+                    if (patchOp.getRequestBody() != null) {
+                        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, patchOp.getRequestBody());
+                        if (requestBody != null && requestBody.getContent() != null) {
+                            requestBody.getContent().forEach((mediaType, content) -> {
+                                if (content.getSchema() != null) {
+                                    String ref = content.getSchema().get$ref();
+                                    if (ref != null) {
+                                        String schemaName = ModelUtils.getSimpleRef(ref);
+                                        String modelName = toModelName(schemaName);
+                                        patchRequestSchemas.add(modelName);
+                                        LOGGER.info("Identified '{}' as PATCH request schema (will use Optional<T>)", modelName);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -558,7 +644,56 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return postProcessModelsEnum(objs);
+        objs = postProcessModelsEnum(objs);
+
+        if (useOptional) {
+            for (ModelMap modelMap : objs.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                boolean hasOptionalProperties = false;
+
+                boolean shouldUseOptional;
+
+                if (patchOnly) {
+                    shouldUseOptional = patchRequestSchemas.contains(model.classname);
+                } else {
+                    Boolean schemaUseOptional = (Boolean) model.vendorExtensions.get("x-use-optional");
+                    shouldUseOptional = schemaUseOptional == null || schemaUseOptional;
+                }
+
+                if (shouldUseOptional) {
+                    for (CodegenProperty prop : model.vars) {
+                        if (!prop.required && !prop.dataType.startsWith("Optional<")) {
+                            wrapPropertyWithOptional(prop);
+                            hasOptionalProperties = true;
+                        }
+                    }
+                }
+
+                model.vendorExtensions.put("x-has-optional-properties", hasOptionalProperties);
+            }
+        }
+
+        return objs;
+    }
+
+    private void wrapPropertyWithOptional(CodegenProperty property) {
+        property.vendorExtensions.put("x-unwrapped-datatype", property.dataType);
+        property.vendorExtensions.put("x-is-optional", true);
+        property.vendorExtensions.put("x-original-is-number", property.isNumber);
+        property.vendorExtensions.put("x-original-is-integer", property.isInteger);
+
+        boolean hasNullableSuffix = property.dataType.endsWith("?");
+        String baseType = hasNullableSuffix ? property.dataType.substring(0, property.dataType.length() - 1) : property.dataType;
+        property.vendorExtensions.put("x-unwrapped-datatype-nullable", baseType + "?");
+        property.dataType = "Optional<" + baseType + "?" + ">";
+
+        if (property.datatypeWithEnum != null && !property.datatypeWithEnum.startsWith("Optional<")) {
+            hasNullableSuffix = property.datatypeWithEnum.endsWith("?");
+            baseType = hasNullableSuffix ? property.datatypeWithEnum.substring(0, property.datatypeWithEnum.length() - 1) : property.datatypeWithEnum;
+            property.datatypeWithEnum = "Optional<" + baseType + "?" + ">";
+        }
+
+        property.isNullable = false;
     }
 
     @Override
@@ -576,6 +711,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 // inner items e.g. enums in collections, only works for one level
                 // but same is the case for DefaultCodegen
                 property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, enumName));
+                // Because properties are cached in org.openapitools.codegen.DefaultCodegen.fromProperty(java.lang.String, io.swagger.v3.oas.models.media.Schema, boolean, boolean)
+                // then the same object could be for multiple properties where the name of the inline enum is the same
+                // in 2 different classes and the following renaming will impact properties in other classes we
+                // therefore clone them before editing
+                property.items = property.items.clone();
+                property.mostInnerItems = property.items;
                 property.items.setDatatypeWithEnum(enumName);
                 property.items.setEnumName(enumName);
             } else {
@@ -592,7 +733,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // Handle composed properties and it's NOT allOf with a single ref only
         if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
-            ComposedSchema composed = (ComposedSchema) p;
+            Schema<Object> composed = (Schema<Object>) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
             long count = Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
@@ -608,13 +749,26 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         .map(ModelUtils::getSimpleRef)
                         .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
                         .ifPresent(schema -> {
-                            property.isEnum = schema.getEnum() != null;
+                            property.isEnum = isEnum(schema);
                             property.isModel = true;
                         });
 
             }
         }
         return property;
+    }
+
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        final CodegenParameter param = super.fromParameter(parameter, imports);
+
+        if (useOptional && param.dataType != null && param.dataType.startsWith("Optional<")) {
+            param.dataType = param.dataType.substring("Optional<".length(), param.dataType.length() - 1);
+            param.vendorExtensions.remove("x-is-optional");
+            param.vendorExtensions.remove("x-unwrapped-datatype");
+        }
+
+        return param;
     }
 
     @Override
@@ -653,6 +807,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation op : ops) {
+                if (useOptional) {
+                    unwrapOptionalFromParameters(op.pathParams);
+                    unwrapOptionalFromParameters(op.queryParams);
+                    unwrapOptionalFromParameters(op.headerParams);
+                    unwrapOptionalFromParameters(op.formParams);
+                }
+
                 if (op.hasConsumes) {
                     if (!op.formParams.isEmpty() || op.isMultipart) {
                         // DefaultCodegen only sets this if the first consumes mediaType
@@ -672,6 +833,16 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return objs;
+    }
+
+    private void unwrapOptionalFromParameters(List<CodegenParameter> params) {
+        if (params == null) return;
+        for (CodegenParameter param : params) {
+            if (param.dataType != null && param.dataType.startsWith("Optional<")) {
+                param.dataType = param.dataType.substring("Optional<".length(), param.dataType.length() - 1);
+                param.vendorExtensions.remove("x-is-optional");
+            }
+        }
     }
 
     private List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
@@ -702,22 +873,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
-        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey("x-enum-values")) {
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey(BUNGIE_X_ENUM_VALUES)) {
             // Use the x-enum-values extension for this enum
             // Existing enumVars added by the default handling need to be removed first
             enumVars.clear();
 
-            Object extension = vendorExtensions.get("x-enum-values");
-            List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-            for (Map<String, Object> value : values) {
-                Map<String, Object> enumVar = new HashMap<>();
-                enumVar.put("name", toEnumVarName((String) value.get("identifier"), dataType));
-                enumVar.put("value", toEnumValue(value.get("numericValue").toString(), dataType));
-                enumVar.put("isString", isDataTypeString(dataType));
-                if (value.containsKey("description")) {
-                    enumVar.put("description", value.get("description").toString());
-                }
+            List<Map<String, String>> bungieEnumValues = getBungieEnumValues((List<Map<String, Object>>) vendorExtensions.get(BUNGIE_X_ENUM_VALUES));
+
+            boolean isString = isDataTypeString(dataType);
+            for (Map<String, String> value : bungieEnumValues) {
+                EnumVarMap enumVar = new EnumVarMap(value);
+                enumVar.enumVar(toEnumVarName(value.get(ENUM_NAME), dataType), toEnumValue(value.get(ENUM_VALUE), dataType), isString);
                 enumVars.add(enumVar);
             }
         } else {
@@ -752,7 +919,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
     }
 
@@ -805,20 +972,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{dartPostProcessFile, file.toString()});
         }
     }
 

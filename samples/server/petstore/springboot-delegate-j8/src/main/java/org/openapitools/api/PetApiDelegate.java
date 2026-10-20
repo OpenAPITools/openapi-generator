@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
@@ -9,18 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public interface PetApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -70,7 +71,7 @@ public interface PetApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
+                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -100,7 +101,7 @@ public interface PetApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
+                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -129,7 +130,7 @@ public interface PetApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+                    String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

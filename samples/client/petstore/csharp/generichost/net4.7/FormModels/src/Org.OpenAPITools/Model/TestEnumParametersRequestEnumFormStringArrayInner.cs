@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormStringArrayInner testEnumParametersRequestEnumFormStringArrayInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormStringArrayInner.ToString());
+            writer.WriteStringValue(TestEnumParametersRequestEnumFormStringArrayInnerValueConverter.ToJsonValue(testEnumParametersRequestEnumFormStringArrayInner).ToString());
         }
     }
 
@@ -148,6 +148,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersRequestEnumFormStringArrayInner? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             TestEnumParametersRequestEnumFormStringArrayInner? result = rawValue == null
@@ -161,14 +164,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TestEnumParametersRequestEnumFormStringArrayInner to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testEnumParametersRequestEnumFormStringArrayInner"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormStringArrayInner? testEnumParametersRequestEnumFormStringArrayInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormStringArrayInner?.ToString() ?? "null");
+            if (testEnumParametersRequestEnumFormStringArrayInner.HasValue)
+                writer.WriteStringValue(TestEnumParametersRequestEnumFormStringArrayInnerValueConverter.ToJsonValue(testEnumParametersRequestEnumFormStringArrayInner.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -25,11 +33,11 @@ import kotlinx.serialization.encoding.*
 /**
  * A pet for sale in the pet store
  *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 @Serializable
@@ -61,6 +69,7 @@ data class Pet (
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold");
+        override fun toString(): kotlin.String = value
     }
 
 }

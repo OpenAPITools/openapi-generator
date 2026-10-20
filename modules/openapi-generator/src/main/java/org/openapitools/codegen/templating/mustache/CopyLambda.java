@@ -16,33 +16,75 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template.Fragment;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Saves template text to be used later.
- *
+ * <p>
  * Register:
  * <pre>
- * additionalProperties.put("copy", new CopyLambda());
+ * additionalProperties.put("copy", new CopyLambda(new CopyContent()));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#copy}}{{name}}{{/copy}}
  * </pre>
  */
 public class CopyLambda implements Mustache.Lambda {
-    public String savedContent;
+    public static class CopyContent {
+        public String content;
+    }
 
-    public CopyLambda() {
+    public CopyContent copyContent;
+    private final WhiteSpaceStrategy leadingWhiteSpaceStrategy;
+    private final WhiteSpaceStrategy trailingWhiteSpaceStrategy;
+
+    public enum WhiteSpaceStrategy {
+        None,
+        AppendLineBreakIfMissing,
+        Strip,
+        StripLineBreakIfPresent
+    }
+
+    public CopyLambda(CopyContent content, WhiteSpaceStrategy leadingWhiteSpaceStrategy, WhiteSpaceStrategy trailingWhiteSpaceStrategy) {
+        this.copyContent = content;
+        this.leadingWhiteSpaceStrategy = leadingWhiteSpaceStrategy;
+        this.trailingWhiteSpaceStrategy = trailingWhiteSpaceStrategy;
     }
 
     @Override
     public void execute(Fragment fragment, Writer writer) throws IOException {
-        savedContent = fragment.execute().stripTrailing();
+        String content = fragment.execute();
+
+        if (this.leadingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.startsWith("\n")) {
+            content = "\n" + content;
+        }
+
+        if (this.leadingWhiteSpaceStrategy == WhiteSpaceStrategy.Strip) {
+            content = content.stripLeading();
+        }
+
+        if (this.leadingWhiteSpaceStrategy == WhiteSpaceStrategy.StripLineBreakIfPresent && content.startsWith("\n")) {
+            content = content.substring(1);
+        }
+
+        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.endsWith("\n")) {
+            content = content + "\n";
+        }
+
+        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.Strip) {
+            content = content.stripTrailing();
+        }
+
+        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.StripLineBreakIfPresent && content.endsWith("\n")) {
+            content = content.substring(0, content.length() - 1);
+        }
+
+        this.copyContent.content = content;
     }
 }

@@ -34,7 +34,7 @@ class Pig {
         var match = 0;
         var errorMessages = [];
         try {
-            if (typeof instance === "BasquePig") {
+            if (instance instanceof BasquePig) {
                 this.actualInstance = instance;
             } else {
                 // plain JS object
@@ -50,7 +50,7 @@ class Pig {
         }
 
         try {
-            if (typeof instance === "DanishPig") {
+            if (instance instanceof DanishPig) {
                 this.actualInstance = instance;
             } else {
                 // plain JS object

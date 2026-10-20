@@ -16,8 +16,8 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiException;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;

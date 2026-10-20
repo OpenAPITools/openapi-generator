@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info: { title: ns, version: 1.0.0 }
+paths:
+  /store/orders:
+    get: { operationId: store_orders_list, responses: { '200': { description: ok } } }
+  /store/orders/{id}:
+    get: { operationId: store_orders_get, parameters: [ { name: id, in: path, required: true, schema: { type: integer } } ], responses: { '200': { description: ok } } }
+  /store/refresh:
+    post: { operationId: store_refresh, responses: { '200': { description: ok } } }
+  /ping:
+    get: { operationId: ping, responses: { '200': { description: ok } } }

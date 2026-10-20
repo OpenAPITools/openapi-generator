@@ -25,12 +25,12 @@ import java.io.Writer;
 
 /**
  * Split text by 2 spaces and then join the strings with ", "
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("joinWithComma", new JoinWithCommaLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#joinWithComma}}{{name}}{{/joinWithComma}}

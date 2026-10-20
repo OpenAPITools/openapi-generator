@@ -33,6 +33,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets justSymbol
@@ -109,6 +109,7 @@ public class EnumArrays implements Parcelable {
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
+  @javax.annotation.Nullable
   private JustSymbolEnum justSymbol;
 
   /**
@@ -165,12 +166,13 @@ public class EnumArrays implements Parcelable {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
+  @javax.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(@javax.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
@@ -184,12 +186,12 @@ public class EnumArrays implements Parcelable {
     return justSymbol;
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(@javax.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
 
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays arrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -211,7 +213,7 @@ public class EnumArrays implements Parcelable {
     return arrayEnum;
   }
 
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
@@ -250,10 +252,7 @@ public class EnumArrays implements Parcelable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -285,12 +284,10 @@ public class EnumArrays implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("just_symbol");
-    openapiFields.add("array_enum");
+    openapiFields = new HashSet<String>(Arrays.asList("just_symbol", "array_enum"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -302,7 +299,7 @@ public class EnumArrays implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in EnumArrays is not found in the empty JSON string", EnumArrays.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in EnumArrays is not found in the empty JSON string", EnumArrays.openapiRequiredFields.toString()));
         }
       }
 
@@ -310,12 +307,12 @@ public class EnumArrays implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!EnumArrays.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `EnumArrays` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `EnumArrays` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
       // validate the optional field `just_symbol`
       if (jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) {
@@ -323,7 +320,7 @@ public class EnumArrays implements Parcelable {
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonNull() && !jsonObj.get("array_enum").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }
   }
 

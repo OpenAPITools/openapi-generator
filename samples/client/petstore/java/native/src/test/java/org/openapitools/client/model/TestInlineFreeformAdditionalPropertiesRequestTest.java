@@ -28,14 +28,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for TestInlineFreeformAdditionalPropertiesRequest
  */
-public class TestInlineFreeformAdditionalPropertiesRequestTest {
+class TestInlineFreeformAdditionalPropertiesRequestTest {
     private final TestInlineFreeformAdditionalPropertiesRequest model = new TestInlineFreeformAdditionalPropertiesRequest();
 
     /**
      * Model tests for TestInlineFreeformAdditionalPropertiesRequest
      */
     @Test
-    public void testTestInlineFreeformAdditionalPropertiesRequest() {
+    void testTestInlineFreeformAdditionalPropertiesRequest() {
         // TODO: test TestInlineFreeformAdditionalPropertiesRequest
     }
 
@@ -43,7 +43,7 @@ public class TestInlineFreeformAdditionalPropertiesRequestTest {
      * Test the property 'someProperty'
      */
     @Test
-    public void somePropertyTest() {
+    void somePropertyTest() {
         // TODO: test someProperty
     }
 

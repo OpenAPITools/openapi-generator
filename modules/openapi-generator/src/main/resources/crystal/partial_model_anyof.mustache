@@ -1,0 +1,68 @@
+  {{#description}}
+  # {{{.}}}
+  {{/description}}
+  # {{classname}} (OpenAPI anyOf): a value matching at least one of the listed schemas.
+  # Implemented as a thin wrapper that (de)serialises by trying each member in order
+  # (the first that parses wins), so it transparently handles scalar, array and object members.
+  class {{classname}}
+    getter value
+
+    {{#anyOf}}
+    def initialize(@value : {{{.}}})
+    end
+    {{/anyOf}}
+
+    # List of classes defined in anyOf (OpenAPI v3)
+    def self.openapi_any_of
+      [
+        {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+      ]
+    end
+
+    def self.from_json(string_or_io) : self
+      from_json_any(JSON.parse(string_or_io))
+    end
+
+    def self.new(pull : JSON::PullParser)
+      from_json_any(JSON::Any.new(pull))
+    end
+
+    def self.from_json_any(data : JSON::Any) : self
+      json = data.to_json
+{{#vendorExtensions.x-cr-discriminator-prop}}
+      # discriminator fast-path: pick the mapped member by the discriminator value.
+      if (disc_h = data.as_h?) && (disc = disc_h["{{{vendorExtensions.x-cr-discriminator-prop}}}"]?.try(&.as_s?))
+        case disc
+{{#discriminator}}{{#mappedModels}}        when "{{{mappingName}}}" then return new({{{modelName}}}.from_json(json))
+{{/mappedModels}}{{/discriminator}}        else
+          # unknown discriminator value: fall through to trying each member
+        end
+      end
+{{/vendorExtensions.x-cr-discriminator-prop}}
+      {{#anyOf}}
+      begin
+        return new({{{.}}}.from_json(json))
+      rescue JSON::ParseException | ArgumentError | TypeCastError
+      end
+      {{/anyOf}}
+      raise JSON::ParseException.new("`#{json}` doesn't match any schema listed in {{classname}} (anyOf)", 0, 0)
+    end
+
+    def self.new(ctx : YAML::ParseContext, node : YAML::Nodes::Node)
+      {{#anyOf}}
+      begin
+        return new({{{.}}}.new(ctx, node))
+      rescue YAML::ParseException | ArgumentError | TypeCastError
+      end
+      {{/anyOf}}
+      raise YAML::ParseException.new("doesn't match any schema listed in {{classname}} (anyOf)", 0, 0)
+    end
+
+    def to_json(builder : JSON::Builder)
+      @value.to_json(builder)
+    end
+
+    def to_yaml(builder : YAML::Nodes::Builder)
+      @value.to_yaml(builder)
+    end
+  end

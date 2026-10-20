@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default, int int32 = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default)
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -171,7 +171,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /*
+        <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        */
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
@@ -179,14 +181,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>2007-12-03T10:15:30+01:00</example>
+        /*
+        <example>2007-12-03T10:15:30+01:00</example>
+        */
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid { get; set; }
 

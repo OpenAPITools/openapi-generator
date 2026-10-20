@@ -16,29 +16,39 @@
 
 package org.openapitools.codegen.cpppistache;
 
-import java.io.*;
-import java.util.*;
-
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Generate from an input spec containing various abstract objects and sets
  */
 public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectAnyTypeSetTest.class);
 
-    /** A Petstore inputspec with abstract properties added in the Pet */
+    /**
+     * A Petstore inputspec with abstract properties added in the Pet
+     */
     private static final String INPUT_SPEC = "src/test/resources/3_0/issues-anytype-object-set-petstore-everything.yaml";
     private static final String ISSUE_6726 = "src/test/resources/3_0/issue_6726.yaml";
 
-    /** Soft assert to check all the generators before eventually failing a test */
+    /**
+     * Soft assert to check all the generators before eventually failing a test
+     */
     private final SoftAssert softAssert = new SoftAssert();
 
     /**
      * Test some generators with an input spec requiring generation of abstract properties
+     *
      * @throws IOException if the test folder cannot be created
      */
     @Test
@@ -52,8 +62,9 @@ public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
 
     /**
      * Asserts that a generator has produced some files
+     *
      * @param generatorName The generator name to test
-     * @param inputSpec The inputspec to use.
+     * @param inputSpec     The inputspec to use.
      * @return List of files generated
      * @throws IOException if the test folder cannot be created
      */

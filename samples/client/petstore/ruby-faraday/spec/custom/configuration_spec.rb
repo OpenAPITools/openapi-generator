@@ -70,7 +70,7 @@ describe Petstore::Configuration do
       }
       expect {
         config.base_url(:'PetApi.add_pet')
-      }.to raise_error(ArgumentError, 'Invalid index 10 when selecting the server. Must not be nil and must be less than 3')
+      }.to raise_error(ArgumentError, 'Invalid index 10 when selecting the server. Must not be nil and must be less than 4')
     end
 
     it 'should remove trailing slashes' do

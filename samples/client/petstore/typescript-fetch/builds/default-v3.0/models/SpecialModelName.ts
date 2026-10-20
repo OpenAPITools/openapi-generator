@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface SpecialModelName {
     /**
      * 
-     * @type {number}
-     * @memberof SpecialModelName
      */
     $specialPropertyName?: number;
 }
@@ -48,10 +46,15 @@ export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
+export function SpecialModelNameToJSON(json: any): SpecialModelName {
+    return SpecialModelNameToJSONTyped(json, false);
+}
+
+export function SpecialModelNameToJSONTyped(value?: SpecialModelName | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         '$special[property.name]': value['$specialPropertyName'],

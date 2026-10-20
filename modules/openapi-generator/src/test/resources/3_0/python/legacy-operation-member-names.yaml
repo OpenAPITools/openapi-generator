@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: Legacy operation member names
+  version: 1.0.0
+paths:
+  /close:
+    get:
+      operationId: close
+      responses:
+        '204':
+          description: No content
+  /call-close-without-preload-content:
+    get:
+      operationId: callCloseWithoutPreloadContent
+      responses:
+        '204':
+          description: No content

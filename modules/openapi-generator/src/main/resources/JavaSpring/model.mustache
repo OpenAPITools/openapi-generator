@@ -15,17 +15,14 @@ import java.time.OffsetDateTime;
 import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
-{{^useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.NotNull;
-{{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
 {{#jackson}}
 {{#withXml}}
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import {{jacksonPackage}}.dataformat.xml.annotation.JacksonXmlRootElement;
+import {{jacksonPackage}}.dataformat.xml.annotation.JacksonXmlProperty;
+import {{jacksonPackage}}.dataformat.xml.annotation.JacksonXmlElementWrapper;
 {{/withXml}}
 {{/jackson}}
 {{#swagger2AnnotationLibrary}}
@@ -54,9 +51,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 {{/additionalPropertiesType}}
 {{#isEnum}}
 {{>enumOuterClass}}
+
 {{/isEnum}}
 {{^isEnum}}
-{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>pojo}}{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#vendorExtensions.x-is-record}}{{>record}}{{/vendorExtensions.x-is-record}}{{^vendorExtensions.x-is-record}}{{>pojo}}{{/vendorExtensions.x-is-record}}{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

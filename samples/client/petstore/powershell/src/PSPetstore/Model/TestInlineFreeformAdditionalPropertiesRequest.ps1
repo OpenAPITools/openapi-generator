@@ -35,7 +35,7 @@ function Initialize-PSTestInlineFreeformAdditionalPropertiesRequest {
 
 
         $PSO = [PSCustomObject]@{
-            "someProperty" = ${SomeProperty}
+            'someProperty' = ${SomeProperty}
         }
 
 
@@ -74,7 +74,7 @@ function ConvertFrom-PSJsonToTestInlineFreeformAdditionalPropertiesRequest {
         $PSTestInlineFreeformAdditionalPropertiesRequestAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSTestInlineFreeformAdditionalPropertiesRequest
-        $AllProperties = ("someProperty")
+        $AllProperties = ('someProperty')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
@@ -82,15 +82,15 @@ function ConvertFrom-PSJsonToTestInlineFreeformAdditionalPropertiesRequest {
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "someProperty"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'someProperty'))) { #optional property not found
             $SomeProperty = $null
         } else {
-            $SomeProperty = $JsonParameters.PSobject.Properties["someProperty"].value
+            $SomeProperty = $JsonParameters.PSobject.Properties['someProperty'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "someProperty" = ${SomeProperty}
-            "AdditionalProperties" = $PSTestInlineFreeformAdditionalPropertiesRequestAdditionalProperties
+            'someProperty' = ${SomeProperty}
+            'AdditionalProperties' = $PSTestInlineFreeformAdditionalPropertiesRequestAdditionalProperties
         }
 
         return $PSO

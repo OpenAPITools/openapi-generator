@@ -31,6 +31,9 @@ import java.io.Writer;
 import java.util.EnumSet;
 import java.util.Locale;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Ada/}.
+ */
 public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
     public AdaServerCodegen() {
@@ -135,7 +138,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
         supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "src",
-                            toFilename(names[0]) + ".ads"));
+                toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];

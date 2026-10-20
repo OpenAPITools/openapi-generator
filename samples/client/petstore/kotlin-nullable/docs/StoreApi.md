@@ -57,7 +57,7 @@ No authorization required
 
 <a id="getInventory"></a>
 # **getInventory**
-> kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt; getInventory()
+> kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt;? getInventory()
 
 Returns pet inventories by status
 
@@ -87,7 +87,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt;**
+**kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt;?**
 
 ### Authorization
 
@@ -103,7 +103,7 @@ Configure api_key:
 
 <a id="getOrderById"></a>
 # **getOrderById**
-> Order getOrderById(orderId)
+> Order? getOrderById(orderId)
 
 Find purchase order by ID
 
@@ -136,7 +136,7 @@ try {
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order?**](Order.md)
 
 ### Authorization
 
@@ -149,7 +149,7 @@ No authorization required
 
 <a id="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(body)
+> Order? placeOrder(body)
 
 Place an order for a pet
 
@@ -180,7 +180,7 @@ try {
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order?**](Order.md)
 
 ### Authorization
 

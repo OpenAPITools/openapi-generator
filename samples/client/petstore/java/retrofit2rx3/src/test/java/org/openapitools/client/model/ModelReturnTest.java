@@ -18,25 +18,22 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ModelReturn
  */
-public class ModelReturnTest {
+class ModelReturnTest {
     private final ModelReturn model = new ModelReturn();
 
     /**
      * Model tests for ModelReturn
      */
     @Test
-    public void testModelReturn() {
+    void testModelReturn() {
         // TODO: test ModelReturn
     }
 
@@ -44,7 +41,7 @@ public class ModelReturnTest {
      * Test the property '_return'
      */
     @Test
-    public void _returnTest() {
+    void _returnTest() {
         // TODO: test _return
     }
 

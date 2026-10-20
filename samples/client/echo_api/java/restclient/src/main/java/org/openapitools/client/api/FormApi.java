@@ -8,22 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FormApi {
     private ApiClient apiClient;
 
@@ -31,7 +32,6 @@ public class FormApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FormApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -54,22 +54,24 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormIntegerBooleanStringRequestCreation(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testFormIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integerForm != null)
+        if (integerForm != null) {
             formParams.add("integer_form", integerForm);
-        if (booleanForm != null)
+        }
+        if (booleanForm != null) {
             formParams.add("boolean_form", booleanForm);
-        if (stringForm != null)
+        }
+        if (stringForm != null) {
             formParams.add("string_form", stringForm);
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -83,7 +85,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/integer/boolean/string", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/integer/boolean/string", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -96,7 +98,7 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientResponseException {
+    public String testFormIntegerBooleanString(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormIntegerBooleanStringRequestCreation(integerForm, booleanForm, stringForm).body(localVarReturnType);
     }
@@ -111,7 +113,7 @@ public class FormApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormIntegerBooleanStringWithHttpInfo(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientResponseException {
+    public ResponseEntity<String> testFormIntegerBooleanStringWithHttpInfo(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormIntegerBooleanStringRequestCreation(integerForm, booleanForm, stringForm).toEntity(localVarReturnType);
     }
@@ -126,9 +128,10 @@ public class FormApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testFormIntegerBooleanStringWithResponseSpec(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientResponseException {
+    public ResponseSpec testFormIntegerBooleanStringWithResponseSpec(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         return testFormIntegerBooleanStringRequestCreation(integerForm, booleanForm, stringForm);
     }
+
     /**
      * Test form parameter(s) for multipart schema
      * Test form parameter(s) for multipart schema
@@ -137,8 +140,7 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormObjectMultipartRequestCreation(TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testFormObjectMultipartRequestCreation(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         // verify the required parameter 'marker' is set
         if (marker == null) {
             throw new RestClientResponseException("Missing the required parameter 'marker' when calling testFormObjectMultipart", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -146,13 +148,12 @@ public class FormApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (marker != null)
-            formParams.add("marker", marker);
+        formParams.add("marker", marker);
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -166,7 +167,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/object/multipart", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/object/multipart", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -177,7 +178,7 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
+    public String testFormObjectMultipart(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormObjectMultipartRequestCreation(marker).body(localVarReturnType);
     }
@@ -190,7 +191,7 @@ public class FormApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
+    public ResponseEntity<String> testFormObjectMultipartWithHttpInfo(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormObjectMultipartRequestCreation(marker).toEntity(localVarReturnType);
     }
@@ -203,9 +204,10 @@ public class FormApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testFormObjectMultipartWithResponseSpec(TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
+    public ResponseSpec testFormObjectMultipartWithResponseSpec(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         return testFormObjectMultipartRequestCreation(marker);
     }
+
     /**
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
@@ -219,28 +221,33 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormOneofRequestCreation(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientResponseException {
-        Object postBody = null;
+    private ResponseSpec testFormOneofRequestCreation(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (form1 != null)
+        if (form1 != null) {
             formParams.add("form1", form1);
-        if (form2 != null)
+        }
+        if (form2 != null) {
             formParams.add("form2", form2);
-        if (form3 != null)
+        }
+        if (form3 != null) {
             formParams.add("form3", form3);
-        if (form4 != null)
+        }
+        if (form4 != null) {
             formParams.add("form4", form4);
-        if (id != null)
+        }
+        if (id != null) {
             formParams.add("id", id);
-        if (name != null)
+        }
+        if (name != null) {
             formParams.add("name", name);
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -254,7 +261,7 @@ public class FormApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/form/oneof", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/form/oneof", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -270,7 +277,7 @@ public class FormApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientResponseException {
+    public String testFormOneof(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormOneofRequestCreation(form1, form2, form3, form4, id, name).body(localVarReturnType);
     }
@@ -288,7 +295,7 @@ public class FormApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientResponseException {
+    public ResponseEntity<String> testFormOneofWithHttpInfo(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testFormOneofRequestCreation(form1, form2, form3, form4, id, name).toEntity(localVarReturnType);
     }
@@ -306,7 +313,7 @@ public class FormApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testFormOneofWithResponseSpec(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientResponseException {
+    public ResponseSpec testFormOneofWithResponseSpec(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
         return testFormOneofRequestCreation(form1, form2, form3, form4, id, name);
     }
 }

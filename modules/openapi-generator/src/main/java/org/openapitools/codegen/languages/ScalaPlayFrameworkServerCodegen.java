@@ -18,16 +18,11 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -44,6 +39,9 @@ import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRAR
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-play-server/}.
+ */
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String TITLE = "title";
     public static final String SKIP_STUBS = "skipStubs";
@@ -53,7 +51,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String ROUTES_FILE_NAME = "routesFileName";
     public static final String BASE_PACKAGE = "basePackage";
 
-     final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     @Setter protected boolean skipStubs = false;
     @Setter protected boolean supportAsync = false;
@@ -398,7 +396,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         StringBuilder defaultValue = new StringBuilder();
         defaultValue.append(cm.classname).append('(');
 
-        for(int i = 0; i < cm.vars.size(); i++) {
+        for (int i = 0; i < cm.vars.size(); i++) {
             CodegenProperty var = cm.vars.get(i);
             if (!var.required) {
                 defaultValue.append("None");
@@ -413,7 +411,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 defaultValue.append("null");
             }
 
-            if (i < cm.vars.size()-1) {
+            if (i < cm.vars.size() - 1) {
                 defaultValue.append(", ");
             }
         }

@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  description: >-
+    This spec is mainly for testing Petstore server and contains fake endpoints,
+    models. Please do not use this for any other purpose. Special characters: "
+    \
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+paths:
+  '/icons':
+    get:
+      description: Returns a forecast icon. Icon services in API are deprecated.
+      operationId: icons
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
+    parameters:
+      - name: size
+        in: query
+        description: Font size
+        schema:
+          anyOf:
+            - enum:
+                - small
+                - medium
+                - large
+              type: string
+            - maximum: 500
+              minimum: 10
+              type: integer
+servers:
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
+  - url: https://127.0.0.1/no_variable
+    description: The local server without variables
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar

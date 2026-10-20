@@ -10,8 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
-public enum EnumClass: String, Codable, CaseIterable {
+internal enum EnumClass: String, Codable, CaseIterable, CaseIterableDefaultsLast {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"
+    case unknownDefaultOpenApi = "unknown_default_open_api"
+}
+
+extension EnumClass: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        self == .unknownDefaultOpenApi
+    }
 }

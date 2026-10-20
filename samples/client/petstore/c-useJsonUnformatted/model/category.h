@@ -22,9 +22,10 @@ typedef struct category_t {
     long id; //numeric
     char *name; // string
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } category_t;
 
-category_t *category_create(
+__attribute__((deprecated)) category_t *category_create(
     long id,
     char *name
 );

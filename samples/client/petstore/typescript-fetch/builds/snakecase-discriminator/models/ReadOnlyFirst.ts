@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface ReadOnlyFirst {
     /**
      * 
-     * @type {string}
-     * @memberof ReadOnlyFirst
      */
     readonly bar?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ReadOnlyFirst
      */
     baz?: string;
 }
@@ -55,10 +51,15 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ReadOnlyFirstToJSON(value?: Omit<ReadOnlyFirst, 'bar'> | null): any {
+export function ReadOnlyFirstToJSON(json: any): ReadOnlyFirst {
+    return ReadOnlyFirstToJSONTyped(json, false);
+}
+
+export function ReadOnlyFirstToJSONTyped(value?: Omit<ReadOnlyFirst, 'bar'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'baz': value['baz'],

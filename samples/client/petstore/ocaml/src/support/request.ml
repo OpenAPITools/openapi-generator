@@ -35,7 +35,7 @@ let write_json_body payload =
 let write_as_json_body to_json payload = write_json_body (to_json payload)
 
 let handle_response resp on_success_handler =
-  match Cohttp_lwt.Response.status resp with
+  match Cohttp.Response.status resp with
   | #Cohttp.Code.success_status -> on_success_handler ()
   | s -> failwith ("Server responded with status " ^ Cohttp.Code.(reason_phrase_of_code (code_of_status s)))
 
@@ -52,13 +52,13 @@ let read_json_body_as_list resp body =
   Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_list)
 
 let read_json_body_as_list_of of_json resp body =
-  Lwt.(read_json_body_as_list resp body >|= List.map of_json)
+  Lwt.(read_json_body_as_list resp body >|= Stdlib.List.map of_json)
 
 let read_json_body_as_map resp body =
   Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_assoc)
 
 let read_json_body_as_map_of of_json resp body =
-  Lwt.(read_json_body_as_map resp body >|= List.map (fun (s, v) -> (s, of_json v)))
+  Lwt.(read_json_body_as_map resp body >|= Stdlib.List.map (fun (s, v) -> (s, of_json v)))
 
 let replace_string_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
@@ -79,6 +79,19 @@ let add_query_param_list uri param_name to_string param_value =
 
 let maybe_add_query_param uri param_name to_string param_value =
   option_fold (add_query_param uri param_name to_string) uri param_value
+
+(** Corresponds to:
+    - [style = form]
+    - [explode = true]
+    - type [object]
+
+    See https://swagger.io/docs/specification/v3_0/serialization/#query-parameters
+*)
+let add_query_param_exploded_form_object uri _param_name to_string param_value =
+Stdlib.List.fold_left
+  (fun uri (param_name, param_value) -> add_query_param uri param_name to_string param_value)
+  uri
+  param_value
 
 let init_form_encoded_body () = ""
 

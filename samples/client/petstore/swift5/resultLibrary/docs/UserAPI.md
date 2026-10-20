@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
-    open class func createUser(body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func createUser(body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Create user
@@ -66,7 +66,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
-    open class func createUsersWithArrayInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func createUsersWithArrayInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Creates list of users with given input array
@@ -114,7 +114,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
-    open class func createUsersWithListInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func createUsersWithListInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Creates list of users with given input array
@@ -162,7 +162,7 @@ No authorization required
 
 # **deleteUser**
 ```swift
-    open class func deleteUser(username: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func deleteUser(username: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete user
@@ -212,7 +212,7 @@ No authorization required
 
 # **getUserByName**
 ```swift
-    open class func getUserByName(username: String, completion: @escaping (_ data: User?, _ error: Error?) -> Void)
+    internal class func getUserByName(username: String, completion: @escaping (_ data: User?, _ error: Error?) -> Void)
 ```
 
 Get user by user name
@@ -260,7 +260,7 @@ No authorization required
 
 # **loginUser**
 ```swift
-    open class func loginUser(username: String, password: String, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+    internal class func loginUser(username: String, password: String, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
 Logs user into the system
@@ -310,7 +310,7 @@ No authorization required
 
 # **logoutUser**
 ```swift
-    open class func logoutUser(completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func logoutUser(completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Logs out current logged in user session
@@ -354,7 +354,7 @@ No authorization required
 
 # **updateUser**
 ```swift
-    open class func updateUser(username: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func updateUser(username: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Updated user

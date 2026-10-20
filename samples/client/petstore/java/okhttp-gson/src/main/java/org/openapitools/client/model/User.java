@@ -30,6 +30,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,60 +50,72 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_USERNAME = "username";
   @SerializedName(SERIALIZED_NAME_USERNAME)
+  @javax.annotation.Nullable
   private String username;
 
   public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)
+  @javax.annotation.Nullable
   private String firstName;
 
   public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
   @SerializedName(SERIALIZED_NAME_LAST_NAME)
+  @javax.annotation.Nullable
   private String lastName;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
   @SerializedName(SERIALIZED_NAME_EMAIL)
+  @javax.annotation.Nullable
   private String email;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
+  @javax.annotation.Nullable
   private String password;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
   @SerializedName(SERIALIZED_NAME_PHONE)
+  @javax.annotation.Nullable
   private String phone;
 
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
+  @javax.annotation.Nullable
   private Integer userStatus;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS)
+  @javax.annotation.Nullable
   private Object objectWithNoDeclaredProps;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  @javax.annotation.Nullable
   private Object objectWithNoDeclaredPropsNullable;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP = "anyTypeProp";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP)
+  @javax.annotation.Nullable
   private Object anyTypeProp = null;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE)
+  @javax.annotation.Nullable
   private Object anyTypePropNullable = null;
 
   public User() {
   }
 
-  public User id(Long id) {
+  public User id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -117,12 +129,12 @@ public class User {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public User username(String username) {
+  public User username(@javax.annotation.Nullable String username) {
     this.username = username;
     return this;
   }
@@ -136,12 +148,12 @@ public class User {
     return username;
   }
 
-  public void setUsername(String username) {
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 
 
-  public User firstName(String firstName) {
+  public User firstName(@javax.annotation.Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
@@ -155,12 +167,12 @@ public class User {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(@javax.annotation.Nullable String firstName) {
     this.firstName = firstName;
   }
 
 
-  public User lastName(String lastName) {
+  public User lastName(@javax.annotation.Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
@@ -174,12 +186,12 @@ public class User {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  public void setLastName(@javax.annotation.Nullable String lastName) {
     this.lastName = lastName;
   }
 
 
-  public User email(String email) {
+  public User email(@javax.annotation.Nullable String email) {
     this.email = email;
     return this;
   }
@@ -193,12 +205,12 @@ public class User {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(@javax.annotation.Nullable String email) {
     this.email = email;
   }
 
 
-  public User password(String password) {
+  public User password(@javax.annotation.Nullable String password) {
     this.password = password;
     return this;
   }
@@ -212,12 +224,12 @@ public class User {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(@javax.annotation.Nullable String password) {
     this.password = password;
   }
 
 
-  public User phone(String phone) {
+  public User phone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
     return this;
   }
@@ -231,12 +243,12 @@ public class User {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
   }
 
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
@@ -250,12 +262,12 @@ public class User {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
 
 
-  public User objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+  public User objectWithNoDeclaredProps(@javax.annotation.Nullable Object objectWithNoDeclaredProps) {
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
     return this;
   }
@@ -269,12 +281,12 @@ public class User {
     return objectWithNoDeclaredProps;
   }
 
-  public void setObjectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+  public void setObjectWithNoDeclaredProps(@javax.annotation.Nullable Object objectWithNoDeclaredProps) {
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
   }
 
 
-  public User objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+  public User objectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
     return this;
   }
@@ -288,12 +300,12 @@ public class User {
     return objectWithNoDeclaredPropsNullable;
   }
 
-  public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+  public void setObjectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
   }
 
 
-  public User anyTypeProp(Object anyTypeProp) {
+  public User anyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
     this.anyTypeProp = anyTypeProp;
     return this;
   }
@@ -307,12 +319,12 @@ public class User {
     return anyTypeProp;
   }
 
-  public void setAnyTypeProp(Object anyTypeProp) {
+  public void setAnyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
     this.anyTypeProp = anyTypeProp;
   }
 
 
-  public User anyTypePropNullable(Object anyTypePropNullable) {
+  public User anyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
     this.anyTypePropNullable = anyTypePropNullable;
     return this;
   }
@@ -326,7 +338,7 @@ public class User {
     return anyTypePropNullable;
   }
 
-  public void setAnyTypePropNullable(Object anyTypePropNullable) {
+  public void setAnyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
     this.anyTypePropNullable = anyTypePropNullable;
   }
 
@@ -442,10 +454,7 @@ public class User {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -454,22 +463,10 @@ public class User {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("username");
-    openapiFields.add("firstName");
-    openapiFields.add("lastName");
-    openapiFields.add("email");
-    openapiFields.add("password");
-    openapiFields.add("phone");
-    openapiFields.add("userStatus");
-    openapiFields.add("objectWithNoDeclaredProps");
-    openapiFields.add("objectWithNoDeclaredPropsNullable");
-    openapiFields.add("anyTypeProp");
-    openapiFields.add("anyTypePropNullable");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus", "objectWithNoDeclaredProps", "objectWithNoDeclaredPropsNullable", "anyTypeProp", "anyTypePropNullable"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -481,27 +478,27 @@ public class User {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
       if ((jsonObj.get("firstName") != null && !jsonObj.get("firstName").isJsonNull()) && !jsonObj.get("firstName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `firstName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("firstName").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `firstName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("firstName").toString()));
       }
       if ((jsonObj.get("lastName") != null && !jsonObj.get("lastName").isJsonNull()) && !jsonObj.get("lastName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `lastName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lastName").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `lastName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lastName").toString()));
       }
       if ((jsonObj.get("email") != null && !jsonObj.get("email").isJsonNull()) && !jsonObj.get("email").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj.get("email").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj.get("email").toString()));
       }
       if ((jsonObj.get("password") != null && !jsonObj.get("password").isJsonNull()) && !jsonObj.get("password").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
       }
       if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
       }
   }
 
@@ -534,7 +531,9 @@ public class User {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -562,7 +561,7 @@ public class User {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

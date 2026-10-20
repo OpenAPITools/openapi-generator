@@ -14,6 +14,17 @@ object Serializer {
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
 
     @JvmStatic
     val gson: Gson by lazy {

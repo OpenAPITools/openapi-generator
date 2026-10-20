@@ -80,11 +80,10 @@ module.exports = {
                 {{/allParams}}
                 {{/isMultipart}}
                 const options = {
-                    url: utils.replacePathParameters('{{basePath}}{{path}}'),
+                    url: utils.replacePathParameters('{{{basePath}}}{{{path}}}'),
                     method: '{{httpMethod}}',
                     removeMissingValuesFrom: { params: true, body: true },
                     headers: {
-                        'Authorization': 'Bearer {{=<% %>=}}{{bundle.authData.access_token}}<%={{ }}=%>',
                         {{^isMultipart}}'Content-Type': '{{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}',{{/isMultipart}}
                         'Accept': '{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}',
                     },
@@ -105,7 +104,7 @@ module.exports = {
                 }
                 return z.request(utils.requestOptionsMiddleware(z, bundle, options)).then((response) => {
                     response.throwForStatus();
-                    const results = response.json;
+                    const results = utils.responseOptionsMiddleware(z, bundle, '{{operationId}}', response.json);
                     return {{#returnType}}{{#returnTypeIsPrimitive}}{ data: results }{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}results{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}results{{/returnType}};
                 })
             },

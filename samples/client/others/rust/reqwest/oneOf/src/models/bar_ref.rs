@@ -13,12 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct BarRef {
-    /// Name of the related entity.
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
-    /// The actual type of the target instance when needed for disambiguation.
-    #[serde(rename = "@referredType", skip_serializing_if = "Option::is_none")]
-    pub at_referred_type: Option<String>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
@@ -32,20 +26,26 @@ pub struct BarRef {
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
     /// When sub-classing, this defines the sub-class Extensible name
-    #[serde(rename = "@type")]
+    #[serde(rename = "@type", default, skip_serializing_if = "String::is_empty")]
     pub at_type: String,
+    /// Name of the related entity.
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    /// The actual type of the target instance when needed for disambiguation.
+    #[serde(rename = "@referredType", skip_serializing_if = "Option::is_none")]
+    pub at_referred_type: Option<String>,
 }
 
 impl BarRef {
     pub fn new(at_type: String) -> BarRef {
         BarRef {
-            name: None,
-            at_referred_type: None,
             href: None,
             id: None,
             at_schema_location: None,
             at_base_type: None,
             at_type,
+            name: None,
+            at_referred_type: None,
         }
     }
 }

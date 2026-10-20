@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -30,9 +38,9 @@ import com.google.gson.annotations.SerializedName
 /**
  * Describes the result of uploading an image resource
  *
- * @param code 
- * @param type 
- * @param message 
+ * @param code
+ * @param type
+ * @param message
  */
 
 
@@ -79,7 +87,7 @@ data class ApiApiResponse (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("code")
@@ -87,7 +95,7 @@ data class ApiApiResponse (
             openapiFields.add("message")
 
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *

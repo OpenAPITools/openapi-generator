@@ -36,6 +36,7 @@ class Animal {
      */
     static initialize(obj, className) { 
         obj['className'] = className;
+        obj['color'] = 'red';
     }
 
     /**

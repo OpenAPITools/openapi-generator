@@ -34,6 +34,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ruby-on-rails-server/}.
+ */
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);

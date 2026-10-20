@@ -25,6 +25,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -41,6 +42,29 @@ public class InlineModelResolver {
     private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
+    // Structural signature: same as generatedSignature but serialised without 'description' or
+    // 'type' fields at any level of the schema graph.  Used as a fallback when the Swagger Parser
+    // produces two Schema objects from the same source file that differ only in volatile fields —
+    // this happens in several ways:
+    //
+    //   1. OpenAPI 3.1 $ref + sibling description (valid per JSON Schema 2020-12): the property-
+    //      level description overrides the one in the referenced schema, so the resolved Schema
+    //      object gets a different description from its canonical definition.
+    //
+    //   2. The Swagger Parser shares a single resolved Schema object (e.g. uuid.json) across ALL
+    //      usages of that external type.  Each property that references it with a sibling
+    //      description overwrites that object's description field in-place, so two Schema objects
+    //      for the same source file end up with different property-level descriptions depending on
+    //      which other usages of the shared type were processed between the two resolutions.
+    //
+    //   3. The Swagger Parser additionally strips 'type' annotations (e.g. type:"string") from
+    //      shared Schema object properties between processing passes, so identical schemas can
+    //      appear with and without explicit type fields depending on processing order.
+    //
+    // By stripping description and type recursively via a Jackson MixIn (see structuralMapper),
+    // we get a hash stable across all such variations while still distinguishing schemas with
+    // genuinely different formats, patterns, property structures, enum values, etc.
+    private Map<String, String> generatedStructuralSignature = new HashMap<>();
     private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
@@ -51,14 +75,73 @@ public class InlineModelResolver {
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
     private static ObjectMapper structureMapper;
+    // structural mapper is like structureMapper but ignores 'description' and 'type' fields at
+    // every level of the schema graph (via a MixIn applied to Schema.class and all its subclasses)
+    private static ObjectMapper structuralMapper;
 
     // a set to keep track of names generated for inline schemas
     private Set<String> uniqueNames = new HashSet<>();
+
+    // MixIn that suppresses volatile fields when any Schema instance is serialised for structural
+    // comparison.  Registered on Schema.class so it applies recursively to all nested Schema
+    // objects (properties, allOf/anyOf/oneOf items, array items, additionalProperties, etc.).
+    // Suppressed fields and why:
+    // - 'description': the Swagger Parser overwrites shared Schema object descriptions in-place
+    //   when resolving $ref + sibling descriptions, and also strips them between passes.
+    // - 'type': the Swagger Parser strips 'type' annotations (e.g. type:"string") from shared
+    //   Schema object properties between processing passes.
+    // - 'example': OAS 3.1 allows 'example' as a sibling to '$ref'; different usages of the same
+    //   external schema may carry different (or no) sibling examples, making otherwise identical
+    //   schemas appear structurally different.
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"description", "type", "example"})
+    private abstract static class IgnoreVolatileFieldsMixIn {}
 
     static {
         structureMapper = Json.mapper().copy();
         structureMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
         structureMapper.writer(new DefaultPrettyPrinter());
+
+        structuralMapper = Json.mapper().copy();
+        structuralMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        structuralMapper.addMixIn(Schema.class, IgnoreVolatileFieldsMixIn.class);
+    }
+
+    /**
+     * Compute a structural signature for a schema, normalising away parser-induced volatile
+     * differences so that two schema objects that are semantically equal compare as equal.
+     *
+     * Beyond what the {@link #structuralMapper} already strips via {@link IgnoreVolatileFieldsMixIn}
+     * (description, type, example), this method additionally normalises:
+     * <ul>
+     *   <li><b>default: null vs absent default</b> — the Swagger Parser represents an explicit
+     *       {@code default: null} in YAML as a Jackson {@code NullNode} (a non-null Java object
+     *       that the NON_NULL mapper serialises as {@code "default":null}), while a schema
+     *       property with no {@code default} keyword at all results in a Java null (omitted by
+     *       NON_NULL serialisation). Both are semantically "no default"; this method removes any
+     *       {@code "default":null} entry from the JSON tree before returning the signature string.
+     *       Real non-null defaults (e.g. {@code "default":"available"}) are preserved as-is.</li>
+     * </ul>
+     */
+    private String computeStructuralSignature(Schema<?> model) throws JsonProcessingException {
+        String raw = structuralMapper.writeValueAsString(model);
+        com.fasterxml.jackson.databind.JsonNode tree = structuralMapper.readTree(raw);
+        removeNullDefaultNodes(tree);
+        return structuralMapper.writeValueAsString(tree);
+    }
+
+    /** Recursively remove any {@code "default":null} (NullNode) entries from a JsonNode tree. */
+    private static void removeNullDefaultNodes(com.fasterxml.jackson.databind.JsonNode node) {
+        if (node.isObject()) {
+            com.fasterxml.jackson.databind.node.ObjectNode obj =
+                    (com.fasterxml.jackson.databind.node.ObjectNode) node;
+            com.fasterxml.jackson.databind.JsonNode dflt = obj.get("default");
+            if (dflt != null && dflt.isNull()) {
+                obj.remove("default");
+            }
+            node.forEach(InlineModelResolver::removeNullDefaultNodes);
+        } else if (node.isArray()) {
+            node.forEach(InlineModelResolver::removeNullDefaultNodes);
+        }
     }
 
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
@@ -105,8 +188,36 @@ public class InlineModelResolver {
             this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
         }
 
+        // Pre-populate generatedSignature with existing components/schemas entries so that
+        // matchGenerated() can find them and avoid creating numbered duplicates (e.g. Foo_1)
+        // when an inline schema with identical content is encountered during flattening.
+        // Only titled schemas are pre-populated: a schema identified only by its YAML key in
+        // components/schemas has no inherent identity — two anonymous schemas with the same
+        // structure may be intentionally distinct (e.g. separate request/response bodies that
+        // happen to share the same properties). A titled schema (e.g. title: "Container Mapping")
+        // represents a named type defined in its own file and should be reused wherever referenced.
+        for (Map.Entry<String, Schema> entry : this.openAPI.getComponents().getSchemas().entrySet()) {
+            if (entry.getValue().getTitle() != null) {
+                addGenerated(entry.getKey(), entry.getValue());
+            }
+        }
+
         flattenPaths();
+        flattenWebhooks();
         flattenComponents();
+        flattenComponentResponses();
+        deduplicateComponents();
+    }
+
+    /**
+     * Flatten inline models in Webhooks
+     */
+    private void flattenWebhooks() {
+        Map<String, PathItem> webhooks = openAPI.getWebhooks();
+        if (webhooks == null) {
+            return;
+        }
+        flattenPathItems(webhooks);
     }
 
     /**
@@ -117,8 +228,16 @@ public class InlineModelResolver {
         if (paths == null) {
             return;
         }
+        flattenPathItems(paths);
+    }
 
-        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+    /**
+     * Flatten inline models in path items
+     *
+     * @param pathItemMap Map of path items
+     */
+    private void flattenPathItems(Map<String, PathItem> pathItemMap) {
+        for (Map.Entry<String, PathItem> pathsEntry : pathItemMap.entrySet()) {
             PathItem path = pathsEntry.getValue();
             List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
 
@@ -141,11 +260,15 @@ public class InlineModelResolver {
                 }
             }
 
+            // flatten path-level parameters
+            flattenParameters(pathname, path.getParameters(), null);
+
+            // flatten parameters for each operation
             for (Map.Entry<HttpMethod, Operation> operationEntry : toFlatten) {
                 Operation operation = operationEntry.getValue();
                 String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
                 flattenRequestBody(inlineSchemaName, operation);
-                flattenParameters(inlineSchemaName, operation);
+                flattenParameters(inlineSchemaName, operation.getParameters(), operation.getOperationId());
                 flattenResponses(inlineSchemaName, operation);
             }
         }
@@ -179,7 +302,7 @@ public class InlineModelResolver {
 
     /**
      * Return false if model can be represented by primitives e.g. string, object
-     * without properties, array or map of other model (model contanier), etc.
+     * without properties, array or map of other model (model container), etc.
      * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
@@ -192,7 +315,7 @@ public class InlineModelResolver {
 
     /**
      * Return false if model can be represented by primitives e.g. string, object
-     * without properties, array or map of other model (model contanier), etc.
+     * without properties, array or map of other model (model container), etc.
      * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
@@ -207,12 +330,12 @@ public class InlineModelResolver {
             visitedSchemas.add(schema);
         }
 
-        if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
+        if (resolveInlineEnums && isEnumSchema(schema)) {
             return true;
         }
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (schema.getType() == null || ModelUtils.isObjectTypeOAS30(schema)) {
             // object or undeclared type with properties
-            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+            if (ModelUtils.hasProperties(schema)) {
                 return true;
             }
         }
@@ -238,7 +361,7 @@ public class InlineModelResolver {
                 return isModelNeeded((Schema) schema.getAllOf().get(0), visitedSchemas);
             }
 
-            if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            if (ModelUtils.hasAllOf(schema)) {
                 // check to ensure at least one of the allOf item is model
                 for (Object inner : schema.getAllOf()) {
                     if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, (Schema) inner), visitedSchemas)) {
@@ -249,10 +372,10 @@ public class InlineModelResolver {
                 return false;
             }
 
-            if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            if (ModelUtils.hasAnyOf(schema)) {
                 return true;
             }
-            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            if (ModelUtils.hasOneOf(schema)) {
                 return true;
             }
         }
@@ -271,9 +394,9 @@ public class InlineModelResolver {
         if (schema.get$ref() != null) {
             // if ref already, no inline schemas should be present but check for
             // any to catch OpenAPI violations
-            if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
+            if (isModelNeeded(schema) || ModelUtils.isObjectTypeOAS30(schema) ||
                     schema.getProperties() != null || schema.getAdditionalProperties() != null ||
-                    ModelUtils.isComposedSchema(schema)) {
+                ModelUtils.isComposedSchema(schema)) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
                         " no properties should be defined alongside a $ref:\n " + schema.toString());
             }
@@ -282,7 +405,7 @@ public class InlineModelResolver {
         // Check object models / any type models / composed models for properties,
         // if the schema has a type defined that is not "object" it should not define
         // any properties
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (schema.getType() == null || ModelUtils.isObjectTypeOAS30(schema)) {
             // Check properties and recurse, each property could be its own inline model
             Map<String, Schema> props = schema.getProperties();
             if (props != null) {
@@ -316,7 +439,7 @@ public class InlineModelResolver {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
                     if (inner != null) {
-                        String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
+                        String schemaName = resolveModelName(inner.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
                         // Recurse to create $refs for inner models
                         gatherInlineModels(inner, schemaName);
                         if (isModelNeeded(inner)) {
@@ -330,7 +453,9 @@ public class InlineModelResolver {
         } else if (schema.getProperties() != null) {
             // If non-object type is specified but also properties
             LOGGER.error("Illegal schema found with non-object type combined with properties," +
-                    " no properties should be defined:\n " + schema.toString());
+                    " no properties should be defined:" +
+                    " consider using --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true\n " +
+                    schema.toString());
             return;
         } else if (schema.getAdditionalProperties() != null) {
             // If non-object type is specified but also additionalProperties
@@ -348,7 +473,7 @@ public class InlineModelResolver {
             }
 
             if (items == null) {
-                LOGGER.debug("prefixItems in array schema is not supported at the moment: {}",  schema.toString());
+                LOGGER.debug("prefixItems in array schema is not supported at the moment: {}", schema.toString());
                 return;
             }
             String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
@@ -508,16 +633,21 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in parameters
      *
-     * @param modelName model name
-     * @param operation target operation
+     * @param modelName   model name
+     * @param parameters  list of parameters
+     * @param operationId operation Id (optional)
      */
-    private void flattenParameters(String modelName, Operation operation) {
-        List<Parameter> parameters = operation.getParameters();
+    private void flattenParameters(String modelName, List<Parameter> parameters, String operationId) {
+        //List<Parameter> parameters = operation.getParameters();
         if (parameters == null) {
             return;
         }
 
         for (Parameter parameter : parameters) {
+            if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+            }
+
             if (parameter.getSchema() == null) {
                 continue;
             }
@@ -528,7 +658,7 @@ public class InlineModelResolver {
                 continue;
             }
             String schemaName = resolveModelName(parameterSchema.getTitle(),
-                    (operation.getOperationId() == null ? modelName : operation.getOperationId()) + "_" + parameter.getName() + "_parameter");
+                    (operationId == null ? modelName : operationId) + "_" + parameter.getName() + "_parameter");
             // Recursively gather/make inline models within this schema if any
             gatherInlineModels(parameterSchema, schemaName);
             if (isModelNeeded(parameterSchema)) {
@@ -560,6 +690,20 @@ public class InlineModelResolver {
     }
 
     /**
+     * Flatten inline models in the responses section in the components.
+     */
+    private void flattenComponentResponses() {
+        Map<String, ApiResponse> apiResponses = openAPI.getComponents().getResponses();
+        if (apiResponses == null) {
+            return;
+        }
+
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+            flattenContent(entry.getValue().getContent(), null);
+        }
+    }
+
+    /**
      * Flattens properties of inline object schemas that belong to a composed schema into a
      * single flat list of properties. This is useful to generate a single or multiple
      * inheritance model.
@@ -572,18 +716,18 @@ public class InlineModelResolver {
      * allOf:
      * - $ref: '#/components/schemas/Animal'
      * - type: object
-     *   properties:
-     *     name:
-     *       type: string
-     *     age:
-     *       type: string
+     * properties:
+     * name:
+     * type: string
+     * age:
+     * type: string
      * - type: object
-     *   properties:
-     *     breed:
-     *       type: string
+     * properties:
+     * breed:
+     * type: string
      *
-     * @param key      a unique name ofr the composed schema.
-     * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     * @param key                    a unique name for the composed schema.
+     * @param children               the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      * @param skipAllOfInlineSchemas true if allOf inline schemas need to be skipped.
      */
     private void flattenComposedChildren(String key, List<Schema> children, boolean skipAllOfInlineSchemas) {
@@ -593,10 +737,8 @@ public class InlineModelResolver {
         ListIterator<Schema> listIterator = children.listIterator();
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
-            if ((component != null) &&
-                    (component.get$ref() == null) &&
-                    ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
-                            (component.getEnum() != null && !component.getEnum().isEmpty()))) {
+            boolean componentDoesNotHaveRef = component != null && component.get$ref() == null;
+            if (componentDoesNotHaveRef && (ModelUtils.hasProperties(component) || isEnumSchema(component))) {
                 // If a `title` attribute is defined in the inline schema, codegen uses it to name the
                 // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
                 // We know that this is not the best way to name the model.
@@ -650,6 +792,10 @@ public class InlineModelResolver {
             } else if (ModelUtils.isOneOf(model)) { // contains oneOf only
                 gatherInlineModels(model, modelName);
             } else if (ModelUtils.isComposedSchema(model)) {
+                // composed Schema can have properties!
+                if (ModelUtils.hasProperties(model)) {
+                    gatherInlineModels(model, modelName);
+                }
                 // inline child schemas
                 flattenComposedChildren(modelName + "_allOf", model.getAllOf(), !Boolean.TRUE.equals(this.refactorAllOfInlineSchemas));
                 flattenComposedChildren(modelName + "_anyOf", model.getAnyOf(), false);
@@ -704,15 +850,44 @@ public class InlineModelResolver {
         }
     }
 
+    private static boolean isEnumSchema(Schema model) {
+        return model != null && ModelUtils.isEnumSchema(model);
+    }
+
     private String matchGenerated(Schema model) {
         if (skipSchemaReuse) { // skip reusing schema
             return null;
         }
 
         try {
+            // Exact content match.
             String json = structureMapper.writeValueAsString(model);
             if (generatedSignature.containsKey(json)) {
                 return generatedSignature.get(json);
+            }
+            // Structural match: compare with volatile fields stripped at every level.
+            // See generatedStructuralSignature field for a full explanation of why this is needed.
+            //
+            // Only applied to *titled*, non-enum schemas. A title denotes a named type that should
+            // be reused wherever it appears, so parser-induced volatile differences (description,
+            // type, example) must not split it into numbered duplicates. Anonymous/untitled inline
+            // schemas, however, may be intentionally distinct even when structurally identical once
+            // those volatile fields are stripped (e.g. two response properties that differ only by
+            // description) — unifying them silently changes the generated type of one property and
+            // breaks user code. This mirrors the titled-only guards in flatten() pre-population and
+            // deduplicateComponents().
+            //
+            // Enum schemas are excluded even when titled: the structural matcher strips
+            // 'description', but for an enum the description is the only thing distinguishing two
+            // schemas that share the same values yet represent different things (e.g. two properties
+            // whose enums happen to list the same values but mean different things). Stripping it
+            // would wrongly unify them and make the second usage silently reuse the first enum's type
+            // (#23978). Enum schemas therefore dedup on exact content only.
+            if (model.getTitle() != null && !isEnumSchema(model)) {
+                String structural = computeStructuralSignature(model);
+                if (generatedStructuralSignature.containsKey(structural)) {
+                    return generatedStructuralSignature.get(structural);
+                }
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -723,8 +898,13 @@ public class InlineModelResolver {
 
     private void addGenerated(String name, Schema model) {
         try {
-            String json = structureMapper.writeValueAsString(model);
-            generatedSignature.put(json, name);
+            generatedSignature.put(structureMapper.writeValueAsString(model), name);
+            // Only register the volatile-stripped structural signature for titled, non-enum schemas;
+            // untitled inline schemas and enums must not participate in the structural-match fallback
+            // (see matchGenerated).
+            if (model.getTitle() != null && !isEnumSchema(model)) {
+                generatedStructuralSignature.putIfAbsent(computeStructuralSignature(model), name);
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -792,7 +972,7 @@ public class InlineModelResolver {
                 Schema inner = ModelUtils.getSchemaItems(property);
                 if (ModelUtils.isObjectSchema(inner)) {
                     Schema op = inner;
-                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                    if (ModelUtils.hasProperties(op)) {
                         flattenProperties(openAPI, op.getProperties(), path);
                         String modelName = resolveModelName(op.getTitle(), path + "_" + key);
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
@@ -822,7 +1002,7 @@ public class InlineModelResolver {
                 Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (ModelUtils.isObjectSchema(inner)) {
                     Schema op = inner;
-                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                    if (ModelUtils.hasProperties(op)) {
                         flattenProperties(openAPI, op.getProperties(), path);
                         String modelName = resolveModelName(op.getTitle(), path + "_" + key);
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
@@ -952,7 +1132,7 @@ public class InlineModelResolver {
         if (existing != null) {
             refSchema = new Schema().$ref(existing);
         } else {
-            if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
+            if (resolveInlineEnums && isEnumSchema(schema)) {
                 LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");
             }
             name = addSchemas(name, schema);
@@ -996,13 +1176,20 @@ public class InlineModelResolver {
      * Add the schemas to the components
      *
      * @param name   name of the inline schema
-     * @param schema inilne schema
+     * @param schema inline schema
      * @return the actual model name (based on inlineSchemaNameMapping if provided)
      */
     private String addSchemas(String name, Schema schema) {
         //check inlineSchemaNameMapping
         if (inlineSchemaNameMapping.containsKey(name)) {
             name = inlineSchemaNameMapping.get(name);
+        }
+
+        // Recursive flattening can add a nested schema after its parent's name
+        // was chosen. Re-check here so the parent cannot overwrite that child.
+        if (openAPI.getComponents().getSchemas().containsKey(name)
+                || uniqueNames.contains(name)) {
+            name = uniqueName(name);
         }
 
         addGenerated(name, schema);
@@ -1014,5 +1201,319 @@ public class InlineModelResolver {
         uniqueNames.add(name);
 
         return name;
+    }
+
+    /**
+     * Post-flatten deduplication pass: removes titled component schemas that are structural
+     * duplicates of each other (same title + same structural signature under structuralMapper)
+     * and rewrites all $refs throughout the spec to point to the canonical (non-numbered) name.
+     *
+     * This handles the case where the Swagger Parser shares mutable Schema objects across
+     * usages of the same external file and mutates their fields (e.g. stripping type or
+     * description) between processing passes, causing matchGenerated() to miss during flattening
+     * and producing numbered duplicates like FlowSegment_1 alongside FlowSegment.
+     */
+    private void deduplicateComponents() {
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        if (schemas == null || schemas.isEmpty()) {
+            return;
+        }
+
+        // Sort: non-numbered names first so we always pick them as canonical over numbered ones.
+        List<String> sortedKeys = new ArrayList<>(schemas.keySet());
+        sortedKeys.sort((a, b) -> {
+            boolean aNumbered = a.matches(".*_\\d+$");
+            boolean bNumbered = b.matches(".*_\\d+$");
+            if (aNumbered != bNumbered) return aNumbered ? 1 : -1;
+            return a.compareTo(b);
+        });
+
+        // Map: (title + "||" + structural_sig) → first-seen (canonical) name
+        Map<String, String> canonicalBySig = new LinkedHashMap<>();
+        // Map: duplicate component name → canonical component name
+        Map<String, String> duplicateToCanonical = new LinkedHashMap<>();
+
+        for (String name : sortedKeys) {
+            Schema schema = schemas.get(name);
+            if (schema.getTitle() == null) {
+                continue; // only deduplicate titled schemas — anonymous schemas may be intentionally distinct
+            }
+            try {
+                String structural = computeStructuralSignature(schema);
+                String sigKey = schema.getTitle() + "||" + structural;
+                String canonical = canonicalBySig.get(sigKey);
+                if (canonical != null) {
+                    duplicateToCanonical.put(name, canonical);
+                } else {
+                    canonicalBySig.put(sigKey, name);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (duplicateToCanonical.isEmpty()) {
+            return;
+        }
+
+        // Build full-path ref replacement map for rewriting
+        Map<String, String> refReplacements = new HashMap<>();
+        for (Map.Entry<String, String> entry : duplicateToCanonical.entrySet()) {
+            refReplacements.put(
+                    "#/components/schemas/" + entry.getKey(),
+                    "#/components/schemas/" + entry.getValue());
+        }
+
+        // Remove duplicate schemas from components
+        for (String duplicate : duplicateToCanonical.keySet()) {
+            schemas.remove(duplicate);
+            LOGGER.info("Removed duplicate component schema '{}' (structural duplicate of '{}')",
+                    duplicate, duplicateToCanonical.get(duplicate));
+        }
+
+        // Rewrite all $refs in remaining component schemas
+        for (Schema schema : schemas.values()) {
+            rewriteSchemaRefs(schema, refReplacements);
+        }
+
+        // Rewrite all $refs in the other component containers that can hold a schema. Only
+        // components/schemas used to be visited, so a reusable response, parameter, request body,
+        // header, callback or path item kept naming the schema that was just removed.
+        Components components = openAPI.getComponents();
+        if (components.getResponses() != null) {
+            for (ApiResponse response : components.getResponses().values()) {
+                rewriteApiResponseRefs(response, refReplacements);
+            }
+        }
+        if (components.getParameters() != null) {
+            for (Parameter parameter : components.getParameters().values()) {
+                rewriteParameterRefs(parameter, refReplacements);
+            }
+        }
+        if (components.getRequestBodies() != null) {
+            for (RequestBody requestBody : components.getRequestBodies().values()) {
+                rewriteContentRefs(requestBody.getContent(), refReplacements);
+            }
+        }
+        rewriteHeaderRefs(components.getHeaders(), refReplacements);
+        if (components.getCallbacks() != null) {
+            for (Callback callback : components.getCallbacks().values()) {
+                for (PathItem callbackPathItem : callback.values()) {
+                    rewritePathItemRefs(callbackPathItem, refReplacements);
+                }
+            }
+        }
+        if (components.getPathItems() != null) {
+            for (PathItem componentPathItem : components.getPathItems().values()) {
+                rewritePathItemRefs(componentPathItem, refReplacements);
+            }
+        }
+
+        // Rewrite all $refs in paths
+        if (openAPI.getPaths() != null) {
+            for (PathItem pathItem : openAPI.getPaths().values()) {
+                rewritePathItemRefs(pathItem, refReplacements);
+            }
+        }
+
+        // Rewrite all $refs in webhooks
+        if (openAPI.getWebhooks() != null) {
+            for (PathItem pathItem : openAPI.getWebhooks().values()) {
+                rewritePathItemRefs(pathItem, refReplacements);
+            }
+        }
+    }
+
+    /**
+     * Recursively rewrites $ref values in a Schema (and all nested schemas) according to
+     * the refReplacements map (full-path refs: "#/components/schemas/Old" → "#/components/schemas/New").
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void rewriteSchemaRefs(Schema schema, Map<String, String> refReplacements) {
+        if (schema == null) {
+            return;
+        }
+        if (schema.get$ref() != null) {
+            String replacement = refReplacements.get(schema.get$ref());
+            if (replacement != null) {
+                schema.set$ref(replacement);
+            }
+        }
+        rewriteDiscriminatorMapping(schema, refReplacements);
+        if (schema.getProperties() != null) {
+            for (Object prop : schema.getProperties().values()) {
+                rewriteSchemaRefs((Schema) prop, refReplacements);
+            }
+        }
+        if (schema.getItems() != null) {
+            rewriteSchemaRefs(schema.getItems(), refReplacements);
+        }
+        if (schema.getAllOf() != null) {
+            for (Object s : schema.getAllOf()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getAnyOf() != null) {
+            for (Object s : schema.getAnyOf()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getOneOf() != null) {
+            for (Object s : schema.getOneOf()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getNot() != null) {
+            rewriteSchemaRefs(schema.getNot(), refReplacements);
+        }
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            rewriteSchemaRefs((Schema) schema.getAdditionalProperties(), refReplacements);
+        }
+        // Remaining JSON Schema 2020-12 sub-schema containers. A $ref held in any of these is a
+        // reference like any other and must follow the same rewrite.
+        if (schema.getPatternProperties() != null) {
+            for (Object s : schema.getPatternProperties().values()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getDependentSchemas() != null) {
+            for (Object s : schema.getDependentSchemas().values()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getPrefixItems() != null) {
+            for (Object s : schema.getPrefixItems()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        rewriteSchemaRefs(schema.getIf(), refReplacements);
+        rewriteSchemaRefs(schema.getThen(), refReplacements);
+        rewriteSchemaRefs(schema.getElse(), refReplacements);
+        rewriteSchemaRefs(schema.getContains(), refReplacements);
+        rewriteSchemaRefs(schema.getPropertyNames(), refReplacements);
+        rewriteSchemaRefs(schema.getUnevaluatedItems(), refReplacements);
+        rewriteSchemaRefs(schema.getUnevaluatedProperties(), refReplacements);
+        rewriteSchemaRefs(schema.getAdditionalItems(), refReplacements);
+        rewriteSchemaRefs(schema.getContentSchema(), refReplacements);
+    }
+
+    /** Rewrites $refs in every media type of a Content, including the headers of its encodings. */
+    private void rewriteContentRefs(Content content, Map<String, String> refReplacements) {
+        if (content == null) {
+            return;
+        }
+        for (MediaType mediaType : content.values()) {
+            rewriteSchemaRefs(mediaType.getSchema(), refReplacements);
+            if (mediaType.getEncoding() != null) {
+                for (Encoding encoding : mediaType.getEncoding().values()) {
+                    rewriteHeaderRefs(encoding.getHeaders(), refReplacements);
+                }
+            }
+        }
+    }
+
+    /** Rewrites $refs carried by a map of Headers (schema and content forms). */
+    private void rewriteHeaderRefs(Map<String, Header> headers, Map<String, String> refReplacements) {
+        if (headers == null) {
+            return;
+        }
+        for (Header header : headers.values()) {
+            rewriteSchemaRefs(header.getSchema(), refReplacements);
+            rewriteContentRefs(header.getContent(), refReplacements);
+        }
+    }
+
+    /** Rewrites $refs carried by a Parameter (schema and content forms). */
+    private void rewriteParameterRefs(Parameter parameter, Map<String, String> refReplacements) {
+        if (parameter == null) {
+            return;
+        }
+        rewriteSchemaRefs(parameter.getSchema(), refReplacements);
+        rewriteContentRefs(parameter.getContent(), refReplacements);
+    }
+
+    /** Rewrites $refs carried by an ApiResponse (its content and its headers). */
+    private void rewriteApiResponseRefs(ApiResponse response, Map<String, String> refReplacements) {
+        if (response == null) {
+            return;
+        }
+        rewriteContentRefs(response.getContent(), refReplacements);
+        rewriteHeaderRefs(response.getHeaders(), refReplacements);
+    }
+
+    /**
+     * Rewrites the values of a schema's {@code discriminator.mapping} according to the same
+     * replacement map used for {@code $ref}s. A mapping value is a reference to a schema, but it
+     * is not stored in a {@code $ref} field, so it is missed by plain {@code $ref} rewriting; a
+     * mapping left pointing at a deduplicated-away schema names a model that is never generated.
+     * <p>
+     * Per the OpenAPI specification a mapping value is either a full schema reference
+     * ("#/components/schemas/Foo") or a bare schema name ("Foo"). Both forms are rewritten, and
+     * each keeps the form it was written in.
+     */
+    private void rewriteDiscriminatorMapping(Schema schema, Map<String, String> refReplacements) {
+        if (schema.getDiscriminator() == null || schema.getDiscriminator().getMapping() == null) {
+            return;
+        }
+        Map<String, String> mapping = schema.getDiscriminator().getMapping();
+        for (Map.Entry<String, String> entry : mapping.entrySet()) {
+            String value = entry.getValue();
+            if (value == null) {
+                continue;
+            }
+            if (value.indexOf('/') >= 0) {
+                String replacement = refReplacements.get(value);
+                if (replacement != null) {
+                    entry.setValue(replacement);
+                }
+            } else {
+                // bare schema name: match against the full ref, then write the bare name back
+                String replacement = refReplacements.get("#/components/schemas/" + value);
+                if (replacement != null) {
+                    entry.setValue(replacement.substring(replacement.lastIndexOf('/') + 1));
+                }
+            }
+        }
+    }
+
+    /**
+     * Rewrites $refs in all operations reachable from a PathItem (request bodies, parameters,
+     * responses, and nested callbacks).
+     */
+    private void rewritePathItemRefs(PathItem pathItem, Map<String, String> refReplacements) {
+        if (pathItem == null) {
+            return;
+        }
+        // Path-level parameters
+        if (pathItem.getParameters() != null) {
+            for (Parameter p : pathItem.getParameters()) {
+                rewriteParameterRefs(p, refReplacements);
+            }
+        }
+        // Operations
+        for (Operation operation : pathItem.readOperations()) {
+            if (operation.getParameters() != null) {
+                for (Parameter p : operation.getParameters()) {
+                    rewriteParameterRefs(p, refReplacements);
+                }
+            }
+            RequestBody requestBody = operation.getRequestBody();
+            if (requestBody != null) {
+                rewriteContentRefs(requestBody.getContent(), refReplacements);
+            }
+            ApiResponses responses = operation.getResponses();
+            if (responses != null) {
+                for (ApiResponse response : responses.values()) {
+                    rewriteApiResponseRefs(response, refReplacements);
+                }
+            }
+            if (operation.getCallbacks() != null) {
+                for (Callback callback : operation.getCallbacks().values()) {
+                    for (PathItem callbackPathItem : callback.values()) {
+                        rewritePathItemRefs(callbackPathItem, refReplacements);
+                    }
+                }
+            }
+        }
     }
 }

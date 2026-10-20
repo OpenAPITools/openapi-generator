@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
@@ -41,7 +41,7 @@ public class HealthCheckResult {
   public HealthCheckResult() {
   }
 
-  public HealthCheckResult nullableMessage(String nullableMessage) {
+  public HealthCheckResult nullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
     
     return this;
@@ -58,7 +58,7 @@ public class HealthCheckResult {
         return nullableMessage.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getNullableMessage_JsonNullable() {
@@ -70,7 +70,7 @@ public class HealthCheckResult {
     this.nullableMessage = nullableMessage;
   }
 
-  public void setNullableMessage(String nullableMessage) {
+  public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
 
@@ -117,10 +117,7 @@ public class HealthCheckResult {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

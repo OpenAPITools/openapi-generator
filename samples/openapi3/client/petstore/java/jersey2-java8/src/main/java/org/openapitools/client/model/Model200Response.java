@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -34,18 +36,20 @@ import org.openapitools.client.JSON;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
   private Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
+  @javax.annotation.Nullable
   private String propertyClass;
 
   public Model200Response() { 
   }
 
-  public Model200Response name(Integer name) {
+  public Model200Response name(@javax.annotation.Nullable Integer name) {
     this.name = name;
     return this;
   }
@@ -55,7 +59,7 @@ public class Model200Response {
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
@@ -63,14 +67,14 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nullable Integer name) {
     this.name = name;
   }
 
 
-  public Model200Response propertyClass(String propertyClass) {
+  public Model200Response propertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -80,7 +84,7 @@ public class Model200Response {
    * @return propertyClass
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -88,9 +92,9 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
@@ -100,20 +104,12 @@ public class Model200Response {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Model200Response _200response = (Model200Response) o;
-    return Objects.equals(this.name, _200response.name) &&
-        Objects.equals(this.propertyClass, _200response.propertyClass);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, propertyClass);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -131,10 +127,7 @@ public class Model200Response {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

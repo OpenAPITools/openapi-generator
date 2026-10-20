@@ -9,6 +9,7 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory;
 use DateTime;
 use RuntimeException;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 
 class JmsSerializer implements SerializerInterface
 {
@@ -29,7 +30,13 @@ class JmsSerializer implements SerializerInterface
      */
     public function serialize($data, string $format): string
     {
-        return SerializerBuilder::create()->build()->serialize($data, $this->convertFormat($format));
+        $convertFormat = $this->convertFormat($format);
+        if ($convertFormat !== null) {
+           return SerializerBuilder::create()->build()->serialize($data, $convertFormat);
+        } else {
+           // don't use var_export if $data is already a string: it may corrupt binary strings
+           return is_string($data) ? $data : var_export($data, true);
+        }
     }
 
     /**
@@ -116,7 +123,7 @@ class JmsSerializer implements SerializerInterface
 
                 $enum = $type::tryFrom($data);
                 if (!$enum) {
-                    throw new RuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
+                    throw new SerializerRuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
                 }
 
                 return $enum;

@@ -1,4 +1,4 @@
-# # EnumClass
+# EnumClass
 
 ## Properties
 

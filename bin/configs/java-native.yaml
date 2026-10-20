@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: petstore-native
   hideGenerationTimestamp: "true"
   generateBuilders: true
+  useReflectionEqualsHashCode: "true"

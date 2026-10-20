@@ -13,7 +13,7 @@ type {{name}} = [
 | {{{camlEnumValueName}}} [@printer fun fmt _ -> Format.pp_print_string fmt "{{{name}}}"] [@name "{{{name}}}"]
 {{/values}}
 {{/allowableValues}}
-] [@@deriving yojson, show { with_path = false }];;
+] [@@deriving yojson, show { with_path = false }, eq];;
 
 let {{name}}_of_yojson json = {{name}}_of_yojson (`List [json])
 let {{name}}_to_yojson e =

@@ -17,21 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.test_enum import TestEnum
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class TestModelWithEnumDefault(BaseModel):
     """
     TestModelWithEnumDefault
     """ # noqa: E501
     test_enum: TestEnum
-    test_string: Optional[StrictStr] = None
+    test_string: Optional[StrictStr] = Field(default=None, json_schema_extra={"examples": ["Just some string"]})
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
-    test_string_with_default: Optional[StrictStr] = 'ahoy matey'
+    test_string_with_default: Optional[StrictStr] = Field(default='ahoy matey', json_schema_extra={"examples": ["More string"]})
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     __properties: ClassVar[List[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
@@ -46,7 +47,8 @@ class TestModelWithEnumDefault(BaseModel):
         return value
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -58,8 +60,7 @@ class TestModelWithEnumDefault(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:

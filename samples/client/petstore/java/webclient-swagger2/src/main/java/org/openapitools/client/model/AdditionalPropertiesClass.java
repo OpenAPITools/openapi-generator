@@ -33,18 +33,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
+  @javax.annotation.Nullable
   private Map<String, String> mapProperty;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty;
 
   public AdditionalPropertiesClass() {
   }
 
-  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
+  public AdditionalPropertiesClass mapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     
     this.mapProperty = mapProperty;
     return this;
@@ -64,7 +66,7 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, String> getMapProperty() {
@@ -72,13 +74,13 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapProperty(Map<String, String> mapProperty) {
+  public void setMapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
 
-  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public AdditionalPropertiesClass mapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
@@ -98,7 +100,7 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
@@ -106,11 +108,12 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public void setMapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -145,10 +148,7 @@ public class AdditionalPropertiesClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

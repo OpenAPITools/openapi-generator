@@ -13,19 +13,20 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/xml_array'
+              $ref: "#/components/schemas/xml_array"
       responses:
         "201":
           description: OK
         "400":
           description: Bad Request
-      summary: Post an array
+      summary: "Post an array.  It's important we test apostrophes, so include one\
+        \ here."
     put:
       requestBody:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/xml_object'
+              $ref: "#/components/schemas/xml_object"
       responses:
         "201":
           description: OK
@@ -40,7 +41,7 @@ paths:
         name: uuid
         required: false
         schema:
-          $ref: '#/components/schemas/UuidObject'
+          $ref: "#/components/schemas/UuidObject"
         style: form
       - description: Some object to pass as query parameter
         explode: false
@@ -48,7 +49,7 @@ paths:
         name: someObject
         required: false
         schema:
-          $ref: '#/components/schemas/ObjectParam'
+          $ref: "#/components/schemas/ObjectParam"
         style: form
       - description: Some list to pass as query parameter
         explode: false
@@ -56,16 +57,40 @@ paths:
         name: someList
         required: false
         schema:
-          $ref: '#/components/schemas/MyIDList'
+          $ref: "#/components/schemas/MyIDList"
         style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: JSON rsp
       summary: Get some stuff with parameters.
+  /query-example:
+    get:
+      operationId: queryExampleGet
+      parameters:
+      - explode: true
+        in: query
+        name: required_no_example
+        required: true
+        schema:
+          type: string
+        style: form
+      - example: 42
+        explode: true
+        in: query
+        name: required_with_example
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: Test required query params with and without examples
   /multiget:
     get:
       responses:
@@ -73,13 +98,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: JSON rsp
         "201":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/_multiget_get_201_response'
+                $ref: "#/components/schemas/_multiget_get_201_response"
           description: XML rsp
         "202":
           content:
@@ -98,19 +123,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. One.
         "205":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. Two.
         "206":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. Three.
       summary: Get some stuff.
   /xml_other:
@@ -119,13 +144,13 @@ paths:
         content:
           text/xml:
             schema:
-              $ref: '#/components/schemas/anotherXmlObject'
+              $ref: "#/components/schemas/anotherXmlObject"
       responses:
         "201":
           content:
             text/xml:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: OK
         "400":
           description: Bad Request
@@ -134,7 +159,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/anotherXmlArray'
+              $ref: "#/components/schemas/anotherXmlArray"
       responses:
         "201":
           description: OK
@@ -146,7 +171,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/duplicate_xml_object'
+              $ref: "#/components/schemas/duplicate_xml_object"
       responses:
         "201":
           description: OK
@@ -159,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UuidObject'
+                $ref: "#/components/schemas/UuidObject"
           description: Duplicate Response long text. One.
   /required_octet_stream:
     put:
@@ -168,6 +193,18 @@ paths:
           application/octet-stream:
             schema:
               format: byte
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+  /required_binary_stream:
+    put:
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
               type: string
         required: true
       responses:
@@ -196,7 +233,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ObjectUntypedProps'
+              $ref: "#/components/schemas/ObjectUntypedProps"
       responses:
         "200":
           description: Check that untyped properties works
@@ -224,7 +261,7 @@ paths:
             Object-Header:
               explode: false
               schema:
-                $ref: '#/components/schemas/ObjectHeader'
+                $ref: "#/components/schemas/ObjectHeader"
               style: simple
         "412":
           description: Precondition Failed
@@ -258,7 +295,7 @@ paths:
         callback:
           '{$request.query.url}/callback':
             post:
-              operationId: callback_CallbackPost
+              operationId: CallbackCallbackPost
               responses:
                 "204":
                   description: OK
@@ -281,7 +318,7 @@ paths:
         callback:
           '{$request.query.url}/callback-with-header':
             post:
-              operationId: callback_CallbackWithHeaderPost
+              operationId: CallbackCallbackWithHeaderPost
               parameters:
               - explode: false
                 in: header
@@ -313,19 +350,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: OK
         "404":
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: NotFound
         "406":
           content:
             application/problem+xml:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: NotAcceptable
   /merge-patch-json:
     get:
@@ -334,7 +371,7 @@ paths:
           content:
             application/merge-patch+json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: merge-patch+json-encoded response
   /enum_in_path/{path_param}:
     get:
@@ -344,7 +381,7 @@ paths:
         name: path_param
         required: true
         schema:
-          $ref: '#/components/schemas/StringEnum'
+          $ref: "#/components/schemas/StringEnum"
         style: simple
       responses:
         "200":
@@ -365,7 +402,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/StringObject'
+            $ref: "#/components/schemas/StringObject"
           type: array
         style: form
       responses:
@@ -387,7 +424,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StringObject'
+                $ref: "#/components/schemas/StringObject"
           description: OK
       tags:
       - repo
@@ -401,7 +438,7 @@ paths:
             example:
               requiredParam: true
             schema:
-              $ref: '#/components/schemas/ObjectParam'
+              $ref: "#/components/schemas/ObjectParam"
         required: true
       responses:
         "200":
@@ -415,7 +452,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_one_of_get_200_response'
+                $ref: "#/components/schemas/_one_of_get_200_response"
           description: Success
   /any-of:
     get:
@@ -427,7 +464,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/AnyOfObject'
+            $ref: "#/components/schemas/AnyOfObject"
           minItems: 1
           type: array
         style: form
@@ -436,19 +473,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyOfObject'
+                $ref: "#/components/schemas/AnyOfObject"
           description: Success
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/12345AnyOfObject'
+                $ref: "#/components/schemas/12345AnyOfObject"
           description: AlternateSuccess
         "202":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_any_of_get_202_response'
+                $ref: "#/components/schemas/_any_of_get_202_response"
           description: AnyOfSuccess
   /json-complex-query-param:
     get:
@@ -457,7 +494,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/StringObject'
+                $ref: "#/components/schemas/StringObject"
               type: array
         in: query
         name: list-of-strings
@@ -465,33 +502,195 @@ paths:
       responses:
         "200":
           description: Success
+  /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: path_param_a
+        required: true
+        schema:
+          $ref: "#/components/schemas/StringObject"
+        style: simple
+      - explode: false
+        in: path
+        name: path_param_b
+        required: true
+        schema:
+          $ref: "#/components/schemas/StringObject"
+        style: simple
+      responses:
+        "200":
+          description: Success
+  /get-with-bool:
+    get:
+      description: Get with a boolean parameter
+      operationId: GetWithBooleanParameter
+      parameters:
+      - description: Let's check apostrophes get encoded properly!
+        explode: true
+        in: query
+        name: iambool
+        required: true
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: OK
+  /operation-two-first-letter-headers:
+    post:
+      description: Check we don't barf if two boolean parameters have the same first
+        letter
+      operationId: TwoFirstLetterHeaders
+      parameters:
+      - explode: false
+        in: header
+        name: x-header-one
+        required: false
+        schema:
+          type: boolean
+        style: simple
+      - explode: false
+        in: header
+        name: x-header-two
+        required: false
+        schema:
+          type: boolean
+        style: simple
+      responses:
+        "200":
+          description: OK
+  /form-test:
+    post:
+      operationId: FormTest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/FormTest_request"
+        required: true
+      responses:
+        "200":
+          description: OK
+      summary: Test a Form Post
+  /examples-test:
+    get:
+      description: Test examples in OpenAPI
+      operationId: ExamplesTest
+      parameters:
+      - description: A list of IDs to get
+        examples:
+          oneId:
+            value:
+            - foo
+          multipleIds:
+            value:
+            - foo
+            - bar
+        explode: false
+        in: query
+        name: ids
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdditionalPropertiesReferencedAnyOfObject"
+          description: OK
+      summary: Test examples
+  /multiple-response-content-types:
+    post:
+      operationId: MultipleResponseContentTypes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObjectParam"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfObject"
+          description: Created
+        "403":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfObject"
+          description: Forbidden
+      summary: Test multiple content types in a single response
 components:
+  parameters:
+    ids:
+      description: A list of IDs to get
+      examples:
+        oneId:
+          value:
+          - foo
+        multipleIds:
+          value:
+          - foo
+          - bar
+      explode: false
+      in: query
+      name: ids
+      required: false
+      schema:
+        items:
+          type: string
+        type: array
+      style: form
   schemas:
     AnyOfProperty:
       description: Test containing an anyOf object
+      example:
+        requiredAnyOf: FOO
+        optionalAnyOf: FOO
       properties:
         requiredAnyOf:
-          $ref: '#/components/schemas/AnyOfObject'
+          $ref: "#/components/schemas/AnyOfObject"
         optionalAnyOf:
-          $ref: '#/components/schemas/12345AnyOfObject'
+          $ref: "#/components/schemas/12345AnyOfObject"
       required:
       - requiredAnyOf
+    AdditionalPropertiesReferencedAnyOfObject:
+      additionalProperties:
+        $ref: "#/components/schemas/AnyOfProperty"
+      description: Check that an object with only additional properties that references
+        another object (e.g. an anyOf object) isn't treated as freeForm
+      example:
+        key:
+          requiredAnyOf: FOO
+          optionalAnyOf: FOO
+      type: object
     AnyOfObject:
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        type: string
+      - $ref: "#/components/schemas/AnyOfObject_anyOf"
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf
+    AnyOfHashMapObject:
+      anyOf:
+      - type: string
+      - additionalProperties:
+          type: string
+        type: object
+      description: Test a model containing an anyOf of a hash map
     "12345AnyOfObject":
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        - '*'
-        type: string
+      - $ref: "#/components/schemas/_12345AnyOfObject_anyOf"
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf that starts with a number
@@ -508,7 +707,7 @@ components:
       type: string
     xml_array:
       items:
-        $ref: '#/components/schemas/xml_inner'
+        $ref: "#/components/schemas/xml_inner"
       type: array
       xml:
         name: CamelXmlArray
@@ -535,7 +734,7 @@ components:
         inner_string:
           type: string
         inner_array:
-          $ref: '#/components/schemas/xml_array'
+          $ref: "#/components/schemas/xml_array"
       required:
       - inner_array
       type: object
@@ -544,7 +743,7 @@ components:
         namespace: http://different.bar
     anotherXmlArray:
       items:
-        $ref: '#/components/schemas/anotherXmlInner'
+        $ref: "#/components/schemas/anotherXmlInner"
       type: array
       xml:
         name: snake_another_xml_array
@@ -572,23 +771,23 @@ components:
       properties:
         objectArray:
           items:
-            $ref: '#/components/schemas/StringObject'
+            $ref: "#/components/schemas/StringObject"
           type: array
       type: object
     StringObject:
       type: string
     MyIDList:
       items:
-        $ref: '#/components/schemas/MyID'
+        $ref: "#/components/schemas/MyID"
       type: array
     MyID:
       type: integer
     ObjectUntypedProps:
       example:
-        not_required_untyped_nullable: ""
         required_untyped: ""
         required_untyped_nullable: ""
         not_required_untyped: ""
+        not_required_untyped_nullable: ""
       properties:
         required_untyped:
           nullable: false
@@ -605,11 +804,14 @@ components:
     ObjectParam:
       example:
         requiredParam: true
-        optionalParam: 0
+        optionalParam: 100
       properties:
         requiredParam:
           type: boolean
         optionalParam:
+          example: 100
+          maximum: 10000000000000000000
+          minimum: 1
           type: integer
       required:
       - requiredParam
@@ -627,6 +829,16 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithNullable:
+      properties:
+        nullableString:
+          nullable: true
+          type: string
+        nullableMap:
+          additionalProperties:
+            $ref: "#/components/schemas/NullableObject"
+          type: object
+      type: object
     AdditionalPropertiesWithList:
       additionalProperties:
         items:
@@ -634,6 +846,12 @@ components:
         type: array
       maxProperties: 1
       type: object
+    NullableObject:
+      nullable: true
+      type: string
+    NoTypeObject:
+      description: An object with no type
+      title: an object with no type
     NullableTest:
       properties:
         nullable:
@@ -642,6 +860,7 @@ components:
         nullableWithNullDefault:
           nullable: true
           type: string
+          default: null
         nullableWithPresentDefault:
           default: default
           nullable: true
@@ -699,8 +918,35 @@ components:
         type: array
     _any_of_get_202_response:
       anyOf:
-      - $ref: '#/components/schemas/StringObject'
-      - $ref: '#/components/schemas/UuidObject'
+      - $ref: "#/components/schemas/StringObject"
+      - $ref: "#/components/schemas/UuidObject"
+    FormTest_request_enum_field:
+      enum:
+      - one_enum
+      type: string
+    FormTest_request:
+      properties:
+        requiredArray:
+          items:
+            type: string
+          type: array
+        enum_field:
+          $ref: "#/components/schemas/FormTest_request_enum_field"
+      required:
+      - enum_field
+      - requiredArray
+      type: object
+    AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    _12345AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
   securitySchemes:
     authScheme:
       flows:
@@ -709,6 +955,15 @@ components:
           scopes:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
+          tokenUrl: http://example.org
+      type: oauth2
+    additionalAuthScheme:
+      flows:
+        authorizationCode:
+          authorizationUrl: http://example.org
+          scopes:
+            additional.test.read: Allowed to read state.
+            additional.test.write: Allowed to change state.
           tokenUrl: http://example.org
       type: oauth2
 

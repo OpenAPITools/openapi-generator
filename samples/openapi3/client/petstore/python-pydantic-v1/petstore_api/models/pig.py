@@ -93,17 +93,18 @@ class Pig(BaseModel):
         match = 0
 
         # use oneOf discriminator to lookup the data type
-        _data_type = json.loads(json_str).get("className")
+        _discriminator_property = "class'\"\\Name"
+        _data_type = json.loads(json_str).get(_discriminator_property)
         if not _data_type:
-            raise ValueError("Failed to lookup data type from the field `className` in the input.")
+            raise ValueError(f"Failed to lookup data type from the field `{_discriminator_property}` in the input.")
 
         # check if data type is `BasquePig`
-        if _data_type == "BasquePig":
+        if _data_type == "basque'\"\\pig\nkind":
             instance.actual_instance = BasquePig.from_json(json_str)
             return instance
 
         # check if data type is `DanishPig`
-        if _data_type == "DanishPig":
+        if _data_type == "danish":
             instance.actual_instance = DanishPig.from_json(json_str)
             return instance
 

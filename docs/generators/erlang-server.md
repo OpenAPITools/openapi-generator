@@ -59,6 +59,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>fun</li>
 <li>if</li>
 <li>let</li>
+<li>maybe</li>
 <li>not</li>
 <li>of</li>
 <li>or</li>

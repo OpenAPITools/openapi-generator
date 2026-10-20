@@ -26,6 +26,9 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scalatra/}.
+ */
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
     protected String groupId = "org.openapitools";
@@ -51,7 +54,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-         );
+        );
 
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -125,9 +128,9 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     @Override
     public void processOpts() {
         super.processOpts();
-        
+
         String appPackage = invokerPackage + ".app";
-        
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("web.xml", "/src/main/webapp/WEB-INF", "web.xml"));
@@ -144,7 +147,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         additionalProperties.put("appDescription", appDescription);
         additionalProperties.put("infoUrl", infoUrl);
         additionalProperties.put("infoEmail", infoEmail);
-        additionalProperties.put("apiVersion", apiVersion) ;
+        additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("licenseInfo", licenseInfo);
         additionalProperties.put("licenseUrl", licenseUrl);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -152,7 +155,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
     }
-    
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;

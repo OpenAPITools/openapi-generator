@@ -32,7 +32,7 @@ class  Tag
 {
 public:
     Tag();
-    virtual ~Tag() = default;
+    virtual ~Tag();
 
 
     /// <summary>

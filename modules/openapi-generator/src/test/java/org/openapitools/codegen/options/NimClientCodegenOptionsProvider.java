@@ -1,8 +1,7 @@
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.languages.NimClientCodegen;
-
 import com.google.common.collect.ImmutableMap;
+import org.openapitools.codegen.languages.NimClientCodegen;
 
 import java.util.Map;
 

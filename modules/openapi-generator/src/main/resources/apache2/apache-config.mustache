@@ -1,6 +1,6 @@
 {{#operations}}
 {{#operation}}
-<Location "{{basePathWithoutHost}}{{path}}">
+<Location "{{{basePathWithoutHost}}}{{{path}}}">
 	{{>authConf}}
 	<LimitExcept GET POST PUT DELETE>
 		Require valid-user

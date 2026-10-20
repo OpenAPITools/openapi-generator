@@ -1,0 +1,45 @@
+using FastEndpoints;{{#useAuthentication}}
+using FastEndpoints.Security;{{/useAuthentication}}
+using FastEndpoints.Swagger;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    {{#useAuthentication}}.AddAuthenticationJwtBearer(s => s.SigningKey = "The secret used to sign tokens") //TODO set the signing key
+    .AddAuthorization(){{/useAuthentication}}
+    .AddFastEndpoints()
+    .SwaggerDocument(o =>
+    {
+        o.DocumentSettings = s =>
+        {
+            s.DocumentName = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
+            s.Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
+            s.Description = """
+{{{packageDescription}}}
+""";
+            s.Version = "{{{version}}}{{^version}}v1{{/version}}";
+        };
+        o.AutoTagPathSegmentIndex = 0;
+    })
+    {{#useResponseCaching}}.AddResponseCaching(){{/useResponseCaching}}
+;
+
+var app = builder.Build();
+
+app
+    {{#useAuthentication}}.UseAuthentication()
+    .UseAuthorization(){{/useAuthentication}}{{#useResponseCaching}}
+    .UseResponseCaching(){{/useResponseCaching}}
+    .UseFastEndpoints(x =>
+    {
+        {{#useProblemDetails}}x.Errors.UseProblemDetails();{{/useProblemDetails}}
+        {{#useApiVersioning}}
+        x.Endpoints.RoutePrefix = "{{routePrefix}}";
+        x.Versioning.Prefix = "{{versioningPrefix}}";
+        {{/useApiVersioning}}
+    })
+    .UseSwaggerGen();
+
+app.UseHttpsRedirection();
+
+app.Run();

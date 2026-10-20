@@ -1,9 +1,10 @@
 {{#isNullable}}
 if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
-    {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+    {{#lambda.paste}}{{/lambda.paste}}
 else
     writer.WriteNull("{{baseName}}");
 {{/isNullable}}
 {{^isNullable}}
-{{#lambda.pasteLine}}{{/lambda.pasteLine}}
+{{#lambda.paste}}
+{{/lambda.paste}}
 {{/isNullable}}

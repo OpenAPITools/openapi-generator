@@ -38,8 +38,12 @@
             {{/vendorExtensions.x-deserialize-asModelMap}}
           {{/isMap}}
           {{^isMap}}
-              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* not array or map */
-              {{paramName}} <- Parsed.fromTry({{paramName}}Data.validated(failFast))
+              {{paramName}}Json <- Parsed.fromTry(request.bodyAsJson)
+              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJson({{paramName}}Json)) /* not array or map */
+              {{paramName}}{{^required}}Opt{{/required}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.validated({{paramName}}Data, failFast))
+              {{^required}}
+              {{paramName}} = Option({{paramName}}Opt)
+              {{/required}}
           {{/isMap}}
         {{/isArray}}
     {{/vendorExtensions.x-consumes-json}}
@@ -52,5 +56,6 @@
         {{/vendorExtensions.x-consumes-xml}}
     {{/vendorExtensions.x-consumes-json}}
 {{/bodyParams}}
-            result <- Parsed.eval(service.{{operationId}}({{vendorExtensions.x-param-list}}))
+            resultTry <- Parsed.eval(service.{{operationId}}({{{vendorExtensions.x-param-list}}}))
+            result <- Parsed.fromTry(resultTry)
         } yield result

@@ -2,6 +2,7 @@
 /* eslint-disable no-use-before-define */
 {{>licenseInfo}}
 
+
 import * as url from "url";
 import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
@@ -88,7 +89,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
     {{/required}}
     {{/allParams}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
-                .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+                .replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String({{paramName}}))){{/pathParams}};
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions: RequestOptions = Object.assign({}, { method: '{{httpMethod}}' }, options);
             const localVarHeaderParameter = {};

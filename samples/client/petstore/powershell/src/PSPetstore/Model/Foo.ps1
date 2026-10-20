@@ -35,7 +35,7 @@ function Initialize-PSFoo {
 
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
+            'bar' = ${Bar}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToFoo {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSFoo
-        $AllProperties = ("bar")
+        $AllProperties = ('bar')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "bar"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'bar'))) { #optional property not found
             $Bar = $null
         } else {
-            $Bar = $JsonParameters.PSobject.Properties["bar"].value
+            $Bar = $JsonParameters.PSobject.Properties['bar'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
+            'bar' = ${Bar}
         }
 
         return $PSO

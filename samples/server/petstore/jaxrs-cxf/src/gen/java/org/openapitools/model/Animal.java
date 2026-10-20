@@ -20,9 +20,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Animal  {
   
   @ApiModelProperty(required = true, value = "")
+
   private String className;
 
   @ApiModelProperty(value = "")
+
   private String color = "red";
  /**
    * Get className
@@ -95,10 +97,7 @@ public class Animal  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

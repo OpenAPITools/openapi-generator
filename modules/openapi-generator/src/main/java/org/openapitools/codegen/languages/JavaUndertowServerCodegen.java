@@ -36,6 +36,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-undertow-server/}.
+ */
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
@@ -66,13 +69,13 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
             apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
             apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
             modelPackage = GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {

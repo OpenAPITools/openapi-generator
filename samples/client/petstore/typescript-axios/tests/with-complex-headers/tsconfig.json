@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "CommonJS",
+        "target": "ES5",
+        "noImplicitAny": true,
+        "sourceMap": false,
+        "outDir": "dist",
+        "types": [
+            "mocha",
+            "node"
+        ],
+        "lib": [
+            "es6",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -45,7 +45,7 @@ type RequiredError struct {
 }
 
 func (e *RequiredError) Error() string {
-	return fmt.Sprintf("required field '%s' is zero value.", e.Field)
+	return fmt.Sprintf("field '%s' is required.", e.Field)
 }
 
 // ErrorHandler defines the required method for handling error. You may implement it and inject this into a controller if

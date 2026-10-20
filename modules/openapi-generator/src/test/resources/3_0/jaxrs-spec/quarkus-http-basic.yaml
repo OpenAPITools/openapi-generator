@@ -1,0 +1,27 @@
+openapi: 3.0.1
+info:
+  title: Quarkus HTTP Basic auth test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Get items
+      security:
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Create item
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    basic_auth:
+      type: http
+      scheme: basic

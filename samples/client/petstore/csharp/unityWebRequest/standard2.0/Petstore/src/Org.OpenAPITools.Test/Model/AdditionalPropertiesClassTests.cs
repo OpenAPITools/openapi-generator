@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<AdditionalPropertiesClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'MapProperty'
         /// </summary>

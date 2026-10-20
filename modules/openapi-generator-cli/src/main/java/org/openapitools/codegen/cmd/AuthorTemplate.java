@@ -138,7 +138,7 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
                             } else {
                                 LOGGER.warn("The library filter '{}' extracted an unexpected library path: {}", library, p.toAbsolutePath());
                             }
-                });
+                        });
             }
 
             LOGGER.info("Extracted templates to '{}' directory. Refer to https://openapi-generator.tech/docs/templating for customization details.", outputDirPath);

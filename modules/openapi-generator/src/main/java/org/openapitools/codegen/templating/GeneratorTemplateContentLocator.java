@@ -7,12 +7,21 @@ import org.openapitools.codegen.api.TemplatePathLocator;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Locates templates according to {@link CodegenConfig} settings.
  */
 public class GeneratorTemplateContentLocator implements TemplatePathLocator {
     private final CodegenConfig codegenConfig;
+
+    /**
+     * Cache of relativeTemplateFile -> resolved full path (or empty Optional when the template does not exist).
+     * The filesystem/classpath existence probes inside resolveFullTemplatePath are expensive on repeated calls
+     * for the same template name, so we memoize the result for the lifetime of this locator instance.
+     */
+    private final ConcurrentHashMap<String, Optional<String>> templatePathCache = new ConcurrentHashMap<>();
 
     /**
      * Constructs a new instance of {@link GeneratorTemplateContentLocator} for the provided {@link CodegenConfig}
@@ -31,7 +40,6 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
      * Determines whether an embedded file with the specified name exists.
      *
      * @param name The name of the file (i.e. relative to resource root)
-     *
      * @return true if file is an embedded resource, false if it does not exist
      */
     public boolean embeddedTemplateExists(String name) {
@@ -44,20 +52,33 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
 
     /**
      * Get the template file path with template dir prepended, and use the library template if exists.
-     *
+     * <p>
      * Precedence:
      * 1) (template dir)/libraries/(library)
      * 2) (template dir)
      * 3) (embedded template dir)/libraries/(library)
      * 4) (embedded template dir)
-     *
+     * <p>
      * Where "template dir" may be user defined and "embedded template dir" are the built-in templates for the given generator.
+     * <p>
+     * Results are cached per {@code relativeTemplateFile} name because the filesystem/classpath probes are expensive
+     * and the outcome is constant for the lifetime of this locator instance.
      *
      * @param relativeTemplateFile Template file
-     * @return String Full template file path
+     * @return String Full template file path, or {@code null} if the template does not exist in any location
      */
     @Override
     public String getFullTemplatePath(String relativeTemplateFile) {
+        return templatePathCache
+                .computeIfAbsent(relativeTemplateFile, key -> Optional.ofNullable(resolveFullTemplatePath(key)))
+                .orElse(null);
+    }
+
+    /**
+     * Performs the actual filesystem/classpath probes to find the full template path.
+     * Called at most once per unique {@code relativeTemplateFile} value; all subsequent lookups use the cache.
+     */
+    private String resolveFullTemplatePath(String relativeTemplateFile) {
         CodegenConfig config = this.codegenConfig;
 
         //check the supplied template library folder for the file
@@ -96,6 +117,18 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
         // *only* looks for those files in classpath as defined by embeddedTemplateDir
         if (embeddedTemplateExists(loc)) {
             return loc;
+        }
+
+        // Finally, probe additional shared embedded template directories (in
+        // order) so related generators can reuse a common template root.
+        for (String additionalDir : config.additionalEmbeddedTemplateDirs()) {
+            if (additionalDir == null || additionalDir.isEmpty()) {
+                continue;
+            }
+            final String additional = additionalDir + File.separator + relativeTemplateFile;
+            if (embeddedTemplateExists(additional)) {
+                return additional;
+            }
         }
 
         return null;

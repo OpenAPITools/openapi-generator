@@ -10,12 +10,12 @@ type {{classname}} interface {
 
 
     {{#operation}}
-    // {{nickname}} {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}{{#summary}}
+    // {{operationId}} {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}{{#summary}}
     // {{{.}}} {{/summary}}
     {{#isDeprecated}}
     // Deprecated
     {{/isDeprecated}}
-     {{nickname}}(c *gin.Context)
+     {{operationId}}(c *gin.Context)
 
     {{/operation}}
     {{/operations}}

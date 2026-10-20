@@ -1,0 +1,102 @@
+openapi: 3.0.1
+info:
+  title: Salvo Validation Test API
+  version: 1.0.0
+  description: Test API for Salvo server with request validation
+paths:
+  /users:
+    post:
+      operationId: createUser
+      summary: Create a user with validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+  /users/{userId}/email:
+    put:
+      operationId: updateUserEmail
+      summary: Update user email with validation
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailUpdate"
+      responses:
+        '200':
+          description: Email updated
+        '400':
+          description: Validation error
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - age
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          pattern: '^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$'
+        age:
+          type: integer
+          minimum: 0
+          maximum: 150
+        bio:
+          type: string
+          maxLength: 500
+    EmailUpdate:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          pattern: '^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$'
+    ValidationError:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string

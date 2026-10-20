@@ -41,9 +41,6 @@ public class CodegenConstants {
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
-    public static final String API_SUFFIX = "apiSuffix";
-    public static final String API_SUFFIX_DESC = "suffix for api classes";
-
     public static final String AUTOSET_CONSTANTS = "autosetConstants";
 
     public static final String MODEL_PACKAGE = "modelPackage";
@@ -153,6 +150,24 @@ public class CodegenConstants {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
 
+    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE = "splitOperationsByContentType";
+
+    /**
+     * Extensions set on every operation produced by {@code splitOperationsByContentType}, describing where
+     * the variant sits in the content-type matrix so that a generator can merge the variants back into a
+     * single construct instead of emitting one method per combination.
+     * <p>
+     * The {@code *-index} ones carry the 0-based rank of the variant's media-type in its axis, in the order
+     * the spec declares them, so a consumer never has to rely on the order operations happen to reach it in:
+     * rank 0 is that axis's default content-type, and the variant ranked 0 on both axes is the one a caller
+     * gets without asking. An axis that was not split has no media-type and ranks 0.
+     */
+    public static final String X_CONTENT_TYPE_VARIANT_GROUP = "x-content-type-variant-group";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST = "x-content-type-variant-request";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE = "x-content-type-variant-response";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST_INDEX = "x-content-type-variant-request-index";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX = "x-content-type-variant-response-index";
+
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 
@@ -208,6 +223,9 @@ public class CodegenConstants {
     public static final String INTERFACE_PREFIX = "interfacePrefix";
     public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
 
+    public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files.";
+
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
 
@@ -229,6 +247,9 @@ public class CodegenConstants {
     public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
     public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.";
 
+    public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String OPENAPI_NULLABLE_DESC = "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable properties.";
+
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
@@ -246,6 +267,9 @@ public class CodegenConstants {
     // Allow different language generators to offer an option of serialization library. Each language specific
     // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
+
+    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
+    public static final String TYPE_INFO_DEFAULT_IMPLS_DESC = "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`";
 
     public static final String API_NAME_PREFIX = "apiNamePrefix";
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
@@ -286,6 +310,9 @@ public class CodegenConstants {
     public static final String SUPPORTS_ASYNC = "supportsAsync";
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
 
+    public static final String USE_VIRTUAL_FOR_HOOKS = "useVirtualForHooks";
+    public static final String USE_VIRTUAL_FOR_HOOKS_DESC = "Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).";
+
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
 
@@ -310,6 +337,7 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+    public static final String GENERATE_SUPPORTING_FILES = "generateSupportingFiles";
 
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";
@@ -372,9 +400,9 @@ public class CodegenConstants {
 
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
     public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate model implementation for aliases to map and array schemas. " +
-        "An 'alias' is an array, map, or list which is defined inline in a OpenAPI document and becomes a model in the generated code. " +
-        "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
-        "An 'array' schema is a list of sub schemas in a OAS document";
+            "An 'alias' is an array, map, or list which is defined inline in a OpenAPI document and becomes a model in the generated code. " +
+            "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
+            "An 'array' schema is a list of sub schemas in a OAS document";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
@@ -403,20 +431,29 @@ public class CodegenConstants {
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
+    public static final String USE_VERTX_5 = "useVertx5";
+    public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
+
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS = "optionalNonNullPropertyJsonSetterNulls";
+
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-        "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
-        "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+            "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
+                    "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
-                    "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
-                    "If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
-                    "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
+            "OpenAPI 3.1 support is still in beta. To report an issue related to 3.1 spec, please kindly open an issue in the Github repo: https://github.com/openAPITools/openapi-generator.";
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
-            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
-            "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. " +
+                    "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
@@ -439,8 +476,11 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE = "useExternalImplementationPackage";
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC = "If true, fastapiImplementationPackage is a fully qualified python package that already exists outside the generated package: it is imported as-is (not prefixed with packageName) and its __init__.py is not generated.";
+
     public static final String WITH_XML = "withXml";
-    
+
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
@@ -451,4 +491,88 @@ public class CodegenConstants {
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
+
+    public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+
+    public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+    public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
+
+    // Vendor extensions
+    public static final String X_EXAMPLE = "x-example";
+    public static final String X_INTERNAL = "x-internal";
+    public static final String X_PARENT = "x-parent";
+    public static final String X_COMPOSED_DATA_TYPE = "x-composed-data-type";
+    public static final String X_BASE_NAME = "x-base-name";
+    public static final String X_IS_VALUE_TYPE = "x-is-value-type";
+    public static final String X_IS_REFERENCE_TYPE = "x-is-reference-type";
+    public static final String X_IS_NULLABLE_TYPE = "x-is-nullable-type";
+    public static final String X_IS_BASE_OR_NEW_DISCRIMINATOR = "x-is-base-or-new-discriminator";
+    public static final String X_ENUM_BYTE = "x-enum-byte";
+    public static final String X_HTTP_STATUS = "x-http-status";
+    public static final String X_HTTP_STATUSES_WITH_RETURN = "x-http-statuses-with-return";
+    public static final String X_SET_COOKIE = "x-set-cookie";
+    public static final String X_DUPLICATES = "x-duplicates";
+    public static final String X_HTTP_STATUS_IS_DEFAULT = "x-http-status-is-default";
+    public static final String X_ONLY_DEFAULT = "x-only-default";
+    public static final String X_HTTP_STATUS_RANGE = "x-http-status-range";
+    public static final String X_NOT_NULLABLE_REFERENCE_TYPES = "x-not-nullable-reference-types";
+    public static final String X_HAS_NOT_NULLABLE_REFERENCE_TYPES = "x-has-not-nullable-reference-types";
+    public static final String X_NULLABLE_VALUE_TYPE = "x-nullable-value-type";
+    public static final String X_NULLABLE_TYPE = "x-nullable-type";
+    public static final String X_CSHARP_VALUE_TYPE = "x-csharp-value-type";
+    public static final String X_REGEX = "x-regex";
+    public static final String X_PATTERN = "x-pattern";
+    public static final String X_MODIFIERS = "x-modifiers";
+    public static final String X_MODIFIER_PREFIX = "x-modifier-";
+    public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
+    public static final String X_MODEL_IS_OPERATION_INPUT = "x-model-is-operation-input";
+    public static final String X_IMPLEMENTS = "x-implements";
+    public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";
+    public static final String USE_ENUM_VALUE_INTERFACE_DESC =
+            "Generate a ValuedEnum<T> interface in the config package and make all generated enums " +
+                    "implement it, providing a common typed way to access the underlying enum value. " +
+                    "Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface " +
+                    "instead of generating one.";
+
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
+            "Annotate discriminator-free oneOf interfaces with Jackson's " +
+                    "@JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype " +
+                    "is resolved from the JSON field set rather than a type-tag property. " +
+                    "Has no effect when a discriminator is present (name-based resolution is used instead). " +
+                    "Requires subtypes to have structurally distinct sets of properties.";
+    public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
+    public static final String X_ONE_OF_NAME = "x-one-of-name";
+    public static final String X_NULLABLE = "x-nullable";
+    public static final String X_ENUM_VARNAMES = "x-enum-varnames";
+    public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
+    public static final String X_PY_TYPING = "x-py-typing";
+    public static final String X_PY_EXAMPLE = "x-py-example";
+    public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
+    public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
+    public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_EXPLICIT_PUBLIC_NAME = "x-py-explicit-public-name";
+    public static final String X_PY_LEGACY_PUBLIC_NAME = "x-py-legacy-public-name";
+    public static final String X_PY_HAS_PUBLIC_NAME_PROPERTIES = "x-py-has-public-name-properties";
+    public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
+    public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";
+    public static final String X_PY_PREPROCESSES_INPUT_NAMES = "x-py-preprocesses-input-names";
+    public static final String X_PY_VALIDATES_INPUT_NAMES = "x-py-validates-input-names";
+    public static final String X_PY_PUBLIC_NAME = "x-py-public-name";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE = "x-py-public-name-differs-from-storage";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE = "x-py-public-name-differs-from-wire";
+    public static final String X_PY_PUBLIC_NAME_LITERAL = "x-py-public-name-literal";
+    public static final String X_PY_PUBLIC_NAME_OVERRIDES_BASE_MODEL = "x-py-public-name-overrides-base-model";
+    public static final String X_PY_PUBLIC_NAME_TYPING = "x-py-public-name-typing";
+    public static final String X_PY_WIRE_NAME_LITERAL = "x-py-wire-name-literal";
+    public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
+    public static final String X_PY_READONLY = "x-py-readonly";
+    public static final String X_PY_MODEL_IMPORTS = "x-py-model-imports";
+    public static final String X_PY_OTHER_IMPORTS = "x-py-other-imports";
+    public static final String X_PY_POSTPONED_MODEL_IMPORTS = "x-py-postponed-model-imports";
+    public static final String X_PY_TYPING_IMPORTS = "x-py-typing-imports";
+    public static final String X_PY_PYDANTIC_IMPORTS = "x-py-pydantic-imports";
+    public static final String X_PY_DATETIME_IMPORTS = "x-py-datetime-imports";
 }

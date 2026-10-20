@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Test Escaping in Examples
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: testEscaping
+      tags:
+        - test
+      parameters:
+        - name: stringWithQuotes
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 'John "Johnny" Doe'
+        - name: stringWithBackslash
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 'C:\path\to\file'
+        - name: emailWithQuotes
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          example: 'test"user@example.com'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+components:
+  schemas:
+    TestResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Name with "quotes" inside'
+        path:
+          type: string
+          example: 'C:\Windows\System32'
+        email:
+          type: string
+          format: email
+          example: 'user"name@example.com'

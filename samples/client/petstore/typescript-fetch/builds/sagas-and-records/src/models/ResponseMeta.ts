@@ -18,6 +18,7 @@ import {
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
+    ErrorCodeToJSONTyped,
 } from './ErrorCode';
 
 /**
@@ -28,38 +29,26 @@ import {
 export interface ResponseMeta {
     /**
      * Code returned by the function
-     * @type {string}
-     * @memberof ResponseMeta
      */
     code: ResponseMetaCodeEnum;
     /**
      * Explanation of what went wrong
-     * @type {string}
-     * @memberof ResponseMeta
      */
     detail?: string;
     /**
      * Message of the exception that will help developer to debug this problem if needed
-     * @type {string}
-     * @memberof ResponseMeta
      */
     exception?: string;
     /**
      * Type of error
-     * @type {string}
-     * @memberof ResponseMeta
      */
     type?: string;
     /**
      * 
-     * @type {ErrorCode}
-     * @memberof ResponseMeta
      */
     errorCode?: ErrorCode;
     /**
      * An array of all the specific error encountered during the request
-     * @type {Array<Error>}
-     * @memberof ResponseMeta
      */
     errors?: Array<Error>;
 }
@@ -91,7 +80,7 @@ export const ResponseMetaCodeEnum = {
     UserAlreadyHasMultipleGalaxieApiProductsException: 'User_Already_Has_Multiple_Galaxie_Api_Products_Exception',
     RecurlyApiException: 'Recurly_Api_Exception',
     RecurlyTransactionErrorException: 'Recurly_Transaction_Error_Exception',
-    GalaxieApiException: 'Galaxie_Api_Exception'
+    GalaxieApiException: 'Galaxie_Api_Exception',
 } as const;
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
@@ -123,10 +112,15 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
+export function ResponseMetaToJSON(json: any): ResponseMeta {
+    return ResponseMetaToJSONTyped(json, false);
+}
+
+export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

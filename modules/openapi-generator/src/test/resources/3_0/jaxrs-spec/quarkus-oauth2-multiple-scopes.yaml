@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: Quarkus OAuth2 multiple scopes test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Get items — multiple scopes on one operation; expect alphabetical emission
+      security:
+        - oauth2_scheme:
+            - write:items
+            - read:items
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read:items: Read items
+            write:items: Write items

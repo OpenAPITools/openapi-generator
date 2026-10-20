@@ -13,8 +13,9 @@
         devShells.default = pkgs.mkShell
           {
             buildInputs = with pkgs;[
-              jdk11
+              jdk17
               maven
+              gradle
             ];
           };
       }

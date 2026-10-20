@@ -12,173 +12,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ TestBinaryGif } \emph{ Test binary (gif) response body }
-#' Test binary (gif) response body
-#'
-#' \itemize{
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : data.frame
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyApplicationOctetstreamBinary } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } body data.frame
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyMultipartFormdataArrayOfBinary } \emph{ Test array of binary in multipart mime }
-#' Test array of binary in multipart mime
-#'
-#' \itemize{
-#' \item \emph{ @param } files list( data.frame )
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyMultipartFormdataSingleBinary } \emph{ Test single binary in multipart mime }
-#' Test single binary in multipart mime
-#'
-#' \itemize{
-#' \item \emph{ @param } my_file data.frame
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyAllOfPet } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyFreeFormObjectResponseString } \emph{ Test free form object }
-#' Test free form object
-#'
-#' \itemize{
-#' \item \emph{ @param } body object
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyPet } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyPetResponseString } \emph{ Test empty response body }
-#' Test empty response body
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyStringEnum } \emph{ Test string enum response body }
-#' Test string enum response body
-#'
-#' \itemize{
-#' \item \emph{ @param } body character
-#' \item \emph{ @returnType } \link{StringEnumRef} \cr
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : StringEnumRef
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyTagResponseString } \emph{ Test empty json (request body) }
-#' Test empty json (request body)
-#'
-#' \itemize{
-#' \item \emph{ @param } tag \link{Tag}
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  TestBinaryGif  ####################
@@ -328,13 +161,11 @@ BodyApi <- R6::R6Class(
   "BodyApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new BodyApi.
-    #'
+
     #' @description
     #' Initialize a new BodyApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -342,37 +173,37 @@ BodyApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Test binary (gif) response body
-    #'
+
     #' @description
     #' Test binary (gif) response body
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return data.frame
-    #' @export
-    TestBinaryGif = function(data_file = NULL, ...) {
-      local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ...)
+    TestBinaryGif = function(data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test binary (gif) response body
-    #'
+
     #' @description
     #' Test binary (gif) response body
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (data.frame) with additional information such as HTTP status code, headers
-    #' @export
-    TestBinaryGifWithHttpInfo = function(data_file = NULL, ...) {
+    TestBinaryGifWithHttpInfo = function(data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -406,61 +237,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "data.frame", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "data.frame"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param body (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ...)
+    TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param body (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestBodyApplicationOctetstreamBinaryWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestBodyApplicationOctetstreamBinaryWithHttpInfo = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -470,11 +312,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestBodyApplicationOctetstreamBinary, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/body/application/octetstream/binary"
@@ -501,61 +346,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test array of binary in multipart mime
-    #'
+
     #' @description
     #' Test array of binary in multipart mime
     #'
     #' @param files 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ...)
+    TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test array of binary in multipart mime
-    #'
+
     #' @description
     #' Test array of binary in multipart mime
     #'
     #' @param files 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo = function(files, data_file = NULL, ...) {
+    TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo = function(files, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -569,6 +425,9 @@ BodyApi <- R6::R6Class(
         stop("Missing required parameter `files`.")
       }
 
+      if (!missing(`files`) && is.null(`files`)) {
+        stop("Invalid value for `files` when calling BodyApi$TestBodyMultipartFormdataArrayOfBinary, `files` is not nullable")
+      }
 
       file_params["files"] <- httr::upload_file(`files`)
       local_var_url_path <- "/body/application/octetstream/array_of_binary"
@@ -595,61 +454,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test single binary in multipart mime
-    #'
+
     #' @description
     #' Test single binary in multipart mime
     #'
     #' @param my_file (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ...)
+    TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test single binary in multipart mime
-    #'
+
     #' @description
     #' Test single binary in multipart mime
     #'
     #' @param my_file (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestBodyMultipartFormdataSingleBinaryWithHttpInfo = function(my_file = NULL, data_file = NULL, ...) {
+    TestBodyMultipartFormdataSingleBinaryWithHttpInfo = function(my_file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -659,6 +529,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`my_file`) && is.null(`my_file`)) {
+        stop("Invalid value for `my_file` when calling BodyApi$TestBodyMultipartFormdataSingleBinary, `my_file` is not nullable")
+      }
 
       file_params["my-file"] <- httr::upload_file(`my_file`)
       local_var_url_path <- "/body/application/octetstream/single_binary"
@@ -685,61 +558,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return Pet
-    #' @export
-    TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyAllOfPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyAllOfPetWithHttpInfo = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -749,11 +633,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyAllOfPet, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/allOf/Pet"
@@ -780,61 +667,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "Pet"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test free form object
-    #'
+
     #' @description
     #' Test free form object
     #'
     #' @param body (optional) Free form object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ...)
+    TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test free form object
-    #'
+
     #' @description
     #' Test free form object
     #'
     #' @param body (optional) Free form object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyFreeFormObjectResponseStringWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestEchoBodyFreeFormObjectResponseStringWithHttpInfo = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -844,11 +742,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestEchoBodyFreeFormObjectResponseString, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/FreeFormObject/response_string"
@@ -875,61 +776,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return Pet
-    #' @export
-    TestEchoBodyPet = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyPet = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyPetWithHttpInfo = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -939,11 +851,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyPet, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Pet"
@@ -970,61 +885,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "Pet"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test empty response body
-    #'
+
     #' @description
     #' Test empty response body
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test empty response body
-    #'
+
     #' @description
     #' Test empty response body
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyPetResponseStringWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyPetResponseStringWithHttpInfo = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1034,11 +960,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyPetResponseString, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Pet/response_string"
@@ -1065,61 +994,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test string enum response body
-    #'
+
     #' @description
     #' Test string enum response body
     #'
     #' @param body (optional) String enum
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return StringEnumRef
-    #' @export
-    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ...)
+    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test string enum response body
-    #'
+
     #' @description
     #' Test string enum response body
     #'
     #' @param body (optional) String enum
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (StringEnumRef) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1129,11 +1069,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestEchoBodyStringEnum, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/string_enum"
@@ -1160,61 +1103,72 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "StringEnumRef", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "StringEnumRef"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test empty json (request body)
-    #'
+
     #' @description
     #' Test empty json (request body)
     #'
     #' @param tag (optional) Tag object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return character
-    #' @export
-    TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ...)
+    TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test empty json (request body)
-    #'
+
     #' @description
     #' Test empty json (request body)
     #'
     #' @param tag (optional) Tag object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
-    TestEchoBodyTagResponseStringWithHttpInfo = function(tag = NULL, data_file = NULL, ...) {
+    TestEchoBodyTagResponseStringWithHttpInfo = function(tag = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1224,11 +1178,14 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`tag`) && is.null(`tag`)) {
+        stop("Invalid value for `tag` when calling BodyApi$TestEchoBodyTagResponseString, `tag` is not nullable")
+      }
 
       if (!is.null(`tag`)) {
         local_var_body <- `tag`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Tag/response_string"
@@ -1255,26 +1212,37 @@ BodyApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     }
   )

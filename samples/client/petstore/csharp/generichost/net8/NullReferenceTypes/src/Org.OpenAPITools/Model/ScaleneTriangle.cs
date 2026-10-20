@@ -93,8 +93,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ScaleneTriangle" />
     /// </summary>
-    public class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
+    public partial class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScaleneTriangleJsonConverter" /> class.
+        /// </summary>
+        public ScaleneTriangleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ScaleneTriangle" />
         /// </summary>
@@ -143,16 +153,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(shapeType));
+                throw new JsonException("Property is required for class ScaleneTriangle: shapeType.");
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class ScaleneTriangle: triangleType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ScaleneTriangle.");
+                throw new JsonException("Property is not nullable for class ScaleneTriangle: shapeType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class ScaleneTriangle.");
+                throw new JsonException("Property is not nullable for class ScaleneTriangle: triangleType.");
 
             return new ScaleneTriangle(shapeType.Value!, triangleType.Value!);
         }
@@ -163,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="scaleneTriangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -178,15 +187,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="scaleneTriangle"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (scaleneTriangle.ShapeType == null)
-                throw new ArgumentNullException(nameof(scaleneTriangle.ShapeType), "Property is required for class ScaleneTriangle.");
-
-            if (scaleneTriangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(scaleneTriangle.TriangleType), "Property is required for class ScaleneTriangle.");
-
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
 
             writer.WriteString("triangleType", scaleneTriangle.TriangleType);

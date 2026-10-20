@@ -12,13 +12,15 @@
 package org.openapitools.server.models
 
 
+import kotlinx.serialization.Serializable
 /**
  * A category for a pet
  * @param id 
  * @param name 
  */
+@Serializable
 data class Category(
     var id: kotlin.Long? = null,
     var name: kotlin.String? = null
-) 
+)
 

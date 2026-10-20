@@ -21,7 +21,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 addPet($pet)
 ```
 ### URI(s):
-- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+- http://localhost/v2 - http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
     - Variables:
       - server: target server
         - Allowed values:
@@ -77,6 +77,7 @@ try {
 | **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
 | hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
 | variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
 
 
 
@@ -346,7 +347,7 @@ try {
 updatePet($pet)
 ```
 ### URI(s):
-- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+- http://localhost/v2 - http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
     - Variables:
       - server: target server
         - Allowed values:
@@ -402,6 +403,7 @@ try {
 | **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
 | hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
 | variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
 
 
 
@@ -514,7 +516,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
 );
 $pet_id = 56; // int | ID of pet to update
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
-$file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$file = '/path/to/file.txt'; // \SplFileObject | file to upload
 
 try {
     $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
@@ -577,7 +579,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | ID of pet to update
-$required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$required_file = '/path/to/file.txt'; // \SplFileObject | file to upload
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 
 try {

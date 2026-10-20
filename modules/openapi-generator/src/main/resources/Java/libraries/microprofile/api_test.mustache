@@ -4,6 +4,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#isFile}}
+import java.io.File;
+{{/isFile}}
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -70,7 +73,7 @@ public class {{classname}}Test {
     public void {{operationId}}Test() {
         // TODO: test validations
         {{#allParams}}
-        {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
+        {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}File {{paramName}} = null;{{/isFile}}
         {{/allParams}}
         //{{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         //{{#returnType}}Assertions.assertNotNull(response);{{/returnType}}

@@ -1,0 +1,31 @@
+package {{modelPackage}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+enum class {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
+{{^isEnum}}
+{{#addModelMoshiJsonAnnotation}}import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true){{/addModelMoshiJsonAnnotation}}
+data class {{classname}}(
+    {{#vars}}
+    {{#description}}
+    /** {{description}} */
+    {{/description}}
+    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}}{{#isNumber}} = {{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{^isNumber}} = {{{defaultValue}}}{{/isNumber}}{{/defaultValue}}{{^defaultValue}}{{^required}} = null{{/required}}{{/defaultValue}}{{^-last}},{{/-last}}
+    {{/vars}}
+)
+{{/isEnum}}
+{{/model}}
+{{/models}}

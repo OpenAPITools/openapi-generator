@@ -1,60 +1,67 @@
 -module({{packageName}}_logic_handler).
 
--export([handle_request/4]).
-{{#authMethods}}
-{{#isApiKey}}
-{{#-first}}
--export([authorize_api_key/3]).
-{{/-first}}
-{{/isApiKey}}
-{{/authMethods}}
-{{^authMethods}}
--export([authorize_api_key/3]).
-{{/authMethods}}
--type context() :: #{binary() => any()}.
--type handler_response() ::{
-    Status :: cowboy:http_status(),
-    Headers :: cowboy:http_headers(),
-    Body :: jsx:json_term()}.
+-include_lib("kernel/include/logger.hrl").
 
--export_type([handler_response/0]).
+-type accept_callback_return() ::
+        stop
+        | boolean()
+        | {true, iodata()}
+        | {created, iodata()}
+        | {see_other, iodata()}.
+-type provide_callback_return() ::
+        stop
+        | cowboy_req:resp_body().
+-type api_key_callback() ::
+    fun(({{packageName}}_api:operation_id(), binary()) -> {true, context()} | {false, iodata()}).
+-type accept_callback() ::
+    fun(({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+            {accept_callback_return(), cowboy_req:req(), context()}).
+-type provide_callback() ::
+    fun(({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+            {cowboy_req:resp_body(), cowboy_req:req(), context()}).
+-type context() :: #{_ := _}.
 
-{{#authMethods}}
-    {{#isApiKey}}
--callback authorize_api_key(
-    OperationID :: {{packageName}}_api:operation_id(),
-    ApiKey :: binary()
-) ->
-    Result :: boolean() | {boolean(), context()}.
-    {{/isApiKey}}
-{{/authMethods}}
+-export_type([context/0, api_key_callback/0,
+              accept_callback_return/0, provide_callback_return/0,
+              accept_callback/0, provide_callback/0]).
 
+-optional_callbacks([api_key_callback/2]).
 
--callback handle_request(OperationID :: {{packageName}}_api:operation_id(), cowboy_req:req(), Context :: context()) ->
-    handler_response().
+-callback api_key_callback({{packageName}}_api:operation_id(), binary()) ->
+    {true, context()} | {false, iodata()}.
 
--spec handle_request(
-    Handler :: atom(),
-    OperationID :: {{packageName}}_api:operation_id(),
-    Request :: cowboy_req:req(),
-    Context :: context()
-) ->
-    handler_response().
+-callback accept_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    {accept_callback_return(), cowboy_req:req(), context()}.
 
-handle_request(Handler, OperationID, Req, Context) ->
-    Handler:handle_request(OperationID, Req, Context).
+-callback provide_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    {provide_callback_return(), cowboy_req:req(), context()}.
 
-{{#authMethods}}
-    {{#isApiKey}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
-    Result :: false | {true, context()}.
-authorize_api_key(Handler, OperationID, ApiKey) ->
-    Handler:authorize_api_key(OperationID, ApiKey).
-    {{/isApiKey}}
-{{/authMethods}}
-{{^authMethods}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
-    Result :: false.
-authorize_api_key(_Handler, _OperationID, _ApiKey) ->
-    false.
-{{/authMethods}}
+-export([api_key_callback/2, accept_callback/4, provide_callback/4]).
+-ignore_xref([api_key_callback/2, accept_callback/4, provide_callback/4]).
+
+-spec api_key_callback({{packageName}}_api:operation_id(), binary()) -> {true, #{}}.
+api_key_callback(OperationID, ApiKey) ->
+    ?LOG_ERROR(#{what => "Got not implemented api_key_callback request",
+                 operation_id => OperationID,
+                 api_key => ApiKey}),
+    {true, #{}}.
+
+-spec accept_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    {accept_callback_return(), cowboy_req:req(), context()}.
+accept_callback(Class, OperationID, Req, Context) ->
+    ?LOG_ERROR(#{what => "Got not implemented request to process",
+                 class => Class,
+                 operation_id => OperationID,
+                 request => Req,
+                 context => Context}),
+    {false, Req, Context}.
+
+-spec provide_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    {cowboy_req:resp_body(), cowboy_req:req(), context()}.
+provide_callback(Class, OperationID, Req, Context) ->
+    ?LOG_ERROR(#{what => "Got not implemented request to process",
+                 class => Class,
+                 operation_id => OperationID,
+                 request => Req,
+                 context => Context}),
+    {<<>>, Req, Context}.

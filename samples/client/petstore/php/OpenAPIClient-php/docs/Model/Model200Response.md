@@ -1,4 +1,4 @@
-# # Model200Response
+# Model200Response
 
 ## Properties
 

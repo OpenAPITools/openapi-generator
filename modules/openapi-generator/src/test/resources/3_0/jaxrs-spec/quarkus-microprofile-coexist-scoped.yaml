@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: Quarkus scoped security with MicroProfile OpenAPI annotations enabled
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Both @SecurityRequirement (MicroProfile) and scoped @RolesAllowed (Jakarta) should be emitted
+      security:
+        - oauth2_scheme:
+            - admin
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access

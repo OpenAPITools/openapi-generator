@@ -307,6 +307,17 @@ inline void WriteJsonValue(JsonWriter& Writer, const TMap<FString, T>& Value)
 	Writer->WriteObjectEnd();
 }
 
+template <typename T>
+inline void WriteJsonValue(JsonWriter& Writer, const TSet<T>& Value)
+{
+	Writer->WriteArrayStart();
+	for (const auto& Element : Value)
+	{
+		WriteJsonValue(Writer, Element);
+	}
+	Writer->WriteArrayEnd();
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Value)
@@ -472,6 +483,26 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 	// Absence of optional value is not a parsing error.
 	// Nullable is handled like optional.
 	return true;
+}
+
+template <typename T>
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSet<T>& ArrayValue)
+{
+	const TArray<TSharedPtr<FJsonValue>>* JsonArray;
+	if (JsonValue->TryGetArray(JsonArray))
+	{
+		bool ParseSuccess = true;
+		const int32 Count = JsonArray->Num();
+		ArrayValue.Reset();
+		for (int i = 0; i < Count; i++)
+		{
+			T TmpValue;
+			ParseSuccess &= TryGetJsonValue((*JsonArray)[i], TmpValue);
+			ArrayValue.Emplace(MoveTemp(TmpValue));
+		}
+		return ParseSuccess;
+	}
+	return false;
 }
 
 }

@@ -19,7 +19,7 @@
  */
 export const SingleRefType = {
     Admin: 'admin',
-    User: 'user'
+    User: 'user',
 } as const;
 export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 
@@ -27,7 +27,7 @@ export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 export function instanceOfSingleRefType(value: any): boolean {
     for (const key in SingleRefType) {
         if (Object.prototype.hasOwnProperty.call(SingleRefType, key)) {
-            if ((SingleRefType as Record<string, SingleRefType>)[key] === value) {
+            if (SingleRefType[key as keyof typeof SingleRefType] === value) {
                 return true;
             }
         }
@@ -45,5 +45,9 @@ export function SingleRefTypeFromJSONTyped(json: any, ignoreDiscriminator: boole
 
 export function SingleRefTypeToJSON(value?: SingleRefType | null): any {
     return value as any;
+}
+
+export function SingleRefTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): SingleRefType {
+    return value as SingleRefType;
 }
 

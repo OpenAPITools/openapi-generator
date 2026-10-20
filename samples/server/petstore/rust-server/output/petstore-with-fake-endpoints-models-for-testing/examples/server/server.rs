@@ -4,8 +4,9 @@
 
 use async_trait::async_trait;
 use futures::{future, Stream, StreamExt, TryFutureExt, TryStreamExt};
-use hyper::server::conn::Http;
-use hyper::service::Service;
+use hyper::server::conn::http1;
+use hyper_util::rt::TokioIo;
+use hyper::service::{service_fn, Service};
 use log::info;
 use std::future::Future;
 use std::marker::PhantomData;
@@ -24,15 +25,13 @@ use petstore_with_fake_endpoints_models_for_testing::models;
 
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
 pub async fn create(addr: &str, https: bool) {
-    let addr = addr.parse().expect("Failed to parse bind address");
+    let addr: SocketAddr = addr.parse().expect("Failed to parse bind address");
+    let listener = TcpListener::bind(&addr).await.unwrap();
 
     let server = Server::new();
 
     let service = MakeService::new(server);
-
-    // This pushes a fourth layer of the middleware-stack even though Swagger assumes only three levels.
-    // This fourth layer creates an accept-all policy, hower the example-code already acchieves the same via a Bearer-token with full permissions, so next line is not needed (anymore).  
-    // let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
     let mut service =
@@ -56,21 +55,19 @@ pub async fn create(addr: &str, https: bool) {
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = ssl.build();
-            let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
             info!("Starting a server (with https)");
             loop {
-                if let Ok((tcp, _)) = tcp_listener.accept().await {
+                if let Ok((tcp, addr)) = listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
-                    let addr = tcp.peer_addr().expect("Unable to get remote address");
                     let service = service.call(addr);
 
                     tokio::spawn(async move {
                         let tls = tokio_openssl::SslStream::new(ssl, tcp).map_err(|_| ())?;
                         let service = service.await.map_err(|_| ())?;
 
-                        Http::new()
-                            .serve_connection(tls, service)
+                        http1::Builder::new()
+                            .serve_connection(TokioIo::new(tls), service)
                             .await
                             .map_err(|_| ())
                     });
@@ -79,12 +76,40 @@ pub async fn create(addr: &str, https: bool) {
         }
     } else {
         info!("Starting a server (over http, so no TLS)");
-        // Using HTTP
-        hyper::server::Server::bind(&addr).serve(service).await.unwrap()
+        println!("Listening on http://{}", addr);
+
+        loop {
+            // When an incoming TCP connection is received grab a TCP stream for
+            // client<->server communication.
+            //
+            // Note, this is a .await point, this loop will loop forever but is not a busy loop. The
+            // .await point allows the Tokio runtime to pull the task off of the thread until the task
+            // has work to do. In this case, a connection arrives on the port we are listening on and
+            // the task is woken up, at which point the task is then put back on a thread, and is
+            // driven forward by the runtime, eventually yielding a TCP stream.
+            let (tcp_stream, addr) = listener.accept().await.expect("Failed to accept connection");
+
+            let service = service.call(addr).await.unwrap();
+            let io = TokioIo::new(tcp_stream);
+            // Spin up a new task in Tokio so we can continue to listen for new TCP connection on the
+            // current task without waiting for the processing of the HTTP1 connection we just received
+            // to finish
+            tokio::task::spawn(async move {
+                // Handle the connection from the client using HTTP1 and pass any
+                // HTTP requests received on that connection to the `hello` function
+                let result = http1::Builder::new()
+                    .serve_connection(io, service)
+                    .await;
+                if let Err(err) = result
+                {
+                    println!("Error serving connection: {err:?}");
+                }
+            });
+        }
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy)]
 pub struct Server<C> {
     marker: PhantomData<C>,
 }
@@ -92,6 +117,14 @@ pub struct Server<C> {
 impl<C> Server<C> {
     pub fn new() -> Self {
         Server{marker: PhantomData}
+    }
+}
+
+impl<C> Clone for Server<C> {
+    fn clone(&self) -> Self {
+        Self {
+            marker: PhantomData,
+        }
     }
 }
 
@@ -111,33 +144,33 @@ use petstore_with_fake_endpoints_models_for_testing::{
     FakeOuterNumberSerializeResponse,
     FakeOuterStringSerializeResponse,
     FakeResponseWithNumericalDescriptionResponse,
-    HyphenParamResponse,
     TestBodyWithQueryParamsResponse,
     TestClientModelResponse,
     TestEndpointParametersResponse,
     TestEnumParametersResponse,
     TestInlineAdditionalPropertiesResponse,
     TestJsonFormDataResponse,
+    HyphenParamResponse,
     TestClassnameResponse,
     AddPetResponse,
-    DeletePetResponse,
     FindPetsByStatusResponse,
     FindPetsByTagsResponse,
-    GetPetByIdResponse,
     UpdatePetResponse,
+    DeletePetResponse,
+    GetPetByIdResponse,
     UpdatePetWithFormResponse,
     UploadFileResponse,
-    DeleteOrderResponse,
     GetInventoryResponse,
-    GetOrderByIdResponse,
     PlaceOrderResponse,
+    DeleteOrderResponse,
+    GetOrderByIdResponse,
     CreateUserResponse,
     CreateUsersWithArrayInputResponse,
     CreateUsersWithListInputResponse,
-    DeleteUserResponse,
-    GetUserByNameResponse,
     LoginUserResponse,
     LogoutUserResponse,
+    DeleteUserResponse,
+    GetUserByNameResponse,
     UpdateUserResponse,
 };
 use petstore_with_fake_endpoints_models_for_testing::server::MakeService;
@@ -209,22 +242,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    async fn hyphen_param(
-        &self,
-        hyphen_param: String,
-        context: &C) -> Result<HyphenParamResponse, ApiError>
-    {
-        info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     async fn test_body_with_query_params(
         &self,
         query: String,
         body: models::User,
         context: &C) -> Result<TestBodyWithQueryParamsResponse, ApiError>
     {
-        info!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
+        info!("test_body_with_query_params({:?}, {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -245,8 +269,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -257,20 +281,20 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         callback: Option<String>,
         context: &C) -> Result<TestEndpointParametersResponse, ApiError>
     {
-        info!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
+        info!("test_endpoint_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>
     {
         info!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
@@ -294,7 +318,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         param2: String,
         context: &C) -> Result<TestJsonFormDataResponse, ApiError>
     {
-        info!("test_json_form_data(\"{}\", \"{}\") - X-Span-ID: {:?}", param, param2, context.get().0.clone());
+        info!("test_json_form_data({:?}, {:?}) - X-Span-ID: {:?}", param, param2, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    async fn hyphen_param(
+        &self,
+        hyphen_param: String,
+        context: &C) -> Result<HyphenParamResponse, ApiError>
+    {
+        info!("hyphen_param({:?}) - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -318,21 +351,10 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Deletes a pet
-    async fn delete_pet(
-        &self,
-        pet_id: i64,
-        api_key: Option<String>,
-        context: &C) -> Result<DeletePetResponse, ApiError>
-    {
-        info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<String>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
@@ -340,22 +362,12 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Find pet by ID
-    async fn get_pet_by_id(
-        &self,
-        pet_id: i64,
-        context: &C) -> Result<GetPetByIdResponse, ApiError>
-    {
-        info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -369,6 +381,27 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
+    /// Deletes a pet
+    async fn delete_pet(
+        &self,
+        pet_id: i64,
+        api_key: Option<String>,
+        context: &C) -> Result<DeletePetResponse, ApiError>
+    {
+        info!("delete_pet({:?}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Find pet by ID
+    async fn get_pet_by_id(
+        &self,
+        pet_id: i64,
+        context: &C) -> Result<GetPetByIdResponse, ApiError>
+    {
+        info!("get_pet_by_id({:?}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
     /// Updates a pet in the store with form data
     async fn update_pet_with_form(
         &self,
@@ -377,7 +410,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         status: Option<String>,
         context: &C) -> Result<UpdatePetWithFormResponse, ApiError>
     {
-        info!("update_pet_with_form({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, name, status, context.get().0.clone());
+        info!("update_pet_with_form({:?}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, name, status, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -389,17 +422,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         file: Option<swagger::ByteArray>,
         context: &C) -> Result<UploadFileResponse, ApiError>
     {
-        info!("upload_file({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Delete purchase order by ID
-    async fn delete_order(
-        &self,
-        order_id: String,
-        context: &C) -> Result<DeleteOrderResponse, ApiError>
-    {
-        info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
+        info!("upload_file({:?}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -412,16 +435,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Find purchase order by ID
-    async fn get_order_by_id(
-        &self,
-        order_id: i64,
-        context: &C) -> Result<GetOrderByIdResponse, ApiError>
-    {
-        info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     /// Place an order for a pet
     async fn place_order(
         &self,
@@ -429,6 +442,26 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<PlaceOrderResponse, ApiError>
     {
         info!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Delete purchase order by ID
+    async fn delete_order(
+        &self,
+        order_id: String,
+        context: &C) -> Result<DeleteOrderResponse, ApiError>
+    {
+        info!("delete_order({:?}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Find purchase order by ID
+    async fn get_order_by_id(
+        &self,
+        order_id: u64,
+        context: &C) -> Result<GetOrderByIdResponse, ApiError>
+    {
+        info!("get_order_by_id({:?}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -443,9 +476,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -453,32 +486,12 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Delete user
-    async fn delete_user(
-        &self,
-        username: String,
-        context: &C) -> Result<DeleteUserResponse, ApiError>
-    {
-        info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Get user by user name
-    async fn get_user_by_name(
-        &self,
-        username: String,
-        context: &C) -> Result<GetUserByNameResponse, ApiError>
-    {
-        info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -489,7 +502,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         password: String,
         context: &C) -> Result<LoginUserResponse, ApiError>
     {
-        info!("login_user(\"{}\", \"{}\") - X-Span-ID: {:?}", username, password, context.get().0.clone());
+        info!("login_user({:?}, {:?}) - X-Span-ID: {:?}", username, password, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -502,6 +515,26 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
+    /// Delete user
+    async fn delete_user(
+        &self,
+        username: String,
+        context: &C) -> Result<DeleteUserResponse, ApiError>
+    {
+        info!("delete_user({:?}) - X-Span-ID: {:?}", username, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Get user by user name
+    async fn get_user_by_name(
+        &self,
+        username: String,
+        context: &C) -> Result<GetUserByNameResponse, ApiError>
+    {
+        info!("get_user_by_name({:?}) - X-Span-ID: {:?}", username, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
     /// Updated user
     async fn update_user(
         &self,
@@ -509,7 +542,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::User,
         context: &C) -> Result<UpdateUserResponse, ApiError>
     {
-        info!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
+        info!("update_user({:?}, {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

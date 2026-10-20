@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "target": "es6",
+        "module": "es6",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "strictNullChecks": true,
+        "exactOptionalPropertyTypes": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "noLib": false,
+        "declaration": true,
+        "lib": [ "es6", "dom" ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "filesGlob": [
+        "./model/*.ts",
+        "./api/*.ts"
+    ]
+}

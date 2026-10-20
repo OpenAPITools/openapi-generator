@@ -2,33 +2,39 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Model for testing model name same as property name
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Name {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
-  private Integer snakeCase;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String property;
 
-  private Integer _123number;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer _123number;
 
   public Name() {
     super();
@@ -57,11 +63,12 @@ public class Name {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-  public Name snakeCase(Integer snakeCase) {
+  public Name snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -73,15 +80,16 @@ public class Name {
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  @JsonProperty("snake_case")
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public Name property(String property) {
+  public Name property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -93,15 +101,16 @@ public class Name {
   
   @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  @JsonProperty("property")
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public Name _123number(Integer _123number) {
+  public Name _123number(@Nullable Integer _123number) {
     this._123number = _123number;
     return this;
   }
@@ -113,11 +122,12 @@ public class Name {
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")
-  public Integer get123number() {
+  public @Nullable Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  @JsonProperty("123Number")
+  public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
 
@@ -157,11 +167,8 @@ public class Name {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'nullable_class.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -47,7 +49,7 @@ class NullableClass {
     
     name: r'integer_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -59,7 +61,7 @@ class NullableClass {
     
     name: r'number_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -71,7 +73,7 @@ class NullableClass {
     
     name: r'boolean_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -83,7 +85,7 @@ class NullableClass {
     
     name: r'string_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -95,7 +97,7 @@ class NullableClass {
     
     name: r'date_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -107,7 +109,7 @@ class NullableClass {
     
     name: r'datetime_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -119,7 +121,7 @@ class NullableClass {
     
     name: r'array_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -131,11 +133,11 @@ class NullableClass {
     
     name: r'array_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
-  final List<Object>? arrayAndItemsNullableProp;
+  final List<Object?>? arrayAndItemsNullableProp;
 
 
 
@@ -143,11 +145,11 @@ class NullableClass {
     
     name: r'array_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
-  final List<Object>? arrayItemsNullable;
+  final List<Object?>? arrayItemsNullable;
 
 
 
@@ -155,7 +157,7 @@ class NullableClass {
     
     name: r'object_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -167,11 +169,11 @@ class NullableClass {
     
     name: r'object_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
-  final Map<String, Object>? objectAndItemsNullableProp;
+  final Map<String, Object?>? objectAndItemsNullableProp;
 
 
 
@@ -179,11 +181,11 @@ class NullableClass {
     
     name: r'object_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
-  final Map<String, Object>? objectItemsNullable;
+  final Map<String, Object?>? objectItemsNullable;
 
 
 

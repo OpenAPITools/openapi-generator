@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -47,10 +48,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+
 /**
  * An Apache CXF-based JAX-RS server with extended capabilities.
  *
  * @author Adrian Price, TIBCO Software Inc.
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf-ext/}.
  */
 public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXFExtServerFeatures {
     class CodegenVariable {
@@ -431,7 +436,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @param var
      * @param localVars
      * @param models
-     *
      * @return <code>localVar</code> with a numeric suffix if necessary to ensure uniqueness.
      */
     private String appendLocalVariable(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
@@ -656,20 +660,19 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     private boolean appendRandomEnum(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
         if (var != null && var.allowableValues != null) {
-            List<?> values = (List<?>) var.allowableValues.get("values");
+            List<?> values = getEnumValues(var.allowableValues);
             int i = (int) (values.size() * Math.random());
             Object randomEnum = values.get(i);
             boolean usingEnumLiteral = false;
             String definingClass = (String) var.varVendorExtensions.get("x-defining-class");
             if (definingClass != null) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                List<EnumVarMap> enumVars = getEnumVars(var.allowableValues);
                 if (enumVars != null) {
                     if (!loadTestDataFromFile) {
-                        Map<String, Object> randomEnumVar = enumVars.get(i);
+                        EnumVarMap randomEnumVar = enumVars.get(i);
                         // NOTE: to disambiguate identically named inner enums, qualify enum name with defining class.
                         buffer.append(definingClass).append('.').append(var.enumName).append('.')
-                                .append(randomEnumVar.get("name"));
+                                .append(randomEnumVar.getEnumName());
                         op.imports.add(definingClass);
                     }
                     usingEnumLiteral = true;
@@ -746,7 +749,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomLong = min.add(exclusiveMin).add(
-                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
+                            max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
                     .longValue();
 
             if (loadTestDataFromFile) {

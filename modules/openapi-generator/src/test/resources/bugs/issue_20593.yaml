@@ -1,0 +1,20 @@
+openapi: "3.0.0"
+info:
+  version: 2.0.0
+  title: test
+paths:
+  /pets:
+    get:
+      summary: List all pets
+      operationId: listPets
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        Color:
+          type: string
+          enum: [RED, BLUE, GREEN]

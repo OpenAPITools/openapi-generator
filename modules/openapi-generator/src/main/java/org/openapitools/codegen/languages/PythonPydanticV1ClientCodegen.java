@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Setter;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -35,6 +36,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-pydantic-v1/}.
+ */
 public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonPydanticV1ClientCodegen.class);
 
@@ -161,8 +165,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
-        supportedLibraries.put("tornado", "tornado-based client (deprecated)");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -193,6 +196,8 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PYTHON_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         Boolean excludeTests = false;
@@ -333,9 +338,6 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("asyncio", "true");
-        } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
-            additionalProperties.put("tornado", "true");
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
@@ -351,7 +353,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
+        if (Strings.CS.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";

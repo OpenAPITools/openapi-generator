@@ -24,6 +24,7 @@ src/Org.OpenAPITools/Models/Order.cs
 src/Org.OpenAPITools/Models/Pet.cs
 src/Org.OpenAPITools/Models/Tag.cs
 src/Org.OpenAPITools/Models/TestEnum.cs
+src/Org.OpenAPITools/Models/TestNullable.cs
 src/Org.OpenAPITools/Models/User.cs
 src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
 src/Org.OpenAPITools/Program.cs
@@ -31,6 +32,5 @@ src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/Startup.cs
 src/Org.OpenAPITools/appsettings.Development.json
 src/Org.OpenAPITools/appsettings.json
-src/Org.OpenAPITools/wwwroot/README.md
 src/Org.OpenAPITools/wwwroot/index.html
 src/Org.OpenAPITools/wwwroot/openapi-original.json

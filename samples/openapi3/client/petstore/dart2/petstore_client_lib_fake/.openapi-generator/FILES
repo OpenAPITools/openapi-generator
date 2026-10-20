@@ -28,6 +28,7 @@ doc/FileSchemaTestClass.md
 doc/Foo.md
 doc/FooGetDefaultResponse.md
 doc/FormatTest.md
+doc/GetUserInfoResponse.md
 doc/HasOnlyReadOnly.md
 doc/HealthCheckResult.md
 doc/MapTest.md
@@ -40,7 +41,12 @@ doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
 doc/NumberOnly.md
+doc/ObjectThatReferencesObjectsWithDuplicateInlineEnums.md
 doc/ObjectWithDeprecatedFields.md
+doc/ObjectWithDuplicateInlineEnum.md
+doc/ObjectWithEnum.md
+doc/ObjectWithInlineEnum.md
+doc/ObjectWithInlineEnumDefaultValue.md
 doc/Order.md
 doc/OuterComposite.md
 doc/OuterEnum.md
@@ -56,6 +62,7 @@ doc/SingleRefType.md
 doc/SpecialModelName.md
 doc/StoreApi.md
 doc/Tag.md
+doc/TestEnum.md
 doc/TestInlineFreeformAdditionalPropertiesRequest.md
 doc/User.md
 doc/UserApi.md
@@ -98,6 +105,7 @@ lib/model/file_schema_test_class.dart
 lib/model/foo.dart
 lib/model/foo_get_default_response.dart
 lib/model/format_test.dart
+lib/model/get_user_info_response.dart
 lib/model/has_only_read_only.dart
 lib/model/health_check_result.dart
 lib/model/map_test.dart
@@ -110,7 +118,12 @@ lib/model/model_return.dart
 lib/model/name.dart
 lib/model/nullable_class.dart
 lib/model/number_only.dart
+lib/model/object_that_references_objects_with_duplicate_inline_enums.dart
 lib/model/object_with_deprecated_fields.dart
+lib/model/object_with_duplicate_inline_enum.dart
+lib/model/object_with_enum.dart
+lib/model/object_with_inline_enum.dart
+lib/model/object_with_inline_enum_default_value.dart
 lib/model/order.dart
 lib/model/outer_composite.dart
 lib/model/outer_enum.dart
@@ -124,6 +137,7 @@ lib/model/read_only_first.dart
 lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
 lib/model/tag.dart
+lib/model/test_enum.dart
 lib/model/test_inline_freeform_additional_properties_request.dart
 lib/model/user.dart
 pubspec.yaml

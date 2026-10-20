@@ -14,11 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("Enum_Test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   public enum EnumStringEnum {
 
@@ -225,6 +226,13 @@ public class EnumTest  implements Serializable {
   public EnumTest() {
   }
 
+  @JsonCreator
+  public EnumTest(
+    @JsonProperty(required = true, value = "enum_string_required") EnumStringRequiredEnum enumStringRequired
+  ) {
+    this.enumStringRequired = enumStringRequired;
+  }
+
   /**
    **/
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -253,12 +261,12 @@ public class EnumTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("enum_string_required")
+  @JsonProperty(required = true, value = "enum_string_required")
   @NotNull public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
-  @JsonProperty("enum_string_required")
+  @JsonProperty(required = true, value = "enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -361,10 +369,7 @@ public class EnumTest  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -372,7 +377,7 @@ public class EnumTest  implements Serializable {
     return new EnumTestBuilderImpl();
   }
 
-  private static class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
+  private static final class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
 
     @Override
     protected EnumTestBuilderImpl self() {
@@ -417,4 +422,3 @@ public class EnumTest  implements Serializable {
     }
   }
 }
-

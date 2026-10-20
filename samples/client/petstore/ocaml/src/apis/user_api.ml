@@ -10,7 +10,21 @@ let create_user ~user_t =
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
-    let body = Request.write_as_json_body User.to_yojson user_t in
+    let body = Request.
+        
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
+ user_t
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -19,7 +33,22 @@ let create_users_with_array_input ~user =
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
-    let body = Request.write_as_json_body (JsonSupport.of_list_of User.to_yojson) user in
+    let body = Request.
+        
+        write_as_json_body         (JsonSupport.of_list_of     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
+)
+ user
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -28,7 +57,22 @@ let create_users_with_list_input ~user =
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
-    let body = Request.write_as_json_body (JsonSupport.of_list_of User.to_yojson) user in
+    let body = Request.
+        
+        write_as_json_body         (JsonSupport.of_list_of     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
+)
+ user
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -37,7 +81,21 @@ let delete_user ~username =
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
-    let uri = Request.replace_path_param uri "username" (fun x -> x) username in
+    let uri = Request.replace_path_param uri "username"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+        
+ username in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -45,7 +103,21 @@ let get_user_by_name ~username =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
-    let uri = Request.replace_path_param uri "username" (fun x -> x) username in
+    let uri = Request.replace_path_param uri "username"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+        
+ username in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap User.of_yojson) resp body
 
@@ -53,8 +125,36 @@ let login_user ~username ~password =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/login" in
     let headers = Request.default_headers in
-    let uri = Request.add_query_param uri "username" (fun x -> x) username in
-    let uri = Request.add_query_param uri "password" (fun x -> x) password in
+    let uri = Request.add_query_param uri "username"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+        
+ username in
+    let uri = Request.add_query_param uri "password"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+        
+ password in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.to_string) resp body
 
@@ -71,8 +171,36 @@ let update_user ~username ~user_t =
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
-    let uri = Request.replace_path_param uri "username" (fun x -> x) username in
-    let body = Request.write_as_json_body User.to_yojson user_t in
+    let uri = Request.replace_path_param uri "username"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+        
+ username in
+    let body = Request.
+        
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
+ user_t
+    in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 

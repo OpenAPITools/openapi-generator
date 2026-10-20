@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -30,13 +38,13 @@ import com.google.gson.annotations.SerializedName
 /**
  * A User who is purchasing from the pet store
  *
- * @param username 
- * @param id 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
+ * @param username
+ * @param id
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @param phone
  * @param userStatus User Status
  */
 
@@ -100,7 +108,7 @@ data class ApiUser (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("username")
@@ -115,7 +123,7 @@ data class ApiUser (
             // a set of required properties/fields (JSON key names)
             openapiRequiredFields.add("username")
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *
@@ -129,7 +137,7 @@ data class ApiUser (
                 String.format("The required field(s) %s in ApiUser is not found in the empty JSON string", ApiUser.openapiRequiredFields.toString())
               }
             }
-      
+
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {

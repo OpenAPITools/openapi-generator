@@ -1,0 +1,35 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax.*
+
+case class _FailedRequest(code: Int, message: String, body: Option[Json] = None)
+  extends Exception(s"Server returned status $code; message: $message; body: ${body.map(_.noSpaces).getOrElse("")}")
+
+object _FailedRequest {
+
+  given encoderFailedRequest: Encoder[_FailedRequest] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        Some("code" -> t.code.asJson),
+        Some("message" -> t.message.asJson),
+        t.body.map(x => "body" -> x)
+      ).flatten
+    }
+  }
+
+  given decodeFailedRequest: Decoder[_FailedRequest] = Decoder.instance { c =>
+    for {
+      code <- c.downField("code").as[Int]
+      message <- c.downField("message").as[String]
+      body <- c.downField("body").as[Option[Json]]
+    } yield _FailedRequest(
+      code = code,
+      message = message,
+      body = body
+    )
+  }
+
+}
+

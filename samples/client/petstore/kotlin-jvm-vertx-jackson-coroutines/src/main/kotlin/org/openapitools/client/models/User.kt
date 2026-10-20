@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -21,42 +29,50 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * A User who is purchasing from the pet store
  *
- * @param id 
- * @param username 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
+ * @param id
+ * @param username
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @param phone
  * @param userStatus User Status
  */
 
 
 data class User (
 
-    @field:JsonProperty("id")
+    @param:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("username")
+    @param:JsonProperty("username")
+    @get:JsonProperty("username")
     val username: kotlin.String? = null,
 
-    @field:JsonProperty("firstName")
+    @param:JsonProperty("firstName")
+    @get:JsonProperty("firstName")
     val firstName: kotlin.String? = null,
 
-    @field:JsonProperty("lastName")
+    @param:JsonProperty("lastName")
+    @get:JsonProperty("lastName")
     val lastName: kotlin.String? = null,
 
-    @field:JsonProperty("email")
+    @param:JsonProperty("email")
+    @get:JsonProperty("email")
     val email: kotlin.String? = null,
 
-    @field:JsonProperty("password")
+    @param:JsonProperty("password")
+    @get:JsonProperty("password")
     val password: kotlin.String? = null,
 
-    @field:JsonProperty("phone")
+    @param:JsonProperty("phone")
+    @get:JsonProperty("phone")
     val phone: kotlin.String? = null,
 
     /* User Status */
-    @field:JsonProperty("userStatus")
+    @param:JsonProperty("userStatus")
+    @get:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 
 ) {

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface Owner {
     /**
      * 
-     * @type {string}
-     * @memberof Owner
      */
     name?: string;
 }
@@ -48,10 +46,15 @@ export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Own
     };
 }
 
-export function OwnerToJSON(value?: Owner | null): any {
+export function OwnerToJSON(json: any): Owner {
+    return OwnerToJSONTyped(json, false);
+}
+
+export function OwnerToJSONTyped(value?: Owner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

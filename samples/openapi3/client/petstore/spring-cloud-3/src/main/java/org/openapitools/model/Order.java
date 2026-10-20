@@ -2,11 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -22,17 +24,21 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Order {
 
-  private Long id;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
 
-  private Long petId;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long petId;
 
-  private Integer quantity;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer quantity;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private @Nullable OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -44,7 +50,7 @@ public class Order {
     
     DELIVERED("delivered");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -71,11 +77,13 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable StatusEnum status;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean complete = false;
 
-  public Order id(Long id) {
+  public Order id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -87,15 +95,16 @@ public class Order {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Order petId(Long petId) {
+  public Order petId(@Nullable Long petId) {
     this.petId = petId;
     return this;
   }
@@ -107,15 +116,16 @@ public class Order {
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
-  public Long getPetId() {
+  public @Nullable Long getPetId() {
     return petId;
   }
 
-  public void setPetId(Long petId) {
+  @JsonProperty("petId")
+  public void setPetId(@Nullable Long petId) {
     this.petId = petId;
   }
 
-  public Order quantity(Integer quantity) {
+  public Order quantity(@Nullable Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -127,15 +137,16 @@ public class Order {
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
-  public Integer getQuantity() {
+  public @Nullable Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  @JsonProperty("quantity")
+  public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
   }
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -147,15 +158,16 @@ public class Order {
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
-  public OffsetDateTime getShipDate() {
+  public @Nullable OffsetDateTime getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  @JsonProperty("shipDate")
+  public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
-  public Order status(StatusEnum status) {
+  public Order status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -167,11 +179,12 @@ public class Order {
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  @JsonProperty("status")
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -191,6 +204,7 @@ public class Order {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
@@ -235,11 +249,8 @@ public class Order {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

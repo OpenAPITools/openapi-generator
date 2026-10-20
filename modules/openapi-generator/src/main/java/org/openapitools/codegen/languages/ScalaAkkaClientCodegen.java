@@ -32,6 +32,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-akka-client/}.
+ */
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -179,6 +182,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("apiSettings.mustache", invokerFolder, "ApiSettings.scala"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
         supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
     }

@@ -11,7 +11,7 @@ import org.openapitools.model.Animal;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Dog extends Animal  {
   @JsonProperty("breed")
   private String breed;
@@ -43,12 +43,12 @@ public class Dog extends Animal  {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(breed, dog.breed);
+    return super.equals(o) && Objects.equals(breed, dog.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed);
+    return Objects.hash(super.hashCode(), breed);
   }
 
   @Override

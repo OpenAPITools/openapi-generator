@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(orderStatus.ToString());
+            writer.WriteStringValue(OrderStatusValueConverter.ToJsonValue(orderStatus).ToString());
         }
     }
 
@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OrderStatus? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             OrderStatus? result = rawValue == null
@@ -176,14 +179,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the OrderStatus to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="orderStatus"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus? orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(orderStatus?.ToString() ?? "null");
+            if (orderStatus.HasValue)
+                writer.WriteStringValue(OrderStatusValueConverter.ToJsonValue(orderStatus.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

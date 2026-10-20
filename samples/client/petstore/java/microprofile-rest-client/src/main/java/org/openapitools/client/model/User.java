@@ -1,6 +1,6 @@
-/**
+/*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,6 +12,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -22,39 +26,38 @@ import javax.json.bind.serializer.SerializationContext;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbCreator;
 
-/**
-  * A User who is purchasing from the pet store
-  */
 
 public class User  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("username")
-  private String username;
+  protected String username;
 
   @JsonbProperty("firstName")
-  private String firstName;
+  protected String firstName;
 
   @JsonbProperty("lastName")
-  private String lastName;
+  protected String lastName;
 
   @JsonbProperty("email")
-  private String email;
+  protected String email;
 
   @JsonbProperty("password")
-  private String password;
+  protected String password;
 
   @JsonbProperty("phone")
-  private String phone;
+  protected String phone;
 
  /**
   * User Status
   */
   @JsonbProperty("userStatus")
-  private Integer userStatus;
+  protected Integer userStatus;
+
 
   /**
    * Get id
@@ -216,6 +219,29 @@ public class User  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.username, user.username) &&
+        Objects.equals(this.firstName, user.firstName) &&
+        Objects.equals(this.lastName, user.lastName) &&
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.password, user.password) &&
+        Objects.equals(this.phone, user.phone) &&
+        Objects.equals(this.userStatus, user.userStatus);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+  }
 
   /**
    * Create a string representation of this pojo.
@@ -242,10 +268,7 @@ public class User  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

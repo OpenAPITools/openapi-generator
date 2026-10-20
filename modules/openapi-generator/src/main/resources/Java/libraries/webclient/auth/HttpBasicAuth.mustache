@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}}.auth;
 
 import java.nio.charset.StandardCharsets;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
 {{>generatedAnnotation}}
+
 public class HttpBasicAuth implements Authentication {
     private String username;
     private String password;

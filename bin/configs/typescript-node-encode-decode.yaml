@@ -1,0 +1,10 @@
+generatorName: typescript-node
+outputDir: samples/client/others/typescript-node/encode-decode/build
+inputSpec: modules/openapi-generator/src/test/resources/3_1/encode-decode.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-node
+additionalProperties:
+  artifactId: encode-decode-typescript-node
+  hideGenerationTimestamp: "true"
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-node-encode-decode'
+  nullSafeAdditionalProps: true

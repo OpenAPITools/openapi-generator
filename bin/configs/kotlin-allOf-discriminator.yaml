@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-allOf-discriminator
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10792.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-allOf-discriminator
+  serializableModel: "false"
+  dateLibrary: java8
+  enumUnknownDefaultCase: true

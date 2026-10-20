@@ -1,1 +1,1 @@
-"{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}}.toString
+"{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}}{{#required}}.toString{{/required}}{{^required}}.map(_.toString()){{/required}}

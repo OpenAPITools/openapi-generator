@@ -1,0 +1,16 @@
+title: Deletion Request
+description: Describes an ongoing deletion request
+type: object
+required:
+  - id
+  - status
+properties:
+  id:
+    type: string
+    format: uuid
+  status:
+    type: string
+    enum: [created, done]
+  error:
+    description: Provides more information for the error status
+    $ref: error.yaml

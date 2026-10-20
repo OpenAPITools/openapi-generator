@@ -1,0 +1,8 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/binary_response
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_20682.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  serializationLibrary: "json_serializable"

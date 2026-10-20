@@ -24,11 +24,10 @@ import org.openapitools.client.model.XmlItem;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -39,6 +38,8 @@ import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.Async;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,24 +48,16 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class FakeApiTest {
 
     private FakeApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new FakeApiImpl();
     }
-    
+
     /**
      * creates an XmlItem
      * this route creates an XmlItem
@@ -80,7 +73,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer boolean types
@@ -96,7 +88,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of object with outer number type
@@ -112,7 +103,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer number types
@@ -128,7 +118,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer string types
@@ -144,7 +133,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -160,7 +148,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * 
@@ -177,7 +164,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -193,7 +179,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -222,7 +207,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * To test enum parameters
      * To test enum parameters
@@ -245,7 +229,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -266,7 +249,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * test inline additionalProperties
      * 
@@ -282,7 +264,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * test json serialization of form data
      * 
@@ -299,7 +280,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * To test the collection format in query parameters
@@ -319,5 +299,4 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
 }

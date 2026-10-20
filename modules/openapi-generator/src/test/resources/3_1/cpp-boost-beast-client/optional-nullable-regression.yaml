@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Optional nullable tri-state regression
+  version: 1.0.0
+paths:
+  /tri-state:
+    get:
+      operationId: getTriState
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TriStateContainer"
+components:
+  schemas:
+    TriStateContainer:
+      type: object
+      properties:
+        label:
+          type: string
+        nullableValue:
+          type: string
+          nullable: true

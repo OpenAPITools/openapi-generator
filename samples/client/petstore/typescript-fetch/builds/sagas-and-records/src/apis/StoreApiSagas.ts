@@ -12,18 +12,19 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     Order,
+} from '../models/Order';
+import {
     OrderRecord,
     orderRecordUtils,
-} from '../models/index';
+} from '../models/OrderRecord';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_storeApi"});
 
@@ -58,7 +59,7 @@ export function *deleteOrderSaga() {
     yield takeLatest(deleteOrder, deleteOrderSagaImp);
 }
 
-export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
+export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -74,7 +75,7 @@ export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
             yield put(deleteOrderSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(deleteOrderFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -110,7 +111,7 @@ export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
             yield put(getInventorySuccess(response));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getInventoryFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -163,7 +164,7 @@ export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getOrderByIdFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -216,7 +217,7 @@ export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(placeOrderFailure({error, requestPayload: _action_.payload}));
         return error;

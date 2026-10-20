@@ -54,7 +54,7 @@ public class Swift5ModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 7);
-        Assert.assertEquals(cm.getDiscriminatorName(),"test");
+        Assert.assertEquals(cm.getDiscriminatorName(), "test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");

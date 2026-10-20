@@ -44,6 +44,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
+    public static final boolean DEFAULT_QUIET = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
     public static final boolean DEFAULT_GENERATE_ALIAS_AS_MODEL = false;
     public static final String DEFAULT_TEMPLATING_ENGINE_NAME = null; // this is set by the generator
@@ -59,6 +60,7 @@ public class WorkflowSettings {
     private boolean validateSpec = DEFAULT_VALIDATE_SPEC;
     private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
     private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
+    private boolean quiet = DEFAULT_QUIET;
     private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
     private boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
     private String templateDir;
@@ -77,6 +79,7 @@ public class WorkflowSettings {
         this.validateSpec = builder.validateSpec;
         this.enablePostProcessFile = builder.enablePostProcessFile;
         this.enableMinimalUpdate = builder.enableMinimalUpdate;
+        this.quiet = builder.quiet;
         this.strictSpecBehavior = builder.strictSpecBehavior;
         this.templateDir = builder.templateDir;
         this.templatingEngineName = builder.templatingEngineName;
@@ -109,6 +112,7 @@ public class WorkflowSettings {
         builder.validateSpec = copy.isValidateSpec();
         builder.enablePostProcessFile = copy.isEnablePostProcessFile();
         builder.enableMinimalUpdate = copy.isEnableMinimalUpdate();
+        builder.quiet = copy.isQuiet();
         builder.generateAliasAsModel = copy.isGenerateAliasAsModel();
         builder.strictSpecBehavior = copy.isStrictSpecBehavior();
         builder.templatingEngineName = copy.getTemplatingEngineName();
@@ -228,6 +232,15 @@ public class WorkflowSettings {
     }
 
     /**
+     * Indicates whether or not generation should run in quiet mode.
+     *
+     * @return <code>true</code> if quiet mode is enabled, otherwise <code>false</code>.
+     */
+    public boolean isQuiet() {
+        return quiet;
+    }
+
+    /**
      * Indicates whether or not the generation should convert aliases (primitives defined as schema for use within documents) as models.
      *
      * @return <code>true</code> if generate-alias-as-model is enabled, otherwise <code>false</code>.
@@ -307,6 +320,7 @@ public class WorkflowSettings {
         private Boolean validateSpec = DEFAULT_VALIDATE_SPEC;
         private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
         private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
+        private Boolean quiet = DEFAULT_QUIET;
         private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
         private Boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
         private String templateDir;
@@ -340,7 +354,7 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withOutputDir(String outputDir) {
-            if (outputDir != null ) {
+            if (outputDir != null) {
                 this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
             } else {
                 this.outputDir = DEFAULT_OUTPUT_DIR;
@@ -437,6 +451,17 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code quiet} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param quiet the {@code quiet} to set
+         * @return a reference to this Builder
+         */
+        public Builder withQuiet(Boolean quiet) {
+            this.quiet = quiet != null ? quiet : Boolean.valueOf(DEFAULT_QUIET);
+            return this;
+        }
+
+        /**
          * Sets the {@code strictSpecBehavior} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param strictSpecBehavior the {@code strictSpecBehavior} to set
@@ -473,7 +498,7 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
+                    this.templateDir = Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
                     String cpDir;
                     // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should probably move that function to core.
@@ -543,7 +568,7 @@ public class WorkflowSettings {
         /**
          * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param key The key of a system (global) property to set
+         * @param key   The key of a system (global) property to set
          * @param value The value of a system (global) property to set
          * @return a reference to this Builder
          */
@@ -580,6 +605,7 @@ public class WorkflowSettings {
                 ", validateSpec=" + validateSpec +
                 ", enablePostProcessFile=" + enablePostProcessFile +
                 ", enableMinimalUpdate=" + enableMinimalUpdate +
+                ", quiet=" + quiet +
                 ", strictSpecBehavior=" + strictSpecBehavior +
                 ", templateDir='" + templateDir + '\'' +
                 ", templatingEngineName='" + templatingEngineName + '\'' +
@@ -602,6 +628,7 @@ public class WorkflowSettings {
                 isValidateSpec() == that.isValidateSpec() &&
                 isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
                 isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
+                isQuiet() == that.isQuiet() &&
                 isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
                 isGenerateAliasAsModel() == that.isGenerateAliasAsModel() &&
                 Objects.equals(getInputSpec(), that.getInputSpec()) &&
@@ -626,6 +653,7 @@ public class WorkflowSettings {
                 isGenerateAliasAsModel(),
                 isEnablePostProcessFile(),
                 isEnableMinimalUpdate(),
+                isQuiet(),
                 isStrictSpecBehavior(),
                 getTemplateDir(),
                 getTemplatingEngineName(),

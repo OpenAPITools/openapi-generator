@@ -48,6 +48,7 @@ GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 }
 
   @ApiModelProperty(value = "")
+
   private JustSymbolEnum justSymbol;
 
 public enum ArrayEnumEnum {
@@ -83,6 +84,7 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 }
 
   @ApiModelProperty(value = "")
+
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
  /**
    * Get justSymbol
@@ -162,10 +164,7 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

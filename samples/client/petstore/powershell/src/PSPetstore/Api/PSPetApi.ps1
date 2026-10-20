@@ -136,7 +136,7 @@ function Remove-Pet {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling deletePet."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))
 
         if ($ApiKey) {
             $LocalVarHeaderParameters['api_key'] = $ApiKey
@@ -403,10 +403,15 @@ function Get-PSPetById {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling getPetById."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))
 
+        if ($Configuration["ApiKeyPrefix"] -and $Configuration["ApiKeyPrefix"]["api_key_name"]) {
+            $apiKeyPrefix = $Configuration["ApiKeyPrefix"]["api_key_name"]
+        } else {
+            $apiKeyPrefix = ""
+        }
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key_name"]) {
-            $LocalVarHeaderParameters['api_key_name'] = $Configuration["ApiKey"]["api_key_name"]
+            $LocalVarHeaderParameters['api_key_name'] = $apiKeyPrefix + $Configuration["ApiKey"]["api_key_name"]
             Write-Verbose ("Using API key 'api_key_name' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
@@ -570,7 +575,7 @@ function Update-PSPetWithForm {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling updatePetWithForm."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))
 
         if ($Name) {
             $LocalVarFormParameters['name'] = $Name
@@ -667,14 +672,14 @@ function Invoke-PSUploadFile {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling uploadFile."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))
 
         if ($AdditionalMetadata) {
             $LocalVarFormParameters['additionalMetadata'] = $AdditionalMetadata
         }
 
         if ($File) {
-            $LocalVarFormParameters['file'] = $File
+            $LocalVarFormParameters['file'] = $File | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         }
 
 
@@ -764,7 +769,7 @@ function Invoke-PSUploadFileWithRequiredFile {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling uploadFileWithRequiredFile."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))
 
         if ($AdditionalMetadata) {
             $LocalVarFormParameters['additionalMetadata'] = $AdditionalMetadata
@@ -773,7 +778,7 @@ function Invoke-PSUploadFileWithRequiredFile {
         if (!$RequiredFile) {
             throw "Error! The required parameter `RequiredFile` missing when calling uploadFileWithRequiredFile."
         }
-        $LocalVarFormParameters['requiredFile'] = $RequiredFile
+        $LocalVarFormParameters['requiredFile'] = $RequiredFile | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `

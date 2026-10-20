@@ -13,12 +13,12 @@ part 'pizza.g.dart';
 /// Pizza
 ///
 /// Properties:
-/// * [pizzaSize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [pizzaSize] 
 @BuiltValue(instantiable: false)
 abstract class Pizza implements Entity {
   @BuiltValueField(wireName: r'pizzaSize')
@@ -135,6 +135,7 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   }
 }
 
+
 /// a concrete implementation of [Pizza], since [Pizza] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Pizza implements Pizza, Built<$Pizza, $PizzaBuilder> {
@@ -180,36 +181,41 @@ class _$$PizzaSerializer implements PrimitiveSerializer<$Pizza> {
         case r'pizzaSize':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.pizzaSize = valueDes;
           break;
         case r'@schemaLocation':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atSchemaLocation = valueDes;
           break;
         case r'@baseType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.href = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'@type':

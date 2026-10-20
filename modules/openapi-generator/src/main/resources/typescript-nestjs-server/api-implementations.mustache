@@ -1,0 +1,19 @@
+import { Type } from '@nestjs/common';
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+import { {{classname}} } from './{{apiPackage}}';
+{{/operations}}
+{{/apis}}
+
+/**
+ * Provide this type to {@link ApiModule} to provide your API implementations
+**/
+export type ApiImplementations = {
+{{#apis}}
+{{#operations}}
+  {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: Type<{{classname}}>
+{{/operations}}
+{{/apis}}
+};
+{{/apiInfo}}

@@ -12,8 +12,8 @@ package openapi
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // Object - struct for Object
@@ -84,6 +84,10 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(Object): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(Object)")
 	}
 }
@@ -112,6 +116,20 @@ func (obj *Object) GetActualInstance() (interface{}) {
 
 	if obj.NestedObject2 != nil {
 		return obj.NestedObject2
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj Object) GetActualInstanceValue() (interface{}) {
+	if obj.NestedObject1 != nil {
+		return *obj.NestedObject1
+	}
+
+	if obj.NestedObject2 != nil {
+		return *obj.NestedObject2
 	}
 
 	// all schemas are nil

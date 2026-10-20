@@ -1,0 +1,24 @@
+           /**
+            * Constructor for a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{code}}{{/isDefault}} result
+            * for the {{operationId}} operation, verifying non-null values for required return data.
+            *{{!
+}}{{#vendorExtensions.x-helidon-allResponseProps}}
+            * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-allResponseProps}}
+            */
+            public {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}}, {{/vendorExtensions.x-helidon-hasResponseProps}}{{!
+}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
+                {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-allResponseProps}}) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
+{{#isDefault}}
+                validator.require("status for default response", status);
+{{/isDefault}}
+{{#vendorExtensions.x-helidon-requiredResponseProps}}
+                validator.require("required result {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}} {{name}}", {{name}});{{/vendorExtensions.x-helidon-requiredResponseProps}}{{!
+}}                validator.execute();
+{{#isDefault}}
+                this.status = status;
+{{/isDefault}}
+{{#vendorExtensions.x-helidon-allResponseProps}}{{!
+}}                this.{{name}} = {{name}};
+{{/vendorExtensions.x-helidon-allResponseProps}}
+            }

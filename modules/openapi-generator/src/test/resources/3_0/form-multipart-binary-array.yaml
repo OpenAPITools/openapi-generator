@@ -77,6 +77,29 @@ paths:
       responses:
         '204':
           description: Successful operation
+
+  /extra-annotation:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile extra annotation test
+      operationId: multipartExtraAnnotation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  x-field-extra-annotation: "@jakarta.validation.constraints.NotNull"
+                  type: string
+                  format: binary
+                  description: The file to upload.
+      responses:
+        '204':
+          description: Successful operation
 components:
   schemas:
     MultipartMixedStatus:

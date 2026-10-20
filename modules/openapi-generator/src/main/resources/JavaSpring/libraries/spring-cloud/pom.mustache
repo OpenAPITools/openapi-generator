@@ -6,17 +6,18 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
+        {{#useSealed}}
+        <java.version>17</java.version>
+        {{/useSealed}}
+        {{^useSealed}}
         <java.version>1.8</java.version>
+        {{/useSealed}}
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        {{#springFoxDocumentationProvider}}
-        <springfox.version>2.9.2</springfox.version>
-        {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
         <springdoc.version>1.6.14</springdoc.version>
         {{/springDocDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6</swagger-annotations.version>
@@ -25,7 +26,6 @@
         <swagger-annotations.version>2.2.7</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -44,6 +44,20 @@
 {{/parentOverridden}}
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
+        {{#interfaceOnly}}<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>{{/interfaceOnly}}
     </build>
 
 {{^parentOverridden}}
@@ -69,15 +83,6 @@
             <version>${springdoc.version}</version>
         </dependency>
         {{/springDocDocumentationProvider}}
-        {{#springFoxDocumentationProvider}}
-        <!--SpringFox dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        {{/springFoxDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
         <dependency>
@@ -94,7 +99,7 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
+        {{^useJspecify}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -103,6 +108,7 @@
             <version>3.0.2</version>
             {{/parentOverridden}}
         </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -136,7 +142,7 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         {{^parentOverridden}}
-            <version>0.2.6</version>
+            <version>0.2.8</version>
         {{/parentOverridden}}
         </dependency>
         {{/openApiNullable}}
@@ -163,6 +169,13 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

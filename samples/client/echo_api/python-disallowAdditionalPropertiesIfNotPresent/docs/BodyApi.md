@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **test_binary_gif**
-> bytearray test_binary_gif()
+> bytes test_binary_gif()
 
 Test binary (gif) response body
 
@@ -60,7 +60,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**bytearray**
+**bytes**
 
 ### Authorization
 
@@ -105,7 +105,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    body = None # bytearray |  (optional)
+    body = None # bytes |  (optional)
 
     try:
         # Test body parameter(s)
@@ -123,7 +123,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bytearray**|  | [optional] 
+ **body** | **bytes**|  | [optional] 
 
 ### Return type
 
@@ -172,7 +172,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    files = None # List[bytearray] | 
+    files = None # List[bytes] | 
 
     try:
         # Test array of binary in multipart mime
@@ -190,7 +190,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **files** | **List[bytearray]**|  | 
+ **files** | **List[bytes]**|  | 
 
 ### Return type
 
@@ -239,7 +239,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    my_file = None # bytearray |  (optional)
+    my_file = None # bytes |  (optional)
 
     try:
         # Test single binary in multipart mime
@@ -257,7 +257,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **my_file** | **bytearray**|  | [optional] 
+ **my_file** | **bytes**|  | [optional] 
 
 ### Return type
 

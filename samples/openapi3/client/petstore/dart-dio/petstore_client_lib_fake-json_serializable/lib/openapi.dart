@@ -5,6 +5,7 @@
 export 'package:openapi/src/api.dart';
 export 'package:openapi/src/auth/api_key_auth.dart';
 export 'package:openapi/src/auth/basic_auth.dart';
+export 'package:openapi/src/auth/bearer_auth.dart';
 export 'package:openapi/src/auth/oauth.dart';
 
 
@@ -37,6 +38,7 @@ export 'package:openapi/src/model/file_schema_test_class.dart';
 export 'package:openapi/src/model/foo.dart';
 export 'package:openapi/src/model/foo_get_default_response.dart';
 export 'package:openapi/src/model/format_test.dart';
+export 'package:openapi/src/model/get_user_info_response.dart';
 export 'package:openapi/src/model/has_only_read_only.dart';
 export 'package:openapi/src/model/health_check_result.dart';
 export 'package:openapi/src/model/map_test.dart';
@@ -50,7 +52,12 @@ export 'package:openapi/src/model/model_return.dart';
 export 'package:openapi/src/model/name.dart';
 export 'package:openapi/src/model/nullable_class.dart';
 export 'package:openapi/src/model/number_only.dart';
+export 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 export 'package:openapi/src/model/object_with_deprecated_fields.dart';
+export 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+export 'package:openapi/src/model/object_with_enum.dart';
+export 'package:openapi/src/model/object_with_inline_enum.dart';
+export 'package:openapi/src/model/object_with_inline_enum_default_value.dart';
 export 'package:openapi/src/model/order.dart';
 export 'package:openapi/src/model/outer_composite.dart';
 export 'package:openapi/src/model/outer_enum.dart';
@@ -64,5 +71,7 @@ export 'package:openapi/src/model/read_only_first.dart';
 export 'package:openapi/src/model/single_ref_type.dart';
 export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
+export 'package:openapi/src/model/test_enum.dart';
 export 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 export 'package:openapi/src/model/user.dart';
+

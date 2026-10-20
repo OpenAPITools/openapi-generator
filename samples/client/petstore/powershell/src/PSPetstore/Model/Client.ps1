@@ -35,7 +35,7 @@ function Initialize-PSClient {
 
 
         $PSO = [PSCustomObject]@{
-            "client" = ${Client}
+            'client' = ${Client}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToClient {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSClient
-        $AllProperties = ("client")
+        $AllProperties = ('client')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "client"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'client'))) { #optional property not found
             $Client = $null
         } else {
-            $Client = $JsonParameters.PSobject.Properties["client"].value
+            $Client = $JsonParameters.PSobject.Properties['client'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "client" = ${Client}
+            'client' = ${Client}
         }
 
         return $PSO

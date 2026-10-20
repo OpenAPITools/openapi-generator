@@ -1,4 +1,4 @@
-# # OuterEnumInteger
+# OuterEnumInteger
 
 ## Properties
 

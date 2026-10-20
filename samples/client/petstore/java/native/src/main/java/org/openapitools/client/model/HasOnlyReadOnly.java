@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -36,12 +38,14 @@ import org.openapitools.client.ApiClient;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
+  @javax.annotation.Nullable
   private String foo;
 
   public HasOnlyReadOnly() { 
@@ -62,7 +66,7 @@ public class HasOnlyReadOnly {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -76,7 +80,7 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFoo() {
     return foo;
@@ -90,20 +94,12 @@ public class HasOnlyReadOnly {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(this.foo, hasOnlyReadOnly.foo);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar, foo);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -121,10 +117,7 @@ public class HasOnlyReadOnly {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -161,12 +154,12 @@ public class HasOnlyReadOnly {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `foo` to the URL query string
     if (getFoo() != null) {
-      joiner.add(String.format("%sfoo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFoo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sfoo%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFoo()))));
     }
 
     return joiner.toString();

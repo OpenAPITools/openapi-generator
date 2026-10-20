@@ -1,0 +1,45 @@
+{{>licenseInfo}}
+
+{{#operations}}/*
+* {{classname}}Controller.hpp
+*
+* {{description}}
+*/
+
+#ifndef {{classnameSnakeUpperCase}}_IMPL_H_
+#define {{classnameSnakeUpperCase}}_IMPL_H_
+
+{{{defaultInclude}}}
+#include <{{classname}}.hpp>
+#include "oatpp/core/Types.hpp"
+
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+namespace {{apiNamespace}}
+{
+
+class {{declspec}} {{classname}}Controller : public {{classname}} {
+public:
+    {{#operation}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    /// <param name="request">HTTP Request</param>
+    {{#allParams}}
+    {{#isPathParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isPathParam}}{{#isQueryParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isQueryParam}}{{#isBodyParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isBodyParam}}{{#isHeaderParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isHeaderParam}}
+    {{/allParams}}
+    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> {{operationIdSnakeCase}}(const std::shared_ptr<IncomingRequest> &request{{#allParams}}{{#isPathParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isPathParam}}{{#isQueryParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isQueryParam}}{{#isBodyParam}}, const {{#isModel}}oatpp::Object<{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}>{{/isModel}}{{^isModel}}{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}{{/isModel}} &{{paramName}}{{/isBodyParam}}{{#isHeaderParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isHeaderParam}}{{/allParams}});
+    {{/operation}}
+};
+
+} // namespace {{apiNamespace}}
+
+{{/operations}}
+
+
+#endif

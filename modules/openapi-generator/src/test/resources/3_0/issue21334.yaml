@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Issue 21334 - Abstract PHP Variable Naming Convention
+  description: ''
+  version: 1.0.0
+paths:
+  /dummy:
+    get:
+      description: ''
+      operationId: getDummy
+      parameters:
+        - name: paramCamelCase
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: ParamPascalCase
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: param_withRandomCase
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+components:
+  schemas:
+    SampleModelToTestNamingConvention:
+      type: object
+      properties:
+        propCamelCase:
+          type: string
+          default: 'defaultName'
+        PropPascalCase:
+          type: string
+          default: 'DefaultName'
+        Prop_withRandomCase:
+          type: string
+          default: 'defaultName'

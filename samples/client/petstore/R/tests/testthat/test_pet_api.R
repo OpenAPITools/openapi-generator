@@ -3,14 +3,15 @@
 
 context("Test PetApi")
 
-api.instance <- PetApi$new()
+api_instance <- PetApi$new()
 
 test_that("AddPet", {
   # tests for AddPet
   # base path: http://petstore.swagger.io/v2
   # Add a new pet to the store
-  # @param body Pet Pet object that needs to be added to the store
-  # @return [Void]
+  # 
+  # @param pet Pet Pet object that needs to be added to the store
+  # @return [Pet]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
@@ -20,8 +21,9 @@ test_that("DeletePet", {
   # tests for DeletePet
   # base path: http://petstore.swagger.io/v2
   # Deletes a pet
-  # @param pet.id integer Pet id to delete
-  # @param api.key character  (optional)
+  # 
+  # @param pet_id integer Pet id to delete
+  # @param api_key character  (optional)
   # @return [Void]
 
   # uncomment below to test the operation
@@ -57,7 +59,31 @@ test_that("GetPetById", {
   # base path: http://petstore.swagger.io/v2
   # Find pet by ID
   # Returns a single pet
-  # @param pet.id integer ID of pet to return
+  # @param pet_id integer ID of pet to return
+  # @return [Pet]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
+test_that("GetPetByIdStreaming", {
+  # tests for GetPetByIdStreaming
+  # base path: http://petstore.swagger.io/v2
+  # Find pet by ID (streaming)
+  # Returns a single pet
+  # @param pet_id integer ID of pet to return
+  # @return [Pet]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
+test_that("TestHeader", {
+  # tests for TestHeader
+  # base path: http://petstore.swagger.io/v2
+  # Header test
+  # Header test
+  # @param header_test_int integer header test int
   # @return [Pet]
 
   # uncomment below to test the operation
@@ -68,8 +94,9 @@ test_that("UpdatePet", {
   # tests for UpdatePet
   # base path: http://petstore.swagger.io/v2
   # Update an existing pet
-  # @param body Pet Pet object that needs to be added to the store
-  # @return [Void]
+  # 
+  # @param pet Pet Pet object that needs to be added to the store
+  # @return [Pet]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
@@ -79,7 +106,8 @@ test_that("UpdatePetWithForm", {
   # tests for UpdatePetWithForm
   # base path: http://petstore.swagger.io/v2
   # Updates a pet in the store with form data
-  # @param pet.id integer ID of pet that needs to be updated
+  # 
+  # @param pet_id integer ID of pet that needs to be updated
   # @param name character Updated name of the pet (optional)
   # @param status character Updated status of the pet (optional)
   # @return [Void]
@@ -92,12 +120,12 @@ test_that("UploadFile", {
   # tests for UploadFile
   # base path: http://petstore.swagger.io/v2
   # uploads an image
-  # @param pet.id integer ID of pet to update
-  # @param additional.metadata character Additional data to pass to server (optional)
+  # 
+  # @param pet_id integer ID of pet to update
+  # @param additional_metadata character Additional data to pass to server (optional)
   # @param file data.frame file to upload (optional)
   # @return [ModelApiResponse]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
-

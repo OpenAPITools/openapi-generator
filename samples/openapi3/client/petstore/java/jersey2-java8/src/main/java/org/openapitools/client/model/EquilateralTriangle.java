@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -37,18 +39,20 @@ import org.openapitools.client.JSON;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public EquilateralTriangle() { 
   }
 
-  public EquilateralTriangle shapeType(String shapeType) {
+  public EquilateralTriangle shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -58,7 +62,7 @@ public class EquilateralTriangle {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -66,14 +70,14 @@ public class EquilateralTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public EquilateralTriangle triangleType(String triangleType) {
+  public EquilateralTriangle triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -83,7 +87,7 @@ public class EquilateralTriangle {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTriangleType() {
@@ -91,9 +95,9 @@ public class EquilateralTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -140,21 +144,12 @@ public class EquilateralTriangle {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EquilateralTriangle equilateralTriangle = (EquilateralTriangle) o;
-    return Objects.equals(this.shapeType, equilateralTriangle.shapeType) &&
-        Objects.equals(this.triangleType, equilateralTriangle.triangleType)&&
-        Objects.equals(this.additionalProperties, equilateralTriangle.additionalProperties);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType, additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -173,10 +168,7 @@ public class EquilateralTriangle {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

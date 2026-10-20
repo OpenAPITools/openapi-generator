@@ -17,6 +17,16 @@
 
 package org.openapitools.codegen.java.helidon;
 
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaHelidonCommonCodegen;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,15 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.JavaHelidonCommonCodegen;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 public class JavaHelidonCommonCodegenTest {
 
@@ -68,6 +69,35 @@ public class JavaHelidonCommonCodegenTest {
 
         mpServerGenerator = new DefaultGenerator();
         mpClientGenerator = new DefaultGenerator();
+    }
+
+    @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("testHelidonEnumDisc").toFile();
+        output.deleteOnExit();
+        String outputDir = output.getAbsolutePath().replace('\\', '/');
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java-helidon-client")
+                .setLibrary("mp")
+                .setInputSpec("src/test/resources/3_0/oneOfDiscriminator.yaml")
+                .addAdditionalProperty(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true)
+                .addAdditionalProperty(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, false)
+                .setOutputDir(outputDir);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // Issue #22541: the inline-enum discriminator inherited from a base schema via allOf must
+        // resolve to the enum type in the oneOf interface getter, not String.
+        TestUtils.assertFileContains(
+                Paths.get(outputDir + "/src/main/java/org/openapitools/client/model/PetResponseEnumDisc.java"),
+                "PetTypeEnum getPetType()");
     }
 
     @Test
@@ -132,12 +162,12 @@ public class JavaHelidonCommonCodegenTest {
             expected = JavaHelidonCommonCodegen.chooseVersion(helidonVersion);
         }
         generator.opts(configurator.setAdditionalProperties(additionalProperties)
-                                       .toClientOptInput());
+                .toClientOptInput());
         List<File> files = generator.generate();
 
         TestUtils.ensureContainsFile(files, Paths.get(outputDir).toFile(), "pom.xml");
         TestUtils.assertFileContains(Paths.get(outputDir + "/pom.xml"),
-                                     String.format(Locale.ROOT, "<version>%s</version>", expected));
+                String.format(Locale.ROOT, "<version>%s</version>", expected));
     }
 
 }

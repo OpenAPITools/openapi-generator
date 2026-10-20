@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.nio.file.Paths;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -83,7 +83,7 @@ public abstract class JavaJaxrsBaseTest {
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
                 "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
                 "})";
-        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/Animal.java"),  jsonTypeInfo, jsonSubType);
+        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/Animal.java"), jsonTypeInfo, jsonSubType);
     }
 
 
@@ -106,7 +106,7 @@ public abstract class JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"),  "DefaultValue");
+        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"), "DefaultValue");
     }
 
     @Test
@@ -124,13 +124,13 @@ public abstract class JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-        .openAPI(openAPI)
-        .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"),  "DefaultValue");
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"), "DefaultValue");
     }
 
     @Test
@@ -215,7 +215,7 @@ public abstract class JavaJaxrsBaseTest {
         Assert.assertEquals(tag0.size(), 2);
         assertOperation(tag0.get(0), "default", "/", false);
         assertOperation(tag0.get(1), "default", "/{id}", true);
-        
+
         final var group1ApiTemplateData = dryRunTMan.getCapturedTemplateData(output.toPath().resolve("src/gen/java/org/openapitools/api/Group1Api.java"));
         Assert.assertEquals(group1ApiTemplateData.get("baseName"), "group1");
         Assert.assertEquals(group1ApiTemplateData.get("commonPath"), "/group1");
@@ -259,6 +259,60 @@ public abstract class JavaJaxrsBaseTest {
         List<CodegenOperation> group6 = getOperationsList(group6ApiTemplateData);
         Assert.assertEquals(group6.size(), 1);
         assertOperation(group6.get(0), "group6", "", false);
+    }
+
+    @Test
+    public void testCommonPathDoesNotShadowOtherTags() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/23414
+        // tag-one owns /foo/bar/one and /foo/bar/two
+        // tag-two owns /foo/bar/three and /baz/bar/four
+        // The generator must NOT set commonPath="/foo/bar" for tag-one because that would
+        // shadow tag-two's /foo/bar/three at the JAX-RS class-level @Path routing.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_23414.yaml");
+        codegen.setUseTags(true);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator(true);
+        generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen));
+        var dryRunTMan = ((DryRunTemplateManager) generator.getTemplateProcessor()).enableTemplateDataCapturing();
+        generator.generate();
+
+        // tag-one: owns /foo/bar/one and /foo/bar/two
+        final var tagOneData = dryRunTMan.getCapturedTemplateData(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/TagOneApi.java"));
+        String tagOneCommonPath = (String) tagOneData.get("commonPath");
+
+        // tag-two: owns /foo/bar/three and /baz/bar/four
+        final var tagTwoData = dryRunTMan.getCapturedTemplateData(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/TagTwoApi.java"));
+
+        // Critical assertion: TagOneApi must not claim /foo/bar as its class-level @Path
+        // because TagTwoApi also has /foo/bar/three — that route would be unreachable.
+        Assert.assertNotEquals(tagOneCommonPath, "/foo/bar",
+                "TagOneApi commonPath must not shadow TagTwoApi's /foo/bar/three");
+
+        // All four operations must still be reachable via commonPath + operation.path
+        List<CodegenOperation> tagOneOps = getOperationsList(tagOneData);
+        Assert.assertEquals(tagOneOps.size(), 2);
+        for (CodegenOperation op : tagOneOps) {
+            String fullPath = tagOneCommonPath + op.path;
+            Assert.assertTrue(
+                    fullPath.equals("/foo/bar/one") || fullPath.equals("/foo/bar/two"),
+                    "Unexpected full path for tag-one operation: " + fullPath);
+        }
+
+        List<CodegenOperation> tagTwoOps = getOperationsList(tagTwoData);
+        String tagTwoCommonPath = (String) tagTwoData.get("commonPath");
+        Assert.assertEquals(tagTwoOps.size(), 2);
+        for (CodegenOperation op : tagTwoOps) {
+            String fullPath = tagTwoCommonPath + op.path;
+            Assert.assertTrue(
+                    fullPath.equals("/foo/bar/three") || fullPath.equals("/baz/bar/four"),
+                    "Unexpected full path for tag-two operation: " + fullPath);
+        }
     }
 
     private void assertOperation(CodegenOperation op, String expectedBasename, String expectedPath, boolean expectedSubResourceOp) {

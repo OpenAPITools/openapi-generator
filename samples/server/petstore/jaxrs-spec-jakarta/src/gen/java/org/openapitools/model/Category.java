@@ -12,11 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("Category")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Category  implements Serializable {
   private Long id;
   private String name = "default-name";
@@ -27,6 +28,13 @@ public class Category  implements Serializable {
   }
 
   public Category() {
+  }
+
+  @JsonCreator
+  public Category(
+    @JsonProperty(required = true, value = "name") String name
+  ) {
+    this.name = name;
   }
 
   /**
@@ -57,12 +65,12 @@ public class Category  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -102,10 +110,7 @@ public class Category  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -113,7 +118,7 @@ public class Category  implements Serializable {
     return new CategoryBuilderImpl();
   }
 
-  private static class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
 
     @Override
     protected CategoryBuilderImpl self() {
@@ -143,4 +148,3 @@ public class Category  implements Serializable {
     }
   }
 }
-

@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface ItemId {
     /**
      * Unique identifier of the item
-     * @type {string}
-     * @memberof ItemId
      */
     id: string;
     /**
      * playlist
-     * @type {string}
-     * @memberof ItemId
      */
     type: string;
 }
@@ -57,10 +53,15 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
     };
 }
 
-export function ItemIdToJSON(value?: ItemId | null): any {
+export function ItemIdToJSON(json: any): ItemId {
+    return ItemIdToJSONTyped(json, false);
+}
+
+export function ItemIdToJSONTyped(value?: ItemId | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

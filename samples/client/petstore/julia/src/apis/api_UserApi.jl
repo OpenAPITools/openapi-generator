@@ -27,9 +27,9 @@ end
 This can only be done by the logged in user.
 
 Params:
-- user::User (required)
+- `user`::`User` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function create_user(_api::UserApi, user::User; _mediaType=nothing)
     _ctx = _oacinternal_create_user(_api, user; _mediaType=_mediaType)
@@ -57,9 +57,9 @@ end
 
 
 Params:
-- user::Vector{User} (required)
+- `user`::`Vector{User}` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function create_users_with_array_input(_api::UserApi, user::Vector{User}; _mediaType=nothing)
     _ctx = _oacinternal_create_users_with_array_input(_api, user; _mediaType=_mediaType)
@@ -87,9 +87,9 @@ end
 
 
 Params:
-- user::Vector{User} (required)
+- `user`::`Vector{User}` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function create_users_with_list_input(_api::UserApi, user::Vector{User}; _mediaType=nothing)
     _ctx = _oacinternal_create_users_with_list_input(_api, user; _mediaType=_mediaType)
@@ -119,9 +119,9 @@ end
 This can only be done by the logged in user.
 
 Params:
-- username::String (required)
+- `username`::`String` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function delete_user(_api::UserApi, username::String; _mediaType=nothing)
     _ctx = _oacinternal_delete_user(_api, username; _mediaType=_mediaType)
@@ -152,9 +152,9 @@ end
 
 
 Params:
-- username::String (required)
+- `username`::`String` (required)
 
-Return: User, OpenAPI.Clients.ApiResponse
+Return: `User`, `OpenAPI.Clients.ApiResponse`
 """
 function get_user_by_name(_api::UserApi, username::String; _mediaType=nothing)
     _ctx = _oacinternal_get_user_by_name(_api, username; _mediaType=_mediaType)
@@ -172,10 +172,11 @@ const _returntypes_login_user_UserApi = Dict{Regex,Type}(
 )
 
 function _oacinternal_login_user(_api::UserApi, username::String, password::String; _mediaType=nothing)
+        OpenAPI.validate_param("username", "login_user", :pattern, username, r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_login_user_UserApi, "/user/login", [])
-    OpenAPI.Clients.set_param(_ctx.query, "username", username)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "password", password)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "username", username; style="form", is_explode=true)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "password", password; style="form", is_explode=true)  # type String
     OpenAPI.Clients.set_header_accept(_ctx, ["application/xml", "application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -186,10 +187,10 @@ end
 
 
 Params:
-- username::String (required)
-- password::String (required)
+- `username`::`String` (required)
+- `password`::`String` (required)
 
-Return: String, OpenAPI.Clients.ApiResponse
+Return: `String`, `OpenAPI.Clients.ApiResponse`
 """
 function login_user(_api::UserApi, username::String, password::String; _mediaType=nothing)
     _ctx = _oacinternal_login_user(_api, username, password; _mediaType=_mediaType)
@@ -218,7 +219,7 @@ end
 
 Params:
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function logout_user(_api::UserApi; _mediaType=nothing)
     _ctx = _oacinternal_logout_user(_api; _mediaType=_mediaType)
@@ -248,10 +249,10 @@ end
 This can only be done by the logged in user.
 
 Params:
-- username::String (required)
-- user::User (required)
+- `username`::`String` (required)
+- `user`::`User` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function update_user(_api::UserApi, username::String, user::User; _mediaType=nothing)
     _ctx = _oacinternal_update_user(_api, username, user; _mediaType=_mediaType)

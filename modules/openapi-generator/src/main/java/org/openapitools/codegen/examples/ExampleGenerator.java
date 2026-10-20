@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+
 public class ExampleGenerator {
     private final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
@@ -78,7 +80,7 @@ public class ExampleGenerator {
             return null;
         }
 
-        if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
+        if (responseSchema.getExample() != null) {
             return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
@@ -198,7 +200,7 @@ public class ExampleGenerator {
 
     private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
         List<Map<String, String>> output = new ArrayList<>();
-        if (examples != null) {
+        if (example != null) {
             if (mediaTypes == null) {
                 // assume application/json for this
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
@@ -248,9 +250,9 @@ public class ExampleGenerator {
         } else if (ModelUtils.isArraySchema(property)) {
             Schema innerType = ModelUtils.getSchemaItems(property);
             if (innerType != null) {
-                int arrayLength = null == property.getMaxItems() ? 2 :  property.getMaxItems();
-                // avoid memory issues by limiting to max. 5 items
-                arrayLength = Math.min(arrayLength, 5);
+                int maxItems = null == property.getMaxItems() ? 2 : property.getMaxItems();
+                // cap at 5 items to avoid memory issues, but honor minItems even if it exceeds that cap
+                int arrayLength = Math.max(null == property.getMinItems() ? 0 : property.getMinItems(), Math.min(maxItems, 5));
                 Object[] objectProperties = new Object[arrayLength];
                 Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
                 for (int i = 0; i < arrayLength; i++) {
@@ -301,10 +303,9 @@ public class ExampleGenerator {
             if (property.getDefault() != null) {
                 return String.valueOf(property.getDefault());
             }
-            List<String> enumValues = property.getEnum();
-            if (enumValues != null && !enumValues.isEmpty()) {
-                LOGGER.debug("Enum value found: '{}'", enumValues.get(0));
-                return enumValues.get(0);
+            if (isEnumSchema(property)) {
+                LOGGER.debug("Enum value found: '{}'", property.getEnum().get(0));
+                return property.getEnum().get(0);
             }
             String format = property.getFormat();
             if (format != null && (URI.equals(format) || URL.equals(format))) {
@@ -322,7 +323,7 @@ public class ExampleGenerator {
             return resolveModelToExample(simpleName, mediaType, schema, processedModels);
 
         } else if (ModelUtils.isObjectSchema(property)) {
-            return "{}";
+            return new LinkedHashMap<>();
         }
 
         return "";
@@ -351,7 +352,7 @@ public class ExampleGenerator {
         }
 
         processedModels.add(name);
-        Map<String, Object> values = new HashMap<>();
+        Map<String, Object> values = new LinkedHashMap<>();
         LOGGER.debug("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
             LOGGER.debug("Using example from spec: {}", schema.getExample());
@@ -379,6 +380,12 @@ public class ExampleGenerator {
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
         } else if (ModelUtils.isArraySchema(schema) || ModelUtils.isEnumSchema(schema)) {
             return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
+        } else if (ModelUtils.isMapSchema(schema)) {
+            schema.setExample(resolvePropertyToExample(name, mediaType, schema, processedModels));
+            return schema.getExample();
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            schema.setExample(values);
+            return schema.getExample();
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
@@ -398,21 +405,35 @@ public class ExampleGenerator {
 
     /**
      * Transverse and resolves all property examples for `allOf` composed schemas into `values` map object
-     * @param mediaType MIME type
-     * @param schema OAS schema
+     *
+     * @param mediaType       MIME type
+     * @param schema          OAS schema
      * @param processedModels Set containing all processed models
-     * @param values Example value map
+     * @param values          Example value map
      */
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();
+        if (interfaces == null) {
+            return;
+        }
+
         for (Schema composed : interfaces) {
-            traverseSchemaProperties(mediaType, composed, processedModels, values);
             if (composed.get$ref() != null) {
                 String ref = ModelUtils.getSimpleRef(composed.get$ref());
+
+                if (processedModels.contains(ref)) {
+                    LOGGER.warn("Circular reference detected in allOf for $ref: {}. Skipping.", ref);
+                    continue;
+                }
+
                 Schema resolved = ModelUtils.getSchema(openAPI, ref);
                 if (resolved != null) {
+                    processedModels.add(ref);
                     traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                    processedModels.remove(ref);
                 }
+            } else {
+                traverseSchemaProperties(mediaType, composed, processedModels, values);
             }
         }
     }

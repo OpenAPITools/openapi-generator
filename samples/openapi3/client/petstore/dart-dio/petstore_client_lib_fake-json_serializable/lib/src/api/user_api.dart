@@ -57,7 +57,8 @@ class UserApi {
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      _bodyData = jsonEncode(user);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -122,7 +123,8 @@ _bodyData=jsonEncode(user);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      _bodyData = jsonEncode(user);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -187,7 +189,8 @@ _bodyData=jsonEncode(user);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      _bodyData = jsonEncode(user);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -308,6 +311,7 @@ _bodyData=jsonEncode(user);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -387,6 +391,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -496,7 +501,8 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      _bodyData = jsonEncode(user);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(

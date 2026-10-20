@@ -19,7 +19,8 @@ package org.openapitools.codegen;
 
 import lombok.Getter;
 
-@Getter public enum CodegenModelType {
+@Getter
+public enum CodegenModelType {
 
     MODEL(CodegenModel.class),
     OPERATION(CodegenOperation.class),

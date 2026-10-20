@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(req::HTTP.Request, user::User;) -> Nothing
+> `create_user`(req::`HTTP.Request`, `user`::`User`;) -> `Nothing`
 
 Create user
 
@@ -25,12 +25,12 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**user** | [**User**](User.md)| Created user object | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`user`** | [**`User`**](User.md)| Created user object |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -44,7 +44,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input(req::HTTP.Request, user::Vector{User};) -> Nothing
+> `create_users_with_array_input`(req::`HTTP.Request`, `user`::`Vector{User}`;) -> `Nothing`
 
 Creates list of users with given input array
 
@@ -54,12 +54,12 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**user** | [**Vector{User}**](User.md)| List of user object | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`user`** | [**`Vector{User}`**](User.md)| List of user object |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -73,7 +73,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input(req::HTTP.Request, user::Vector{User};) -> Nothing
+> `create_users_with_list_input`(req::`HTTP.Request`, `user`::`Vector{User}`;) -> `Nothing`
 
 Creates list of users with given input array
 
@@ -83,12 +83,12 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**user** | [**Vector{User}**](User.md)| List of user object | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`user`** | [**`Vector{User}`**](User.md)| List of user object |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -102,7 +102,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_user**
-> delete_user(req::HTTP.Request, username::String;) -> Nothing
+> `delete_user`(req::`HTTP.Request`, `username`::`String`;) -> `Nothing`
 
 Delete user
 
@@ -112,12 +112,12 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**username** | **String**| The name that needs to be deleted | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`username`** | **`String`**| The name that needs to be deleted |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -131,7 +131,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_user_by_name**
-> get_user_by_name(req::HTTP.Request, username::String;) -> User
+> `get_user_by_name`(req::`HTTP.Request`, `username`::`String`;) -> `User`
 
 Get user by user name
 
@@ -141,12 +141,12 @@ Get user by user name
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`username`** | **`String`**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
-[**User**](User.md)
+[**`User`**](User.md)
 
 ### Authorization
 
@@ -160,7 +160,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **login_user**
-> login_user(req::HTTP.Request, username::String, password::String;) -> String
+> `login_user`(req::`HTTP.Request`, `username`::`String`, `password`::`String`;) -> `String`
 
 Logs user into the system
 
@@ -170,13 +170,13 @@ Logs user into the system
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**username** | **String**| The user name for login | [default to nothing]
-**password** | **String**| The password for login in clear text | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`username`** | **`String`**| The user name for login |
+**`password`** | **`String`**| The password for login in clear text |
 
 ### Return type
 
-**String**
+**`String`**
 
 ### Authorization
 
@@ -190,7 +190,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logout_user**
-> logout_user(req::HTTP.Request;) -> Nothing
+> `logout_user`(req::`HTTP.Request`;) -> `Nothing`
 
 Logs out current logged in user session
 
@@ -201,7 +201,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -215,7 +215,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user(req::HTTP.Request, username::String, user::User;) -> Nothing
+> `update_user`(req::`HTTP.Request`, `username`::`String`, `user`::`User`;) -> `Nothing`
 
 Updated user
 
@@ -225,13 +225,13 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**username** | **String**| name that need to be deleted | [default to nothing]
-**user** | [**User**](User.md)| Updated user object | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`username`** | **`String`**| name that need to be deleted |
+**`user`** | [**`User`**](User.md)| Updated user object |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 

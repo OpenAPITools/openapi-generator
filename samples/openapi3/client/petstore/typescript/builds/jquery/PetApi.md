@@ -23,14 +23,14 @@ Method | HTTP request | Description
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiAddPetRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiAddPetRequest = {
-  // Pet | Pet object that needs to be added to the store
+const request: PetApiAddPetRequest = {
+    // Pet object that needs to be added to the store
   pet: {
     id: 1,
     category: {
@@ -51,9 +51,8 @@ let body:petstore.PetApiAddPetRequest = {
   },
 };
 
-apiInstance.addPet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.addPet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -95,22 +94,21 @@ Name | Type | Description  | Notes
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiDeletePetRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiDeletePetRequest = {
-  // number | Pet id to delete
+const request: PetApiDeletePetRequest = {
+    // Pet id to delete
   petId: 1,
-  // string (optional)
+  
   apiKey: "api_key_example",
 };
 
-apiInstance.deletePet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.deletePet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -152,22 +150,21 @@ Multiple status values can be provided with comma separated strings
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiFindPetsByStatusRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiFindPetsByStatusRequest = {
-  // Array<'available' | 'pending' | 'sold'> | Status values that need to be considered for filter
+const request: PetApiFindPetsByStatusRequest = {
+    // Status values that need to be considered for filter
   status: [
     "available",
   ],
 };
 
-apiInstance.findPetsByStatus(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.findPetsByStatus(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -209,22 +206,21 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiFindPetsByTagsRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiFindPetsByTagsRequest = {
-  // Array<string> | Tags to filter by
+const request: PetApiFindPetsByTagsRequest = {
+    // Tags to filter by
   tags: [
     "tags_example",
   ],
 };
 
-apiInstance.findPetsByTags(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.findPetsByTags(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -266,20 +262,19 @@ Returns a single pet
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiGetPetByIdRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiGetPetByIdRequest = {
-  // number | ID of pet to return
+const request: PetApiGetPetByIdRequest = {
+    // ID of pet to return
   petId: 1,
 };
 
-apiInstance.getPetById(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.getPetById(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -322,14 +317,14 @@ Name | Type | Description  | Notes
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiUpdatePetRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiUpdatePetRequest = {
-  // Pet | Pet object that needs to be added to the store
+const request: PetApiUpdatePetRequest = {
+    // Pet object that needs to be added to the store
   pet: {
     id: 1,
     category: {
@@ -350,9 +345,8 @@ let body:petstore.PetApiUpdatePetRequest = {
   },
 };
 
-apiInstance.updatePet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.updatePet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -396,24 +390,23 @@ Name | Type | Description  | Notes
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiUpdatePetWithFormRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiUpdatePetWithFormRequest = {
-  // number | ID of pet that needs to be updated
+const request: PetApiUpdatePetWithFormRequest = {
+    // ID of pet that needs to be updated
   petId: 1,
-  // string | Updated name of the pet (optional)
+    // Updated name of the pet (optional)
   name: "name_example",
-  // string | Updated status of the pet (optional)
+    // Updated status of the pet (optional)
   status: "status_example",
 };
 
-apiInstance.updatePetWithForm(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.updatePetWithForm(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -456,24 +449,23 @@ void (empty response body)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, PetApi } from 'ts-petstore-client';
+import type { PetApiUploadFileRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.PetApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new PetApi(configuration);
 
-let body:petstore.PetApiUploadFileRequest = {
-  // number | ID of pet to update
+const request: PetApiUploadFileRequest = {
+    // ID of pet to update
   petId: 1,
-  // string | Additional data to pass to server (optional)
+    // Additional data to pass to server (optional)
   additionalMetadata: "additionalMetadata_example",
-  // HttpFile | file to upload (optional)
+    // file to upload (optional)
   file: { data: Buffer.from(fs.readFileSync('/path/to/file', 'utf-8')), name: '/path/to/file' },
 };
 
-apiInstance.uploadFile(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.uploadFile(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

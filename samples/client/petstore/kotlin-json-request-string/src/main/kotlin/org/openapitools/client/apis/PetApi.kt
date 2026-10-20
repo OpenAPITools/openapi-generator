@@ -8,15 +8,23 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 import org.openapitools.client.models.ModelApiResponse
@@ -38,16 +46,18 @@ import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
+import org.openapitools.client.infrastructure.Serializer
 
-class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
@@ -78,6 +88,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
@@ -106,6 +117,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
@@ -117,6 +129,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -148,6 +161,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -176,8 +190,9 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
@@ -189,6 +204,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -222,6 +238,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -268,6 +285,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/getAll
      * Get all pets
      * 
      * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
@@ -299,6 +317,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/getAll
      * Get all pets
      * 
      * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
@@ -327,7 +346,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (lastUpdated != null) {
-                    put("lastUpdated", listOf(parseDateToQueryString(lastUpdated)))
+                    put("lastUpdated", listOf(parseDateToQueryString<java.time.OffsetDateTime>(lastUpdated)))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -344,6 +363,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -375,6 +395,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -415,6 +436,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
@@ -445,6 +467,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
@@ -473,6 +496,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",
@@ -484,6 +508,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -516,6 +541,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -549,6 +575,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
@@ -560,6 +587,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
@@ -593,6 +621,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update

@@ -102,10 +102,10 @@ class Pet {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "Pet[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "Pet[$key]" has a null value in JSON.');
-        });
+        assert(json.containsKey(r'name'), 'Required key "Pet[name]" is missing from JSON.');
+        assert(json[r'name'] != null, 'Required key "Pet[name]" has a null value in JSON.');
+        assert(json.containsKey(r'photoUrls'), 'Required key "Pet[photoUrls]" is missing from JSON.');
+        assert(json[r'photoUrls'] != null, 'Required key "Pet[photoUrls]" has a null value in JSON.');
         return true;
       }());
 
@@ -171,31 +171,30 @@ class Pet {
 }
 
 /// pet status in the store
-class PetStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const PetStatusEnum._(this.value);
+enum PetStatusEnum {
+  available._(r'available'),
+  pending._(r'pending'),
+  sold._(r'sold'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const PetStatusEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const available = PetStatusEnum._(r'available');
-  static const pending = PetStatusEnum._(r'pending');
-  static const sold = PetStatusEnum._(r'sold');
-
-  /// List of all possible values in this [enum][PetStatusEnum].
-  static const values = <PetStatusEnum>[
-    available,
-    pending,
-    sold,
-  ];
-
+  /// Returns the instance of [PetStatusEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static PetStatusEnum? fromJson(dynamic value) => PetStatusEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [PetStatusEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<PetStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <PetStatusEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -217,9 +216,10 @@ class PetStatusEnumTypeTransformer {
 
   const PetStatusEnumTypeTransformer._();
 
-  String encode(PetStatusEnum data) => data.value;
+  String encode(PetStatusEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a PetStatusEnum.
+  /// Returns the instance of [PetStatusEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -228,6 +228,9 @@ class PetStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   PetStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is PetStatusEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'available': return PetStatusEnum.available;
@@ -242,7 +245,7 @@ class PetStatusEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [PetStatusEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static PetStatusEnumTypeTransformer? _instance;
 }
 

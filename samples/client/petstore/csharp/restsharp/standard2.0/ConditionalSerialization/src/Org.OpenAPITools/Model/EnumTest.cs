@@ -447,47 +447,47 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger.</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        public EnumTest(EnumStringEnum? enumString = default, EnumStringRequiredEnum enumStringRequired = default, EnumIntegerEnum? enumInteger = default, EnumIntegerOnlyEnum? enumIntegerOnly = default, EnumNumberEnum? enumNumber = default, OuterEnum? outerEnum = default, OuterEnumInteger? outerEnumInteger = default, OuterEnumDefaultValue? outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default)
         {
             this._EnumStringRequired = enumStringRequired;
-            this._EnumString = enumString;
-            if (this.EnumString != null)
+            if (enumString != null)
             {
+                this._EnumString = enumString.Value;
                 this._flagEnumString = true;
             }
-            this._EnumInteger = enumInteger;
-            if (this.EnumInteger != null)
+            if (enumInteger != null)
             {
+                this._EnumInteger = enumInteger.Value;
                 this._flagEnumInteger = true;
             }
-            this._EnumIntegerOnly = enumIntegerOnly;
-            if (this.EnumIntegerOnly != null)
+            if (enumIntegerOnly != null)
             {
+                this._EnumIntegerOnly = enumIntegerOnly.Value;
                 this._flagEnumIntegerOnly = true;
             }
-            this._EnumNumber = enumNumber;
-            if (this.EnumNumber != null)
+            if (enumNumber != null)
             {
+                this._EnumNumber = enumNumber.Value;
                 this._flagEnumNumber = true;
             }
-            this._OuterEnum = outerEnum;
-            if (this.OuterEnum != null)
+            if (outerEnum != null)
             {
+                this._OuterEnum = outerEnum.Value;
                 this._flagOuterEnum = true;
             }
-            this._OuterEnumInteger = outerEnumInteger;
-            if (this.OuterEnumInteger != null)
+            if (outerEnumInteger != null)
             {
+                this._OuterEnumInteger = outerEnumInteger.Value;
                 this._flagOuterEnumInteger = true;
             }
-            this._OuterEnumDefaultValue = outerEnumDefaultValue;
-            if (this.OuterEnumDefaultValue != null)
+            if (outerEnumDefaultValue != null)
             {
+                this._OuterEnumDefaultValue = outerEnumDefaultValue.Value;
                 this._flagOuterEnumDefaultValue = true;
             }
-            this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            if (this.OuterEnumIntegerDefaultValue != null)
+            if (outerEnumIntegerDefaultValue != null)
             {
+                this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue.Value;
                 this._flagOuterEnumIntegerDefaultValue = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();

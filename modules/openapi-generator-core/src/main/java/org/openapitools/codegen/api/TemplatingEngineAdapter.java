@@ -47,8 +47,8 @@ public interface TemplatingEngineAdapter {
 
     /**
      * Determine if the adapter handles compilation of the file
-     * @param filename The template filename
      *
+     * @param filename The template filename
      * @return True if the file should be compiled by this adapter, else false.
      */
     default boolean handlesFile(String filename) {
@@ -58,7 +58,7 @@ public interface TemplatingEngineAdapter {
     /**
      * Compiles a template into a string
      *
-     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
+     * @param executor     From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
      * @param bundle       The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result

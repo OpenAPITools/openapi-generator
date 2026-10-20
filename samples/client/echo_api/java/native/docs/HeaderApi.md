@@ -84,7 +84,7 @@ No authorization required
 
 ## testHeaderIntegerBooleanStringEnumsWithHttpInfo
 
-> ApiResponse<String> testHeaderIntegerBooleanStringEnums testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
+> ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
 
 Test header parameter(s)
 

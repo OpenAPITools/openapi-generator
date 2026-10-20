@@ -25,15 +25,15 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
     }
 
     /**
-     * Constructions the URL this server using the url with variables
-     * replaced with their respective values
+     * Constructs the URL for this server using the url with variables
+     * replaced with their respective values.
      */
     public getUrl(): string {
         let replacedUrl = this.url;
         for (const key in this.variableConfiguration) {
             if (this.variableConfiguration.hasOwnProperty(key)) {
-                 const re = new RegExp("{" + key + "}","g");
-                 replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+                const re = new RegExp("{" + key + "}", "g");
+                replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
             }
         }
         return replacedUrl;

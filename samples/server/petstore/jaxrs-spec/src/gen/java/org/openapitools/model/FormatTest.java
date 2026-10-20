@@ -19,11 +19,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
   private Integer integer;
   private Integer int32;
@@ -62,6 +63,19 @@ public class FormatTest  implements Serializable {
   }
 
   public FormatTest() {
+  }
+
+  @JsonCreator
+  public FormatTest(
+    @JsonProperty(required = true, value = "number") BigDecimal number,
+    @JsonProperty(required = true, value = "byte") byte[] _byte,
+    @JsonProperty(required = true, value = "date") LocalDate date,
+    @JsonProperty(required = true, value = "password") String password
+  ) {
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
   }
 
   /**
@@ -136,12 +150,12 @@ public class FormatTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("number")
+  @JsonProperty(required = true, value = "number")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
-  @JsonProperty("number")
+  @JsonProperty(required = true, value = "number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -235,12 +249,12 @@ public class FormatTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("byte")
+  @JsonProperty(required = true, value = "byte")
   @NotNull public byte[] getByte() {
     return _byte;
   }
 
-  @JsonProperty("byte")
+  @JsonProperty(required = true, value = "byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -273,12 +287,12 @@ public class FormatTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("date")
+  @JsonProperty(required = true, value = "date")
   @NotNull public LocalDate getDate() {
     return date;
   }
 
-  @JsonProperty("date")
+  @JsonProperty(required = true, value = "date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -330,12 +344,12 @@ public class FormatTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("password")
+  @JsonProperty(required = true, value = "password")
   @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
-  @JsonProperty("password")
+  @JsonProperty(required = true, value = "password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -443,10 +457,7 @@ public class FormatTest  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -454,7 +465,7 @@ public class FormatTest  implements Serializable {
     return new FormatTestBuilderImpl();
   }
 
-  private static class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+  private static final class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
 
     @Override
     protected FormatTestBuilderImpl self() {
@@ -554,4 +565,3 @@ public class FormatTest  implements Serializable {
     }
   }
 }
-

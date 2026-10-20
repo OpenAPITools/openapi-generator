@@ -12,7 +12,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/multipart_request'
+              $ref: "#/components/schemas/multipart_request"
         required: true
       responses:
         "201":
@@ -45,7 +45,7 @@ paths:
                     style: simple
                 style: form
             schema:
-              $ref: '#/components/schemas/multipart_related_request'
+              $ref: "#/components/schemas/multipart_related_request"
         required: true
       responses:
         "201":
@@ -63,7 +63,7 @@ paths:
                 contentType: application/octet-stream
                 style: form
             schema:
-              $ref: '#/components/schemas/_multiple_identical_mime_types_post_request'
+              $ref: "#/components/schemas/_multiple_identical_mime_types_post_request"
         required: true
       responses:
         "200":
@@ -77,7 +77,7 @@ components:
         optional_string_field:
           type: string
         object_field:
-          $ref: '#/components/schemas/multipart_request_object_field'
+          $ref: "#/components/schemas/multipart_request_object_field"
         binary_field:
           format: byte
           type: string
@@ -88,7 +88,7 @@ components:
     multipart_related_request:
       properties:
         object_field:
-          $ref: '#/components/schemas/multipart_request_object_field'
+          $ref: "#/components/schemas/multipart_request_object_field"
         optional_binary_field:
           format: binary
           type: string

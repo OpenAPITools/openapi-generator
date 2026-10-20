@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,17 +49,18 @@ import org.openapitools.client.JSON;
 /**
  * GrandparentAnimal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
+  @javax.annotation.Nonnull
   protected String petType;
 
   public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
   }
 
-  public GrandparentAnimal petType(String petType) {
+  public GrandparentAnimal petType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
     return this;
   }
@@ -73,7 +74,7 @@ public class GrandparentAnimal {
     return petType;
   }
 
-  public void setPetType(String petType) {
+  public void setPetType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
   }
 
@@ -156,10 +157,7 @@ public class GrandparentAnimal {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -168,12 +166,10 @@ public class GrandparentAnimal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("pet_type");
+    openapiFields = new HashSet<String>(Arrays.asList("pet_type"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("pet_type");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("pet_type"));
   }
 
   /**
@@ -185,7 +181,7 @@ public class GrandparentAnimal {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!GrandparentAnimal.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
         }
       }
 
@@ -195,7 +191,7 @@ public class GrandparentAnimal {
           ParentPet.validateJsonElement(jsonElement);
           break;
         default:
-          throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }
 

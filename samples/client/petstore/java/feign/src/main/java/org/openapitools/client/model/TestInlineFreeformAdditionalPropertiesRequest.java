@@ -24,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -36,16 +34,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
+  @javax.annotation.Nullable
   private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
-
   }
 
-  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(@javax.annotation.Nullable String someProperty) {
     
     this.someProperty = someProperty;
     return this;
@@ -56,7 +54,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    * @return someProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSomeProperty() {
@@ -64,9 +62,9 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeProperty(String someProperty) {
+  public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 
@@ -124,20 +122,20 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     }
     TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = (TestInlineFreeformAdditionalPropertiesRequest) o;
     return Objects.equals(this.someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, testInlineFreeformAdditionalPropertiesRequest.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(someProperty, super.hashCode());
+    return Objects.hash(someProperty, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    someProperty: ").append(toIndentedString(someProperty)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -147,10 +145,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

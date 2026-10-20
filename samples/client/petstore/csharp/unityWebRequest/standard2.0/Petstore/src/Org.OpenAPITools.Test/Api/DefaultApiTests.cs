@@ -74,5 +74,38 @@ namespace Org.OpenAPITools.Test.Api
             //string country = null;
             //instance.GetCountry(country);
         }
+
+        /// <summary>
+        /// Test Hello
+        /// </summary>
+        [Test]
+        public void HelloTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.Hello();
+            //Assert.IsType<List<Guid>>(response);
+        }
+
+        /// <summary>
+        /// Test RolesReportGet
+        /// </summary>
+        [Test]
+        public void RolesReportGetTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.RolesReportGet();
+            //Assert.IsType<List<List<RolesReportsHash>>>(response);
+        }
+
+        /// <summary>
+        /// Test Test
+        /// </summary>
+        [Test]
+        public void TestTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //var response = instance.Test();
+            //Assert.IsType<NotificationtestGetElementsV1ResponseMPayload>(response);
+        }
     }
 }

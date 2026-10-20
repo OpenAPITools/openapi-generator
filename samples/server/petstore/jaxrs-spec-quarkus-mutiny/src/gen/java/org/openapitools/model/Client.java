@@ -9,12 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Client")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Client  implements Serializable {
   private String client;
 
@@ -77,10 +78,7 @@ public class Client  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -88,7 +86,7 @@ public class Client  implements Serializable {
     return new ClientBuilderImpl();
   }
 
-  private static class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
 
     @Override
     protected ClientBuilderImpl self() {
@@ -113,4 +111,3 @@ public class Client  implements Serializable {
     }
   }
 }
-

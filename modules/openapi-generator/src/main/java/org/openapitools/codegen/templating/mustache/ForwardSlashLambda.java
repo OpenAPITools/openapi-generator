@@ -24,12 +24,12 @@ import java.io.Writer;
 
 /**
  * Replaces backslash with forward slash in the text.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("forwardslash", new ForwardSlashLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#forwardslash}}{{summary}}{{/forwardslash}}

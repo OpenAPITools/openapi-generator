@@ -18,14 +18,32 @@ paths:
             pattern: "^[a-zA-Z0-9]$"
             type: string
           type: array
+          default: null
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
           description: OK
       tags:
       - user
       x-accepts:
       - application/json
 components:
-  schemas: {}
+  schemas:
+    User:
+      example:
+        username: username
+        email: email
+      properties:
+        username:
+          type: string
+        email:
+          description: The user's contact email address
+          format: email
+          type: string
+      required:
+      - email
 

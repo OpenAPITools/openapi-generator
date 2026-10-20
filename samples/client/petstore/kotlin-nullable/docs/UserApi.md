@@ -192,7 +192,7 @@ No authorization required
 
 <a id="getUserByName"></a>
 # **getUserByName**
-> User getUserByName(username)
+> User? getUserByName(username)
 
 Get user by user name
 
@@ -223,7 +223,7 @@ try {
 
 ### Return type
 
-[**User**](User.md)
+[**User?**](User.md)
 
 ### Authorization
 
@@ -236,7 +236,7 @@ No authorization required
 
 <a id="loginUser"></a>
 # **loginUser**
-> kotlin.String loginUser(username, password)
+> kotlin.String? loginUser(username, password)
 
 Logs user into the system
 
@@ -262,14 +262,14 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| The user name for login | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| The user name for login | |
 | **password** | **kotlin.String**| The password for login in clear text | |
 
 ### Return type
 
-**kotlin.String**
+**kotlin.String?**
 
 ### Authorization
 
@@ -349,9 +349,9 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| name that need to be deleted | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| name that need to be deleted | |
 | **body** | [**User**](User.md)| Updated user object | |
 
 ### Return type

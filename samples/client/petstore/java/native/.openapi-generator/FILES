@@ -6,6 +6,9 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
+docs/AllOfRefToDouble.md
+docs/AllOfRefToFloat.md
+docs/AllOfRefToLong.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/Apple.md
@@ -103,6 +106,8 @@ src/main/java/org/openapitools/client/Configuration.java
 src/main/java/org/openapitools/client/JSON.java
 src/main/java/org/openapitools/client/Pair.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
+src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
+src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/AnotherFakeApi.java
@@ -114,6 +119,9 @@ src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfRefToDouble.java
+src/main/java/org/openapitools/client/model/AllOfRefToFloat.java
+src/main/java/org/openapitools/client/model/AllOfRefToLong.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java

@@ -1,0 +1,10 @@
+if (utf8JsonReader.TokenType == JsonTokenType.Null)
+    {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}null);
+else
+{
+    string {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.{{>EnumJsonReaderMethod}}().ToString(System.Globalization.CultureInfo.InvariantCulture);
+    {{classname}}.{{{datatypeWithEnum}}}? {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value = {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue);
+    if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value == null)
+        throw new JsonException();
+    {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value);
+}

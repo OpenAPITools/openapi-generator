@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: Nullable composition
+  description: >-
+    JSON Schema 2020-12 spells "T or null" as a composition holding an explicit
+    `{"type": "null"}` member. This fixture covers every combination the Crystal
+    generator has to keep apart: nullable + required, nullable + optional, the
+    type-as-array form, and a genuine multi-member union that must stay a union.
+  version: 1.0.0
+paths:
+  /messages:
+    get:
+      operationId: getMessage
+      responses:
+        '200':
+          description: a message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+components:
+  schemas:
+    Message:
+      type: object
+      required:
+        - id
+        - stop_sequence
+        - tag
+        - usage
+      properties:
+        id:
+          type: string
+        # nullable + required, composition form (anyOf)
+        stop_sequence:
+          anyOf:
+            - type: string
+            - type: 'null'
+          default: null
+          description: Which custom stop sequence was generated, if any.
+        # nullable + required, type-as-array form
+        tag:
+          type:
+            - string
+            - 'null'
+        # nullable + required, composition over a $ref
+        usage:
+          anyOf:
+            - $ref: '#/components/schemas/Usage'
+            - type: 'null'
+        # nullable + optional, composition form (anyOf)
+        note:
+          anyOf:
+            - type: string
+            - type: 'null'
+        # nullable + optional, composition form (oneOf)
+        count:
+          oneOf:
+            - type: integer
+            - type: 'null'
+        # multi-member union: must keep generating the union wrapper class
+        payload:
+          $ref: '#/components/schemas/Payload'
+    Usage:
+      type: object
+      properties:
+        input_tokens:
+          type: integer
+    Payload:
+      oneOf:
+        - $ref: '#/components/schemas/TextBlock'
+        - $ref: '#/components/schemas/ImageBlock'
+    # The union members carry a required field each, so `try each member in order` can
+    # actually tell them apart.
+    TextBlock:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+    ImageBlock:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string

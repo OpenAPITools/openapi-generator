@@ -1,6 +1,11 @@
 server.port={{serverPort}}
 spring.jackson.date-format={{basePackage}}.RFC3339DateFormat
+{{#useSpringBoot4}}
+spring.jackson.datatype.datetime.WRITE_DATES_AS_TIMESTAMPS=false
+{{/useSpringBoot4}}
+{{^useSpringBoot4}}
 spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false
+{{/useSpringBoot4}}
 {{#virtualService}}
 virtualan.datasource.driver-class-name=org.hsqldb.jdbcDriver
 virtualan.datasource.jdbcurl=jdbc:hsqldb:mem:dataSource

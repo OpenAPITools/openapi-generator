@@ -10,19 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct OuterComposite: Codable, JSONEncodable, Hashable {
+internal struct OuterComposite: Codable, JSONEncodable {
 
-    public var myNumber: Double?
-    public var myString: String?
-    public var myBoolean: Bool?
+    internal private(set) var myNumber: Double?
+    internal private(set) var myString: String?
+    internal private(set) var myBoolean: Bool?
 
-    public init(myNumber: Double? = nil, myString: String? = nil, myBoolean: Bool? = nil) {
+    internal init(myNumber: Double? = nil, myString: String? = nil, myBoolean: Bool? = nil) {
         self.myNumber = myNumber
         self.myString = myString
         self.myBoolean = myBoolean
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"
@@ -30,7 +30,7 @@ public struct OuterComposite: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(myNumber, forKey: .myNumber)
         try container.encodeIfPresent(myString, forKey: .myString)

@@ -7,22 +7,21 @@
     <version>{{artifactVersion}}</version>
     <properties>
         <java.version>17</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springDocDocumentationProvider}}
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.6.0</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>2.2.15</swagger-annotations.version>
+        <swagger-annotations.version>2.2.42</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>5.3.1</swagger-ui.version>
+        <swagger-ui.version>5.17.14</swagger-ui.version>
         {{/useSwaggerUI}}
         {{#virtualService}}
-        <virtualan.version>2.5.2</virtualan.version>
+        <virtualan.version>2.5.5</virtualan.version>
         {{/virtualService}}
     </properties>
 {{#parentOverridden}}
@@ -36,29 +35,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.3</version>
+        <version>3.3.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
 
-    <repositories>
-        <repository>
-            <id>repository.spring.milestone</id>
-            <name>Spring Milestone Repository</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        {{^interfaceOnly}}
         <plugins>
+            {{^interfaceOnly}}
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -76,6 +61,21 @@
                     {{/lombok}}
                 </configuration>
             </plugin>
+            {{/interfaceOnly}}
+            {{#interfaceOnly}}
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/interfaceOnly}}
             {{#apiFirst}}
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -109,9 +109,14 @@
             </plugin>
             {{/apiFirst}}
         </plugins>
-        {{/interfaceOnly}}
     </build>
     <dependencies>
+        {{#useSpringSecurityPreAuthorize}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        {{/useSpringSecurityPreAuthorize}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
@@ -159,16 +164,14 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
+        {{^useJspecify}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-        </dependency>
+        {{/useJspecify}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
@@ -194,7 +197,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
+            <version>0.2.12</version>
         </dependency>
         {{/openApiNullable}}
 {{#useBeanValidation}}
@@ -236,6 +239,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+{{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+{{/useJspecify}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

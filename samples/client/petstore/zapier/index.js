@@ -1,5 +1,5 @@
 const authentication = require('./authentication');
-const { searchActions, createActions } = require('./operations/actions');
+const { searchActions, createActions, triggers } = require('./operations/actions');
 
 module.exports = {
     version: require('./package.json').version,
@@ -7,4 +7,5 @@ module.exports = {
     authentication: authentication,
     searches: searchActions(),
     creates: createActions(),
+    triggers: triggers(),
 };

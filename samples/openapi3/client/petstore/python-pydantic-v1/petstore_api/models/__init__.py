@@ -26,6 +26,7 @@ from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_map_model import ArrayOfMapModel
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.base_discriminator import BaseDiscriminator
@@ -42,6 +43,7 @@ from petstore_api.models.color import Color
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
 from petstore_api.models.danish_pig import DanishPig
+from petstore_api.models.data_output_format import DataOutputFormat
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
@@ -49,8 +51,11 @@ from petstore_api.models.dog import Dog
 from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
+from petstore_api.models.enum_ref_with_default_value import EnumRefWithDefaultValue
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
+from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.field import Field
@@ -61,17 +66,21 @@ from petstore_api.models.foo import Foo
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.header_arg import HeaderArg
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.hunting_dog import HuntingDog
 from petstore_api.models.info import Info
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.input_all_of import InputAllOf
 from petstore_api.models.int_or_string import IntOrString
+from petstore_api.models.known import Known
 from petstore_api.models.list_class import ListClass
 from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
@@ -80,6 +89,7 @@ from petstore_api.models.object_to_test_additional_properties import ObjectToTes
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.order import Order
+from petstore_api.models.other import Other
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
@@ -90,6 +100,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.pony_sizes import PonySizes
 from petstore_api.models.poop_cleaning import PoopCleaning
 from petstore_api.models.primitive_string import PrimitiveString
 from petstore_api.models.property_map import PropertyMap
@@ -103,6 +114,7 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.tagged_union import TaggedUnion
 from petstore_api.models.task import Task
 from petstore_api.models.task_activity import TaskActivity
 from petstore_api.models.test_enum import TestEnum
@@ -113,7 +125,10 @@ from petstore_api.models.test_inline_freeform_additional_properties_request impo
 from petstore_api.models.test_model_with_enum_default import TestModelWithEnumDefault
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger
+from petstore_api.models.type import Type
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
+from petstore_api.models.uuid_with_pattern import UuidWithPattern
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

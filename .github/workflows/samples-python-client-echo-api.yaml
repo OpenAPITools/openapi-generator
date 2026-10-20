@@ -18,23 +18,23 @@ jobs:
           - samples/client/echo_api/python
           - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
         python-version:
-          - "3.7"
-          - "3.8"
-          - "3.9"
-          - "3.10"
           - "3.11"
+          - "3.12"
+          - "3.13"
+          - "3.14"
+          - "3.15"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
           (cd http-echo-server && npm install && npm start &)
-      - name: Install 
+      - name: Install
         working-directory: ${{ matrix.sample }}
         run: |
           pip install -r requirements.txt
@@ -42,7 +42,7 @@ jobs:
 
       - name: Test
         working-directory: ${{ matrix.sample }}
-        run: python -m pytest
+        run: python -m unittest discover
 
       - name: mypy
         working-directory: ${{ matrix.sample }}

@@ -1,0 +1,14 @@
+{{!
+    Type declaration of a parameter for v4 and later.
+
+    Non-container parameters declared in the OpenAPI document as not required become Optional<dataType>; all other declarations
+     are just the dataType.
+
+}}{{^x-helidon-v3}}{{!
+    }}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}Optional<{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
+}}{{#vendorExtensions.x-helidon-isMultipartFormParam}}ReadablePart{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
+}}{{^vendorExtensions.x-helidon-isMultipartFormParam}}{{#isFormParam}}{{> formOrBodyParamDeclType }}{{/isFormParam}}{{!
+}}{{^isFormParam}}{{#isBodyParam}}{{> formOrBodyParamDeclType }}{{/isBodyParam}}{{^isBodyParam}}{{{dataType}}}{{/isBodyParam}}{{/isFormParam}}{{!
+}}{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
+}}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}>{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
+}}{{/x-helidon-v3}}

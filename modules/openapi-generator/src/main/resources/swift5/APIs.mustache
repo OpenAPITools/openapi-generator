@@ -45,6 +45,7 @@ import Vapor
         self.requiresAuthentication = requiresAuthentication
 
         addHeaders({{projectName}}API.customHeaders)
+        addCredential()
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addHeaders(_ aHeaders: [String: String]) {
@@ -92,9 +93,8 @@ import Vapor
         return self
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() -> Self {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() {
         credential = {{projectName}}API.credential
-        return self
     }
 }
 

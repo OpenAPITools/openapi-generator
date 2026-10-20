@@ -1,0 +1,175 @@
+{{>licenseInfo}}
+// ============================================================================
+// NullableField — tri-state nullable wrapper
+//
+// Tracks effective value and wire presence independently. A schema default can
+// supply an effective Null or Value while the property remains absent on the
+// wire; only an explicit setter or decoder input marks it present.
+//
+// Property mapping:
+//   Required, non-null   -> T
+//   Optional, non-null   -> std::optional<T>
+//   Required, nullable   -> null-capable value with Missing rejected
+//   Optional, nullable   -> NullableField<T>
+// ============================================================================
+
+#ifndef {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_
+#define {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_
+
+#include <type_traits>
+#include <utility>
+#include <stdexcept>
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+template <typename T>
+class NullableField {
+public:
+    enum class State { Missing, Null, Value };
+
+    // Default: missing with no effective value.
+    NullableField() = default;
+
+    // Construct an explicitly present value.
+    explicit NullableField(T v)
+        : state_(State::Value)
+        , value_(std::move(v))
+        , missing_(false)
+    {
+    }
+
+    // Factories for explicitly present values.
+    static NullableField makeNull() {
+        NullableField result;
+        result.state_ = State::Null;
+        result.missing_ = false;
+        return result;
+    }
+
+    static NullableField makeValue(T v) {
+        return NullableField(std::move(v));
+    }
+
+    // Schema defaults provide an effective value without wire presence.
+    static NullableField makeDefaultNull() {
+        NullableField result;
+        result.state_ = State::Null;
+        return result;
+    }
+
+    static NullableField makeDefaultValue(T v) {
+        NullableField result;
+        result.state_ = State::Value;
+        result.value_ = std::move(v);
+        return result;
+    }
+
+    // Effective-value and wire-presence queries are intentionally independent.
+    bool isMissing() const noexcept { return missing_; }
+    bool isNull() const noexcept    { return state_ == State::Null; }
+    bool hasValue() const noexcept  { return state_ == State::Value; }
+
+    /// Compatible with PropertyStorage hasOptionalValue() convention.
+    bool hasOptionalValue() const noexcept { return !missing_; }
+
+    /// Resets to Missing state. Compatible with PropertyStorage
+    /// resetOptionalValue() convention.
+    void resetOptionalValue() { resetMissing(); }
+
+    /// Access the held value. Throws when state is Missing or Null.
+    T const& value() const {
+        requireValueState();
+        return value_;
+    }
+
+    T& value() {
+        requireValueState();
+        return value_;
+    }
+
+    /// Transition to an explicitly present Null state.
+    void setNull() {
+        state_ = State::Null;
+        value_ = T();
+        missing_ = false;
+    }
+
+    /// Marks an effective default as explicitly present without changing its value.
+    /// Missing fields without an effective value remain missing.
+    void promotePresent() noexcept {
+        if (state_ != State::Missing) {
+            missing_ = false;
+        }
+    }
+
+    /// Reset to missing with no effective value. Generated model decoders
+    /// restore schema defaults with makeDefaultNull/makeDefaultValue instead.
+    void resetMissing() {
+        state_ = State::Missing;
+        value_ = T();
+        missing_ = true;
+    }
+
+    // Comparison includes presence because defaulted-missing and explicit values
+    // serialize differently even when their effective values are equal.
+    bool operator==(NullableField const& other) const {
+        if (missing_ != other.missing_ || state_ != other.state_) return false;
+        if (state_ == State::Value) return value_ == other.value_;
+        return true;
+    }
+
+    bool operator!=(NullableField const& other) const {
+        return !(*this == other);
+    }
+
+    /// Convert to boost::json::value:
+    ///   Missing -> returns a null json::value (caller decides to omit key)
+    ///   Null    -> returns nullptr (JSON null)
+    ///   Value   -> returns boost::json::value_from(value_)
+    boost::json::value toJsonValue() const {
+        switch (state_) {
+            case State::Null:
+                return nullptr;
+            case State::Value:
+                return boost::json::value_from(value_);
+            case State::Missing:
+            default:
+                return nullptr;
+        }
+    }
+
+private:
+    void requireValueState() const {
+        if (state_ != State::Value) {
+            throw std::logic_error(
+                state_ == State::Null
+                    ? "NullableField::value() called in Null state"
+                    : "NullableField::value() called without an effective value");
+        }
+    }
+
+    State state_{State::Missing};
+    T value_{};
+    bool missing_{true};
+};
+
+// ============================================================================
+// IsNullableField — trait to detect NullableField<T> at compile time.
+// Used by PropertyStorage and other generic wrappers to select the correct
+// forwarding methods (hasValue/isNull/setNull/resetMissing) via if constexpr.
+// ============================================================================
+
+template <typename T>
+struct IsNullableField : std::false_type {};
+
+template <typename T>
+struct IsNullableField<NullableField<T>> : std::true_type {};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_ */

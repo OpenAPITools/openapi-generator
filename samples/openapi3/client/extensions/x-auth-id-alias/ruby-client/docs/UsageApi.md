@@ -26,14 +26,14 @@ require 'x_auth_id_alias'
 # setup authorization
 XAuthIDAlias.configure do |config|
   # Configure API key authorization: api_key
+  config.api_key['X-Api-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-Api-Key'] = 'Bearer'
+
+  # Configure API key authorization: api_key_query
   config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   # config.api_key_prefix['api_key'] = 'Bearer'
-
-  # Configure API key authorization: api_key_query
-  config.api_key['api_key_query'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['api_key_query'] = 'Bearer'
 end
 
 api_instance = XAuthIDAlias::UsageApi.new
@@ -99,14 +99,14 @@ require 'x_auth_id_alias'
 # setup authorization
 XAuthIDAlias.configure do |config|
   # Configure API key authorization: api_key
+  config.api_key['X-Api-Key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['X-Api-Key'] = 'Bearer'
+
+  # Configure API key authorization: api_key_query
   config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   # config.api_key_prefix['api_key'] = 'Bearer'
-
-  # Configure API key authorization: api_key_query
-  config.api_key['api_key_query'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['api_key_query'] = 'Bearer'
 end
 
 api_instance = XAuthIDAlias::UsageApi.new
@@ -172,9 +172,9 @@ require 'x_auth_id_alias'
 # setup authorization
 XAuthIDAlias.configure do |config|
   # Configure API key authorization: api_key
-  config.api_key['api_key'] = 'YOUR API KEY'
+  config.api_key['X-Api-Key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['api_key'] = 'Bearer'
+  # config.api_key_prefix['X-Api-Key'] = 'Bearer'
 end
 
 api_instance = XAuthIDAlias::UsageApi.new
@@ -240,9 +240,9 @@ require 'x_auth_id_alias'
 # setup authorization
 XAuthIDAlias.configure do |config|
   # Configure API key authorization: api_key_query
-  config.api_key['api_key_query'] = 'YOUR API KEY'
+  config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['api_key_query'] = 'Bearer'
+  # config.api_key_prefix['api_key'] = 'Bearer'
 end
 
 api_instance = XAuthIDAlias::UsageApi.new

@@ -5,6 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/javascript/petstore-
 templateDir: modules/openapi-generator/src/main/resources/Javascript
 additionalProperties:
   appName: PetstoreClient
+  skipDefaultUserAgent: true
 modelNameMappings:
   HealthCheckResult: HealthCheckStatus
 parameterNameMappings:

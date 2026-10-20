@@ -29,15 +29,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
+  @javax.annotation.Nullable
   private String client;
 
   public Client() {
   }
 
-  public Client client(String client) {
+  public Client client(@javax.annotation.Nullable String client) {
     
     this.client = client;
     return this;
@@ -48,7 +49,7 @@ public class Client {
    * @return client
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getClient() {
@@ -56,11 +57,12 @@ public class Client {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setClient(String client) {
+  public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -93,10 +95,7 @@ public class Client {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

@@ -35,15 +35,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public TriangleInterface() { 
   }
 
-  public TriangleInterface triangleType(String triangleType) {
+  public TriangleInterface triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -53,16 +54,16 @@ public class TriangleInterface {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getTriangleType() {
     return triangleType;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -101,10 +102,7 @@ public class TriangleInterface {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -141,7 +139,7 @@ public class TriangleInterface {
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(java.util.Locale.ROOT, "%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
     }
 
     return joiner.toString();

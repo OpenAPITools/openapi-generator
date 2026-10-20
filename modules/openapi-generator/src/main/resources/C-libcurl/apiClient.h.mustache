@@ -19,9 +19,20 @@ typedef struct sslConfig_t {
                                   /* 1 -- skip ssl verify for server certificate */
 } sslConfig_t;
 
+typedef struct curlConfig_t {
+    long verbose;   /* 0 -- disable verbose (default) */
+                    /* 1 -- enable verbose */
+    int keepalive;  /* 0 -- disable keepalive (default) */
+                    /* 1 -- enable keepalive */
+    long keepidle;  /* keep-alive idle time: default to 120 seconds */
+    long keepintvl; /* interval time between keep-alive probes: default to 60 seconds */
+} curlConfig_t;
+
 typedef struct apiClient_t {
     char *basePath;
     sslConfig_t *sslConfig;
+    curlConfig_t *curlConfig;
+    void (*curl_pre_invoke_func)(CURL *);
     void *dataReceived;
     long dataReceivedLen;
     void (*data_callback_func)(void **, long *);
@@ -34,6 +45,9 @@ typedef struct apiClient_t {
     char *username;
     char *password;
     {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    char *accessToken;
+    {{/isBasicBearer}}
     {{#isOAuth}}
     char *accessToken;
     {{/isOAuth}}
@@ -59,7 +73,7 @@ apiClient_t* apiClient_create_with_base_path(const char *basePath
 
 void apiClient_free(apiClient_t *apiClient);
 
-void apiClient_invoke(apiClient_t *apiClient,const char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters,list_t *headerType,list_t *contentType, const char *bodyParameters, const char *requestType);
+void apiClient_invoke(apiClient_t *apiClient,const char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters,list_t *headerType,list_t *contentType, const char *bodyParameters, size_t bodyParametersLength, const char *requestType);
 
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify);
 

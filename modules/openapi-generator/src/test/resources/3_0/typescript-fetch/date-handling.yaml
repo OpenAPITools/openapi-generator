@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Date handling
+  description: >
+    Covers every location a `format: date` or `format: date-time` value can appear in,
+    so the generated (de)serialization can be checked in one place.
+  version: 1.0.0
+paths:
+  /events/{onDate}:
+    get:
+      operationId: listEvents
+      parameters:
+        - name: onDate
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: updatedSince
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: matching events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+  /events:
+    post:
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - startsOn
+              properties:
+                startsOn:
+                  type: string
+                  format: date
+                createdAt:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: the created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+components:
+  schemas:
+    Event:
+      type: object
+      required:
+        - startsOn
+      properties:
+        startsOn:
+          type: string
+          format: date
+        endsOn:
+          type: string
+          format: date
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    Venue:
+      description: Has no date of any kind, so it must not import the date helpers.
+      type: object
+      properties:
+        name:
+          type: string
+    Holidays:
+      description: A oneOf whose branch is picked by testing the value against the date helper.
+      oneOf:
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: number

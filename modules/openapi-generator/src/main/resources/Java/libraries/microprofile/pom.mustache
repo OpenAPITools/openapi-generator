@@ -12,7 +12,7 @@
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
-        <groupId>org.jboss.jandex</groupId>
+        <groupId>io.smallrye</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
         <version>${jandex.maven.plugin.version}</version>
         <executions>
@@ -101,13 +101,7 @@
       <version>${smallrye.config.version}</version>
       <scope>test</scope>
     </dependency>
-    {{^disableMultipart}}
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.rt.rs.extension.providers.version}</version>
-    </dependency>
-    {{/disableMultipart}}
+
     {{#jsonb}}
     <dependency>
       <groupId>jakarta.json.bind</groupId>
@@ -196,6 +190,21 @@
         <version>${mutiny.version}</version>
     </dependency>
 {{/microprofileMutiny}}
+{{#useReflectionEqualsHashCode}}
+    <!-- For equals and hashCode using reflection -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang3.version}</version>
+    </dependency>
+{{/useReflectionEqualsHashCode}}
+    {{#useJspecify}}
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    {{/useJspecify}}
   </dependencies>
   <repositories>
     <repository>
@@ -210,17 +219,18 @@
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
-    <logback.version>1.4.14</logback.version>
+    <logback.version>1.5.19</logback.version>
 {{#useBeanValidation}}
     <beanvalidation.version>3.0.2</beanvalidation.version>
 {{/useBeanValidation}}
-    <cxf.version>3.2.7</cxf.version>
-    <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
+    <jackson.jaxrs.version>2.18.9</jackson.jaxrs.version>
 {{#jackson}}
-    <jackson.version>2.17.1</jackson.version>
+    <jackson.version>2.18.9</jackson.version>
 {{/jackson}}
     <jakarta.activation.version>1.2.2</jakarta.activation.version>
     <jakarta.annotation.version>1.3.5</jakarta.annotation.version>
@@ -231,16 +241,17 @@
     <microprofile.rest.client.api.version>{{microprofileRestClientVersion}}</microprofile.rest.client.api.version>
     <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
     <smallrye.config.version>1.3.5</smallrye.config.version>
-    <cxf.rt.rs.extension.providers.version>3.2.6</cxf.rt.rs.extension.providers.version>
     <jaxb.core.version>2.2.11</jaxb.core.version>
     <jaxb.impl.version>2.2.11</jaxb.impl.version>
     <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
-    <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
+    <jandex.maven.plugin.version>3.2.7</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 {{#microprofileMutiny}}
-    <mutiny.version>1.2.0</mutiny.version>
+    <mutiny.version>1.10.0</mutiny.version>
 {{/microprofileMutiny}}
+{{#useReflectionEqualsHashCode}}
+    <commons.lang3.version>3.17.0</commons.lang3.version>
+{{/useReflectionEqualsHashCode}}
   </properties>
 </project>

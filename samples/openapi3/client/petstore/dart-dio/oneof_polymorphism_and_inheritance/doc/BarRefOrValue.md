@@ -8,14 +8,14 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | unique identifier | 
-**barPropA** | **String** |  | [optional] 
-**fooPropB** | **String** |  | [optional] 
-**foo** | [**FooRefOrValue**](FooRefOrValue.md) |  | [optional] 
 **href** | **String** | Hyperlink reference | [optional] 
+**id** | **String** | unique identifier | 
 **atSchemaLocation** | **String** | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional] 
 **atBaseType** | **String** | When sub-classing, this defines the super-class | [optional] 
 **atType** | **String** | When sub-classing, this defines the sub-class Extensible name | 
+**barPropA** | **String** |  | [optional] 
+**fooPropB** | **String** |  | [optional] 
+**foo** | [**FooRefOrValue**](FooRefOrValue.md) |  | [optional] 
 **name** | **String** | Name of the related entity. | [optional] 
 **atReferredType** | **String** | The actual type of the target instance when needed for disambiguation. | [optional] 
 

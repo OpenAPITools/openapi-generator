@@ -1,0 +1,11 @@
+.gitignore
+build.gradle.kts
+gradle/libs.versions.toml
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+settings.gradle.kts
+src/main/kotlin/org/openapitools/apis/DefaultApiStubBuilders.kt
+src/main/kotlin/org/openapitools/apis/DefaultApiStubs.kt
+src/main/kotlin/org/openapitools/models/Foo.kt

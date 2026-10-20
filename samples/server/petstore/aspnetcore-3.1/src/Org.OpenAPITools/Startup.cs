@@ -84,7 +84,7 @@ namespace Org.OpenAPITools
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 3.1)",
+                        Description = "OpenAPI Petstore (ASP.NET Core 10.0)",
                         TermsOfService = new Uri("https://github.com/openapitools/openapi-generator"),
                         Contact = new OpenApiContact
                         {
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools
                         Version = "1.0.0",
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetExecutingAssembly().GetName().Name}.xml");
                     // Sets the basePath property in the OpenAPI document generated
                     c.DocumentFilter<BasePathFilter>("/v2");
 

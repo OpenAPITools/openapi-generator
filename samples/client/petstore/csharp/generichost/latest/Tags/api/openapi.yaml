@@ -1,0 +1,55 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: support@files.com
+    name: Files.com Customer Success Team
+  title: Files.com API
+  version: 0.0.1
+servers:
+- url: //app.files.com/api/rest/v1
+tags:
+- description: Operations about api_keys
+  name: api_key
+- description: Operations about API Keys
+  name: API Keys
+- description: Operations about API keys
+  name: a_p_i_k_e_y_s
+paths:
+  /api_keys/{id}:
+    get:
+      description: Show API Key
+      operationId: GetApiKeysId
+      parameters:
+      - description: Api Key ID.
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+          x-ms-summary: Api Key ID.
+        x-ms-summary: Api Key ID.
+      responses:
+        "400":
+          content: {}
+          description: Bad Request
+          x-ms-summary: Bad Request
+      summary: Show API Key
+      tags:
+      - api_keys
+      - API Keys
+      - a_p_i_k_e_y_s
+      x-authentication:
+      - self_managed
+      x-category:
+      - developers
+components:
+  schemas: {}
+  securitySchemes:
+    api_key:
+      description: API Key - supports user-based or site-wide API keys
+      in: header
+      name: XFilesAPIKey
+      type: apiKey
+x-original-swagger-version: "2.0"
+

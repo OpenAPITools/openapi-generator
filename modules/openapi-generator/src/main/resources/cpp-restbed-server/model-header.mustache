@@ -38,7 +38,7 @@ class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first
 public:
     {{classname}}() = default;
     explicit {{classname}}(boost::property_tree::ptree const& pt);
-    virtual ~{{classname}}() = default;
+    virtual ~{{classname}}();
 
     {{classname}}(const {{classname}}& other) = default; // copy constructor
     {{classname}}({{classname}}&& other) noexcept = default; // move constructor

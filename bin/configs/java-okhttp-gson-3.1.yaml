@@ -3,6 +3,7 @@ outputDir: samples/client/petstore/java/okhttp-gson-3.1
 library: okhttp-gson
 inputSpec: modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
 nameMappings:
   _type: underscoreType
   type_: typeWithUnderscore
@@ -14,3 +15,6 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   useOneOfDiscriminatorLookup: "true"
   disallowAdditionalPropertiesIfNotPresent: false
+  enumPropertyNaming: legacy
+openapiNormalizer:
+  FIX_DUPLICATED_OPERATIONID: true

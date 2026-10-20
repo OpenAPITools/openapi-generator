@@ -4,6 +4,6 @@ package {{packageName}}.infrastructure
 import {{roomModelPackage}}.*
 
 // TODO ITransformForStorage
-interface ITransformForStorage<T> {
-    fun toRoomModel(): T
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface ITransformForStorage<T> {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toRoomModel(): T
 }

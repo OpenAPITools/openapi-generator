@@ -23,6 +23,9 @@ import org.openapitools.codegen.meta.features.*;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/openapi-static/}.
+ */
 public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -74,8 +77,8 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
                 outputFolder + "/assets/images", "logo.png"));
         supportingFiles.add(new SupportingFile("assets/js/bootstrap.js",
                 outputFolder + "/assets/js", "bootstrap.js"));
-        supportingFiles.add(new SupportingFile("assets/js/jquery-1.8.3.min.js",
-                outputFolder + "/assets/js", "jquery-1.8.3.min.js"));
+        supportingFiles.add(new SupportingFile("assets/js/jquery-3.7.1.min.js",
+                outputFolder + "/assets/js", "jquery-3.7.1.min.js"));
         supportingFiles.add(new SupportingFile("assets/js/main.js",
                 outputFolder + "/assets/js", "main.js"));
         supportingFiles.add(new SupportingFile("index.mustache",
@@ -131,5 +134,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

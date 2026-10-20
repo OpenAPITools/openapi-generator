@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.DefaultApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost/v2*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -31,7 +31,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new DefaultApi(config);
 
             try
@@ -113,7 +113,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new DefaultApi(config);
             var country = "country_example";  // string | 
 
@@ -198,7 +198,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new DefaultApi(config);
 
             try
@@ -282,7 +282,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new DefaultApi(config);
 
             try
@@ -364,7 +364,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new DefaultApi(config);
 
             try

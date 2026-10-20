@@ -16,14 +16,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   @ApiModelProperty(value = "")
+
   private UUID uuid;
 
   @ApiModelProperty(value = "")
+
   private Date dateTime;
 
   @ApiModelProperty(value = "")
-  @Valid
-  private Map<String, Animal> map = new HashMap<>();
+
+  private Map<String, @Valid Animal> map = new HashMap<>();
  /**
    * Get uuid
    * @return uuid
@@ -65,15 +67,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * @return map
   **/
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }
@@ -119,10 +121,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

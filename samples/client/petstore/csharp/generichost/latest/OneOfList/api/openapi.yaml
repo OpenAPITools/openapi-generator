@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: Oneof array test
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /one-of-array:
+    post:
+      description: Oneof array test
+      operationId: oneOfArray
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/oneOfArray_request"
+      responses:
+        "204":
+          description: Successful operation
+components:
+  schemas:
+    TestObject:
+      properties:
+        name:
+          type: string
+      type: object
+    oneOfArray_request:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          $ref: "#/components/schemas/TestObject"
+        type: array
+

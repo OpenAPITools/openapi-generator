@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(req::HTTP.Request, pet::Pet;) -> Pet
+> `add_pet`(req::`HTTP.Request`, `pet`::`Pet`;) -> `Pet`
 
 Add a new pet to the store
 
@@ -25,12 +25,12 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet`** | [**`Pet`**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**`Pet`**](Pet.md)
 
 ### Authorization
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_pet**
-> delete_pet(req::HTTP.Request, pet_id::Int64; api_key=nothing,) -> Nothing
+> `delete_pet`(req::`HTTP.Request`, `pet_id`::`Int64`; `api_key`=nothing,) -> `Nothing`
 
 Deletes a pet
 
@@ -54,18 +54,18 @@ Deletes a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet_id** | **Int64**| Pet id to delete | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet_id`** | **`Int64`**| Pet id to delete |
 
 ### Optional Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **api_key** | **String**|  | [default to nothing]
+ **`api_key`** | **`String`**|  | [default to nothing]
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -79,7 +79,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> find_pets_by_status(req::HTTP.Request, status::Vector{String};) -> Vector{Pet}
+> `find_pets_by_status`(req::`HTTP.Request`, `status`::`Vector{String}`;) -> `Vector{Pet}`
 
 Finds Pets by status
 
@@ -89,12 +89,12 @@ Multiple status values can be provided with comma separated strings
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**status** | [**Vector{String}**](String.md)| Status values that need to be considered for filter | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`status`** | [**`Vector{String}`**](String.md)| Status values that need to be considered for filter |
 
 ### Return type
 
-[**Vector{Pet}**](Pet.md)
+[**`Vector{Pet}`**](Pet.md)
 
 ### Authorization
 
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> find_pets_by_tags(req::HTTP.Request, tags::Vector{String};) -> Vector{Pet}
+> `find_pets_by_tags`(req::`HTTP.Request`, `tags`::`Vector{String}`;) -> `Vector{Pet}`
 
 Finds Pets by tags
 
@@ -118,12 +118,12 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**tags** | [**Vector{String}**](String.md)| Tags to filter by | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`tags`** | [**`Vector{String}`**](String.md)| Tags to filter by |
 
 ### Return type
 
-[**Vector{Pet}**](Pet.md)
+[**`Vector{Pet}`**](Pet.md)
 
 ### Authorization
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pet_by_id**
-> get_pet_by_id(req::HTTP.Request, pet_id::Int64;) -> Pet
+> `get_pet_by_id`(req::`HTTP.Request`, `pet_id`::`Int64`;) -> `Pet`
 
 Find pet by ID
 
@@ -147,12 +147,12 @@ Returns a single pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet_id** | **Int64**| ID of pet to return | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet_id`** | **`Int64`**| ID of pet to return |
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**`Pet`**](Pet.md)
 
 ### Authorization
 
@@ -166,7 +166,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(req::HTTP.Request, pet::Pet;) -> Pet
+> `update_pet`(req::`HTTP.Request`, `pet`::`Pet`;) -> `Pet`
 
 Update an existing pet
 
@@ -176,12 +176,12 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet`** | [**`Pet`**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**`Pet`**](Pet.md)
 
 ### Authorization
 
@@ -195,7 +195,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet_with_form**
-> update_pet_with_form(req::HTTP.Request, pet_id::Int64; name=nothing, status=nothing,) -> Nothing
+> `update_pet_with_form`(req::`HTTP.Request`, `pet_id`::`Int64`; `name`=nothing, `status`=nothing,) -> `Nothing`
 
 Updates a pet in the store with form data
 
@@ -205,19 +205,19 @@ Updates a pet in the store with form data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet_id** | **Int64**| ID of pet that needs to be updated | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet_id`** | **`Int64`**| ID of pet that needs to be updated |
 
 ### Optional Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **String**| Updated name of the pet | [default to nothing]
- **status** | **String**| Updated status of the pet | [default to nothing]
+ **`name`** | **`String`**| Updated name of the pet | [default to nothing]
+ **`status`** | **`String`**| Updated status of the pet | [default to nothing]
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -231,7 +231,7 @@ Nothing
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
-> upload_file(req::HTTP.Request, pet_id::Int64; additional_metadata=nothing, file=nothing,) -> ApiResponse
+> `upload_file`(req::`HTTP.Request`, `pet_id`::`Int64`; `additional_metadata`=nothing, `file`=nothing,) -> `ApiResponse`
 
 uploads an image
 
@@ -241,19 +241,19 @@ uploads an image
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | **HTTP.Request** | The HTTP Request object | 
-**pet_id** | **Int64**| ID of pet to update | [default to nothing]
+ **req** | **`HTTP.Request`** | The HTTP Request object | 
+**`pet_id`** | **`Int64`**| ID of pet to update |
 
 ### Optional Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **additional_metadata** | **String**| Additional data to pass to server | [default to nothing]
- **file** | **String****String**| file to upload | [default to nothing]
+ **`additional_metadata`** | **`String`**| Additional data to pass to server | [default to nothing]
+ **`file`** | **`Vector{UInt8}`**| file to upload | 
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**`ApiResponse`**](ApiResponse.md)
 
 ### Authorization
 

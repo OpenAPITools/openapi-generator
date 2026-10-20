@@ -27,14 +27,19 @@ import io.gsonfire.TypeSelector;
 import okio.ByteString;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -53,6 +58,7 @@ public class JSON {
     private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
     private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
     private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private static LocalDateTimeTypeAdapter localDateTimeTypeAdapter = new LocalDateTimeTypeAdapter();
     private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
@@ -92,6 +98,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter);
         gsonBuilder.registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(LocalDate.class, localDateTypeAdapter);
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, localDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Category.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ModelApiResponse.CustomTypeAdapterFactory());
@@ -162,6 +169,28 @@ public class JSON {
                 return (T) body;
             } else {
                 throw (e);
+            }
+        }
+    }
+
+    /**
+    * Deserialize the given JSON InputStream to a Java object.
+    *
+    * @param <T>         Type
+    * @param inputStream The JSON InputStream
+    * @param returnType  The type to deserialize into
+    * @return The deserialized Java object
+    */
+    @SuppressWarnings("unchecked")
+    public static <T> T deserialize(InputStream inputStream, Type returnType) throws IOException {
+        try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+        if (isLenientOnJson) {
+            // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
+            JsonReader jsonReader = new JsonReader(reader);
+            jsonReader.setLenient(true);
+            return gson.fromJson(jsonReader, returnType);
+            } else {
+                return gson.fromJson(reader, returnType);
             }
         }
     }
@@ -279,12 +308,65 @@ public class JSON {
         }
     }
 
+    /**
+     * Gson TypeAdapter for JSR310 LocalDateTime type
+     */
+    public static class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
+
+        private DateTimeFormatter formatter;
+
+        public LocalDateTimeTypeAdapter() {
+            this(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+
+        public LocalDateTimeTypeAdapter(DateTimeFormatter formatter) {
+            this.formatter = formatter;
+        }
+
+        public void setFormat(DateTimeFormatter dateFormat) {
+            this.formatter = dateFormat;
+        }
+
+        @Override
+        public void write(JsonWriter out, LocalDateTime date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(formatter.format(date));
+            }
+        }
+
+        @Override
+        public LocalDateTime read(JsonReader in) throws IOException {
+            switch (in.peek()) {
+                case NULL:
+                    in.nextNull();
+                    return null;
+                default:
+                    String date = in.nextString();
+                    try {
+                        return LocalDateTime.parse(date, formatter);
+                    } catch (DateTimeParseException e) {
+                        if (date.length() > 10 && date.charAt(10) == ' ') {
+                            date = date.substring(0, 10) + 'T' + date.substring(11);
+                            return LocalDateTime.parse(date, formatter);
+                        }
+                        throw e;
+                    }
+            }
+        }
+    }
+
     public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
     public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
+    }
+
+    public static void setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        localDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
     /**

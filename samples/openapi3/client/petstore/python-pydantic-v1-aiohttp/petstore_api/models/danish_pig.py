@@ -25,9 +25,9 @@ class DanishPig(BaseModel):
     """
     DanishPig
     """
-    class_name: StrictStr = Field(default=..., alias="className")
+    class_name: StrictStr = Field(default=..., alias="class'\"\\Name")
     size: StrictInt = Field(...)
-    __properties = ["className", "size"]
+    __properties = ["class'\"\\Name", "size"]
 
     class Config:
         """Pydantic configuration"""
@@ -65,7 +65,7 @@ class DanishPig(BaseModel):
             return DanishPig.parse_obj(obj)
 
         _obj = DanishPig.parse_obj({
-            "class_name": obj.get("className"),
+            "class_name": obj.get("class'\"\\Name"),
             "size": obj.get("size")
         })
         return _obj

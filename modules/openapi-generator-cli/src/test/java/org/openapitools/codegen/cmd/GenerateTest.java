@@ -363,7 +363,7 @@ public class GenerateTest {
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
         } finally {
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }
@@ -389,7 +389,7 @@ public class GenerateTest {
             verify(configurator).toClientOptInput();
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }
@@ -427,6 +427,24 @@ public class GenerateTest {
     public void testVerboseShort() {
         setupAndRunGenericTest("-v");
         verify(configurator).setVerbose(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testQuietLong() {
+        setupAndRunGenericTest("--quiet");
+        verify(configurator).setQuiet(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testQuietShort() {
+        setupAndRunGenericTest("-q");
+        verify(configurator).setQuiet(true);
         verify(configurator).toClientOptInput();
         verify(configurator).toContext();
         verifyNoMoreInteractions(configurator);

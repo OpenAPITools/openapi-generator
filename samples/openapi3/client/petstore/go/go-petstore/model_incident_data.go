@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // IncidentData - struct for IncidentData
@@ -89,6 +89,10 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
+		if err != nil {
+			return fmt.Errorf("data failed to match schemas in oneOf(IncidentData): %v", err)
+		}
+
 		return fmt.Errorf("data failed to match schemas in oneOf(IncidentData)")
 	}
 }
@@ -117,6 +121,20 @@ func (obj *IncidentData) GetActualInstance() (interface{}) {
 
 	if obj.MapmapOfStringAny != nil {
 		return obj.MapmapOfStringAny
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj IncidentData) GetActualInstanceValue() (interface{}) {
+	if obj.ArrayOfMapmapOfStringAny != nil {
+		return *obj.ArrayOfMapmapOfStringAny
+	}
+
+	if obj.MapmapOfStringAny != nil {
+		return *obj.MapmapOfStringAny
 	}
 
 	// all schemas are nil

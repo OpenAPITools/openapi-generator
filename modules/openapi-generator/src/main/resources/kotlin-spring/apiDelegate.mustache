@@ -4,17 +4,18 @@ package {{package}}
 {{/imports}}
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity
+{{/useResponseEntity}}
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
+{{#appendRequestToHandler}}
+import org.springframework.http.server.reactive.ServerHttpRequest
+{{/appendRequestToHandler}}
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow
 {{/reactive}}
 
 import java.util.Optional
-{{#async}}
-import java.util.concurrent.CompletableFuture
-{{/async}}
 
 {{#operations}}
 /**
@@ -22,6 +23,7 @@ import java.util.concurrent.CompletableFuture
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 {{>generatedAnnotation}}
+
 interface {{classname}}Delegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -30,10 +32,13 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isFile}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
-        {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
-        {{>methodBody}}
-    }
+    {{#suspendFunctions}}suspend {{/suspendFunctions}}{{^suspendFunctions}}{{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{#vendorExtensions.x-reactive-array-string-return}}suspend {{/vendorExtensions.x-reactive-array-string-return}}{{^vendorExtensions.x-reactive-array-string-return}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/vendorExtensions.x-reactive-array-string-return}}{{/isArray}}{{/reactive}}{{/suspendFunctions}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{^-last}},
+        {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
+        {{/hasParams}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},
+        {{/includeHttpRequestContext}}{{/hasParams}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{^skipDefaultDelegateInterface}} {
+        {{>methodBody}}{{! prevent indent}}
+    }{{/skipDefaultDelegateInterface}}
 
 {{/operation}}
 }

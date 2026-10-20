@@ -36,6 +36,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaInflector/}.
+ */
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
@@ -48,7 +51,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
-        sourceFolder = "src"+ File.separator+"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "org.openapitools.controllers";
@@ -73,7 +76,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-       this.jackson = true;
+        this.jackson = true;
     }
 
     @Override

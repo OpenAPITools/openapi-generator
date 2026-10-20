@@ -18,7 +18,7 @@ trait {{classname}} extends Service {
     named("{{classname}}").withCalls(
 {{#operations}}
   {{#operation}}
-      restCall(Method.{{httpMethod}}, "{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}{{^-last}}&{{/-last}}{{/queryParams}}", {{operationId}} _){{^-last}}, {{/-last}}
+      restCall(Method.{{httpMethod}}, "{{{path}}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}{{^-last}}&{{/-last}}{{/queryParams}}", {{operationId}} _){{^-last}}, {{/-last}}
   {{/operation}}
 {{/operations}}
     ).withAutoAcl(true)

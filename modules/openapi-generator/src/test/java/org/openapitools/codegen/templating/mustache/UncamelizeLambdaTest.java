@@ -1,4 +1,5 @@
 package org.openapitools.codegen.templating.mustache;
+
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

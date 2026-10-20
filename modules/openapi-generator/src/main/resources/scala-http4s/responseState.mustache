@@ -1,0 +1,5 @@
+{{#hasOnlyDefaultResponse}}{{#responses.0}}{{#dataType}}r => parseJson[F, {{>operationReturnType}}]("{{>operationReturnType}}", r){{/dataType}}{{^dataType}}r => Concurrent[F].pure(()){{/dataType}}{{/responses.0}}{{/hasOnlyDefaultResponse}}{{^hasOnlyDefaultResponse}}{{#responses}}{{#is2xx}}
+        {{>successResponsePart}}{{/is2xx}}{{^is2xx}}{{#is3xx}}
+        {{>successResponsePart}}{{/is3xx}}{{^is3xx}}{{^isDefault}}
+        {{>errorResponsePart}}{{/isDefault}}{{#isDefault}}
+        {{#dataType}}case r => parseJson[F, {{dataType}}]("{{dataType}}", r).flatMap(res => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason, Some(res.asJson)))){{/dataType}}{{^dataType}}case r => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason)){{/dataType}}{{/isDefault}}{{/is3xx}}{{/is2xx}}{{/responses}}{{/hasOnlyDefaultResponse}}

@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: RefParams A
+  version: 1.0.0
+servers:
+  - url: api.my-domain.com/my-context-root/v1
+paths:
+  /refparams:
+    parameters:
+      - $ref: '#/components/parameters/ParamA'
+    get:
+      tags:
+        - refparams
+      summary: get refparams
+      operationId: getRefParams
+      responses:
+        '200':
+          description: OK
+components:
+  parameters:
+    ParamA:
+      name: paramA
+      in: query
+      schema:
+        type: string
+    ParamB:
+      name: paramB
+      in: query
+      schema:
+        type: string

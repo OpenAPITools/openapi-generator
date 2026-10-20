@@ -1,0 +1,14 @@
+.ocamlformat
+README.md
+dune
+dune-project
+recursion_test.opam
+src/models/array_recursion.ml
+src/models/direct_recursion.ml
+src/models/map_recursion.ml
+src/models/multiple_recursive_fields.ml
+src/models/required_array_recursion.ml
+src/models/required_recursion.ml
+src/support/enums.ml
+src/support/jsonSupport.ml
+src/support/request.ml

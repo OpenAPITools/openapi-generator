@@ -29,7 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -65,7 +65,8 @@ public class FakeApi {
    * @return HealthCheckResult
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
      </table>
@@ -80,7 +81,8 @@ public class FakeApi {
    * @return ApiResponse&lt;HealthCheckResult&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
      </table>
@@ -88,10 +90,12 @@ public class FakeApi {
   public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<HealthCheckResult>() {});
     GenericType<HealthCheckResult> localVarReturnType = new GenericType<HealthCheckResult>() {};
     return apiClient.invokeAPI("FakeApi.fakeHealthGet", "/fake/health", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -100,12 +104,13 @@ public class FakeApi {
    * @return Boolean
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
      </table>
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+  public Boolean fakeOuterBooleanSerialize(@jakarta.annotation.Nullable Boolean body) throws ApiException {
     return fakeOuterBooleanSerializeWithHttpInfo(body).getData();
   }
 
@@ -116,18 +121,21 @@ public class FakeApi {
    * @return ApiResponse&lt;Boolean&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
+  public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(@jakarta.annotation.Nullable Boolean body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Boolean>() {});
     GenericType<Boolean> localVarReturnType = new GenericType<Boolean>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterBooleanSerialize", "/fake/outer/boolean", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -136,12 +144,13 @@ public class FakeApi {
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
      </table>
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+  public OuterComposite fakeOuterCompositeSerialize(@jakarta.annotation.Nullable OuterComposite outerComposite) throws ApiException {
     return fakeOuterCompositeSerializeWithHttpInfo(outerComposite).getData();
   }
 
@@ -152,18 +161,21 @@ public class FakeApi {
    * @return ApiResponse&lt;OuterComposite&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
+  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(@jakarta.annotation.Nullable OuterComposite outerComposite) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<OuterComposite>() {});
     GenericType<OuterComposite> localVarReturnType = new GenericType<OuterComposite>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterCompositeSerialize", "/fake/outer/composite", "POST", new ArrayList<>(), outerComposite,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -172,12 +184,13 @@ public class FakeApi {
    * @return BigDecimal
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
    */
-  public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize(@jakarta.annotation.Nullable BigDecimal body) throws ApiException {
     return fakeOuterNumberSerializeWithHttpInfo(body).getData();
   }
 
@@ -188,18 +201,21 @@ public class FakeApi {
    * @return ApiResponse&lt;BigDecimal&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
+  public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(@jakarta.annotation.Nullable BigDecimal body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<BigDecimal>() {});
     GenericType<BigDecimal> localVarReturnType = new GenericType<BigDecimal>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", "/fake/outer/number", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -208,12 +224,13 @@ public class FakeApi {
    * @return String
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public String fakeOuterStringSerialize(String body) throws ApiException {
+  public String fakeOuterStringSerialize(@jakarta.annotation.Nullable String body) throws ApiException {
     return fakeOuterStringSerializeWithHttpInfo(body).getData();
   }
 
@@ -224,18 +241,21 @@ public class FakeApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
+  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@jakarta.annotation.Nullable String body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<String>() {});
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", "/fake/outer/string", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Array of Enums
@@ -243,7 +263,8 @@ public class FakeApi {
    * @return List&lt;OuterEnum&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Got named array of enums </td><td>  -  </td></tr>
      </table>
@@ -258,7 +279,8 @@ public class FakeApi {
    * @return ApiResponse&lt;List&lt;OuterEnum&gt;&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Got named array of enums </td><td>  -  </td></tr>
      </table>
@@ -266,10 +288,12 @@ public class FakeApi {
   public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<List<OuterEnum>>() {});
     GenericType<List<OuterEnum>> localVarReturnType = new GenericType<List<OuterEnum>>() {};
     return apiClient.invokeAPI("FakeApi.getArrayOfEnums", "/fake/array-of-enums", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Array of string
@@ -277,12 +301,13 @@ public class FakeApi {
    * @param requestBody  (optional)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
    */
-  public void postArrayOfString(List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
+  public void postArrayOfString(@jakarta.annotation.Nullable List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
     postArrayOfStringWithHttpInfo(requestBody);
   }
 
@@ -293,17 +318,19 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> postArrayOfStringWithHttpInfo(List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
+  public ApiResponse<Void> postArrayOfStringWithHttpInfo(@jakarta.annotation.Nullable List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.postArrayOfString", "/fake/request-array-string", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test referenced additionalProperties
@@ -311,12 +338,13 @@ public class FakeApi {
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException {
+  public void testAdditionalPropertiesReference(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws ApiException {
     testAdditionalPropertiesReferenceWithHttpInfo(requestBody);
   }
 
@@ -327,12 +355,13 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws ApiException {
+  public ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws ApiException {
     // Check required parameters
     if (requestBody == null) {
       throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
@@ -340,9 +369,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testAdditionalPropertiesReference", "/fake/additionalProperties-reference", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -350,12 +380,13 @@ public class FakeApi {
    * @param fileSchemaTestClass  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+  public void testBodyWithFileSchema(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
   }
 
@@ -366,12 +397,13 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     // Check required parameters
     if (fileSchemaTestClass == null) {
       throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
@@ -379,9 +411,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testBodyWithFileSchema", "/fake/body-with-file-schema", "PUT", new ArrayList<>(), fileSchemaTestClass,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -390,12 +423,13 @@ public class FakeApi {
    * @param user  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public void testBodyWithQueryParams(String query, User user) throws ApiException {
+  public void testBodyWithQueryParams(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws ApiException {
     testBodyWithQueryParamsWithHttpInfo(query, user);
   }
 
@@ -407,12 +441,13 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
+  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws ApiException {
     // Check required parameters
     if (query == null) {
       throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
@@ -428,9 +463,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testBodyWithQueryParams", "/fake/body-with-query-params", "PUT", localVarQueryParams, user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * To test \&quot;client\&quot; model
@@ -439,12 +475,13 @@ public class FakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client testClientModel(Client client) throws ApiException {
+  public Client testClientModel(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return testClientModelWithHttpInfo(client).getData();
   }
 
@@ -455,12 +492,13 @@ public class FakeApi {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> testClientModelWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws ApiException {
     // Check required parameters
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
@@ -468,10 +506,12 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Client>() {});
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
     return apiClient.invokeAPI("FakeApi.testClientModel", "/fake", "PATCH", new ArrayList<>(), client,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -492,13 +532,14 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws ApiException {
     testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
   }
 
@@ -522,13 +563,14 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public ApiResponse<Void> testEndpointParametersWithHttpInfo(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws ApiException {
     // Check required parameters
     if (number == null) {
       throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
@@ -583,9 +625,10 @@ public class FakeApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     String[] localVarAuthNames = new String[] {"http_basic_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testEndpointParameters", "/fake", "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * To test enum parameters
@@ -600,13 +643,14 @@ public class FakeApi {
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
    */
-  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+  public void testEnumParameters(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws ApiException {
     testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
   }
 
@@ -624,13 +668,14 @@ public class FakeApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+  public ApiResponse<Void> testEnumParametersWithHttpInfo(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws ApiException {
     // Query parameters
     List<Pair> localVarQueryParams = new ArrayList<>(
             apiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray)
@@ -659,12 +704,13 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testEnumParameters", "/fake", "GET", localVarQueryParams, null,
                                localVarHeaderParams, new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 
-private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws ApiException {
     // Check required parameters
     if (requiredStringGroup == null) {
       throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
@@ -694,17 +740,24 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"bearer_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testGroupParameters", "/fake", "DELETE", localVarQueryParams, null,
                                localVarHeaderParams, new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
 
   public class APItestGroupParametersRequest {
+    @jakarta.annotation.Nonnull
     private Integer requiredStringGroup;
+    @jakarta.annotation.Nonnull
     private Boolean requiredBooleanGroup;
+    @jakarta.annotation.Nonnull
     private Long requiredInt64Group;
+    @jakarta.annotation.Nullable
     private Integer stringGroup;
+    @jakarta.annotation.Nullable
     private Boolean booleanGroup;
+    @jakarta.annotation.Nullable
     private Long int64Group;
 
     private APItestGroupParametersRequest() {
@@ -715,7 +768,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param requiredStringGroup Required String in group parameters (required)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest requiredStringGroup(Integer requiredStringGroup) {
+    public APItestGroupParametersRequest requiredStringGroup(@jakarta.annotation.Nonnull Integer requiredStringGroup) {
       this.requiredStringGroup = requiredStringGroup;
       return this;
     }
@@ -725,7 +778,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest requiredBooleanGroup(Boolean requiredBooleanGroup) {
+    public APItestGroupParametersRequest requiredBooleanGroup(@jakarta.annotation.Nonnull Boolean requiredBooleanGroup) {
       this.requiredBooleanGroup = requiredBooleanGroup;
       return this;
     }
@@ -735,7 +788,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param requiredInt64Group Required Integer in group parameters (required)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest requiredInt64Group(Long requiredInt64Group) {
+    public APItestGroupParametersRequest requiredInt64Group(@jakarta.annotation.Nonnull Long requiredInt64Group) {
       this.requiredInt64Group = requiredInt64Group;
       return this;
     }
@@ -745,7 +798,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param stringGroup String in group parameters (optional)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest stringGroup(Integer stringGroup) {
+    public APItestGroupParametersRequest stringGroup(@jakarta.annotation.Nullable Integer stringGroup) {
       this.stringGroup = stringGroup;
       return this;
     }
@@ -755,7 +808,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param booleanGroup Boolean in group parameters (optional)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest booleanGroup(Boolean booleanGroup) {
+    public APItestGroupParametersRequest booleanGroup(@jakarta.annotation.Nullable Boolean booleanGroup) {
       this.booleanGroup = booleanGroup;
       return this;
     }
@@ -765,7 +818,7 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @param int64Group Integer in group parameters (optional)
      * @return APItestGroupParametersRequest
      */
-    public APItestGroupParametersRequest int64Group(Long int64Group) {
+    public APItestGroupParametersRequest int64Group(@jakarta.annotation.Nullable Long int64Group) {
       this.int64Group = int64Group;
       return this;
     }
@@ -775,7 +828,8 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      
      * @throws ApiException if fails to make API call
      * @http.response.details
-       <table summary="Response Details" border="1">
+       <table border="1">
+       <caption>Response Details</caption>
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
          <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
        </table>
@@ -791,7 +845,8 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException if fails to make API call
      * @http.response.details
-       <table summary="Response Details" border="1">
+       <table border="1">
+       <caption>Response Details</caption>
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
          <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
        </table>
@@ -819,12 +874,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+  public void testInlineAdditionalProperties(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     testInlineAdditionalPropertiesWithHttpInfo(requestBody);
   }
 
@@ -835,12 +891,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     // Check required parameters
     if (requestBody == null) {
       throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
@@ -848,9 +905,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testInlineAdditionalProperties", "/fake/inline-additionalProperties", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test inline free-form additionalProperties
@@ -858,12 +916,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+  public void testInlineFreeformAdditionalProperties(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
     testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest);
   }
 
@@ -874,12 +933,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+  public ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
     // Check required parameters
     if (testInlineFreeformAdditionalPropertiesRequest == null) {
       throw new ApiException(400, "Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
@@ -887,9 +947,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testInlineFreeformAdditionalProperties", "/fake/inline-freeform-additionalProperties", "POST", new ArrayList<>(), testInlineFreeformAdditionalPropertiesRequest,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test json serialization of form data
@@ -898,12 +959,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @param param2 field2 (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testJsonFormData(String param, String param2) throws ApiException {
+  public void testJsonFormData(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws ApiException {
     testJsonFormDataWithHttpInfo(param, param2);
   }
 
@@ -915,12 +977,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {
+  public ApiResponse<Void> testJsonFormDataWithHttpInfo(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws ApiException {
     // Check required parameters
     if (param == null) {
       throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData");
@@ -936,9 +999,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testJsonFormData", "/fake/jsonFormData", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -950,12 +1014,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @param context  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+  public void testQueryParameterCollectionFormat(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context) throws ApiException {
     testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
   }
 
@@ -970,12 +1035,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+  public ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context) throws ApiException {
     // Check required parameters
     if (pipe == null) {
       throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
@@ -1004,9 +1070,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", "/fake/test-query-parameters", "PUT", localVarQueryParams, null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test referenced string map
@@ -1014,12 +1081,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testStringMapReference(Map<String, String> requestBody) throws ApiException {
+  public void testStringMapReference(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     testStringMapReferenceWithHttpInfo(requestBody);
   }
 
@@ -1030,12 +1098,13 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+  public ApiResponse<Void> testStringMapReferenceWithHttpInfo(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     // Check required parameters
     if (requestBody == null) {
       throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testStringMapReference");
@@ -1043,8 +1112,9 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testStringMapReference", "/fake/stringMap-reference", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 }

@@ -178,7 +178,7 @@ components:
           type: string
         is:
           type: string
-        null:
+        "null":
           type: string
         object:
           type: string
@@ -251,7 +251,7 @@ components:
           $ref: '#/components/schemas/interface'
         is:
           $ref: '#/components/schemas/is'
-        null:
+        "null":
           $ref: '#/components/schemas/null'
         object:
           $ref: '#/components/schemas/object'
@@ -401,7 +401,7 @@ components:
           type: integer
           format: int64
 
-    null:
+    "null":
       title: Testing reserved word 'null'
       type: object
       properties:

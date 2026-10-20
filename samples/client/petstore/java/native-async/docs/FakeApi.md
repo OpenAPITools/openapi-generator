@@ -111,7 +111,7 @@ No authorization required
 
 ## fakeBigDecimalMapWithHttpInfo
 
-> CompletableFuture<ApiResponse<FakeBigDecimalMap200Response>> fakeBigDecimalMap fakeBigDecimalMapWithHttpInfo()
+> CompletableFuture<ApiResponse<FakeBigDecimalMap200Response>> fakeBigDecimalMapWithHttpInfo()
 
 
 
@@ -244,7 +244,7 @@ No authorization required
 
 ## fakeHealthGetWithHttpInfo
 
-> CompletableFuture<ApiResponse<HealthCheckResult>> fakeHealthGet fakeHealthGetWithHttpInfo()
+> CompletableFuture<ApiResponse<HealthCheckResult>> fakeHealthGetWithHttpInfo()
 
 Health check endpoint
 
@@ -381,7 +381,7 @@ No authorization required
 
 ## fakeOuterBooleanSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<Boolean>> fakeOuterBooleanSerialize fakeOuterBooleanSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<Boolean>> fakeOuterBooleanSerializeWithHttpInfo(body)
 
 
 
@@ -524,7 +524,7 @@ No authorization required
 
 ## fakeOuterCompositeSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerialize fakeOuterCompositeSerializeWithHttpInfo(outerComposite)
+> CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerializeWithHttpInfo(outerComposite)
 
 
 
@@ -667,7 +667,7 @@ No authorization required
 
 ## fakeOuterNumberSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<BigDecimal>> fakeOuterNumberSerialize fakeOuterNumberSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<BigDecimal>> fakeOuterNumberSerializeWithHttpInfo(body)
 
 
 
@@ -810,7 +810,7 @@ No authorization required
 
 ## fakeOuterStringSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<String>> fakeOuterStringSerialize fakeOuterStringSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<String>> fakeOuterStringSerializeWithHttpInfo(body)
 
 
 
@@ -947,7 +947,7 @@ No authorization required
 
 ## getApplicationJsonUtf8WithHttpInfo
 
-> CompletableFuture<ApiResponse<List<OuterEnum>>> getApplicationJsonUtf8 getApplicationJsonUtf8WithHttpInfo()
+> CompletableFuture<ApiResponse<List<OuterEnum>>> getApplicationJsonUtf8WithHttpInfo()
 
 application/json UTF8
 
@@ -1078,7 +1078,7 @@ No authorization required
 
 ## getArrayOfEnumsWithHttpInfo
 
-> CompletableFuture<ApiResponse<List<OuterEnum>>> getArrayOfEnums getArrayOfEnumsWithHttpInfo()
+> CompletableFuture<ApiResponse<List<OuterEnum>>> getArrayOfEnumsWithHttpInfo()
 
 Array of Enums
 
@@ -1214,7 +1214,7 @@ No authorization required
 
 ## testAdditionalPropertiesReferenceWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testAdditionalPropertiesReference testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
+> CompletableFuture<ApiResponse<Void>> testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
 
 test referenced additionalProperties
 
@@ -1355,7 +1355,7 @@ No authorization required
 
 ## testBodyWithFileSchemaWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testBodyWithFileSchema testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
+> CompletableFuture<ApiResponse<Void>> testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
 
 
 
@@ -1496,7 +1496,7 @@ No authorization required
 
 ## testBodyWithQueryParamsWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testBodyWithQueryParams testBodyWithQueryParamsWithHttpInfo(query, user)
+> CompletableFuture<ApiResponse<Void>> testBodyWithQueryParamsWithHttpInfo(query, user)
 
 
 
@@ -1638,7 +1638,7 @@ No authorization required
 
 ## testClientModelWithHttpInfo
 
-> CompletableFuture<ApiResponse<Client>> testClientModel testClientModelWithHttpInfo(client)
+> CompletableFuture<ApiResponse<Client>> testClientModelWithHttpInfo(client)
 
 To test \&quot;client\&quot; model
 
@@ -1813,7 +1813,7 @@ CompletableFuture<void> (empty response body)
 
 ## testEndpointParametersWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testEndpointParameters testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> CompletableFuture<ApiResponse<Void>> testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -2002,7 +2002,7 @@ No authorization required
 
 ## testEnumParametersWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testEnumParameters testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> CompletableFuture<ApiResponse<Void>> testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -2176,7 +2176,7 @@ CompletableFuture<void> (empty response body)
 
 ## testGroupParametersWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testGroupParameters testGroupParametersWithHttpInfo(testGroupParametersRequest)
+> CompletableFuture<ApiResponse<Void>> testGroupParametersWithHttpInfo(testGroupParametersRequest)
 
 Fake endpoint to test group parameters (optional)
 
@@ -2350,7 +2350,7 @@ No authorization required
 
 ## testInlineAdditionalPropertiesWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testInlineAdditionalProperties testInlineAdditionalPropertiesWithHttpInfo(requestBody)
+> CompletableFuture<ApiResponse<Void>> testInlineAdditionalPropertiesWithHttpInfo(requestBody)
 
 test inline additionalProperties
 
@@ -2491,7 +2491,7 @@ No authorization required
 
 ## testInlineFreeformAdditionalPropertiesWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testInlineFreeformAdditionalProperties testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
+> CompletableFuture<ApiResponse<Void>> testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
 
 test inline free-form additionalProperties
 
@@ -2634,7 +2634,7 @@ No authorization required
 
 ## testJsonFormDataWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testJsonFormData testJsonFormDataWithHttpInfo(param, param2)
+> CompletableFuture<ApiResponse<Void>> testJsonFormDataWithHttpInfo(param, param2)
 
 test json serialization of form data
 
@@ -2785,7 +2785,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormatWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testQueryParameterCollectionFormat testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
+> CompletableFuture<ApiResponse<Void>> testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
 
 
 
@@ -2934,7 +2934,7 @@ No authorization required
 
 ## testStringMapReferenceWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testStringMapReference testStringMapReferenceWithHttpInfo(requestBody)
+> CompletableFuture<ApiResponse<Void>> testStringMapReferenceWithHttpInfo(requestBody)
 
 test referenced string map
 

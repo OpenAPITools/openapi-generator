@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import java.io.File;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for ResourceApi
  */
-@Ignore
-public class ResourceApiTest {
+@Disabled
+class ResourceApiTest {
 
     private final ResourceApi api = new ResourceApi();
 
@@ -38,11 +39,11 @@ public class ResourceApiTest {
      *
      * Response file abstraction
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void resourceInResponseTest() {
+    void resourceInResponseTest() {
 
         org.springframework.core.io.Resource response = api.resourceInResponse();
 

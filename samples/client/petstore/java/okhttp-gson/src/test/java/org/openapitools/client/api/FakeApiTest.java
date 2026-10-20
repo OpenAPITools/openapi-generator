@@ -16,10 +16,13 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FakeRefParameterPetIdParameter;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.FreeFormObjectTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
+import org.openapitools.client.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
@@ -40,6 +43,17 @@ import java.util.Map;
 public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
+
+    /**
+     * Get a free form object or Json string
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeGetFreeFormObjectGetTest() throws ApiException {
+        FreeFormObjectTestClass response = api.fakeGetFreeFormObjectGet();
+        // TODO: test validations
+    }
 
     /**
      * Test serialization of outer boolean types
@@ -86,6 +100,36 @@ public class FakeApiTest {
     public void fakeOuterStringSerializeTest() throws ApiException {
         String body = null;
         String response = api.fakeOuterStringSerialize(body);
+        // TODO: test validations
+    }
+
+    /**
+     * fake reference parameter
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeRefParameterTest() throws ApiException {
+        FakeRefParameterPetIdParameter petId = null;
+        api.fakeRefParameter(petId);
+        // TODO: test validations
+    }
+
+    /**
+     * fake reference parameter
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeUploadRefRequestBodiesTest() throws ApiException {
+        Long petId = null;
+        String additionalMetadata = null;
+        File _file = null;
+        ModelApiResponse response = api.fakeUploadRefRequestBodies(petId, additionalMetadata, _file);
         // TODO: test validations
     }
 

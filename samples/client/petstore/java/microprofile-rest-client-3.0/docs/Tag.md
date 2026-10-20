@@ -2,7 +2,6 @@
 
 # Tag
 
-A tag for a pet
 
 ## Properties
 

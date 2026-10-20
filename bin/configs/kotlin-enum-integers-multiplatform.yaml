@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-enum-integers-multiplatform
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_21204_enum_integers.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-enum-integers-multiplatform
+  library: multiplatform
+  dateLibrary: kotlinx-datetime
+  sortParamsByRequiredFlag: false

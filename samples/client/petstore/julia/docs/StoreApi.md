@@ -11,8 +11,8 @@ Method | HTTP request | Description
 
 
 # **delete_order**
-> delete_order(_api::StoreApi, order_id::String; _mediaType=nothing) -> Nothing, OpenAPI.Clients.ApiResponse <br/>
-> delete_order(_api::StoreApi, response_stream::Channel, order_id::String; _mediaType=nothing) -> Channel{ Nothing }, OpenAPI.Clients.ApiResponse
+> `delete_order`(_api::`StoreApi`, `order_id`::`String`; _mediaType=nothing) -> `Nothing`, `OpenAPI.Clients.ApiResponse` <br/>
+> `delete_order`(_api::`StoreApi`, response_stream::`Channel`, `order_id`::`String`; _mediaType=nothing) -> `Channel`{ `Nothing` }, `OpenAPI.Clients.ApiResponse`
 
 Delete purchase order by ID
 
@@ -22,12 +22,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **_api** | **StoreApi** | API context | 
-**order_id** | **String**| ID of the order that needs to be deleted | [default to nothing]
+ **_api** | **`StoreApi`** | API context | 
+**`order_id`** | **`String`** | ID of the order that needs to be deleted |
 
 ### Return type
 
-Nothing
+`Nothing`
 
 ### Authorization
 
@@ -41,8 +41,8 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **get_inventory**
-> get_inventory(_api::StoreApi; _mediaType=nothing) -> Dict{String, Int64}, OpenAPI.Clients.ApiResponse <br/>
-> get_inventory(_api::StoreApi, response_stream::Channel; _mediaType=nothing) -> Channel{ Dict{String, Int64} }, OpenAPI.Clients.ApiResponse
+> `get_inventory`(_api::`StoreApi`; _mediaType=nothing) -> `Dict{String, Int64}`, `OpenAPI.Clients.ApiResponse` <br/>
+> `get_inventory`(_api::`StoreApi`, response_stream::`Channel`; _mediaType=nothing) -> `Channel`{ `Dict{String, Int64}` }, `OpenAPI.Clients.ApiResponse`
 
 Returns pet inventories by status
 
@@ -53,7 +53,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict{String, Int64}**
+**`Dict{String, Int64}`**
 
 ### Authorization
 
@@ -67,8 +67,8 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **get_order_by_id**
-> get_order_by_id(_api::StoreApi, order_id::Int64; _mediaType=nothing) -> Order, OpenAPI.Clients.ApiResponse <br/>
-> get_order_by_id(_api::StoreApi, response_stream::Channel, order_id::Int64; _mediaType=nothing) -> Channel{ Order }, OpenAPI.Clients.ApiResponse
+> `get_order_by_id`(_api::`StoreApi`, `order_id`::`Int64`; _mediaType=nothing) -> `Order`, `OpenAPI.Clients.ApiResponse` <br/>
+> `get_order_by_id`(_api::`StoreApi`, response_stream::`Channel`, `order_id`::`Int64`; _mediaType=nothing) -> `Channel`{ `Order` }, `OpenAPI.Clients.ApiResponse`
 
 Find purchase order by ID
 
@@ -78,12 +78,12 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **_api** | **StoreApi** | API context | 
-**order_id** | **Int64**| ID of pet that needs to be fetched | [default to nothing]
+ **_api** | **`StoreApi`** | API context | 
+**`order_id`** | **`Int64`** | ID of pet that needs to be fetched |
 
 ### Return type
 
-[**Order**](Order.md)
+[**`Order`**](Order.md)
 
 ### Authorization
 
@@ -97,8 +97,8 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **place_order**
-> place_order(_api::StoreApi, order::Order; _mediaType=nothing) -> Order, OpenAPI.Clients.ApiResponse <br/>
-> place_order(_api::StoreApi, response_stream::Channel, order::Order; _mediaType=nothing) -> Channel{ Order }, OpenAPI.Clients.ApiResponse
+> `place_order`(_api::`StoreApi`, `order`::`Order`; _mediaType=nothing) -> `Order`, `OpenAPI.Clients.ApiResponse` <br/>
+> `place_order`(_api::`StoreApi`, response_stream::`Channel`, `order`::`Order`; _mediaType=nothing) -> `Channel`{ `Order` }, `OpenAPI.Clients.ApiResponse`
 
 Place an order for a pet
 
@@ -108,12 +108,12 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **_api** | **StoreApi** | API context | 
-**order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **_api** | **`StoreApi`** | API context | 
+**`order`** | [**`Order`**](Order.md) | order placed for purchasing the pet |
 
 ### Return type
 
-[**Order**](Order.md)
+[**`Order`**](Order.md)
 
 ### Authorization
 

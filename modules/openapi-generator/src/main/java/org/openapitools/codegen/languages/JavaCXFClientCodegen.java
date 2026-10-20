@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -34,6 +35,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf/}.
+ */
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
@@ -47,6 +51,11 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+
     @Getter protected boolean useGenericResponse = false;
 
     @Getter protected boolean useGzipFeatureForTests = false;
@@ -55,12 +64,14 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     @Setter protected boolean useAbstractionForFiles = false;
 
+    @Getter @Setter protected boolean useJackson3 = false;
+
     public JavaCXFClientCodegen() {
         super();
 
         supportsInheritance = true;
 
-        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -93,6 +104,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2.", this.useJackson3));
+
     }
 
     @Override
@@ -103,11 +116,17 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
         convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
         convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
 
+        if (this.useJackson3) {
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -115,6 +134,20 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "jaxrs-cxf-client";
     }
 
+    @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        return List.of(DocumentationProvider.NONE, DocumentationProvider.SWAGGER1, DocumentationProvider.SWAGGER2);
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        return List.of(AnnotationLibrary.NONE, AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER2);
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SWAGGER1;
+    }
 
     @Override
     public CodegenType getTag() {
@@ -128,13 +161,18 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel m = super.fromModel(name, model);
+        m.imports.remove("ApiModel");
+        return m;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-
+        model.imports.remove("JsonTypeName");
 
         if (jackson) {
             //Add jackson imports when model has inner enum
@@ -148,7 +186,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
                     findByName(property.name, model.readOnlyVars)
-                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }
@@ -183,4 +221,12 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useGenericResponse = useGenericResponse;
     }
 
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
+    }
 }

@@ -25,6 +25,8 @@ MiddleType::MiddleType()
     
 }
 
+MiddleType::~MiddleType() = default;
+
 void MiddleType::validate() const
 {
     std::stringstream msg;

@@ -29,6 +29,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,24 +49,27 @@ import org.openapitools.client.JSON;
 /**
  * Whale
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)
+  @javax.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String SERIALIZED_NAME_HAS_TEETH = "hasTeeth";
   @SerializedName(SERIALIZED_NAME_HAS_TEETH)
+  @javax.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public Whale() {
   }
 
-  public Whale hasBaleen(Boolean hasBaleen) {
+  public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -80,12 +83,12 @@ public class Whale {
     return hasBaleen;
   }
 
-  public void setHasBaleen(Boolean hasBaleen) {
+  public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(Boolean hasTeeth) {
+  public Whale hasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -99,12 +102,12 @@ public class Whale {
     return hasTeeth;
   }
 
-  public void setHasTeeth(Boolean hasTeeth) {
+  public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(String className) {
+  public Whale className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -118,7 +121,7 @@ public class Whale {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -205,10 +208,7 @@ public class Whale {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -217,14 +217,10 @@ public class Whale {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("hasBaleen");
-    openapiFields.add("hasTeeth");
-    openapiFields.add("className");
+    openapiFields = new HashSet<String>(Arrays.asList("hasBaleen", "hasTeeth", "className"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**
@@ -236,19 +232,19 @@ public class Whale {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Whale.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Whale is not found in the empty JSON string", Whale.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Whale is not found in the empty JSON string", Whale.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : Whale.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("className").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `className` to be a primitive type in the JSON string but got `%s`", jsonObj.get("className").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `className` to be a primitive type in the JSON string but got `%s`", jsonObj.get("className").toString()));
       }
   }
 
@@ -281,7 +277,9 @@ public class Whale {
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-                   if (jsonElement.isJsonArray()) {
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {
                      obj.add(entry.getKey(), jsonElement.getAsJsonObject());
@@ -309,7 +307,7 @@ public class Whale {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

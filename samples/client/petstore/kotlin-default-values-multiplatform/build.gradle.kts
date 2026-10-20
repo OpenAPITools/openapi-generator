@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version "1.9.20" // kotlin_version
-    kotlin("plugin.serialization") version "1.9.20" // kotlin_version
+    kotlin("multiplatform") version "2.4.0" // kotlin_version
+    kotlin("plugin.serialization") version "2.4.0" // kotlin_version
 }
 
 group = "org.openapitools"
 version = "1.0.0"
 
-val kotlin_version = "1.9.20"
-val coroutines_version = "1.7.3"
-val serialization_version = "1.6.1"
-val ktor_version = "2.3.6"
+val kotlin_version = "2.4.0"
+val coroutines_version = "1.11.0"
+val serialization_version = "1.11.0"
+val ktor_version = "3.5.1"
 
 repositories {
     mavenCentral()
@@ -38,7 +38,7 @@ kotlin {
                 api("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
             }
         }
 
@@ -73,27 +73,17 @@ kotlin {
                 api("io.ktor:ktor-client-js:$ktor_version")
             }
         }
-
-        all {
-            languageSettings.apply {
-                optIn("kotlin.Experimental")
-            }
-        }
     }
 }
 
 tasks {
-    register("iosTest") {
+    register<Exec>("iosTest") {
         val device = project.findProperty("device")?.toString() ?: "iPhone 8"
         dependsOn("linkDebugTestIosX64")
         group = JavaBasePlugin.VERIFICATION_GROUP
         description = "Execute unit tests on ${device} simulator"
-        doLast {
-            val binary = kotlin.targets.getByName<KotlinNativeTarget>("iosX64").binaries.getTest("DEBUG")
-            exec {
-                commandLine("xcrun", "simctl", "spawn", device, binary.outputFile)
-            }
-        }
+        val binary = kotlin.targets.getByName<KotlinNativeTarget>("iosX64").binaries.getTest("DEBUG")
+        commandLine("xcrun", "simctl", "spawn", device, binary.outputFile)
     }
     register("test") {
         dependsOn("allTests")
