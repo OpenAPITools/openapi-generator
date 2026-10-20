@@ -21,6 +21,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractDartCodegen;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.*;
@@ -468,5 +469,70 @@ public class DartDioClientCodegenTest {
 
         Assert.assertFalse(output.toPath().resolve("lib/src/optional.dart").toFile().exists());
         TestUtils.assertFileNotContains(output.toPath().resolve("lib/src/model/pet.dart"), "Optional<");
+    }
+
+    private Path generateFormParamsClient(String serializationLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/form_params.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        configurator.addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        return output.toPath().resolve("lib/src/api/default_api.dart");
+    }
+
+    @DataProvider(name = "serializationLibraries")
+    public Object[][] serializationLibraries() {
+        return new Object[][]{
+                {DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE},
+                {DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE},
+                {DartDioClientCodegen.SERIALIZATION_LIBRARY_FREEZED},
+        };
+    }
+
+    /**
+     * Optional form params must be omitted when null, including nullable ones.
+     * Dio encodes a null map value as an empty string, which overwrites existing
+     * values on the server (https://github.com/OpenAPITools/openapi-generator/issues/10295).
+     */
+    @Test(dataProvider = "serializationLibraries")
+    public void testOptionalNullableFormParamsAreSkippedWhenNull(String serializationLibrary) throws IOException {
+        Path api = generateFormParamsClient(serializationLibrary);
+
+        // multipart (updateDish) and x-www-form-urlencoded (createDishForm) both guard the nullable `note`
+        String content = Files.readString(api);
+        Assert.assertEquals(content.split("if \\(note != null\\) r'note': ", -1).length - 1, 2, content);
+        TestUtils.assertFileContains(api, "if (tag != null) r'tag': ", "if (photo != null) r'photo': photo,");
+        // required params are always sent
+        TestUtils.assertFileNotContains(api, "if (name != null)");
+    }
+
+    /**
+     * Dio stringifies non-MultipartFile form values, so model params must be sent as JSON,
+     * not as the model's toString().
+     */
+    @Test
+    public void testModelFormParamsAreJsonEncoded() throws IOException {
+        for (String serializationLibrary : List.of(
+                DartDioClientCodegen.SERIALIZATION_LIBRARY_JSON_SERIALIZABLE,
+                DartDioClientCodegen.SERIALIZATION_LIBRARY_FREEZED)) {
+            Path api = generateFormParamsClient(serializationLibrary);
+            TestUtils.assertFileContains(api,
+                    "if (assets != null) r'assets': jsonEncode(assets),",
+                    "if (assetList != null) r'assetList': jsonEncode(assetList),",
+                    // jsonEncode cannot encode a Set, so uniqueItems arrays are converted first
+                    "if (assetSet != null) r'assetSet': jsonEncode(assetSet.toList()),");
+            // primitives and files are passed through unchanged
+            TestUtils.assertFileContains(api, "if (tag != null) r'tag': tag,", "if (photo != null) r'photo': photo,");
+        }
     }
 }

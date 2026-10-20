@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Form params
+  version: 1.0.0
+paths:
+  /dish:
+    patch:
+      operationId: updateDish
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                note:
+                  type: string
+                  nullable: true
+                tag:
+                  type: string
+                assets:
+                  $ref: '#/components/schemas/Asset'
+                assetList:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Asset'
+                assetSet:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Asset'
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Updated
+  /dish/form:
+    post:
+      operationId: createDishForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                note:
+                  type: string
+                  nullable: true
+                assets:
+                  $ref: '#/components/schemas/Asset'
+                assetSet:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Asset'
+      responses:
+        '204':
+          description: Created
+components:
+  schemas:
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
