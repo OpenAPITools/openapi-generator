@@ -123,6 +123,37 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostWritesUnsetAndNullInnerStringEnums() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("Pet",
+                new ObjectSchema()
+                        .addProperty("status", new StringSchema()._enum(List.of("available", "sold")))
+                        .addProperty("mode", new StringSchema()._enum(List.of("auto", "manual")).nullable(true))
+                        .addProperty("kind", new StringSchema()._enum(List.of("cat", "dog")).nullable(true))
+                        .addRequiredItem("kind")));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "Pet");
+
+        assertFileContains(model.toPath(),
+                // optional: skipped when unset
+                "if (pet.StatusOption.IsSet) { var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value",
+                // optional and nullable: skipped when unset, null when set to null
+                "if (pet.ModeOption.IsSet) { if (pet.ModeOption.Value == null) writer.WriteNull(\"mode\"); else {",
+                // required and nullable: null when null
+                "if (pet.Kind == null) writer.WriteNull(\"kind\"); else { var kindRawValue = Pet.KindEnumToJsonValue(pet.Kind");
+    }
+
+    @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
         Map<String, File> publicModels = generateIssue23046Models(false);
         File publicModel = publicModels.get("DynamicMetadataValue");
