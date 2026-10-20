@@ -1053,7 +1053,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // webhooks render through apis.mustache as well, so their
         // non-standard methods and querystring parameters need the same flags
         webhooks = super.postProcessWebhooksWithModels(webhooks, allModels);
-        flagOpenAPI32Operations(webhooks.getWebhooks().getOperation());
         if (webhooks.getWebhooks().getOperation().stream()
                 .anyMatch(operation -> operation.headerParams != null && operation.headerParams.stream()
                         .anyMatch(parameter -> ((ExtendedCodegenParameter) parameter).jsonHeaderUsesModelSerializer))) {
@@ -1063,6 +1062,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 im.put("classFileName", convertUsingFileNamingConvention(className));
             }
         }
+        // after the import fix-up: dropping an operation here must not hide a
+        // JSON-header model import that apis.mustache still emits
+        flagOpenAPI32Operations(webhooks.getWebhooks().getOperation());
         return webhooks;
     }
 
@@ -1845,12 +1847,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             // fields added to CodegenParameter after this constructor was
             // written; without them the extended copy silently drops them
             // (isQueryStringParam above was one such casualty)
-            this.isDeepObject = cp.isDeepObject;
-            this.isMatrix = cp.isMatrix;
-            this.isAllowEmptyValue = cp.isAllowEmptyValue;
-            this.isFormStyle = cp.isFormStyle;
-            this.isSpaceDelimited = cp.isSpaceDelimited;
-            this.isPipeDelimited = cp.isPipeDelimited;
             this.enumDefaultValue = cp.enumDefaultValue;
             this.nameInCamelCase = cp.nameInCamelCase;
             this.nameInPascalCase = cp.nameInPascalCase;
