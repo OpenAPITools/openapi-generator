@@ -123,6 +123,33 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostConstructorAssignsRequiredPropertyNamedLikeItsParameter() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("Pet",
+                new ObjectSchema()
+                        .addProperty("name", new StringSchema())
+                        .addProperty("tag", new StringSchema())
+                        .addRequiredItem("name")));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "Pet");
+
+        // the property and the constructor parameter are both called "name"
+        assertFileContains(model.toPath(), "public string name { get; set; }", "this.name = name;", "tagOption = tag;");
+        assertFileNotContains(model.toPath(), "{ name = name;");
+    }
+
+    @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
         Map<String, File> publicModels = generateIssue23046Models(false);
         File publicModel = publicModels.get("DynamicMetadataValue");
