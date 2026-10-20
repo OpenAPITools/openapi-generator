@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
+                throw new JsonException("Property is not nullable for class Banana: lengthCm.");
 
             return new Banana(lengthCm);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="banana"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,9 +164,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="banana"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (banana.LengthCmOption.IsSet && banana.LengthCm == null)
+                throw new JsonException("Cannot write null property Banana.LengthCm to non-nullable JSON property 'lengthCm'.");
+
             if (banana.LengthCmOption.IsSet)
                 writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
         }

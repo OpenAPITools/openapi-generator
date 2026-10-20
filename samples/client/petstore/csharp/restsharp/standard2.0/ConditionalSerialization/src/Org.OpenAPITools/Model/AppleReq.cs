@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required).</param>
         /// <param name="mealy">mealy.</param>
-        public AppleReq(string cultivar = default, bool mealy = default)
+        public AppleReq(string cultivar = default, bool? mealy = default)
         {
             // to ensure "cultivar" is required (not null)
             if (cultivar == null)
@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
             }
             this._Cultivar = cultivar;
-            this._Mealy = mealy;
-            if (this.Mealy != null)
+            if (mealy != null)
             {
+                this._Mealy = mealy.Value;
                 this._flagMealy = true;
             }
         }

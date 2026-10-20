@@ -110,16 +110,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize Now
-        /// </summary>
-        public string NowFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
-        /// The format to use to serialize Today
-        /// </summary>
-        public string TodayFormat { get; private set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
         /// Deserializes json to <see cref="NowGet200Response" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -167,10 +157,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (now.IsSet && now.Value == null)
-                throw new ArgumentNullException(nameof(now), "Property is not nullable for class NowGet200Response.");
+                throw new JsonException("Property is not nullable for class NowGet200Response: now.");
 
             if (today.IsSet && today.Value == null)
-                throw new ArgumentNullException(nameof(today), "Property is not nullable for class NowGet200Response.");
+                throw new JsonException("Property is not nullable for class NowGet200Response: today.");
 
             return new NowGet200Response(now, today);
         }
@@ -181,7 +171,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nowGet200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NowGet200Response nowGet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -196,14 +185,25 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nowGet200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NowGet200Response nowGet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nowGet200Response.NowOption.IsSet && nowGet200Response.Now == null)
+                throw new JsonException("Cannot write null property NowGet200Response.Now to non-nullable JSON property 'now'.");
+
+            if (nowGet200Response.TodayOption.IsSet && nowGet200Response.Today == null)
+                throw new JsonException("Cannot write null property NowGet200Response.Today to non-nullable JSON property 'today'.");
+
             if (nowGet200Response.NowOption.IsSet)
-                writer.WriteString("now", nowGet200Response.NowOption.Value.Value.ToString(NowFormat));
+                {
+                            writer.WritePropertyName("now");
+                                JsonSerializer.Serialize(writer, nowGet200Response.NowOption.Value.Value, jsonSerializerOptions);
+                            }
 
             if (nowGet200Response.TodayOption.IsSet)
-                writer.WriteString("today", nowGet200Response.TodayOption.Value.Value.ToString(TodayFormat));
+                {
+                            writer.WritePropertyName("today");
+                                JsonSerializer.Serialize(writer, nowGet200Response.TodayOption.Value.Value, jsonSerializerOptions);
+                            }
         }
     }
 }

@@ -71,10 +71,12 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
 
 /**
- * {{{description}}}
+{{#description}}
+ * {{{.}}}
  *
+{{/description}}
 {{#allVars}}
- * @param {{{name}}} {{{description}}}
+ * @param {{{name}}}{{#description}} {{{.}}}{{/description}}
 {{/allVars}}
  */
 {{#parcelizeModels}}
@@ -134,8 +136,10 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{#vars}}
 {{#isEnum}}
     /**
-     * {{{description}}}
+{{#description}}
+     * {{{.}}}
      *
+{{/description}}
      * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
      */
     {{^multiplatform}}

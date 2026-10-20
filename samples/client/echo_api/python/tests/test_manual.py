@@ -92,6 +92,32 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/style_form/explode_false/array_string?query_object=Oh%2C%20hello%20world,abc,DEF")
 
+    def test_query_style_form_explode_true_object_test(self):
+        # form style with explode puts every property of a model on the wire under its own
+        # name, the name it carries on the wire (photoUrls, not photo_urls), and repeats
+        # that name for every item of a list
+        api_instance = openapi_client.QueryApi()
+        pet = openapi_client.Pet(id=12345, name="Hello World", photoUrls=["http://a.com", "http://b.com"], status="available")
+        api_response = api_instance.test_query_style_form_explode_true_object(pet)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_true/object?id=12345&name=Hello%20World&photoUrls=http%3A//a.com&photoUrls=http%3A//b.com&status=available")
+
+    def test_query_style_form_explode_true_object_leaves_out_unset_properties(self):
+        # a property that was never set contributes nothing
+        api_instance = openapi_client.QueryApi()
+        pet = openapi_client.Pet(name="Hello World", photoUrls=["http://a.com"])
+        api_response = api_instance.test_query_style_form_explode_true_object(pet)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_true/object?name=Hello%20World&photoUrls=http%3A//a.com")
+
+    def test_query_style_form_explode_true_object_all_of_test(self):
+        # an allOf model is exploded the same way; the var_date attribute goes on the wire as date
+        api_instance = openapi_client.QueryApi()
+        query = openapi_client.DataQuery(id=1, outcomes=["SUCCESS", "FAILURE"], text="Some text", date=datetime.datetime(2020, 1, 2, 3, 4, 5))
+        api_response = api_instance.test_query_style_form_explode_true_object_all_of(query)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_true/object/allOf?id=1&outcomes=SUCCESS&outcomes=FAILURE&text=Some%20text&date=2020-01-02T03%3A04%3A05")
+
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format

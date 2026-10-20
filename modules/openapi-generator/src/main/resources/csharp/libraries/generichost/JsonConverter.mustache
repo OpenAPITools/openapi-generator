@@ -15,18 +15,22 @@
 
         {{#allVars}}
         {{#isDateTime}}
+        {{#vendorExtensions.x-csharp-datetime-format}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public string {{name}}Format { get; private set; } = "{{{dateTimeFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{.}}}";
 
+        {{/vendorExtensions.x-csharp-datetime-format}}
         {{/isDateTime}}
         {{#isDate}}
+        {{#vendorExtensions.x-csharp-date-format}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public string {{name}}Format { get; private set; } = "{{{dateFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{.}}}";
 
+        {{/vendorExtensions.x-csharp-date-format}}
         {{/isDate}}
         {{/allVars}}
         /// <summary>
@@ -228,10 +232,20 @@
                         {{/isEnum}}
                         {{/isNumeric}}
                         {{#isDate}}
+                        {{#vendorExtensions.x-csharp-date-format}}
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#isNullable}}utf8JsonReader.TokenType == JsonTokenType.Null ? ({{#supportsDateOnly}}DateOnly{{/supportsDateOnly}}{{^supportsDateOnly}}DateTime{{/supportsDateOnly}}?)null : {{/isNullable}}DateTimeFormatHelper.Read{{#supportsDateOnly}}DateOnly{{/supportsDateOnly}}{{^supportsDateOnly}}DateTime{{/supportsDateOnly}}(ref utf8JsonReader, {{name}}Format));
+                        {{/vendorExtensions.x-csharp-date-format}}
+                        {{^vendorExtensions.x-csharp-date-format}}
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{#supportsDateOnly}}DateOnly{{/supportsDateOnly}}{{^supportsDateOnly}}DateTime{{/supportsDateOnly}}{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
+                        {{/vendorExtensions.x-csharp-date-format}}
                         {{/isDate}}
                         {{#isDateTime}}
+                        {{#vendorExtensions.x-csharp-datetime-format}}
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#isNullable}}utf8JsonReader.TokenType == JsonTokenType.Null ? (DateTime{{#useDateTimeOffset}}Offset{{/useDateTimeOffset}}?)null : {{/isNullable}}DateTimeFormatHelper.ReadDateTime{{#useDateTimeOffset}}Offset{{/useDateTimeOffset}}(ref utf8JsonReader, {{name}}Format));
+                        {{/vendorExtensions.x-csharp-datetime-format}}
+                        {{^vendorExtensions.x-csharp-datetime-format}}
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<DateTime{{#useDateTimeOffset}}Offset{{/useDateTimeOffset}}{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
+                        {{/vendorExtensions.x-csharp-datetime-format}}
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}
@@ -296,14 +310,14 @@
             {{#allVars}}
             {{#required}}
             if (!{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.IsSet)
-                throw new ArgumentException("Property is required for class {{classname}}.", nameof({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}));
+                throw new JsonException("Property is required for class {{classname}}: {{baseName}}.");
 
             {{/required}}
             {{/allVars}}
             {{#allVars}}
             {{^isNullable}}
             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.IsSet && {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.Value == null)
-                throw new ArgumentNullException(nameof({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}), "Property is not nullable for class {{classname}}.");
+                throw new JsonException("Property is not nullable for class {{classname}}: {{baseName}}.");
 
             {{/isNullable}}
             {{/allVars}}
@@ -360,7 +374,6 @@
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
             {{#lambda.trimLineBreaks}}
@@ -447,7 +460,6 @@
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
             {{#lambda.trimTrailingWithNewLine}}
@@ -455,11 +467,11 @@
             {{#allVars}}
             {{^isDiscriminator}}
             {{^isNullable}}
-            {{#vendorExtensions.x-is-reference-type}}
-            if ({{^required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{/required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
-                throw new ArgumentNullException(nameof({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}), "Property is required for class {{classname}}.");
+            {{^required}}
+            if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
+                throw new JsonException("Cannot write null property {{classname}}.{{name}} to non-nullable JSON property '{{baseName}}'.");
 
-            {{/vendorExtensions.x-is-reference-type}}
+            {{/required}}
             {{/isNullable}}
             {{/isDiscriminator}}
             {{/allVars}}
@@ -512,7 +524,17 @@
             {{/isEnum}}
             {{#isDate}}
             {{#lambda.copyText}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
+            {{#vendorExtensions.x-csharp-date-format}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
+            {{/vendorExtensions.x-csharp-date-format}}
+            {{^vendorExtensions.x-csharp-date-format}}
+            {
+                {{#lambda.indent1}}
+            writer.WritePropertyName("{{baseName}}");
+            JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions);
+                {{/lambda.indent1}}
+            }
+            {{/vendorExtensions.x-csharp-date-format}}
             {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}{{! prevent indent}}
@@ -520,7 +542,17 @@
             {{/isDate}}
             {{#isDateTime}}
             {{#lambda.copyText}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
+            {{#vendorExtensions.x-csharp-datetime-format}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
+            {{/vendorExtensions.x-csharp-datetime-format}}
+            {{^vendorExtensions.x-csharp-datetime-format}}
+            {
+                {{#lambda.indent1}}
+            writer.WritePropertyName("{{baseName}}");
+            JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions);
+                {{/lambda.indent1}}
+            }
+            {{/vendorExtensions.x-csharp-datetime-format}}
             {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}{{! prevent indent}}

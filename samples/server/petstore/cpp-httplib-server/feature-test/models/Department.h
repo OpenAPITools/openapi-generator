@@ -32,9 +32,28 @@ public:
     void setEmployees(const std::vector<Employee>& employees);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Department,
-         name, manager, employees)
+    friend inline void to_json(nlohmann::json& j, const Department& o)
+    {
+        j = nlohmann::json::object();
+        j["name"] = o.name;
+        j["manager"] = o.manager;
+        j["employees"] = o.employees;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, Department& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Department must be a JSON object", &j);
+        }
+        j.at("name").get_to(o.name);
+        j.at("manager").get_to(o.manager);
+        if (j.contains("employees"))
+        {
+            j.at("employees").get_to(o.employees);
+        }
+    }
+
 
 private:
     std::string name;

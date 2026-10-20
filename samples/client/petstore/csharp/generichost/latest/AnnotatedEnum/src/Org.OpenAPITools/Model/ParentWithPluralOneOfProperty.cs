@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class ParentWithPluralOneOfProperty.");
+                throw new JsonException("Property is not nullable for class ParentWithPluralOneOfProperty: number.");
 
             return new ParentWithPluralOneOfProperty(number);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentWithPluralOneOfProperty"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentWithPluralOneOfProperty parentWithPluralOneOfProperty, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,11 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parentWithPluralOneOfProperty"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ParentWithPluralOneOfProperty parentWithPluralOneOfProperty, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parentWithPluralOneOfProperty.NumberOption.IsSet && parentWithPluralOneOfProperty.Number == null)
-                throw new ArgumentNullException(nameof(parentWithPluralOneOfProperty.Number), "Property is required for class ParentWithPluralOneOfProperty.");
+                throw new JsonException("Cannot write null property ParentWithPluralOneOfProperty.Number to non-nullable JSON property 'number'.");
 
             if (parentWithPluralOneOfProperty.NumberOption.IsSet)
             {

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class NameDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,7 +47,6 @@ public class NameDto {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -68,7 +66,6 @@ public class NameDto {
    * Get snakeCase
    * @return snakeCase
    */
-  
   @JsonProperty("snake_case")
   public @Nullable Integer getSnakeCase() {
     return snakeCase;
@@ -88,7 +85,6 @@ public class NameDto {
    * Get property
    * @return property
    */
-  
   @JsonProperty("property")
   public @Nullable String getProperty() {
     return property;
@@ -108,7 +104,6 @@ public class NameDto {
    * Get _123number
    * @return _123number
    */
-  
   @JsonProperty("123Number")
   public @Nullable Integer get123number() {
     return _123number;

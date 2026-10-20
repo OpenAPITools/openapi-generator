@@ -49,6 +49,141 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
 
+    @DataProvider(name = "pythonPackagingOptions")
+    public Object[][] pythonPackagingOptions() {
+        List<Object[]> options = new ArrayList<>();
+        for (String library : List.of("urllib3", "httpx", "httpx2", "asyncio")) {
+            for (Object poetry1 : Arrays.asList(null, false, "false", true, "true")) {
+                options.add(new Object[] {library, poetry1});
+            }
+        }
+        return options.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "pythonPackagingOptions")
+    public void testPythonPackagingModes(String library, Object poetry1) throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary(library);
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        Path pyproject = Paths.get(output, "pyproject.toml");
+        String content = Files.readString(pyproject);
+        boolean legacy = Boolean.parseBoolean(String.valueOf(poetry1));
+        if (legacy) {
+            assertFileContains(pyproject, "[tool.poetry.dev-dependencies]", "Deprecated by Poetry");
+            Assert.assertFalse(content.contains("[project]"));
+            Assert.assertFalse(content.contains("[dependency-groups]"));
+        } else {
+            assertFileContains(pyproject, "[project]", "[dependency-groups]", "pytest>=9.0.3");
+            Assert.assertFalse(content.contains("[tool.poetry"));
+        }
+        if ("httpx2".equals(library)) {
+            assertFileContains(pyproject, legacy
+                    ? "httpx2 = \">= 2.13.0, < 3\""
+                    : "httpx2 (>=2.13.0,<3)");
+        }
+    }
+
+    @DataProvider(name = "httpx2Options")
+    public Object[][] httpx2Options() {
+        return new Object[][] {
+                {false, null, "setuptools"}, {true, null, "hatchling"},
+                {false, false, "hatchling"}, {true, false, "setuptools"},
+                {false, "false", "setuptools"}, {true, "false", "hatchling"}
+        };
+    }
+
+    @Test(dataProvider = "httpx2Options")
+    public void testHttpx2Generation(boolean sync, Object poetry1, String backend) throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary("httpx2");
+        codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, sync);
+        codegen.additionalProperties().put("licenseInfo", "Apache 2.0");
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        codegen.additionalProperties().put("buildSystem", backend);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        final Path rest = Paths.get(output, "openapi_client/rest.py");
+        assertFileContains(rest, "import httpx2", "httpx2.AsyncClient", "httpx2.Response",
+                "httpx2.Proxy", "httpx2.Limits");
+        Assert.assertFalse(Files.readString(rest).contains("import httpx\n"));
+        assertFileContains(Paths.get(output, "requirements.txt"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "setup.py"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "pyproject.toml"),
+                "name = \"openapi_client\"", "license = { text = \"Apache 2.0\" }",
+                "httpx2 (>=2.13.0,<3)", "[project]", "[dependency-groups]");
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.poetry"));
+        assertFileContains(pyproject, "requires = [\"" + backend + "\"]");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.hatch.build.targets.wheel]"));
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.setuptools.packages.find]"));
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"), "retries: Optional[int]");
+        assertFileContains(Paths.get(output, "openapi_client/api/default_api.py"), "async def ");
+        Assert.assertEquals(Files.exists(Paths.get(output, "openapi_client/sync_helper.py")), sync);
+        Assert.assertEquals(Files.readString(Paths.get(output, "openapi_client/api/default_api.py"))
+                .contains("_sync_with_http_info("), sync);
+        Assert.assertFalse(Files.readString(Paths.get(output, "requirements.txt")).contains("httpx >="));
+    }
+
+    @Test
+    public void testJsonImportOnlyGeneratedForJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "pet_api.py");
+
+        TestUtils.assertFileNotContains(api, "import json");
+    }
+
+    @Test
+    public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "default_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "import json",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(",
+                "self.api_client.sanitize_for_serialization(x_json_arg)",
+                "self.api_client._set_header(_header_params, 'X-Plain-Arg', x_plain_arg)");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "_header_params['X-Json-Arg'] = x_json_arg",
+                "_header_params['X-Plain-Arg'] = json.dumps(");
+    }
+
     @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
@@ -60,6 +195,40 @@ public class PythonClientCodegenTest {
                         PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS),
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
+    }
+
+    @Test
+    public void testOneOfNotEnumValidation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/oneof-not-enum.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path other = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "models",
+                "other.py");
+
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
     }
 
     @Test
@@ -135,6 +304,57 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
         Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
+    }
+
+    @Test(description = "sibling properties that share a model are not treated as a cycle (#25047)")
+    public void testExampleValueForSiblingsSharingAModel() {
+        final Schema shared = new ObjectSchema().addProperty("prop", new StringSchema());
+        final Schema holder = new ObjectSchema()
+                .addProperty("prop1", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop2", new Schema<>().$ref("#/components/schemas/Shared"))
+                .addProperty("prop3", new Schema<>().$ref("#/components/schemas/Shared"));
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Shared", shared)
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertFalse(example.matches("(?s).*=\\s*,.*"), "empty example value in:\n" + example);
+        for (String prop : Arrays.asList("prop1", "prop2", "prop3")) {
+            Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
+                    prop + " missing its example in:\n" + example);
+        }
+    }
+
+    @Test(description = "inline object examples use the generated module and class names")
+    public void testExampleValueForInlineObjects() {
+        // The inline model resolver names this schema _holder_child; the generated file is
+        // holder_child.py with class HolderChild, so the example must use those names.
+        final Schema child = new ObjectSchema().addProperty("prop", new StringSchema());
+        child.setTitle("_holder_child");
+        final Schema holder = new ObjectSchema()
+                .addProperty("child", child)
+                // a free-form object has no model at all, it is a plain dict
+                .addProperty("aProperty", new ObjectSchema());
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertTrue(example.contains("child = openapi_client.models.holder_child.HolderChild("),
+                "inline model path wrong in:\n" + example);
+        Assert.assertTrue(example.contains("a_property = { }"),
+                "free-form object should be a dict in:\n" + example);
+        Assert.assertFalse(example.contains("models.a_property."), "free-form object got a model path in:\n" + example);
+
+        // the same holds for a free-form object that never got a title, e.g. bare array items
+        Assert.assertEquals(codegen.toExampleValue(new ObjectSchema()), "{ }");
     }
 
     @Test(description = "test single quotes escape")
@@ -614,7 +834,7 @@ public class PythonClientCodegenTest {
         File apiFile = files
                 .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
-        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
+        assertFileContains(apiFile.toPath(), "self.api_client._set_header(_header_params, 'X-CUSTOM_CONSTANT_HEADER', 'CONSTANT_VALUE')");
         assertFileContains(apiFile.toPath(), "_query_params.append(('CONSTANT_QUERY_STRING_KEY', 'CONSTANT_QUERY_STRING_VALUE'))");
     }
 
@@ -722,6 +942,74 @@ public class PythonClientCodegenTest {
         File apiInitFile = files.get(Paths.get(output.getAbsolutePath(), "my_pkg", "my_api", "__init__.py").toString());
         assertNotNull(apiInitFile);
         assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('filter', filter))",
+            "_query_params.extend(self.api_client.explode_query_object('typedFilter', typed_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
+
+        // a collection format applies only to a list, so an exploded "context": "en" next to a context: multi array stays context=en
+        Path apiClient = Paths.get(output.getAbsolutePath(), "openapi_client", "api_client.py");
+        TestUtils.assertFileContains(apiClient,
+            "def explode_query_object(self, name, obj):",
+            "if k in collection_formats and isinstance(v, (list, tuple)):");
+    }
+
+    @Test
+    public void testExplodedModelQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/python/exploded-model-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        // a model is serialized first (wire names), then exploded; a oneOf holding a primitive stays one parameter, one holding a list repeats the name
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('refFilter', ref_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('inlineFilter', inline_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('oneOfFilter', one_of_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('oneOfFilter', one_of_filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
     }
 
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
@@ -1002,6 +1290,8 @@ public class PythonClientCodegenTest {
                 defaultOutputPath + "openapi_client/api/default_api.py");
         final Path defaultApiClient = Paths.get(
                 defaultOutputPath + "openapi_client/api_client.py");
+        final Path defaultLegacyHelpers = Paths.get(
+                defaultOutputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(defaultModel,
                 "return json.dumps(to_jsonable_python(self.to_dict()))",
@@ -1025,6 +1315,7 @@ public class PythonClientCodegenTest {
                 "async_req", "        _preload_content: bool = True",
                 "return self.api_client.pool.apply_async(");
         TestUtils.assertFileNotContains(defaultApiClient, "_OPENAPI_GENERATOR_TO_DICT");
+        Assert.assertFalse(Files.exists(defaultLegacyHelpers));
 
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.additionalProperties().put(
@@ -1038,12 +1329,12 @@ public class PythonClientCodegenTest {
         final Path api = Paths.get(
                 outputPath + "openapi_client/api/default_api.py");
         final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(model,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
-                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
-                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
-                "def _to_openapi_value(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import (",
+                "    _OPENAPI_GENERATOR_TO_DICT,",
                 "def to_dict(self, serialize: bool = False) -> Dict[str, Any]:",
                 "_to_legacy_value(getattr(self, \"renamed\", None), serialize)",
                 "def __openapi_generator_modern_projection(self) -> Dict[str, Any]:",
@@ -1061,6 +1352,10 @@ public class PythonClientCodegenTest {
                 "def __eq__(self, other: object) -> bool:",
                 "def __ne__(self, other: object) -> bool:");
         TestUtils.assertFileNotContains(model,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:",
                 "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(");
         assertFileContains(nestedModel,
                 "camel_case: Optional[StrictStr]",
@@ -1073,16 +1368,21 @@ public class PythonClientCodegenTest {
         for (String wrapper : Arrays.asList("one_of_model.py", "any_of_model.py")) {
             final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);
             assertFileContains(wrapperModel,
+                    "from openapi_client._legacy_model_helpers import (",
                     "def to_dict(self, serialize: bool = False) -> Any:",
                     "def __openapi_generator_modern_projection(self) -> Any:",
                     "del __openapi_generator_modern_projection");
             TestUtils.assertFileNotContains(wrapperModel,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:",
                     "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(",
                     "openapi_types", "attribute_map", "extra=\"forbid\"",
                     "def __repr__", "def __eq__");
         }
         assertFileContains(apiClient,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import _get_openapi_to_dict",
                 "to_dict = getattr(obj, 'to_dict', None)",
                 "to_openapi_dict = _get_openapi_to_dict(obj)",
                 "if to_openapi_dict is not None:",
@@ -1099,6 +1399,13 @@ public class PythonClientCodegenTest {
                 "response_types_map: Dict[str, Optional[str]]",
                 "return self._get_pool().apply_async(call)",
                 "response_data.getheaders()");
+        TestUtils.assertFileNotContains(apiClient,
+                "def _get_openapi_to_dict(value: Any) -> Any:");
+        assertFileContains(legacyHelpers,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:");
         assertFileContains(api,
                 "async_req: Optional[bool] = None",
                 "_preload_content: bool = True",
@@ -1197,14 +1504,73 @@ public class PythonClientCodegenTest {
                     "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
                     "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
                     "def _to_openapi_value(value: Any) -> Any:");
-            TestUtils.assertFileNotContains(model, "_legacy_model_dict import");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
             Assert.assertFalse(Files.exists(Paths.get(
-                    outputPath + "openapi_client/_legacy_model_dict.py")));
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
         } finally {
             if (oldModels == null) {
                 GlobalSettings.clearProperty(CodegenConstants.MODELS);
             } else {
                 GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+        }
+    }
+
+    @Test
+    public void testLegacyModelHelpersFollowSourceFolder() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setCompatibleWithPythonLegacy(true);
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        addModelAttributeNameMappings(codegen);
+
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+        final Path model = Paths.get(
+                outputPath + "src/openapi_client/models/legacy_model.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "src/openapi_client/_legacy_model_helpers.py");
+
+        assertFileContains(model,
+                "from openapi_client._legacy_model_helpers import (");
+        assertFileExists(legacyHelpers);
+        Assert.assertFalse(Files.exists(Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py")));
+    }
+
+    @Test
+    public void testLegacyModelHelpersStayInlineForWhitespaceOnlySupportingFiles() throws IOException {
+        final String oldModels = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        final String oldSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
+        try {
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "");
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, " ");
+            final PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.setCompatibleWithPythonLegacy(true);
+            addModelAttributeNameMappings(codegen);
+
+            final String outputPath = generateFiles(codegen,
+                    "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+            final Path model = Paths.get(
+                    outputPath + "openapi_client/models/legacy_model.py");
+
+            assertFileContains(model,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
+            Assert.assertFalse(Files.exists(Paths.get(
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
+        } finally {
+            if (oldModels == null) {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+            if (oldSupportingFiles == null) {
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, oldSupportingFiles);
             }
         }
     }
@@ -1420,15 +1786,20 @@ public class PythonClientCodegenTest {
         };
     }
 
-    @Test
-    public void testIndependentImplicitClientLifecycleOperationNames()
+    @DataProvider(name = "httpxLibraries")
+    public Object[][] httpxLibraries() {
+        return new Object[][] {{"httpx"}, {"httpx2"}};
+    }
+
+    @Test(dataProvider = "httpxLibraries")
+    public void testIndependentImplicitClientLifecycleOperationNames(String library)
             throws IOException {
         final PythonClientCodegen disabled = new PythonClientCodegen();
         disabled.processOpts();
         Assert.assertEquals(disabled.toOperationId("close"), "close");
 
         final PythonClientCodegen httpxSync = new PythonClientCodegen();
-        httpxSync.setLibrary("httpx");
+        httpxSync.setLibrary(library);
         httpxSync.additionalProperties().put(
                 PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
         httpxSync.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, true);
@@ -1532,5 +1903,26 @@ public class PythonClientCodegenTest {
                 "_owned_api_client",
                 "def close(self) -> None:");
         TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
+    }
+
+    @Test( description = "test src-layout with setuptools" )
+    public void testSrcLayoutSetuptools() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path setup = Paths.get(output, "setup.py");
+        assertFileContains(setup, "package_dir={\"\": \"src\"}", "packages=find_packages(where=\"src\", exclude=");
+    }
+
+    @Test( description = "test src-layout with poetry1" )
+    public void testSrcLayoutPoetry() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        codegen.additionalProperties().put("poetry1", true);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
 }

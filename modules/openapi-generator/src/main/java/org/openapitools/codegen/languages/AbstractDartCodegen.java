@@ -1,6 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
@@ -18,6 +20,8 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.PrefixLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +37,7 @@ import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.BUNGIE_X_ENUM_VALUES;
 import static org.openapitools.codegen.utils.EnumUtils.getBungieEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -349,6 +354,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (templateDir == null) {
             embeddedTemplateDir = templateDir = "dart2";
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("dartdoc", new PrefixLambda(" * ", false))
+                .put("dartdoc_2", new IndentedLambda(2, " ", " * ", false, false));
     }
 
     @Override
@@ -737,7 +749,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         .map(ModelUtils::getSimpleRef)
                         .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
                         .ifPresent(schema -> {
-                            property.isEnum = schema.getEnum() != null;
+                            property.isEnum = isEnum(schema);
                             property.isModel = true;
                         });
 

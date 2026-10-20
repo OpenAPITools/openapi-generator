@@ -106,7 +106,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "powershell-experimental";
@@ -594,7 +594,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getHelp() {
-        return "Generates a PowerShell API client (beta)";
+        return "Generates a PowerShell API client";
     }
 
     public void setPackageName(String packageName) {

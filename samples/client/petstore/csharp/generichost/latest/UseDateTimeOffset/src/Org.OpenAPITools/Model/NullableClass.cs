@@ -279,16 +279,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The format to use to serialize DateProp
-        /// </summary>
-        public string DatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// The format to use to serialize DatetimeProp
-        /// </summary>
-        public string DatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// Deserializes json to <see cref="NullableClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -376,10 +366,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayItemsNullable.IsSet && arrayItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is not nullable for class NullableClass.");
+                throw new JsonException("Property is not nullable for class NullableClass: array_items_nullable.");
 
             if (objectItemsNullable.IsSet && objectItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is not nullable for class NullableClass.");
+                throw new JsonException("Property is not nullable for class NullableClass: object_items_nullable.");
 
             return new NullableClass(arrayAndItemsNullableProp, arrayItemsNullable, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectItemsNullable, objectNullableProp, stringProp);
         }
@@ -390,7 +380,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -405,14 +394,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (nullableClass.ArrayItemsNullableOption.IsSet && nullableClass.ArrayItemsNullable == null)
-                throw new ArgumentNullException(nameof(nullableClass.ArrayItemsNullable), "Property is required for class NullableClass.");
+                throw new JsonException("Cannot write null property NullableClass.ArrayItemsNullable to non-nullable JSON property 'array_items_nullable'.");
 
             if (nullableClass.ObjectItemsNullableOption.IsSet && nullableClass.ObjectItemsNullable == null)
-                throw new ArgumentNullException(nameof(nullableClass.ObjectItemsNullable), "Property is required for class NullableClass.");
+                throw new JsonException("Cannot write null property NullableClass.ObjectItemsNullable to non-nullable JSON property 'object_items_nullable'.");
 
             if (nullableClass.ArrayAndItemsNullablePropOption.IsSet)
                 if (nullableClass.ArrayAndItemsNullablePropOption.Value != null)
@@ -443,13 +431,19 @@ namespace Org.OpenAPITools.Model
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value!.Value.ToString(DatePropFormat));
+                    {
+                            writer.WritePropertyName("date_prop");
+                                JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
+                            }
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value!.Value.ToString(DatetimePropFormat));
+                    {
+                            writer.WritePropertyName("datetime_prop");
+                                JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
+                            }
                 else
                     writer.WriteNull("datetime_prop");
 

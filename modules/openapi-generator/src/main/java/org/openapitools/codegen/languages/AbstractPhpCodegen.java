@@ -65,6 +65,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Setter protected String developerOrganizationUrl = "https://openapi-generator.tech";
     @Setter protected String srcBasePath = "lib";
     @Setter protected String testBasePath = "test";
+    @Setter protected String composerPackageName = null;
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
@@ -330,6 +331,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.COMPOSER_PACKAGE_NAME)) {
+            this.setComposerPackageName((String) additionalProperties.get(CodegenConstants.COMPOSER_PACKAGE_NAME));
         }
 
         if (!this.getComposerPackageName().isEmpty()) {
@@ -1038,11 +1043,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Get Composer package name based on GIT_USER_ID and GIT_REPO_ID.
+     * Get Composer package name. Returns the explicitly configured value if set, otherwise
+     * derives it from GIT_USER_ID and GIT_REPO_ID.
      *
      * @return package name or empty string on fail
      */
     public String getComposerPackageName() {
+        if (this.composerPackageName != null && !this.composerPackageName.isEmpty()) {
+            return this.composerPackageName;
+        }
         String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
         if (
                 packageName.contentEquals("/")

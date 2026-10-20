@@ -155,10 +155,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!schema.IsSet)
-                throw new ArgumentException("Property is required for class EntityBase.", nameof(schema));
+                throw new JsonException("Property is required for class EntityBase: $schema.");
 
             if (schema.IsSet && schema.Value == null)
-                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class EntityBase.");
+                throw new JsonException("Property is not nullable for class EntityBase: $schema.");
 
             return new EntityBase();
         }
@@ -169,7 +169,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="entityBase"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EntityBase entityBase, JsonSerializerOptions jsonSerializerOptions)
         {
             if (entityBase is CopyActivity copyActivity){
@@ -189,7 +188,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="entityBase"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EntityBase entityBase, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("$schema", entityBase.Schema);

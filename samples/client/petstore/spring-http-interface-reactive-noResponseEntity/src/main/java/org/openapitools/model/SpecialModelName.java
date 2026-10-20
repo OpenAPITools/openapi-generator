@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class SpecialModelName {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -35,7 +34,6 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
    */
-  
   @JsonProperty("$special[property.name]")
   public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
@@ -34,6 +35,7 @@ import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -771,7 +773,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("ComplexObject.java"))
-                .fileContains("private @Valid List<LocalDate> dates")
+                .fileContains("private List<LocalDate> dates")
                 .fileDoesNotContain("private @Valid SymbolTypeEnum symbolType")
                 .fileDoesNotContain("@Valid String")
                 .fileDoesNotContain("@Valid Double");
@@ -802,17 +804,17 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated model contains correct default value for array properties (optional)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Body.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
-                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+                "\nprivate List<String> arrayThatIsNull;\n");
 
         //And the generated model contains correct default value for array properties (required, nullable)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java"),
-                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+                "\nprivate List<String> arrayThatIsNull;\n");
 
         //And the generated model contains correct default value for array properties (required)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
-                "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
+                "\nprivate List<String> arrayThatIsNotNull = new ArrayList<>();\n");
 
     }
 
@@ -1666,6 +1668,63 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
             "this.nullableObjectList.get().remove(nullableObjectListItem);");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testJsonNullableContainerDefaultIsDeclared() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ContainerDefaultValue")
+                .getProperties().get("nullable_array_with_default");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ContainerDefaultValue.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithDefault = "
+                        + "JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(\"foo\", \"bar\")));",
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>());");
+        assertFileNotContains(model,
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(");
+    }
+
+    @Test
+    public void testJsonNullableExplicitNullContainerDefaultRemainsUndefined() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_24993.yaml", null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ComplexDefaults")
+                .getProperties().get("nullableArrayWithNullDefault");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ComplexDefaults.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithNullDefault = "
+                        + "JsonNullable.<List<String>>undefined();");
+        assertFileNotContains(model, "JsonNullable.<List<String>>of(null)");
     }
 
     /**
@@ -2585,5 +2644,350 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
                 "List<InputStream>");
         assertFileContains(Paths.get(outputPath + "/pom.xml"), "<artifactId>quarkus-resteasy</artifactId>");
+    }
+
+    /**
+     * useJspecify is generator-wide (the model/param templates are shared by every jaxrs-spec
+     * library), so the annotations must appear whichever library is selected.
+     */
+    @Test
+    public void testUseJspecify() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_JSPECIFY, true);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        properties.put(INTERFACE_ONLY, true);
+        properties.put(CodegenConstants.OPENAPI_NULLABLE, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary("quarkus")
+                .setAdditionalProperties(properties)
+                .addTypeMapping("BigDecimal", "java.math.BigDecimal")
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/Foo.java");
+        // optional properties are annotated, required ones are not
+        assertFileContains(model,
+                "import org.jspecify.annotations.Nullable;",
+                "private @Nullable Date dt;",
+                "private Date requiredDt;");
+        // a qualified type keeps the annotation in type-use position
+        assertFileContains(model, "private java.math.@Nullable BigDecimal number;");
+
+        // the getter's return type must be annotated too. It renders via beanValidatedType,
+        // which emits the type directly, so the outer type has to be routed through the
+        // jSpecifyDatatype lambda or the annotation stashed by nullable_var_annotations is
+        // dropped and the getter falsely promises non-null under @NullMarked.
+        assertFileContains(model,
+                "public @Nullable Date getDt() {",
+                "public java.math.@Nullable BigDecimal getNumber() {");
+        assertFileNotContains(model, "public Date getDt() {");
+
+        // @NullMarked is what makes the unannotated types mean non-null
+        assertFileContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+        assertFileContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/api/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+
+        // operation parameters, alongside the JAX-RS annotations
+        final Path api = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/api/FooApi.java");
+        assertFileContains(api, "import org.jspecify.annotations.Nullable;", "@Nullable Date dtParam");
+    }
+
+    /**
+     * With the flag off, no nullability annotations are emitted and the pom keeps jsr305.
+     */
+    @Test
+    public void testUseJspecifyDisabledByDefault() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        properties.put(INTERFACE_ONLY, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertFileNotContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/Foo.java"),
+                "org.jspecify", "@Nullable");
+        assertFileContains(Paths.get(output.toPath() + "/pom.xml"), "jsr305");
+        assertFileNotContains(Paths.get(output.toPath() + "/pom.xml"), "jspecify");
+    }
+
+
+    /**
+     * jaxrs-cxf-cdi extends this generator but uses its own template directory, which has no
+     * jspecify support. removeOption() only hides the option from the CLI listing, so the flag
+     * must also be forced off — otherwise a config file setting useJspecify=true emits the
+     * jspecify import into files that have no annotations and no @NullMarked package-info.
+     */
+    @Test
+    public void testUseJspecifyIsDisabledForCxfCdi() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_JSPECIFY, true);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-cxf-cdi")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        for (File file : files) {
+            if (file.getName().endsWith(".java")) {
+                assertFileNotContains(file.toPath(), "org.jspecify");
+            }
+            assertNotEquals(file.getName(), "package-info.java");
+        }
+    }
+
+    private Path generateWithSerializationLibrary(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output.toPath();
+    }
+
+    @Test
+    public void testSerializationLibraryDefaultsToJackson() throws Exception {
+        Path output = generateWithSerializationLibrary(new HashMap<>());
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet, "import com.fasterxml.jackson.annotation.JsonProperty;", "@JsonProperty(\"id\")");
+        assertFileNotContains(pet, "Jsonb");
+        assertFileNotContains(output.resolve("pom.xml"), "json.bind-api");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbWithJakartaEe() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet,
+                "import jakarta.json.bind.annotation.JsonbProperty;",
+                "@JsonbProperty(\"id\")",
+                "@JsonbCreator",
+                "@JsonbProperty(\"name\") String name",
+                "@JsonbTypeSerializer(StatusEnum.Serializer.class)",
+                "@JsonbTypeDeserializer(StatusEnum.Deserializer.class)",
+                "ctx.serialize(obj.value, generator);");
+        assertFileNotContains(pet, "com.fasterxml.jackson", "JsonNullable", "@JsonTypeName");
+
+        Path outerEnum = output.resolve("src/gen/java/org/openapitools/model/OuterEnumInteger.java");
+        assertFileContains(outerEnum,
+                "@JsonbTypeSerializer(OuterEnumInteger.Serializer.class)",
+                "implements JsonbDeserializer<OuterEnumInteger>");
+        assertFileNotContains(outerEnum, "com.fasterxml.jackson");
+
+        Path pom = output.resolve("pom.xml");
+        assertFileContains(pom, "<artifactId>jakarta.json.bind-api</artifactId>", "<artifactId>jakarta.json-api</artifactId>");
+        assertFileNotContains(pom, "com.fasterxml.jackson", "jackson-databind-nullable", "joda-time");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbKeepsEnumFromValue() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+        assertFileContains(pet, "public static StatusEnum fromValue(String value) {");
+        assertFileNotContains(pet, "@JsonCreator");
+
+        Path outerEnum = output.resolve("src/gen/java/org/openapitools/model/OuterEnum.java");
+        assertFileContains(outerEnum, "public static OuterEnum fromValue(String value) {");
+        assertFileNotContains(outerEnum, "@JsonCreator");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbWithJavax() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        Path output = generateWithSerializationLibrary(properties);
+
+        assertFileContains(output.resolve("src/gen/java/org/openapitools/model/Pet.java"),
+                "import javax.json.bind.annotation.JsonbProperty;", "import javax.json.stream.JsonParser;");
+        assertFileContains(output.resolve("pom.xml"), "<artifactId>javax.json.bind-api</artifactId>");
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbDisablesJacksonAndOpenApiNullable() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "JsonB");
+        codegen.processOpts();
+
+        JavaJAXRSSpecServerCodegen jaxrsCodegen = (JavaJAXRSSpecServerCodegen) codegen;
+        Assert.assertEquals(jaxrsCodegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JSONB);
+        Assert.assertFalse(jaxrsCodegen.isJackson());
+        Assert.assertFalse(jaxrsCodegen.isOpenApiNullable());
+        Assert.assertEquals(codegen.additionalProperties().get(SERIALIZATION_LIBRARY_JSONB), true);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.OPENAPI_NULLABLE), false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Unexpected serializationLibrary value: 'gson'.*")
+    public void testSerializationLibraryRejectsUnknownValue() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "gson");
+        codegen.processOpts();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = ".*only supported by the library '<default>', not by 'quarkus'.*")
+    public void testSerializationLibraryJsonbRejectsNonDefaultLibrary() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = ".*mutually exclusive.*")
+    public void testSerializationLibraryJsonbRejectsExplicitJackson() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.additionalProperties().put(AbstractJavaJAXRSServerCodegen.JACKSON, true);
+        codegen.processOpts();
+    }
+
+    @DataProvider
+    public Object[][] jsonbJava8DateLibraries() {
+        return new Object[][]{
+                {null, "OffsetDateTime"},
+                {"java8", "OffsetDateTime"},
+                {"java8-localdatetime", "LocalDateTime"}
+        };
+    }
+
+    @Test(dataProvider = "jsonbJava8DateLibraries")
+    public void testSerializationLibraryJsonbUsesJava8Dates(String dateLibrary, String dateTimeType) throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        if (dateLibrary != null) {
+            properties.put(AbstractJavaJAXRSServerCodegen.DATE_LIBRARY, dateLibrary);
+        }
+        Path formatTest = generateWithSerializationLibrary(properties).resolve("src/gen/java/org/openapitools/model/FormatTest.java");
+
+        assertFileContains(formatTest,
+                "import java.time.LocalDate;", "private LocalDate date;",
+                "import java.time." + dateTimeType + ";", "private " + dateTimeType + " dateTime;");
+        assertFileNotContains(formatTest, "org.joda.time", "java.util.Date");
+    }
+
+    @DataProvider
+    public Object[][] jsonbUnsupportedDateLibraries() {
+        return new Object[][]{{"joda"}, {"legacy"}};
+    }
+
+    @Test(dataProvider = "jsonbUnsupportedDateLibraries", expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "'dateLibrary=(joda|legacy)' is not supported with 'serializationLibrary=jsonb'.*")
+    public void testSerializationLibraryJsonbRejectsUnsupportedDateLibrary(String dateLibrary) {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.additionalProperties().put(AbstractJavaJAXRSServerCodegen.DATE_LIBRARY, dateLibrary);
+        codegen.processOpts();
+    }
+
+    @Test
+    public void testSerializationLibraryJsonbKeepsDateLibraryFromSetter() {
+        codegen.setDateLibrary("java8-localdatetime");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getDateLibrary(), "java8-localdatetime");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "'dateLibrary=joda' is not supported with 'serializationLibrary=jsonb'.*")
+    public void testSerializationLibraryJsonbRejectsUnsupportedDateLibraryFromSetter() {
+        codegen.setDateLibrary("joda");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+    }
+
+    @DataProvider
+    public Object[][] jacksonSerializationLibraries() {
+        return new Object[][]{{null}, {SERIALIZATION_LIBRARY_JACKSON}};
+    }
+
+    @Test(dataProvider = "jacksonSerializationLibraries")
+    public void testSerializationLibraryJacksonKeepsLegacyDates(String serializationLibrary) throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        if (serializationLibrary != null) {
+            properties.put(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+        }
+        Path formatTest = generateWithSerializationLibrary(properties).resolve("src/gen/java/org/openapitools/model/FormatTest.java");
+
+        assertFileContains(formatTest,
+                "import org.joda.time.LocalDate;", "private LocalDate date;",
+                "import java.util.Date;", "private Date dateTime;");
+    }
+
+    @DataProvider(name = "librariesWithNullableDependency")
+    public Object[][] librariesWithNullableDependency() {
+        return new Object[][] {
+                { OPEN_LIBERTY_LIBRARY },
+                { KUMULUZEE_LIBRARY },
+                { THORNTAIL_LIBRARY }
+        };
+    }
+
+    @Test(dataProvider = "librariesWithNullableDependency")
+    public void testOpenApiNullablePomDependency(String library) throws Exception {
+        // Test with openApiNullable=true
+        File outputTrue = Files.createTempDirectory("test-nullable-true").toFile();
+        outputTrue.deleteOnExit();
+
+        CodegenConfigurator configuratorTrue = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputTrue.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorTrue.toClientOptInput()).generate();
+        assertFileContains(outputTrue.toPath().resolve("pom.xml"), "jackson-databind-nullable");
+
+        // Test with openApiNullable=false
+        File outputFalse = Files.createTempDirectory("test-nullable-false").toFile();
+        outputFalse.deleteOnExit();
+
+        CodegenConfigurator configuratorFalse = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(outputFalse.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorFalse.toClientOptInput()).generate();
+        assertFileNotContains(outputFalse.toPath().resolve("pom.xml"), "jackson-databind-nullable");
     }
 }

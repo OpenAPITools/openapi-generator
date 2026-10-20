@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,7 +37,6 @@ public class ReadOnlyFirstDto {
    * Get bar
    * @return bar
    */
-  
   @JsonProperty("bar")
   public @Nullable String getBar() {
     return bar;
@@ -58,7 +56,6 @@ public class ReadOnlyFirstDto {
    * Get baz
    * @return baz
    */
-  
   @JsonProperty("baz")
   public @Nullable String getBaz() {
     return baz;

@@ -17,6 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.Type;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -113,6 +120,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
+    public static final String USE_RECORDS = "useRecords";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String SPRING_API_VERSION = "springApiVersion";
@@ -166,6 +174,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
     @Setter protected boolean useSealed = false;
+    @Setter protected boolean useRecords = false;
     @Getter @Setter protected JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
     @Getter @Setter protected JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
     @Getter @Setter protected TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
@@ -202,7 +211,27 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter @Setter
     protected boolean additionalNotNullAnnotations = false;
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
-    @Setter protected boolean autoXSpringPaginated = false;
+    @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
+    @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    /**
+     * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
+     *
+     * @param autoXSpringPaginated the configured mode
+     */
+    public void setAutoXSpringPaginated(String autoXSpringPaginated) {
+        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated);
+        this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
+    }
+
+    /**
+     * @deprecated Use {@link #setAutoXSpringPaginated(String)} with {@code page-size-sort} or
+     * {@code none}.
+     */
+    @Deprecated
+    public void setAutoXSpringPaginated(boolean autoXSpringPaginated) {
+        setAutoXSpringPaginated(Boolean.toString(autoXSpringPaginated));
+    }
+
     @Setter protected boolean generateSortValidation = false;
     @Setter protected boolean generatePageableConstraintValidation = false;
     @Setter protected boolean substituteGenericPagedModel = false;
@@ -295,6 +324,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
                 "Whether to generate sealed model interfaces and classes"));
+        cliOptions.add(CliOption.newBoolean(USE_RECORDS,
+                "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
+                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
+                        + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
+                        + "property name a record cannot have, or a model bound from request parameters. Not supported "
+                        + "with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -376,6 +411,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
@@ -402,12 +438,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ADDITIONAL_NOT_NULL_ANNOTATIONS,
                 "Add @NotNull to path variables (required by default) and requestBody.",
                 additionalNotNullAnnotations));
-        cliOptions.add(CliOption.newBoolean(AUTO_X_SPRING_PAGINATED,
-                "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. "
-                + "When enabled, operations with all three parameters will have Pageable support automatically applied. "
-                + "Operations with x-spring-paginated explicitly set to false will not be auto-detected. "
-                + "Only applies when library is spring-boot or spring-cloud.",
-                autoXSpringPaginated));
+        final CliOption autoXSpringPaginatedOption = new CliOption(AUTO_X_SPRING_PAGINATED,
+                "Automatically add x-spring-paginated to operations that have the given set of pagination query "
+                + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
+                + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
+                + "false will not be auto-detected. Only applies when library is spring-boot or spring-cloud. "
+                + "The legacy values 'true' (alias for 'page-size-sort') and 'false' (alias for 'none') are "
+                + "deprecated and will be removed in a future release.")
+                .defaultValue(autoXSpringPaginated);
+        autoXSpringPaginatedOption.setEnum(SpringPageableScanUtils.getAutoPaginationModeEnumValues());
+        cliOptions.add(autoXSpringPaginatedOption);
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
@@ -511,6 +551,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
+
         if (SPRING_HTTP_INTERFACE.equals(library)) {
             if (documentationProvider != null) {
                 additionalProperties.remove(documentationProvider.getPropertyName());
@@ -600,6 +644,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+        convertPropertyToBooleanAndWriteBack(USE_RECORDS, this::setUseRecords);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
                 value -> this.generateJsonIncludeAnnotations = TriStateBoolean.fromNullableBoolean(value));
         convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
@@ -631,6 +676,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+
         convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_SECURITY_PRE_AUTHORIZE, this::setUseSpringSecurityPreAuthorize);
         convertPropertyToStringAndWriteBack(SPRING_SECURITY_AUTHORITY_PREFIX, this::setSpringSecurityAuthorityPrefix);
@@ -668,6 +714,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if(isUseJackson3() && !isUseSpringBoot4()){
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
+        validateUseRecords();
         if(this.useJackson3){
             this.applyJackson3Package();
         } else {
@@ -682,8 +729,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
+        // Validate an explicitly supplied value for every library so typos are not silently ignored;
+        // the resolved mode is only used (and written back) when Pageable is supported.
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+            String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
+            pageableUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
+            setAutoXSpringPaginated(rawAutoXSpringPaginated);
+        }
         if (isPageableSupported()) {
-            convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
+            if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+                writePropertyBack(AUTO_X_SPRING_PAGINATED, this.autoXSpringPaginated);
+            }
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
         }
@@ -868,7 +924,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
                 .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
         additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+                .write(fragment.execute()
+                        .replaceAll("\\\\", Matcher.quoteReplacement("\\\\"))
+                        .replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
 
@@ -898,7 +956,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private boolean supportLibraryUseTags() {
-        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+        return SPRING_BOOT.equals(library)
+               || SPRING_CLOUD_LIBRARY.equals(library)
+               || SPRING_HTTP_INTERFACE.equals(library);
     }
 
     /**
@@ -928,6 +988,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
+            if (SPRING_HTTP_INTERFACE.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
+            }
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
@@ -935,6 +999,30 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
 
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     @Override
@@ -947,7 +1035,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (isPageableSupported()) {
-            pageableUtils.scanAll(openAPI, autoXSpringPaginated);
+            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
@@ -1438,14 +1526,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
-        // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
+        // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated auto-detection is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
         // Only for libraries that support Pageable (spring-boot, spring-cloud);
         // respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
-                    openAPI, operation, autoXSpringPaginated);
+                    openAPI, operation, autoXSpringPaginatedMode);
         }
 
         // add Pageable import only if x-spring-paginated explicitly used AND it's a pageable-supporting library.
@@ -1456,9 +1544,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
-        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+        ProvideArgsParams provideArgsParams = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        if (!provideArgsParams.names.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsNames", provideArgsParams.names);
+        }
+        if (!provideArgsParams.delegateArgs.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsDelegate", provideArgsParams.delegateArgs);
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
@@ -1488,8 +1582,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     generatePageableConstraintValidation, useBeanValidation,
                     generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.JAVA);
         }
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
-            codegenOperation.imports.addAll(provideArgsClassSet);
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsParams.imports.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsParams.imports);
         }
 
         if (isSpringCodegen()) {
@@ -1572,41 +1666,82 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenOperation;
     }
 
-    private Set<String> reformatProvideArgsParams(Operation operation) {
-        Set<String> provideArgsClassSet = new HashSet<>();
+    private ProvideArgsParams reformatProvideArgsParams(Operation operation) {
+        ProvideArgsParams provideArgsParams = new ProvideArgsParams();
         Object argObj = operation.getExtensions().get("x-spring-provide-args");
         if (argObj instanceof List) {
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
                 List<String> formattedArgs = new ArrayList<>();
+                List<String> formattedArgNames = new ArrayList<>();
+                List<String> formattedDelegateArgs = new ArrayList<>();
                 for (String oneArg : provideArgs) {
                     if (StringUtils.isNotEmpty(oneArg)) {
-                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
-                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
-                        List<String> newArgs = new ArrayList<>();
-                        while (matcher.find()) {
-                            String className = matcher.group("ClassName");
-                            String classPath = matcher.group("ClassPath");
-                            String packageName = matcher.group("PackageName");
-                            String params = matcher.group("Params");
-                            String annoTag = matcher.group("AnnotationTag");
-                            String shortPhrase = StringUtils.join(annoTag, className, params);
-                            newArgs.add(shortPhrase);
-                            if (StringUtils.isNotEmpty(packageName)) {
-                                importMapping.put(className, classPath);
-                                provideArgsClassSet.add(className);
-                                LOGGER.trace("put import mapping {} {}", className, classPath);
-                            }
-                        }
-                        String newArg = String.join(" ", newArgs);
-                        LOGGER.trace("new arg {}", newArg);
+                        Parameter parameter = parseProvideArgParameter(oneArg);
+                        collectImportsAndSimplify(parameter, provideArgsParams);
+
+                        String newArg = parameter.toString();
+                        LOGGER.trace("new arg {} {}", newArg);
                         formattedArgs.add(newArg);
+
+                        Parameter delegateParameter = parameter.clone();
+                        delegateParameter.getAnnotations().clear();
+                        formattedDelegateArgs.add(delegateParameter.toString());
+                        formattedArgNames.add(parameter.getNameAsString());
                     }
                 }
                 operation.getExtensions().put("x-spring-provide-args", formattedArgs);
+                provideArgsParams.names.addAll(formattedArgNames);
+                provideArgsParams.delegateArgs.addAll(formattedDelegateArgs);
             }
         }
-        return provideArgsClassSet;
+        return provideArgsParams;
+    }
+
+    private Parameter parseProvideArgParameter(String oneArg) {
+        CompilationUnit compilationUnit = StaticJavaParser.parse(String.format(Locale.ROOT, "class Dummy { void method(%s) {} }", oneArg));
+        return compilationUnit.findFirst(MethodDeclaration.class)
+                .orElseThrow(() -> new IllegalArgumentException("Unable to parse x-spring-provide-args parameter: " + oneArg))
+                .getParameter(0);
+    }
+
+    private void collectImportsAndSimplify(Parameter parameter, ProvideArgsParams provideArgsParams) {
+        parameter.findAll(AnnotationExpr.class).forEach(annotation -> {
+            String annotationName = annotation.getNameAsString();
+            if (annotationName.contains(".")) {
+                String simpleName = annotation.getName().getIdentifier();
+                importMapping.put(simpleName, annotationName);
+                provideArgsParams.imports.add(simpleName);
+                annotation.setName(simpleName);
+                LOGGER.trace("put import mapping {} {}", simpleName, annotationName);
+            }
+        });
+
+        parameter.getType().toClassOrInterfaceType().ifPresent(type -> simplifyClassOrInterfaceType(type, provideArgsParams));
+    }
+
+    private void simplifyClassOrInterfaceType(ClassOrInterfaceType type, ProvideArgsParams provideArgsParams) {
+        type.getTypeArguments().stream()
+                .flatMap(Collection::stream)
+                .map(Type::toClassOrInterfaceType)
+                .flatMap(Optional::stream)
+                .forEach(classOrInterfaceType -> simplifyClassOrInterfaceType(classOrInterfaceType, provideArgsParams));
+        if (type.getScope().isPresent()) {
+            String typeName = type.getNameWithScope();
+            if (typeName.contains(".")) {
+                String simpleName = type.getNameAsString();
+                importMapping.put(simpleName, typeName);
+                provideArgsParams.imports.add(simpleName);
+                type.setScope(null);
+                LOGGER.trace("put import mapping {} {}", simpleName, typeName);
+            }
+        }
+    }
+
+    private static final class ProvideArgsParams {
+        private final Set<String> imports = new HashSet<>();
+        private final List<String> names = new ArrayList<>();
+        private final List<String> delegateArgs = new ArrayList<>();
     }
 
     @Override
@@ -1614,6 +1749,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
+
         // conditionally force the generation of no args constructor
         for (CodegenModel cm : allModels.values()) {
             boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
@@ -1666,7 +1802,387 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (useRecords) {
+            markRecordModels(allModels);
+        }
+
         return objs;
+    }
+
+    /**
+     * Whether this generator can emit models as records. {@code java-camel} extends this class but ships its own
+     * {@code pojo.mustache}, so it turns the option off.
+     */
+    protected boolean isRecordsSupported() {
+        return true;
+    }
+
+    private void validateUseRecords() {
+        if (!useRecords) {
+            return;
+        }
+        if (!isRecordsSupported()) {
+            throw new IllegalArgumentException(USE_RECORDS + " is not supported by the " + getName() + " generator");
+        }
+        if (!isUseSpringBoot3() && !isUseSpringBoot4()) {
+            throw new IllegalArgumentException(USE_RECORDS + " requires Spring Boot 3 or 4 (Java 17); set "
+                    + USE_SPRING_BOOT3 + "=true or " + USE_SPRING_BOOT4 + "=true");
+        }
+        if (hateoas) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with " + HATEOAS
+                    + ": a record cannot extend RepresentationModel");
+        }
+        if (additionalModelTypeAnnotations.stream().anyMatch(a -> a.trim().startsWith("@lombok."))) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with Lombok annotations in "
+                    + ADDITIONAL_MODEL_TYPE_ANNOTATIONS);
+        }
+        if (withXml) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with withXml: "
+                    + "XML annotations on records are not supported yet");
+        }
+        if (useOptional) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with " + USE_OPTIONAL
+                    + ": Optional components are not supported yet");
+        }
+    }
+
+    /**
+     * Largest number of components of a generated record. Measured: javac accepts 254 constructor parameters, but
+     * Jackson's method-handle path on Spring Boot 4 fails for 254 ("bad parameter count 256") and works for 253;
+     * the rest is margin.
+     */
+    private static final int RECORD_MAX_COMPONENTS = 250;
+
+    /** Component names whose accessor would clash with the static {@code builder()} and {@code toBuilder()} of a record. */
+    private static final Set<String> RECORD_BUILDER_CLASHING_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
+            "builder", "toBuilder"));
+
+    /** Names that a record component cannot have (JLS 8.10.1). */
+    private static final Set<String> RECORD_FORBIDDEN_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
+            "clone", "finalize", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait"));
+
+    /** A constructor call in a default value, as {@code toDefaultValue} writes it: {@code new Sub()}, {@code new Sub().x("a")}. */
+    private static final Pattern RECORD_DEFAULT_CONSTRUCTOR_CALL = Pattern.compile("(?<![\\w.])new (\\w+)\\(");
+
+    /**
+     * Decides for every model whether it is generated as a record and stores the decision in the vendor
+     * extension {@code x-is-record}. A model that stays a class is logged with the reason.
+     */
+    private void markRecordModels(Map<String, CodegenModel> allModels) {
+        Map<String, List<CodegenModel>> oneOfInterfacesOfMember = new HashMap<>();
+        for (CodegenModel cm : allModels.values()) {
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE)) && cm.oneOf != null) {
+                for (String member : cm.oneOf) {
+                    oneOfInterfacesOfMember.computeIfAbsent(member, k -> new ArrayList<>()).add(cm);
+                }
+            }
+        }
+
+        Set<String> parameterSchemas = schemasBoundFromParameters();
+        Map<String, String> constructedByDefault = modelsConstructedByDefault(allModels);
+
+        for (CodegenModel cm : allModels.values()) {
+            // enums and oneOf interfaces are untouched; aliases (a schema that is only a $ref or a primitive) are
+            // never written as a model file (DefaultGenerator skips CodegenModel.isAlias), so they get no decision
+            if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
+                continue;
+            }
+            String reason = reasonForClass(cm, parameterSchemas, constructedByDefault);
+            List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
+            if (reason == null) {
+                reason = oneOfDiscriminatorAccessors(cm, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
+                        discriminatorAccessors);
+            }
+            if (reason != null) {
+                LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
+                continue;
+            }
+            cm.vendorExtensions.put("x-is-record", true);
+            boolean hasInitialValue = false;
+            for (CodegenProperty cp : cm.vars) {
+                String initialValue = recordInitialValue(cp);
+                if (initialValue != null) {
+                    cp.vendorExtensions.put("x-record-initial-value", initialValue);
+                    hasInitialValue = true;
+                }
+            }
+            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
+            cm.vendorExtensions.put("x-record-discriminator-accessors", discriminatorAccessors);
+            cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
+        }
+    }
+
+    /**
+     * Classnames of the models that the default value of a model-typed property constructs, each with the first
+     * property that does it. A record has only its canonical constructor, so {@code new Sub()} and the fluent
+     * {@code new Sub().x("a")} that {@code toDefaultValue} writes do not compile for a record; such a model stays a class.
+     * Only the default of a property whose type, or whose innermost items type, is a model is read, never the text
+     * of a string default. A model without properties is left out: its record has a no-argument constructor, and so
+     * is a model that gets no file.
+     */
+    private Map<String, String> modelsConstructedByDefault(Map<String, CodegenModel> allModels) {
+        Set<String> modelNames = new HashSet<>();
+        Set<String> modelsWithProperties = new HashSet<>();
+        for (CodegenModel cm : allModels.values()) {
+            modelNames.add(cm.classname);
+            if (!cm.vars.isEmpty() && !hasNoModelFile(cm)) {
+                modelsWithProperties.add(cm.classname);
+            }
+        }
+        Map<String, String> constructed = new HashMap<>();
+        for (CodegenModel cm : new TreeMap<>(allModels).values()) {
+            for (CodegenProperty cp : cm.vars) {
+                CodegenProperty inner = cp.mostInnerItems != null ? cp.mostInnerItems : cp;
+                // complexType is null when the model is named like a Java type, as a model named Integer is
+                String type = inner.complexType != null ? inner.complexType : inner.isModel ? inner.dataType : null;
+                // the initial value that the templates print, which is not the default for a nullable property
+                String initialValue = recordInitialValue(cp);
+                if (type == null || !modelNames.contains(type) || initialValue == null) {
+                    continue;
+                }
+                Matcher matcher = RECORD_DEFAULT_CONSTRUCTOR_CALL.matcher(initialValue);
+                while (matcher.find()) {
+                    if (modelsWithProperties.contains(matcher.group(1))) {
+                        constructed.putIfAbsent(matcher.group(1), "property '" + cp.name + "' in model '" + cm.classname + "'");
+                    }
+                }
+            }
+        }
+        return constructed;
+    }
+
+    /**
+     * Whether {@code DefaultGenerator} writes no file for this model: its name is type-mapped to a type that has an
+     * import mapping, as {@code URI} and {@code UUID} are (the property then has the JDK class as its type).
+     */
+    private boolean hasNoModelFile(CodegenModel cm) {
+        String mappedType = typeMapping.get(cm.schemaName);
+        return mappedType != null && importMapping.containsKey(mappedType);
+    }
+
+    /**
+     * Names of the schemas that a request binds from parameters (query, header, cookie, path), not from a body:
+     * every schema a non-body parameter refers to, directly, in {@code content}, through {@code allOf}, array
+     * items or additional properties, and transitively through the properties of those schemas. Records are bound
+     * by constructor parameter name there, which loses escaped property names and turns empty values into defaults.
+     */
+    private Set<String> schemasBoundFromParameters() {
+        Set<String> names = new HashSet<>();
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return names;
+        }
+        for (PathItem pathItem : openAPI.getPaths().values()) {
+            collectParameterSchemas(pathItem.getParameters(), names);
+            for (Operation operation : pathItem.readOperations()) {
+                collectParameterSchemas(operation.getParameters(), names);
+            }
+        }
+        return names;
+    }
+
+    private void collectParameterSchemas(List<io.swagger.v3.oas.models.parameters.Parameter> parameters, Set<String> names) {
+        if (parameters == null) {
+            return;
+        }
+        for (io.swagger.v3.oas.models.parameters.Parameter parameter : parameters) {
+            io.swagger.v3.oas.models.parameters.Parameter resolved = ModelUtils.getReferencedParameter(openAPI, parameter);
+            if (resolved == null) {
+                continue;
+            }
+            collectReferencedSchemas(resolved.getSchema(), names);
+            if (resolved.getContent() != null) {
+                for (MediaType mediaType : resolved.getContent().values()) {
+                    collectReferencedSchemas(mediaType.getSchema(), names);
+                }
+            }
+        }
+    }
+
+    private void collectReferencedSchemas(Schema<?> schema, Set<String> names) {
+        if (schema == null) {
+            return;
+        }
+        Schema<?> target = schema;
+        if (schema.get$ref() != null) {
+            String name = ModelUtils.getSimpleRef(schema.get$ref());
+            if (!names.add(name)) {
+                return;
+            }
+            target = ModelUtils.getReferencedSchema(openAPI, schema);
+            if (target == null) {
+                return;
+            }
+            if (target.get$ref() != null) {
+                // an alias: a component schema that is only a $ref; follow it to the real schema, recording each name
+                collectReferencedSchemas(target, names);
+                return;
+            }
+        }
+        collectReferencedSchemas(target.getItems(), names);
+        if (target.getAdditionalProperties() instanceof Schema) {
+            collectReferencedSchemas((Schema<?>) target.getAdditionalProperties(), names);
+        }
+        if (target.getProperties() != null) {
+            for (Schema<?> property : ((Map<String, Schema<?>>) (Map) target.getProperties()).values()) {
+                collectReferencedSchemas(property, names);
+            }
+        }
+        for (List<Schema> composed : Arrays.asList(target.getAllOf(), target.getOneOf(), target.getAnyOf())) {
+            if (composed != null) {
+                for (Schema<?> member : composed) {
+                    collectReferencedSchemas(member, names);
+                }
+            }
+        }
+    }
+
+    /**
+     * The interface of a oneOf with a discriminator declares {@code getX()} for it, and a record has only {@code x()}.
+     * The interfaces include those the member's interfaces extend, because an interface that is itself a member of
+     * another oneOf extends that one.
+     * Collects one accessor for each distinct getter name of the interfaces this member implements: the getter name
+     * is the interface's own, it returns the component whose JSON name is the discriminator's property, and carries
+     * {@code @JsonProperty} with that JSON name like the class's getter (Jackson would otherwise derive another
+     * name from the method for names such as {@code TYPE}). Returns the reason to keep the model a class when a
+     * discriminator has no such property or a nullable one under openApiNullable (the class does not compile
+     * either), or when one getter name would have to return two components, otherwise null. A component whose
+     * Java name starts with {@code get} never gets here: {@code reasonForClass} keeps the model a class.
+     */
+    private String oneOfDiscriminatorAccessors(CodegenModel cm, List<CodegenModel> interfaces,
+                                               List<Map<String, String>> accessors) {
+        if (interfaces == null) {
+            return null;
+        }
+        Map<String, CodegenProperty> componentOfGetter = new HashMap<>();
+        Map<String, String> interfaceOfGetter = new HashMap<>();
+        for (CodegenModel oneOfInterface : interfaces) {
+            CodegenDiscriminator discriminator = oneOfInterface.discriminator;
+            if (discriminator == null) {
+                continue;
+            }
+            CodegenProperty component = null;
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.baseName.equals(discriminator.getPropertyBaseName())) {
+                    component = cp;
+                    break;
+                }
+            }
+            if (component == null) {
+                return "it has no property '" + discriminator.getPropertyBaseName()
+                        + "', the discriminator of the oneOf interface " + oneOfInterface.classname;
+            }
+            if (openApiNullable && component.isNullable) {
+                // the component is a JsonNullable<T> while the interface declares T getX(): the class's getter
+                // returns a JsonNullable too and does not implement the interface either
+                return "its discriminator property '" + component.baseName + "' for the oneOf interface "
+                        + oneOfInterface.classname + " is nullable";
+            }
+            CodegenProperty previous = componentOfGetter.putIfAbsent(discriminator.getPropertyGetter(), component);
+            if (previous != null) {
+                if (previous != component) {
+                    return "the oneOf interfaces " + interfaceOfGetter.get(discriminator.getPropertyGetter()) + " and "
+                            + oneOfInterface.classname + " both declare " + discriminator.getPropertyGetter()
+                            + "() for different properties";
+                }
+                continue;
+            }
+            interfaceOfGetter.put(discriminator.getPropertyGetter(), oneOfInterface.classname);
+            Map<String, String> accessor = new HashMap<>();
+            accessor.put("getter", discriminator.getPropertyGetter());
+            accessor.put("component", component.name);
+            accessor.put("baseName", component.baseName);
+            accessor.put("type", component.datatypeWithEnum);
+            accessors.add(accessor);
+        }
+        return null;
+    }
+
+    /**
+     * The oneOf interfaces a member has to satisfy: those listing it in {@code oneOf}, then the interfaces each of
+     * them is itself a member of, and so on (an interface that is a oneOf member extends the interface above it).
+     * The direct interfaces come first in their order, then the enclosing ones depth-first, each interface once.
+     */
+    private static List<CodegenModel> oneOfInterfacesWithEnclosing(String member,
+                                                                   Map<String, List<CodegenModel>> interfacesOfMember) {
+        List<CodegenModel> result = new ArrayList<>();
+        collectOneOfInterfaces(member, interfacesOfMember, result, new HashSet<>());
+        return result;
+    }
+
+    private static void collectOneOfInterfaces(String member, Map<String, List<CodegenModel>> interfacesOfMember,
+                                               List<CodegenModel> result, Set<String> visited) {
+        List<CodegenModel> added = new ArrayList<>();
+        for (CodegenModel oneOfInterface : interfacesOfMember.getOrDefault(member, Collections.emptyList())) {
+            if (visited.add(oneOfInterface.classname)) {
+                result.add(oneOfInterface);
+                added.add(oneOfInterface);
+            }
+        }
+        for (CodegenModel oneOfInterface : added) {
+            collectOneOfInterfaces(oneOfInterface.classname, interfacesOfMember, result, visited);
+        }
+    }
+
+    private String reasonForClass(CodegenModel cm, Set<String> parameterSchemas,
+                                  Map<String, String> constructedByDefault) {
+        if (cm.parent != null) {
+            return "it has a parent (" + cm.parent + ")";
+        }
+        if (cm.hasChildren || (cm.children != null && !cm.children.isEmpty())) {
+            return "it has child models";
+        }
+        if (cm.discriminator != null) {
+            return "it is a discriminator base";
+        }
+        if (isNotEmpty(cm.additionalPropertiesType)) {
+            return "it has additionalProperties";
+        }
+        if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
+            return "it is a oneOf or anyOf composition";
+        }
+        if (cm.vars.size() > RECORD_MAX_COMPONENTS) {
+            return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
+        }
+        if (parameterSchemas.contains(cm.schemaName)) {
+            return "it is bound from request parameters";
+        }
+        for (CodegenProperty cp : cm.vars) {
+            if (cp.isByteArray) {
+                return "property '" + cp.name + "' is a byte[]";
+            }
+            if (RECORD_FORBIDDEN_COMPONENT_NAMES.contains(cp.name)) {
+                return "property '" + cp.name + "' cannot be a record component name";
+            }
+            if (cp.name.startsWith("get")) {
+                // the record's accessor getName() looks like a bean getter, so the bean validator checks the
+                // constraints a second time under a phantom path (measured: every name from "get" on)
+                return "property '" + cp.name + "' has a Java name that starts with 'get'";
+            }
+            if (generateBuilders && RECORD_BUILDER_CLASHING_COMPONENT_NAMES.contains(cp.name)) {
+                return "property '" + cp.name + "' clashes with a method of the record's builder";
+            }
+            if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
+                return "property '" + cp.name + "' uses the FAIL null policy";
+            }
+        }
+        if (constructedByDefault.containsKey(cm.classname)) {
+            return "the default of " + constructedByDefault.get(cm.classname) + " constructs it with new " + cm.classname + "()";
+        }
+        return null;
+    }
+
+    /**
+     * The expression the class gives the field of this property in {@code pojo.mustache}, or null when the
+     * field has no initialiser (the record then keeps whatever it is given). Mirrors the field declaration there.
+     */
+    private String recordInitialValue(CodegenProperty cp) {
+        if (openApiNullable && cp.isNullable) {
+            return "JsonNullable.<" + cp.datatypeWithEnum + ">undefined()";
+        }
+        if (!openApiNullable && !cp.isContainer && cp.isNullable) {
+            return null;
+        }
+        return isNotEmpty(cp.defaultValue) ? cp.defaultValue : null;
     }
 
     @Override
@@ -1729,9 +2245,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
         extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;
+    }
+
+    @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The Spring templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
     }
 
     protected boolean isSpringCodegen() {

@@ -54,6 +54,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
 
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
@@ -126,6 +127,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
     @Getter @Setter
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Getter @Setter
+    protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     @Getter
     @Setter
     protected Map<String, List<String>> schemaImplements = new HashMap<>();
@@ -326,6 +329,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods.", implicitHeaders));
     }
 
@@ -487,7 +491,24 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         }
 
+        if (!additionalEnumTypeAnnotations.isEmpty()) {
+            for (String modelName : objs.keySet()) {
+                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
+            }
+        }
+
         return objs;
+    }
+
+    /**
+     * Kotlin has its own implementation in postProcessAllModels
+     *
+     * @return
+     */
+    @Override
+    protected String getCommonSchemaType(List<Schema> schemas) {
+        return typeMapping.get("string");
     }
 
     @Override
@@ -629,6 +650,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
             this.setAdditionalModelTypeAnnotations(Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(additionalAnnotationsList.trim())));
+        }
+        if (additionalProperties.containsKey(ADDITIONAL_ENUM_TYPE_ANNOTATIONS)) {
+            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_ENUM_TYPE_ANNOTATIONS).toString();
+            this.setAdditionalEnumTypeAnnotations(Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(additionalAnnotationsList.trim())));
         }
         if (additionalProperties.containsKey(SCHEMA_IMPLEMENTS)) {
             this.setSchemaImplements(getPropertyAsStringListMap(SCHEMA_IMPLEMENTS));
@@ -1269,6 +1294,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     private String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
+        return toArrayDefaultValue(cp, schema, false);
+    }
+
+    private String toArrayDefaultValue(CodegenProperty cp, Schema schema, boolean inlineEnumItemsAsLiterals) {
         if (schema.getDefault() != null) {
             String arrInstantiationType = ModelUtils.isSet(schema) ? "set" : "arrayList";
 
@@ -1285,7 +1314,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             _default.elements().forEachRemaining((element) -> {
                 String defaultValue = element.asText();
                 if (defaultValue != null) {
-                    if (cp.items.getIsEnumOrRef()) {
+                    boolean itemIsLiteral = inlineEnumItemsAsLiterals && cp.items.isEnum;
+                    if (itemIsLiteral && ModelUtils.isStringSchema(itemsSchema)) {
+                        defaultContent.append("\"").append(escapeText(defaultValue)).append("\"").append(",");
+                    } else if (cp.items.getIsEnumOrRef() && !itemIsLiteral) {
                         String className = cp.items.datatypeWithEnum;
                         String enumVarName = toEnumVarName(defaultValue, cp.items.dataType);
                         defaultContent.append(className).append(".").append(enumVarName).append(",");
@@ -1304,6 +1336,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toDefaultParameterValue(CodegenProperty cp, Schema schema) {
+        Schema<?> referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ModelUtils.isArraySchema(referencedSchema) && cp.items != null && cp.items.isEnum) {
+            // inline enum items of a parameter have no enum class of their own,
+            // so the default must use the plain item values (e.g. setOf("a", "b"))
+            return toArrayDefaultValue(cp, referencedSchema, true);
+        }
         return toDefaultValue(cp, schema);
     }
 

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -18,7 +17,7 @@ import jakarta.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class User {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -54,7 +53,6 @@ public class User {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -74,7 +72,6 @@ public class User {
    * Get username
    * @return username
    */
-  
   @JsonProperty("username")
   public @Nullable String getUsername() {
     return username;
@@ -94,7 +91,6 @@ public class User {
    * Get firstName
    * @return firstName
    */
-  
   @JsonProperty("firstName")
   public @Nullable String getFirstName() {
     return firstName;
@@ -114,7 +110,6 @@ public class User {
    * Get lastName
    * @return lastName
    */
-  
   @JsonProperty("lastName")
   public @Nullable String getLastName() {
     return lastName;
@@ -134,7 +129,6 @@ public class User {
    * Get email
    * @return email
    */
-  
   @JsonProperty("email")
   public @Nullable String getEmail() {
     return email;
@@ -154,7 +148,6 @@ public class User {
    * Get password
    * @return password
    */
-  
   @JsonProperty("password")
   public @Nullable String getPassword() {
     return password;
@@ -174,7 +167,6 @@ public class User {
    * Get phone
    * @return phone
    */
-  
   @JsonProperty("phone")
   public @Nullable String getPhone() {
     return phone;
@@ -194,7 +186,6 @@ public class User {
    * User Status
    * @return userStatus
    */
-  
   @JsonProperty("userStatus")
   public @Nullable Integer getUserStatus() {
     return userStatus;

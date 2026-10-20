@@ -77,6 +77,16 @@ public interface CodegenConfig {
 
     String embeddedTemplateDir();
 
+    /**
+     * Additional embedded (classpath) template directories searched after the
+     * generator's own embedded template directory. Directories are probed in
+     * order; the first containing the template wins. Used to share templates
+     * between related generators.
+     */
+    default java.util.List<String> additionalEmbeddedTemplateDirs() {
+        return java.util.Collections.emptyList();
+    }
+
     String modelFileFolder();
 
     String modelTestFileFolder();
@@ -164,15 +174,6 @@ public interface CodegenConfig {
     Map<String, String> importMapping();
 
     Map<String, String> schemaMapping();
-
-    /**
-     * Returns the set of schema names that must be generated even when they appear in
-     * schemaMappings or importMappings (which would normally suppress their generation).
-     * <p>
-     * Use {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) as a wildcard
-     * to force-generate <em>all</em> mapped schemas at once.
-     */
-    Set<String> forcedGenerateSchemas();
 
     Map<String, String> inlineSchemaNameMapping();
 

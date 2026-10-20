@@ -133,6 +133,14 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The JAX-RS templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 

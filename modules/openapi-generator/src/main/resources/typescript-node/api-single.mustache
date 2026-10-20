@@ -190,7 +190,14 @@ export class {{classname}} {
 
 {{/queryParams}}
 {{#headerParams}}
+{{#headerIsJsonMimeType}}
+        if ({{paramName}} !== undefined) {
+            localVarHeaderParams['{{baseName}}'] = JSON.stringify(ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+        }
+{{/headerIsJsonMimeType}}
+{{^headerIsJsonMimeType}}
         localVarHeaderParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
+{{/headerIsJsonMimeType}}
 {{/headerParams}}
         (<any>Object).assign(localVarHeaderParams, options.headers);
 

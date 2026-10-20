@@ -16,7 +16,6 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -35,7 +34,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullableDto.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ParentWithNullableDto {
 
   /**
@@ -85,7 +84,6 @@ public class ParentWithNullableDto {
    * Get type
    * @return type
    */
-  
   @JsonProperty("type")
   public @Nullable TypeEnum getType() {
     return type;
@@ -105,7 +103,6 @@ public class ParentWithNullableDto {
    * Get nullableProperty
    * @return nullableProperty
    */
-  
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
     return nullableProperty;

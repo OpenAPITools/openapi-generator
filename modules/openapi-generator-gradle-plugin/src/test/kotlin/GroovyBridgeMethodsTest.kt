@@ -139,8 +139,76 @@ class GroovyBridgeMethodsTest : TestBase() {
         )
     }
 
+    @Test
+    fun `Custom GenerateTask should accept setSchemaLocationsAsStrings bridge method`() {
+        // Arrange
+        val buildContents = """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        
+        tasks.register('customGenerate', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+            generatorName = "kotlin"
+            setInputSpecAsString("spec.yaml")
+            setOutputDirAsString("build/custom-kotlin")
+            setSchemaLocationsAsStrings("schemas/extra.yaml", "schemas/extra2.yaml")
+            apiPackage = "org.openapitools.custom.api"
+            invokerPackage = "org.openapitools.custom.invoker"
+            modelPackage = "org.openapitools.custom.model"
+        }
+        """.trimIndent()
+
+        withProjectFiles(buildContents, includeSchemas = true)
+
+        // Act - first run should succeed and populate the task's schemaLocations input
+        val result1 = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result1.output.contains("Successfully generated code to"),
+            "Expected successful generation in custom task using setSchemaLocationsAsStrings"
+        )
+        assertEquals(
+            TaskOutcome.SUCCESS, result1.task(":customGenerate")?.outcome,
+            "Expected a successful run with custom task using setSchemaLocationsAsStrings"
+        )
+
+        // Act - second run with nothing changed must be UP-TO-DATE
+        val result2 = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":customGenerate")?.outcome)
+
+        // Act - modify a file tracked only via setSchemaLocationsAsStrings. If it were not
+        // actually wired to the task's schemaLocations input, the task would incorrectly
+        // remain UP-TO-DATE instead of re-executing.
+        File(temp, "schemas/extra.yaml").writeText("type: object\nadditionalProperties: false")
+        val result3 = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertEquals(
+            TaskOutcome.SUCCESS, result3.task(":customGenerate")?.outcome,
+            "Task stayed UP-TO-DATE after a schema file changed — setSchemaLocationsAsStrings is not wired to schemaLocations"
+        )
+    }
+
     // Helper method to create project files
-    private fun withProjectFiles(buildContents: String, includeConfig: Boolean = false, includeTemplates: Boolean = false) {
+    private fun withProjectFiles(
+        buildContents: String,
+        includeConfig: Boolean = false,
+        includeTemplates: Boolean = false,
+        includeSchemas: Boolean = false
+    ) {
         File(temp, "build.gradle").writeText(buildContents)
 
         // Create spec file
@@ -158,6 +226,14 @@ class GroovyBridgeMethodsTest : TestBase() {
         if (includeTemplates) {
             val templatesDir = File(temp, "templates")
             templatesDir.mkdirs()
+        }
+
+        // Create schema files if needed
+        if (includeSchemas) {
+            val schemasDir = File(temp, "schemas")
+            schemasDir.mkdirs()
+            File(schemasDir, "extra.yaml").writeText("type: object")
+            File(schemasDir, "extra2.yaml").writeText("type: object")
         }
     }
 }

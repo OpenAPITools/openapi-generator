@@ -29,6 +29,9 @@ import io.swagger.annotations.AuthorizationScope
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
+{{#clientRegistrationId}}
+import org.springframework.security.oauth2.client.annotation.ClientRegistrationId
+{{/clientRegistrationId}}
 {{^useResponseEntity}}
 import org.springframework.http.HttpStatus
 {{/useResponseEntity}}
@@ -55,6 +58,9 @@ import kotlin.collections.Map
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
+{{#clientRegistrationId}}
+@ClientRegistrationId("{{{clientRegistrationId}}}")
+{{/clientRegistrationId}}
 {{#operations}}
 interface {{classname}} {
 

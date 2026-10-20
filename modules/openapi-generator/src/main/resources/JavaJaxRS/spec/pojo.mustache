@@ -18,6 +18,20 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 {{/additionalProperties}}
 {{/jackson}}
+{{#jsonb}}
+import {{javaxPackage}}.json.bind.annotation.JsonbCreator;
+import {{javaxPackage}}.json.bind.annotation.JsonbProperty;
+{{#hasEnums}}
+import {{javaxPackage}}.json.bind.annotation.JsonbTypeDeserializer;
+import {{javaxPackage}}.json.bind.annotation.JsonbTypeSerializer;
+import {{javaxPackage}}.json.bind.serializer.DeserializationContext;
+import {{javaxPackage}}.json.bind.serializer.JsonbDeserializer;
+import {{javaxPackage}}.json.bind.serializer.JsonbSerializer;
+import {{javaxPackage}}.json.bind.serializer.SerializationContext;
+import {{javaxPackage}}.json.stream.JsonGenerator;
+import {{javaxPackage}}.json.stream.JsonParser;
+{{/hasEnums}}
+{{/jsonb}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
 {{/openApiNullable}}
@@ -72,15 +86,10 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   @Deprecated
   {{/deprecated}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
-  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
-  {{/isContainer}}
-  {{^isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
-  {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  private {{#isContainer}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{/isContainer}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  private {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{/vars}}
 
@@ -126,6 +135,32 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{/hasRequired}}
   {{/generateJsonCreator}}
   {{/jackson}}
+  {{#jsonb}}
+  {{#generateJsonCreator}}
+  {{#hasRequired}}
+  @JsonbCreator
+  public {{classname}}(
+    {{#requiredVars}}
+    @JsonbProperty("{{baseName}}") {{>beanValidatedType}} {{name}}{{^-last}},{{/-last}}
+    {{/requiredVars}}
+  ) {
+    {{#parent}}
+    super(
+    {{#parentRequiredVars}}
+      {{name}}{{^-last}},{{/-last}}
+    {{/parentRequiredVars}}
+    );
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
+    this.{{name}} = {{name}};
+    {{/required}}
+    {{/vars}}
+  }
+
+  {{/hasRequired}}
+  {{/generateJsonCreator}}
+  {{/jsonb}}
   {{#vars}}
   /**
    {{#description}}
@@ -144,7 +179,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -167,14 +202,14 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
   @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}requiredMode = Schema.RequiredMode.REQUIRED, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
   @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useMicroProfileOpenAPIAnnotations}}
-  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}
+  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}{{#jsonb}}@JsonbProperty({{#required}}{{#isNullable}}value = {{/isNullable}}{{/required}}"{{baseName}}"{{#required}}{{#isNullable}}, nillable = true{{/isNullable}}{{/required}}){{/jsonb}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}() {
     return {{name}};
   }
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}public {{>beanValidatedType}} {{getter}}() {
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{>beanValidatedType}}{{/lambda.jSpecifyDatatype}} {{getter}}() {
     return {{name}};
   }
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -188,8 +223,11 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{#jackson}}
   @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{/jackson}}
+  {{#jsonb}}
+  @JsonbProperty("{{baseName}}")
+  {{/jsonb}}
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
-  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -208,7 +246,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>());
     }
     try {
       this.{{name}}.get().add({{name}}Item);
@@ -219,7 +257,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
     }
 
     this.{{name}}.add({{name}}Item);
@@ -262,7 +300,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new HashMap<>());
     }
     try {
       this.{{name}}.get().put(key, {{name}}Item);
@@ -273,7 +311,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+      this.{{name}} = new HashMap<>();
     }
 
     this.{{name}}.put(key, {{name}}Item);

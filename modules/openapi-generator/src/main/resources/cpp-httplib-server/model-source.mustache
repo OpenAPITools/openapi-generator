@@ -3,6 +3,11 @@
 
 {{#models}}
 {{#model}}
+{{#isEnum}}
+#include "{{vendorExtensions.modelClassName}}.h"
+
+{{/isEnum}}
+{{^isEnum}}
 {{^vendorExtensions.isOneOfSchema}}
 {{^vendorExtensions.isAnyOfSchema}}
 #include "{{vendorExtensions.modelClassName}}.h"
@@ -79,5 +84,6 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
 {{^vendorExtensions.isOneOfSchema}}{{^vendorExtensions.isAnyOfSchema}}
 } // namespace {{vendorExtensions.modelNamespace}}
 {{/vendorExtensions.isAnyOfSchema}}{{/vendorExtensions.isOneOfSchema}}
+{{/isEnum}}
 {{/model}}
 {{/models}}

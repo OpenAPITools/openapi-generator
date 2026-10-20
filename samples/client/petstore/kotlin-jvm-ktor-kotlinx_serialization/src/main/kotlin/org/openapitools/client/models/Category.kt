@@ -31,8 +31,8 @@ import kotlinx.serialization.Contextual
 /**
  * A category for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 @Serializable
 

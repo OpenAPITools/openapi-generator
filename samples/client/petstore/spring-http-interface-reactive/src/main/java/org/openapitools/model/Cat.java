@@ -12,7 +12,6 @@ import org.openapitools.model.Animal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -31,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Cat extends Animal {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -57,7 +56,6 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  
   @JsonProperty("declawed")
   public @Nullable Boolean getDeclawed() {
     return declawed;

@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls (required).</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default, Category category = default, string name = default, List<string> photoUrls = default, List<Tag> tags = default, StatusEnum? status = default)
+        public Pet(long? id = default, Category category = default, string name = default, List<string> photoUrls = default, List<Tag> tags = default, StatusEnum? status = default)
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -116,9 +116,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             this._PhotoUrls = photoUrls;
-            this._Id = id;
-            if (this.Id != null)
+            if (id != null)
             {
+                this._Id = id.Value;
                 this._flagId = true;
             }
             this._Category = category;
@@ -131,9 +131,9 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagTags = true;
             }
-            this._Status = status;
-            if (this.Status != null)
+            if (status != null)
             {
+                this._Status = status.Value;
                 this._flagStatus = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();

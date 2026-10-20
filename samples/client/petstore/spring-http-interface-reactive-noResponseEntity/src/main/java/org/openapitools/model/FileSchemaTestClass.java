@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -22,7 +21,7 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,7 +39,6 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  
   @JsonProperty("file")
   public @Nullable File getFile() {
     return file;
@@ -68,7 +66,6 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  
   @JsonProperty("files")
   public List<File> getFiles() {
     return files;

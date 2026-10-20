@@ -17,10 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -34,6 +38,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -67,6 +72,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DATE_LIBRARY_DESC = "Option. Date library to use.";
     public static final String DATE_LIBRARY_DATE = "date";
     public static final String DATE_LIBRARY_STRING = "string";
+    public static final String DATE_LIBRARY_TEMPORAL = "temporal";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -112,6 +118,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String DATE_TYPE = "date";
     private static final String DATE_TIME_TYPE = "DateTime";
     private static final String TS_DATE_TYPE = "Date";
+    private static final String TS_TEMPORAL_INSTANT_TYPE = "Temporal.Instant";
+    private static final String TS_TEMPORAL_PLAIN_DATE_TYPE = "Temporal.PlainDate";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -143,6 +151,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         this.addExtraReservedWords();
 
+        languageSpecificPrimitives.addAll(Arrays.asList(
+                TS_TEMPORAL_INSTANT_TYPE,
+                TS_TEMPORAL_PLAIN_DATE_TYPE
+        ));
+
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -154,6 +167,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_DATE, "Native Date. `format: date` and `format: date-time` are both mapped to Date and (de)serialized by the runtime.");
         dateOptions.put(DATE_LIBRARY_STRING, "Plain string. Values are passed through untouched, leaving date handling to the consumer.");
+        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime. (Experimental support) ");
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -346,13 +360,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
         }
+        additionalProperties.put("modelSerializersEnabled", !withoutRuntimeChecks);
 
         // `date` needs the model (de)serialization to convert with, which
         // withoutRuntimeChecks removes: the raw string would just be cast to Date.
-        if (withoutRuntimeChecks && DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
+        if (withoutRuntimeChecks && (DATE_LIBRARY_DATE.equals(this.dateLibrary) || DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary))) {
             if (additionalProperties.containsKey(DATE_LIBRARY)) {
                 LOGGER.warn("{}={} is not compatible with {}=true; falling back to {}={}.",
-                        DATE_LIBRARY, DATE_LIBRARY_DATE, WITHOUT_RUNTIME_CHECKS, DATE_LIBRARY, DATE_LIBRARY_STRING);
+                        DATE_LIBRARY, this.dateLibrary, WITHOUT_RUNTIME_CHECKS, DATE_LIBRARY, DATE_LIBRARY_STRING);
             }
             this.dateLibrary = DATE_LIBRARY_STRING;
         }
@@ -360,6 +375,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
             typeMapping.put(DATE_TYPE, TS_DATE_TYPE);
             typeMapping.put(DATE_TIME_TYPE, TS_DATE_TYPE);
+        } else if (DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary)) {
+            typeMapping.put(DATE_TYPE, TS_TEMPORAL_PLAIN_DATE_TYPE);
+            typeMapping.put(DATE_TIME_TYPE, TS_TEMPORAL_INSTANT_TYPE);
         } else {
             typeMapping.put(DATE_TYPE, "string");
             typeMapping.put(DATE_TIME_TYPE, "string");
@@ -367,6 +385,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put(DATE_LIBRARY, this.dateLibrary);
         // Mustache cannot compare strings, so expose the selected library as a flag.
         additionalProperties.put("isDateLibraryDate", DATE_LIBRARY_DATE.equals(this.dateLibrary));
+        additionalProperties.put("isDateLibraryString", DATE_LIBRARY_STRING.equals(this.dateLibrary));
+        additionalProperties.put("isDateLibraryTemporal", DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary));
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
             this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));
@@ -694,7 +714,81 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter cp = super.fromParameter(parameter, imports);
-        return new ExtendedCodegenParameter(cp);
+        ExtendedCodegenParameter result = new ExtendedCodegenParameter(cp);
+        Parameter resolvedParameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+        result.jsonHeaderUsesModelSerializer = cp.headerIsJsonMimeType && cp.isModel
+                && hasGeneratedModelHeaderSchema(openAPI, resolvedParameter);
+        return result;
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        super.processOpenAPI(openAPI);
+        if (!withoutRuntimeChecks) {
+            return;
+        }
+        if (openAPI.getPaths() != null) {
+            for (PathItem path : openAPI.getPaths().values()) {
+                if (hasJsonContentModelHeader(openAPI, path)) {
+                    enableJsonHeaderModelSerializers();
+                    return;
+                }
+            }
+        }
+        if (openAPI.getWebhooks() != null) {
+            for (PathItem webhook : openAPI.getWebhooks().values()) {
+                if (hasJsonContentModelHeader(openAPI, webhook)) {
+                    enableJsonHeaderModelSerializers();
+                    return;
+                }
+            }
+        }
+    }
+
+    private boolean hasJsonContentModelHeader(OpenAPI openAPI, PathItem path) {
+        if (hasJsonContentModelHeader(openAPI, path.getParameters())) {
+            return true;
+        }
+        for (Operation operation : path.readOperations()) {
+            if (hasJsonContentModelHeader(openAPI, operation.getParameters())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasJsonContentModelHeader(OpenAPI openAPI, List<Parameter> parameters) {
+        return parameters != null && parameters.stream()
+                .map(parameter -> ModelUtils.getReferencedParameter(openAPI, parameter))
+                .anyMatch(parameter -> isJsonContentHeader(parameter)
+                        && hasGeneratedModelHeaderSchema(openAPI, parameter));
+    }
+
+    private boolean isJsonContentHeader(Parameter parameter) {
+        if (parameter == null
+                || !(parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn()))
+                || parameter.getSchema() != null
+                || parameter.getContent() == null
+                || parameter.getContent().isEmpty()) {
+            return false;
+        }
+        String contentType = parameter.getContent().keySet().iterator().next();
+        return isJsonMimeType(contentType) || isJsonVendorMimeType(contentType);
+    }
+
+    private boolean hasGeneratedModelHeaderSchema(OpenAPI openAPI, Parameter parameter) {
+        if (parameter.getContent() == null || parameter.getContent().isEmpty()) {
+            return false;
+        }
+        Schema schema = parameter.getContent().values().iterator().next().getSchema();
+        return schema != null && schema.get$ref() != null
+                && ModelUtils.isModel(ModelUtils.getReferencedSchema(openAPI, schema));
+    }
+
+    private void enableJsonHeaderModelSerializers() {
+        modelTemplateFiles.put("models.mustache", ".ts");
+        additionalProperties.put("jsonHeaderModelSerializers", true);
+        additionalProperties.put("modelSerializersEnabled", true);
     }
 
     @Override
@@ -712,6 +806,28 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+        CodegenProperty not = cp.getComposedSchemas() == null ? null : cp.getComposedSchemas().getNot();
+        if (not != null && not.isString && (not.isEnum || not.isEnumRef)
+                && not.allowableValues != null && not.allowableValues.get("values") instanceof List) {
+            StringJoiner comparisons = new StringJoiner(" || ");
+            for (Object excluded : (List<?>) not.allowableValues.get("values")) {
+                String literal;
+                if (excluded == null) {
+                    literal = "null";
+                } else if (excluded instanceof String) {
+                    literal = TextNode.valueOf((String) excluded).toString();
+                } else {
+                    continue;
+                }
+                comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.name) + "] === " + literal);
+                if (cp.getHasSanitizedName() && !cp.name.equals(cp.baseName)) {
+                    comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.baseName) + "] === " + literal);
+                }
+            }
+            if (comparisons.length() > 0) {
+                cp.vendorExtensions.put("x-typescript-fetch-not-enum-comparison", comparisons.toString());
+            }
+        }
         return new ExtendedCodegenProperty(cp);
     }
 
@@ -862,6 +978,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap webhooks, List<ModelMap> allModels) {
+        if (webhooks.getWebhooks().getOperation().stream()
+                .anyMatch(operation -> operation.headerParams != null && operation.headerParams.stream()
+                        .anyMatch(parameter -> ((ExtendedCodegenParameter) parameter).jsonHeaderUsesModelSerializer))) {
+            for (Map<String, String> im : webhooks.getImports()) {
+                String className = im.get("import").replace(modelPackage() + ".", "");
+                im.put("className", className);
+                im.put("classFileName", convertUsingFileNamingConvention(className));
+            }
+        }
+        return webhooks;
+    }
+
+    @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         Map<String, Object> parentObjs = super.postProcessSupportingFileData(objs);
 
@@ -950,6 +1080,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
+
+        // Type names omit branch nullability. Null is valid only when exactly one branch accepts it.
+        if (oneOfsList.stream().filter(cp -> cp.isNullable).count() == 1) {
+            cm.oneOf.add("null");
+        }
 
         // create a set of any non-primitive, non-array types used in the oneOf schemas which will
         // need to be imported.
@@ -1138,9 +1273,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
 
             // the split narrowed each variant to a single media type per axis; the merged operation speaks
-            // them all again, so its documentation says so. apis.mustache reads consumes only where the
-            // request axis was not split - a case where this union is the single value anyway - and never
-            // reads produces, so this is documentation only.
+            // them all again, so its documentation lists the media types of its variants - not the ones only
+            // its error responses declare, which a caller never asks for. apis.mustache reads consumes only
+            // where the request axis was not split - a case where this union is the single value anyway - and
+            // never reads produces, so this is documentation only.
             base.consumes = mediaTypesOf(requestVariants, v -> v.consumes);
             base.produces = mediaTypesOf(responseVariants, v -> v.produces);
 
@@ -1524,6 +1660,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
+        public boolean jsonHeaderUsesModelSerializer;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
         public List<CodegenProperty> readOnlyVars; // a list of read-only properties
         public boolean hasReadOnly = false; // indicates the type has at least one read-only property
@@ -1552,6 +1689,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isQueryParam = cp.isQueryParam;
             this.isPathParam = cp.isPathParam;
             this.isHeaderParam = cp.isHeaderParam;
+            this.headerIsJsonMimeType = cp.headerIsJsonMimeType;
             this.isCookieParam = cp.isCookieParam;
             this.isBodyParam = cp.isBodyParam;
             this.isContainer = cp.isContainer;
@@ -1559,6 +1697,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isPrimitiveType = cp.isPrimitiveType;
             this.isModel = cp.isModel;
             this.isExplode = cp.isExplode;
+            this.isExplode = cp.isExplode;
+            this.isDeepObject = cp.isDeepObject;
+            this.isFormStyle = cp.isFormStyle;
+            this.isMatrix = cp.isMatrix;
+            this.isAllowEmptyValue = cp.isAllowEmptyValue;
+            this.isSpaceDelimited = cp.isSpaceDelimited;
+            this.isPipeDelimited = cp.isPipeDelimited;
+
             this.baseName = cp.baseName;
             this.paramName = cp.paramName;
             this.dataType = cp.dataType;
@@ -1632,6 +1778,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             CodegenParameter superCopy = super.copy();
             ExtendedCodegenParameter output = new ExtendedCodegenParameter(superCopy);
             output.dataTypeAlternate = this.dataTypeAlternate;
+            output.jsonHeaderUsesModelSerializer = this.jsonHeaderUsesModelSerializer;
             output.isUniqueId = this.isUniqueId;
             return output;
         }
@@ -2125,10 +2272,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static boolean isDateType(String dataType) {
-        return TS_DATE_TYPE.equals(dataType);
+        return TS_DATE_TYPE.equals(dataType) || TS_TEMPORAL_PLAIN_DATE_TYPE.equals(dataType);
     }
 
     private static boolean isDateTimeType(String dataType) {
-        return TS_DATE_TYPE.equals(dataType);
+        return TS_DATE_TYPE.equals(dataType) || TS_TEMPORAL_INSTANT_TYPE.equals(dataType);
     }
 }

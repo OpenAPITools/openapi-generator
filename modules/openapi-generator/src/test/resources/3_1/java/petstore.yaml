@@ -1135,3 +1135,6 @@ components:
         second_property:
           description: just null type
           type: null
+        third_property:
+          description: null type declared as the OAS 3.1 quoted string
+          type: 'null'

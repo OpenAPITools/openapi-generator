@@ -362,7 +362,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return example;
         }
 
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (isEnumSchema(schema)) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
@@ -462,7 +462,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (additionalObject instanceof Schema) {
                 Schema additional = (Schema) additionalObject;
                 String theKey = "'key'";
-                if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
+                if (isEnumSchema(additional)) {
                     theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
                         theKey = "'" + escapeText(theKey) + "'";

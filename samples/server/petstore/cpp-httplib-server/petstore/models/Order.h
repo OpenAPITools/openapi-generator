@@ -74,9 +74,49 @@ public:
 
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Order,
-         id, petId, quantity, shipDate, status, complete)
+    friend inline void to_json(nlohmann::json& j, const Order& o)
+    {
+        j = nlohmann::json::object();
+        j["id"] = o.id;
+        j["petId"] = o.petId;
+        j["quantity"] = o.quantity;
+        j["shipDate"] = o.shipDate;
+        j["status"] = o.status;
+        j["complete"] = o.complete;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, Order& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Order must be a JSON object", &j);
+        }
+        if (j.contains("id"))
+        {
+            j.at("id").get_to(o.id);
+        }
+        if (j.contains("petId"))
+        {
+            j.at("petId").get_to(o.petId);
+        }
+        if (j.contains("quantity"))
+        {
+            j.at("quantity").get_to(o.quantity);
+        }
+        if (j.contains("shipDate"))
+        {
+            j.at("shipDate").get_to(o.shipDate);
+        }
+        if (j.contains("status"))
+        {
+            j.at("status").get_to(o.status);
+        }
+        if (j.contains("complete"))
+        {
+            j.at("complete").get_to(o.complete);
+        }
+    }
+
 
 private:
     long id;

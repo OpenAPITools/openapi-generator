@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Inner enum comparison regression for issue 20952
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Example:
+      type: object
+      properties:
+        plainString:
+          type: string
+          enum: [FIRST, SECOND]
+        formattedString:
+          type: string
+          format: custom-string
+          enum: [FIRST, SECOND]
+        email:
+          type: string
+          format: email
+          enum: [support@example.com, sales@example.com]
+        nullableString:
+          type: string
+          format: custom-string
+          nullable: true
+          enum: ["null", FIRST, null]
+        uuid:
+          type: string
+          format: uuid
+          enum:
+            - 123e4567-e89b-12d3-a456-426614174000
+            - 123e4567-e89b-12d3-a456-426614174001
+        number:
+          type: integer
+          enum: [1, 2]
+        formattedNumber:
+          type: integer
+          format: int64
+          enum: [1, 2]
+        exampleInnerThree:
+          type: string
+          format: uri
+          enum:
+            - https://example.com/one
+            - https://example.com/two
+        nullableUri:
+          type: string
+          format: uri
+          nullable: true
+          enum:
+            - https://example.com/one
+            - https://example.com/two
+            - null

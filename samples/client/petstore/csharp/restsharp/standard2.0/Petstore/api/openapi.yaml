@@ -1389,8 +1389,8 @@ components:
         password: password
         phone: phone
         userStatus: 6
-        objectWithNoDeclaredProps: "{}"
-        objectWithNoDeclaredPropsNullable: "{}"
+        objectWithNoDeclaredProps: {}
+        objectWithNoDeclaredPropsNullable: {}
         anyTypeProp: ""
         anyTypePropNullable: ""
       properties:
@@ -2704,6 +2704,8 @@ components:
     Custom-Variableobject-Response:
       additionalProperties: true
       description: A Variable object without predefined property names
+      example:
+        key: ""
       type: object
     Field-pkiNotificationtestID:
       type: integer
@@ -2711,8 +2713,8 @@ components:
       example:
         pkiNotificationtestID: 0
         a_objVariableobject:
-        - null
-        - null
+        - key: ""
+        - key: ""
       properties:
         pkiNotificationtestID:
           type: integer

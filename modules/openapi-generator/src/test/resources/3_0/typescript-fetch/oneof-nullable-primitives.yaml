@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Nullable primitive oneOf values
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    NullableString:
+      type: string
+      nullable: true
+    InlineNullableValue:
+      oneOf:
+        - type: string
+          nullable: true
+        - type: number
+    ReferencedNullableValue:
+      oneOf:
+        - $ref: '#/components/schemas/NullableString'
+        - type: number
+    NonNullableValue:
+      oneOf:
+        - type: string
+        - type: number
+    MultipleNullableValue:
+      oneOf:
+        - type: string
+          nullable: true
+        - type: number
+          nullable: true
+    NullableArrayItems:
+      oneOf:
+        - type: array
+          items:
+            type: string
+            nullable: true
+        - type: number
+    Values:
+      type: object
+      required:
+        - array
+        - map
+      properties:
+        array:
+          type: array
+          items:
+            $ref: '#/components/schemas/InlineNullableValue'
+        map:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/InlineNullableValue'

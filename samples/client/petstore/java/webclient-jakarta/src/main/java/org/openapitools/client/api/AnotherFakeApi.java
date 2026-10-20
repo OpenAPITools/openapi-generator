@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -55,18 +55,17 @@ public class AnotherFakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
-        Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new WebClientResponseException("Missing the required parameter 'client' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -79,8 +78,8 @@ public class AnotherFakeApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, localVarQueryParams, client, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -92,7 +91,7 @@ public class AnotherFakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<Client> call123testSpecialTags(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
-        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).bodyToMono(localVarReturnType);
     }
 
@@ -105,7 +104,7 @@ public class AnotherFakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
-        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
 

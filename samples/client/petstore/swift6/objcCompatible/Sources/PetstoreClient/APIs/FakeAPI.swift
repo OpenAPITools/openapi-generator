@@ -256,9 +256,10 @@ import Foundation
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "query": (wrappedValue: query.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
@@ -528,12 +529,13 @@ import Foundation
         let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "enum_query_string_array": (wrappedValue: enumQueryStringArray?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "enum_query_string": (wrappedValue: enumQueryString?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "enum_query_integer": (wrappedValue: enumQueryInteger?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "enum_query_double": (wrappedValue: enumQueryDouble?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/x-www-form-urlencoded",
@@ -591,12 +593,13 @@ import Foundation
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "required_string_group": (wrappedValue: requiredStringGroup.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "required_int64_group": (wrappedValue: requiredInt64Group.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "string_group": (wrappedValue: stringGroup?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
             "int64_group": (wrappedValue: int64Group?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "required_boolean_group": requiredBooleanGroup.asParameter(codableHelper: apiConfiguration.codableHelper),

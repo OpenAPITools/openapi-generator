@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Free-form object parameters
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          description: A free-form object query parameter.
+          schema:
+            type: object
+        - name: tags
+          in: query
+          description: A free-form object with typed additionalProperties (a map).
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: meta
+          in: query
+          description: A free-form object with additionalProperties true (also a map).
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /things/{selector}:
+    get:
+      operationId: getThing
+      parameters:
+        - name: selector
+          in: path
+          required: true
+          description: A free-form object path parameter.
+          schema:
+            type: object
+        - name: X-Filter
+          in: header
+          description: A free-form object header parameter.
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK

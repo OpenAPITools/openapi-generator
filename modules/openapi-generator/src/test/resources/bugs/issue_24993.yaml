@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Complex defaults
+  version: 1.0.0
+paths:
+  /defaults:
+    post:
+      operationId: createDefaults
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplexDefaults'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplexDefaults'
+components:
+  schemas:
+    ComplexDefaults:
+      type: object
+      properties:
+        objectArray:
+          type: array
+          default:
+            - name: first
+              count: 1
+              status: ACTIVE
+            - name: second
+              count: 2
+              status: INACTIVE
+          items:
+            $ref: '#/components/schemas/DefaultObject'
+        nestedStringArray:
+          type: array
+          default:
+            - - h1
+              - Header 1
+            - - h2
+              - Header 2
+          items:
+            type: array
+            items:
+              type: string
+        nullableArrayWithNullDefault:
+          type: array
+          nullable: true
+          default: null
+          items:
+            type: string
+        longArray:
+          type: array
+          default:
+            - 10
+            - 20
+          items:
+            type: integer
+            format: int64
+        objectAllOf:
+          allOf:
+            - $ref: '#/components/schemas/DefaultObject'
+          default:
+            name: all-of
+            count: 3
+            status: ACTIVE
+        objectOneOf:
+          oneOf:
+            - $ref: '#/components/schemas/DefaultObject'
+            - $ref: '#/components/schemas/OtherDefaultObject'
+          default:
+            name: one-of
+            count: 4
+            status: ACTIVE
+        objectAnyOf:
+          anyOf:
+            - $ref: '#/components/schemas/DefaultObject'
+            - $ref: '#/components/schemas/OtherDefaultObject'
+          default:
+            name: any-of
+            count: 5
+            status: INACTIVE
+        byteValue:
+          type: string
+          format: byte
+          default: ZGVmYXVsdA==
+        binaryValue:
+          type: string
+          format: binary
+          default: ZGVmYXVsdA==
+        nullableObject:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/DefaultObject'
+          default: null
+    DefaultObject:
+      type: object
+      required:
+        - name
+        - count
+        - status
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+          format: int32
+        status:
+          $ref: '#/components/schemas/Status'
+    OtherDefaultObject:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+          format: int32
+        status:
+          $ref: '#/components/schemas/Status'
+    Status:
+      type: string
+      enum:
+        - ACTIVE
+        - INACTIVE

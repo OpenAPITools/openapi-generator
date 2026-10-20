@@ -69,7 +69,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String specFolder = "spec";
     protected String libFolder = "lib";
     @Setter protected String gemLicense = "unlicense";
-    @Setter protected String gemRequiredRubyVersion = ">= 1.9";
+    @Setter protected String gemRequiredRubyVersion = ">= 2.7";
     @Setter protected String gemHomepage = "https://openapitools.org";
     @Setter protected String gemSummary = "A Ruby SDK for the REST API";
     @Setter protected String gemDescription = "This gem maps to a REST API";
@@ -135,10 +135,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        // local variable names used in API methods (endpoints)
+        // local variable names used in API methods (endpoints), plus core methods that
+        // generated model accessors must not override
         for (String word : Arrays.asList(
                 "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                "_header_content_type", "form_params", "post_body", "auth_names", "send")) {
+                "_header_content_type", "form_params", "post_body", "auth_names", "send", "object_id")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
 
@@ -164,7 +165,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 2.4"));
+                defaultValue(">= 2.7"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
                 defaultValue("https://openapi-generator.tech"));

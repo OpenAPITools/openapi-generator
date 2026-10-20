@@ -147,7 +147,6 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
-                
                 </configuration>
             </plugin>
             <plugin>
@@ -280,10 +279,10 @@
         <spring-web-version>6.2.8</spring-web-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
-        <jackson-version>2.21.5</jackson-version>
+        <jackson-version>2.21.6</jackson-version>
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.12</jackson-databind-nullable-version>
         <junit-version>5.10.2</junit-version>
     </properties>
 </project>

@@ -16,6 +16,38 @@
 
 namespace {{vendorExtensions.modelNamespace}} {
 
+{{#isEnum}}
+enum class {{vendorExtensions.modelClassName}} {
+    {{#allowableValues}}{{#enumVars}}
+    {{name}}{{^-last}},{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
+};
+
+inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& value)
+{
+    switch (value)
+    {
+        {{#allowableValues}}{{#enumVars}}
+        case {{vendorExtensions.modelClassName}}::{{name}}: j = {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}}; break;
+        {{/enumVars}}{{/allowableValues}}
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for {{vendorExtensions.modelClassName}}", &j);
+    }
+}
+
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& value)
+{
+    {{#allowableValues}}{{#enumVars}}
+    if (j == {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}})
+    {
+        value = {{vendorExtensions.modelClassName}}::{{name}};
+        return;
+    }
+    {{/enumVars}}{{/allowableValues}}
+    throw nlohmann::json::type_error::create(302, "Invalid value for {{vendorExtensions.modelClassName}}", &j);
+}
+
+{{/isEnum}}
+{{^isEnum}}
 {{#vendorExtensions.isOneOfSchema}}
 // oneOf schema - type alias for std::variant
 using {{vendorExtensions.modelClassName}} = std::variant<
@@ -232,9 +264,44 @@ public:
 
 {{/isArray}}{{/isEnum}}{{/vars}}
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE({{vendorExtensions.modelClassName}},
-        {{#vars}} {{nameInCamelCase}}{{^-last}},{{/-last}}{{/vars}})
+    friend inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& o)
+    {
+        {{^parent}}
+        j = nlohmann::json::object();
+        {{/parent}}
+        {{#parent}}
+        // Serialize inherited properties via the parent's serializer
+        to_json(j, static_cast<const {{parent}}&>(o));
+        {{/parent}}
+        {{#vars}}
+        j["{{baseName}}"] = o.{{nameInCamelCase}};
+        {{/vars}}
+    }
+
+    friend inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "{{vendorExtensions.modelClassName}} must be a JSON object", &j);
+        }
+        {{#parent}}
+        // Deserialize inherited properties via the parent's deserializer
+        from_json(j, static_cast<{{parent}}&>(o));
+        {{/parent}}
+        {{#vars}}
+        {{#required}}
+        j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
+        {{/required}}
+        {{^required}}
+        {{! Present null reaches get_to (resets std::optional, rejected for non-nullable); skipped only for nullable members that cannot hold null }}
+        if (j.contains("{{baseName}}"){{#isNullable}}{{^vendorExtensions.isOptionalEnum}} && !j.at("{{baseName}}").is_null(){{/vendorExtensions.isOptionalEnum}}{{/isNullable}})
+        {
+            j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
+        }
+        {{/required}}
+        {{/vars}}
+    }
+
 
 private:
     {{#vars}}
@@ -250,6 +317,7 @@ private:
 {{/vendorExtensions.isAnyOfSchema}}
 {{/vendorExtensions.isOneOfSchema}}
 
+{{/isEnum}}
 } // namespace {{vendorExtensions.modelNamespace}}
 
 {{/model}}

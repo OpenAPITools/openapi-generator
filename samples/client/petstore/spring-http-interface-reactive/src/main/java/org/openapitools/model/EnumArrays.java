@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -22,7 +21,7 @@ import jakarta.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -110,7 +109,6 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  
   @JsonProperty("just_symbol")
   public @Nullable JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -138,7 +136,6 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

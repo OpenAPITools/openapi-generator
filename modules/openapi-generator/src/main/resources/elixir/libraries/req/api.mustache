@@ -1,0 +1,87 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.Api.{{classname}} do
+  @moduledoc """
+  API calls for all endpoints tagged `{{baseName}}`.
+  """
+
+  alias {{moduleName}}.Connection
+  import {{moduleName}}.RequestBuilder
+{{#operations}}
+{{#operation}}
+
+  @doc """
+  {{#summary}}
+  {{&summary}}
+  {{/summary}}
+  {{#notes}}
+  {{&notes}}
+  {{/notes}}
+
+  ### Parameters
+
+  - `connection` ({{&moduleName}}.Connection): Connection to server
+{{#requiredParams}}
+  - `{{#underscored}}{{&paramName}}{{/underscored}}` ({{&dataType}}): {{&description}}
+{{/requiredParams}}
+  - `opts` (keyword): Optional parameters
+{{#optionalParams}}
+{{#isBodyParam}}
+    - `:body` ({{dataType}}): {{&description}}
+{{/isBodyParam}}
+{{^isBodyParam}}
+    - `{{#atom}}{{&baseName}}{{/atom}}` ({{&dataType}}): {{&description}}
+{{/isBodyParam}}
+{{/optionalParams}}
+
+  ### Returns
+
+  - `{{{successTypesDoc}}}` on success
+  - `{:error, term()}` on failure
+  """
+  {{{typespec}}}
+  def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
+{{#optionalParams}}
+{{#-first}}
+    optional_params = %{
+{{/-first}}
+{{#isBodyParam}}
+      :body => :body{{^-last}},{{/-last}}
+{{/isBodyParam}}
+{{^isBodyParam}}
+      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}{{#isArray}}:headers_form{{/isArray}}{{^isArray}}{{#isMap}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isMap}}{{^isMap}}{{#isFreeFormObject}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isModel}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isModel}}{{^isModel}}:headers{{/isModel}}{{/isFreeFormObject}}{{/isMap}}{{/isArray}}{{/isHeaderParam}}{{#isCookieParam}}{{#isExplode}}:cookie_exploded{{/isExplode}}{{^isExplode}}:cookie{{/isExplode}}{{/isCookieParam}}{{^-last}},{{/-last}}
+{{/isBodyParam}}
+{{#-last}}
+    }
+
+{{/-last}}
+{{/optionalParams}}
+    request =
+      %{}
+      |> method({{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}})
+      |> url("{{replacedPathName}}")
+{{#isMultipart}}
+      |> multipart()
+{{/isMultipart}}
+{{#requiredParams}}
+{{^isPathParam}}
+      |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}{{#isArray}}:headers_form{{/isArray}}{{^isArray}}{{#isMap}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isMap}}{{^isMap}}{{#isFreeFormObject}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isModel}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isModel}}{{^isModel}}:headers{{/isModel}}{{/isFreeFormObject}}{{/isMap}}{{/isArray}}{{/isHeaderParam}}{{#isCookieParam}}{{#isExplode}}:cookie_exploded{{/isExplode}}{{^isExplode}}:cookie{{/isExplode}}{{/isCookieParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
+{{/isPathParam}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
+      |> add_optional_params(optional_params, opts)
+{{/-first}}
+{{/optionalParams}}
+      |> finalize_request()
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response({{#responses}}{{#-first}}[
+{{/-first}}
+      {{=<% %>=}}{<%& codeMappingKey%>, <%decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
+{{#-last}}    ]{{/-last}}{{/responses}})
+  end
+{{/operation}}
+{{/operations}}
+end

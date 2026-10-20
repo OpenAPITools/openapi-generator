@@ -208,10 +208,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Mammal.", nameof(className));
+                throw new JsonException("Property is required for class Mammal: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
+                throw new JsonException("Property is not nullable for class Mammal: className.");
 
             if (pig != null)
                 return new Mammal(pig);
@@ -231,7 +231,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -264,7 +263,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
 
