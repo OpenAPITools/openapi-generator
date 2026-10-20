@@ -29,9 +29,9 @@ jobs:
         with:
           r-version: 3.6.1
       - uses: r-lib/actions/setup-r-dependencies@v2
-        working-directory: ${{ matrix.sample }}
         with:
           cache-version: 2
+          working-directory: ${{ matrix.sample }}
       - name: Install curl
         run: sudo apt-get install -y r-cran-curl
       - name: build and test

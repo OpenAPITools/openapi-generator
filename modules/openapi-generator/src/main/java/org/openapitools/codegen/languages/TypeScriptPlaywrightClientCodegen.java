@@ -19,12 +19,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +41,12 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * Generates a self-contained <a href="https://playwright.dev/">Playwright</a> test
+ * project (a typed API client plus generated API/model specs) from an OpenAPI document.
+ * The generated client wraps Playwright's {@code APIRequestContext} (the {@code request}
+ * fixture), so the tests issue, trace and report requests through Playwright.
+ */
 public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -75,31 +78,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     protected String fileNaming = PASCAL_CASE;
     protected String testFolder = "spec";
 
-    // "Saga and Record" mode.
-    public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
-    public static final String DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD = "detectPassthroughModelsWithSuffixAndField";
-    public static final String INFER_UNIQUE_ID_FROM_NAME_SUFFIX = "inferUniqueIdFromNameSuffix";
-    public static final String INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME = "inferEntityFromUniqueIdWithName";
-    public static final String PACKAGE_AS_SOURCE_ONLY_LIBRARY = "packageAsSourceOnlyLibrary";
-
-    private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
-    private static final String X_ENTITY_ID = "x-entityId";
-    private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
-    private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
-
-    protected boolean sagasAndRecords = false;
-    @Getter
-    @Setter
-    protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
-    @Setter
-    protected boolean inferUniqueIdFromNameSuffix = false;
-    @Getter
-    @Setter
-    protected String inferEntityFromUniqueIdWithName = null;
-    @Setter
-    protected boolean packageAsSourceOnlyLibrary = false;
-
-
     public TypeScriptPlaywrightClientCodegen() {
         super();
 
@@ -126,7 +104,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         this.cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
         this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
@@ -199,50 +176,15 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         }
     }
 
-    public Boolean getSagasAndRecords() {
-        return sagasAndRecords;
-    }
-
-    public void setSagasAndRecords(Boolean sagasAndRecords) {
-        this.sagasAndRecords = sagasAndRecords;
-    }
-
-    public String getPassthroughSuffix() {
-        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[0] : null;
-    }
-
-    public String getPassthroughField() {
-        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
-    }
-
-    public boolean getInferUniqueIdFromNameSuffix() {
-        return inferUniqueIdFromNameSuffix;
-    }
-
-    public boolean getPackageAsSourceOnlyLibrary() {
-        return packageAsSourceOnlyLibrary;
-    }
-
-    public boolean isUniqueIdAccordingToNameSuffix(String name) {
-        if (name == null) {
-            return false;
-        }
-        return "id".equals(name) ||
-                "ids".equals(name) ||
-                (name.length() >= 3 && name.endsWith("Id")) ||
-                (name.length() >= 4 && name.endsWith("Ids"));
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
 
+        // The generated artifact is a self-contained Playwright test project, so the
+        // client, models and tests all live at the project root (no "src" nesting).
         String sourceDir = "";
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            sourceDir = "src" + File.separator;
-        }
 
         this.apiPackage = sourceDir + "apis";
         this.modelPackage = sourceDir + "models";
@@ -265,10 +207,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         }
         writePropertyBack(PREFIX_PARAMETER_INTERFACES, getPrefixParameterInterfaces());
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration();
-        }
-
         if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
             this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
         }
@@ -287,54 +225,10 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
             typeMapping.put("DateTime", "Date");
         }
 
-        if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
-            this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));
-            if (this.getSagasAndRecords()) {
-                apiTemplateFiles.put("sagas.mustache", "Sagas.ts");
-                modelTemplateFiles.put("records.mustache", "Record.ts");
-                supportingFiles.add(new SupportingFile("runtimeSagasAndRecords.mustache", sourceDir, "runtimeSagasAndRecords.ts"));
-                supportingFiles.add(new SupportingFile("ApiEntitiesRecord.mustache", sourceDir, "ApiEntitiesRecord.ts"));
-                supportingFiles.add(new SupportingFile("ApiEntitiesReducer.mustache", sourceDir, "ApiEntitiesReducer.ts"));
-                supportingFiles.add(new SupportingFile("ApiEntitiesSelectors.mustache", sourceDir, "ApiEntitiesSelectors.ts"));
-
-                if (additionalProperties.containsKey(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD)) {
-                    this.setDetectPassthroughModelsWithSuffixAndField((String) additionalProperties.get(DETECT_PASSTHROUGH_MODELS_WITH_SUFFIX_AND_FIELD));
-                }
-                if (additionalProperties.containsKey(INFER_UNIQUE_ID_FROM_NAME_SUFFIX)) {
-                    this.setInferUniqueIdFromNameSuffix(convertPropertyToBoolean(INFER_UNIQUE_ID_FROM_NAME_SUFFIX));
-                }
-                if (additionalProperties.containsKey(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME)) {
-                    this.setInferEntityFromUniqueIdWithName((String) additionalProperties.get(INFER_ENTITY_FROM_UNIQUE_ID_WITH_NAME));
-                }
-                if (additionalProperties.containsKey(PACKAGE_AS_SOURCE_ONLY_LIBRARY)) {
-                    this.setPackageAsSourceOnlyLibrary(convertPropertyToBoolean(PACKAGE_AS_SOURCE_ONLY_LIBRARY));
-                }
-
-                this.addExtraReservedWordsForSagasAndRecords();
-
-                if (this.getPackageAsSourceOnlyLibrary()) {
-                    supportingFiles.add(new SupportingFile("sourceLibraryIndex.mustache", "", "index.ts"));
-                }
-            }
-        }
+        // Always generate the supporting files that make the output a runnable,
+        // type-checkable Playwright project.
+        addProjectFileGeneration();
     }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        if (this.getSagasAndRecords()) {
-            return datatype + "." + value;
-        }
-        return super.toEnumDefaultValue(value, datatype);
-    }
-
-    @Override
-    protected String getEnumDefaultValue(String defaultValue, String dataType) {
-        if (this.getSagasAndRecords()) {
-            return defaultValue;
-        }
-        return super.getEnumDefaultValue(defaultValue, dataType);
-    }
-
 
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
@@ -391,7 +285,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         List<ExtendedCodegenModel> allModels = new ArrayList<>();
-        List<String> entityModelClassnames = new ArrayList<>();
 
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
         for (ModelsMap entry : result.values()) {
@@ -400,9 +293,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
                 model.put("hasImports", codegenModel.imports.size() > 0);
                 model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
                 allModels.add(codegenModel);
-                if (codegenModel.isEntity) {
-                    entityModelClassnames.add(codegenModel.classname);
-                }
             }
         }
 
@@ -417,15 +307,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
                 }
                 if (isModelImport) {
                     rootModel.modelImports.add(curImport);
-                }
-            }
-
-            for (CodegenProperty cpVar : rootModel.vars) {
-                ExtendedCodegenProperty var = (ExtendedCodegenProperty) cpVar;
-                if (var.isModel && entityModelClassnames.indexOf(var.dataType) != -1) {
-                    var.isEntity = true;
-                } else if (var.isArray && var.items.isModel && entityModelClassnames.indexOf(var.items.dataType) != -1) {
-                    ((ExtendedCodegenProperty) var.items).isEntity = true;
                 }
             }
         }
@@ -464,41 +345,17 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         return tsImports;
     }
 
-    private void autoSetDefaultValueForProperty(ExtendedCodegenProperty var) {
-        if (var.isArray || var.isModel) {
-            var.defaultValue = var.dataTypeAlternate + "()";
-        } else if (var.isUniqueId) {
-            var.defaultValue = "\"-1\"";
-        } else if (var.isEnum) {
-            var.defaultValue = "'" + var._enum.get(0) + "'";
-            updateCodegenPropertyEnum(var);
-        } else if (var.dataType.equalsIgnoreCase("string")) {
-            var.defaultValue = "\"\"";
-        } else if (var.dataType.equalsIgnoreCase("number")) {
-            var.defaultValue = "0";
-        } else if (var.dataType.equalsIgnoreCase("boolean")) {
-            var.defaultValue = "false";
-        } else {
-            if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && ((ArrayList) var.allowableValues.get("enumVars")).get(0) instanceof HashMap) {
-                var.defaultValue = var.dataTypeAlternate + "." + ((HashMap<String, String>) ((ArrayList) var.allowableValues.get("enumVars")).get(0)).get("name");
-            }
-        }
-    }
-
-    private void addNpmPackageGeneration() {
+    private void addProjectFileGeneration() {
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
+        // Files that make the generated output a self-contained Playwright test project.
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
-        if (supportsES6) {
-            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
-        }
+        supportingFiles.add(new SupportingFile("playwright.config.mustache", "", "playwright.config.ts"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
@@ -544,119 +401,11 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     }
 
     @Override
-    public ExtendedCodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation superOp = super.fromOperation(path, httpMethod, operation, servers);
-        ExtendedCodegenOperation op = new ExtendedCodegenOperation(superOp);
-
-        if (this.getSagasAndRecords()) {
-            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            if (methodResponse != null) {
-                Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
-                Schema schema = null;
-                if (schemas != null) {
-                    schema = schemas.get(op.returnBaseType);
-                }
-
-                ExtendedCodegenModel cm = null;
-                if (schema != null) {
-                    cm = fromModel(op.returnBaseType, schema);
-
-                    Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
-                    if (returnPassthrough instanceof String) {
-                        if (((String) returnPassthrough).isEmpty()) {
-                            op.hasReturnPassthroughVoid = true;
-                            op.returnPassthrough = null;
-                        } else {
-                            boolean foundMatch = false;
-                            for (CodegenProperty var : cm.vars) {
-                                if (var.name.equals(returnPassthrough)) {
-                                    foundMatch = true;
-                                    break;
-                                }
-                            }
-                            if (foundMatch) {
-                                op.returnPassthrough = (String) returnPassthrough;
-                            } else { // no match, treat as if empty.
-                                op.hasReturnPassthroughVoid = true;
-                                op.returnPassthrough = null;
-                            }
-                        }
-                    } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && op.returnBaseType.length() > this.getPassthroughSuffix().length() && op.returnBaseType.endsWith(this.getPassthroughSuffix())) {
-                        boolean foundMatch = false;
-                        for (CodegenProperty var : cm.vars) {
-                            if (var.name.equals(this.getPassthroughField())) {
-                                foundMatch = true;
-                                break;
-                            }
-                        }
-                        if (foundMatch) {
-                            op.returnPassthrough = this.getPassthroughField();
-                        } else { // no match, treat as if empty.
-                            op.hasReturnPassthroughVoid = true;
-                            op.returnPassthrough = null;
-                        }
-                    }
-                }
-
-                if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
-                    ExtendedCodegenProperty cp = null;
-                    if (op.returnPassthrough instanceof String && cm != null) {
-                        cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
-                    } else if (responseSchema != null) {
-                        cp = fromProperty("response", responseSchema, false);
-                        this.processCodegenProperty(cp, "", null);
-                    }
-
-                    op.returnBaseTypeAlternate = null;
-                    if (cp != null) {
-                        op.returnTypeAlternate = cp.dataTypeAlternate;
-                        op.returnTypeIsModel = cp.isModel;
-                        op.returnTypeIsArray = cp.isArray;
-                        if (cp.isArray) {
-                            if (cp.items.isModel) {
-                                op.returnTypeSupportsEntities = true;
-                                op.returnBaseTypeAlternate = cp.items.dataType + "Record";
-                            } else if (cp.items.allowableValues != null) {
-                                op.returnBaseTypeAlternate = cp.items.dataType;
-                            }
-                        } else if (cp.isModel) {
-                            op.returnTypeSupportsEntities = true;
-                            op.returnBaseTypeAlternate = cp.dataTypeAlternate;
-                        } else if (cp.allowableValues != null) {
-                            op.returnBaseTypeAlternate = cp.dataTypeAlternate;
-                        }
-
-                    }
-                }
-            }
-        }
-
-        return op;
-    }
-
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.getSagasAndRecords()) {
-            if (this.reservedWordsMappings().containsKey(name)) {
-                return this.reservedWordsMappings().get(name);
-            }
-            return "_" + name;
-        } else {
-            return super.escapeReservedWord(name);
-        }
-    }
-
-    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (!operations.isEmpty() && !addedApiIndex) {
             addedApiIndex = true;
             supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
-            if (this.getSagasAndRecords()) {
-                supportingFiles.add(new SupportingFile("sagaApiManager.mustache", apiPackage().replace('.', File.separatorChar), "SagaApiManager.ts"));
-                supportingFiles.add(new SupportingFile("allSagas.mustache", apiPackage().replace('.', File.separatorChar), "allSagas.ts"));
-            }
         }
 
         // Add supporting file only if we plan to generate files in /models
@@ -667,87 +416,17 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
 
         this.addOperationModelImportInformation(operations);
         this.updateOperationParameterForEnum(operations);
-        if (this.getSagasAndRecords()) {
-            this.updateOperationParameterForSagaAndRecords(operations);
-        }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
+        this.addPlaywrightTestData(operations);
         return operations;
     }
 
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Object> parentObjs = super.postProcessSupportingFileData(objs);
-
-        parentObjs.put("useSagaAndRecords", this.getSagasAndRecords());
-
-        return parentObjs;
-    }
-
     private ExtendedCodegenModel processCodeGenModel(ExtendedCodegenModel cm) {
-        if (this.getSagasAndRecords()) {
-            Object xEntityId = cm.vendorExtensions.get(X_ENTITY_ID);
-            if (xEntityId == null && this.getInferEntityFromUniqueIdWithName() != null) {
-                xEntityId = this.getInferEntityFromUniqueIdWithName();
-            }
-            Object vendorKeepAsJSObject = cm.vendorExtensions.get(X_KEEP_AS_JS_OBJECT);
-            String[] propertiesToKeepAsJSObject = null;
-            if (vendorKeepAsJSObject instanceof String) {
-                propertiesToKeepAsJSObject = ((String) vendorKeepAsJSObject).split(",");
-            }
-
-            for (CodegenProperty cpVar : cm.vars) {
-                ExtendedCodegenProperty var = (ExtendedCodegenProperty) cpVar;
-                if (propertiesToKeepAsJSObject != null && Arrays.asList(propertiesToKeepAsJSObject).contains(var.name)) {
-                    var.keepAsJSObject = true;
-                }
-                boolean parentIsEntity = this.processCodegenProperty(var, cm.classname, xEntityId);
-                if (parentIsEntity) {
-                    cm.isEntity = true;
-                }
-            }
-
-            Object returnPassthrough = cm.vendorExtensions.get(X_OPERATION_RETURN_PASSTHROUGH);
-            if (returnPassthrough instanceof String) {
-                if (((String) returnPassthrough).isEmpty()) {
-                    cm.hasReturnPassthroughVoid = true;
-                    cm.returnPassthrough = null;
-                } else {
-                    boolean foundMatch = false;
-                    for (CodegenProperty var : cm.vars) {
-                        if (var.name.equals(returnPassthrough)) {
-                            foundMatch = true;
-                            break;
-                        }
-                    }
-                    if (foundMatch) {
-                        cm.returnPassthrough = (String) returnPassthrough;
-                    } else { // no match, treat as if empty.
-                        cm.hasReturnPassthroughVoid = true;
-                        cm.returnPassthrough = null;
-                    }
-                }
-            } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.endsWith(this.getPassthroughSuffix())) {
-                boolean foundMatch = false;
-                for (CodegenProperty var : cm.vars) {
-                    if (var.name.equals(this.getPassthroughField())) {
-                        foundMatch = true;
-                        break;
-                    }
-                }
-                if (foundMatch) {
-                    cm.returnPassthrough = this.getPassthroughField();
-                } else { // no match, treat as if empty.
-                    cm.hasReturnPassthroughVoid = true;
-                    cm.returnPassthrough = null;
-                }
-            }
-        } else {
-            for (CodegenProperty cpVar : cm.vars) {
-                ExtendedCodegenProperty var = (ExtendedCodegenProperty) cpVar;
-                this.processCodegenProperty(var, cm.classname, null);
-            }
+        for (CodegenProperty cpVar : cm.vars) {
+            ExtendedCodegenProperty var = (ExtendedCodegenProperty) cpVar;
+            this.processCodegenProperty(var, cm.classname);
         }
 
         if (cm.parent != null) {
@@ -773,7 +452,7 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         return cm;
     }
 
-    private boolean processCodegenProperty(ExtendedCodegenProperty var, String parentClassName, Object xEntityId) {
+    private void processCodegenProperty(ExtendedCodegenProperty var, String parentClassName) {
         // name enum with model name, e.g. StatusEnum => PetStatusEnum
         if (Boolean.TRUE.equals(var.isEnum)) {
             // behaviour for enum names is specific for Typescript Fetch, not using namespaces
@@ -787,61 +466,10 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
                 }
             }
         }
-
-        boolean parentIsEntity = false;
-        if (this.getSagasAndRecords()) {
-            if (var.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
-                var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
-            } else if (this.getInferUniqueIdFromNameSuffix() && (var.isArray && "number".equals(var.items.dataType)) || ("number".equals(var.dataType))) {
-                var.isUniqueId = this.isUniqueIdAccordingToNameSuffix(var.name);
-            }
-            if (var.isUniqueId && xEntityId != null && xEntityId.equals(var.name)) {
-                parentIsEntity = true;
-            }
-
-            var.dataTypeAlternate = var.dataType;
-            if (var.isArray) {
-                var.isUniqueId = var.isUniqueId || var.itemsAreUniqueId();
-                var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
-                String newItemsDataType = var.getItemsDataType();
-                if (var.items.isModel) {
-                    newItemsDataType = var.items.dataType + "Record";
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, newItemsDataType);
-                } else if (var.items.isEnum) {
-                    newItemsDataType = var.items.datatypeWithEnum;
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, newItemsDataType);
-                } else if (var.isUniqueId) {
-                    newItemsDataType = "string";
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace("number", newItemsDataType);
-                }
-
-                if (var.itemsAreNullable()) {
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                }
-            } else if (var.isEnum) {
-                var.dataTypeAlternate = var.datatypeWithEnum;
-            } else if (var.isModel) {
-                var.dataTypeAlternate = var.dataType + "Record";
-            } else if (var.isUniqueId) {
-                var.dataTypeAlternate = "string";
-                if (var.isNullable) {
-                    var.dataTypeAlternate = var.dataTypeAlternate + " | null";
-                }
-            }
-            if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
-                this.autoSetDefaultValueForProperty(var);
-            }
-        }
-        return parentIsEntity;
-    }
-
-    private boolean itemsAreNullable(ExtendedCodegenProperty var) {
-        return var.items.isNullable || (var.items.items != null && var.items.items.isNullable);
     }
 
     private void escapeOperationIds(OperationsMap operations) {
-        for (CodegenOperation _op : operations.getOperations().getOperation()) {
-            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
             String param = op.operationIdCamelCase + "Request";
             if (op.imports.contains(param)) {
                 // we import a model with the same name as the generated operation, escape it
@@ -857,42 +485,18 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         // The api template uses this information to import all the required
         // models for a given operation.
         List<Map<String, String>> imports = operations.getImports();
-        List<String> existingRecordClassNames = new ArrayList<>();
-        List<String> existingClassNames = new ArrayList<>();
         for (Map<String, String> im : imports) {
             String className = im.get("import").replace(modelPackage() + ".", "");
-            existingClassNames.add(className);
-            existingRecordClassNames.add(className + "Record");
             im.put("className", className);
-        }
-
-        if (this.getSagasAndRecords()) {
-            Set<String> additionalPassthroughImports = new TreeSet<>();
-            for (CodegenOperation _op : operations.getOperations().getOperation()) {
-                ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
-                if (op.returnPassthrough != null && op.returnBaseTypeAlternate != null) {
-                    if (op.returnTypeSupportsEntities && !existingRecordClassNames.contains(op.returnBaseTypeAlternate)) {
-                        additionalPassthroughImports.add(op.returnBaseTypeAlternate);
-                    } else if (!op.returnTypeSupportsEntities && !existingClassNames.contains(op.returnBaseTypeAlternate)) {
-                        additionalPassthroughImports.add(op.returnBaseTypeAlternate);
-                    }
-                }
-            }
-            operations.put("passthroughImports", additionalPassthroughImports);
-            operations.put("hasPassthroughImports", additionalPassthroughImports.size() > 0);
         }
     }
 
     private void updateOperationParameterForEnum(OperationsMap operations) {
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
-        // It will also set the uniqueId status if provided.
         boolean hasEnum = false;
-        for (CodegenOperation _op : operations.getOperations().getOperation()) {
-            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
-            for (CodegenParameter cpParam : op.allParams) {
-                ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
-
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnum = true;
                     param.datatypeWithEnum = param.datatypeWithEnum
@@ -904,61 +508,11 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         operations.put("hasEnums", hasEnum);
     }
 
-    private void updateOperationParameterForSagaAndRecords(OperationsMap operations) {
-        // This method will add extra information as to whether or not we have enums and
-        // update their names with the operation.id prefixed.
-        // It will also set the uniqueId status if provided.
-        for (CodegenOperation _op : operations.getOperations().getOperation()) {
-            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
-            for (CodegenParameter cpParam : op.allParams) {
-                ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
-
-                if (param.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
-                    param.isUniqueId = Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID));
-                } else if (this.getInferUniqueIdFromNameSuffix() && (param.isArray && "number".equals(param.items.dataType)) || ("number".equals(param.dataType))) {
-                    param.isUniqueId = this.isUniqueIdAccordingToNameSuffix(param.paramName);
-                }
-
-
-                param.dataTypeAlternate = param.dataType;
-                if (param.isArray) {
-                    param.isUniqueId = param.isUniqueId || param.itemsAreUniqueId();
-                    param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
-                    String newItemsDataType = param.getItemsDataType();
-                    if (param.items.isModel) {
-                        newItemsDataType = param.items.dataType + "Record";
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, newItemsDataType);
-                    } else if (param.items.isEnum) {
-                        newItemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.lastIndexOf("<") + 1, param.datatypeWithEnum.indexOf(">"));
-                        param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
-                    } else if (param.isUniqueId) {
-                        newItemsDataType = "string";
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace("number", newItemsDataType);
-                    }
-
-                    if (param.itemsAreNullable()) {
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                    }
-                } else if (param.isEnum) {
-                    param.dataTypeAlternate = param.datatypeWithEnum;
-                } else if (param.isModel) {
-                    param.dataTypeAlternate = param.dataType + "Record";
-                } else if (param.isUniqueId) {
-                    param.dataTypeAlternate = "string";
-                    if (param.isNullable) {
-                        param.dataTypeAlternate = param.dataTypeAlternate + " | null";
-                    }
-                }
-            }
-        }
-    }
-
     private void addOperationObjectResponseInformation(OperationsMap operations) {
         // This method will modify the information on the operations' return type.
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
-        for (CodegenOperation _op : operations.getOperations().getOperation()) {
-            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
             if ("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
@@ -968,6 +522,104 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
 
     private void addOperationPrefixParameterInterfacesInformation(Map<String, Object> operations) {
         operations.put("prefixParameterInterfaces", getPrefixParameterInterfaces());
+    }
+
+    /**
+     * Enrich each operation with the data the Playwright test templates need:
+     * a placeholder example value for every required parameter
+     * ({@code x-playwright-example}) and the expected success status code
+     * ({@code x-playwright-status}).
+     */
+    private void addPlaywrightTestData(OperationsMap operations) {
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            op.vendorExtensions.put("x-playwright-status", getSuccessStatusCode(op));
+            op.vendorExtensions.put("x-playwright-test-name", getTestName(op));
+            for (CodegenParameter param : op.allParams) {
+                if (param.required) {
+                    param.vendorExtensions.put("x-playwright-example", getParameterExampleValue(param));
+                }
+            }
+        }
+    }
+
+    /**
+     * Builds the (single-quote safe) title for a generated Playwright test: the
+     * operation nickname, optionally suffixed with its summary. The result is escaped
+     * so summaries containing apostrophes, backslashes or newlines still produce valid
+     * TypeScript.
+     */
+    private String getTestName(CodegenOperation op) {
+        String name = op.nickname;
+        if (op.summary != null && !op.summary.isEmpty()) {
+            name += " - " + op.summary;
+        }
+        return escapeForSingleQuotedString(name);
+    }
+
+    /**
+     * Escapes a string so it can be safely embedded inside a single-quoted TypeScript
+     * string literal.
+     */
+    private String escapeForSingleQuotedString(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n")
+                .replace("\t", "\\t");
+    }
+
+    /**
+     * Returns the first 2xx response code declared for the operation, falling back to
+     * {@code 200} when none can be determined.
+     */
+    private String getSuccessStatusCode(CodegenOperation op) {
+        if (op.responses != null) {
+            for (CodegenResponse response : op.responses) {
+                if (response.is2xx && response.code != null && response.code.matches("\\d{3}")) {
+                    return response.code;
+                }
+            }
+        }
+        return "200";
+    }
+
+    /**
+     * Returns a TypeScript expression usable as a placeholder value for the given
+     * parameter inside a generated Playwright test. The value is type-compatible with
+     * the parameter so the generated test type-checks; it is not meant to be
+     * semantically meaningful.
+     */
+    private String getParameterExampleValue(CodegenParameter param) {
+        if (param.isArray) {
+            return "[]";
+        }
+        if (Boolean.TRUE.equals(param.isEnum) && param._enum != null && !param._enum.isEmpty()) {
+            String first = String.valueOf(param._enum.get(0));
+            return param.isString ? "'" + escapeForSingleQuotedString(first) + "'" : first;
+        }
+        if (param.isBoolean) {
+            return "true";
+        }
+        if (param.isInteger || param.isLong || param.isNumber || param.isFloat
+                || param.isDouble || param.isDecimal || param.isNumeric) {
+            return "1";
+        }
+        if (param.isDate || param.isDateTime) {
+            return "new Date()";
+        }
+        if (param.isFile || param.isBinary) {
+            return "new Blob([])";
+        }
+        if (param.isString || param.isUuid || param.isUri || param.isEmail) {
+            return "'" + param.paramName + "_example'";
+        }
+        // models, free-form objects, maps and anything else: cast an empty object to the
+        // declared type so the generated test still type-checks.
+        return "{} as unknown as " + param.dataType;
     }
 
     private void addExtraReservedWords() {
@@ -1001,11 +653,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         this.reservedWords.add("Index");
     }
 
-    private void addExtraReservedWordsForSagasAndRecords() {
-        // immutablejs Records have potentially many reserved words. Adding only strict minimum for now.
-        this.reservedWords.add("entries");
-    }
-
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
     }
@@ -1022,53 +669,9 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
 
-    private static boolean itemsAreUniqueId(CodegenProperty items) {
-        if (items != null && items.items != null) {
-            return itemsAreUniqueId(items.items);
-        }
-        if (items != null && items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
-            return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
-        }
-        return false;
-    }
-
-    private static boolean itemsAreNullable(CodegenProperty items) {
-        if (items == null) {
-            return true;
-        }
-        if (items.items != null) {
-            return itemsAreNullable(items.items);
-        }
-        return items.isNullable;
-    }
-
-    private static String getItemsDataType(CodegenProperty items) {
-        if (items == null) {
-            return null;
-        }
-        if (items.items != null) {
-            return getItemsDataType(items.items);
-        }
-        return items.dataType;
-    }
-
     class ExtendedCodegenParameter extends CodegenParameter {
-        public String dataTypeAlternate;
-        public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
         public List<CodegenProperty> readOnlyVars; // a list of read-only properties
         public boolean hasReadOnly = false; // indicates the type has at least one read-only property
-
-        public boolean itemsAreUniqueId() {
-            return TypeScriptPlaywrightClientCodegen.itemsAreUniqueId(this.items);
-        }
-
-        public boolean itemsAreNullable() {
-            return TypeScriptPlaywrightClientCodegen.itemsAreNullable(this.items);
-        }
-
-        public String getItemsDataType() {
-            return TypeScriptPlaywrightClientCodegen.getItemsDataType(this.items);
-        }
 
         public boolean isDateType() {
             return isDate && "Date".equals(dataType);
@@ -1161,41 +764,7 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
 
         @Override
         public ExtendedCodegenParameter copy() {
-            CodegenParameter superCopy = super.copy();
-            ExtendedCodegenParameter output = new ExtendedCodegenParameter(superCopy);
-            output.dataTypeAlternate = this.dataTypeAlternate;
-            output.isUniqueId = this.isUniqueId;
-            return output;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null)
-                return false;
-
-            if (this.getClass() != o.getClass())
-                return false;
-
-            boolean result = super.equals(o);
-            ExtendedCodegenParameter that = (ExtendedCodegenParameter) o;
-            return result &&
-                    isUniqueId == that.isUniqueId &&
-                    Objects.equals(dataTypeAlternate, that.dataTypeAlternate);
-        }
-
-        @Override
-        public int hashCode() {
-            int superHash = super.hashCode();
-            return Objects.hash(superHash, dataTypeAlternate, isUniqueId);
-        }
-
-        @Override
-        public String toString() {
-            String superString = super.toString();
-            final StringBuilder sb = new StringBuilder(superString);
-            sb.append(", isUniqueId=").append(isUniqueId);
-            sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
-            return sb.toString();
+            return new ExtendedCodegenParameter(super.copy());
         }
 
         private void setReadOnlyVars() {
@@ -1205,24 +774,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     }
 
     class ExtendedCodegenProperty extends CodegenProperty {
-        public String dataTypeAlternate;
-        public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
-        public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
-        public boolean keepAsJSObject;
-        public boolean isReservedRecordField;
-
-        public boolean itemsAreUniqueId() {
-            return TypeScriptPlaywrightClientCodegen.itemsAreUniqueId(this.items);
-        }
-
-        public boolean itemsAreNullable() {
-            return TypeScriptPlaywrightClientCodegen.itemsAreNullable(this.items);
-        }
-
-        public String getItemsDataType() {
-            return TypeScriptPlaywrightClientCodegen.getItemsDataType(this.items);
-        }
-
         public boolean isDateType() {
             return isDate && "Date".equals(dataType);
         }
@@ -1322,168 +873,12 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
             this.xmlNamespace = cp.xmlNamespace;
             this.isXmlWrapped = cp.isXmlWrapped;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null)
-                return false;
-
-            if (this.getClass() != o.getClass())
-                return false;
-
-            boolean result = super.equals(o);
-            ExtendedCodegenProperty that = (ExtendedCodegenProperty) o;
-            return result &&
-                    isEntity == that.isEntity &&
-                    isUniqueId == that.isUniqueId &&
-                    keepAsJSObject == that.keepAsJSObject &&
-                    isReservedRecordField == that.isReservedRecordField &&
-                    Objects.equals(dataTypeAlternate, that.dataTypeAlternate);
-        }
-
-        @Override
-        public int hashCode() {
-            int superHash = super.hashCode();
-            return Objects.hash(superHash, dataTypeAlternate, isEntity, isUniqueId, keepAsJSObject, isReservedRecordField);
-        }
-
-        @Override
-        public String toString() {
-            String superString = super.toString();
-            final StringBuilder sb = new StringBuilder(superString);
-            sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
-            sb.append(", isEntity=").append(isEntity);
-            sb.append(", isUniqueId=").append(isUniqueId);
-            sb.append(", keepAsJSObject=").append(keepAsJSObject);
-            sb.append(", isReservedRecordField=").append(isReservedRecordField);
-            return sb.toString();
-        }
-    }
-
-    class ExtendedCodegenOperation extends CodegenOperation {
-        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
-        String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
-
-        public ExtendedCodegenOperation(CodegenOperation o) {
-            super();
-
-            this.responseHeaders.addAll(o.responseHeaders);
-            this.hasAuthMethods = o.hasAuthMethods;
-            this.hasConsumes = o.hasConsumes;
-            this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
-            this.hasOptionalParams = o.hasOptionalParams;
-            this.hasRequiredParams = o.hasRequiredParams;
-            this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
-            this.returnSimpleType = o.returnSimpleType;
-            this.subresourceOperation = o.subresourceOperation;
-            this.isMap = o.isMap;
-            this.isArray = o.isArray;
-            this.isMultipart = o.isMultipart;
-            this.isResponseBinary = o.isResponseBinary;
-            this.isResponseFile = o.isResponseFile;
-            this.isResponseOptional = o.isResponseOptional;
-            this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
-            this.isDeprecated = o.isDeprecated;
-            this.isCallbackRequest = o.isCallbackRequest;
-            this.uniqueItems = o.uniqueItems;
-            this.path = o.path;
-            this.operationId = o.operationId;
-            this.returnType = o.returnType;
-            this.returnFormat = o.returnFormat;
-            this.httpMethod = o.httpMethod;
-            this.returnBaseType = o.returnBaseType;
-            this.returnContainer = o.returnContainer;
-            this.summary = o.summary;
-            this.unescapedNotes = o.unescapedNotes;
-            this.notes = o.notes;
-            this.baseName = o.baseName;
-            this.defaultResponse = o.defaultResponse;
-            this.discriminator = o.discriminator;
-            this.consumes = o.consumes;
-            this.produces = o.produces;
-            this.prioritizedContentTypes = o.prioritizedContentTypes;
-            this.servers = o.servers;
-            this.bodyParam = o.bodyParam;
-            this.allParams = o.allParams;
-            this.bodyParams = o.bodyParams;
-            this.pathParams = o.pathParams;
-            this.queryParams = o.queryParams;
-            this.headerParams = o.headerParams;
-            this.formParams = o.formParams;
-            this.cookieParams = o.cookieParams;
-            this.requiredParams = o.requiredParams;
-            this.optionalParams = o.optionalParams;
-            this.authMethods = o.authMethods;
-            this.tags = o.tags;
-            this.responses = o.responses;
-            this.callbacks = o.callbacks;
-            this.imports = o.imports;
-            this.examples = o.examples;
-            this.requestBodyExamples = o.requestBodyExamples;
-            this.externalDocs = o.externalDocs;
-            this.vendorExtensions = o.vendorExtensions;
-            this.nickname = o.nickname;
-            this.operationIdOriginal = o.operationIdOriginal;
-            this.operationIdLowerCase = o.operationIdLowerCase;
-            this.operationIdCamelCase = o.operationIdCamelCase;
-            this.operationIdSnakeCase = o.operationIdSnakeCase;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null)
-                return false;
-
-            if (this.getClass() != o.getClass())
-                return false;
-
-            boolean result = super.equals(o);
-            ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
-            return result &&
-                    hasReturnPassthroughVoid == that.hasReturnPassthroughVoid &&
-                    returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
-                    returnTypeIsArray == that.returnTypeIsArray &&
-                    returnTypeIsModel == that.returnTypeIsModel &&
-                    Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
-                    Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate) &&
-                    Objects.equals(returnPassthrough, that.returnPassthrough);
-        }
-
-        @Override
-        public int hashCode() {
-            int superHash = super.hashCode();
-            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
-        }
-
-        @Override
-        public String toString() {
-            String superString = super.toString();
-            final StringBuilder sb = new StringBuilder(superString);
-            sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
-            sb.append(", returnTypeSupportsEntities=").append(returnTypeSupportsEntities);
-            sb.append(", returnTypeIsArray=").append(returnTypeIsArray);
-            sb.append(", returnTypeIsModel=").append(returnTypeIsModel);
-            sb.append(", returnTypeAlternate='").append(returnTypeAlternate).append('\'');
-            sb.append(", returnBaseTypeAlternate='").append(returnBaseTypeAlternate).append('\'');
-            sb.append(", returnPassthrough='").append(returnPassthrough).append('\'');
-            return sb.toString();
-        }
     }
 
     class ExtendedCodegenModel extends CodegenModel {
         @Getter
         @Setter
         public Set<String> modelImports = new TreeSet<String>();
-        public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
-        public String returnPassthrough;
-        public boolean hasReturnPassthroughVoid;
 
         public boolean isDateType() {
             return isDate && "Date".equals(dataType);
@@ -1577,41 +972,6 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
             this.setItems(cm.getItems());
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null)
-                return false;
-
-            if (this.getClass() != o.getClass())
-                return false;
-
-            boolean result = super.equals(o);
-            ExtendedCodegenModel that = (ExtendedCodegenModel) o;
-            return result &&
-                    isEntity == that.isEntity &&
-                    hasReturnPassthroughVoid == that.hasReturnPassthroughVoid &&
-                    Objects.equals(returnPassthrough, that.returnPassthrough) &&
-                    Objects.equals(modelImports, that.modelImports);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int superHash = super.hashCode();
-            return Objects.hash(superHash, isEntity, returnPassthrough, hasReturnPassthroughVoid, getModelImports());
-        }
-
-        @Override
-        public String toString() {
-            String superString = super.toString();
-            final StringBuilder sb = new StringBuilder(superString);
-            sb.append(", modelImports=").append(modelImports);
-            sb.append(", isEntity=").append(isEntity);
-            sb.append(", returnPassthrough='").append(returnPassthrough).append('\'');
-            sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
-            return sb.toString();
         }
     }
 

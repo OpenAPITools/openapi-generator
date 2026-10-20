@@ -43,7 +43,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -69,7 +69,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrder(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async deleteOrder(requestParameters: DeleteOrderRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteOrderRaw(requestParameters, initOverrides);
     }
 
@@ -77,7 +77,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+    async getInventoryRaw(initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -100,7 +100,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: number; }> {
+    async getInventory(initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<{ [key: string]: number; }> {
         const response = await this.getInventoryRaw(initOverrides);
         return await response.value();
     }
@@ -109,7 +109,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
-    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -135,7 +135,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
-    async getOrderById(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order> {
+    async getOrderById(requestParameters: GetOrderByIdRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<Order> {
         const response = await this.getOrderByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -144,7 +144,7 @@ export class StoreApi extends runtime.BaseAPI {
      * 
      * Place an order for a pet
      */
-    async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+    async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters['order'] == null) {
             throw new runtime.RequiredError(
                 'order',
@@ -173,7 +173,7 @@ export class StoreApi extends runtime.BaseAPI {
      * 
      * Place an order for a pet
      */
-    async placeOrder(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order> {
+    async placeOrder(requestParameters: PlaceOrderRequest, initOverrides?: runtime.FetchOptions | runtime.InitOverrideFunction): Promise<Order> {
         const response = await this.placeOrderRaw(requestParameters, initOverrides);
         return await response.value();
     }

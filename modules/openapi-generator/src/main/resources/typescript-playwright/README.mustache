@@ -1,46 +1,53 @@
-## {{npmName}}@{{npmVersion}}
+## {{#npmName}}{{npmName}}{{/npmName}}{{^npmName}}openapi-playwright-tests{{/npmName}}@{{#npmVersion}}{{npmVersion}}{{/npmVersion}}{{^npmVersion}}1.0.0{{/npmVersion}}
 
-This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
+This project contains a typed API client and a set of [Playwright](https://playwright.dev/)
+API tests generated from an OpenAPI specification by
+[OpenAPI Generator](https://openapi-generator.tech).
 
-Environment
-* Node.js
-* Webpack
-* Browserify
+### Layout
 
-Language level
-* ES5 - you must have a Promises/A+ library installed
-* ES6
+```
+apis/                 typed API client classes (one per tag), driven by Playwright's APIRequestContext
+models/               request/response models with (de)serializers
+runtime.ts            BaseAPI + helpers wrapping Playwright's `request` fixture
+spec/apis/*.spec.ts   generated API tests (one describe block per API, one test per operation)
+spec/models/*.spec.ts generated model type tests
+playwright.config.ts  Playwright configuration
+```
 
-Module system
-* CommonJS
-* ES6 module system
+### Installing
 
-It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
-
-### Building
-
-To build and compile the typescript sources to javascript use:
 ```
 npm install
-npm run build
+npx playwright install
 ```
 
-### Publishing
-
-First build the package then run `npm publish`
-
-### Consuming
-
-navigate to the folder of your consuming project and run one of the following commands.
-
-_published:_
+### Type-checking
 
 ```
-npm install {{npmName}}@{{npmVersion}} --save
+npm run typecheck
 ```
 
-_unPublished (not recommended):_
+### Running the tests
+
+The generated tests issue real HTTP requests through Playwright's `request`
+fixture. Point them at a running server with the `BASE_URL` environment
+variable (it defaults to the `servers` entry from the OpenAPI document):
 
 ```
-npm install PATH_TO_GENERATED_PACKAGE --save
+BASE_URL=http://localhost:8080 npm test
 ```
+
+Each generated test instantiates an API class with the Playwright `request`
+fixture, calls the operation and asserts on the response status code:
+
+```ts
+test('addPet', async ({ request }) => {
+    const api = new PetApi(request);
+    const response = await api.addPetRaw({ pet: {} as unknown as Pet });
+    expect(response.raw.status()).toBe(200);
+});
+```
+
+The example request data is a generated placeholder — replace it with
+realistic values and extend the assertions to cover response bodies.
