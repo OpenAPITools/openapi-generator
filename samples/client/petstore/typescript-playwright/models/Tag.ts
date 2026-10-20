@@ -11,8 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
+
 /**
  * A tag for a pet
  * @export
@@ -65,4 +65,3 @@ export function TagToJSON(value?: Tag | null): any {
         'name': value['name'],
     };
 }
-

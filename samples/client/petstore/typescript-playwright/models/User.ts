@@ -11,8 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
+
 /**
  * A User who is purchasing from the pet store
  * @export
@@ -113,4 +113,3 @@ export function UserToJSON(value?: User | null): any {
         'userStatus': value['userStatus'],
     };
 }
-

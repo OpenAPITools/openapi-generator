@@ -11,8 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
+
 /**
  * An order for a pets from the pet store
  * @export
@@ -109,4 +109,3 @@ export function OrderToJSON(value?: Order | null): any {
         'complete': value['complete'],
     };
 }
-

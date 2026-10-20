@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 export const BASE_PATH = (

@@ -11,8 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
+
 /**
  * A category for a pet
  * @export
@@ -65,4 +65,3 @@ export function CategoryToJSON(value?: Category | null): any {
         'name': value['name'],
     };
 }
-

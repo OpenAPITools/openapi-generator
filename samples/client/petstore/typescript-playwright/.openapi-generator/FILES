@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 README.md
 apis/PetApi.ts
 apis/StoreApi.ts
@@ -17,13 +16,4 @@ models/index.ts
 package.json
 playwright.config.ts
 runtime.ts
-spec/apis/PetApi.spec.ts
-spec/apis/StoreApi.spec.ts
-spec/apis/UserApi.spec.ts
-spec/models/Category.spec.ts
-spec/models/ModelApiResponse.spec.ts
-spec/models/Order.spec.ts
-spec/models/Pet.spec.ts
-spec/models/Tag.spec.ts
-spec/models/User.spec.ts
 tsconfig.json

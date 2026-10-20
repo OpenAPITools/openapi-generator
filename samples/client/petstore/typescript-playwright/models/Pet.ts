@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
@@ -25,6 +24,7 @@ import {
     TagFromJSONTyped,
     TagToJSON,
 } from './Tag';
+
 
 /**
  * A pet for sale in the pet store
@@ -125,4 +125,3 @@ export function PetToJSON(value?: Pet | null): any {
         'status': value['status'],
     };
 }
-
