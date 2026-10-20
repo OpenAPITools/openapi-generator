@@ -62,6 +62,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -119,6 +120,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
+    public static final String USE_RECORDS = "useRecords";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String SPRING_API_VERSION = "springApiVersion";
@@ -172,6 +174,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
     @Setter protected boolean useSealed = false;
+    @Setter protected boolean useRecords = false;
     @Getter @Setter protected JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
     @Getter @Setter protected JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
     @Getter @Setter protected TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
@@ -321,6 +324,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
                 "Whether to generate sealed model interfaces and classes"));
+        cliOptions.add(CliOption.newBoolean(USE_RECORDS,
+                "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
+                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
+                        + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
+                        + "property name a record cannot have, or a model bound from request parameters. Not supported "
+                        + "with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -635,6 +644,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+        convertPropertyToBooleanAndWriteBack(USE_RECORDS, this::setUseRecords);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
                 value -> this.generateJsonIncludeAnnotations = TriStateBoolean.fromNullableBoolean(value));
         convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
@@ -704,6 +714,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if(isUseJackson3() && !isUseSpringBoot4()){
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
+        validateUseRecords();
         if(this.useJackson3){
             this.applyJackson3Package();
         } else {
@@ -913,7 +924,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
                 .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
         additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+                .write(fragment.execute()
+                        .replaceAll("\\\\", Matcher.quoteReplacement("\\\\"))
+                        .replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
 
@@ -1789,7 +1802,387 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (useRecords) {
+            markRecordModels(allModels);
+        }
+
         return objs;
+    }
+
+    /**
+     * Whether this generator can emit models as records. {@code java-camel} extends this class but ships its own
+     * {@code pojo.mustache}, so it turns the option off.
+     */
+    protected boolean isRecordsSupported() {
+        return true;
+    }
+
+    private void validateUseRecords() {
+        if (!useRecords) {
+            return;
+        }
+        if (!isRecordsSupported()) {
+            throw new IllegalArgumentException(USE_RECORDS + " is not supported by the " + getName() + " generator");
+        }
+        if (!isUseSpringBoot3() && !isUseSpringBoot4()) {
+            throw new IllegalArgumentException(USE_RECORDS + " requires Spring Boot 3 or 4 (Java 17); set "
+                    + USE_SPRING_BOOT3 + "=true or " + USE_SPRING_BOOT4 + "=true");
+        }
+        if (hateoas) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with " + HATEOAS
+                    + ": a record cannot extend RepresentationModel");
+        }
+        if (additionalModelTypeAnnotations.stream().anyMatch(a -> a.trim().startsWith("@lombok."))) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with Lombok annotations in "
+                    + ADDITIONAL_MODEL_TYPE_ANNOTATIONS);
+        }
+        if (withXml) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with withXml: "
+                    + "XML annotations on records are not supported yet");
+        }
+        if (useOptional) {
+            throw new IllegalArgumentException(USE_RECORDS + " cannot be combined with " + USE_OPTIONAL
+                    + ": Optional components are not supported yet");
+        }
+    }
+
+    /**
+     * Largest number of components of a generated record. Measured: javac accepts 254 constructor parameters, but
+     * Jackson's method-handle path on Spring Boot 4 fails for 254 ("bad parameter count 256") and works for 253;
+     * the rest is margin.
+     */
+    private static final int RECORD_MAX_COMPONENTS = 250;
+
+    /** Component names whose accessor would clash with the static {@code builder()} and {@code toBuilder()} of a record. */
+    private static final Set<String> RECORD_BUILDER_CLASHING_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
+            "builder", "toBuilder"));
+
+    /** Names that a record component cannot have (JLS 8.10.1). */
+    private static final Set<String> RECORD_FORBIDDEN_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
+            "clone", "finalize", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait"));
+
+    /** A constructor call in a default value, as {@code toDefaultValue} writes it: {@code new Sub()}, {@code new Sub().x("a")}. */
+    private static final Pattern RECORD_DEFAULT_CONSTRUCTOR_CALL = Pattern.compile("(?<![\\w.])new (\\w+)\\(");
+
+    /**
+     * Decides for every model whether it is generated as a record and stores the decision in the vendor
+     * extension {@code x-is-record}. A model that stays a class is logged with the reason.
+     */
+    private void markRecordModels(Map<String, CodegenModel> allModels) {
+        Map<String, List<CodegenModel>> oneOfInterfacesOfMember = new HashMap<>();
+        for (CodegenModel cm : allModels.values()) {
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE)) && cm.oneOf != null) {
+                for (String member : cm.oneOf) {
+                    oneOfInterfacesOfMember.computeIfAbsent(member, k -> new ArrayList<>()).add(cm);
+                }
+            }
+        }
+
+        Set<String> parameterSchemas = schemasBoundFromParameters();
+        Map<String, String> constructedByDefault = modelsConstructedByDefault(allModels);
+
+        for (CodegenModel cm : allModels.values()) {
+            // enums and oneOf interfaces are untouched; aliases (a schema that is only a $ref or a primitive) are
+            // never written as a model file (DefaultGenerator skips CodegenModel.isAlias), so they get no decision
+            if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
+                continue;
+            }
+            String reason = reasonForClass(cm, parameterSchemas, constructedByDefault);
+            List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
+            if (reason == null) {
+                reason = oneOfDiscriminatorAccessors(cm, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
+                        discriminatorAccessors);
+            }
+            if (reason != null) {
+                LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
+                continue;
+            }
+            cm.vendorExtensions.put("x-is-record", true);
+            boolean hasInitialValue = false;
+            for (CodegenProperty cp : cm.vars) {
+                String initialValue = recordInitialValue(cp);
+                if (initialValue != null) {
+                    cp.vendorExtensions.put("x-record-initial-value", initialValue);
+                    hasInitialValue = true;
+                }
+            }
+            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
+            cm.vendorExtensions.put("x-record-discriminator-accessors", discriminatorAccessors);
+            cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
+        }
+    }
+
+    /**
+     * Classnames of the models that the default value of a model-typed property constructs, each with the first
+     * property that does it. A record has only its canonical constructor, so {@code new Sub()} and the fluent
+     * {@code new Sub().x("a")} that {@code toDefaultValue} writes do not compile for a record; such a model stays a class.
+     * Only the default of a property whose type, or whose innermost items type, is a model is read, never the text
+     * of a string default. A model without properties is left out: its record has a no-argument constructor, and so
+     * is a model that gets no file.
+     */
+    private Map<String, String> modelsConstructedByDefault(Map<String, CodegenModel> allModels) {
+        Set<String> modelNames = new HashSet<>();
+        Set<String> modelsWithProperties = new HashSet<>();
+        for (CodegenModel cm : allModels.values()) {
+            modelNames.add(cm.classname);
+            if (!cm.vars.isEmpty() && !hasNoModelFile(cm)) {
+                modelsWithProperties.add(cm.classname);
+            }
+        }
+        Map<String, String> constructed = new HashMap<>();
+        for (CodegenModel cm : new TreeMap<>(allModels).values()) {
+            for (CodegenProperty cp : cm.vars) {
+                CodegenProperty inner = cp.mostInnerItems != null ? cp.mostInnerItems : cp;
+                // complexType is null when the model is named like a Java type, as a model named Integer is
+                String type = inner.complexType != null ? inner.complexType : inner.isModel ? inner.dataType : null;
+                // the initial value that the templates print, which is not the default for a nullable property
+                String initialValue = recordInitialValue(cp);
+                if (type == null || !modelNames.contains(type) || initialValue == null) {
+                    continue;
+                }
+                Matcher matcher = RECORD_DEFAULT_CONSTRUCTOR_CALL.matcher(initialValue);
+                while (matcher.find()) {
+                    if (modelsWithProperties.contains(matcher.group(1))) {
+                        constructed.putIfAbsent(matcher.group(1), "property '" + cp.name + "' in model '" + cm.classname + "'");
+                    }
+                }
+            }
+        }
+        return constructed;
+    }
+
+    /**
+     * Whether {@code DefaultGenerator} writes no file for this model: its name is type-mapped to a type that has an
+     * import mapping, as {@code URI} and {@code UUID} are (the property then has the JDK class as its type).
+     */
+    private boolean hasNoModelFile(CodegenModel cm) {
+        String mappedType = typeMapping.get(cm.schemaName);
+        return mappedType != null && importMapping.containsKey(mappedType);
+    }
+
+    /**
+     * Names of the schemas that a request binds from parameters (query, header, cookie, path), not from a body:
+     * every schema a non-body parameter refers to, directly, in {@code content}, through {@code allOf}, array
+     * items or additional properties, and transitively through the properties of those schemas. Records are bound
+     * by constructor parameter name there, which loses escaped property names and turns empty values into defaults.
+     */
+    private Set<String> schemasBoundFromParameters() {
+        Set<String> names = new HashSet<>();
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return names;
+        }
+        for (PathItem pathItem : openAPI.getPaths().values()) {
+            collectParameterSchemas(pathItem.getParameters(), names);
+            for (Operation operation : pathItem.readOperations()) {
+                collectParameterSchemas(operation.getParameters(), names);
+            }
+        }
+        return names;
+    }
+
+    private void collectParameterSchemas(List<io.swagger.v3.oas.models.parameters.Parameter> parameters, Set<String> names) {
+        if (parameters == null) {
+            return;
+        }
+        for (io.swagger.v3.oas.models.parameters.Parameter parameter : parameters) {
+            io.swagger.v3.oas.models.parameters.Parameter resolved = ModelUtils.getReferencedParameter(openAPI, parameter);
+            if (resolved == null) {
+                continue;
+            }
+            collectReferencedSchemas(resolved.getSchema(), names);
+            if (resolved.getContent() != null) {
+                for (MediaType mediaType : resolved.getContent().values()) {
+                    collectReferencedSchemas(mediaType.getSchema(), names);
+                }
+            }
+        }
+    }
+
+    private void collectReferencedSchemas(Schema<?> schema, Set<String> names) {
+        if (schema == null) {
+            return;
+        }
+        Schema<?> target = schema;
+        if (schema.get$ref() != null) {
+            String name = ModelUtils.getSimpleRef(schema.get$ref());
+            if (!names.add(name)) {
+                return;
+            }
+            target = ModelUtils.getReferencedSchema(openAPI, schema);
+            if (target == null) {
+                return;
+            }
+            if (target.get$ref() != null) {
+                // an alias: a component schema that is only a $ref; follow it to the real schema, recording each name
+                collectReferencedSchemas(target, names);
+                return;
+            }
+        }
+        collectReferencedSchemas(target.getItems(), names);
+        if (target.getAdditionalProperties() instanceof Schema) {
+            collectReferencedSchemas((Schema<?>) target.getAdditionalProperties(), names);
+        }
+        if (target.getProperties() != null) {
+            for (Schema<?> property : ((Map<String, Schema<?>>) (Map) target.getProperties()).values()) {
+                collectReferencedSchemas(property, names);
+            }
+        }
+        for (List<Schema> composed : Arrays.asList(target.getAllOf(), target.getOneOf(), target.getAnyOf())) {
+            if (composed != null) {
+                for (Schema<?> member : composed) {
+                    collectReferencedSchemas(member, names);
+                }
+            }
+        }
+    }
+
+    /**
+     * The interface of a oneOf with a discriminator declares {@code getX()} for it, and a record has only {@code x()}.
+     * The interfaces include those the member's interfaces extend, because an interface that is itself a member of
+     * another oneOf extends that one.
+     * Collects one accessor for each distinct getter name of the interfaces this member implements: the getter name
+     * is the interface's own, it returns the component whose JSON name is the discriminator's property, and carries
+     * {@code @JsonProperty} with that JSON name like the class's getter (Jackson would otherwise derive another
+     * name from the method for names such as {@code TYPE}). Returns the reason to keep the model a class when a
+     * discriminator has no such property or a nullable one under openApiNullable (the class does not compile
+     * either), or when one getter name would have to return two components, otherwise null. A component whose
+     * Java name starts with {@code get} never gets here: {@code reasonForClass} keeps the model a class.
+     */
+    private String oneOfDiscriminatorAccessors(CodegenModel cm, List<CodegenModel> interfaces,
+                                               List<Map<String, String>> accessors) {
+        if (interfaces == null) {
+            return null;
+        }
+        Map<String, CodegenProperty> componentOfGetter = new HashMap<>();
+        Map<String, String> interfaceOfGetter = new HashMap<>();
+        for (CodegenModel oneOfInterface : interfaces) {
+            CodegenDiscriminator discriminator = oneOfInterface.discriminator;
+            if (discriminator == null) {
+                continue;
+            }
+            CodegenProperty component = null;
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.baseName.equals(discriminator.getPropertyBaseName())) {
+                    component = cp;
+                    break;
+                }
+            }
+            if (component == null) {
+                return "it has no property '" + discriminator.getPropertyBaseName()
+                        + "', the discriminator of the oneOf interface " + oneOfInterface.classname;
+            }
+            if (openApiNullable && component.isNullable) {
+                // the component is a JsonNullable<T> while the interface declares T getX(): the class's getter
+                // returns a JsonNullable too and does not implement the interface either
+                return "its discriminator property '" + component.baseName + "' for the oneOf interface "
+                        + oneOfInterface.classname + " is nullable";
+            }
+            CodegenProperty previous = componentOfGetter.putIfAbsent(discriminator.getPropertyGetter(), component);
+            if (previous != null) {
+                if (previous != component) {
+                    return "the oneOf interfaces " + interfaceOfGetter.get(discriminator.getPropertyGetter()) + " and "
+                            + oneOfInterface.classname + " both declare " + discriminator.getPropertyGetter()
+                            + "() for different properties";
+                }
+                continue;
+            }
+            interfaceOfGetter.put(discriminator.getPropertyGetter(), oneOfInterface.classname);
+            Map<String, String> accessor = new HashMap<>();
+            accessor.put("getter", discriminator.getPropertyGetter());
+            accessor.put("component", component.name);
+            accessor.put("baseName", component.baseName);
+            accessor.put("type", component.datatypeWithEnum);
+            accessors.add(accessor);
+        }
+        return null;
+    }
+
+    /**
+     * The oneOf interfaces a member has to satisfy: those listing it in {@code oneOf}, then the interfaces each of
+     * them is itself a member of, and so on (an interface that is a oneOf member extends the interface above it).
+     * The direct interfaces come first in their order, then the enclosing ones depth-first, each interface once.
+     */
+    private static List<CodegenModel> oneOfInterfacesWithEnclosing(String member,
+                                                                   Map<String, List<CodegenModel>> interfacesOfMember) {
+        List<CodegenModel> result = new ArrayList<>();
+        collectOneOfInterfaces(member, interfacesOfMember, result, new HashSet<>());
+        return result;
+    }
+
+    private static void collectOneOfInterfaces(String member, Map<String, List<CodegenModel>> interfacesOfMember,
+                                               List<CodegenModel> result, Set<String> visited) {
+        List<CodegenModel> added = new ArrayList<>();
+        for (CodegenModel oneOfInterface : interfacesOfMember.getOrDefault(member, Collections.emptyList())) {
+            if (visited.add(oneOfInterface.classname)) {
+                result.add(oneOfInterface);
+                added.add(oneOfInterface);
+            }
+        }
+        for (CodegenModel oneOfInterface : added) {
+            collectOneOfInterfaces(oneOfInterface.classname, interfacesOfMember, result, visited);
+        }
+    }
+
+    private String reasonForClass(CodegenModel cm, Set<String> parameterSchemas,
+                                  Map<String, String> constructedByDefault) {
+        if (cm.parent != null) {
+            return "it has a parent (" + cm.parent + ")";
+        }
+        if (cm.hasChildren || (cm.children != null && !cm.children.isEmpty())) {
+            return "it has child models";
+        }
+        if (cm.discriminator != null) {
+            return "it is a discriminator base";
+        }
+        if (isNotEmpty(cm.additionalPropertiesType)) {
+            return "it has additionalProperties";
+        }
+        if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
+            return "it is a oneOf or anyOf composition";
+        }
+        if (cm.vars.size() > RECORD_MAX_COMPONENTS) {
+            return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
+        }
+        if (parameterSchemas.contains(cm.schemaName)) {
+            return "it is bound from request parameters";
+        }
+        for (CodegenProperty cp : cm.vars) {
+            if (cp.isByteArray) {
+                return "property '" + cp.name + "' is a byte[]";
+            }
+            if (RECORD_FORBIDDEN_COMPONENT_NAMES.contains(cp.name)) {
+                return "property '" + cp.name + "' cannot be a record component name";
+            }
+            if (cp.name.startsWith("get")) {
+                // the record's accessor getName() looks like a bean getter, so the bean validator checks the
+                // constraints a second time under a phantom path (measured: every name from "get" on)
+                return "property '" + cp.name + "' has a Java name that starts with 'get'";
+            }
+            if (generateBuilders && RECORD_BUILDER_CLASHING_COMPONENT_NAMES.contains(cp.name)) {
+                return "property '" + cp.name + "' clashes with a method of the record's builder";
+            }
+            if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
+                return "property '" + cp.name + "' uses the FAIL null policy";
+            }
+        }
+        if (constructedByDefault.containsKey(cm.classname)) {
+            return "the default of " + constructedByDefault.get(cm.classname) + " constructs it with new " + cm.classname + "()";
+        }
+        return null;
+    }
+
+    /**
+     * The expression the class gives the field of this property in {@code pojo.mustache}, or null when the
+     * field has no initialiser (the record then keeps whatever it is given). Mirrors the field declaration there.
+     */
+    private String recordInitialValue(CodegenProperty cp) {
+        if (openApiNullable && cp.isNullable) {
+            return "JsonNullable.<" + cp.datatypeWithEnum + ">undefined()";
+        }
+        if (!openApiNullable && !cp.isContainer && cp.isNullable) {
+            return null;
+        }
+        return isNotEmpty(cp.defaultValue) ? cp.defaultValue : null;
     }
 
     @Override

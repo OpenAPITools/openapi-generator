@@ -43,8 +43,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
 import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
-import static org.openapitools.codegen.utils.ModelUtils.isOneOfOfConsts;
-import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
 public class OpenAPINormalizer {
@@ -1150,7 +1149,37 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeArraySchema(Schema schema) {
         Schema result = processNormalize31Spec(schema, new HashSet<>());
+
+        processExtensionsInRefItems(result);
         return processSetArraytoNullable(result);
+    }
+
+    /**
+     * Move the extensions starting with x-items to the items.extensions.
+     *
+     * @param schema the array schema to process
+     */
+    protected void processExtensionsInRefItems(Schema schema) {
+        if (schema == null || schema.getItems() == null) {
+            return;
+        }
+
+        Map<String, Object> extensions = schema.getExtensions();
+        if (extensions != null) {
+            Map<String, Object> itemsExtensions = schema.getItems().getExtensions();
+            for  (Iterator<String> it = extensions.keySet().iterator(); it.hasNext(); ) {
+                String key = it.next();
+                if (key.startsWith("x-items-")) {
+                    if (itemsExtensions == null) {
+                        itemsExtensions = new LinkedHashMap<>();
+                        schema.getItems().setExtensions(itemsExtensions);
+                    }
+                    String newKey = key.substring("x-items-".length());
+                    itemsExtensions.put(newKey, extensions.get(key));
+                    it.remove();
+                }
+            }
+        }
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
@@ -1615,9 +1644,9 @@ public class OpenAPINormalizer {
 
         // find the string schema (enum)
         if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
-            if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
+            if (isEnum((StringSchema) s0)) { // s0 is enum, s1 is string
                 result = (StringSchema) s0;
-            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
+            } else if (isEnum((StringSchema) s1)) { // s1 is enum, s0 is string
                 result = (StringSchema) s1;
             } else { // both are string
                 result = schema;
@@ -2144,7 +2173,7 @@ public class OpenAPINormalizer {
 
         if (schema instanceof BooleanSchema) {
             BooleanSchema bs = (BooleanSchema) schema;
-            if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
+            if (isEnumSchema(bs)) {
                 bs.setEnum(null);
             }
         }
@@ -2188,10 +2217,12 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        Map<String, Schema> originalProperties = schema.getProperties();
+        List<String> originalRequired = schema.getRequired();
+
         ObjectSchema os = new ObjectSchema();
         // set the properties, etc of the new schema to the properties of schema
-        os.setProperties(schema.getProperties());
-        os.setRequired(schema.getRequired());
+        os.setProperties(originalProperties);
         os.setAdditionalProperties(schema.getAdditionalProperties());
         os.setNullable(schema.getNullable());
         os.setDescription(schema.getDescription());
@@ -2199,10 +2230,36 @@ public class OpenAPINormalizer {
         os.setExample(schema.getExample());
         os.setExamples(schema.getExamples());
         os.setTitle(schema.getTitle());
-        schema.getAllOf().add(os); // move new schema as a child schema of allOf
-        // clean up by removing properties, etc
+
+        // Schema#setRequired only keeps names present in properties, so clear them first to retain inherited required names
         schema.setProperties(null);
-        schema.setRequired(null);
+
+        // Split required properties between local and inherited
+        if (originalRequired != null) {
+            List<String> localRequired = new ArrayList<>();
+            List<String> inheritedRequired = new ArrayList<>();
+            
+            for (String req : originalRequired) {
+                if (originalProperties != null && originalProperties.containsKey(req)) {
+                    localRequired.add(req);
+                } else {
+                    inheritedRequired.add(req);
+                }
+            }
+            
+            if (!localRequired.isEmpty()) {
+                os.setRequired(localRequired);
+            }
+            
+            if (!inheritedRequired.isEmpty()) {
+                schema.setRequired(inheritedRequired);
+            } else {
+                schema.setRequired(null);
+            }
+        }
+
+        schema.getAllOf().add(os);  // move new schema as a child schema of allOf
+        // clean up by removing properties, etc
         schema.setAdditionalProperties(null);
         schema.setNullable(null);
         schema.setDescription(null);

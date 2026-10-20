@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Tag")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class TagDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,7 +37,6 @@ public class TagDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -58,7 +56,6 @@ public class TagDto {
    * Get name
    * @return name
    */
-  
   @JsonProperty("name")
   public @Nullable String getName() {
     return name;

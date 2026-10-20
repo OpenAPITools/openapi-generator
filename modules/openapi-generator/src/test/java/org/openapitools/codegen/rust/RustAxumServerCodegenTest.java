@@ -102,5 +102,55 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub positive_int64: u64");
         TestUtils.assertFileContains(modelsPath, "pub small_positive: u8");
         TestUtils.assertFileContains(modelsPath, "pub struct GetIntegersQueryParams");
+        // No union needs impl_deserialize_tagged!
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/types.rs"), "macro_rules! impl_deserialize_tagged");
+    }
+
+    @Test
+    public void testDiscriminatorReferencingEnum() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-discriminator-enum-ref.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        // Every discriminator value is an enum value -> tagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(tag = \"kind\")]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Pet {");
+        TestUtils.assertFileContains(modelsPath, "#[serde(default = \"Dog::_name_for_kind\")]");
+        TestUtils.assertFileContains(modelsPath, "#[serde(serialize_with = \"Dog::_serialize_kind\")]");
+        TestUtils.assertFileContains(modelsPath, "fn _name_for_kind() -> models::PetKind {");
+        TestUtils.assertFileContains(modelsPath, "models::PetKind::Dog");
+        TestUtils.assertFileContains(modelsPath, "fn _serialize_kind<S>(_: &models::PetKind, s: S)");
+        TestUtils.assertFileContains(modelsPath, "s.serialize_str(\"dog\")");
+        TestUtils.assertFileContains(modelsPath, "models::PetKind::Cat");
+        TestUtils.assertFileContains(modelsPath, "pub fn new() -> Dog {");
+        TestUtils.assertFileContains(modelsPath, "kind: Self::_name_for_kind(),");
+        // Discriminator value "Square" is not an enum value -> untagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Shape {");
+        // Discriminator property of "Mouse" is optional -> untagged
+        TestUtils.assertFileContains(modelsPath, "#[serde(untagged)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Rodent {");
+        TestUtils.assertFileNotContains(modelsPath, "Mouse::_name_for_kind");
+        // Several discriminator values map to the same variant -> deserialized through impl_deserialize_tagged!
+        TestUtils.assertFileContains(modelsPath, "#[derive(Debug, Clone, PartialEq)]\n#[allow(non_camel_case_types, clippy::large_enum_variant)]\npub enum Fruit {");
+        TestUtils.assertFileContains(modelsPath, "crate::impl_deserialize_tagged!(Fruit, \"fruitType\", {");
+        TestUtils.assertFileContains(modelsPath, "\"green_apple\" | \"red_apple\" => Apple,");
+        TestUtils.assertFileContains(modelsPath, "\"banana\" => Banana,");
+        // The discriminator field holds the deserialized value: no default, no fixed serialization
+        TestUtils.assertFileContains(modelsPath, "pub fn new(fruit_type: models::FruitType, ) -> Apple {");
+        TestUtils.assertFileNotContains(modelsPath, "Apple::_name_for_fruit_type");
+        TestUtils.assertFileNotContains(modelsPath, "Apple::_serialize_fruit_type");
+        // Same with a discriminator property not defined in the variants, on an anyOf
+        TestUtils.assertFileContains(modelsPath, "crate::impl_deserialize_tagged!(PersonOrVehicle, \"objectType\", {");
+        TestUtils.assertFileContains(modelsPath, "\"student\" | \"teacher\" => Person,");
+        TestUtils.assertFileContains(modelsPath, "\"car\" => Vehicle,");
+        TestUtils.assertFileContains(modelsPath, "pub fn new(r_type: String, name: String, object_type: String, ) -> Person {");
+        TestUtils.assertFileNotContains(modelsPath, "Person::_name_for_object_type");
+        TestUtils.assertFileContains(modelsPath, "String::from(\"car\")");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/types.rs"), "macro_rules! impl_deserialize_tagged");
     }
 }

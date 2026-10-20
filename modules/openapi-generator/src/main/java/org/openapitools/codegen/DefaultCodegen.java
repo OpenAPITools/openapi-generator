@@ -98,6 +98,7 @@ import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -3471,7 +3472,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && isEnumSchema(schema)) {
             // TODO remove the anyType check here in the future ANyType models can have enums defined
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
@@ -4363,7 +4364,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         //Inline enum case:
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+        if (isEnumSchema(p)) {
             List<Object> _enum = p.getEnum();
             property._enum = new ArrayList<>();
             for (Object i : _enum) {
@@ -4388,7 +4389,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (referencedSchema != p && isEnumSchema(referencedSchema)) {
             List<Object> _enum = referencedSchema.getEnum();
 
             property.isEnumRef = true;
@@ -5802,6 +5803,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isPathParam = true;
         } else if (parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isHeaderParam = true;
+            codegenParameter.headerIsJsonMimeType = isJsonMimeType(codegenParameter.contentType)
+                    || isJsonVendorMimeType(codegenParameter.contentType);
         } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isCookieParam = true;
         } else if (parameter instanceof QueryStringParameter || "querystring".equalsIgnoreCase(parameter.getIn())) {
@@ -6023,7 +6026,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (isEnumSchema(referencedSchema)) {
             referencedSchema = parameterSchema;
         }
         return referencedSchema;

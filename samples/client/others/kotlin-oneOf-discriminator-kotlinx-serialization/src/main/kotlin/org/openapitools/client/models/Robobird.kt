@@ -34,12 +34,10 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /**
- * 
- *
- * @param discriminator 
- * @param anotherDiscriminator 
- * @param propertyB 
- * @param sameNameProperty 
+ * @param discriminator
+ * @param anotherDiscriminator
+ * @param propertyB
+ * @param sameNameProperty
  */
 @Serializable
 

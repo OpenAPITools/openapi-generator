@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -21,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterCompositeDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -42,7 +41,6 @@ public class OuterCompositeDto {
    * Get myNumber
    * @return myNumber
    */
-  
   @JsonProperty("my_number")
   public @Nullable BigDecimal getMyNumber() {
     return myNumber;
@@ -62,7 +60,6 @@ public class OuterCompositeDto {
    * Get myString
    * @return myString
    */
-  
   @JsonProperty("my_string")
   public @Nullable String getMyString() {
     return myString;
@@ -82,7 +79,6 @@ public class OuterCompositeDto {
    * Get myBoolean
    * @return myBoolean
    */
-  
   @JsonProperty("my_boolean")
   public @Nullable Boolean getMyBoolean() {
     return myBoolean;

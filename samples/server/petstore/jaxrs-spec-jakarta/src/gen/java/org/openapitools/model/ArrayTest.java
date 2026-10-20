@@ -21,7 +21,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("ArrayTest")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
   private List<String> arrayOfString = new ArrayList<>();
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public interface UserApi extends ApiClient.Api {
 
 
@@ -198,7 +198,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
   "Accept: application/json,application/xml",
   })
-  String loginUser(@QueryMap(encoded=true) LoginUserQueryParams queryParams);
+  String loginUser(@QueryMap LoginUserQueryParams queryParams);
 
   /**
   * Logs user into the system
@@ -217,7 +217,7 @@ public interface UserApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json,application/xml",
       })
-   ApiResponse<String> loginUserWithHttpInfo(@QueryMap(encoded=true) LoginUserQueryParams queryParams);
+   ApiResponse<String> loginUserWithHttpInfo(@QueryMap LoginUserQueryParams queryParams);
 
 
    /**

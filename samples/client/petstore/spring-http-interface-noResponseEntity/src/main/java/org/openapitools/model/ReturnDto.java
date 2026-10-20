@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ReturnDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -35,7 +34,6 @@ public class ReturnDto {
    * Get _return
    * @return _return
    */
-  
   @JsonProperty("return")
   public @Nullable Integer getReturn() {
     return _return;

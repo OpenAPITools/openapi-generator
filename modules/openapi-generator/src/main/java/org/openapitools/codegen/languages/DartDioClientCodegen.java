@@ -69,6 +69,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String EQUALITY_CHECK_METHOD_EQUATABLE = "equatable";
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
+    public static final String SERIALIZATION_LIBRARY_FREEZED = "freezed";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
     private static final String DIO_IMPORT = "package:dio/dio.dart";
@@ -115,6 +116,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
+        supportedLibraries.put(SERIALIZATION_LIBRARY_FREEZED, "[BETA] freezed (requires Dart 3.8+)");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
@@ -224,6 +226,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
+        if (useOptional && SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
+            LOGGER.warn("useOptional and patchOnly are not yet supported with serializationLibrary=freezed and will be ignored.");
+            setUseOptional(false);
+            setPatchOnly(false);
+            additionalProperties.put(USE_OPTIONAL, false);
+            additionalProperties.put(PATCH_ONLY, false);
+        }
+
         if (useOptional) {
             supportingFiles.add(new SupportingFile("optional.mustache", srcFolder, "optional.dart"));
         }
@@ -238,6 +248,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
                 additionalProperties.put("useJsonSerializable", "true");
                 configureSerializationLibraryJsonSerializable(srcFolder);
+                break;
+            case SERIALIZATION_LIBRARY_FREEZED:
+                additionalProperties.put("useFreezed", "true");
+                configureSerializationLibraryFreezed(srcFolder);
                 break;
             default:
             case SERIALIZATION_LIBRARY_BUILT_VALUE:
@@ -294,6 +308,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
         supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
+                "deserialize.dart"));
+
+        // most of these are defined in AbstractDartCodegen, we are overriding
+        // just the binary / file handling
+        languageSpecificPrimitives.add("Object");
+        imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
+    }
+
+    private void configureSerializationLibraryFreezed(String srcFolder) {
+        supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/freezed/deserialize.mustache", srcFolder,
                 "deserialize.dart"));
 
         // most of these are defined in AbstractDartCodegen, we are overriding
@@ -373,7 +399,37 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
+        if (SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
+            for (ModelMap modelMap : models) {
+                for (CodegenProperty property : modelMap.getModel().vars) {
+                    setFreezedEnumDefault(property);
+                }
+            }
+        }
         return objs;
+    }
+
+    /**
+     * The default value of an inline enum property is the raw enum value (e.g. 'value_one'),
+     * which cannot be used in a freezed @Default annotation. Resolve it to the matching enum
+     * constant (e.g. MyEnum.valueOne) instead.
+     */
+    @SuppressWarnings("unchecked")
+    private void setFreezedEnumDefault(CodegenProperty property) {
+        if (!property.isEnum || property.isContainer || property.defaultValue == null
+                || property.allowableValues == null) {
+            return;
+        }
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return;
+        }
+        for (Map<String, Object> enumVar : enumVars) {
+            if (property.defaultValue.equals(enumVar.get("value"))) {
+                property.vendorExtensions.put("x-freezed-enum-default", property.enumName + "." + enumVar.get("name"));
+                return;
+            }
+        }
     }
 
     /// Gets all ancestors of a given model, and puts it in accumulator
@@ -845,9 +901,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 op.imports.remove("Uint8List");
             }
 
-            if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+            if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library) || SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
                 // built_value serialization uses Uint8List for all MultipartFile types
-                // in json_serialization, MultipartFile is used as the file parameter type, but
+                // in json_serialization/freezed, MultipartFile is used as the file parameter type, but
                 // MultipartFile isn't readable, instead we convert this to a Uint8List
                 if (op.isResponseFile) {
                     op.imports.add("Uint8List");

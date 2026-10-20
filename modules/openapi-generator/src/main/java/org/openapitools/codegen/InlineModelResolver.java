@@ -335,7 +335,7 @@ public class InlineModelResolver {
             visitedSchemas.add(schema);
         }
 
-        if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
+        if (resolveInlineEnums && isEnumSchema(schema)) {
             return true;
         }
         if (schema.getType() == null || ModelUtils.isObjectTypeOAS30(schema)) {
@@ -743,7 +743,7 @@ public class InlineModelResolver {
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
             boolean componentDoesNotHaveRef = component != null && component.get$ref() == null;
-            if (componentDoesNotHaveRef && (ModelUtils.hasProperties(component) || ModelUtils.hasEnum(component))) {
+            if (componentDoesNotHaveRef && (ModelUtils.hasProperties(component) || isEnumSchema(component))) {
                 // If a `title` attribute is defined in the inline schema, codegen uses it to name the
                 // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
                 // We know that this is not the best way to name the model.
@@ -856,7 +856,7 @@ public class InlineModelResolver {
     }
 
     private static boolean isEnumSchema(Schema model) {
-        return model != null && model.getEnum() != null && !model.getEnum().isEmpty();
+        return model != null && ModelUtils.isEnumSchema(model);
     }
 
     private String matchGenerated(Schema model) {
@@ -1137,7 +1137,7 @@ public class InlineModelResolver {
         if (existing != null) {
             refSchema = new Schema().$ref(existing);
         } else {
-            if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
+            if (resolveInlineEnums && isEnumSchema(schema)) {
                 LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");
             }
             name = addSchemas(name, schema);

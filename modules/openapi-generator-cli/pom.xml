@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.26.0-SNAPSHOT</version>
+        <version>7.27.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -113,6 +113,10 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!--https://github.com/airlift/airline-->
@@ -129,12 +133,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.janino</groupId>
-            <artifactId>janino</artifactId>
-            <version>3.1.9</version>
+            <version>1.6.5</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

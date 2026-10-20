@@ -17,10 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -357,6 +361,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
         }
+        additionalProperties.put("modelSerializersEnabled", !withoutRuntimeChecks);
 
         // `date` needs the model (de)serialization to convert with, which
         // withoutRuntimeChecks removes: the raw string would just be cast to Date.
@@ -710,7 +715,81 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter cp = super.fromParameter(parameter, imports);
-        return new ExtendedCodegenParameter(cp);
+        ExtendedCodegenParameter result = new ExtendedCodegenParameter(cp);
+        Parameter resolvedParameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+        result.jsonHeaderUsesModelSerializer = cp.headerIsJsonMimeType && cp.isModel
+                && hasGeneratedModelHeaderSchema(openAPI, resolvedParameter);
+        return result;
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        super.processOpenAPI(openAPI);
+        if (!withoutRuntimeChecks) {
+            return;
+        }
+        if (openAPI.getPaths() != null) {
+            for (PathItem path : openAPI.getPaths().values()) {
+                if (hasJsonContentModelHeader(openAPI, path)) {
+                    enableJsonHeaderModelSerializers();
+                    return;
+                }
+            }
+        }
+        if (openAPI.getWebhooks() != null) {
+            for (PathItem webhook : openAPI.getWebhooks().values()) {
+                if (hasJsonContentModelHeader(openAPI, webhook)) {
+                    enableJsonHeaderModelSerializers();
+                    return;
+                }
+            }
+        }
+    }
+
+    private boolean hasJsonContentModelHeader(OpenAPI openAPI, PathItem path) {
+        if (hasJsonContentModelHeader(openAPI, path.getParameters())) {
+            return true;
+        }
+        for (Operation operation : path.readOperations()) {
+            if (hasJsonContentModelHeader(openAPI, operation.getParameters())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasJsonContentModelHeader(OpenAPI openAPI, List<Parameter> parameters) {
+        return parameters != null && parameters.stream()
+                .map(parameter -> ModelUtils.getReferencedParameter(openAPI, parameter))
+                .anyMatch(parameter -> isJsonContentHeader(parameter)
+                        && hasGeneratedModelHeaderSchema(openAPI, parameter));
+    }
+
+    private boolean isJsonContentHeader(Parameter parameter) {
+        if (parameter == null
+                || !(parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn()))
+                || parameter.getSchema() != null
+                || parameter.getContent() == null
+                || parameter.getContent().isEmpty()) {
+            return false;
+        }
+        String contentType = parameter.getContent().keySet().iterator().next();
+        return isJsonMimeType(contentType) || isJsonVendorMimeType(contentType);
+    }
+
+    private boolean hasGeneratedModelHeaderSchema(OpenAPI openAPI, Parameter parameter) {
+        if (parameter.getContent() == null || parameter.getContent().isEmpty()) {
+            return false;
+        }
+        Schema schema = parameter.getContent().values().iterator().next().getSchema();
+        return schema != null && schema.get$ref() != null
+                && ModelUtils.isModel(ModelUtils.getReferencedSchema(openAPI, schema));
+    }
+
+    private void enableJsonHeaderModelSerializers() {
+        modelTemplateFiles.put("models.mustache", ".ts");
+        additionalProperties.put("jsonHeaderModelSerializers", true);
+        additionalProperties.put("modelSerializersEnabled", true);
     }
 
     @Override
@@ -728,6 +807,28 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+        CodegenProperty not = cp.getComposedSchemas() == null ? null : cp.getComposedSchemas().getNot();
+        if (not != null && not.isString && (not.isEnum || not.isEnumRef)
+                && not.allowableValues != null && not.allowableValues.get("values") instanceof List) {
+            StringJoiner comparisons = new StringJoiner(" || ");
+            for (Object excluded : (List<?>) not.allowableValues.get("values")) {
+                String literal;
+                if (excluded == null) {
+                    literal = "null";
+                } else if (excluded instanceof String) {
+                    literal = TextNode.valueOf((String) excluded).toString();
+                } else {
+                    continue;
+                }
+                comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.name) + "] === " + literal);
+                if (cp.getHasSanitizedName() && !cp.name.equals(cp.baseName)) {
+                    comparisons.add("(value as Record<string, unknown>)[" + TextNode.valueOf(cp.baseName) + "] === " + literal);
+                }
+            }
+            if (comparisons.length() > 0) {
+                cp.vendorExtensions.put("x-typescript-fetch-not-enum-comparison", comparisons.toString());
+            }
+        }
         return new ExtendedCodegenProperty(cp);
     }
 
@@ -908,15 +1009,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return true;
     }
 
-    @Override
-    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
-        // webhooks render through apis.mustache as well, so their
-        // non-standard methods and querystring parameters need the same flags
-        objs = super.postProcessWebhooksWithModels(objs, allModels);
-        flagOpenAPI32Operations(objs.getWebhooks().getOperation());
-        return objs;
-    }
-
     private void flagOpenAPI32Operations(List<CodegenOperation> operations) {
         for (Iterator<CodegenOperation> it = operations.iterator(); it.hasNext(); ) {
             CodegenOperation op = it.next();
@@ -954,6 +1046,24 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
 
         }
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap webhooks, List<ModelMap> allModels) {
+        // webhooks render through apis.mustache as well, so their
+        // non-standard methods and querystring parameters need the same flags
+        webhooks = super.postProcessWebhooksWithModels(webhooks, allModels);
+        flagOpenAPI32Operations(webhooks.getWebhooks().getOperation());
+        if (webhooks.getWebhooks().getOperation().stream()
+                .anyMatch(operation -> operation.headerParams != null && operation.headerParams.stream()
+                        .anyMatch(parameter -> ((ExtendedCodegenParameter) parameter).jsonHeaderUsesModelSerializer))) {
+            for (Map<String, String> im : webhooks.getImports()) {
+                String className = im.get("import").replace(modelPackage() + ".", "");
+                im.put("className", className);
+                im.put("classFileName", convertUsingFileNamingConvention(className));
+            }
+        }
+        return webhooks;
     }
 
     @Override
@@ -1045,6 +1155,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
+
+        // Type names omit branch nullability. Null is valid only when exactly one branch accepts it.
+        if (oneOfsList.stream().filter(cp -> cp.isNullable).count() == 1) {
+            cm.oneOf.add("null");
+        }
 
         // create a set of any non-primitive, non-array types used in the oneOf schemas which will
         // need to be imported.
@@ -1620,6 +1735,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
+        public boolean jsonHeaderUsesModelSerializer;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
         public List<CodegenProperty> readOnlyVars; // a list of read-only properties
         public boolean hasReadOnly = false; // indicates the type has at least one read-only property
@@ -1649,6 +1765,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isQueryStringParam = cp.isQueryStringParam;
             this.isPathParam = cp.isPathParam;
             this.isHeaderParam = cp.isHeaderParam;
+            this.headerIsJsonMimeType = cp.headerIsJsonMimeType;
             this.isCookieParam = cp.isCookieParam;
             this.isBodyParam = cp.isBodyParam;
             this.isContainer = cp.isContainer;
@@ -1770,6 +1887,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             CodegenParameter superCopy = super.copy();
             ExtendedCodegenParameter output = new ExtendedCodegenParameter(superCopy);
             output.dataTypeAlternate = this.dataTypeAlternate;
+            output.jsonHeaderUsesModelSerializer = this.jsonHeaderUsesModelSerializer;
             output.isUniqueId = this.isUniqueId;
             return output;
         }

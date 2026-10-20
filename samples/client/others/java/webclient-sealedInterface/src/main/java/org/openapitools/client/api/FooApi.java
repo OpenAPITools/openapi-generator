@@ -27,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FooApi {
     private ApiClient apiClient;
 
@@ -56,14 +56,13 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createFooRequestCreation(@javax.annotation.Nullable Foo foo) throws WebClientResponseException {
-        Object postBody = foo;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -76,8 +75,8 @@ public class FooApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
-        return apiClient.invokeAPI("/foo", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/foo", HttpMethod.POST, pathParams, localVarQueryParams, foo, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -89,7 +88,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<FooRefOrValue> createFoo(@javax.annotation.Nullable Foo foo) throws WebClientResponseException {
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createFooRequestCreation(foo).bodyToMono(localVarReturnType);
     }
 
@@ -102,7 +101,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<FooRefOrValue>> createFooWithHttpInfo(@javax.annotation.Nullable Foo foo) throws WebClientResponseException {
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createFooRequestCreation(foo).toEntity(localVarReturnType);
     }
 
@@ -126,14 +125,13 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec getAllFoosRequestCreation() throws WebClientResponseException {
-        Object postBody = null;
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = { 
             "application/json;charset=utf-8"
@@ -144,8 +142,8 @@ public class FooApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
-        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -156,7 +154,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Flux<FooRefOrValue> getAllFoos() throws WebClientResponseException {
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getAllFoosRequestCreation().bodyToFlux(localVarReturnType);
     }
 
@@ -168,7 +166,7 @@ public class FooApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public Mono<ResponseEntity<List<FooRefOrValue>>> getAllFoosWithHttpInfo() throws WebClientResponseException {
-        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<FooRefOrValue>() {};
+        ParameterizedTypeReference<FooRefOrValue> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getAllFoosRequestCreation().toEntityList(localVarReturnType);
     }
 

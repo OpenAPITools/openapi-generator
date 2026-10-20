@@ -713,14 +713,29 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        final Map<String, CodegenModel> enumModels = new HashMap<>();
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.isEnum) {
+                enumModels.put(cm.getClassname(), cm);
+            }
+        }
+
         final var blocking = new HashSet<String>();
+        // Models mapped by several discriminator values
+        final var multiValued = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getClassname());
             if (discriminators != null) {
+                final List<String> values = discriminatorValues(cm.getClassname(), discriminators);
+                if (values.size() > 1) {
+                    multiValued.add(cm.getClassname());
+                }
+
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
-                if (!discriminating(discriminators, cm)) {
+                if (!discriminating(discriminators, cm, enumModels, values)) {
                     final CodegenDiscriminator discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
@@ -749,15 +764,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     // Attributes based on the model name
                     property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
-                    property.discriminatorValue = getDiscriminatorValue(cm.getClassname(), discriminator);
                     property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+                    setDiscriminatorValues(property, values, enumModels);
 
                     cm.vars.add(property);
                 }
             }
 
             if (cm.vars.stream().noneMatch(v -> v.isDiscriminator)) {
-                blocking.add(cm.getSchemaName());
+                blocking.add(cm.getClassname());
             }
         }
 
@@ -767,9 +782,46 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // if no discriminator in any of variant -> disable discriminator
                 if (cm.oneOf.stream().anyMatch(blocking::contains) || cm.anyOf.stream().anyMatch(blocking::contains)) {
                     cm.discriminator = null;
+                } else if (cm.oneOf.stream().anyMatch(multiValued::contains) || cm.anyOf.stream().anyMatch(multiValued::contains)) {
+                    setTaggedDeserialize(cm);
                 }
             }
         }
+    }
+
+    /**
+     * serde consumes the tag before deserializing a variant of an internally tagged enum,
+     * so the discriminator field of a variant mapped by several discriminator values cannot be restored.
+     * Such a union is deserialized by `impl_deserialize_tagged!` instead, which mimics `#[serde(tag = "...")]`
+     * but keeps the tag in the content the variant is deserialized from.
+     */
+    private void setTaggedDeserialize(final CodegenModel cm) {
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        final List<CodegenProperty> variants = cs.getOneOf() != null && !cs.getOneOf().isEmpty() ? cs.getOneOf() : cs.getAnyOf();
+        final List<Map<String, Object>> mappings = variants.stream()
+                .map(variant -> Map.<String, Object>of(
+                        "values", discriminatorValues(toModelName(variant.complexType), List.of(cm.discriminator)),
+                        "variant", variant.datatypeWithEnum))
+                .collect(Collectors.toList());
+
+        cm.discriminator.getVendorExtensions().put("x-discriminator-deserialize", true);
+        cm.discriminator.getVendorExtensions().put("x-discriminator-mappings", mappings);
+        // Renders impl_deserialize_tagged! in types.rs
+        additionalProperties.put("usesTaggedDeserialize", true);
+    }
+
+    /**
+     * @return the discriminator values mapped to the model over all the discriminators, or its name if none
+     */
+    private static List<String> discriminatorValues(final String modelName, final List<CodegenDiscriminator> discriminators) {
+        final List<String> values = discriminators.stream()
+                .filter(d -> d.getMappedModels() != null)
+                .flatMap(d -> d.getMappedModels().stream())
+                .filter(m -> m.getModelName().equals(modelName) && m.getMappingName() != null)
+                .map(CodegenDiscriminator.MappedModel::getMappingName)
+                .distinct()
+                .collect(Collectors.toList());
+        return values.isEmpty() ? List.of(modelName) : values;
     }
 
     private static String getDiscriminatorValue(String modelName, CodegenDiscriminator discriminator) {
@@ -785,19 +837,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .orElse(modelName);
     }
 
-    private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
+    private boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm,
+                                   final Map<String, CodegenModel> enumModels, final List<String> values) {
         resetDiscriminatorProperty(cm);
 
         // Discriminator will be presented as enum tag -> One and only one tag is allowed
         int countString = 0;
         int countNonString = 0;
         for (final CodegenProperty var : cm.vars) {
-            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
-                if (var.isString) {
-                    var.isDiscriminator = true;
-                    ++countString;
-                } else
-                    ++countNonString;
+            if (discriminatorsForModel.stream().noneMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
+                continue;
+            }
+
+            if (canHoldTag(cm, var, values, enumModels)) {
+                var.isDiscriminator = true;
+                setDiscriminatorValues(var, values, enumModels);
+                ++countString;
+            } else {
+                ++countNonString;
             }
         }
 
@@ -809,10 +866,76 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return countNonString > 0 || countString > 0;
     }
 
+    /**
+     * Whether the discriminator property can hold the serde tag, which is always present and one of the given values.
+     */
+    private boolean canHoldTag(final CodegenModel cm, final CodegenProperty var, final List<String> values,
+                               final Map<String, CodegenModel> enumModels) {
+        final String reason;
+        if (!var.required) {
+            reason = "it is not required";
+        } else if (var.isNullable) {
+            reason = "it is nullable";
+        } else if (var.isString) {
+            return true;
+        } else if (!var.isEnumRef) {
+            reason = "it is neither a string nor a string enum";
+        } else {
+            final Optional<String> invalid = values.stream()
+                    .filter(value -> findEnumVariant(enumModels.get(var.complexType), value) == null)
+                    .findFirst();
+            if (invalid.isEmpty()) {
+                return true;
+            }
+            reason = String.format(Locale.ROOT, "'%s' is not a value of enum '%s'", invalid.get(), var.complexType);
+        }
+
+        LOGGER.warn("Discriminator property '{}' of model '{}' cannot hold the serde tag ({}), falling back to untagged",
+                var.baseName, cm.getSchemaName(), reason);
+        return false;
+    }
+
+    /**
+     * A discriminator property mapped by a single value is fixed to it,
+     * otherwise it keeps the value it is deserialized from.
+     */
+    private void setDiscriminatorValues(final CodegenProperty var, final List<String> values,
+                                        final Map<String, CodegenModel> enumModels) {
+        if (values.size() > 1) {
+            var.vendorExtensions.put("x-discriminator-multi", true);
+            return;
+        }
+
+        var.discriminatorValue = values.get(0);
+        if (var.isEnumRef) {
+            var.vendorExtensions.put("x-discriminator-enum-variant",
+                    findEnumVariant(enumModels.get(var.complexType), var.discriminatorValue));
+        }
+    }
+
     private static void resetDiscriminatorProperty(final CodegenModel cm) {
         for (final CodegenProperty var : cm.vars) {
             var.isDiscriminator = false;
+            var.vendorExtensions.remove("x-discriminator-enum-variant");
+            var.vendorExtensions.remove("x-discriminator-multi");
         }
+    }
+
+    private String findEnumVariant(final CodegenModel enumModel, final String value) {
+        if (enumModel == null || enumModel.allowableValues == null) {
+            return null;
+        }
+        final List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumModel.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return null;
+        }
+        // enumVars values are quoted string literals
+        final String quoted = toEnumValue(value, "String");
+        return enumVars.stream()
+                .filter(v -> quoted.equals(v.get("value")))
+                .map(v -> (String) v.get("name"))
+                .findFirst()
+                .orElse(null);
     }
 
     private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {

@@ -15,41 +15,16 @@ use serde::{Deserialize, Serialize};
 #[serde(tag = "objectType")]
 pub enum TestsDiscriminatorDuplicateEnumsGet200Response {
     #[serde(rename="car")]
-    Vehicle {
-        #[serde(rename = "type")]
-        r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
-    },
+    Vehicle(Box<models::Vehicle>),
     #[serde(rename="student")]
-    PersonStudent {
-        #[serde(rename = "type")]
-        r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
-    },
+    PersonStudent(Box<models::Person>),
     #[serde(rename="teacher")]
-    PersonTeacher {
-        #[serde(rename = "type")]
-        r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
-    },
+    PersonTeacher(Box<models::Person>),
 }
 
 impl Default for TestsDiscriminatorDuplicateEnumsGet200Response {
     fn default() -> Self {
-        Self::Vehicle {
-            r#type: Default::default(),
-            name: Default::default(),
-            speed: Default::default(),
-        }
+        Self::Vehicle(Default::default())
         
     }
 }

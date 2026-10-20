@@ -1,0 +1,33 @@
+openapi: 3.0.3
+info: {title: t, version: '1'}
+paths:
+  /c:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Leaf'}
+components:
+  schemas:
+    Root:
+      type: object
+      required: [kind]
+      discriminator: {propertyName: kind}
+      properties:
+        kind: {type: string}
+        a: {type: string}
+    Middle:
+      allOf:
+        - $ref: '#/components/schemas/Root'
+        - type: object
+          properties:
+            b: {type: string}
+      discriminator: {propertyName: kind}
+    Leaf:
+      allOf:
+        - $ref: '#/components/schemas/Middle'
+        - type: object
+          properties:
+            c: {type: string}

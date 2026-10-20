@@ -56,6 +56,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public boolean isQueryStringParam;
     /**
+     * True when a header parameter uses a JSON media type in Parameter.content.
+     */
+    public boolean headerIsJsonMimeType;
+    /**
      * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
      */
     public boolean isOptional;
@@ -276,6 +280,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isMap = this.isMap;
         output.queryIsJsonMimeType = this.queryIsJsonMimeType;
         output.isQueryStringParam = this.isQueryStringParam;
+        output.headerIsJsonMimeType = this.headerIsJsonMimeType;
         output.isOptional = this.isOptional;
         output.isExplode = this.isExplode;
         output.style = this.style;
@@ -300,15 +305,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, isQueryStringParam, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
-                items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
-                getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
-                getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
-                getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, isVoid,
-                additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
-                nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase);
+                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, headerIsJsonMimeType, isQueryStringParam,
+                isOptional,
+                isFile, isEnum, isEnumRef, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars,
+                requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable,
+                isDeprecated, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(),
+                getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(),
+                contentType, multipleOf, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired, isShort,
+                isUnboundedInteger, hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema,
+                content, requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, nameInPascalCase,
+                nameInCamelCase, nameInLowerCase, nameInSnakeCase);
     }
 
     @Override
@@ -352,6 +358,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isArray == that.isArray &&
                 isMap == that.isMap &&
                 queryIsJsonMimeType == that.queryIsJsonMimeType &&
+                headerIsJsonMimeType == that.headerIsJsonMimeType &&
                 isOptional == that.isOptional &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
@@ -494,6 +501,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", queryIsJsonMimeType=").append(queryIsJsonMimeType);
+        sb.append(", headerIsJsonMimeType=").append(headerIsJsonMimeType);
         sb.append(", isOptional=").append(isOptional);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);

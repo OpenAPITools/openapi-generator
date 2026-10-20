@@ -131,6 +131,34 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Serializes the given object as an ASCII-safe JSON string. Used to serialize the value of
+        /// a header parameter whose content type is JSON (e.g. <c>content: application/json</c>),
+        /// so model objects are rendered as JSON instead of their debug ToString() representation.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>JSON representation of the object with every C0 control character (including CR and LF), DEL, and non-ASCII character escaped as \uXXXX, so raw control bytes can never reach the header value.</returns>
+        public static string ParameterToJsonString(object obj)
+        {
+            // JsonConvert renders a null reference as the JSON literal "null" (not a null string).
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+
+            // Escape everything that is not printable ASCII: C0 controls (including CR and LF), DEL,
+            // and all non-ASCII characters, as \uXXXX. Because this runs over the final serialized
+            // string, the result is safe to use as an HTTP header value even if a custom converter
+            // emitted raw control characters or non-ASCII text (preventing header splitting/injection).
+            StringBuilder escaped = new StringBuilder(json.Length);
+            foreach (char c in json)
+            {
+                if (c < 0x20 || c >= 0x7f)
+                    escaped.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+                else
+                    escaped.Append(c);
+            }
+
+            return escaped.ToString();
+        }
+
+        /// <summary>
         /// Encode string in base64 format.
         /// </summary>
         /// <param name="text">string to be encoded.</param>
@@ -177,8 +205,7 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Select the Accept header's value from the given accepts array:
-        /// if JSON exists in the given array, use it;
-        /// otherwise use all of them (joining into a string)
+        /// all of them, JSON types first (joining into a string)
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
@@ -187,10 +214,7 @@ namespace Org.OpenAPITools.Client
             if (accepts.Length == 0)
                 return null;
 
-            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
-                return "application/json";
-
-            return string.Join(",", accepts);
+            return string.Join(",", accepts.OrderBy(accept => IsJsonMime(accept) ? 0 : 1));
         }
 
         /// <summary>

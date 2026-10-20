@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
@@ -231,14 +232,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.PACKAGE_TAGS_DESC,
                 this.packageTags);
 
-        addOption(DATE_FORMAT,
-                "The default Date format (only `generichost` library supports this option).",
-                this.dateFormat);
-
-        addOption(DATETIME_FORMAT,
-                "The default DateTime format (only `generichost` library supports this option).",
-                this.dateTimeFormat);
-
         addOption("zeroBasedEnums",
                 "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
                 null);
@@ -256,7 +249,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 String.valueOf(this.useIntForTimeout));
 
         addSwitch(CSharpClientCodegen.THROW_ON_ANY_ERROR,
-                "Configure RestSharp to rethrow deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
+                "Throw ApiException on deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). HTTP error statuses keep going through ExceptionFactory. Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
                 this.throwOnAnyError);
 
         CliOption framework = new CliOption(
@@ -686,8 +679,47 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
+        postProcessNotEnum(model, property);
 
         super.postProcessModelProperty(model, property);
+    }
+
+    /**
+     * Builds a C# boolean expression that is true when a property holds a value forbidden by a
+     * {@code not: { enum: [...] }} schema, and stores it as the {@code x-csharp-not-enum-comparison}
+     * vendor extension. Templates use it to reject the excluded values both at deserialization time
+     * (so oneOf/anyOf matching narrows correctly) and in {@code Validate()}.
+     */
+    private void postProcessNotEnum(CodegenModel model, CodegenProperty property) {
+        // Skip when the property itself is an enum: it is generated as a C# enum type, so the
+        // emitted `this.Name == "value"` string comparison would not compile.
+        if (property.isEnum || property.isEnumRef) {
+            return;
+        }
+        CodegenProperty not = property.getComposedSchemas() == null ? null : property.getComposedSchemas().getNot();
+        if (not == null || !not.isString || !(not.isEnum || not.isEnumRef)
+                || not.allowableValues == null || !(not.allowableValues.get("values") instanceof List)) {
+            return;
+        }
+
+        StringJoiner comparisons = new StringJoiner(" || ");
+        for (Object excluded : (List<?>) not.allowableValues.get("values")) {
+            String literal;
+            if (excluded == null) {
+                literal = "null";
+            } else if (excluded instanceof String) {
+                // A JSON string literal is also a valid C# string literal for these escapes.
+                literal = TextNode.valueOf((String) excluded).toString();
+            } else {
+                continue;
+            }
+            comparisons.add("this." + property.name + " == " + literal);
+        }
+
+        if (comparisons.length() > 0) {
+            property.vendorExtensions.put("x-csharp-not-enum-comparison", comparisons.toString());
+            model.vendorExtensions.put("x-csharp-has-not-enum", true);
+        }
     }
 
     @Override
@@ -1132,12 +1164,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
-        supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
-        supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
-        if (useDateOnly()) {
-            supportingFiles.add(new SupportingFile("DateOnlyJsonConverter.mustache", clientPackageDir, "DateOnlyJsonConverter.cs"));
-            supportingFiles.add(new SupportingFile("DateOnlyNullableJsonConverter.mustache", clientPackageDir, "DateOnlyNullableJsonConverter.cs"));
-        }
+        supportingFiles.add(new SupportingFile("DateTimeFormatHelper.mustache", clientPackageDir, "DateTimeFormatHelper.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
@@ -1780,6 +1807,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return this.getLibrary().equals(GENERICHOST)
                 ? super.isValueType(var)
                 : this.getValueTypes().contains(var.dataType) || var.isEnum;
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_CSHARP_DATE_FORMAT);
+        extensions.add(VendorExtension.X_CSHARP_DATETIME_FORMAT);
+        return extensions;
     }
 
     @Override

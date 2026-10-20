@@ -388,6 +388,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         + "deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to "
                         + "false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.", false);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue("false"));
+
         addOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC, "empty map");
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
@@ -761,6 +763,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
         }
         writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
+
+        
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE)) {
+            setEnumUnknownDefaultCase(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString()));
+        }
 
         if (additionalProperties.containsKey(REACTIVE)) {
             if (SPRING_CLOUD_LIBRARY.equals(library)) {

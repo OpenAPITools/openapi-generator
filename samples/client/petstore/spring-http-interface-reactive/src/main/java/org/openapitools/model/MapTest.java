@@ -11,7 +11,6 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -21,7 +20,7 @@ import jakarta.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class MapTest {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -88,7 +87,6 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -116,7 +114,6 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -144,7 +141,6 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -172,7 +168,6 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
