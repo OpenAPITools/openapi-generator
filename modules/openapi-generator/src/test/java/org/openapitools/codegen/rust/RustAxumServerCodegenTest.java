@@ -160,6 +160,7 @@ public class RustAxumServerCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("rust-axum")
                 .setInputSpec("src/test/resources/3_1/rust-axum/rust-axum-recursive-models.yaml")
+                .addAdditionalProperty("boxRecursiveModels", true)
                 .setSkipOverwrite(false)
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -183,5 +184,23 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub inner: Option<Box<models::Shape>>,");
         // Non-recursive references are left as they are
         TestUtils.assertFileContains(modelsPath, "pub owner: Option<models::Owner>,");
+    }
+
+    @Test
+    public void testRecursiveModelFieldsAreNotBoxedByDefault() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_1/rust-axum/rust-axum-recursive-models.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        TestUtils.assertFileContains(modelsPath, "pub parent: Option<models::Node>,");
+        TestUtils.assertFileContains(modelsPath, "pub manager: Nullable<models::Employee>,");
+        TestUtils.assertFileNotContains(modelsPath, "Box<models::");
     }
 }

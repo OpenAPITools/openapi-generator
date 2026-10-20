@@ -68,6 +68,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean basicAuthorization = false;
     private Boolean basicAnalytic = false;
     private Boolean ownedRequest = false;
+    private Boolean boxRecursiveModels = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -251,6 +252,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         optAllowBlockingResponseSerialize.setType("bool");
         optAllowBlockingResponseSerialize.defaultValue(allowBlockingResponseSerialize.toString());
 
+        CliOption optBoxRecursiveModels = new CliOption("boxRecursiveModels",
+                String.join("", "Wrap model fields that lead back to their own model (directly or through other ",
+                        "models) in Box, so recursive models compile. Changes the type of those fields."));
+        optBoxRecursiveModels.setType("bool");
+        optBoxRecursiveModels.defaultValue(boxRecursiveModels.toString());
+
         cliOptions = new ArrayList<>(
                 List.of(
                         new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -260,7 +267,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                 "Rust crate version."),
                         optDisableValidator,
                         optAllowBlockingValidator,
-                        optAllowBlockingResponseSerialize
+                        optAllowBlockingResponseSerialize,
+                        optBoxRecursiveModels
                 )
         );
 
@@ -358,6 +366,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
         } else {
             additionalProperties.put("ownedRequest", ownedRequest);
+        }
+
+        if (additionalProperties.containsKey("boxRecursiveModels")) {
+            boxRecursiveModels = convertPropertyToBooleanAndWriteBack("boxRecursiveModels");
+        } else {
+            additionalProperties.put("boxRecursiveModels", boxRecursiveModels);
         }
     }
 
@@ -1440,6 +1454,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+        if (!boxRecursiveModels) {
+            return objs;
+        }
 
         // Model fields that lead back to their own model (directly or through other models)
         // would make the struct infinitely sized, so they are boxed.
