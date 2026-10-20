@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EnumTest(EnumTestEnumString enumStringRequired, Option<EnumTestEnumInteger?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {
-            EnumStringRequired = enumStringRequired;
+            this.EnumStringRequired = enumStringRequired;
             EnumIntegerOption = enumInteger;
             EnumIntegerOnlyOption = enumIntegerOnly;
             EnumNumberOption = enumNumber;

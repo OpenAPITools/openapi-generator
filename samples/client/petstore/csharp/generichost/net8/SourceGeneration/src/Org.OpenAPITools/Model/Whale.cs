@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
         {
-            ClassName = className;
+            this.ClassName = className;
             HasBaleenOption = hasBaleen;
             HasTeethOption = hasTeeth;
             OnCreated();

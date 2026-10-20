@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number"></param>
         internal ParentWithPluralOneOfPropertyNumber(Number number)
         {
-            Number = number;
+            this.Number = number;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number2"></param>
         internal ParentWithPluralOneOfPropertyNumber(Number2 number2)
         {
-            Number2 = number2;
+            this.Number2 = number2;
             OnCreated();
         }
 

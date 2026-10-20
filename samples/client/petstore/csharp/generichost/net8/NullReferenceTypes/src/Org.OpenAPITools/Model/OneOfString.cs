@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="string"></param>
         internal OneOfString(string @string)
         {
-            String = @string;
+            this.String = @string;
             OnCreated();
         }
 

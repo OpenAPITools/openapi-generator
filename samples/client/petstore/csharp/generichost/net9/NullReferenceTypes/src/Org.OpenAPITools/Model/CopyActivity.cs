@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public CopyActivity(string copyActivitytt) : base()
         {
-            CopyActivitytt = copyActivitytt;
+            this.CopyActivitytt = copyActivitytt;
             Schema = (SchemaEnum)Enum.Parse(typeof(SchemaEnum), this.GetType().Name);
             OnCreated();
         }

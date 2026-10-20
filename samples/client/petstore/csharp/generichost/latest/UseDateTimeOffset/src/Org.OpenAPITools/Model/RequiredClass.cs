@@ -80,17 +80,17 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public RequiredClass(DateOnly requiredNotNullableDateProp, List<string> requiredNotnullableArrayOfString, bool requiredNotnullableBooleanProp, DateTimeOffset requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, string requiredNotnullableStringProp, Guid requiredNotnullableUuid, int requiredNotnullableintegerProp, Option<DateOnly?> notRequiredNotnullableDateProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<DateOnly?> notRequiredNullableDateProp = default, Option<int?> notRequiredNullableIntegerProp = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateTimeOffset?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<string?> notrequiredNotnullableStringProp = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<DateTimeOffset?> notrequiredNullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<string?> notrequiredNullableStringProp = default, Option<Guid?> notrequiredNullableUuid = default, List<string>? requiredNullableArrayOfString = default, bool? requiredNullableBooleanProp = default, DateOnly? requiredNullableDateProp = default, DateTimeOffset? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, int? requiredNullableIntegerProp = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, string? requiredNullableStringProp = default, Guid? requiredNullableUuid = default)
         {
-            RequiredNotNullableDateProp = requiredNotNullableDateProp;
-            RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
-            RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
-            RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
-            RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
-            RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
-            RequiredNotnullableEnumString = requiredNotnullableEnumString;
-            RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
-            RequiredNotnullableStringProp = requiredNotnullableStringProp;
-            RequiredNotnullableUuid = requiredNotnullableUuid;
-            RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
+            this.RequiredNotNullableDateProp = requiredNotNullableDateProp;
+            this.RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
+            this.RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
+            this.RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
+            this.RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
+            this.RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
+            this.RequiredNotnullableEnumString = requiredNotnullableEnumString;
+            this.RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
+            this.RequiredNotnullableStringProp = requiredNotnullableStringProp;
+            this.RequiredNotnullableUuid = requiredNotnullableUuid;
+            this.RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
             NotRequiredNotnullableDatePropOption = notRequiredNotnullableDateProp;
             NotRequiredNotnullableintegerPropOption = notRequiredNotnullableintegerProp;
             NotRequiredNullableDatePropOption = notRequiredNullableDateProp;
@@ -113,17 +113,17 @@ namespace Org.OpenAPITools.Model
             NotrequiredNullableOuterEnumDefaultValueOption = notrequiredNullableOuterEnumDefaultValue;
             NotrequiredNullableStringPropOption = notrequiredNullableStringProp;
             NotrequiredNullableUuidOption = notrequiredNullableUuid;
-            RequiredNullableArrayOfString = requiredNullableArrayOfString;
-            RequiredNullableBooleanProp = requiredNullableBooleanProp;
-            RequiredNullableDateProp = requiredNullableDateProp;
-            RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
-            RequiredNullableEnumInteger = requiredNullableEnumInteger;
-            RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
-            RequiredNullableEnumString = requiredNullableEnumString;
-            RequiredNullableIntegerProp = requiredNullableIntegerProp;
-            RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
-            RequiredNullableStringProp = requiredNullableStringProp;
-            RequiredNullableUuid = requiredNullableUuid;
+            this.RequiredNullableArrayOfString = requiredNullableArrayOfString;
+            this.RequiredNullableBooleanProp = requiredNullableBooleanProp;
+            this.RequiredNullableDateProp = requiredNullableDateProp;
+            this.RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
+            this.RequiredNullableEnumInteger = requiredNullableEnumInteger;
+            this.RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
+            this.RequiredNullableEnumString = requiredNullableEnumString;
+            this.RequiredNullableIntegerProp = requiredNullableIntegerProp;
+            this.RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
+            this.RequiredNullableStringProp = requiredNullableStringProp;
+            this.RequiredNullableUuid = requiredNullableUuid;
             OnCreated();
         }
 

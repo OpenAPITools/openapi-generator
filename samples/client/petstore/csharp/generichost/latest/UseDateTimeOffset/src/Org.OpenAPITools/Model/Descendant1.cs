@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Descendant1(string alternativeName, string descendantName) : base(alternativeName)
         {
-            DescendantName = descendantName;
+            this.DescendantName = descendantName;
             OnCreated();
         }
 

@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ComplexQuadrilateral(string quadrilateralType, string shapeType)
         {
-            QuadrilateralType = quadrilateralType;
-            ShapeType = shapeType;
+            this.QuadrilateralType = quadrilateralType;
+            this.ShapeType = shapeType;
             OnCreated();
         }
 

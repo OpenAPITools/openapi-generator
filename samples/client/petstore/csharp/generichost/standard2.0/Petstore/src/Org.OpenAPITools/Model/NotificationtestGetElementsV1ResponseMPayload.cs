@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public NotificationtestGetElementsV1ResponseMPayload(List<Dictionary<string, Object>> aObjVariableobject, int pkiNotificationtestID)
         {
-            AObjVariableobject = aObjVariableobject;
-            PkiNotificationtestID = pkiNotificationtestID;
+            this.AObjVariableobject = aObjVariableobject;
+            this.PkiNotificationtestID = pkiNotificationtestID;
             OnCreated();
         }
 

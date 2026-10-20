@@ -40,8 +40,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Return(string @lock, string? @abstract = default, Option<int?> varReturn = default, Option<string?> @unsafe = default)
         {
-            Lock = @lock;
-            Abstract = @abstract;
+            this.Lock = @lock;
+            this.Abstract = @abstract;
             VarReturnOption = varReturn;
             UnsafeOption = @unsafe;
             OnCreated();

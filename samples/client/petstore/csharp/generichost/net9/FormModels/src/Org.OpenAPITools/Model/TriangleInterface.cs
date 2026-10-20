@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public TriangleInterface(string triangleType)
         {
-            TriangleType = triangleType;
+            this.TriangleType = triangleType;
             OnCreated();
         }
 

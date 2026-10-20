@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="whale"></param>
         internal Mammal(Whale whale)
         {
-            Whale = whale;
+            this.Whale = whale;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="zebra"></param>
         internal Mammal(Zebra zebra)
         {
-            Zebra = zebra;
+            this.Zebra = zebra;
             OnCreated();
         }
 
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="pig"></param>
         internal Mammal(Pig pig)
         {
-            Pig = pig;
+            this.Pig = pig;
             OnCreated();
         }
 

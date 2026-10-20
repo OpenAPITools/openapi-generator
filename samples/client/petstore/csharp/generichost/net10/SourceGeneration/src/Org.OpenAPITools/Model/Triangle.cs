@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="equilateralTriangle"></param>
         internal Triangle(EquilateralTriangle equilateralTriangle)
         {
-            EquilateralTriangle = equilateralTriangle;
+            this.EquilateralTriangle = equilateralTriangle;
             OnCreated();
         }
 
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="isoscelesTriangle"></param>
         internal Triangle(IsoscelesTriangle isoscelesTriangle)
         {
-            IsoscelesTriangle = isoscelesTriangle;
+            this.IsoscelesTriangle = isoscelesTriangle;
             OnCreated();
         }
 
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="scaleneTriangle"></param>
         internal Triangle(ScaleneTriangle scaleneTriangle)
         {
-            ScaleneTriangle = scaleneTriangle;
+            this.ScaleneTriangle = scaleneTriangle;
             OnCreated();
         }
 

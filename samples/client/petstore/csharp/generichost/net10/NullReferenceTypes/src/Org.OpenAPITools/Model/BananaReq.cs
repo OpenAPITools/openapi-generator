@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public BananaReq(decimal lengthCm, Option<bool?> sweet = default)
         {
-            LengthCm = lengthCm;
+            this.LengthCm = lengthCm;
             SweetOption = sweet;
             OnCreated();
         }

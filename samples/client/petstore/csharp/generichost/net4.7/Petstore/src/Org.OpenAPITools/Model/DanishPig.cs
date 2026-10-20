@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public DanishPig(string className)
         {
-            ClassName = className;
+            this.ClassName = className;
             OnCreated();
         }
 

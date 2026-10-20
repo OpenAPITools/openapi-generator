@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="simpleQuadrilateral"></param>
         internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
-            SimpleQuadrilateral = simpleQuadrilateral;
+            this.SimpleQuadrilateral = simpleQuadrilateral;
             OnCreated();
         }
 
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="complexQuadrilateral"></param>
         internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
-            ComplexQuadrilateral = complexQuadrilateral;
+            this.ComplexQuadrilateral = complexQuadrilateral;
             OnCreated();
         }
 

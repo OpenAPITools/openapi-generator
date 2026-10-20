@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color</param>
         internal Fruit(Apple apple, Option<string?> color = default)
         {
-            Apple = apple;
+            this.Apple = apple;
             ColorOption = color;
             OnCreated();
         }
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color</param>
         internal Fruit(Banana banana, Option<string?> color = default)
         {
-            Banana = banana;
+            this.Banana = banana;
             ColorOption = color;
             OnCreated();
         }

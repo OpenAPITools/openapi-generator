@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public QuadrilateralInterface(string quadrilateralType)
         {
-            QuadrilateralType = quadrilateralType;
+            this.QuadrilateralType = quadrilateralType;
             OnCreated();
         }
 

@@ -41,8 +41,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Widget(long id, string name, Option<string?> color = default, Option<Object?> debugInfo = default, Option<Shape?> shape = default)
         {
-            Id = id;
-            Name = name;
+            this.Id = id;
+            this.Name = name;
             ColorOption = color;
             DebugInfoOption = debugInfo;
             ShapeOption = shape;

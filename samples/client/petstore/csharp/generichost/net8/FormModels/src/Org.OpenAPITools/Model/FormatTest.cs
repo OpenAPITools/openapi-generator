@@ -63,11 +63,11 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, decimal stringFormattedAsDecimalRequired, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<string> duplicatePropertyName2 = default, Option<string> duplicatePropertyName = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<decimal?> stringFormattedAsDecimal = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
-            Byte = @byte;
-            Date = date;
-            Number = number;
-            Password = password;
-            StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
+            this.Byte = @byte;
+            this.Date = date;
+            this.Number = number;
+            this.Password = password;
+            this.StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
             BinaryOption = binary;
             DateTimeOption = dateTime;
             DecimalOption = @decimal;

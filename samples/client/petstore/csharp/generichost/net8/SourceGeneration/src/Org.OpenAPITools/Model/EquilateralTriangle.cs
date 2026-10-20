@@ -40,8 +40,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EquilateralTriangle(string shapeType, string triangleType)
         {
-            ShapeType = shapeType;
-            TriangleType = triangleType;
+            this.ShapeType = shapeType;
+            this.TriangleType = triangleType;
             OnCreated();
         }
 

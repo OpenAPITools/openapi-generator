@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Name(int varName, Option<string?> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
         {
-            VarName = varName;
+            this.VarName = varName;
             PropertyOption = property;
             SnakeCaseOption = snakeCase;
             Var123NumberOption = var123Number;

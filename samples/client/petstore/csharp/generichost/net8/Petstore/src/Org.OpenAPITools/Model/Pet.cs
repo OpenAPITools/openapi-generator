@@ -41,8 +41,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Pet(string name, List<string> photoUrls, Option<Category> category = default, Option<long?> id = default, Option<StatusEnum?> status = default, Option<List<Tag>> tags = default)
         {
-            Name = name;
-            PhotoUrls = photoUrls;
+            this.Name = name;
+            this.PhotoUrls = photoUrls;
             CategoryOption = category;
             IdOption = id;
             StatusOption = status;

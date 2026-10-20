@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ScaleneTriangle(string shapeType, string triangleType)
         {
-            ShapeType = shapeType;
-            TriangleType = triangleType;
+            this.ShapeType = shapeType;
+            this.TriangleType = triangleType;
             OnCreated();
         }
 

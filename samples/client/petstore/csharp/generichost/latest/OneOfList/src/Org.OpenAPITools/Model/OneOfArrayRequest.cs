@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="list"></param>
         public OneOfArrayRequest(List<string> list)
         {
-            List = list;
+            this.List = list;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="list1"></param>
         public OneOfArrayRequest(List<TestObject> list1)
         {
-            List1 = list1;
+            this.List1 = list1;
             OnCreated();
         }
 

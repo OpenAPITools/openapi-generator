@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="basquePig"></param>
         internal Pig(BasquePig basquePig)
         {
-            BasquePig = basquePig;
+            this.BasquePig = basquePig;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="danishPig"></param>
         internal Pig(DanishPig danishPig)
         {
-            DanishPig = danishPig;
+            this.DanishPig = danishPig;
             OnCreated();
         }
 

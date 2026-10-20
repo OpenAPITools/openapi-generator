@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public AppleReq(string cultivar, Option<bool?> mealy = default)
         {
-            Cultivar = cultivar;
+            this.Cultivar = cultivar;
             MealyOption = mealy;
             OnCreated();
         }

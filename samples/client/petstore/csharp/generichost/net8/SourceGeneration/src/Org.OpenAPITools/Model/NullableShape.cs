@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         internal NullableShape(Triangle triangle)
         {
-            Triangle = triangle;
+            this.Triangle = triangle;
             OnCreated();
         }
 
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         internal NullableShape(Quadrilateral quadrilateral)
         {
-            Quadrilateral = quadrilateral;
+            this.Quadrilateral = quadrilateral;
             OnCreated();
         }
 

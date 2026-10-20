@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public Category(Option<long?> id = default, string name = @"default-name")
         {
             IdOption = id;
-            Name = name;
+            this.Name = name;
             OnCreated();
         }
 

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="appleReq"></param>
         internal FruitReq(AppleReq appleReq)
         {
-            AppleReq = appleReq;
+            this.AppleReq = appleReq;
             OnCreated();
         }
 
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bananaReq"></param>
         internal FruitReq(BananaReq bananaReq)
         {
-            BananaReq = bananaReq;
+            this.BananaReq = bananaReq;
             OnCreated();
         }
 

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="string"></param>
         internal MixedOneOfContent(string @string)
         {
-            String = @string;
+            this.String = @string;
             OnCreated();
         }
 
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bool"></param>
         internal MixedOneOfContent(bool @bool)
         {
-            Bool = @bool;
+            this.Bool = @bool;
             OnCreated();
         }
 
@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="int"></param>
         internal MixedOneOfContent(int @int)
         {
-            Int = @int;
+            this.Int = @int;
             OnCreated();
         }
 
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="decimal"></param>
         internal MixedOneOfContent(decimal @decimal)
         {
-            Decimal = @decimal;
+            this.Decimal = @decimal;
             OnCreated();
         }
 
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mixedSubId"></param>
         internal MixedOneOfContent(MixedSubId mixedSubId)
         {
-            MixedSubId = mixedSubId;
+            this.MixedSubId = mixedSubId;
             OnCreated();
         }
 

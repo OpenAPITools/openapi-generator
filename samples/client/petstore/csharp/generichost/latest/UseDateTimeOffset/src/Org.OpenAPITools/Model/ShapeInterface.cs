@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ShapeInterface(string shapeType)
         {
-            ShapeType = shapeType;
+            this.ShapeType = shapeType;
             OnCreated();
         }
 

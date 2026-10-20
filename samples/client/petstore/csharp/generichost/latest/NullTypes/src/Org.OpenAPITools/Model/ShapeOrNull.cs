@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ShapeOrNull(string shapeType, Option<double?> area = default)
         {
-            ShapeType = shapeType;
+            this.ShapeType = shapeType;
             AreaOption = area;
             OnCreated();
         }

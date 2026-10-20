@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="int"></param>
         internal OneOfNullableTest(int @int)
         {
-            Int = @int;
+            this.Int = @int;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="string"></param>
         internal OneOfNullableTest(string @string)
         {
-            String = @string;
+            this.String = @string;
             OnCreated();
         }
 

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bool"></param>
         internal PolymorphicProperty(bool @bool)
         {
-            Bool = @bool;
+            this.Bool = @bool;
             OnCreated();
         }
 
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="string"></param>
         internal PolymorphicProperty(string @string)
         {
-            String = @string;
+            this.String = @string;
             OnCreated();
         }
 
@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="object"></param>
         internal PolymorphicProperty(Object @object)
         {
-            Object = @object;
+            this.Object = @object;
             OnCreated();
         }
 
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="list"></param>
         internal PolymorphicProperty(List<string> list)
         {
-            List = list;
+            this.List = list;
             OnCreated();
         }
 

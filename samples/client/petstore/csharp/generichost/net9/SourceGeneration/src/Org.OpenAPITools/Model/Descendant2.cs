@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Descendant2(string alternativeName, string confidentiality) : base(alternativeName)
         {
-            Confidentiality = confidentiality;
+            this.Confidentiality = confidentiality;
             OnCreated();
         }
 

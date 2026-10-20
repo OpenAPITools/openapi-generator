@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public TestDescendants(string alternativeName)
         {
-            AlternativeName = alternativeName;
+            this.AlternativeName = alternativeName;
             ObjectType = (TestDescendantsObjectType)Enum.Parse(typeof(TestDescendantsObjectType), this.GetType().Name);
             OnCreated();
         }

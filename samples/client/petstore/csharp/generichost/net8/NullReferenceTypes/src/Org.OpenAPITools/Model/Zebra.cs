@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Zebra(string className, Option<TypeEnum?> type = default)
         {
-            ClassName = className;
+            this.ClassName = className;
             TypeOption = type;
             OnCreated();
         }
