@@ -341,7 +341,7 @@ public class EnumTest {
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {
-        return outerEnum.orElse(null);
+    return outerEnum.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)

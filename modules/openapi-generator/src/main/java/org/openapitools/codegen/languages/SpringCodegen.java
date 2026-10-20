@@ -493,6 +493,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return true;
+    }
+
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         List<DocumentationProvider> supportedProviders = new ArrayList<>();
         supportedProviders.add(DocumentationProvider.NONE);
@@ -715,6 +720,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
         validateUseRecords();
+        if (optionalGettersForNullableFieldsOnly && !isUseJackson3()) {
+            throw new IllegalArgumentException(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY +
+                    " is only supported with jackson 3 (enable useJackson3 / useSpringBoot4)");
+        }
         if(this.useJackson3){
             this.applyJackson3Package();
         } else {

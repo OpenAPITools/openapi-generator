@@ -4,12 +4,19 @@
 # Ref: https://docs.travis-ci.com/user/languages/java/
 #
 language: java
+{{#useSpringBoot4}}
+jdk:
+  - openjdk17
+  - openjdk21
+{{/useSpringBoot4}}
+{{^useSpringBoot4}}
 jdk:
   - openjdk12
   - openjdk11
   - openjdk10
   - openjdk9
   - openjdk8
+{{/useSpringBoot4}}
 before_install:
   # ensure gradlew has proper permission
   - chmod a+x ./gradlew

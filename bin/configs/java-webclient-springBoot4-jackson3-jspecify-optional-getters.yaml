@@ -1,0 +1,18 @@
+generatorName: java
+outputDir: samples/client/petstore/java/webclient-springBoot4-jackson3-jspecify-optional-getters
+library: webclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  artifactId: petstore-webclient-optional-getters
+  hideGenerationTimestamp: "true"
+  containerDefaultToNull: "true"
+  useSpringBoot4: true
+  useJackson3: true
+  openApiNullable: false
+  useJspecify: true
+  optionalGettersForNullableFieldsOnly: "true"
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal
