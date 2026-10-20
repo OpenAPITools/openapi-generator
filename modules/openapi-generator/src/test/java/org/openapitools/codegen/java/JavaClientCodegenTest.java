@@ -25,6 +25,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -5775,5 +5776,25 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
+    }
+
+    @Test
+    public void testEnumUnknownDefaultCaseWithNullableEnums() {
+        final OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("Mode", new StringSchema()._enum(List.of("auto", "manual")).nullable(true))
+                .addSchemas("Pet", new ObjectSchema()
+                        .addProperty("kind", new StringSchema()._enum(List.of("cat", "dog")).nullable(true))
+                        .addProperty("mode", new Schema<>().$ref("#/components/schemas/Mode"))));
+        final Path output = newTempFolder();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+
+        new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        // an unknown value maps to the unknown default case; only null maps to null
+        final String fromValueEnd = "if (value == null) { return null; } return UNKNOWN_DEFAULT_OPEN_API; }";
+        TestUtils.assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"), fromValueEnd);
+        TestUtils.assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Mode.java"), fromValueEnd);
     }
 }
