@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class StoreApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -175,7 +175,7 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
+  public void deleteOrder(@jakarta.annotation.Nonnull String orderId) throws ApiException {
     deleteOrder(orderId, null);
   }
 
@@ -186,7 +186,7 @@ public class StoreApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
+  public void deleteOrder(@jakarta.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     deleteOrderWithHttpInfo(orderId, headers);
   }
 
@@ -197,7 +197,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
+  public ApiResponse<Void> deleteOrderWithHttpInfo(@jakarta.annotation.Nonnull String orderId) throws ApiException {
     return deleteOrderWithHttpInfo(orderId, null);
   }
 
@@ -209,7 +209,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> deleteOrderWithHttpInfo(@jakarta.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -246,7 +246,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder deleteOrderRequestBuilder(@jakarta.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
@@ -389,7 +389,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
+  public Order getOrderById(@jakarta.annotation.Nonnull Long orderId) throws ApiException {
     return getOrderById(orderId, null);
   }
 
@@ -401,7 +401,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
+  public Order getOrderById(@jakarta.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     ApiResponse<Order> localVarResponse = getOrderByIdWithHttpInfo(orderId, headers);
     return localVarResponse.getData();
   }
@@ -413,7 +413,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(@jakarta.annotation.Nonnull Long orderId) throws ApiException {
     return getOrderByIdWithHttpInfo(orderId, null);
   }
 
@@ -425,7 +425,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(@jakarta.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -473,7 +473,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder getOrderByIdRequestBuilder(@jakarta.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
@@ -507,7 +507,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
+  public Order placeOrder(@jakarta.annotation.Nonnull Order order) throws ApiException {
     return placeOrder(order, null);
   }
 
@@ -519,7 +519,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
+  public Order placeOrder(@jakarta.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order, headers);
     return localVarResponse.getData();
   }
@@ -531,7 +531,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws ApiException {
+  public ApiResponse<Order> placeOrderWithHttpInfo(@jakarta.annotation.Nonnull Order order) throws ApiException {
     return placeOrderWithHttpInfo(order, null);
   }
 
@@ -543,7 +543,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Order> placeOrderWithHttpInfo(@jakarta.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -591,7 +591,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder placeOrderRequestBuilder(@jakarta.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'order' is set
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");

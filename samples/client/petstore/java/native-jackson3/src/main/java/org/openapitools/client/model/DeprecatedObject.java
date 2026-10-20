@@ -38,16 +38,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String name;
 
   public DeprecatedObject() { 
   }
 
-  public DeprecatedObject name(@javax.annotation.Nullable String name) {
+  public DeprecatedObject name(@jakarta.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -56,7 +56,7 @@ public class DeprecatedObject {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getName() {
@@ -66,7 +66,7 @@ public class DeprecatedObject {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@javax.annotation.Nullable String name) {
+  public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
 

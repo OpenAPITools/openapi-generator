@@ -39,24 +39,24 @@ import org.openapitools.client.ApiClient;
   Whale.JSON_PROPERTY_HAS_TEETH,
   Whale.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private String className;
 
   public Whale() { 
   }
 
-  public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
+  public Whale hasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -65,7 +65,7 @@ public class Whale {
    * Get hasBaleen
    * @return hasBaleen
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getHasBaleen() {
@@ -75,12 +75,12 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
+  public void setHasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
+  public Whale hasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -89,7 +89,7 @@ public class Whale {
    * Get hasTeeth
    * @return hasTeeth
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getHasTeeth() {
@@ -99,12 +99,12 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
+  public void setHasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(@javax.annotation.Nonnull String className) {
+  public Whale className(@jakarta.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -113,7 +113,7 @@ public class Whale {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
@@ -123,7 +123,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(@javax.annotation.Nonnull String className) {
+  public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
 

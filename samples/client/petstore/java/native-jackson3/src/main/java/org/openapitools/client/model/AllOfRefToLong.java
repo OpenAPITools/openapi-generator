@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   AllOfRefToLong.JSON_PROPERTY_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AllOfRefToLong {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Long id = 10l;
 
   public AllOfRefToLong() { 
   }
 
-  public AllOfRefToLong id(@javax.annotation.Nullable Long id) {
+  public AllOfRefToLong id(@jakarta.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -54,7 +54,7 @@ public class AllOfRefToLong {
    * Id as long
    * @return id
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
@@ -64,7 +64,7 @@ public class AllOfRefToLong {
 
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(@javax.annotation.Nullable Long id) {
+  public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
   }
 

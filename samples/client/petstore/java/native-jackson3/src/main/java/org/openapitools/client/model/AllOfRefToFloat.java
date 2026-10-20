@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   AllOfRefToFloat.JSON_PROPERTY_WEIGHT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AllOfRefToFloat {
   public static final String JSON_PROPERTY_WEIGHT = "weight";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Float weight = 7.89f;
 
   public AllOfRefToFloat() { 
   }
 
-  public AllOfRefToFloat weight(@javax.annotation.Nullable Float weight) {
+  public AllOfRefToFloat weight(@jakarta.annotation.Nullable Float weight) {
     this.weight = weight;
     return this;
   }
@@ -54,7 +54,7 @@ public class AllOfRefToFloat {
    * Weight as float
    * @return weight
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_WEIGHT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Float getWeight() {
@@ -64,7 +64,7 @@ public class AllOfRefToFloat {
 
   @JsonProperty(value = JSON_PROPERTY_WEIGHT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWeight(@javax.annotation.Nullable Float weight) {
+  public void setWeight(@jakarta.annotation.Nullable Float weight) {
     this.weight = weight;
   }
 

@@ -99,19 +99,27 @@ public class Mammal extends AbstractOpenApiSchema {
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize Pig
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<Pig> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Pig>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Pig.class.equals(Integer.class) || Pig.class.equals(Long.class) || Pig.class.equals(Float.class) || Pig.class.equals(Double.class) || Pig.class.equals(Boolean.class) || Pig.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((Pig.class.equals(Integer.class) || Pig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Pig.class.equals(Float.class) || Pig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Pig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Pig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -125,19 +133,27 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Whale
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<Whale> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Whale>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Whale.class.equals(Integer.class) || Whale.class.equals(Long.class) || Whale.class.equals(Float.class) || Whale.class.equals(Double.class) || Whale.class.equals(Boolean.class) || Whale.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((Whale.class.equals(Integer.class) || Whale.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Whale.class.equals(Float.class) || Whale.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Whale.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Whale.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -151,19 +167,27 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Zebra
             try {
+                final com.fasterxml.jackson.core.type.TypeReference<Zebra> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Zebra>() {};
+                final com.fasterxml.jackson.databind.JavaType candidateType = ctxt.getTypeFactory().constructType(candidateRef);
+                final Class<?> candidateClass = candidateType.getRawClass();
                 boolean attemptParsing = true;
+                // containers (List/Set/Map) must match the JSON shape; element types are checked while binding
+                if (candidateType.isCollectionLikeType()) {
+                    attemptParsing = token == JsonToken.START_ARRAY;
+                } else if (candidateType.isMapLikeType()) {
+                    attemptParsing = token == JsonToken.START_OBJECT;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class) || Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class) || Zebra.class.equals(Boolean.class) || Zebra.class.equals(String.class)) {
+                } else if (candidateClass.equals(Integer.class) || candidateClass.equals(Long.class) || candidateClass.equals(Float.class) || candidateClass.equals(Double.class) || candidateClass.equals(Boolean.class) || candidateClass.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Zebra.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Zebra.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((candidateClass.equals(Integer.class) || candidateClass.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((candidateClass.equals(Float.class) || candidateClass.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (candidateClass.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (candidateClass.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -199,11 +223,6 @@ public class Mammal extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Mammal(Pig o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Mammal(Whale o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -214,10 +233,15 @@ public class Mammal extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Mammal(Pig o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Pig", Pig.class);
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);
+        schemas.put("Pig", Pig.class);
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -243,17 +267,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
         if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -270,17 +294,6 @@ public class Mammal extends AbstractOpenApiSchema {
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Pig`
-     * @throws ClassCastException if the instance is not `Pig`
-     */
-    public Pig getPig() throws ClassCastException {
-        return (Pig)super.getActualInstance();
     }
 
     /**
@@ -303,6 +316,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
     }
 
 

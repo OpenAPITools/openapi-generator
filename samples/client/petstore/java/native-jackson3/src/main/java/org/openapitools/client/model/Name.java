@@ -39,22 +39,22 @@ import org.openapitools.client.ApiClient;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Integer _123number;
 
   public Name() { 
@@ -70,7 +70,7 @@ public class Name {
     this._123number = _123number;
   }
 
-  public Name name(@javax.annotation.Nonnull Integer name) {
+  public Name name(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
     return this;
   }
@@ -79,7 +79,7 @@ public class Name {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public Integer getName() {
@@ -89,7 +89,7 @@ public class Name {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(@javax.annotation.Nonnull Integer name) {
+  public void setName(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -98,7 +98,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getSnakeCase() {
@@ -108,7 +108,7 @@ public class Name {
 
 
 
-  public Name property(@javax.annotation.Nullable String property) {
+  public Name property(@jakarta.annotation.Nullable String property) {
     this.property = property;
     return this;
   }
@@ -117,7 +117,7 @@ public class Name {
    * Get property
    * @return property
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getProperty() {
@@ -127,7 +127,7 @@ public class Name {
 
   @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProperty(@javax.annotation.Nullable String property) {
+  public void setProperty(@jakarta.annotation.Nullable String property) {
     this.property = property;
   }
 
@@ -136,7 +136,7 @@ public class Name {
    * Get _123number
    * @return _123number
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer get123number() {

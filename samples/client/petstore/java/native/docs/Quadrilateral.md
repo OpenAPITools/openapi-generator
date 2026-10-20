@@ -3,8 +3,8 @@
 # Quadrilateral
 
 ## oneOf schemas
-* [ComplexQuadrilateral](ComplexQuadrilateral.md)
 * [SimpleQuadrilateral](SimpleQuadrilateral.md)
+* [ComplexQuadrilateral](ComplexQuadrilateral.md)
 
 ## Example
 ```java

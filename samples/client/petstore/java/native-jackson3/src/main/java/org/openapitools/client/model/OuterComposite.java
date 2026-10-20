@@ -39,24 +39,24 @@ import org.openapitools.client.ApiClient;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Boolean myBoolean;
 
   public OuterComposite() { 
   }
 
-  public OuterComposite myNumber(@javax.annotation.Nullable BigDecimal myNumber) {
+  public OuterComposite myNumber(@jakarta.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -65,7 +65,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getMyNumber() {
@@ -75,12 +75,12 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyNumber(@javax.annotation.Nullable BigDecimal myNumber) {
+  public void setMyNumber(@jakarta.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
 
-  public OuterComposite myString(@javax.annotation.Nullable String myString) {
+  public OuterComposite myString(@jakarta.annotation.Nullable String myString) {
     this.myString = myString;
     return this;
   }
@@ -89,7 +89,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getMyString() {
@@ -99,12 +99,12 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyString(@javax.annotation.Nullable String myString) {
+  public void setMyString(@jakarta.annotation.Nullable String myString) {
     this.myString = myString;
   }
 
 
-  public OuterComposite myBoolean(@javax.annotation.Nullable Boolean myBoolean) {
+  public OuterComposite myBoolean(@jakarta.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
@@ -113,7 +113,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getMyBoolean() {
@@ -123,7 +123,7 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
+  public void setMyBoolean(@jakarta.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

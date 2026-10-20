@@ -38,16 +38,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Foo string;
 
   public FooGetDefaultResponse() { 
   }
 
-  public FooGetDefaultResponse string(@javax.annotation.Nullable Foo string) {
+  public FooGetDefaultResponse string(@jakarta.annotation.Nullable Foo string) {
     this.string = string;
     return this;
   }
@@ -56,7 +56,7 @@ public class FooGetDefaultResponse {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Foo getString() {
@@ -66,7 +66,7 @@ public class FooGetDefaultResponse {
 
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setString(@javax.annotation.Nullable Foo string) {
+  public void setString(@jakarta.annotation.Nullable Foo string) {
     this.string = string;
   }
 

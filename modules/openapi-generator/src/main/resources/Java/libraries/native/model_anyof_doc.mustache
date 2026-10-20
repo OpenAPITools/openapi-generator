@@ -5,9 +5,9 @@
 
 {{/description}}
 ## anyOf schemas
-{{#anyOf}}
-* [{{{.}}}]({{{.}}}.md)
-{{/anyOf}}
+{{#composedSchemas.anyOf}}
+* [{{dataType}}]({{#isArray}}{{#uniqueItems}}{{items.dataType}}{{/uniqueItems}}{{^uniqueItems}}{{items.dataType}}{{/uniqueItems}}{{/isArray}}{{^isArray}}{{#isMap}}{{items.dataType}}{{/isMap}}{{^isMap}}{{dataType}}{{/isMap}}{{/isArray}}.md)
+{{/composedSchemas.anyOf}}
 
 {{#isNullable}}
 NOTE: this class is nullable.

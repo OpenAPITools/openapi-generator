@@ -2040,6 +2040,21 @@ components:
             type: object
           type: object
       type: object
+    fruitOrFruits:
+      additionalProperties: false
+      oneOf:
+      - $ref: "#/components/schemas/apple"
+      - items:
+          $ref: "#/components/schemas/apple"
+        type: array
+      - $ref: "#/components/schemas/banana"
+      - items:
+          $ref: "#/components/schemas/banana"
+        type: array
+      properties:
+        color:
+          type: string
+      x-has-list-alternative: true
     fruit:
       additionalProperties: false
       oneOf:
@@ -2115,6 +2130,21 @@ components:
       required:
       - className
       type: object
+    gmFruitOrFruits:
+      additionalProperties: false
+      anyOf:
+      - $ref: "#/components/schemas/apple"
+      - items:
+          $ref: "#/components/schemas/apple"
+        type: array
+      - $ref: "#/components/schemas/banana"
+      - items:
+          $ref: "#/components/schemas/banana"
+        type: array
+      properties:
+        color:
+          type: string
+      x-has-list-alternative: true
     gmFruit:
       additionalProperties: false
       anyOf:

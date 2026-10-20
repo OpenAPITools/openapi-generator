@@ -36,16 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   AllOfRefToDouble.JSON_PROPERTY_HEIGHT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AllOfRefToDouble {
   public static final String JSON_PROPERTY_HEIGHT = "height";
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   private Double height = 32.1d;
 
   public AllOfRefToDouble() { 
   }
 
-  public AllOfRefToDouble height(@javax.annotation.Nullable Double height) {
+  public AllOfRefToDouble height(@jakarta.annotation.Nullable Double height) {
     this.height = height;
     return this;
   }
@@ -54,7 +54,7 @@ public class AllOfRefToDouble {
    * Height as double
    * @return height
    */
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_HEIGHT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Double getHeight() {
@@ -64,7 +64,7 @@ public class AllOfRefToDouble {
 
   @JsonProperty(value = JSON_PROPERTY_HEIGHT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHeight(@javax.annotation.Nullable Double height) {
+  public void setHeight(@jakarta.annotation.Nullable Double height) {
     this.height = height;
   }
 

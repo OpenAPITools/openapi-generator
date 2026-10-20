@@ -53,7 +53,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-@JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
+@JsonDeserialize(using = GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(GmFruit.class.getName());
@@ -89,7 +89,8 @@ public class GmFruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize Apple
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+            final com.fasterxml.jackson.core.type.TypeReference<Apple> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Apple>() {};
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -100,7 +101,8 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+            final com.fasterxml.jackson.core.type.TypeReference<Banana> candidateRef = new com.fasterxml.jackson.core.type.TypeReference<Banana>() {};
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -129,7 +131,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 

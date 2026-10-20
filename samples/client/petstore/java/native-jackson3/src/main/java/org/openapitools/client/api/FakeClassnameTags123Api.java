@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -176,7 +176,7 @@ public class FakeClassnameTags123Api {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
+  public Client testClassname(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return testClassname(client, null);
   }
 
@@ -188,7 +188,7 @@ public class FakeClassnameTags123Api {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  public Client testClassname(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     ApiResponse<Client> localVarResponse = testClassnameWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
@@ -200,7 +200,7 @@ public class FakeClassnameTags123Api {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return testClassnameWithHttpInfo(client, null);
   }
 
@@ -212,7 +212,7 @@ public class FakeClassnameTags123Api {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -260,7 +260,7 @@ public class FakeClassnameTags123Api {
     }
   }
 
-  private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder testClassnameRequestBuilder(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");

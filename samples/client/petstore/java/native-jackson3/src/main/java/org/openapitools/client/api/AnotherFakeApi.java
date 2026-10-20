@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class AnotherFakeApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -170,7 +170,7 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
+  public Client call123testSpecialTags(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return call123testSpecialTags(client, null);
   }
 
@@ -182,7 +182,7 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  public Client call123testSpecialTags(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
@@ -194,7 +194,7 @@ public class AnotherFakeApi {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return call123testSpecialTagsWithHttpInfo(client, null);
   }
 
@@ -206,7 +206,7 @@ public class AnotherFakeApi {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -254,7 +254,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@jakarta.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");

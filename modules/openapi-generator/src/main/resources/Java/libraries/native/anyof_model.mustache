@@ -31,7 +31,7 @@ import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
-@JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
+@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
 @JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
@@ -90,11 +90,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#anyOf}}
             // deserialize {{{.}}}
             try {
+            final {{jacksonPackage}}.core.type.TypeReference<{{{.}}}> candidateRef = new {{jacksonPackage}}.core.type.TypeReference<{{{.}}}>() {};
 {{^useJackson3}}
-                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(candidateRef);
 {{/useJackson3}}
 {{#useJackson3}}
-                deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(candidateRef.getType()));
 {{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
@@ -159,17 +160,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
-    {{#anyOf}}
-    public {{classname}}({{{.}}} o) {
+    {{#composedSchemas.anyOf}}
+    {{^isArray}}
+    {{^isMap}}
+    public {{classname}}({{{dataType}}} o) {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
+    {{/isMap}}
+    {{/isArray}}
 
-    {{/anyOf}}
+    {{/composedSchemas.anyOf}}
+    {{#vendorExtensions.x-has-list-alternative}}
+    public {{classname}}(java.util.List<?> o) {
+        this();
+        setActualInstance(o);
+    }
+
+    {{/vendorExtensions.x-has-list-alternative}}
     static {
-        {{#anyOf}}
-        schemas.put("{{{.}}}", {{{.}}}.class);
-        {{/anyOf}}
+        {{#composedSchemas.anyOf}}
+        schemas.put("{{{dataType}}}", {{#isArray}}{{#uniqueItems}}java.util.Set{{/uniqueItems}}{{^uniqueItems}}java.util.List{{/uniqueItems}}{{/isArray}}{{^isArray}}{{#isMap}}java.util.Map{{/isMap}}{{^isMap}}{{{dataType}}}{{/isMap}}{{/isArray}}.class);
+        {{/composedSchemas.anyOf}}
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
@@ -190,7 +202,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
      * It could be an instance of the 'anyOf' schemas.
      * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
@@ -204,40 +216,40 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         {{/isNullable}}
-        {{#anyOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        {{#composedSchemas.anyOf}}
+        if (JSON.isInstanceOf({{#isArray}}{{#uniqueItems}}java.util.Set{{/uniqueItems}}{{^uniqueItems}}java.util.List{{/uniqueItems}}{{/isArray}}{{^isArray}}{{#isMap}}java.util.Map{{/isMap}}{{^isMap}}{{{dataType}}}{{/isMap}}{{/isArray}}.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        {{/anyOf}}
+        {{/composedSchemas.anyOf}}
         throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
-     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     * @return The actual instance ({{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}})
      */
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
     }
 
-    {{#anyOf}}
+    {{#composedSchemas.anyOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{.}}}`
-     * @throws ClassCastException if the instance is not `{{{.}}}`
+     * @return The actual instance of `{{dataType}}`
+     * @throws ClassCastException if the instance is not `{{dataType}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
-        return ({{{.}}})super.getActualInstance();
+    public {{{dataType}}} get{{#isArray}}{{#uniqueItems}}Set{{{items.dataType}}}{{/uniqueItems}}{{^uniqueItems}}List{{{items.dataType}}}{{/uniqueItems}}{{/isArray}}{{^isArray}}{{#isMap}}Map{{{items.dataType}}}{{/isMap}}{{^isMap}}{{/isMap}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
     }
 
-    {{/anyOf}}
+    {{/composedSchemas.anyOf}}
 
 {{#supportUrlQuery}}
 
@@ -275,7 +287,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#composedSchemas.oneOf}}
     {{^vendorExtensions.x-duplicated-data-type}}
-    if (getActualInstance() instanceof {{{dataType}}}) {
+    if (getActualInstance() instanceof {{#isArray}}{{#uniqueItems}}Set<?>{{/uniqueItems}}{{^uniqueItems}}List<?>{{/uniqueItems}}{{/isArray}}{{^isArray}}{{#isMap}}Map<?,?>{{/isMap}}{{^isMap}}{{/isMap}}{{{dataType}}}{{/isArray}}) {
         {{#isArray}}
         {{#items.isPrimitiveType}}
         {{#uniqueItems}}
@@ -315,9 +327,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/uniqueItems}}
         {{^uniqueItems}}
         if (getActualInstance() != null) {
-          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
-            if ((({{{dataType}}})getActualInstance()).get(i) != null) {
-              joiner.add((({{{items.dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+          {{{dataType}}} items = ({{{dataType}}}) getActualInstance();
+          for (int i = 0; i < items.size(); i++) {
+           {{{items.dataType}}} item = items.get(i);
+            if (item != null) {
+              joiner.add(item.toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
             }
           }
