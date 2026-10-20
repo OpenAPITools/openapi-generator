@@ -198,7 +198,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
   "Accept: application/json,application/xml",
   })
-  String loginUser(@QueryMap(encoded=true) LoginUserQueryParams queryParams);
+  String loginUser(@QueryMap LoginUserQueryParams queryParams);
 
   /**
   * Logs user into the system
@@ -217,7 +217,7 @@ public interface UserApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json,application/xml",
       })
-   ApiResponse<String> loginUserWithHttpInfo(@QueryMap(encoded=true) LoginUserQueryParams queryParams);
+   ApiResponse<String> loginUserWithHttpInfo(@QueryMap LoginUserQueryParams queryParams);
 
 
    /**
