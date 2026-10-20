@@ -7,7 +7,7 @@ title: Documentation for the typescript-playwright Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-playwright | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
 | generator default templating engine | mustache | |
