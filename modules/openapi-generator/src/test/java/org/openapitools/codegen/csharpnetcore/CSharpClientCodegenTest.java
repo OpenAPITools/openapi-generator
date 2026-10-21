@@ -145,12 +145,20 @@ public class CSharpClientCodegenTest {
         File model = getGeneratedModel(files, output, "Pet");
 
         assertFileContains(model.toPath(),
-                // optional: skipped when unset
-                "if (pet.StatusOption.IsSet) { var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value",
-                // optional and nullable: skipped when unset, null when set to null
-                "if (pet.ModeOption.IsSet) { if (pet.ModeOption.Value == null) writer.WriteNull(\"mode\"); else {",
-                // required and nullable: null when null
-                "if (pet.Kind == null) writer.WriteNull(\"kind\"); else { var kindRawValue = Pet.KindEnumToJsonValue(pet.Kind");
+                // optional: skipped when unset, written when set
+                "if (pet.StatusOption.IsSet) { var statusRawValue ="
+                        + " Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);"
+                        + " writer.WriteString(\"status\", statusRawValue); }",
+                // optional and nullable: skipped when unset, null when null, written otherwise
+                "if (pet.ModeOption.IsSet) {"
+                        + " if (pet.ModeOption.Value == null) writer.WriteNull(\"mode\");"
+                        + " else { var modeRawValue ="
+                        + " Pet.ModeEnumToJsonValue(pet.ModeOption.Value!.Value);"
+                        + " writer.WriteString(\"mode\", modeRawValue); } }",
+                // required and nullable: null when null, written otherwise
+                "if (pet.Kind == null) writer.WriteNull(\"kind\"); else {"
+                        + " var kindRawValue = Pet.KindEnumToJsonValue(pet.Kind!.Value);"
+                        + " writer.WriteString(\"kind\", kindRawValue); }");
     }
 
     @Test
