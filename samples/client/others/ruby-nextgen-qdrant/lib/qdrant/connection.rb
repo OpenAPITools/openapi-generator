@@ -112,6 +112,8 @@ module Qdrant
         type.build(data)
       elsif type.is_a?(Array) && type.first.respond_to?(:from_hash)
         data.map { |el| type.first.from_hash(el) }
+      elsif type.is_a?(Array) && type.first.respond_to?(:build)
+        data.map { |el| type.first.build(el) }
       else
         data
       end
