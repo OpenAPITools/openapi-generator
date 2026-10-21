@@ -5778,8 +5778,20 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.stereotype.Component;");
     }
 
-    @Test
-    public void testEnumUnknownDefaultCaseWithNullableEnums() {
+    @DataProvider
+    public static Object[][] librariesForEachEnumTemplate() {
+        return new Object[][]{
+                {JavaClientCodegen.OKHTTP_GSON, SERIALIZATION_LIBRARY_GSON},
+                // uses the base templates
+                {JavaClientCodegen.RESTTEMPLATE, SERIALIZATION_LIBRARY_JACKSON},
+                {JavaClientCodegen.NATIVE, SERIALIZATION_LIBRARY_JACKSON},
+                // generates fromValue for inner enums only with Jackson
+                {JavaClientCodegen.MICROPROFILE, SERIALIZATION_LIBRARY_JACKSON}
+        };
+    }
+
+    @Test(dataProvider = "librariesForEachEnumTemplate")
+    public void testEnumUnknownDefaultCaseWithNullableEnums(String library, String serialization) {
         final OpenAPI openAPI = new OpenAPI().components(new Components()
                 .addSchemas("Mode", new StringSchema()._enum(List.of("auto", "manual")).nullable(true))
                 .addSchemas("Pet", new ObjectSchema()
@@ -5788,12 +5800,15 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOutputDir(output.toString());
+        codegen.setLibrary(library);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, serialization);
         codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
 
         new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
 
         // an unknown value maps to the unknown default case; only null maps to null
-        final String fromValueEnd = "if (value == null) { return null; } return UNKNOWN_DEFAULT_OPEN_API; }";
+        // (microprofile's top-level enums name the parameter `text`, the others `value`)
+        final String fromValueEnd = "== null) { return null; } return UNKNOWN_DEFAULT_OPEN_API; }";
         TestUtils.assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"), fromValueEnd);
         TestUtils.assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Mode.java"), fromValueEnd);
     }
