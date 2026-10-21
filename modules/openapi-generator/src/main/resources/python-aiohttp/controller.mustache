@@ -67,7 +67,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
-    {{paramName}} = {{baseType}}.from_dict({{paramName}})
+    {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
