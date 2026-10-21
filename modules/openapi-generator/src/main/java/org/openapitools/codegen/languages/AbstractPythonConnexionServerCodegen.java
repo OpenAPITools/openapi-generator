@@ -662,7 +662,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();
+        postProcessConnexionOperationMap(objs.getOperations());
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        postProcessConnexionOperationMap(objs.getWebhooks());
+        return objs;
+    }
+
+    protected void postProcessConnexionOperationMap(OperationMap operations) {
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation operation : operationList) {
@@ -725,7 +735,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
         }
-        return objs;
     }
 
     /*
