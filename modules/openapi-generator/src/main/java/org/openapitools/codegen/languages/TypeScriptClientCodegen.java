@@ -269,6 +269,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided (before sanitizing, which would change the key)
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);
 
@@ -286,6 +291,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided (before sanitizing, which would change the key)
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);
 

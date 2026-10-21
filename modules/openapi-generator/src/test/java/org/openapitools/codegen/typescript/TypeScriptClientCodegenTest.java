@@ -147,6 +147,19 @@ public class TypeScriptClientCodegenTest {
     }
 
     @Test
+    public void testNameMappingsUseTheOriginalName() {
+        final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        codegen.nameMapping().put("$id", "schemaId");
+        codegen.parameterNameMapping().put("$filter", "filterExpression");
+
+        // sanitizing turns "$id" into "id", so the mapping has to be looked up first
+        Assert.assertEquals(codegen.toVarName("$id"), "schemaId");
+        Assert.assertEquals(codegen.toVarName("id"), "id");
+        Assert.assertEquals(codegen.toParamName("$filter"), "filterExpression");
+        Assert.assertEquals(codegen.toParamName("filter"), "filter");
+    }
+
+    @Test
     public void testCompilePattern() {
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final StringSchema prop = new StringSchema();
