@@ -1426,9 +1426,12 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
         TestUtils.assertFileContains(modelPath,
-                "body: TestObjectToJSON(requestParameters['testObject'])",
-                "body: requestParameters['arrayTestObject']!.map(ArrayTestObjectToJSON)",
-                "body: Array.from(requestParameters['setTestObject'])!.map(SetTestObjectToJSON)");
+                "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: OptionalTestObjectToJSON(requestParameters['optionalTestObject']),",
+                "body: requestParameters['requiredArrayTestObject']!.map(RequiredArrayTestObjectToJSON),",
+                "body: requestParameters['optionalArrayTestObject'] === undefined ? undefined : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
+                "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),",
+                "body: requestParameters['optionalSetTestObject'] === undefined ? undefined : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

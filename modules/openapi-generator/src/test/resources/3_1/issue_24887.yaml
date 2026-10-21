@@ -3,33 +3,57 @@ info:
   title: Unique items test
   version: 1.0.0
 paths:
-  /regular-object:
+  /required-regular-object:
     post:
       operationId: regularObject
       requestBody:
-        $ref: '#/components/requestBodies/RegularObject'
+        $ref: '#/components/requestBodies/RequiredRegularObject'
       responses:
         '200':
           description: OK
-  /non-unique-array:
+  /optional-regular-object:
+    post:
+      operationId: optionalRegularObject
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalRegularObject'
+      responses:
+        '200':
+          description: OK
+  /required-non-unique-array:
     post:
       operationId: nonUniqueArray
       requestBody:
-        $ref: '#/components/requestBodies/NonUniqueArray'
+        $ref: '#/components/requestBodies/RequiredNonUniqueArray'
       responses:
         '200':
           description: OK
-  /unique-array:
+  /optional-non-unique-array:
+    post:
+      operationId: optionalNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /required-unique-array:
     post:
       operationId: uniqueArray
       requestBody:
-        $ref: '#/components/requestBodies/UniqueArray'
+        $ref: '#/components/requestBodies/RequiredUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-unique-array:
+    post:
+      operationId: optionalUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalUniqueArray'
       responses:
         '200':
           description: OK
 components:
   schemas:
-    TestObject:
+    RequiredTestObject:
       type: object
       properties:
         id:
@@ -37,7 +61,7 @@ components:
           format: int64
         name:
           type: string
-    ArrayTestObject:
+    OptionalTestObject:
       type: object
       properties:
         id:
@@ -45,7 +69,31 @@ components:
           format: int64
         name:
           type: string
-    SetTestObject:
+    RequiredArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    RequiredSetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalSetTestObject:
       type: object
       properties:
         id:
@@ -54,24 +102,40 @@ components:
         name:
           type: string
   requestBodies:
-    RegularObject:
-      description: Request body that is a plain object
+    RequiredRegularObject:
+      description: Request body that is a required plain object
       required: true
       content:
         application/json:
           schema:
-              $ref: '#/components/schemas/TestObject'
-    NonUniqueArray:
-      description: Request body that is a non-unique array
+              $ref: '#/components/schemas/RequiredTestObject'
+    OptionalRegularObject:
+      description: Request body that is an optional plain object
+      required: false
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OptionalTestObject'
+    RequiredNonUniqueArray:
+      description: Request body that is a required non-unique array
       required: true
       content:
         application/json:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ArrayTestObject'
-    UniqueArray:
-      description: Request body that is a set
+              $ref: '#/components/schemas/RequiredArrayTestObject'
+    OptionalNonUniqueArray:
+      description: Request body that is an optional non-unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OptionalArrayTestObject'
+    RequiredUniqueArray:
+      description: Request body that is a required set
       required: true
       content:
         application/json:
@@ -79,4 +143,14 @@ components:
             type: array
             uniqueItems: true
             items:
-              $ref: '#/components/schemas/SetTestObject'
+              $ref: '#/components/schemas/RequiredSetTestObject'
+    OptionalUniqueArray:
+      description: Request body that is an optional set
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/OptionalSetTestObject'
