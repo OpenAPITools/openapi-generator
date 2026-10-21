@@ -146,9 +146,17 @@ public class CSharpClientCodegenTest {
         File color = getGeneratedModel(files, output, "Color");
 
         // FromString and FromStringOrDefault both end by returning the unknown default member
-        assertFileContains(pet.toPath(), "return StatusEnum.UnknownDefaultOpenApi; }");
+        String returnsUnknown = "\\(string value\\)\\s*\\{[^}]*"
+                + "return %s\\.UnknownDefaultOpenApi;\\s*\\}";
+        String statusReturnsUnknown = String.format(returnsUnknown, "StatusEnum");
+        String colorReturnsUnknown = String.format(returnsUnknown, "Color");
+        assertThat(Files.readString(pet.toPath()))
+                .containsPattern("StatusEnumFromString" + statusReturnsUnknown)
+                .containsPattern("StatusEnumFromStringOrDefault" + statusReturnsUnknown);
         assertFileNotContains(pet.toPath(), "Could not convert value to type StatusEnum");
-        assertFileContains(color.toPath(), "return Color.UnknownDefaultOpenApi; }");
+        assertThat(Files.readString(color.toPath()))
+                .containsPattern(" FromString" + colorReturnsUnknown)
+                .containsPattern(" FromStringOrDefault" + colorReturnsUnknown);
         assertFileNotContains(color.toPath(), "Could not convert value to type Color");
     }
 
