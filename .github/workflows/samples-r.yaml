@@ -54,14 +54,11 @@ jobs:
         with:
           cache-version: 2
           working-directory: ${{ matrix.sample }}
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - name: Install curl
         run: sudo apt-get install -y r-cran-curl
-
-      - name: build and test
-          working-directory: ${{ matrix.sample }}
-          extra-packages: any::rcmdcheck
-          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
