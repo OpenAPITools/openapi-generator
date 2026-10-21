@@ -185,6 +185,40 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testWebhookParametersAndJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/webhooks.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "hooks_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "filter: StrictStr,",
+                "x_json_arg: HeaderArg,",
+                "from openapi_client.models.header_arg import HeaderArg",
+                "import json",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "filter: ,",
+                "x_json_arg: ,");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();

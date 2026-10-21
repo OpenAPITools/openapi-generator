@@ -29,6 +29,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -636,16 +637,30 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             renameIndependentClientOperationMembers(operations);
         }
 
-        boolean hasJsonHeader = operations.stream()
-                .flatMap(operation -> operation.headerParams.stream())
-                .anyMatch(parameter ->
-                        parameter.vendorExtensions.containsKey("x-python-json-header"));
-
-        if (hasJsonHeader) {
+        if (hasJsonHeaderParameter(operations)) {
             objs.put("x-python-has-json-header", true);
         }
 
         return super.postProcessOperationsWithModels(objs, allModels);
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(
+            WebhooksMap objs, List<ModelMap> allModels) {
+        List<CodegenOperation> operations = objs.getWebhooks().getOperation();
+
+        if (hasJsonHeaderParameter(operations)) {
+            objs.put("x-python-has-json-header", true);
+        }
+
+        return super.postProcessWebhooksWithModels(objs, allModels);
+    }
+
+    private boolean hasJsonHeaderParameter(List<CodegenOperation> operations) {
+        return operations.stream()
+                .flatMap(operation -> operation.headerParams.stream())
+                .anyMatch(parameter ->
+                        parameter.vendorExtensions.containsKey("x-python-json-header"));
     }
 
     private void renameIndependentClientOperationMembers(

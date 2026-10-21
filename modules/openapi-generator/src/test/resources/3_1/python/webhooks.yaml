@@ -1,0 +1,40 @@
+openapi: 3.1.0
+
+info:
+  title: Webhook parameter typing test
+  version: 1.0.0
+
+paths: {}
+
+webhooks:
+  itemEvent:
+    post:
+      operationId: itemEventPost
+      tags:
+        - hooks
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '200':
+          description: ok
+
+components:
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        path:
+          type: string
+        recursive:
+          type: boolean
