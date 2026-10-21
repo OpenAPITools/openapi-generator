@@ -6,7 +6,7 @@ python:
   - "3.13"
   - "3.14"
   # uncomment the following if needed
-  #- "3.11-dev"  # 3.11 development branch
+  #- "3.14-dev"  # 3.14 development branch
   #- "nightly"  # nightly build
 # command to install dependencies
 install:
