@@ -440,7 +440,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7+";
+        return ">=3.11,<3.15";
     }
 
     @Override
