@@ -5762,8 +5762,9 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_2/query-operation.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
+        validateJavaSourceFiles(files);
         // the 3.2 'query' operation and the additionalOperations 'PURGE' entry
         // must both be generated, and the in: querystring parameter is emitted
         // as the whole (already encoded) query string appended to the path
@@ -5785,8 +5786,9 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty("dynamicOperations", true)
                 .setOutputDir(output.toString().replace("\\", "/"));
 
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
+        validateJavaSourceFiles(files);
         // dynamic operation lookup must register the 3.2 'query' operation and
         // additionalOperations entries, and fillParametersFromOperation must
         // accept `in: querystring`
@@ -5806,8 +5808,9 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty("dynamicOperations", true)
                 .setOutputDir(output.toString().replace("\\", "/"));
 
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
+        validateJavaSourceFiles(files);
         // specs without `query`/`additionalOperations` must not emit calls to
         // PathItem.getQuery()/getAdditionalOperations() - the generated client's
         // pinned swagger-parser release has no such methods and would not compile

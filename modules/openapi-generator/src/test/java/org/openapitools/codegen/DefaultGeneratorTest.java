@@ -478,13 +478,14 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(result.size(), 1);
         List<CodegenOperation> defaultList = result.get("Default");
         Assert.assertEquals(defaultList.size(), 3);
-        Assert.assertEquals(defaultList.get(0).operationId, "queryPets");
-        Assert.assertEquals(defaultList.get(0).httpMethod, "QUERY");
-        Assert.assertEquals(defaultList.get(1).operationId, "purgePets");
-        Assert.assertEquals(defaultList.get(1).httpMethod, "PURGE");
+        Map<String, String> httpMethodByOperationId = new HashMap<>();
+        for (CodegenOperation op : defaultList) {
+            httpMethodByOperationId.put(op.operationId, op.httpMethod);
+        }
+        Assert.assertEquals(httpMethodByOperationId.get("queryPets"), "QUERY");
+        Assert.assertEquals(httpMethodByOperationId.get("purgePets"), "PURGE");
         // additionalOperations keys are HTTP method names and must be sent verbatim
-        Assert.assertEquals(defaultList.get(2).operationId, "customPets");
-        Assert.assertEquals(defaultList.get(2).httpMethod, "customMethod");
+        Assert.assertEquals(httpMethodByOperationId.get("customPets"), "customMethod");
     }
 
     @Test

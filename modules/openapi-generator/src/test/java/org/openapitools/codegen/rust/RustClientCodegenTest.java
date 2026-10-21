@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.rust;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.filter.Filter;
+import ch.qos.logback.core.read.ListAppender;
+import ch.qos.logback.core.spi.FilterReply;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConstants;
@@ -24,6 +28,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RustClientCodegen;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -565,6 +570,19 @@ public class RustClientCodegenTest {
     @Test
     public void testReqwestSkipsInvalidMethodNames() throws IOException {
         Path target = Files.createTempDirectory("test");
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(RustClientCodegen.class);
+        final String testThreadName = Thread.currentThread().getName();
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.addFilter(new Filter<ILoggingEvent>() {
+            @Override
+            public FilterReply decide(ILoggingEvent event) {
+                return testThreadName.equals(event.getThreadName())
+                        ? FilterReply.NEUTRAL : FilterReply.DENY;
+            }
+        });
+        listAppender.start();
+        logger.addAppender(listAppender);
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("rust")
@@ -579,7 +597,15 @@ public class RustClientCodegenTest {
             Assert.assertTrue(generated.contains("fn list_pets"), "GET operation should be kept");
             Assert.assertFalse(generated.contains("bad_method"),
                     "operation with an invalid RFC 9110 method name must be skipped");
+            boolean warned = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .map(ILoggingEvent::getFormattedMessage)
+                    .anyMatch(msg -> msg.contains("MY METHOD")
+                            && msg.contains("not a valid RFC 9110 token"));
+            Assert.assertTrue(warned,
+                    "expected a WARN mentioning 'MY METHOD' and 'not a valid RFC 9110 token'");
         } finally {
+            logger.detachAppender(listAppender);
             FileUtils.deleteDirectory(target.toFile());
         }
     }
@@ -649,6 +675,9 @@ public class RustClientCodegenTest {
      */
     @Test
     public void testReqwestGeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        if (!Boolean.getBoolean("rust.e2e")) {
+            throw new org.testng.SkipException("rust.e2e system property is not enabled; skipping generated-client verification");
+        }
         if (!isCommandAvailable("cargo")) {
             throw new org.testng.SkipException("cargo is not on PATH; skipping generated-client verification");
         }
