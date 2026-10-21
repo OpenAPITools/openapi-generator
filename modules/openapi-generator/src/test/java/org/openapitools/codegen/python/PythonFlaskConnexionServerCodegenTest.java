@@ -175,6 +175,7 @@ public class PythonFlaskConnexionServerCodegenTest {
                 controller,
                 "from openapi_server.models.header_arg import HeaderArg  # noqa: E501",
                 "from openapi_server import util",
+                "x_json_arg =  HeaderArg.from_dict(flask.request.get_json())  # noqa: E501",
                 "def item_event_post(filter, x_json_arg):");
         assertFileNotContains(controller, "pydantic");
 
