@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -310,11 +311,12 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return objs;
     }
 
+    // OperationsMap and WebhooksMap share no common interface for getImports/setImports, so pass both objs and imports/setImports.
     private void postProcessFastAPIOperationMap(
             Map<String, Object> objs,
             OperationMap operations,
             List<Map<String, String>> imports,
-            java.util.function.Consumer<List<Map<String, String>>> setImports) {
+            Consumer<List<Map<String, String>>> setImports) {
         // Set will make sure that no duplicated items are used.
         Set<String> securityImports = new HashSet<>();
         boolean hasFileFormParam = false;
@@ -389,7 +391,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     private void addFastAPIUploadFileImport(
             List<Map<String, String>> imports,
-            java.util.function.Consumer<List<Map<String, String>>> setImports) {
+            Consumer<List<Map<String, String>>> setImports) {
         if (imports == null) {
             imports = new ArrayList<>();
             setImports.accept(imports);
@@ -410,13 +412,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             return;
         }
 
-        Operation sourceOperation = findOpenAPIOperation(operation);
-        if (sourceOperation == null || sourceOperation.getExtensions() == null) {
-            clearBodyParamExample(operation);
-            return;
-        }
-
-        Object example = sourceOperation.getExtensions().get(X_FASTAPI_REQUEST_BODY_EXAMPLE);
+        Object example = operation.vendorExtensions != null
+                ? operation.vendorExtensions.get(X_FASTAPI_REQUEST_BODY_EXAMPLE)
+                : null;
         if (example != null) {
             setBodyParamExample(operation, toPythonBodyLiteral(example));
         } else {
@@ -458,37 +456,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             return null;
         }
         return Json.mapper().convertValue(example, Object.class);
-    }
-
-    private Operation findOpenAPIOperation(CodegenOperation operation) {
-        if (openAPI == null) {
-            return null;
-        }
-
-        PathItem pathItem = openAPI.getPaths() != null ? openAPI.getPaths().get(operation.path) : null;
-        if (pathItem == null && openAPI.getWebhooks() != null) {
-            pathItem = openAPI.getWebhooks().get(operation.path);
-        }
-        if (pathItem == null) {
-            return null;
-        }
-
-        for (Map.Entry<PathItem.HttpMethod, Operation> entry : pathItem.readOperationsMap().entrySet()) {
-            if (operation.httpMethod != null && operation.httpMethod.equalsIgnoreCase(entry.getKey().name())) {
-                return entry.getValue();
-            }
-        }
-
-        for (Operation sourceOperation : pathItem.readOperations()) {
-            if (operation.operationIdOriginal != null && operation.operationIdOriginal.equals(sourceOperation.getOperationId())) {
-                return sourceOperation;
-            }
-            if (operation.operationId != null && operation.operationId.equals(sourceOperation.getOperationId())) {
-                return sourceOperation;
-            }
-        }
-
-        return null;
     }
 
     private void clearBodyParamExample(CodegenOperation operation) {

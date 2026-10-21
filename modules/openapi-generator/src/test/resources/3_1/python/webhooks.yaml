@@ -4,7 +4,24 @@ info:
   title: Webhook parameter typing test
   version: 1.0.0
 
-paths: {}
+paths:
+  /pets:
+    post:
+      operationId: createPathPet
+      tags:
+        - path_pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeaderArg'
+            example:
+              path: /from-path
+              recursive: false
+      responses:
+        '200':
+          description: ok
 
 webhooks:
   itemEvent:
@@ -28,6 +45,7 @@ webhooks:
       responses:
         '200':
           description: ok
+          # Multiple response content types trigger Connexion 3's multiple-produces @unittest.skip marker.
           content:
             application/json: {}
             text/plain: {}
@@ -47,6 +65,23 @@ webhooks:
                 file:
                   type: string
                   format: binary
+      responses:
+        '200':
+          description: ok
+  pets:
+    post:
+      operationId: onWebhookPet
+      tags:
+        - hooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeaderArg'
+            example:
+              path: /from-webhook
+              recursive: true
       responses:
         '200':
           description: ok

@@ -167,7 +167,6 @@ public class PythonFlaskConnexionServerCodegenTest {
     @Test
     public void testWebhookControllerDoesNotImportPydantic() throws IOException {
         final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
-        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, true);
         final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
 
         final Path controller = Paths.get(outputPath + "openapi_server/controllers/hooks_controller.py");
@@ -178,6 +177,17 @@ public class PythonFlaskConnexionServerCodegenTest {
                 "from openapi_server import util",
                 "def item_event_post(filter, x_json_arg):");
         assertFileNotContains(controller, "pydantic");
+
+        final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
+        assertFileExists(controllerTest);
+        assertFileNotContains(controllerTest, "pydantic");
+    }
+
+    @Test
+    public void testWebhookConnexion3SkipsMultipleProduces() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
 
         final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
         assertFileExists(controllerTest);
