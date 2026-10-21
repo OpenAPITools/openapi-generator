@@ -668,6 +668,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
         postProcessConnexionOperationMap(objs.getWebhooks());
         return objs;
     }

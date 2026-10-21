@@ -556,9 +556,10 @@ public class PythonPydanticV1ClientCodegenTest {
         assertFileExists(api);
         assertFileContains(
                 api,
-                "from pydantic import StrictStr",
+                "from pydantic import StrictBytes, StrictStr",
                 "from openapi_client.models.header_arg import HeaderArg",
-                "def item_event_post(self, filter : StrictStr, x_json_arg : HeaderArg, **kwargs) -> None:");
+                "def item_event_post(self, filter : StrictStr, x_json_arg : HeaderArg, **kwargs) -> None:",
+                "def close(self, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> None:");
         TestUtils.assertFileNotContains(
                 api,
                 "filter : ,",

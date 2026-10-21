@@ -167,6 +167,7 @@ public class PythonFlaskConnexionServerCodegenTest {
     @Test
     public void testWebhookControllerDoesNotImportPydantic() throws IOException {
         final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, true);
         final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
 
         final Path controller = Paths.get(outputPath + "openapi_server/controllers/hooks_controller.py");
@@ -181,5 +182,8 @@ public class PythonFlaskConnexionServerCodegenTest {
         final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
         assertFileExists(controllerTest);
         assertFileNotContains(controllerTest, "pydantic");
+        assertFileContains(
+                controllerTest,
+                "@unittest.skip(\"Connexion 3 requires the handler to specify which content type to return");
     }
 }

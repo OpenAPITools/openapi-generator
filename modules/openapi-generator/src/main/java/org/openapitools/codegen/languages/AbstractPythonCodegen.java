@@ -1392,18 +1392,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        // reset imports with newImports
-        objs.setImports(postProcessOperationMap(objs.getOperations()));
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getOperations()));
         return objs;
     }
 
     @Override
     public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
-        objs.setImports(postProcessOperationMap(objs.getWebhooks()));
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getWebhooks()));
         return objs;
     }
 
-    protected List<Map<String, String>> postProcessOperationMap(OperationMap objectMap) {
+    protected List<Map<String, String>> postProcessOperationsAndBuildImports(OperationMap objectMap) {
         hasModelsToImport = false;
 
         TreeSet<String> modelImports = new TreeSet<>();

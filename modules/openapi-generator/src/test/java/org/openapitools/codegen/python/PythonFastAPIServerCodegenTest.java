@@ -287,4 +287,26 @@ public class PythonFastAPIServerCodegenTest {
         assertFileContains(authenticatedApi, "from openapi_server.models.extra_models import TokenModel");
         assertFileContains(authenticatedApi, "from openapi_server.security_api import get_token_");
     }
+
+    @Test(description = "webhooks receive FastAPI security imports and UploadFile typing")
+    public void testWebhookSecurityAndMultipartUploadFile() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/hooks_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/hooks_api_base.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+
+        assertFileContains(
+                api,
+                "from openapi_server.models.extra_models import TokenModel",
+                "from openapi_server.security_api import get_token_api_key",
+                "from fastapi import File, UploadFile",
+                "file: Optional[UploadFile] = File(None, description=\"\", alias=\"file\")");
+        assertFileContains(
+                baseApi,
+                "from fastapi import File, UploadFile",
+                "file: Optional[UploadFile]");
+    }
 }

@@ -631,8 +631,19 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
-        List<CodegenOperation> operations = objs.getOperations().getOperation();
+        postProcessClientOperations(objs, objs.getOperations().getOperation());
+        return super.postProcessOperationsWithModels(objs, allModels);
+    }
 
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(
+            WebhooksMap objs, List<ModelMap> allModels) {
+        postProcessClientOperations(objs, objs.getWebhooks().getOperation());
+        return super.postProcessWebhooksWithModels(objs, allModels);
+    }
+
+    private void postProcessClientOperations(
+            Map<String, Object> objs, List<CodegenOperation> operations) {
         if (useIndependentImplicitClients) {
             renameIndependentClientOperationMembers(operations);
         }
@@ -640,20 +651,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (hasJsonHeaderParameter(operations)) {
             objs.put("x-python-has-json-header", true);
         }
-
-        return super.postProcessOperationsWithModels(objs, allModels);
-    }
-
-    @Override
-    public WebhooksMap postProcessWebhooksWithModels(
-            WebhooksMap objs, List<ModelMap> allModels) {
-        List<CodegenOperation> operations = objs.getWebhooks().getOperation();
-
-        if (hasJsonHeaderParameter(operations)) {
-            objs.put("x-python-has-json-header", true);
-        }
-
-        return super.postProcessWebhooksWithModels(objs, allModels);
     }
 
     private boolean hasJsonHeaderParameter(List<CodegenOperation> operations) {

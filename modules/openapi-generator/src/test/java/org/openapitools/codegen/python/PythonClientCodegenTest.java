@@ -219,6 +219,29 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testWebhookIndependentImplicitClientLifecycleOperationNames() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "openapi_client/api/hooks_api.py");
+
+        assertFileContains(
+                api,
+                "def close(self) -> None:",
+                "def call_close(");
+        List<String> methodNames = Files.readAllLines(api).stream()
+                .filter(line -> line.startsWith("    def "))
+                .map(line -> line.substring(
+                        line.indexOf("def ") + 4, line.indexOf('(')))
+                .collect(Collectors.toList());
+        Assert.assertEquals(
+                methodNames.stream().distinct().count(),
+                methodNames.size(),
+                "generated webhook API method names must be unique");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.processOpts();
