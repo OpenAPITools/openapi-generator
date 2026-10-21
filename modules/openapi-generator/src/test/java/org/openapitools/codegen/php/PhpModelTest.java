@@ -202,6 +202,26 @@ public class PhpModelTest {
         Assert.assertTrue(property1.isContainer);
     }
 
+    @Test(description = "convert a model with a list property whose items are a single-member allOf")
+    public void complexListPropertyWithAllOfItems() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new ComposedSchema()
+                                .addAllOfItem(new Schema().$ref("#/components/schemas/Children"))));
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.dataType, "\\OpenAPI\\Client\\Model\\Children[]");
+        Assert.assertEquals(property1.items.dataType, "\\OpenAPI\\Client\\Model\\Children");
+        Assert.assertEquals(property1.items.baseType, "Children");
+        Assert.assertEquals(property1.complexType, "Children");
+    }
+
     @Test(description = "convert a model with complex map property")
     public void complexMapSchema() {
         final Schema model = new Schema()
