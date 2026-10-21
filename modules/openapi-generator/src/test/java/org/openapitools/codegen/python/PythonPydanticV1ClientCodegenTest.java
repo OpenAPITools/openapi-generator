@@ -546,4 +546,22 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.parameterNameMapping().put("some-value", "parameter_value");
         Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
     }
+
+    @Test
+    public void testWebhookParameterTyping() throws IOException {
+        final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "openapi_client/api/hooks_api.py");
+
+        assertFileExists(api);
+        assertFileContains(
+                api,
+                "from pydantic import StrictStr",
+                "from openapi_client.models.header_arg import HeaderArg",
+                "def item_event_post(self, filter : StrictStr, x_json_arg : HeaderArg, **kwargs) -> None:");
+        TestUtils.assertFileNotContains(
+                api,
+                "filter : ,",
+                "x_json_arg : ,");
+    }
 }

@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -1743,6 +1744,18 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        // reset imports with newImports
+        objs.setImports(postProcessOperationMap(objs.getOperations()));
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        objs.setImports(postProcessOperationMap(objs.getWebhooks()));
+        return objs;
+    }
+
+    protected List<Map<String, String>> postProcessOperationMap(OperationMap objectMap) {
         hasModelsToImport = false;
         boolean importAnnotated = false;
         TreeSet<String> typingImports = new TreeSet<>();
@@ -1751,7 +1764,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         TreeSet<String> modelImports = new TreeSet<>();
         TreeSet<String> postponedModelImports = new TreeSet<>();
 
-        OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             TreeSet<String> exampleImports = new TreeSet<>(); // import for each operation to be show in sample code
@@ -1881,9 +1893,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             }
         }
 
-        // reset imports with newImports
-        objs.setImports(newImports);
-        return objs;
+        return newImports;
     }
 
 
