@@ -1095,9 +1095,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         if (schemas.size() == 1) {
-            // a single member is a plain schema name; getSchemaType() turns it into a model
-            // name and getTypeDeclaration() qualifies it, like any other $ref
-            return super.toAllOfName(names, composedSchema);
+            // a single member is an alias of that member, not a new model: return its plain
+            // schema name so getSchemaType() turns it into a model name and getTypeDeclaration()
+            // qualifies it like any other $ref. x-all-of-name is deliberately ignored here, as it
+            // is in getTypeDeclaration(), because no class would be generated under that name.
+            return names.get(0);
         }
 
         List<String> types = new ArrayList<>();
