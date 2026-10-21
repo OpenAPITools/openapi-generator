@@ -39,7 +39,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/foo/{dtParam}")
 public interface FooApi  {

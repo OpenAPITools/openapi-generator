@@ -37,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/another-fake/dummy")
 public interface AnotherFakeApi  {

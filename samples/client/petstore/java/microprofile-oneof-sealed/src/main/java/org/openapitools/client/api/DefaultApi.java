@@ -37,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient
-
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/pets")
 public interface DefaultApi  {

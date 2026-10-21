@@ -37,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="fakeclassnametags123-api")
-
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake_classname_test")
 public interface FakeClassnameTags123Api  {
