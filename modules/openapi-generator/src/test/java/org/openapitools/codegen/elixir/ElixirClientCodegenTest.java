@@ -61,6 +61,35 @@ public class ElixirClientCodegenTest {
     }
 
     @Test
+    public void testCustomTemplateDirectoryFallsBackToEmbeddedTemplates() throws Exception {
+        File output = Files.createTempDirectory("elixir-req-custom-templates").toFile();
+        try {
+            Path templates = Files.createDirectory(output.toPath().resolve("templates"));
+            Files.copy(Path.of("src/main/resources/elixir/model.mustache"), templates.resolve("model.mustache"));
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary("req")
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setTemplateDir(templates.toString())
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.toPath().resolve("generated").toString());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Assert.assertEquals(input.getConfig().embeddedTemplateDir(), "elixir");
+            Assert.assertEquals(input.getConfig().templateDir(), templates.toString());
+            Path generated = output.toPath().resolve("generated");
+            Assert.assertTrue(Files.exists(generated.resolve("lib/petstore/api/pet.ex")));
+            Assert.assertTrue(Files.exists(generated.resolve("lib/petstore/model/pet.ex")));
+            Assert.assertTrue(Files.exists(generated.resolve("README.md")));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
     public void testReqLibraryAndGeneratedTypespec() throws Exception {
         File output = Files.createTempDirectory("elixir-req-codegen").toFile();
         try {
