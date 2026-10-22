@@ -67,8 +67,12 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{^isFreeFormObject}}
+                            {{^isAnyType}}
     if connexion.request.is_json:
         {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                            {{/isAnyType}}
+                        {{/isFreeFormObject}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

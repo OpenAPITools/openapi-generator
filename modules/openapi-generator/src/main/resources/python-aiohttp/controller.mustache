@@ -67,7 +67,11 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{^isFreeFormObject}}
+                            {{^isAnyType}}
     {{paramName}} = {{baseType}}.from_dict({{paramName}})
+                            {{/isAnyType}}
+                        {{/isFreeFormObject}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -88,13 +92,13 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
         {{#isMap}}
             {{#items}}
                 {{#isDate}}
-    {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}}
+    {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}.items()}
                 {{/isDate}}
                 {{#isDateTime}}
-    {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}}
+    {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}.items()}
                 {{/isDateTime}}
                 {{#complexType}}
-    {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}}
+    {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}.items()}
                 {{/complexType}}
             {{/items}}
         {{/isMap}}
