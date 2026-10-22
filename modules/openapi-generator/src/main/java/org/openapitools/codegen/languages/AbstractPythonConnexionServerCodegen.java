@@ -656,6 +656,43 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
+    public String toDefaultValue(Schema p) {
+        Schema<?> unaliased = p != null ? ModelUtils.unaliasSchema(this.openAPI, p) : null;
+        Object rawDefault = p != null && p.getDefault() != null ? p.getDefault()
+                : (unaliased != null ? unaliased.getDefault() : null);
+        Schema<?> target = unaliased != null ? unaliased : p;
+        if (target != null && ModelUtils.isArraySchema(target) && rawDefault instanceof Iterable<?>) {
+            Schema<?> items = ModelUtils.getSchemaItems(target);
+            if (items != null) {
+                items = ModelUtils.unaliasSchema(this.openAPI, items);
+            }
+            List<String> formatted = new ArrayList<>();
+            for (Object item : (Iterable<?>) rawDefault) {
+                if (item == null || (item instanceof com.fasterxml.jackson.databind.JsonNode && ((com.fasterxml.jackson.databind.JsonNode) item).isNull())) {
+                    formatted.add("None");
+                } else if (item instanceof com.fasterxml.jackson.databind.JsonNode) {
+                    com.fasterxml.jackson.databind.JsonNode node = (com.fasterxml.jackson.databind.JsonNode) item;
+                    if (node.isBoolean() || (items != null && ModelUtils.isBooleanSchema(items))) {
+                        formatted.add(node.asBoolean() ? "True" : "False");
+                    } else if (node.isNumber() || (items != null && (ModelUtils.isIntegerSchema(items) || ModelUtils.isNumberSchema(items)))) {
+                        formatted.add(node.asText());
+                    } else {
+                        formatted.add(formatPythonStringLiteral(node.asText()));
+                    }
+                } else if (item instanceof Boolean || (items != null && ModelUtils.isBooleanSchema(items))) {
+                    formatted.add(Boolean.parseBoolean(item.toString()) ? "True" : "False");
+                } else if (item instanceof Number || (items != null && (ModelUtils.isIntegerSchema(items) || ModelUtils.isNumberSchema(items)))) {
+                    formatted.add(item.toString());
+                } else {
+                    formatted.add(formatPythonStringLiteral(item.toString()));
+                }
+            }
+            return "[" + String.join(", ", formatted) + "]";
+        }
+        return super.toDefaultValue(p);
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
@@ -663,7 +700,25 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             parameter.baseName = (String) openapiName;
         }
         if (parameter.isHeaderParam || parameter.isCookieParam) {
-            if (parameter.isInteger || parameter.isLong) {
+            boolean isJsonContent = parameter.headerIsJsonMimeType
+                    || isJsonMimeType(parameter.contentType)
+                    || isJsonVendorMimeType(parameter.contentType);
+            if (isJsonContent) {
+                parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
+            } else if (parameter.isArray) {
+                if (parameter.items == null || parameter.items.complexType == null) {
+                    parameter.vendorExtensions.put("x-python-connexion-split-csv", Boolean.TRUE);
+                }
+                if (parameter.items != null) {
+                    if (parameter.items.isInteger || parameter.items.isLong) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-int-items", Boolean.TRUE);
+                    } else if (parameter.items.isNumber || parameter.items.isFloat || parameter.items.isDouble) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-float-items", Boolean.TRUE);
+                    } else if (parameter.items.isBoolean) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-bool-items", Boolean.TRUE);
+                    }
+                }
+            } else if (parameter.isInteger || parameter.isLong) {
                 parameter.vendorExtensions.put("x-python-connexion-cast-int", Boolean.TRUE);
             } else if (parameter.isNumber || parameter.isFloat || parameter.isDouble) {
                 parameter.vendorExtensions.put("x-python-connexion-cast-float", Boolean.TRUE);
@@ -680,16 +735,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
         boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
-            List<CodegenParameter> nonHeaderParams = new ArrayList<>();
+            List<CodegenParameter> handlerParams = new ArrayList<>();
             for (CodegenParameter param : operation.allParams) {
                 if (!param.isHeaderParam && !param.isCookieParam) {
-                    nonHeaderParams.add(param);
+                    handlerParams.add(param);
                 }
-                if (param.headerIsJsonMimeType) {
+                if (Boolean.TRUE.equals(param.vendorExtensions.get("x-python-connexion-json-content"))) {
                     hasJsonHeaderParam = true;
                 }
             }
-            operation.vendorExtensions.put("x-non-header-params", nonHeaderParams);
+            operation.vendorExtensions.put("x-handler-params", handlerParams);
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {

@@ -191,9 +191,25 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "x_json_header = request.headers.get('X-Json-Header')",
                 "x_json_header = json.loads(x_json_header)",
                 "x_json_header = HeaderArg.from_dict(x_json_header)",
-                "session_token = request.cookies.get('session_token', 'default-cookie')");
+                "x_tag_list = request.headers.get('X-Tag-List', ['foo', 'bar'])",
+                "x_tag_list = x_tag_list.split(',')",
+                "x_flag_list = request.headers.get('X-Flag-List', [True, False])",
+                "x_flag_list = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in x_flag_list]",
+                "x_date_list = request.headers.get('X-Date-List')",
+                "x_date_list = x_date_list.split(',')",
+                "if isinstance(x_date_list, list):",
+                "x_date_list = [util.deserialize_date(s) for s in x_date_list]",
+                "session_token = request.cookies.get('session_token', 'default-cookie')",
+                "ids = request.cookies.get('ids', [1, 2])",
+                "ids = ids.split(',')",
+                "ids = [int(x) for x in ids]",
+                "json_cookie = request.cookies.get('json_cookie')",
+                "json_cookie = json.loads(json_cookie)",
+                "json_cookie = HeaderArg.from_dict(json_cookie)");
         assertFileNotContains(aiohttpController, "async def create_item(request: web.Request, x_req_header");
         assertFileNotContains(aiohttpController, "session_token=None");
+        assertFileNotContains(aiohttpController, "[foo, bar]");
+        assertFileNotContains(aiohttpController, "[true, false]");
         assertFileContains(aiohttpTest, "'X-Req-Header':");
         assertFileNotContains(aiohttpTest, "'x_req_header':");
 
@@ -216,9 +232,21 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "x_json_header = connexion.request.headers.get('X-Json-Header')",
                 "x_json_header = json.loads(x_json_header)",
                 "x_json_header = HeaderArg.from_dict(x_json_header)  # noqa: E501",
-                "session_token = connexion.request.cookies.get('session_token', 'default-cookie')");
+                "x_tag_list = connexion.request.headers.get('X-Tag-List', ['foo', 'bar'])",
+                "x_tag_list = x_tag_list.split(',')",
+                "x_flag_list = connexion.request.headers.get('X-Flag-List', [True, False])",
+                "x_flag_list = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in x_flag_list]",
+                "session_token = connexion.request.cookies.get('session_token', 'default-cookie')",
+                "ids = connexion.request.cookies.get('ids', [1, 2])",
+                "ids = ids.split(',')",
+                "ids = [int(x) for x in ids]",
+                "json_cookie = connexion.request.cookies.get('json_cookie')",
+                "json_cookie = json.loads(json_cookie)",
+                "json_cookie = HeaderArg.from_dict(json_cookie)  # noqa: E501");
         assertFileNotContains(blueplanetController, "def create_item(x_req_header");
         assertFileNotContains(blueplanetController, "session_token=None");
+        assertFileNotContains(blueplanetController, "[foo, bar]");
+        assertFileNotContains(blueplanetController, "[true, false]");
         assertFileContains(blueplanetTest, "('X-Req-Header',");
         assertFileNotContains(blueplanetTest, "('x_req_header',");
 
@@ -242,9 +270,21 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "x_json_header = flask.request.headers.get('X-Json-Header')",
                     "x_json_header = json.loads(x_json_header)",
                     "x_json_header = HeaderArg.from_dict(x_json_header)  # noqa: E501",
-                    "session_token = flask.request.cookies.get('session_token', 'default-cookie')");
+                    "x_tag_list = flask.request.headers.get('X-Tag-List', ['foo', 'bar'])",
+                    "x_tag_list = x_tag_list.split(',')",
+                    "x_flag_list = flask.request.headers.get('X-Flag-List', [True, False])",
+                    "x_flag_list = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in x_flag_list]",
+                    "session_token = flask.request.cookies.get('session_token', 'default-cookie')",
+                    "ids = flask.request.cookies.get('ids', [1, 2])",
+                    "ids = ids.split(',')",
+                    "ids = [int(x) for x in ids]",
+                    "json_cookie = flask.request.cookies.get('json_cookie')",
+                    "json_cookie = json.loads(json_cookie)",
+                    "json_cookie = HeaderArg.from_dict(json_cookie)  # noqa: E501");
             assertFileNotContains(flaskController, "def create_item(x_req_header");
             assertFileNotContains(flaskController, "session_token=None");
+            assertFileNotContains(flaskController, "[foo, bar]");
+            assertFileNotContains(flaskController, "[true, false]");
             assertFileContains(flaskTest, "'X-Req-Header':");
             assertFileNotContains(flaskTest, "'x_req_header':");
         }

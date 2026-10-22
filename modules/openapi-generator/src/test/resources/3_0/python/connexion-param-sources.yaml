@@ -39,12 +39,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HeaderArg'
+        - name: X-Tag-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - foo
+              - bar
+        - name: X-Flag-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: boolean
+            default:
+              - true
+              - false
+        - name: X-Date-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
         - name: session_token
           in: cookie
           required: false
           schema:
             type: string
             default: default-cookie
+        - name: ids
+          in: cookie
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+            default:
+              - 1
+              - 2
+        - name: json_cookie
+          in: cookie
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
         - name: filter_param
           in: query
           required: true

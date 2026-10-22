@@ -10,7 +10,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#vendorExtensions.x-non-header-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-header-params}}):  # noqa: E501
+def {{operationId}}({{#vendorExtensions.x-handler-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-handler-params}}):  # noqa: E501
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}} # noqa: E501
@@ -78,10 +78,26 @@ def {{operationId}}({{#vendorExtensions.x-non-header-params}}{{paramName}}{{^req
     if isinstance({{paramName}}, str):
         {{paramName}} = {{paramName}}.lower() == 'true'
         {{/vendorExtensions.x-python-connexion-cast-bool}}
-        {{#headerIsJsonMimeType}}
+        {{#vendorExtensions.x-python-connexion-json-content}}
     if isinstance({{paramName}}, str):
         {{paramName}} = json.loads({{paramName}})
-        {{/headerIsJsonMimeType}}
+        {{/vendorExtensions.x-python-connexion-json-content}}
+        {{#vendorExtensions.x-python-connexion-split-csv}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.split(',')
+        {{/vendorExtensions.x-python-connexion-split-csv}}
+        {{#vendorExtensions.x-python-connexion-cast-int-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [int(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-int-items}}
+        {{#vendorExtensions.x-python-connexion-cast-float-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [float(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-float-items}}
+        {{#vendorExtensions.x-python-connexion-cast-bool-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-bool-items}}
         {{^isContainer}}
             {{#isDate}}
     {{paramName}} = util.deserialize_date({{paramName}})
