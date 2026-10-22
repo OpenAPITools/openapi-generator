@@ -458,6 +458,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + toModelName(type) : type;
+        } else if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1 && p.getAllOf().get(0) instanceof Schema) {
+            // allOf with a single member (e.g. a $ref wrapped to add a description) is the
+            // member's type; resolving it here keeps the model namespace intact.
+            return getTypeDeclaration((Schema) p.getAllOf().get(0));
         }
         return super.getTypeDeclaration(p);
     }
@@ -1089,6 +1093,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toAllOfName(List<String> names, Schema composedSchema) {
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        if (schemas.size() == 1) {
+            // a single member is an alias of that member, not a new model: return its plain
+            // schema name so getSchemaType() turns it into a model name and getTypeDeclaration()
+            // qualifies it like any other $ref. x-all-of-name is deliberately ignored here, as it
+            // is in getTypeDeclaration(), because no class would be generated under that name.
+            return names.get(0);
+        }
 
         List<String> types = new ArrayList<>();
         for (Schema s : schemas) {

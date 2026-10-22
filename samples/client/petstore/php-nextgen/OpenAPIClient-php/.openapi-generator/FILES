@@ -12,6 +12,7 @@ docs/Api/PetApi.md
 docs/Api/StoreApi.md
 docs/Api/UserApi.md
 docs/Model/AdditionalPropertiesClass.md
+docs/Model/AllOfRefArray.md
 docs/Model/AllOfWithSingleRef.md
 docs/Model/Animal.md
 docs/Model/ApiResponse.md
@@ -92,6 +93,7 @@ src/Configuration.php
 src/FormDataProcessor.php
 src/HeaderSelector.php
 src/Model/AdditionalPropertiesClass.php
+src/Model/AllOfRefArray.php
 src/Model/AllOfWithSingleRef.php
 src/Model/Animal.php
 src/Model/AnyOfInterface.php

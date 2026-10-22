@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: allOf item repro
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: sort
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/sort_dir'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/thing_list'
+components:
+  schemas:
+    sort_dir:
+      type: string
+      enum: [asc, desc]
+      default: desc
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    thing_list:
+      type: object
+      properties:
+        errors_wrapped:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/error'
+        errors_plain:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+        single_wrapped:
+          allOf:
+            - $ref: '#/components/schemas/error'
