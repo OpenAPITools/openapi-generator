@@ -22,6 +22,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ElixirClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -35,6 +36,33 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ElixirClientCodegenTest {
+
+    @DataProvider
+    public Object[][] pathParameterLibraries() {
+        return new Object[][]{{"tesla"}, {"req"}};
+    }
+
+    @Test(dataProvider = "pathParameterLibraries")
+    public void testGeneratedPathParametersAreEncoded(String library) throws Exception {
+        File output = Files.createTempDirectory("elixir-" + library + "-path-params").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary(library)
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            String generatedApi = Files.readString(output.toPath().resolve("lib/petstore/api/pet.ex"), StandardCharsets.UTF_8);
+            Assert.assertTrue(generatedApi.contains("|> url(\"/pet/#{encode_path_param(pet_id)}\")"));
+            String generatedRequestBuilder = Files.readString(output.toPath().resolve("lib/petstore/request_builder.ex"), StandardCharsets.UTF_8);
+            Assert.assertTrue(generatedRequestBuilder.contains("def encode_path_param(value) do"));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
 
     @Test
     public void testDefaultLibraryAndDependencies() {

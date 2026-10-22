@@ -392,7 +392,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);
-                matcher.appendReplacement(buffer, "#{" + underscore(pathTemplateName) + "}" + "$2");
+                matcher.appendReplacement(buffer, "#{encode_path_param(" + underscore(pathTemplateName) + ")}" + "$2");
                 pathTemplateNames.add(pathTemplateName);
             }
             ExtendedCodegenOperation eco = new ExtendedCodegenOperation(o);
