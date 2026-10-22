@@ -21,7 +21,7 @@ paths:
           description: OK
   /required-non-unique-array:
     post:
-      operationId: nonUniqueArray
+      operationId: requiredNonUniqueArray
       requestBody:
         $ref: '#/components/requestBodies/RequiredNonUniqueArray'
       responses:
@@ -35,9 +35,17 @@ paths:
       responses:
         '200':
           description: OK
+  /optional-non-unique-nullable-array:
+    post:
+      operationId: optionalNonUniqueNullableArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNonUniqueNullableArray'
+      responses:
+        '200':
+          description: OK
   /required-unique-array:
     post:
-      operationId: uniqueArray
+      operationId: requiredUniqueArray
       requestBody:
         $ref: '#/components/requestBodies/RequiredUniqueArray'
       responses:
@@ -48,6 +56,14 @@ paths:
       operationId: optionalUniqueArray
       requestBody:
         $ref: '#/components/requestBodies/OptionalUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-unique-nullable-array:
+    post:
+      operationId: optionalUniqueNullableArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalUniqueNullableArray'
       responses:
         '200':
           description: OK
@@ -85,6 +101,14 @@ components:
           format: int64
         name:
           type: string
+    OptionalNullableArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     RequiredSetTestObject:
       type: object
       properties:
@@ -94,6 +118,14 @@ components:
         name:
           type: string
     OptionalSetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalNullableSetTestObject:
       type: object
       properties:
         id:
@@ -134,6 +166,17 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/OptionalArrayTestObject'
+    OptionalNonUniqueNullableArray:
+      description: Request body that is an optional nullable array
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                items:
+                  $ref: "#/components/schemas/OptionalNullableArrayTestObject"
     RequiredUniqueArray:
       description: Request body that is a required set
       required: true
@@ -154,3 +197,16 @@ components:
             uniqueItems: true
             items:
               $ref: '#/components/schemas/OptionalSetTestObject'
+    OptionalUniqueNullableArray:
+      description: Request body that is an optional string set
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                description:
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/OptionalNullableSetTestObject'

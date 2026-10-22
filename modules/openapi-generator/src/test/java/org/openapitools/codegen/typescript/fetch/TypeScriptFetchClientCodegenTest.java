@@ -1427,11 +1427,13 @@ public class TypeScriptFetchClientCodegenTest {
         Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
         TestUtils.assertFileContains(modelPath,
                 "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: requestParameters['optionalArrayTestObject'] === undefined ? requestParameters['optionalArrayTestObject'] : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
+                "body: requestParameters['optionalNullableArrayTestObject'] === undefined || requestParameters['optionalNullableArrayTestObject'] === null ? requestParameters['optionalNullableArrayTestObject'] : requestParameters['optionalNullableArrayTestObject']!.map(OptionalNullableArrayTestObjectToJSON),",
                 "body: OptionalTestObjectToJSON(requestParameters['optionalTestObject']),",
-                "body: requestParameters['requiredArrayTestObject']!.map(RequiredArrayTestObjectToJSON),",
-                "body: requestParameters['optionalArrayTestObject'] === undefined ? undefined : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
-                "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),",
-                "body: requestParameters['optionalSetTestObject'] === undefined ? undefined : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),");
+                "body: requestParameters['optionalSetTestObject'] === undefined ? requestParameters['optionalSetTestObject'] : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
+                "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON),",
+                "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
