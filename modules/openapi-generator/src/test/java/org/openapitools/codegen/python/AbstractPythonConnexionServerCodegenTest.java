@@ -180,9 +180,9 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileExists(aiohttpController);
             assertFileContains(
                     aiohttpController,
-                    "date_map = {k: util.deserialize_date(v) for k, v in date_map.items()}",
-                    "datetime_map = {k: util.deserialize_datetime(v) for k, v in datetime_map.items()}",
-                    "model_map = {k: Tag.from_dict(v) for k, v in model_map.items()}");
+                    "    if date_map is not None:\n        date_map = {k: util.deserialize_date(v) for k, v in date_map.items()}",
+                    "    if datetime_map is not None:\n        datetime_map = {k: util.deserialize_datetime(v) for k, v in datetime_map.items()}",
+                    "    if model_map is not None:\n        model_map = {k: Tag.from_dict(v) for k, v in model_map.items()}");
             assertFileNotContains(
                     aiohttpController,
                     "for k, v in date_map}",
@@ -193,16 +193,17 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
-    @Test(description = "Connexion servers should not call from_dict on free-form or any-type parameters")
+    @Test(description = "Connexion servers should skip from_dict only on untyped/free-form object parameters and keep from_dict on composed/model parameters")
     public void testFreeFormAndAnyTypeParametersDoNotCallFromDict() throws IOException {
         String specPath = "src/test/resources/3_1/python/map-and-freeform-params.yaml";
+        String composedSpecPath = "src/test/resources/3_1/python/composed-query-params.yaml";
 
         OpenAPI openAPI = new OpenAPIParser().readLocation(specPath, null, new ParseOptions()).getOpenAPI();
         PythonAiohttpConnexionServerCodegen codegen = new PythonAiohttpConnexionServerCodegen();
         codegen.setOpenAPI(openAPI);
-        List<Parameter> parameters = openAPI.getPaths().get("/test").getGet().getParameters();
-        CodegenParameter freeFormParam = codegen.fromParameter(parameters.get(3), new HashSet<>());
-        CodegenParameter anyValParam = codegen.fromParameter(parameters.get(4), new HashSet<>());
+        List<Parameter> testParameters = openAPI.getPaths().get("/test").getGet().getParameters();
+        CodegenParameter freeFormParam = codegen.fromParameter(testParameters.get(3), new HashSet<>());
+        CodegenParameter anyValParam = codegen.fromParameter(testParameters.get(4), new HashSet<>());
 
         assertThat(freeFormParam.paramName).isEqualTo("free_form");
         assertThat(freeFormParam.isFreeFormObject).isTrue();
@@ -217,6 +218,17 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertThat(anyValParam.isContainer).isFalse();
         assertThat(anyValParam.isPrimitiveType).isFalse();
         assertThat(anyValParam.dataType).isEqualTo("object");
+
+        OpenAPI composedOpenAPI = new OpenAPIParser().readLocation(composedSpecPath, null, new ParseOptions()).getOpenAPI();
+        PythonAiohttpConnexionServerCodegen composedCodegen = new PythonAiohttpConnexionServerCodegen();
+        composedCodegen.setOpenAPI(composedOpenAPI);
+        List<Parameter> probeParameters = composedOpenAPI.getPaths().get("/t").getGet().getParameters();
+        CodegenParameter composedParam = composedCodegen.fromParameter(probeParameters.get(0), new HashSet<>());
+        CodegenParameter oneOfParam = composedCodegen.fromParameter(probeParameters.get(1), new HashSet<>());
+        assertThat(composedParam.isAnyType).isTrue();
+        assertThat(composedParam.dataType).isEqualTo("Composed");
+        assertThat(oneOfParam.isAnyType).isTrue();
+        assertThat(oneOfParam.dataType).isEqualTo("OneOfM");
 
         File aiohttpOutput = Files.createTempDirectory("test-aiohttp-freeform-params").toFile().getCanonicalFile();
         try {
@@ -283,6 +295,29 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "any_val =");
         } finally {
             FileUtils.deleteDirectory(flaskOutput);
+        }
+
+        File flaskComposedOutput = Files.createTempDirectory("test-flask-composed-params").toFile().getCanonicalFile();
+        try {
+            CodegenConfigurator flaskComposedConfig = new CodegenConfigurator()
+                    .setGeneratorName("python-flask")
+                    .setInputSpec(composedSpecPath)
+                    .setOutputDir(flaskComposedOutput.getAbsolutePath());
+            new DefaultGenerator().opts(flaskComposedConfig.toClientOptInput()).generate();
+
+            Path flaskComposedController = Paths.get(
+                    flaskComposedOutput.getAbsolutePath(),
+                    "openapi_server",
+                    "controllers",
+                    "default_controller.py");
+            assertFileExists(flaskComposedController);
+            assertFileContains(
+                    flaskComposedController,
+                    "composed =  Composed.from_dict(flask.request.get_json())  # noqa: E501",
+                    "oneof =  OneOfM.from_dict(flask.request.get_json())  # noqa: E501",
+                    "plain =  Pet.from_dict(flask.request.get_json())  # noqa: E501");
+        } finally {
+            FileUtils.deleteDirectory(flaskComposedOutput);
         }
     }
 
