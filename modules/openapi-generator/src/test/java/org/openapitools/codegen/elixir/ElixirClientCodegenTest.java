@@ -65,7 +65,10 @@ public class ElixirClientCodegenTest {
         File output = Files.createTempDirectory("elixir-req-custom-templates").toFile();
         try {
             Path templates = Files.createDirectory(output.toPath().resolve("templates"));
-            Files.copy(Path.of("src/main/resources/elixir/model.mustache"), templates.resolve("model.mustache"));
+            String marker = "# generated from the custom template directory";
+            String modelTemplate = Files.readString(Path.of("src/main/resources/elixir/model.mustache"), StandardCharsets.UTF_8)
+                    .replace("{{>licenseInfo}}\n", "{{>licenseInfo}}\n" + marker + "\n");
+            Files.writeString(templates.resolve("model.mustache"), modelTemplate, StandardCharsets.UTF_8);
 
             CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("elixir")
@@ -81,9 +84,15 @@ public class ElixirClientCodegenTest {
             Assert.assertEquals(input.getConfig().embeddedTemplateDir(), "elixir");
             Assert.assertEquals(input.getConfig().templateDir(), templates.toString());
             Path generated = output.toPath().resolve("generated");
-            Assert.assertTrue(Files.exists(generated.resolve("lib/petstore/api/pet.ex")));
-            Assert.assertTrue(Files.exists(generated.resolve("lib/petstore/model/pet.ex")));
-            Assert.assertTrue(Files.exists(generated.resolve("README.md")));
+            Path model = generated.resolve("lib/petstore/model/pet.ex");
+            Assert.assertTrue(Files.exists(model));
+            Assert.assertTrue(Files.readString(model, StandardCharsets.UTF_8).contains(marker));
+            Path api = generated.resolve("lib/petstore/api/pet.ex");
+            Assert.assertTrue(Files.exists(api));
+            Assert.assertFalse(Files.readString(api, StandardCharsets.UTF_8).contains(marker));
+            Path readme = generated.resolve("README.md");
+            Assert.assertTrue(Files.exists(readme));
+            Assert.assertFalse(Files.readString(readme, StandardCharsets.UTF_8).contains(marker));
         } finally {
             FileUtils.deleteDirectory(output);
         }
