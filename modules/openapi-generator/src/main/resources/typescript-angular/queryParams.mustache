@@ -137,12 +137,16 @@ export function concatHttpParamsObject(httpParams: OpenApiHttpParams, key: strin
     let keyAndValues: string[] = [];
 
     for (const k in item) {
-        keyAndValues.push(k);
-
         const value = item[k];
 
+        if (value === null || value === undefined) {
+            continue;
+        }
+
+        keyAndValues.push(k);
+
         if (Array.isArray(value)) {
-            keyAndValues.push(...value.map(convertToString));
+            keyAndValues.push(...value.filter(v => v !== null && v !== undefined).map(convertToString));
         } else {
             keyAndValues.push(convertToString(value));
         }
