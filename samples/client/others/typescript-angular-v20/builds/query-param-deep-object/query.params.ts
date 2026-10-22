@@ -143,12 +143,14 @@ export function concatHttpParamsObject(httpParams: OpenApiHttpParams, key: strin
             continue;
         }
 
-        keyAndValues.push(k);
-
         if (Array.isArray(value)) {
-            keyAndValues.push(...value.filter(v => v !== null && v !== undefined).map(convertToString));
+            const items = value.filter(v => v !== null && v !== undefined);
+
+            if (items.length > 0) {
+                keyAndValues.push(k, ...items.map(convertToString));
+            }
         } else {
-            keyAndValues.push(convertToString(value));
+            keyAndValues.push(k, convertToString(value));
         }
     }
 
