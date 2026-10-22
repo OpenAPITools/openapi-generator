@@ -1,5 +1,15 @@
 {{#models}}
 {{#model}}
+{{^vendorExtensions.x-is-external-model}}
 export * from '{{{ classFilename }}}';
+{{/vendorExtensions.x-is-external-model}}
 {{/model}}
 {{/models}}
+{{#externalModelExports}}
+{{#supportsExportType}}
+export type { {{{ types }}} } from '{{{ module }}}';
+{{/supportsExportType}}
+{{^supportsExportType}}
+export { {{{ types }}} } from '{{{ module }}}';
+{{/supportsExportType}}
+{{/externalModelExports}}

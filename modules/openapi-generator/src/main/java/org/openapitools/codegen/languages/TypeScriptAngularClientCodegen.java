@@ -296,6 +296,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         additionalProperties.put(NG_VERSION, ngVersion);
         additionalProperties.put("ngVersionAtLeast_17", ngVersionAtLeast_17);
+        additionalProperties.put("supportsExportType", ngVersion.atLeast("10.0.0"));
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
             String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
@@ -519,15 +520,89 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         operations.put("hasSomeEncodableParams", hasSomeEncodableParams);
         operations.put("hasSomeHttpResource", hasSomeHttpResource);
 
-        // Add additional filename information for model imports in the services
-        List<Map<String, String>> imports = operations.getImports();
-        for (Map<String, String> im : imports) {
-            // This property is not used in the templates any more, subject for removal
-            im.put("filename", im.get("import"));
-            im.put("classname", im.get("classname"));
+        // Recompute model imports in services so all types from the same module are imported
+        Set<String> allImports = new TreeSet<>();
+        for (CodegenOperation op : ops) {
+            if (op.imports != null) {
+                allImports.addAll(op.imports);
+            }
         }
 
+        Set<Map<String, String>> serviceImports = new TreeSet<>(
+                Comparator.comparing((Map<String, String> o) -> o.getOrDefault("classname", ""))
+                        .thenComparing(o -> o.getOrDefault("filename", ""))
+        );
+
+        for (String nextImport : allImports) {
+            String mapping = importMapping.get(nextImport);
+            if (mapping != null) {
+                Map<String, String> im = new LinkedHashMap<>();
+                im.put("filename", mapping);
+                im.put("import", mapping);
+                im.put("classname", nextImport);
+                serviceImports.add(im);
+            } else {
+                Map<String, String> modelImports = toModelImportMap(nextImport);
+                for (Map.Entry<String, String> entry : modelImports.entrySet()) {
+                    Map<String, String> im = new LinkedHashMap<>();
+                    im.put("filename", entry.getKey());
+                    im.put("import", entry.getKey());
+                    im.put("classname", entry.getValue());
+                    serviceImports.add(im);
+                }
+            }
+        }
+
+        List<Map<String, String>> importsList = new ArrayList<>(serviceImports);
+        operations.setImports(importsList);
+        operations.put("hasImport", !importsList.isEmpty());
+
         return operations;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        objs = super.postProcessSupportingFileData(objs);
+
+        @SuppressWarnings("unchecked")
+        List<ModelMap> models = (List<ModelMap>) objs.get("models");
+        if (models == null) {
+            return objs;
+        }
+
+        Map<String, TreeSet<String>> externalImports = new TreeMap<>();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            if (cm == null) {
+                continue;
+            }
+
+            String modelName = cm.classname != null ? cm.classname : cm.name;
+            String target = importMapping.get(modelName);
+            if (target == null && cm.name != null) {
+                target = importMapping.get(cm.name);
+            }
+            if (target == null) {
+                continue;
+            }
+
+            cm.vendorExtensions.put("x-is-external-model", true);
+            externalImports.computeIfAbsent(target, k -> new TreeSet<>()).add(modelName);
+        }
+
+        List<Map<String, Object>> externalModelExports = new ArrayList<>();
+        for (Map.Entry<String, TreeSet<String>> entry : externalImports.entrySet()) {
+            Map<String, Object> exportItem = new HashMap<>();
+            exportItem.put("module", entry.getKey());
+            exportItem.put("types", String.join(", ", entry.getValue()));
+            externalModelExports.add(exportItem);
+        }
+
+        objs.put("hasExternalModelExports", !externalModelExports.isEmpty());
+        objs.put("externalModelExports", externalModelExports);
+        objs.put("supportsExportType", additionalProperties.getOrDefault("supportsExportType", true));
+
+        return objs;
     }
 
     /**

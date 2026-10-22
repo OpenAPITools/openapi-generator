@@ -682,4 +682,110 @@ public class TypeScriptAngularClientCodegenTest {
         TestUtils.assertFileContains(service, "public getPetResourceResource(options?: ApiHttpResourceOptions<string>)");
         TestUtils.assertFileNotContains(service, "public getPetResource(options?: ApiHttpResourceOptions<string>)");
     }
+
+    @Test
+    public void testMultipleImportsFromSameModuleAndExternalModelReExport() throws IOException {
+        Path spec = Files.createTempFile("external-imports-spec", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.1",
+                "info: {title: test, version: 1.0.0}",
+                "paths:",
+                "  /items:",
+                "    get:",
+                "      operationId: getItems",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                $ref: '#/components/schemas/ItemDto'",
+                "    post:",
+                "      operationId: createItem",
+                "      requestBody:",
+                "        content:",
+                "          application/json:",
+                "            schema:",
+                "              $ref: '#/components/schemas/ItemCreateRequest'",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                $ref: '#/components/schemas/ItemDto'",
+                "components:",
+                "  schemas:",
+                "    ItemDto:",
+                "      type: object",
+                "      properties:",
+                "        id:",
+                "          type: string",
+                "    ItemCreateRequest:",
+                "      type: object",
+                "      properties:",
+                "        name:",
+                "          type: string",
+                "    LocalModel:",
+                "      type: object",
+                "      properties:",
+                "        localProp:",
+                "          type: string"
+        ));
+
+        File output = Files.createTempDirectory("test-ext-imports").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> importMappings = new HashMap<>();
+        importMappings.put("ItemDto", "@contracts");
+        importMappings.put("ItemCreateRequest", "@contracts");
+
+        Map<String, String> typeMappings = new HashMap<>();
+        typeMappings.put("ItemDto", "ItemDto");
+        typeMappings.put("ItemCreateRequest", "ItemCreateRequest");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path defaultService = Paths.get(output + "/api/default.service.ts");
+        TestUtils.assertFileContains(defaultService,
+                "import { ItemCreateRequest } from '@contracts';",
+                "import { ItemDto } from '@contracts';");
+
+        Path modelsFile = Paths.get(output + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFile,
+                "export * from './localModel';",
+                "export type { ItemCreateRequest, ItemDto } from '@contracts';");
+        TestUtils.assertFileNotContains(modelsFile,
+                "export * from '@contracts';");
+
+        // Test backwards compatibility with Angular 9 (TypeScript < 3.8 without 'export type')
+        File outputNg9 = Files.createTempDirectory("test-ext-imports-ng9").toFile();
+        outputNg9.deleteOnExit();
+
+        final CodegenConfigurator configuratorNg9 = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .addAdditionalProperty(TypeScriptAngularClientCodegen.NG_VERSION, "9.0.0")
+                .setOutputDir(outputNg9.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorNg9.toClientOptInput()).generate();
+
+        Path modelsFileNg9 = Paths.get(outputNg9 + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFileNg9,
+                "export * from './localModel';",
+                "export { ItemCreateRequest, ItemDto } from '@contracts';");
+        TestUtils.assertFileNotContains(modelsFileNg9,
+                "export type {",
+                "export * from '@contracts';");
+    }
 }
