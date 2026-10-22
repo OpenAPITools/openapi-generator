@@ -8,7 +8,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> web.Response:
+async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-non-header-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-header-params}}) -> web.Response:
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}}
@@ -57,6 +57,9 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
 
     """
     {{#allParams}}
+        {{#isHeaderParam}}
+    {{paramName}} = request.headers.get('{{baseName}}')
+        {{/isHeaderParam}}
         {{^isContainer}}
             {{#isDate}}
     {{paramName}} = util.deserialize_date({{paramName}})
@@ -67,7 +70,13 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#isBodyParam}}
     {{paramName}} = {{baseType}}.from_dict({{paramName}})
+                        {{/isBodyParam}}
+                        {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})
+                        {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

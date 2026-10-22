@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: Connexion parameter sources test
+  version: 1.0.0
+servers:
+  - url: /v1
+paths:
+  /items:
+    post:
+      operationId: create_item
+      parameters:
+        - name: X-Req-Header
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: filter_param
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/QueryFilter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    QueryFilter:
+      type: object
+      properties:
+        tag:
+          type: string
+    BodyPayload:
+      type: object
+      properties:
+        item_name:
+          type: string

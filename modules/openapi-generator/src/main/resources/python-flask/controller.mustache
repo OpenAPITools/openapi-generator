@@ -10,7 +10,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+def {{operationId}}({{#vendorExtensions.x-non-header-params}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-header-params}}):  # noqa: E501
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}} # noqa: E501
@@ -60,6 +60,9 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
     :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
     """
     {{#allParams}}
+        {{#isHeaderParam}}
+    {{paramName}} = flask.request.headers.get('{{baseName}}')
+        {{/isHeaderParam}}
         {{#isBodyParam}}
     {{paramName}} = body
         {{/isBodyParam}}
@@ -73,8 +76,14 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(flask.request.get_json())  # noqa: E501
+                        {{/isBodyParam}}
+                        {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})  # noqa: E501
+                        {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

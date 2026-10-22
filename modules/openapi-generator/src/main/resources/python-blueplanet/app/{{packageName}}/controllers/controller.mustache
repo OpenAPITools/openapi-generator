@@ -7,7 +7,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+def {{operationId}}({{#vendorExtensions.x-non-header-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-non-header-params}}):  # noqa: E501
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}} # noqa: E501
@@ -57,6 +57,9 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
     """
     {{#allParams}}
+        {{#isHeaderParam}}
+    {{paramName}} = connexion.request.headers.get('{{baseName}}')
+        {{/isHeaderParam}}
         {{^isContainer}}
             {{#isDate}}
     {{paramName}} = util.deserialize_date({{paramName}})
@@ -67,8 +70,14 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#isBodyParam}}
     if connexion.request.is_json:
         {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                        {{/isBodyParam}}
+                        {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})  # noqa: E501
+                        {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

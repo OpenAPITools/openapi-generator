@@ -658,6 +658,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
+        if (openapiName instanceof String) {
+            parameter.baseName = (String) openapiName;
+        }
     }
 
     @Override
@@ -666,6 +670,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation operation : operationList) {
+            List<CodegenParameter> nonHeaderParams = new ArrayList<>();
+            for (CodegenParameter param : operation.allParams) {
+                if (!param.isHeaderParam) {
+                    nonHeaderParams.add(param);
+                }
+            }
+            operation.vendorExtensions.put("x-non-header-params", nonHeaderParams);
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
