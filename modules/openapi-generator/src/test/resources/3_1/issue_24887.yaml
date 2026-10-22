@@ -198,7 +198,7 @@ components:
             items:
               $ref: '#/components/schemas/OptionalSetTestObject'
     OptionalUniqueNullableArray:
-      description: Request body that is an optional string set
+      description: Request body that is an optional nullable set
       required: false
       content:
         application/json:
@@ -206,7 +206,6 @@ components:
             oneOf:
               - type: 'null'
               - type: array
-                description:
                 uniqueItems: true
                 items:
                   $ref: '#/components/schemas/OptionalNullableSetTestObject'
