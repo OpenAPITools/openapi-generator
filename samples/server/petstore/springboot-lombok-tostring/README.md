@@ -11,11 +11,11 @@ This is an example of building an OpenAPI-enabled server in Java using the Sprin
 The underlying library integrating OpenAPI to Spring Boot is [springdoc](https://springdoc.org).
 Springdoc will generate an OpenAPI v3 specification based on the generated Controller and Model classes.
 The specification is available to download using the following url:
-http://localhost:8080/v3/api-docs/
+http://localhost:80/v3/api-docs/
 
 Start your server as a simple java application
 
 You can view the api documentation in swagger-ui by pointing to
-http://localhost:8080/swagger-ui.html
+http://localhost:80/swagger-ui.html
 
 Change default port value in application.properties

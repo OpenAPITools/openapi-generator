@@ -19,7 +19,7 @@ public class SpringDocConfiguration {
                 .info(
                         new Info()
                                 .title("OpenAPI Petstore")
-                                .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
+                                .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
                                 .license(
                                         new License()
                                                 .name("Apache-2.0")
@@ -36,6 +36,15 @@ public class SpringDocConfiguration {
                                         .type(SecurityScheme.Type.APIKEY)
                                         .in(SecurityScheme.In.HEADER)
                                         .name("api_key")
+                                )
+                                .addSecuritySchemes("api_key_query", new SecurityScheme()
+                                        .type(SecurityScheme.Type.APIKEY)
+                                        .in(SecurityScheme.In.QUERY)
+                                        .name("api_key_query")
+                                )
+                                .addSecuritySchemes("http_basic_test", new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("basic")
                                 )
                 )
         ;
