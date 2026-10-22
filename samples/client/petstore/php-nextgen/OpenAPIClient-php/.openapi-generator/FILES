@@ -164,4 +164,3 @@ src/Model/Whale.php
 src/Model/Zebra.php
 src/Model/Zoo.php
 src/ObjectSerializer.php
-tests/Model/AllOfRefArrayTest.php
