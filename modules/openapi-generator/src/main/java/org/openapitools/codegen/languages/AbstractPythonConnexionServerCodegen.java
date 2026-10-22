@@ -662,6 +662,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (openapiName instanceof String) {
             parameter.baseName = (String) openapiName;
         }
+        if (parameter.isHeaderParam || parameter.isCookieParam) {
+            if (parameter.isInteger || parameter.isLong) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-int", Boolean.TRUE);
+            } else if (parameter.isNumber || parameter.isFloat || parameter.isDouble) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-float", Boolean.TRUE);
+            } else if (parameter.isBoolean) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-bool", Boolean.TRUE);
+            }
+        }
     }
 
     @Override
@@ -669,11 +678,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
 
+        boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> nonHeaderParams = new ArrayList<>();
             for (CodegenParameter param : operation.allParams) {
-                if (!param.isHeaderParam) {
+                if (!param.isHeaderParam && !param.isCookieParam) {
                     nonHeaderParams.add(param);
+                }
+                if (param.headerIsJsonMimeType) {
+                    hasJsonHeaderParam = true;
                 }
             }
             operation.vendorExtensions.put("x-non-header-params", nonHeaderParams);
@@ -735,6 +748,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                 }
             }
+        }
+        if (hasJsonHeaderParam) {
+            objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
         return objs;
     }

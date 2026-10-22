@@ -152,7 +152,7 @@ public class AbstractPythonConnexionServerCodegenTest {
         return StringUtils.join(nodes, File.separatorChar);
     }
 
-    private static Path generateController(String generatorName, Map<String, Object> additionalProperties, String... controllerPathSegments) throws IOException {
+    private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -167,52 +167,93 @@ public class AbstractPythonConnexionServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        Path controller = Paths.get(output.getAbsolutePath(), controllerPathSegments);
-        assertFileExists(controller);
-        return controller;
+        return output.toPath();
     }
 
-    @Test(description = "header parameters are read from request headers rather than declared as Connexion handler arguments")
+    @Test(description = "header and cookie parameters are read from request with type conversion and defaults rather than declared as Connexion handler arguments")
     public void testHeaderParamsReadFromRequestHeadersInConnexionControllers() throws IOException {
-        Path aiohttpController = generateController(
-                "python-aiohttp",
-                Collections.emptyMap(),
-                "openapi_server", "controllers", "default_controller.py");
+        Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
+        Path aiohttpController = aiohttpDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path aiohttpTest = aiohttpDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileExists(aiohttpTest);
         assertFileContains(
                 aiohttpController,
-                "async def create_item(request: web.Request, filter_param, body) -> web.Response:",
-                "x_req_header = request.headers.get('X-Req-Header')");
+                "import json",
+                "async def create_item(request: web.Request, filter_param, body, date_list=None, model_map=None) -> web.Response:",
+                "x_req_header = request.headers.get('X-Req-Header')",
+                "x_int_header = request.headers.get('X-Int-Header', 7)",
+                "x_int_header = int(x_int_header)",
+                "x_num_header = request.headers.get('X-Num-Header', 1.5)",
+                "x_num_header = float(x_num_header)",
+                "x_bool_header = request.headers.get('X-Bool-Header', True)",
+                "x_bool_header = x_bool_header.lower() == 'true'",
+                "x_json_header = request.headers.get('X-Json-Header')",
+                "x_json_header = json.loads(x_json_header)",
+                "x_json_header = HeaderArg.from_dict(x_json_header)",
+                "session_token = request.cookies.get('session_token', 'default-cookie')");
         assertFileNotContains(aiohttpController, "async def create_item(request: web.Request, x_req_header");
+        assertFileNotContains(aiohttpController, "session_token=None");
+        assertFileContains(aiohttpTest, "'X-Req-Header':");
+        assertFileNotContains(aiohttpTest, "'x_req_header':");
 
-        Path blueplanetController = generateController(
-                "python-blueplanet",
-                Collections.emptyMap(),
-                "app", "openapi_server", "controllers", "default_controller.py");
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path blueplanetController = blueplanetDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        Path blueplanetTest = blueplanetDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"));
+        assertFileExists(blueplanetController);
+        assertFileExists(blueplanetTest);
         assertFileContains(
                 blueplanetController,
-                "def create_item(filter_param, body):  # noqa: E501",
-                "x_req_header = connexion.request.headers.get('X-Req-Header')");
+                "import json",
+                "def create_item(filter_param, body, date_list=None, model_map=None):  # noqa: E501",
+                "x_req_header = connexion.request.headers.get('X-Req-Header')",
+                "x_int_header = connexion.request.headers.get('X-Int-Header', 7)",
+                "x_int_header = int(x_int_header)",
+                "x_num_header = connexion.request.headers.get('X-Num-Header', 1.5)",
+                "x_num_header = float(x_num_header)",
+                "x_bool_header = connexion.request.headers.get('X-Bool-Header', True)",
+                "x_bool_header = x_bool_header.lower() == 'true'",
+                "x_json_header = connexion.request.headers.get('X-Json-Header')",
+                "x_json_header = json.loads(x_json_header)",
+                "x_json_header = HeaderArg.from_dict(x_json_header)  # noqa: E501",
+                "session_token = connexion.request.cookies.get('session_token', 'default-cookie')");
         assertFileNotContains(blueplanetController, "def create_item(x_req_header");
+        assertFileNotContains(blueplanetController, "session_token=None");
+        assertFileContains(blueplanetTest, "('X-Req-Header',");
+        assertFileNotContains(blueplanetTest, "('x_req_header',");
 
         for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
-            Path flaskController = generateController(
-                    "python-flask",
-                    props,
-                    "openapi_server", "controllers", "default_controller.py");
+            Path flaskDir = generateOutputDir("python-flask", props);
+            Path flaskController = flaskDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            Path flaskTest = flaskDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+            assertFileExists(flaskController);
+            assertFileExists(flaskTest);
             assertFileContains(
                     flaskController,
-                    "def create_item(filter_param, body):  # noqa: E501",
-                    "x_req_header = flask.request.headers.get('X-Req-Header')");
+                    "import json",
+                    "def create_item(filter_param, body, date_list=None, model_map=None):  # noqa: E501",
+                    "x_req_header = flask.request.headers.get('X-Req-Header')",
+                    "x_int_header = flask.request.headers.get('X-Int-Header', 7)",
+                    "x_int_header = int(x_int_header)",
+                    "x_num_header = flask.request.headers.get('X-Num-Header', 1.5)",
+                    "x_num_header = float(x_num_header)",
+                    "x_bool_header = flask.request.headers.get('X-Bool-Header', True)",
+                    "x_bool_header = x_bool_header.lower() == 'true'",
+                    "x_json_header = flask.request.headers.get('X-Json-Header')",
+                    "x_json_header = json.loads(x_json_header)",
+                    "x_json_header = HeaderArg.from_dict(x_json_header)  # noqa: E501",
+                    "session_token = flask.request.cookies.get('session_token', 'default-cookie')");
             assertFileNotContains(flaskController, "def create_item(x_req_header");
+            assertFileNotContains(flaskController, "session_token=None");
+            assertFileContains(flaskTest, "'X-Req-Header':");
+            assertFileNotContains(flaskTest, "'x_req_header':");
         }
     }
 
-    @Test(description = "non-body model parameters are deserialized from their argument dict rather than overwritten from request.get_json()")
+    @Test(description = "non-body model, array, and map parameters are deserialized from their argument value rather than overwritten from request.get_json()")
     public void testNonBodyModelParamsNotOverwrittenFromRequestBody() throws IOException {
-        Path aiohttpController = generateController(
-                "python-aiohttp",
-                Collections.emptyMap(),
-                "openapi_server", "controllers", "default_controller.py");
+        Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap())
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
         assertFileContains(
                 aiohttpController,
                 "if isinstance(filter_param, dict):",
@@ -220,30 +261,38 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "body = BodyPayload.from_dict(body)");
         assertFileNotContains(aiohttpController, "= .from_dict(");
 
-        Path blueplanetController = generateController(
-                "python-blueplanet",
-                Collections.emptyMap(),
-                "app", "openapi_server", "controllers", "default_controller.py");
+        Path blueplanetController = generateOutputDir("python-blueplanet", Collections.emptyMap())
+                .resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
         assertFileContains(
                 blueplanetController,
                 "if isinstance(filter_param, dict):",
                 "filter_param = QueryFilter.from_dict(filter_param)  # noqa: E501",
+                "if isinstance(date_list, list):",
+                "date_list = [util.deserialize_date(s) for s in date_list]  # noqa: E501",
+                "if isinstance(model_map, dict):",
+                "model_map = {k: QueryFilter.from_dict(v) for k, v in model_map.items()}  # noqa: E501",
                 "body = BodyPayload.from_dict(connexion.request.get_json())  # noqa: E501");
         assertFileNotContains(blueplanetController, "QueryFilter.from_dict(connexion.request.get_json())");
+        assertFileNotContains(blueplanetController, "deserialize_date(s) for s in connexion.request.get_json()");
+        assertFileNotContains(blueplanetController, "connexion.request.get_json().items()");
         assertFileNotContains(blueplanetController, "= .from_dict(");
 
         for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
-            Path flaskController = generateController(
-                    "python-flask",
-                    props,
-                    "openapi_server", "controllers", "default_controller.py");
+            Path flaskController = generateOutputDir("python-flask", props)
+                    .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
             assertFileContains(
                     flaskController,
                     "if isinstance(filter_param, dict):",
                     "filter_param = QueryFilter.from_dict(filter_param)  # noqa: E501",
+                    "if isinstance(date_list, list):",
+                    "date_list = [util.deserialize_date(s) for s in date_list]  # noqa: E501",
+                    "if isinstance(model_map, dict):",
+                    "model_map = {k: QueryFilter.from_dict(v) for k, v in model_map.items()}  # noqa: E501",
                     "body_payload = body",
                     "body_payload = BodyPayload.from_dict(flask.request.get_json())  # noqa: E501");
             assertFileNotContains(flaskController, "QueryFilter.from_dict(flask.request.get_json())");
+            assertFileNotContains(flaskController, "deserialize_date(s) for s in flask.request.get_json()");
+            assertFileNotContains(flaskController, "flask.request.get_json().items()");
         }
     }
 

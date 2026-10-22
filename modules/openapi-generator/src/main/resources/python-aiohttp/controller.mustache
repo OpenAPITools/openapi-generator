@@ -1,3 +1,6 @@
+{{#hasJsonHeaderParam}}
+import json
+{{/hasJsonHeaderParam}}
 from typing import List, Dict
 from aiohttp import web
 
@@ -58,8 +61,27 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-non-header
     """
     {{#allParams}}
         {{#isHeaderParam}}
-    {{paramName}} = request.headers.get('{{baseName}}')
+    {{paramName}} = request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isHeaderParam}}
+        {{#isCookieParam}}
+    {{paramName}} = request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{/isCookieParam}}
+        {{#vendorExtensions.x-python-connexion-cast-int}}
+    if {{paramName}} is not None:
+        {{paramName}} = int({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-int}}
+        {{#vendorExtensions.x-python-connexion-cast-float}}
+    if {{paramName}} is not None:
+        {{paramName}} = float({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-float}}
+        {{#vendorExtensions.x-python-connexion-cast-bool}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.lower() == 'true'
+        {{/vendorExtensions.x-python-connexion-cast-bool}}
+        {{#headerIsJsonMimeType}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = json.loads({{paramName}})
+        {{/headerIsJsonMimeType}}
         {{^isContainer}}
             {{#isDate}}
     {{paramName}} = util.deserialize_date({{paramName}})
