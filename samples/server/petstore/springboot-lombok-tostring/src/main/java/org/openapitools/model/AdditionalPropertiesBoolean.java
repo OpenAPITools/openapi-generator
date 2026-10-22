@@ -48,6 +48,7 @@ public class AdditionalPropertiesBoolean {
     * This is a holder for any undeclared properties as specified with
     * the 'additionalProperties' keyword in the OAS document.
     */
+    @lombok.Setter(lombok.AccessLevel.NONE)
     private Map<String, Boolean> additionalProperties;
 
     /**

@@ -6003,6 +6003,27 @@ public class SpringCodegenTest {
                         .orElse(null);
 
                 if (getter == null && "additionalProperties".equals(fieldName)) {
+                    NodeList<AnnotationExpr> expectedAdditionalPropsSetterAnnotations = new NodeList<>(
+                            StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                    );
+                    assertThat(getterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter", fileName)
+                            .isEmpty();
+                    assertThat(getterSetterClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter;@Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(setterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(dataClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Data", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+
+                    withoutLombokField.setAnnotations(expectedAdditionalPropsSetterAnnotations);
+                    expectedSetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                            .setAnnotations(new NodeList<>(
+                                    StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                            ));
                     continue;
                 }
 
@@ -6112,13 +6133,20 @@ public class SpringCodegenTest {
                         .as("Field annotations for %s.%s with @Setter", fileName, fieldName)
                         .isEqualTo(expectedSetterOnlyFieldAnnotations);
 
-                List<AnnotationExpr> dataFieldNonLombokAnnotations =
-                        dataField.getAnnotations().stream()
-                                .filter(a -> !a.getNameAsString().startsWith("lombok."))
-                                .collect(Collectors.toList());
-                assertThat(dataFieldNonLombokAnnotations)
+                boolean isPasswordField = withoutLombokClass.getMethodsByName("toString").stream()
+                        .anyMatch(m -> m.getBody()
+                                .map(b -> b.toString().contains("    " + fieldName + ": \").append(\"*\")"))
+                                .orElse(false));
+                NodeList<AnnotationExpr> expectedDataFieldAnnotations = new NodeList<>();
+                if (isPasswordField) {
+                    expectedDataFieldAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.ToString.Exclude"));
+                }
+                for (AnnotationExpr ann : expectedFieldAnnotations) {
+                    expectedDataFieldAnnotations.add(ann.clone());
+                }
+                assertThat(dataField.getAnnotations())
                         .as("Field annotations for %s.%s with @Data", fileName, fieldName)
-                        .isEqualTo(expectedFieldAnnotations);
+                        .isEqualTo(expectedDataFieldAnnotations);
 
                 withoutLombokField.setAnnotations(expectedFieldAnnotations);
                 methodsToRemove.add(getter);
@@ -6143,6 +6171,13 @@ public class SpringCodegenTest {
                     .filter(m -> m.getBody().map(b -> b.toString().contains("super.") && b.toString().contains("return this;")).orElse(false))
                     .collect(Collectors.toList())
                     .forEach(expectedSetterOnlyClass::remove);
+
+            NodeList<AnnotationExpr> expectedDataClassAnnotations = new NodeList<>();
+            expectedDataClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Data"));
+            expectedDataClassAnnotations.addAll(withoutLombokClass.getAnnotations());
+            assertThat(dataClass.getAnnotations())
+                    .as("Class annotations of %s with @Data", fileName)
+                    .isEqualTo(expectedDataClassAnnotations);
 
             // Prepend @lombok.Getter and/or @lombok.Setter to the normalized without-Lombok classes
             NodeList<AnnotationExpr> normalizedClassAnnotations = new NodeList<>();

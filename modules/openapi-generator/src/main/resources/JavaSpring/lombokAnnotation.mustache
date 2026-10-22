@@ -26,6 +26,9 @@
   {{#jackson}}
 {{>jackson_annotations}}
   {{/jackson}}
+  {{#withXml}}
+{{>xmlAccessorAnnotation}}
+  {{/withXml}}
 {{/lombok.Getter}}
 {{#lombok.Setter}}
   {{#vendorExtensions.x-setter-extra-annotation}}
