@@ -39,21 +39,16 @@ data class Cat (
 
     @param:JsonProperty(value = "name", required = true)
     @get:JsonProperty("name")
-
     @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
-
     override val name: kotlin.String,
 
     @param:JsonProperty(value = "nickname", required = true)
     @get:JsonProperty("nickname")
-
     override val nickname: kotlin.String?,
 
     @param:JsonProperty(value = "lives", required = true)
     @get:JsonProperty("lives")
-
     @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
-
     val lives: kotlin.Int,
 
     @param:JsonProperty("kind")

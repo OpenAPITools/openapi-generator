@@ -94,6 +94,20 @@ public class KotlinMicroprofileClientCodegenTest {
                         mutiny ? "Returns `Uni<Void?>`" : "Returns `Unit`");
         assertThat(find(files, "Pet.md")).content().contains("**kotlin.String?**", "**kotlin.Int?**",
                 "**java.time.LocalDate?**").doesNotContain("String??", "Int??");
+        assertThat(find(files, "Cat.md")).content().contains("Inherits properties from [Animal](Animal.md)");
+    }
+
+    @Test
+    public void generate_WithNonMicroprofileJacksonLibrary_PreservesRequiredPropertyFormatting() throws IOException {
+        KotlinClientCodegen codegen = codegen();
+        codegen.setLibrary("jvm-retrofit2");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        List<File> files = generate(codegen);
+
+        assertThat(find(files, "Pet.kt")).content()
+                .contains("@param:JsonProperty(\"name\")\n    @get:JsonProperty(\"name\")\n    val name:")
+                .doesNotContain("JsonSetter");
     }
 
     @Test
@@ -157,6 +171,7 @@ public class KotlinMicroprofileClientCodegenTest {
                 {Map.of("useJakartaEe", false), "useJakartaEe must match"},
                 {Map.of(KotlinClientCodegen.USE_COROUTINES, true), "not useCoroutines"},
                 {Map.of(KotlinClientCodegen.USE_RX_JAVA3, true), "not useCoroutines"},
+                {Map.of(KotlinClientCodegen.GENERATE_ROOM_MODELS, true), "does not support generateRoomModels"},
                 {Map.of(KotlinClientCodegen.CONFIG_KEY, "pet", KotlinClientCodegen.CONFIG_KEY_FROM_CLASS_NAME, true), "not both"}
         };
     }

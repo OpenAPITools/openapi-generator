@@ -36,16 +36,12 @@ data class SecondChoice (
 
     @param:JsonProperty(value = "kind", required = true)
     @get:JsonProperty("kind")
-
     @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
-
     val kind: kotlin.String,
 
     @param:JsonProperty(value = "number", required = true)
     @get:JsonProperty("number")
-
     @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
-
     val number: kotlin.Int
 
 ) : Alternative, Choice {

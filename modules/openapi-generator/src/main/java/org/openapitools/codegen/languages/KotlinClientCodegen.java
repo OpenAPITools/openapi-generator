@@ -672,6 +672,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJvmMicroprofileLibrary() {
+        if (generateRoomModels || (additionalProperties.containsKey(GENERATE_ROOM_MODELS)
+                && convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS))) {
+            throw new IllegalArgumentException("jvm-microprofile does not support generateRoomModels (JVM Volley library only)");
+        }
         if (serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
             throw new IllegalArgumentException("jvm-microprofile requires serializationLibrary=jackson");
         }
