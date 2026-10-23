@@ -662,34 +662,81 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 : (unaliased != null ? unaliased.getDefault() : null);
         Schema<?> target = unaliased != null ? unaliased : p;
         if (target != null && ModelUtils.isArraySchema(target) && rawDefault instanceof Iterable<?>) {
-            Schema<?> items = ModelUtils.getSchemaItems(target);
-            if (items != null) {
-                items = ModelUtils.unaliasSchema(this.openAPI, items);
-            }
-            List<String> formatted = new ArrayList<>();
-            for (Object item : (Iterable<?>) rawDefault) {
-                if (item == null || (item instanceof com.fasterxml.jackson.databind.JsonNode && ((com.fasterxml.jackson.databind.JsonNode) item).isNull())) {
-                    formatted.add("None");
-                } else if (item instanceof com.fasterxml.jackson.databind.JsonNode) {
-                    com.fasterxml.jackson.databind.JsonNode node = (com.fasterxml.jackson.databind.JsonNode) item;
-                    if (node.isBoolean() || (items != null && ModelUtils.isBooleanSchema(items))) {
-                        formatted.add(node.asBoolean() ? "True" : "False");
-                    } else if (node.isNumber() || (items != null && (ModelUtils.isIntegerSchema(items) || ModelUtils.isNumberSchema(items)))) {
-                        formatted.add(node.asText());
-                    } else {
-                        formatted.add(formatPythonStringLiteral(node.asText()));
-                    }
-                } else if (item instanceof Boolean || (items != null && ModelUtils.isBooleanSchema(items))) {
-                    formatted.add(Boolean.parseBoolean(item.toString()) ? "True" : "False");
-                } else if (item instanceof Number || (items != null && (ModelUtils.isIntegerSchema(items) || ModelUtils.isNumberSchema(items)))) {
-                    formatted.add(item.toString());
-                } else {
-                    formatted.add(formatPythonStringLiteral(item.toString()));
-                }
-            }
-            return "[" + String.join(", ", formatted) + "]";
+            return formatPythonDefaultValue(rawDefault, target);
         }
         return super.toDefaultValue(p);
+    }
+
+    private String formatPythonDefaultValue(Object value, Schema<?> schema) {
+        Schema<?> target = schema != null ? ModelUtils.unaliasSchema(this.openAPI, schema) : null;
+        if (value == null || (value instanceof com.fasterxml.jackson.databind.JsonNode
+                && ((com.fasterxml.jackson.databind.JsonNode) value).isNull())) {
+            return "None";
+        }
+        if (value instanceof com.fasterxml.jackson.databind.JsonNode) {
+            com.fasterxml.jackson.databind.JsonNode node = (com.fasterxml.jackson.databind.JsonNode) value;
+            if (node.isArray()) {
+                Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+                List<String> elements = new ArrayList<>();
+                for (com.fasterxml.jackson.databind.JsonNode elem : node) {
+                    elements.add(formatPythonDefaultValue(elem, itemSchema));
+                }
+                return "[" + String.join(", ", elements) + "]";
+            }
+            if (node.isObject()) {
+                List<String> entries = new ArrayList<>();
+                Iterator<Map.Entry<String, com.fasterxml.jackson.databind.JsonNode>> fields = node.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, com.fasterxml.jackson.databind.JsonNode> entry = fields.next();
+                    Schema<?> propSchema = null;
+                    if (target != null && target.getProperties() != null) {
+                        propSchema = (Schema<?>) target.getProperties().get(entry.getKey());
+                    } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                        propSchema = ModelUtils.getAdditionalProperties(target);
+                    }
+                    entries.add(formatPythonStringLiteral(entry.getKey()) + ": "
+                            + formatPythonDefaultValue(entry.getValue(), propSchema));
+                }
+                return "{" + String.join(", ", entries) + "}";
+            }
+            if (node.isBoolean() || (target != null && ModelUtils.isBooleanSchema(target))) {
+                return node.asBoolean() ? "True" : "False";
+            }
+            if (node.isNumber() || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+                return node.asText();
+            }
+            return formatPythonStringLiteral(node.asText());
+        }
+        if (value instanceof Iterable<?>) {
+            Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+            List<String> elements = new ArrayList<>();
+            for (Object elem : (Iterable<?>) value) {
+                elements.add(formatPythonDefaultValue(elem, itemSchema));
+            }
+            return "[" + String.join(", ", elements) + "]";
+        }
+        if (value instanceof Map<?, ?>) {
+            List<String> entries = new ArrayList<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+                String key = String.valueOf(entry.getKey());
+                Schema<?> propSchema = null;
+                if (target != null && target.getProperties() != null) {
+                    propSchema = (Schema<?>) target.getProperties().get(key);
+                } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                    propSchema = ModelUtils.getAdditionalProperties(target);
+                }
+                entries.add(formatPythonStringLiteral(key) + ": "
+                        + formatPythonDefaultValue(entry.getValue(), propSchema));
+            }
+            return "{" + String.join(", ", entries) + "}";
+        }
+        if (value instanceof Boolean || (target != null && ModelUtils.isBooleanSchema(target))) {
+            return Boolean.parseBoolean(value.toString()) ? "True" : "False";
+        }
+        if (value instanceof Number || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+            return value.toString();
+        }
+        return formatPythonStringLiteral(value.toString());
     }
 
     @Override
@@ -706,7 +753,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             if (isJsonContent) {
                 parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
             } else if (parameter.isArray) {
-                if (parameter.items == null || parameter.items.complexType == null) {
+                if (parameter.items == null || !parameter.items.isModel) {
                     parameter.vendorExtensions.put("x-python-connexion-split-csv", Boolean.TRUE);
                 }
                 if (parameter.items != null) {

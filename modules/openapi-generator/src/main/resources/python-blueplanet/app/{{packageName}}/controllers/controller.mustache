@@ -100,10 +100,12 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{paramName}}{{^requir
         {{/vendorExtensions.x-python-connexion-cast-bool-items}}
         {{^isContainer}}
             {{#isDate}}
-    {{paramName}} = util.deserialize_date({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_date({{paramName}})
             {{/isDate}}
             {{#isDateTime}}
-    {{paramName}} = util.deserialize_datetime({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_datetime({{paramName}})
             {{/isDateTime}}
             {{^isPrimitiveType}}
                 {{^isFile}}
