@@ -60,17 +60,19 @@ public class KotlinJaxrsPolymorphismTest {
         assertThat(find(files, "Animal.kt")).content()
                 .contains("abstract class Animal", "open val kind: AnimalKind",
                         "open val nickname: kotlin.String?",
-                        "JsonTypeInfo.As.EXISTING_PROPERTY", "visible = true");
+                        "JsonTypeInfo.As.EXISTING_PROPERTY", "visible = true")
+                .doesNotContain("open val kind: AnimalKind?");
         assertThat(find(files, "Cat.kt")).content()
                 .contains("override val kind: AnimalKind", "override val nickname: kotlin.String?",
                         "@JsonProperty(value = \"nickname\", required = true)")
-                .doesNotContain("typealias");
+                .doesNotContain("typealias", "override val kind: AnimalKind?");
         assertThat(find(files, "Choice.kt")).content()
                 .contains("abstract class Choice", "JsonSubTypes.Type(value = FirstChoice::class, name = \"first\")")
                 .doesNotContain("typealias");
         assertThat(find(files, "BranchNode.kt")).content()
                 .contains("override val id: kotlin.String", "override val note: kotlin.String? = null",
-                        "open val label: kotlin.String");
+                        "open val label: kotlin.String")
+                .doesNotContain("override val id: kotlin.String?", "open val label: kotlin.String?");
     }
 
     @Test

@@ -15,8 +15,9 @@ replacement. An undiscriminated `oneOf` remains an untyped alias in the default
 inheritance mode, not a typed union.
 
 Required nullable properties have nullable Kotlin types but must still be present
-in JSON. Optional properties are nullable and default to null; omission and explicit
-null are not distinguished. Bean Validation does not apply `@NotNull` to nullable
+in JSON. Optional properties are nullable and use their declared OpenAPI default,
+or null when no default is declared. Missing-versus-null tracking is not provided.
+Bean Validation does not apply `@NotNull` to nullable
 properties. Required non-null properties reject explicit nulls, including primitive
 numbers. Register Jackson's Kotlin module in the application mapper for Kotlin
 constructor/default-argument support, and enable its strict null checking when
