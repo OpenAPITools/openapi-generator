@@ -12,10 +12,10 @@ injection or `RestClientBuilder`; the runtime provides HTTP transport and provid
 {{summary}}
 
 {{#allParams}}
-- `{{paramName}}`: `{{{dataType}}}` ({{#required}}required{{/required}}{{^required}}optional{{/required}})
+- `` {{{paramName}}} ``: `{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}? = null{{/required}}` ({{#required}}required{{/required}}{{^required}}optional{{/required}})
 {{/allParams}}
 
-Returns {{#microprofileMutiny}}`Uni<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void?{{/returnType}}>`{{/microprofileMutiny}}{{^microprofileMutiny}}`{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}`{{/microprofileMutiny}}.
+Returns `{{#microprofileMutiny}}Uni<{{/microprofileMutiny}}{{#returnType}}{{{.}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{^nullableReturnType}}{{#vendorExtensions.x-kotlin-microprofile-nullable-return}}?{{/vendorExtensions.x-kotlin-microprofile-nullable-return}}{{/nullableReturnType}}{{/returnType}}{{^returnType}}{{#microprofileMutiny}}Void?{{/microprofileMutiny}}{{^microprofileMutiny}}Unit{{/microprofileMutiny}}{{/returnType}}{{#microprofileMutiny}}>{{/microprofileMutiny}}`.
 
 {{/operation}}
 {{/operations}}

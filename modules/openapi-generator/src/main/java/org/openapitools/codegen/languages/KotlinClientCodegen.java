@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -323,10 +324,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
         cliOptions.add(new CliOption(MICROPROFILE_REST_CLIENT_VERSION,
-                "MicroProfile Rest Client API version for jvm-microprofile. Supported values: 2.0 (javax), 3.0 (Jakarta).").defaultValue("3.0"));
-        cliOptions.add(CliOption.newBoolean(MICROPROFILE_MUTINY, "Return SmallRye Mutiny Uni types with jvm-microprofile.", false));
-        cliOptions.add(new CliOption(CONFIG_KEY, "Configuration key in @RegisterRestClient for jvm-microprofile."));
-        cliOptions.add(CliOption.newBoolean(CONFIG_KEY_FROM_CLASS_NAME, "Derive the jvm-microprofile configuration key from the API class name.", false));
+                "MicroProfile Rest Client API version for jvm-microprofile. Supported values: 2.0 (javax, useJakartaEe=false), 3.0 (Jakarta, useJakartaEe=true). If specified, useJakartaEe must match the version.").defaultValue("3.0"));
+        cliOptions.add(CliOption.newBoolean(MICROPROFILE_MUTINY, "Return SmallRye Mutiny Uni types with jvm-microprofile. This library does not support useCoroutines or useRxJava3.", false));
+        cliOptions.add(new CliOption(CONFIG_KEY, "Configuration key in @RegisterRestClient for jvm-microprofile. Mutually exclusive with configKeyFromClassName=true."));
+        cliOptions.add(CliOption.newBoolean(CONFIG_KEY_FROM_CLASS_NAME, "Derive the jvm-microprofile configuration key from the API class name. Mutually exclusive with configKey.", false));
 
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
 
@@ -1189,8 +1190,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     operation.vendorExtensions.put("x-kotlin-microprofile-nullable-return", true);
                 }
                 if (JVM_MICROPROFILE.equals(getLibrary()) && operation.consumes != null
-                        && operation.consumes.stream().anyMatch(mediaType -> "multipart/form-data".equals(mediaType.get("mediaType")))) {
+                        && operation.consumes.stream().map(mediaType -> mediaType.get("mediaType"))
+                        .filter(Objects::nonNull)
+                        .anyMatch(mediaType -> mediaType.split(";", 2)[0].trim().toLowerCase(Locale.ROOT).startsWith("multipart/"))) {
                     throw new IllegalArgumentException("jvm-microprofile does not support multipart operations: " + operation.operationId);
+                }
+                if (JVM_MICROPROFILE.equals(getLibrary())) {
+                    for (CodegenParameter parameter : operation.queryParams) {
+                        if ((parameter.style != null && !"form".equals(parameter.style))
+                                || parameter.contentType != null
+                                || parameter.isModel || parameter.isMap || parameter.isFreeFormObject || parameter.isAnyType
+                                || (parameter.isArray && (!parameter.isCollectionFormatMulti || parameter.items == null
+                                || parameter.items.isContainer || parameter.items.isModel
+                                || parameter.items.isFreeFormObject || parameter.items.isAnyType))) {
+                            throw new IllegalArgumentException("jvm-microprofile supports only scalar query parameters and "
+                                    + "form-style exploded arrays of scalars: " + operation.operationId + "." + parameter.baseName);
+                        }
+                    }
                 }
                 isResponseFile = isResponseFile || operation.isResponseFile;
 

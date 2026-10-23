@@ -95,6 +95,23 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>microprofile-2-test-api</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.microprofile.rest.client</groupId>
+                                    <artifactId>microprofile-rest-client-api</artifactId>
+                                    <version>2.0</version>
+                                    <outputDirectory>${project.build.directory}/test-libs</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>

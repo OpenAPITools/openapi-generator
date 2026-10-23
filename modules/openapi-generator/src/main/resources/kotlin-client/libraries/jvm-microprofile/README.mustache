@@ -29,6 +29,9 @@ The generated Gradle build already enables this setting.
 The generated artifact does not bundle a REST implementation. Multipart operations
 are not supported. Optional parameters default to `null` (omitted); OpenAPI parameter
 defaults are left to the server.
+Query parameters support scalars and arrays of scalars using `style: form` with
+`explode: true` (the OpenAPI defaults). Other array formats, object query parameters
+and content-based query parameters are rejected rather than serialized incorrectly.
 
 {{#apiInfo}}
 {{#apis}}

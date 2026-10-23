@@ -1,5 +1,6 @@
 package org.openapitools.client
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpServer
 import io.quarkus.test.common.QuarkusTestResource
@@ -14,6 +15,7 @@ import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
 import org.eclipse.microprofile.rest.client.inject.RestClient
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -71,6 +73,17 @@ class PetApiTest @Inject constructor(
     }
 
     @Test
+    fun listPets_WithArrayQuery_RepeatsQueryKey() {
+        val tags = listOf("friendly", "young")
+
+        val pets = api.listPets(tags).await().atMost(TIMEOUT)
+        val request = PetServer.requests.remove()
+
+        assertEquals("/api/pets?tags=friendly&tags=young", request.uri)
+        assertEquals("Luna", pets.single().name)
+    }
+
+    @Test
     fun createPet_WithKotlinModel_SerializesRequestBody() {
         val pet = Pet(1L, "Luna", null, listOf("friendly", null))
 
@@ -107,18 +120,24 @@ class PetApiTest @Inject constructor(
     fun getPet_WithNullRequiredString_RejectsResponse() {
         val pending = api.getPet(2L).await()
 
-        assertThrows(RuntimeException::class.java) { pending.atMost(TIMEOUT) }
+        val error = assertThrows(RuntimeException::class.java) { pending.atMost(TIMEOUT) }
 
-        PetServer.requests.remove()
+        val cause = generateSequence<Throwable>(error) { it.cause }.last()
+        val deserializationError = assertInstanceOf(MismatchedInputException::class.java, cause)
+        assertEquals("name", deserializationError.path.last().fieldName)
+        assertEquals("/api/pets/2", PetServer.requests.remove().uri)
     }
 
     @Test
     fun getPet_WithMissingRequiredString_RejectsResponse() {
         val pending = api.getPet(3L).await()
 
-        assertThrows(RuntimeException::class.java) { pending.atMost(TIMEOUT) }
+        val error = assertThrows(RuntimeException::class.java) { pending.atMost(TIMEOUT) }
 
-        PetServer.requests.remove()
+        val cause = generateSequence<Throwable>(error) { it.cause }.last()
+        val deserializationError = assertInstanceOf(MismatchedInputException::class.java, cause)
+        assertEquals("name", deserializationError.path.last().fieldName)
+        assertEquals("/api/pets/3", PetServer.requests.remove().uri)
     }
 
     companion object {
@@ -147,6 +166,7 @@ class PetServer : QuarkusTestResourceLifecycleManager {
                 exchange.requestURI.path.endsWith("/404") -> respond(exchange, 404, """{"message":"Not found"}""")
                 exchange.requestURI.path.endsWith("/2") -> respond(exchange, 200, """{"id":2,"name":null,"nickname":null,"labels":[]}""")
                 exchange.requestURI.path.endsWith("/3") -> respond(exchange, 200, """{"id":3,"nickname":null,"labels":[]}""")
+                exchange.requestURI.path == "/api/pets" -> respond(exchange, 200, """[{"id":1,"name":"Luna","nickname":null,"labels":[]}]""")
                 else -> respond(exchange, 200, """{"id":1,"name":"Luna","nickname":null,"labels":["friendly",null]}""")
             }
         }

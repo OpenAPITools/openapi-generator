@@ -1,0 +1,15 @@
+# {{classname}}
+
+## Properties
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+{{#vars}}| **{{name}}** | {{#isEnum}}[**inline{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}} |
+{{/vars}}
+{{#vars}}{{#isEnum}}
+
+<a id="{{{datatypeWithEnum}}}"></a>
+## Enum: {{baseName}}
+| Name | Value |
+| ---- | ----- |{{#allowableValues}}
+| {{name}} | {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} |
+{{/isEnum}}{{/vars}}

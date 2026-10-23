@@ -9,7 +9,7 @@ injection or `RestClientBuilder`; the runtime provides HTTP transport and provid
 
 
 
-- `pet`: `Pet` (required)
+- `` pet ``: `Pet` (required)
 
 Returns `Uni<Pet>`.
 
@@ -19,7 +19,7 @@ Returns `Uni<Pet>`.
 
 
 
-- `petId`: `kotlin.Long` (required)
+- `` petId ``: `kotlin.Long` (required)
 
 Returns `Uni<Void?>`.
 
@@ -29,8 +29,8 @@ Returns `Uni<Void?>`.
 
 
 
-- `&#x60;value&#x60;`: `kotlin.String` (required)
-- `body`: `kotlin.String` (required)
+- `` `value` ``: `kotlin.String?` (required)
+- `` body ``: `kotlin.String?` (required)
 
 Returns `Uni<Void?>`.
 
@@ -41,7 +41,7 @@ Returns `Uni<Void?>`.
 
 
 
-Returns `Uni<kotlin.String>`.
+Returns `Uni<kotlin.String?>`.
 
 ## getPet
 
@@ -49,10 +49,10 @@ Returns `Uni<kotlin.String>`.
 
 
 
-- `petId`: `kotlin.Long` (required)
-- `filter`: `kotlin.String` (optional)
-- `xRequestId`: `kotlin.String` (optional)
-- `session`: `kotlin.String` (optional)
+- `` petId ``: `kotlin.Long` (required)
+- `` filter ``: `kotlin.String? = null` (optional)
+- `` xRequestId ``: `kotlin.String? = null` (optional)
+- `` session ``: `kotlin.String? = null` (optional)
 
 Returns `Uni<Pet>`.
 
@@ -62,7 +62,7 @@ Returns `Uni<Pet>`.
 
 
 
-- `tags`: `kotlin.collections.List<kotlin.String>` (optional)
+- `` tags ``: `kotlin.collections.List<kotlin.String>? = null` (optional)
 
 Returns `Uni<kotlin.collections.List<Pet>>`.
 
