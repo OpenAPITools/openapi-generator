@@ -459,6 +459,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + toModelName(type) : type;
         }
+        // An allOf with a single member is just that member (commonly a $ref
+        // wrapped to attach a description or flag). Resolve it directly so the
+        // member still produces a fully qualified model name like a plain $ref;
+        // otherwise toAllOfName() feeds the namespaced declaration back through
+        // toModelName(), which strips the \\ separators. (issue #25354)
+        if (p.getAllOf() != null && p.getAllOf().size() == 1) {
+            if (p.getExtensions() != null && p.getExtensions().get("x-all-of-name") != null) {
+                return getTypeDeclaration(toModelName(p.getExtensions().get("x-all-of-name").toString()));
+            }
+            return getTypeDeclaration((Schema<?>) p.getAllOf().get(0));
+        }
         return super.getTypeDeclaration(p);
     }
 
