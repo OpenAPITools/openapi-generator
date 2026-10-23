@@ -6174,6 +6174,9 @@ public class SpringCodegenTest {
 
             NodeList<AnnotationExpr> expectedDataClassAnnotations = new NodeList<>();
             expectedDataClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Data"));
+            if (!withoutLombokClass.getExtendedTypes().isEmpty()) {
+                expectedDataClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.EqualsAndHashCode(callSuper = true)"));
+            }
             expectedDataClassAnnotations.addAll(withoutLombokClass.getAnnotations());
             assertThat(dataClass.getAnnotations())
                     .as("Class annotations of %s with @Data", fileName)
