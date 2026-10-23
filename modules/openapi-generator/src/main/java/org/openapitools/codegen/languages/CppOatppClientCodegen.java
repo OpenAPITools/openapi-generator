@@ -272,21 +272,6 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
         }
     }
 
-    /**
-     * postProcessSingleParam - Modifies a single parameter, adjusting generated
-     * data types for Header and Query parameters.
-     * 
-     * @param param CodegenParameter to be modified.
-     */
-    private static void postProcessSingleParam(CodegenParameter param) {
-        if (param.isQueryParam) {
-            param.dataType = "std::optional<" + param.dataType + ">";
-            if (!param.isPrimitiveType) {
-                param.baseType = "std::optional<" + param.baseType + ">";
-            }
-        }
-    }
-
     @Override
     public String toModelFilename(String name) {
         return toModelName(name);
