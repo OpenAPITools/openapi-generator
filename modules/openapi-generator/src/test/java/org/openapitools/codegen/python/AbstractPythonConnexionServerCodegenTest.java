@@ -225,10 +225,17 @@ public class AbstractPythonConnexionServerCodegenTest {
         List<Parameter> probeParameters = composedOpenAPI.getPaths().get("/t").getGet().getParameters();
         CodegenParameter composedParam = composedCodegen.fromParameter(probeParameters.get(0), new HashSet<>());
         CodegenParameter oneOfParam = composedCodegen.fromParameter(probeParameters.get(1), new HashSet<>());
+        CodegenParameter addlParam = composedCodegen.fromParameter(probeParameters.get(2), new HashSet<>());
         assertThat(composedParam.isAnyType).isTrue();
         assertThat(composedParam.dataType).isEqualTo("Composed");
         assertThat(oneOfParam.isAnyType).isTrue();
         assertThat(oneOfParam.dataType).isEqualTo("OneOfM");
+        assertThat(addlParam.paramName).isEqualTo("addl");
+        assertThat(addlParam.isMap).isTrue();
+        assertThat(addlParam.isContainer).isTrue();
+        assertThat(addlParam.isFreeFormObject).isFalse();
+        assertThat(addlParam.isAnyType).isFalse();
+        assertThat(addlParam.dataType).isEqualTo("WithAddl");
 
         File aiohttpOutput = Files.createTempDirectory("test-aiohttp-freeform-params").toFile().getCanonicalFile();
         try {
@@ -313,9 +320,13 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileExists(flaskComposedController);
             assertFileContains(
                     flaskComposedController,
+                    ":type addl: Dict[str, str]",
                     "composed =  Composed.from_dict(flask.request.get_json())  # noqa: E501",
                     "oneof =  OneOfM.from_dict(flask.request.get_json())  # noqa: E501",
                     "plain =  Pet.from_dict(flask.request.get_json())  # noqa: E501");
+            assertFileNotContains(
+                    flaskComposedController,
+                    "addl =");
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
         }
