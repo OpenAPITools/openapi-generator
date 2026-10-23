@@ -510,6 +510,36 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     }
 
     /**
+     * Shared enum handling: declares a PostgreSQL enum type named
+     * {@code <table>_<column>} and uses it as the column data type.
+     *
+     * @param model    model
+     * @param property model's property
+     * @param column   column context from {@link #startColumn(CodegenModel, CodegenProperty)}
+     */
+    private void putEnumType(CodegenModel model, CodegenProperty property, ColumnContext column) {
+        Map<String, Object> typeDefinition = new HashMap<>();
+        List<Map<String, Object>> typeArguments = new ArrayList<>();
+        List<Object> enumValues = getEnumValues(property.getAllowableValues());
+        String typeName = this.toTableName(model.getName())
+                + "_" + this.toColumnName(property.getName());
+        column.postgresqlSchema.put("typeDefinition", typeDefinition);
+        column.columnDefinition.put("colDataType", typeName);
+        typeDefinition.put("typeName", typeName);
+        typeDefinition.put("typeArguments", typeArguments);
+        for (int i = 0; i < enumValues.size(); i++) {
+            if (i > ENUM_MAX_ELEMENTS - 1) {
+                LOGGER.warn(
+                        "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                        ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
+                break;
+            }
+            String value = String.valueOf(enumValues.get(i));
+            typeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
+        }
+    }
+
+    /**
      * Processes each model's property mapped to integer type and adds related
      * vendor extensions
      *
@@ -522,12 +552,9 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             return;
         }
 
-        Map<String, Object> postgresqlSchema = column.postgresqlSchema;
         Map<String, Object> columnDefinition = column.columnDefinition;
         String colName = column.colName;
         String description = column.description;
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String dataFormat = property.getDataFormat();
         String minimum = property.getMinimum();
@@ -535,26 +562,9 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         boolean exclusiveMinimum = property.getExclusiveMinimum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.getAllowableValues());
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else {
             if ("int64".equals(dataFormat)) {
                 if (colName.equals("id") && Boolean.valueOf(additionalProperties.get(ID_AUTOINC_ENABLED).toString())) {
@@ -617,35 +627,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             return;
         }
 
-        Map<String, Object> postgresqlSchema = column.postgresqlSchema;
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.allowableValues);
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else {
+            List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
             columnDefinition.put("colDataType", "DECIMAL");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(20));
@@ -685,43 +676,24 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             return;
         }
 
-        Map<String, Object> postgresqlSchema = column.postgresqlSchema;
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String dataType = property.getDataType();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.allowableValues);
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else if (dataType.equals("BYTEA")) {
             columnDefinition.put("colDataType", "BYTEA");
         } else {
             String matchedStringType = getPostgresqlMatchedStringDataType(minLength, maxLength);
             columnDefinition.put("colDataType", matchedStringType);
             if (matchedStringType.equals("VARCHAR")) {
+                List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
