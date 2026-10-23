@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -698,6 +699,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(MICROPROFILE_MUTINY, additionalProperties.containsKey(MICROPROFILE_MUTINY)
                 && convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY));
+        supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
         // HTTP transport, providers and authentication are supplied by the MicroProfile runtime.
         apiTestTemplateFiles.clear();
     }
@@ -1097,6 +1099,30 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        if (JVM_MICROPROFILE.equals(getLibrary())) {
+            Map<String, CodegenModel> models = getAllModels(objs);
+            Map<String, List<String>> unionInterfaces = new HashMap<>();
+            for (CodegenModel model : models.values()) {
+                if (model.discriminator == null || (model.oneOf.isEmpty() && model.anyOf.isEmpty())) {
+                    continue;
+                }
+                // Union alternatives do not share the properties merged by the normalizer.
+                getAllVarProperties(model).forEach(List::clear);
+                for (CodegenDiscriminator.MappedModel mapped : model.discriminator.getMappedModels()) {
+                    CodegenModel child = models.get(mapped.getModelName());
+                    if (child != null && !model.classname.equals(child.parent)) {
+                        List<String> interfaces = unionInterfaces.computeIfAbsent(child.classname, key -> new ArrayList<>());
+                        if (!interfaces.contains(model.classname)) {
+                            interfaces.add(model.classname);
+                        }
+                        child.imports.add(model.classname);
+                    }
+                }
+                unionInterfaces.forEach((name, interfaces) -> models.get(name).vendorExtensions.put(
+                        "x-kotlin-microprofile-union-interfaces", String.join(", ", interfaces)));
+            }
+        }
 
         // Resolve x-jackson-default-impl / typeInfoDefaultImpls into x-jackson-resolved-default-impl.
         // kotlin-client only supports discriminator-based oneOf (via @JsonTypeInfo + @JsonSubTypes);

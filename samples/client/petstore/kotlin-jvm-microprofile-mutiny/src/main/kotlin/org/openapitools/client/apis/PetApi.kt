@@ -23,6 +23,9 @@
 
 package org.openapitools.client.apis
 
+import org.openapitools.client.models.Alternative
+import org.openapitools.client.models.Animal
+import org.openapitools.client.models.Choice
 import org.openapitools.client.models.Pet
 import jakarta.ws.rs.*
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
@@ -31,6 +34,14 @@ import io.smallrye.mutiny.Uni
 @RegisterRestClient(configKey = "pet-service")
 @Path("/")
 interface PetApi {
+    @POST
+    @Path("/animals")
+    @Consumes("application/json")
+    @Produces("application/json")
+    fun createAnimal(
+        animal: Animal
+    ): Uni<Animal>
+
     @POST
     @Path("/pets")
     @Consumes("application/json")
@@ -54,10 +65,37 @@ interface PetApi {
     ): Uni<Void?>
 
     @GET
+    @Path("/alternatives/{kind}")
+    @Produces("application/json")
+    fun getAlternative(
+        @PathParam("kind") kind: kotlin.String
+    ): Uni<Alternative>
+
+    @GET
+    @Path("/animals/{kind}")
+    @Produces("application/json")
+    fun getAnimal(
+        @PathParam("kind") kind: kotlin.String
+    ): Uni<Animal>
+
+    @GET
+    @Path("/choices/{kind}")
+    @Produces("application/json")
+    fun getChoice(
+        @PathParam("kind") kind: kotlin.String
+    ): Uni<Choice>
+
+    @GET
     @Path("/maybe-name")
     @Produces("application/json")
     fun getNullableName(
     ): Uni<kotlin.String?>
+
+    @GET
+    @Path("/maybe-pet")
+    @Produces("application/json")
+    fun getNullablePet(
+    ): Uni<Pet?>
 
     @GET
     @Path("/pets/{petId}")

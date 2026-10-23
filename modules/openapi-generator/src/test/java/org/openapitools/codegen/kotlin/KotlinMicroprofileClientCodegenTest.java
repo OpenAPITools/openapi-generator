@@ -74,10 +74,19 @@ public class KotlinMicroprofileClientCodegenTest {
                 mutiny ? "): Uni<Void?>" : "): Unit",
                 mutiny ? "): Uni<kotlin.String?>" : "): kotlin.String?");
         assertThat(pet).content().contains("val name: kotlin.String", "val nickname: kotlin.String?",
-                "val labels: kotlin.collections.List<kotlin.String?>", "val age: kotlin.Int? = null");
+                "val labels: kotlin.collections.List<kotlin.String?>", "val age: kotlin.Int? = null",
+                "@param:JsonProperty(value = \"nickname\", required = true)", "@param:JsonProperty(\"age\")");
+        assertThat(compiled.loadClass("org.openapitools.client.models.Choice"))
+                .isAssignableFrom(compiled.loadClass("org.openapitools.client.models.FirstChoice"));
+        assertThat(compiled.loadClass("org.openapitools.client.models.Alternative"))
+                .isAssignableFrom(compiled.loadClass("org.openapitools.client.models.FirstChoice"));
+        assertThat(find(files, "Choice.kt")).content().doesNotContain("val text", "val number");
         assertThat(find(files, "build.gradle")).content()
                 .contains("microprofile-rest-client-api:" + version, "apply plugin: 'java-library'", "-Xjvm-default=all")
                 .doesNotContain("okhttp", "moshi", "retrofit", "ApiClient.kt");
+        assertThat(find(files, "beans.xml")).content()
+                .contains("bean-discovery-mode=\"annotated\"", "version=\"" + version + "\"",
+                        namespace.equals("jakarta") ? "https://jakarta.ee/xml/ns/jakartaee" : "http://xmlns.jcp.org/xml/ns/javaee");
         assertThat(files).noneMatch(file -> file.getName().equals("ApiClient.kt") || file.getName().endsWith("ApiTest.kt"));
         assertThat(find(files, "PetApi.md")).content()
                 .contains("`` filter ``: `kotlin.String? = null`", "`` `value` ``: `kotlin.String?`",
@@ -85,6 +94,22 @@ public class KotlinMicroprofileClientCodegenTest {
                         mutiny ? "Returns `Uni<Void?>`" : "Returns `Unit`");
         assertThat(find(files, "Pet.md")).content().contains("**kotlin.String?**", "**kotlin.Int?**",
                 "**java.time.LocalDate?**").doesNotContain("String??", "Int??");
+    }
+
+    @Test
+    public void generate_WithSerializableUnionModels_CompilesAllInterfaces() throws Exception {
+        KotlinClientCodegen codegen = codegen();
+        codegen.additionalProperties().put("serializableModel", true);
+
+        List<File> files = generate(codegen);
+        List<String> sources = files.stream().filter(file -> file.getPath().contains("src/main/kotlin") && file.getName().endsWith(".kt"))
+                .map(File::getAbsolutePath).collect(Collectors.toList());
+        ClassLoader compiled = KotlinTestUtils.buildModule(sources, getClass().getClassLoader());
+
+        assertThat(compiled.loadClass("org.openapitools.client.models.Choice"))
+                .isAssignableFrom(compiled.loadClass("org.openapitools.client.models.FirstChoice"));
+        assertThat(compiled.loadClass("org.openapitools.client.models.Alternative"))
+                .isAssignableFrom(compiled.loadClass("org.openapitools.client.models.FirstChoice"));
     }
 
     @Test

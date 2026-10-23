@@ -10,8 +10,17 @@ Mutiny support, such as Quarkus REST Client. Bodyless operations return `Uni<Voi
 Register `jackson-module-kotlin` with the runtime's Jackson mapper to support Kotlin
 constructors and reference-type nullability when deserializing models. Optional
 properties use nullable types; absent and explicit-null properties are not distinguished.
-This does not replace OpenAPI validation; primitive null handling depends on the
-runtime's Jackson configuration.
+Required properties, including nullable ones, must be present in JSON. A required
+nullable property accepts an explicit `null`, but not an omitted property.
+Required non-null properties reject explicit nulls, including primitive numbers.
+This does not replace OpenAPI validation; enable the Kotlin module's strict null
+checking when validating non-null collection elements.
+
+Discriminator-based `allOf` inheritance and discriminated `oneOf`/`anyOf` object
+unions are supported. Union models are marker interfaces implemented by their
+alternatives; properties specific to an alternative are accessed after a type check.
+This does not validate the full JSON Schema `oneOf`/`anyOf` constraints.
+Unions without a discriminator are not covered by this polymorphic mapping.
 
 Use `@RestClient` injection, or `RestClientBuilder`, to obtain an implementation.
 Configure the base URL using the generated interface's fully qualified name or
@@ -24,6 +33,10 @@ When compiling generated sources in an existing project, enable JVM default meth
 Kotlin `DefaultImpls` classes that Quarkus REST Client cannot process.
 The generated Gradle build already enables this setting.
 
+The generated resources include `META-INF/beans.xml` so CDI runtimes, including
+Quarkus, discover the client when it is consumed as a separate JAR. Include
+`src/main/resources` when packaging the client with a custom build.
+
 The generated artifact does not bundle a REST implementation. Multipart operations
 are not supported. Optional parameters default to `null` (omitted); OpenAPI parameter
 defaults are left to the server.
@@ -33,9 +46,14 @@ and content-based query parameters are rejected rather than serialized incorrect
 
 ## PetApi
 
+- `createAnimal`: POST /animals
 - `createPet`: POST /pets
 - `deletePet`: DELETE /pets/{petId}
 - `echoNullable`: POST /echo
+- `getAlternative`: GET /alternatives/{kind}
+- `getAnimal`: GET /animals/{kind}
+- `getChoice`: GET /choices/{kind}
 - `getNullableName`: GET /maybe-name
+- `getNullablePet`: GET /maybe-pet
 - `getPet`: GET /pets/{petId}
 - `listPets`: GET /pets

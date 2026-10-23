@@ -5,6 +5,87 @@ info:
 servers:
   - url: http://localhost:8080/api
 paths:
+  /animals:
+    post:
+      tags: [pet]
+      operationId: createAnimal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+      responses:
+        '200':
+          description: The submitted animal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+  /alternatives/{kind}:
+    get:
+      tags: [pet]
+      operationId: getAlternative
+      parameters:
+        - name: kind
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A discriminated alternative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alternative'
+  /animals/{kind}:
+    get:
+      tags: [pet]
+      operationId: getAnimal
+      parameters:
+        - name: kind
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A polymorphic animal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+  /choices/{kind}:
+    get:
+      tags: [pet]
+      operationId: getChoice
+      parameters:
+        - name: kind
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A discriminated union
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Choice'
+  /maybe-pet:
+    get:
+      tags: [pet]
+      operationId: getNullablePet
+      responses:
+        '200':
+          description: A pet or null
+          content:
+            application/json:
+              schema:
+                nullable: true
+                allOf:
+                  - $ref: '#/components/schemas/Pet'
   /echo:
     post:
       tags: [pet]
@@ -119,6 +200,71 @@ paths:
                   $ref: '#/components/schemas/Pet'
 components:
   schemas:
+    Alternative:
+      anyOf:
+        - $ref: '#/components/schemas/FirstChoice'
+        - $ref: '#/components/schemas/SecondChoice'
+      discriminator:
+        propertyName: kind
+        mapping:
+          first: '#/components/schemas/FirstChoice'
+          second: '#/components/schemas/SecondChoice'
+    Animal:
+      type: object
+      required: [name, nickname]
+      discriminator:
+        propertyName: kind
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          required: [lives]
+          properties:
+            lives:
+              type: integer
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Choice:
+      oneOf:
+        - $ref: '#/components/schemas/FirstChoice'
+        - $ref: '#/components/schemas/SecondChoice'
+      discriminator:
+        propertyName: kind
+        mapping:
+          first: '#/components/schemas/FirstChoice'
+          second: '#/components/schemas/SecondChoice'
+    FirstChoice:
+      type: object
+      required: [kind, text]
+      properties:
+        kind:
+          type: string
+        text:
+          type: string
+    SecondChoice:
+      type: object
+      required: [kind, number]
+      properties:
+        kind:
+          type: string
+        number:
+          type: integer
     Pet:
       type: object
       required: [id, name, nickname, labels]

@@ -38,20 +38,30 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
-    @param:JsonProperty("id")
+    @param:JsonProperty(value = "id", required = true)
     @get:JsonProperty("id")
+
+    @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
+
     val id: kotlin.Long,
 
-    @param:JsonProperty("name")
+    @param:JsonProperty(value = "name", required = true)
     @get:JsonProperty("name")
+
+    @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
+
     val name: kotlin.String,
 
-    @param:JsonProperty("nickname")
+    @param:JsonProperty(value = "nickname", required = true)
     @get:JsonProperty("nickname")
+
     val nickname: kotlin.String?,
 
-    @param:JsonProperty("labels")
+    @param:JsonProperty(value = "labels", required = true)
     @get:JsonProperty("labels")
+
+    @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
+
     val labels: kotlin.collections.List<kotlin.String?>,
 
     @param:JsonProperty("age")
@@ -66,4 +76,3 @@ data class Pet (
 
 
 }
-
