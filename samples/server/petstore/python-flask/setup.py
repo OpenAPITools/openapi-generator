@@ -1,20 +1,14 @@
-import sys
+
 from setuptools import setup, find_packages
 
 NAME = "openapi_server"
 VERSION = "1.0.0"
 
-# To install the library, run the following
-#
-# python setup.py install
-#
-# prerequisite: setuptools
-# http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-    "connexion>=2.0.2,<=2.14.2",
-    "swagger-ui-bundle>=0.0.2",
-    "python_dateutil>=2.6.0"
+    "connexion[swagger-ui]>=2.15.1,<3.0.0",
+    "Flask>=2.3.3,<3.0.0",
+    "python-dateutil>=2.8.2",
 ]
 
 setup(
@@ -24,12 +18,20 @@ setup(
     author_email="",
     url="",
     keywords=["OpenAPI", "OpenAPI Petstore"],
+    python_requires=">=3.11,<3.15",
     install_requires=REQUIRES,
     packages=find_packages(),
-    package_data={'': ['openapi/openapi.yaml']},
+    package_data={
+        "": [
+            "openapi/openapi.yaml"
+        ]
+    },
     include_package_data=True,
     entry_points={
-        'console_scripts': ['openapi_server=openapi_server.__main__:main']},
+        "console_scripts": [
+            "openapi_server=openapi_server.__main__:main"
+        ]
+    },
     long_description="""\
     This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
     """
