@@ -15,18 +15,18 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { Known } from './Known';
 import {
-    instanceOfKnown,
     KnownFromJSON,
     KnownFromJSONTyped,
     KnownToJSON,
 } from './Known';
 import type { Other } from './Other';
 import {
-    instanceOfOther,
     OtherFromJSON,
     OtherFromJSONTyped,
     OtherToJSON,
 } from './Other';
+import { instanceOfKnown } from './Known';
+import { instanceOfOther } from './Other';
 
 /**
  * @type TaggedUnion

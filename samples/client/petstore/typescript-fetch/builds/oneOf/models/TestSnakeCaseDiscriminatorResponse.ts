@@ -15,14 +15,12 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { SnakeOptionOne } from './SnakeOptionOne';
 import {
-    instanceOfSnakeOptionOne,
     SnakeOptionOneFromJSON,
     SnakeOptionOneFromJSONTyped,
     SnakeOptionOneToJSON,
 } from './SnakeOptionOne';
 import type { SnakeOptionTwo } from './SnakeOptionTwo';
 import {
-    instanceOfSnakeOptionTwo,
     SnakeOptionTwoFromJSON,
     SnakeOptionTwoFromJSONTyped,
     SnakeOptionTwoToJSON,

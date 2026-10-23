@@ -5,7 +5,9 @@ import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../r
 {{#oneOfArrays}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
+    {{^discriminator}}
     instanceOf{{{.}}},
+    {{/discriminator}}
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
@@ -14,12 +16,14 @@ import {
 {{#oneOfModels}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
-    instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
 {{/oneOfModels}}
+{{#oneOfModelsWithInstanceOf}}
+import { instanceOf{{{.}}} } from './{{.}}{{importFileExtension}}';
+{{/oneOfModelsWithInstanceOf}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
@@ -44,7 +48,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfModelsWithInstanceOf}}
     {{#-first}}
     if (typeof json !== 'object') {
         return json;
@@ -53,7 +57,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     if (instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
-    {{/oneOfModels}}
+    {{/oneOfModelsWithInstanceOf}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(json)) {
@@ -197,7 +201,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfModelsWithInstanceOf}}
     {{#-first}}
     if (typeof value !== 'object') {
         return value;
@@ -206,7 +210,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     if (instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
-    {{/oneOfModels}}
+    {{/oneOfModelsWithInstanceOf}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(value)) {
