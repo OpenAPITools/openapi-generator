@@ -786,6 +786,15 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             }
         }
 
+        if (Constants.JAXRS_SPEC.equals(library)) {
+            for (ModelsMap modelsMap : objs.values()) {
+                for (ModelMap modelMap : modelsMap.getModels()) {
+                    CodegenModel model = modelMap.getModel();
+                    model.vendorExtensions.put("x-jaxrs-polymorphic-model", model.discriminator != null);
+                }
+            }
+        }
+
         return objs;
     }
 

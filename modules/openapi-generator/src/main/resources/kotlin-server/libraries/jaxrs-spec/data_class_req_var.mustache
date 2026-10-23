@@ -2,5 +2,8 @@
     /* {{{.}}} */
 {{/description}}
 
-    @JsonProperty("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
-{{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}    {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+    @JsonProperty(value = "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", required = true)
+{{^isNullable}}
+    @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
+{{/isNullable}}
+{{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}    {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}
