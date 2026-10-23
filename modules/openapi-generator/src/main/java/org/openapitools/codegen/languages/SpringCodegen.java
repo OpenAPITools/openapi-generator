@@ -39,6 +39,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.*;
 import org.openapitools.codegen.meta.features.*;
@@ -328,8 +329,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
                         + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
                         + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
-                        + "property name a record cannot have, or a model bound from request parameters. Not supported "
-                        + "with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
+                        + "property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. "
+                        + "Not supported with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -1878,28 +1879,47 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        Set<String> parameterSchemas = schemasBoundFromParameters();
+        ParameterObjects parameterObjects = parameterObjects();
         Map<String, String> constructedByDefault = modelsConstructedByDefault(allModels);
 
+        List<CodegenModel> candidates = new ArrayList<>();
+        Map<String, String> reasons = new HashMap<>();
+        Map<String, List<Map<String, String>>> accessorsOfModel = new HashMap<>();
         for (CodegenModel cm : allModels.values()) {
             // enums and oneOf interfaces are untouched; aliases (a schema that is only a $ref or a primitive) are
             // never written as a model file (DefaultGenerator skips CodegenModel.isAlias), so they get no decision
             if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
                 continue;
             }
-            String reason = reasonForClass(cm, parameterSchemas, constructedByDefault);
+            candidates.add(cm);
             List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
+            String reason = reasonForClass(cm, parameterObjects, constructedByDefault);
             if (reason == null) {
                 reason = oneOfDiscriminatorAccessors(cm, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
                         discriminatorAccessors);
             }
             if (reason != null) {
+                reasons.put(cm.classname, reason);
+            }
+            accessorsOfModel.put(cm.classname, discriminatorAccessors);
+        }
+        keepParameterObjectGraphAsClasses(candidates, reasons, parameterObjects);
+
+        for (CodegenModel cm : candidates) {
+            String reason = reasons.get(cm.classname);
+            if (reason != null) {
                 LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
                 continue;
             }
             cm.vendorExtensions.put("x-is-record", true);
+            boolean boundByName = parameterObjects.boundByName.contains(cm.schemaName);
             boolean hasInitialValue = false;
             for (CodegenProperty cp : cm.vars) {
+                if (boundByName && !cp.baseName.equals(cp.name)) {
+                    // the data binder takes the component name; this makes it take the documented name, as the
+                    // setter-based class does not
+                    cp.vendorExtensions.put("x-record-bind-param", StringEscapeUtils.escapeJava(cp.baseName));
+                }
                 String initialValue = recordInitialValue(cp);
                 if (initialValue != null) {
                     cp.vendorExtensions.put("x-record-initial-value", initialValue);
@@ -1907,7 +1927,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
             cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
-            cm.vendorExtensions.put("x-record-discriminator-accessors", discriminatorAccessors);
+            cm.vendorExtensions.put("x-record-discriminator-accessors", accessorsOfModel.get(cm.classname));
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
     }
@@ -1961,26 +1981,85 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     /**
-     * Names of the schemas that a request binds from parameters (query, header, cookie, path), not from a body:
-     * every schema a non-body parameter refers to, directly, in {@code content}, through {@code allOf}, array
-     * items or additional properties, and transitively through the properties of those schemas. Records are bound
-     * by constructor parameter name there, which loses escaped property names and turns empty values into defaults.
+     * A request binds a query parameter object by name through Spring's data binder, which fills a class through
+     * its setters and auto-grows a nested model with a no-argument constructor. Measured on Spring Framework 6.1,
+     * 6.2 and 7.0: a record nested under a class fails (HTTP 500), and on 6.1 a record also fails as the element of
+     * a list or map. So everything below a parameter object that stays a class stays a class, and so does every
+     * list or map element of a parameter object (the generator does not know which Spring Framework the parent
+     * brings).
      */
-    private Set<String> schemasBoundFromParameters() {
-        Set<String> names = new HashSet<>();
-        if (openAPI == null || openAPI.getPaths() == null) {
-            return names;
-        }
-        for (PathItem pathItem : openAPI.getPaths().values()) {
-            collectParameterSchemas(pathItem.getParameters(), names);
-            for (Operation operation : pathItem.readOperations()) {
-                collectParameterSchemas(operation.getParameters(), names);
+    private void keepParameterObjectGraphAsClasses(List<CodegenModel> models, Map<String, String> reasons,
+                                                   ParameterObjects parameterObjects) {
+        Map<String, CodegenModel> modelOfSchema = new HashMap<>();
+        for (CodegenModel cm : models) {
+            modelOfSchema.put(cm.schemaName, cm);
+            if (parameterObjects.elements.contains(cm.schemaName)) {
+                reasons.putIfAbsent(cm.classname, "it is a list or map element inside a parameter object");
             }
         }
-        return names;
+        // breadth first from every parameter object that is a class, so the reason names the nearest one
+        Map<String, String> rootOf = new HashMap<>();
+        Deque<String> queue = new ArrayDeque<>();
+        for (CodegenModel cm : models) {
+            if (parameterObjects.boundByName.contains(cm.schemaName) && reasons.containsKey(cm.classname)) {
+                rootOf.put(cm.schemaName, cm.classname);
+                queue.add(cm.schemaName);
+            }
+        }
+        while (!queue.isEmpty()) {
+            String name = queue.poll();
+            for (String nested : parameterObjects.referenced.getOrDefault(name, Collections.emptySet())) {
+                if (rootOf.putIfAbsent(nested, rootOf.get(name)) != null) {
+                    continue;
+                }
+                queue.add(nested);
+                CodegenModel cm = modelOfSchema.get(nested);
+                if (cm != null) {
+                    reasons.putIfAbsent(cm.classname, "it is nested in '" + rootOf.get(name)
+                            + "', a parameter object that is a class");
+                }
+            }
+        }
     }
 
-    private void collectParameterSchemas(List<io.swagger.v3.oas.models.parameters.Parameter> parameters, Set<String> names) {
+    /**
+     * The models that a request binds by name, found once from the document: what the data binder fills from query
+     * parameters. A model that is only converted from one string (a header, cookie or path value, the item of an
+     * array or the value of a map parameter) is not in it.
+     */
+    private static final class ParameterObjects {
+        /** The schema of every query parameter that is not an array or a map, and every model reachable from it. */
+        final Set<String> boundByName = new HashSet<>();
+        /** The item of an array property or the value of a map property of a model in {@code boundByName}. */
+        final Set<String> elements = new HashSet<>();
+        /** For each schema name in {@code boundByName}, the schema names it refers to directly. */
+        final Map<String, Set<String>> referenced = new HashMap<>();
+        /**
+         * The schema of every header, cookie and path parameter, the items of an array and the values of a map
+         * parameter, and every model reachable from them: converted from one string, which a record does not
+         * always survive (measured: a class with a required-arguments constructor is converted, a record is not).
+         */
+        final Set<String> converted = new HashSet<>();
+    }
+
+    private ParameterObjects parameterObjects() {
+        ParameterObjects parameterObjects = new ParameterObjects();
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return parameterObjects;
+        }
+        ParameterObjects converted = new ParameterObjects();
+        for (PathItem pathItem : openAPI.getPaths().values()) {
+            collectParameterObjects(pathItem.getParameters(), parameterObjects, converted);
+            for (Operation operation : pathItem.readOperations()) {
+                collectParameterObjects(operation.getParameters(), parameterObjects, converted);
+            }
+        }
+        parameterObjects.converted.addAll(converted.boundByName);
+        return parameterObjects;
+    }
+
+    private void collectParameterObjects(List<io.swagger.v3.oas.models.parameters.Parameter> parameters,
+                                         ParameterObjects parameterObjects, ParameterObjects converted) {
         if (parameters == null) {
             return;
         }
@@ -1989,48 +2068,83 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (resolved == null) {
                 continue;
             }
-            collectReferencedSchemas(resolved.getSchema(), names);
+            boolean query = "query".equals(resolved.getIn());
+            collectParameterObjects(resolved.getSchema(), query, parameterObjects, converted);
             if (resolved.getContent() != null) {
                 for (MediaType mediaType : resolved.getContent().values()) {
-                    collectReferencedSchemas(mediaType.getSchema(), names);
+                    collectParameterObjects(mediaType.getSchema(), query, parameterObjects, converted);
                 }
             }
         }
     }
 
-    private void collectReferencedSchemas(Schema<?> schema, Set<String> names) {
+    /**
+     * A query parameter that is not an array or a map is bound by name; the items of an array and the values of a map
+     * are converted from strings, like the schema of a header, cookie or path parameter.
+     */
+    private void collectParameterObjects(Schema<?> schema, boolean query, ParameterObjects parameterObjects,
+                                         ParameterObjects converted) {
+        Schema<?> target = schema;
+        Set<String> followed = new HashSet<>();
+        while (target != null && target.get$ref() != null && followed.add(target.get$ref())) {
+            target = ModelUtils.getReferencedSchema(openAPI, target);
+        }
+        // a oneOf or anyOf is an interface, which the data binder cannot fill
+        boolean byName = query && target != null && !ModelUtils.isArraySchema(target)
+                && !(ModelUtils.isMapSchema(target) && (target.getProperties() == null || target.getProperties().isEmpty()))
+                && (target.getOneOf() == null || target.getOneOf().isEmpty())
+                && (target.getAnyOf() == null || target.getAnyOf().isEmpty());
+        collectParameterObjects(schema, null, false, byName ? parameterObjects : converted);
+    }
+
+    /**
+     * Adds the schema and everything reachable from it through a property, array items, additional properties,
+     * {@code allOf}, {@code oneOf} and {@code anyOf}, following alias chains, to the models bound by name.
+     *
+     * @param owner   the name of the model whose body is being read, or null at a parameter
+     * @param element whether the schema is the item of an array or the value of a map of that model
+     */
+    private void collectParameterObjects(Schema<?> schema, String owner, boolean element, ParameterObjects parameterObjects) {
         if (schema == null) {
             return;
         }
         Schema<?> target = schema;
+        String name = owner;
         if (schema.get$ref() != null) {
-            String name = ModelUtils.getSimpleRef(schema.get$ref());
-            if (!names.add(name)) {
-                return;
+            name = ModelUtils.getSimpleRef(schema.get$ref());
+            if (owner != null) {
+                parameterObjects.referenced.computeIfAbsent(owner, k -> new HashSet<>()).add(name);
             }
+            boolean first = parameterObjects.boundByName.add(name);
+            boolean newElement = element && parameterObjects.elements.add(name);
             target = ModelUtils.getReferencedSchema(openAPI, schema);
             if (target == null) {
                 return;
             }
             if (target.get$ref() != null) {
                 // an alias: a component schema that is only a $ref; follow it to the real schema, recording each name
-                collectReferencedSchemas(target, names);
+                if (first || newElement) {
+                    collectParameterObjects(target, name, element, parameterObjects);
+                }
+                return;
+            }
+            if (!first) {
                 return;
             }
         }
-        collectReferencedSchemas(target.getItems(), names);
+        collectParameterObjects(target.getItems(), name, true, parameterObjects);
         if (target.getAdditionalProperties() instanceof Schema) {
-            collectReferencedSchemas((Schema<?>) target.getAdditionalProperties(), names);
+            collectParameterObjects((Schema<?>) target.getAdditionalProperties(), name, true, parameterObjects);
         }
         if (target.getProperties() != null) {
             for (Schema<?> property : ((Map<String, Schema<?>>) (Map) target.getProperties()).values()) {
-                collectReferencedSchemas(property, names);
+                collectParameterObjects(property, name, false, parameterObjects);
             }
         }
         for (List<Schema> composed : Arrays.asList(target.getAllOf(), target.getOneOf(), target.getAnyOf())) {
             if (composed != null) {
                 for (Schema<?> member : composed) {
-                    collectReferencedSchemas(member, names);
+                    collectParameterObjects(member, name, false, parameterObjects);
                 }
             }
         }
@@ -2123,7 +2237,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    private String reasonForClass(CodegenModel cm, Set<String> parameterSchemas,
+    private String reasonForClass(CodegenModel cm, ParameterObjects parameterObjects,
                                   Map<String, String> constructedByDefault) {
         if (cm.parent != null) {
             return "it has a parent (" + cm.parent + ")";
@@ -2143,7 +2257,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (cm.vars.size() > RECORD_MAX_COMPONENTS) {
             return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
         }
-        if (parameterSchemas.contains(cm.schemaName)) {
+        if (parameterObjects.converted.contains(cm.schemaName)) {
             return "it is bound from request parameters";
         }
         for (CodegenProperty cp : cm.vars) {
@@ -2164,9 +2278,45 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
                 return "property '" + cp.name + "' uses the FAIL null policy";
             }
+            if (parameterObjects.boundByName.contains(cm.schemaName)) {
+                String reason = reasonForParameterObjectComponent(cp);
+                if (reason != null) {
+                    return reason;
+                }
+            }
         }
         if (constructedByDefault.containsKey(cm.classname)) {
             return "the default of " + constructedByDefault.get(cm.classname) + " constructs it with new " + cm.classname + "()";
+        }
+        return null;
+    }
+
+    /**
+     * The data binder reaches a nested model, an indexed list element and a mapped value by the component's Java
+     * name, and fills them in place. Measured: a renamed one loses its values, a component wrapped in
+     * {@code JsonNullable} or typed {@code Object} is something Spring tries to construct, and a container with no
+     * initial value has nothing to write into. Only a scalar can carry another name, through {@code BindParam}.
+     */
+    private String reasonForParameterObjectComponent(CodegenProperty cp) {
+        boolean modelOrContainer = cp.isModel || cp.isContainer;
+        if (modelOrContainer && !cp.baseName.equals(cp.name)) {
+            return "property '" + cp.name + "' is a model or a container whose documented name differs from its Java name";
+        }
+        // the condition record.mustache writes the JsonNullable wrapper under (nullableDataType.mustache)
+        if (openApiNullable && cp.isNullable) {
+            return "property '" + cp.name + (modelOrContainer ? "' is a nullable model or container"
+                    : "' is wrapped in JsonNullable");
+        }
+        if (cp.isAnyType || cp.isFreeFormObject || "Object".equals(cp.dataType)) {
+            return "property '" + cp.name + "' has no fixed type";
+        }
+        if (cp.isContainer && recordInitialValue(cp) == null) {
+            return "property '" + cp.name + "' is a container without an initial value";
+        }
+        if (cp.isModel && !cp.isContainer && recordInitialValue(cp) != null) {
+            // the class's field starts as the default's object and the binder writes the request's values into it;
+            // a record has no such object: the binder constructs a fresh one and the default is lost
+            return "property '" + cp.name + "' is a model with a default, which the data binder fills in place only in a class";
         }
         return null;
     }
