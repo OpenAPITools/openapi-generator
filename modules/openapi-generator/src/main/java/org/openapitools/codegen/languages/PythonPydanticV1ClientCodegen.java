@@ -396,11 +396,6 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
     }
