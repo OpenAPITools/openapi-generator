@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -472,33 +471,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return postProcessModelsEnum(objs);
     }
 
-    /* the following function is not used anywhere in this class so we'll remove it later
-    private static String getAccept(Operation operation) {
-        String accepts = null;
-        String defaultContentType = "application/json";
-        if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String produces : operation.getProduces()) {
-                if (defaultContentType.equalsIgnoreCase(produces)) {
-                    accepts = defaultContentType;
-                    break;
-                } else {
-                    if (sb.length() > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(produces);
-                }
-            }
-            if (accepts == null) {
-                accepts = sb.toString();
-            }
-        } else {
-            accepts = defaultContentType;
-        }
-
-        return accepts;
-    }*/
-
     @Override
     protected boolean needToImport(String type) {
         return super.needToImport(type) && type.indexOf(".") < 0;
@@ -572,21 +544,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         return op;
-    }
-
-    private static String sanitizePackageName(String packageName) {
-        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if (Strings.isNullOrEmpty(packageName)) {
-            return "invalidPackageName";
-        }
-        return packageName;
-    }
-
-
-    private String sanitizePath(String p) {
-        //prefer replace a ", instead of a fuLL URL encode for readability
-        return p.replaceAll("\"", "%22");
     }
 
     @Override
