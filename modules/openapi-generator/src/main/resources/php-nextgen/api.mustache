@@ -702,7 +702,8 @@ use {{invokerPackage}}\ObjectSerializer;
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
             {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}}, // explode
-            {{required}} // required
+            {{required}}, // required
+            $this->config
         ) ?? []);
         {{/queryParams}}
 
@@ -869,7 +870,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{^servers.0}}
         $operationHost = $this->config->getHost();
         {{/servers.0}}
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             '{{httpMethod}}',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),

@@ -245,4 +245,81 @@ class ObjectSerializerTest extends TestCase
             urldecode(ObjectSerializer::buildQuery($query))
         );
     }
+
+    /**
+     * Boolean query values must be formatted like the configuration that is passed,
+     * e.g. the configuration of an API instance, instead of the default configuration.
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @covers ObjectSerializer::convertBoolToQueryStringFormat
+     * @covers ObjectSerializer::buildQuery
+     */
+    public function testBooleanQueryValuesUseFormatOfGivenConfiguration(): void
+    {
+        $defaultConfiguration = Configuration::getDefaultConfiguration();
+        $defaultFormat = $defaultConfiguration->getBooleanFormatForQueryString();
+        $defaultConfiguration->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_INT);
+        $config = (new Configuration())->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
+
+        try {
+            $this->assertSame(
+                ['flag' => 'true'],
+                ObjectSerializer::toQueryValue(true, 'flag', 'boolean', 'form', true, true, $config)
+            );
+            $this->assertSame('false', ObjectSerializer::convertBoolToQueryStringFormat(false, $config));
+            $this->assertSame(
+                'flag=true&flags=true&flags=false',
+                ObjectSerializer::buildQuery(['flag' => true, 'flags' => [true, false]], PHP_QUERY_RFC3986, $config)
+            );
+
+            // without a configuration, the default configuration is used
+            $this->assertSame(['flag' => 1], ObjectSerializer::toQueryValue(true, 'flag', 'boolean'));
+            $this->assertSame('flag=1', ObjectSerializer::buildQuery(['flag' => true]));
+        } finally {
+            $defaultConfiguration->setBooleanFormatForQueryString($defaultFormat);
+        }
+    }
+
+    /**
+     * Booleans in non-exploded query values must be formatted like the given configuration,
+     * instead of being imploded into "1" and "".
+     *
+     * @covers ObjectSerializer::toQueryValue
+     * @dataProvider provideNonExplodedBooleanQueryValues
+     */
+    public function testNonExplodedBooleanQueryValues(
+        mixed $data,
+        string $openApiType,
+        string $style,
+        string $booleanFormat,
+        string $expected
+    ): void {
+        $config = (new Configuration())->setBooleanFormatForQueryString($booleanFormat);
+
+        $value = ObjectSerializer::toQueryValue($data, 'flags', $openApiType, $style, false, true, $config);
+
+        $this->assertSame($expected, urldecode(ObjectSerializer::buildQuery($value, PHP_QUERY_RFC3986, $config)));
+    }
+
+    public static function provideNonExplodedBooleanQueryValues(): array
+    {
+        return [
+            'form array, string format' => [
+                [true, false], 'array', 'form', Configuration::BOOLEAN_FORMAT_STRING, 'flags=true,false',
+            ],
+            'form array, int format' => [
+                [true, false], 'array', 'form', Configuration::BOOLEAN_FORMAT_INT, 'flags=1,0',
+            ],
+            'pipeDelimited array, string format' => [
+                [true, false], 'array', 'pipeDelimited', Configuration::BOOLEAN_FORMAT_STRING, 'flags=true|false',
+            ],
+            'form object, string format' => [
+                ['enabled' => true, 'archived' => false], 'object', 'form', Configuration::BOOLEAN_FORMAT_STRING,
+                'flags=enabled,true,archived,false',
+            ],
+            'form boolean, int format' => [
+                false, 'boolean', 'form', Configuration::BOOLEAN_FORMAT_INT, 'flags=0',
+            ],
+        ];
+    }
 }
