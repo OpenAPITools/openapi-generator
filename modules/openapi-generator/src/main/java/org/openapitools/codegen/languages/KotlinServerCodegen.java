@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -191,11 +192,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     }
 
     private Map<String, String> buildInheritanceModeOptions() {
-        Map<String, String> options = new HashMap<>();
-        options.put(Constants.INHERITANCE_MODE_NONE, "Flat models (no inheritance-aware shaping)");
-        options.put(Constants.INHERITANCE_MODE_SEALED, "Sealed/interface oriented inheritance");
+        Map<String, String> options = new LinkedHashMap<>();
+        options.put(Constants.INHERITANCE_MODE_NONE, "Flat models without polymorphic deserialization");
+        options.put(Constants.INHERITANCE_MODE_SEALED, "Sealed/interface oriented inheritance (not supported by jaxrs-spec)");
         options.put(Constants.INHERITANCE_MODE_ABSTRACT, "Abstract base classes and concrete children");
-        options.put(Constants.INHERITANCE_MODE_COMPOSITION, "Composition wrappers for polymorphism");
+        options.put(Constants.INHERITANCE_MODE_COMPOSITION, "Composition wrappers, not wire-compatible polymorphic models");
         return options;
     }
 
@@ -475,13 +476,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
         public static final String IS_KTOR = "isKtor";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
-        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), always sets visible=true on @JsonTypeInfo and adds discriminator properties for oneOf/anyOf hierarchies with appropriate child defaults. When false, visible is true for allOf inheritance and false for oneOf/anyOf unions.";
         public static final String USE_TAGS = "useTags";
         public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
         public static final String DELEGATE_PATTERN = "delegatePattern";
         public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
         public static final String INHERITANCE_MODE = "inheritanceMode";
-        public static final String INHERITANCE_MODE_DESC = "Strategy for model inheritance generation. Values: none, sealed, abstract, composition.";
+        public static final String INHERITANCE_MODE_DESC = "Strategy for model inheritance generation. Defaults to abstract for jaxrs-spec and sealed for other libraries. See docs/kotlin-server-jaxrs-spec.md for JAX-RS semantics and limitations.";
         public static final String INHERITANCE_MODE_NONE = "none";
         public static final String INHERITANCE_MODE_SEALED = "sealed";
         public static final String INHERITANCE_MODE_ABSTRACT = "abstract";
@@ -573,7 +574,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
                     if (parentName != null) {
                         // This model is a child of a discriminator parent
-                        CodegenModel parentModel = allModelsMap.get(parentName);
+                        // Discriminator mappings may include descendants; forward the immediate parent's constructor.
+                        CodegenModel parentModel = allModelsMap.get(model.getParent() != null ? model.getParent() : parentName);
 
                         // Set parent if not already set
                         if (model.getParent() == null) {
@@ -1018,6 +1020,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
                 model.setDiscriminator(null);
                 model.setParent(null);
+                model.oneOf.clear();
+                model.anyOf.clear();
+                model.allOf.clear();
                 model.getVendorExtensions().remove("x-parent-ctor-args");
                 model.getVendorExtensions().remove("x-discriminator-has-parent-properties");
                 model.getVendorExtensions().remove("x-discriminator-visible-true");

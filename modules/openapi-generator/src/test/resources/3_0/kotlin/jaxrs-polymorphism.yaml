@@ -46,6 +46,40 @@ paths:
                 $ref: '#/components/schemas/Choice'
 components:
   schemas:
+    RootNode:
+      type: object
+      required: [kind, id]
+      discriminator:
+        propertyName: kind
+        mapping:
+          branch: '#/components/schemas/BranchNode'
+      properties:
+        kind:
+          type: string
+        id:
+          type: string
+        note:
+          type: string
+    BranchNode:
+      allOf:
+        - $ref: '#/components/schemas/RootNode'
+        - type: object
+          required: [label]
+          properties:
+            label:
+              type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          leaf: '#/components/schemas/LeafNode'
+    LeafNode:
+      allOf:
+        - $ref: '#/components/schemas/BranchNode'
+        - type: object
+          required: [value]
+          properties:
+            value:
+              type: integer
     Alternative:
       anyOf:
         - $ref: '#/components/schemas/TextAlternative'
@@ -76,7 +110,7 @@ components:
       enum: [cat, dog]
     Animal:
       type: object
-      required: [name, nickname, labels]
+      required: [kind, name, nickname, labels]
       discriminator:
         propertyName: kind
         mapping:
