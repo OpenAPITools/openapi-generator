@@ -540,6 +540,42 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     }
 
     /**
+     * Shared epilogue of the {@code process*TypeProperty} methods: NOT NULL or default
+     * value, then the column comment. Auto-incremented SERIAL/BIGSERIAL columns, which
+     * only the integer path produces, get neither.
+     *
+     * @param model    model
+     * @param property model's property
+     * @param column   column context from {@link #startColumn(CodegenModel, CodegenProperty)}
+     */
+    private void finishColumn(CodegenModel model, CodegenProperty property, ColumnContext column) {
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String colDataType = (String) columnDefinition.get("colDataType");
+
+        // No default value for autoincremented IDs
+        if (!"SERIAL".equals(colDataType) && !"BIGSERIAL".equals(colDataType)) {
+            if (Boolean.TRUE.equals(property.getRequired())) {
+                columnDefinition.put("colNotNull", true);
+            } else {
+                columnDefinition.put("colNotNull", false);
+                try {
+                    columnDefinition.put("colDefault",
+                            toCodegenPostgresqlDataTypeDefault(property.getDefaultValue(), colDataType));
+                } catch (RuntimeException exception) {
+                    LOGGER.warn(
+                            "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
+                            property.getBaseName(), model.getName());
+                    columnDefinition.put("colDefault", null);
+                }
+            }
+        }
+
+        if (column.description != null) {
+            columnDefinition.put("colComment", column.description);
+        }
+    }
+
+    /**
      * Processes each model's property mapped to integer type and adds related
      * vendor extensions
      *
@@ -554,14 +590,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         Map<String, Object> columnDefinition = column.columnDefinition;
         String colName = column.colName;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataFormat = property.getDataFormat();
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
 
         if (property.isEnum) {
             putEnumType(model, property, column);
@@ -589,29 +621,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         }
 
-        if (!columnDefinition.get("colDataType").equals("SERIAL")
-                && !columnDefinition.get("colDataType").equals("BIGSERIAL")) { // No default value for autoincremented
-            // IDs
-            if (Boolean.TRUE.equals(required)) {
-                columnDefinition.put("colNotNull", true);
-            } else {
-                columnDefinition.put("colNotNull", false);
-                try {
-                    columnDefinition.put("colDefault",
-                            toCodegenPostgresqlDataTypeDefault(defaultValue,
-                                    (String) columnDefinition.get("colDataType")));
-                } catch (RuntimeException exception) {
-                    LOGGER.warn(
-                            "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                            baseName, model.getName());
-                    columnDefinition.put("colDefault", null);
-                }
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -628,10 +638,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
 
         if (property.isEnum) {
             putEnumType(model, property, column);
@@ -643,24 +649,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(9));
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -677,13 +666,9 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataType = property.getDataType();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
 
         if (property.isEnum) {
             putEnumType(model, property, column);
@@ -699,25 +684,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
-
+        finishColumn(model, property, column);
     }
 
     /**
@@ -734,31 +701,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
 
         columnDefinition.put("colDataType", "BOOLEAN");
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -775,32 +721,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
 
         columnDefinition.put("colDataType", dataType);
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -817,11 +742,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
 
         columnDefinition.put("colDataType", dataType);
 
@@ -833,24 +754,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             columnDefinition.put("colDataType", "JSONB");
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -868,31 +772,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
 
         columnDefinition.put("colDataType", "TEXT");
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
