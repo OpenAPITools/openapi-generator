@@ -1,0 +1,43 @@
+# {{artifactId}}
+
+Kotlin MicroProfile Rest Client interfaces and Jackson models generated from {{appName}}.
+
+Requires a MicroProfile Rest Client {{microprofileRestClientVersion}} implementation.
+MicroProfile 3.0 uses Jakarta REST; 2.0 uses javax REST.
+{{#microprofileMutiny}}
+Reactive operations return SmallRye Mutiny `Uni<T>`. This requires a runtime with
+Mutiny support, such as Quarkus REST Client. Bodyless operations return `Uni<Void?>`.
+{{/microprofileMutiny}}
+
+Register `jackson-module-kotlin` with the runtime's Jackson mapper to support Kotlin
+constructors and reference-type nullability when deserializing models. Optional
+properties use nullable types; absent and explicit-null properties are not distinguished.
+This does not replace OpenAPI validation; primitive null handling depends on the
+runtime's Jackson configuration.
+
+Use `@RestClient` injection, or `RestClientBuilder`, to obtain an implementation.
+Configure the base URL using the generated interface's fully qualified name or
+`configKey`. Authentication, header propagation and exception mappers are configured
+using the MicroProfile runtime, `@RegisterClientHeaders` and `@RegisterProvider`.
+The runtime's default response exception mapper handles HTTP errors.
+
+When compiling generated sources in an existing project, enable JVM default methods
+(`-Xjvm-default=all`, or the equivalent `jvmDefault` compiler setting). This avoids
+Kotlin `DefaultImpls` classes that Quarkus REST Client cannot process.
+The generated Gradle build already enables this setting.
+
+The generated artifact does not bundle a REST implementation. Multipart operations
+are not supported. Optional parameters default to `null` (omitted); OpenAPI parameter
+defaults are left to the server.
+
+{{#apiInfo}}
+{{#apis}}
+## {{classname}}
+
+{{#operations}}
+{{#operation}}
+- `{{nickname}}`: {{httpMethod}} {{path}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

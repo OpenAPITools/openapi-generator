@@ -1,0 +1,21 @@
+# {{classname}}
+
+MicroProfile Rest Client interface. Obtain an implementation using `@RestClient`
+injection or `RestClientBuilder`; the runtime provides HTTP transport and providers.
+
+{{#operations}}
+{{#operation}}
+## {{nickname}}
+
+`{{httpMethod}} {{path}}`
+
+{{summary}}
+
+{{#allParams}}
+- `{{paramName}}`: `{{{dataType}}}` ({{#required}}required{{/required}}{{^required}}optional{{/required}})
+{{/allParams}}
+
+Returns {{#microprofileMutiny}}`Uni<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void?{{/returnType}}>`{{/microprofileMutiny}}{{^microprofileMutiny}}`{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}`{{/microprofileMutiny}}.
+
+{{/operation}}
+{{/operations}}
