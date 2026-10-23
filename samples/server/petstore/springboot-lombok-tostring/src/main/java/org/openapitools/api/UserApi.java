@@ -58,6 +58,9 @@ public interface UserApi {
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(
@@ -88,6 +91,9 @@ public interface UserApi {
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(
@@ -118,6 +124,9 @@ public interface UserApi {
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(
@@ -150,6 +159,9 @@ public interface UserApi {
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
             @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(
@@ -244,7 +256,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -266,6 +278,9 @@ public interface UserApi {
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(
@@ -298,6 +313,9 @@ public interface UserApi {
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
             @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
         }
     )
     @RequestMapping(

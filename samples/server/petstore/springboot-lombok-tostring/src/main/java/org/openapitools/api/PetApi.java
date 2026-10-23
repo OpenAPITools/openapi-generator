@@ -8,7 +8,6 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
-import java.util.Set;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -60,7 +59,10 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "405", description = "Invalid input")
         },
         security = {
@@ -70,11 +72,26 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = PetApi.PATH_ADD_PET,
+        produces = { "application/xml", "application/json" },
         consumes = { "application/json", "application/xml" }
     )
-    default ResponseEntity<Void> addPet(
+    default ResponseEntity<Pet> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -87,8 +104,7 @@ public interface PetApi {
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
-     * @return successful operation (status code 200)
-     *         or Invalid pet value (status code 400)
+     * @return Invalid pet value (status code 400)
      */
     @Operation(
         operationId = "deletePet",
@@ -96,7 +112,6 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
             @ApiResponse(responseCode = "400", description = "Invalid pet value")
         },
         security = {
@@ -138,7 +153,7 @@ public interface PetApi {
             @ApiResponse(responseCode = "400", description = "Invalid status value")
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+            @SecurityRequirement(name = "petstore_auth", scopes={ "read:pets" })
         }
     )
     @RequestMapping(
@@ -147,12 +162,12 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
+                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -193,7 +208,7 @@ public interface PetApi {
             @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+            @SecurityRequirement(name = "petstore_auth", scopes={ "read:pets" })
         }
     )
     @RequestMapping(
@@ -201,13 +216,13 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags
+    default ResponseEntity<List<Pet>> findPetsByTags(
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
+                    String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -261,7 +276,7 @@ public interface PetApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
+                    String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -287,6 +302,8 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     @Operation(
         operationId = "updatePet",
@@ -294,23 +311,42 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Pet not found"),
             @ApiResponse(responseCode = "405", description = "Validation exception")
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
-        }
+        },
+        externalDocs = @ExternalDocumentation(description = "API documentation for the updatePet operation", url = "http://petstore.swagger.io/v2/doc/updatePet")
     )
     @RequestMapping(
         method = RequestMethod.PUT,
         value = PetApi.PATH_UPDATE_PET,
+        produces = { "application/xml", "application/json" },
         consumes = { "application/json", "application/xml" }
     )
-    default ResponseEntity<Void> updatePet(
+    default ResponseEntity<Pet> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

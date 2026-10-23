@@ -18,38 +18,22 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Category
+ * A category for a pet
  */
 @lombok.Getter
 @lombok.Setter
 @lombok.ToString
 @lombok.EqualsAndHashCode
 
+@Schema(name = "Category", description = "A category for a pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Category {
 
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("id")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
-  @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("name")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String name = "default-name";
-
-  public Category() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Category(String name) {
-    this.name = name;
-  }
+  private @Nullable String name;
 
   public Category id(@Nullable Long id) {
     this.id = id;
@@ -57,7 +41,7 @@ public class Category {
   }
 
 
-  public Category name(String name) {
+  public Category name(@Nullable String name) {
     this.name = name;
     return this;
   }

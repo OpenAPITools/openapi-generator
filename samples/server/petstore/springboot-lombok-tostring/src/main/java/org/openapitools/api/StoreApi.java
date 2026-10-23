@@ -43,9 +43,9 @@ public interface StoreApi {
         return Optional.empty();
     }
 
-    String PATH_DELETE_ORDER = "/store/order/{order_id}";
+    String PATH_DELETE_ORDER = "/store/order/{orderId}";
     /**
-     * DELETE /store/order/{order_id} : Delete purchase order by ID
+     * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -67,7 +67,7 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     default ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
+        @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -108,9 +108,9 @@ public interface StoreApi {
     }
 
 
-    String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
+    String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
     /**
-     * GET /store/order/{order_id} : Find purchase order by ID
+     * GET /store/order/{orderId} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -138,7 +138,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Order> getOrderById(
-        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
