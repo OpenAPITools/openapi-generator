@@ -409,6 +409,7 @@ impl Animal {
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnimalFarm(
+    #[cfg_attr(feature = "validate", validate)]
     Vec<Animal>
 );
 
