@@ -25,7 +25,9 @@ import {{rootJavaEEPackage}}.validation.Valid;
 {{#microprofileRegisterExceptionMapper}}
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 {{/microprofileRegisterExceptionMapper}}
+{{#microprofileRegisterRestClient}}
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+{{/microprofileRegisterRestClient}}
 
 
 {{#appName}}
@@ -40,7 +42,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 {{/appName}}
 
 {{^microprofileServer}}
+{{#microprofileRegisterRestClient}}
 @RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}{{#configKeyFromClassName}}{{#operations}}(configKey="{{configKey}}"){{/operations}}{{/configKeyFromClassName}}
+{{/microprofileRegisterRestClient}}
 {{/microprofileServer}}
 {{#microprofileRegisterExceptionMapper}}
 @RegisterProvider(ApiExceptionMapper.class)
