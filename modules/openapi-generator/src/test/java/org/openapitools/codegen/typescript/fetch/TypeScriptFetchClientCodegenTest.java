@@ -1417,6 +1417,25 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "A request parameter that is a set should be converted to an array before it can be mapped to JSON")
+    public void testSetRequestParameterIsConvertedToArray() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_1/issue_24887.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(modelPath,
+                "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: requestParameters['optionalArrayTestObject'] === undefined ? requestParameters['optionalArrayTestObject'] : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
+                "body: requestParameters['optionalNullableArrayTestObject'] === undefined || requestParameters['optionalNullableArrayTestObject'] === null ? requestParameters['optionalNullableArrayTestObject'] : requestParameters['optionalNullableArrayTestObject']!.map(OptionalNullableArrayTestObjectToJSON),",
+                "body: OptionalTestObjectToJSON(requestParameters['optionalTestObject']),",
+                "body: requestParameters['optionalSetTestObject'] === undefined ? requestParameters['optionalSetTestObject'] : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
+                "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON),",
+                "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
