@@ -9,6 +9,8 @@
 
 using System;
 using System.Net.Http;
+using System.Net.Security;
+using Microsoft.Extensions.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Polly.Timeout;
 using Polly.Extensions.Http;
@@ -21,6 +23,59 @@ namespace Org.OpenAPITools.Extensions
     /// </summary>
     public static class IHttpClientBuilderExtensions
     {
+        /// <summary>
+        /// Configures remote certificate validation for requests made by this client.
+        /// </summary>
+        public static IHttpClientBuilder ConfigureRemoteCertificateValidationCallback(
+            this IHttpClientBuilder client,
+            RemoteCertificateValidationCallback callback)
+        {
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, (HttpClientFactoryOptions options) =>
+            {
+                options.HttpMessageHandlerBuilderActions.Add(builder =>
+                {
+                    if (builder.PrimaryHandler is HttpClientHandler httpClientHandler)
+                        httpClientHandler.ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) =>
+                            callback(request, certificate, chain, errors);
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    else if (builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler)
+                        socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = callback;
+#endif
+                    else
+                        throw new InvalidOperationException("Certificate validation requires HttpClientHandler or SocketsHttpHandler.");
+                });
+            });
+
+            return client;
+        }
+
+        /// <summary>
+        /// Disables TLS certificate validation for requests made by this client.
+        /// Use only for development or testing.
+        /// </summary>
+        public static IHttpClientBuilder SkipCertificateCheck(this IHttpClientBuilder client)
+        {
+            client.Services.Configure<HttpClientFactoryOptions>(client.Name, (HttpClientFactoryOptions options) =>
+            {
+                options.HttpMessageHandlerBuilderActions.Add(builder =>
+                {
+                    if (builder.PrimaryHandler is HttpClientHandler httpClientHandler)
+                        httpClientHandler.ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) => true;
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    else if (builder.PrimaryHandler is SocketsHttpHandler socketsHttpHandler)
+                        socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+#endif
+                    else
+                        throw new InvalidOperationException("Certificate validation requires HttpClientHandler or SocketsHttpHandler.");
+                });
+            });
+
+            return client;
+        }
+
         /// <summary>
         /// Adds a Polly retry policy to your clients.
         /// </summary>
