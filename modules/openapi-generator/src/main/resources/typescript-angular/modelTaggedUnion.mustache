@@ -17,7 +17,14 @@ export interface {{classname}} { {{>modelGenericAdditionalProperties}}
 
 {{/parent}}
 {{^parent}}
+{{#oneOf}}
+{{#-first}}
+{{>modelOneOf}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{>modelGeneric}}
+{{/oneOf}}
 
 {{/parent}}
 {{/discriminator}}
