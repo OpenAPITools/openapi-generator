@@ -139,6 +139,30 @@ paths:
               schema:
                 type: string
                 example: an internal server error response example
+  /example6/multiple_examples:
+    post:
+      operationId: example6PostMultipleExamples
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              FirstExample:
+                summary: The first example value
+                value: 'An example6 value 1'
+              SecondExample:
+                summary: The second example value
+                value: 'An example6 value 2'
+              ThirdExample:
+                summary: The third example value
+                value: 'An example6 value 3'
+      responses:
+        '200':
+          description: successful operation
 components:
   schemas:
     User:
