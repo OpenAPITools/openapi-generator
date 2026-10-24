@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PropertiesWithAnyOf" /> class.
         /// </summary>
         /// <param name="anyofNullableNumber">anyofNullableNumber</param>
-        /// <param name="anyofNullableString">to test oneOf</param>
+        /// <param name="anyofNullableString">anyofNullableString</param>
         [JsonConstructor]
         public PropertiesWithAnyOf(Option<decimal?> anyofNullableNumber = default, Option<string?> anyofNullableString = default)
         {
@@ -66,9 +66,8 @@ namespace Org.OpenAPITools.Model
         public Option<string?> AnyofNullableStringOption { get; private set; }
 
         /// <summary>
-        /// to test oneOf
+        /// Gets or Sets AnyofNullableString
         /// </summary>
-        /// <value>to test oneOf</value>
         [JsonPropertyName("anyof_nullable_string")]
         public string? AnyofNullableString { get { return this.AnyofNullableStringOption.Value; } set { this.AnyofNullableStringOption = new(value); } }
 
