@@ -72,6 +72,53 @@ The `templateType` option will default to `SupportingFiles`, so the option for `
 
 Excluding `SupportingFiles`, each of the above options may result in multiple files. API related types create a file per API. Model related types create a file for each model.
 
+### Directory-based file discovery with `filesDir`
+
+If you have many additional template files, listing each one individually under `files` can become unwieldy. The `filesDir` option lets you point to a directory whose structure determines template types automatically:
+
+```yaml
+templateDir: my_custom_templates
+filesDir: my_extra_templates/
+```
+
+Where `my_extra_templates/` is organized like this:
+
+```
+my_extra_templates/
+  README.md                        # -> SupportingFiles (root = default)
+  LICENSE.mustache                  # -> SupportingFiles, output as "LICENSE"
+  api/
+    custom_api.mustache             # -> templateType: API
+  model/
+    validators.mustache             # -> templateType: Model
+  apiDocs/
+    api_readme.mustache             # -> templateType: APIDocs
+  modelDocs/
+    model_readme.mustache           # -> templateType: ModelDocs
+  apiTests/
+    api_test.mustache               # -> templateType: APITests
+  modelTests/
+    model_test.mustache             # -> templateType: ModelTests
+  supportingFiles/
+    build.gradle.mustache           # -> SupportingFiles
+    scripts/
+      check.sh                      # -> SupportingFiles, folder: "scripts"
+  custom_output_dir/
+    deploy.sh                       # -> SupportingFiles, folder: "custom_output_dir"
+```
+
+The rules are:
+
+* **Root files** (directly inside `filesDir`) are treated as `SupportingFiles` with no output folder.
+* **Recognized subdirectory names** (case-insensitive: `api`, `model`, `apiDocs`, `modelDocs`, `apiTests`, `modelTests`, `supportingFiles`) map files to the corresponding `templateType`.
+* **Unrecognized subdirectory names** (e.g. `custom_output_dir/`) are treated as `SupportingFiles` with the directory path used as the output `folder`.
+* **`.mustache` suffixes** are stripped from the destination filename (e.g. `build.gradle.mustache` outputs as `build.gradle`). Non-mustache files are copied as-is.
+* **Nested directories under `supportingFiles/`** preserve their path as the output folder (e.g. `supportingFiles/scripts/check.sh` outputs to `scripts/check.sh`).
+
+You can use `filesDir` together with `files`. When both are specified, explicit `files` entries take precedence over auto-discovered ones if there is a template path conflict.
+
+`filesDir` follows symbolic links. Be careful not to create symlink cycles, as no infinite loop protection is provided.
+
 Note that user-defined templates will merge with built-in template definitions. If a supporting file with the sample template file path exists, it will be replaced with the user-defined template, otherwise the user-defined template will be added to the list of template files to compile. If the generator's built-in template is `model_docs.mustache` and you define `model-docs.mustache`, this will result in duplicated model docs (if `destinationFilename` differs) or undefined behavior as whichever template compiles last will overwrite the previous model docs (if `destinationFilename` matches the extension or suffix in the generator's code).
 
 ## Custom Generator (and Template)
