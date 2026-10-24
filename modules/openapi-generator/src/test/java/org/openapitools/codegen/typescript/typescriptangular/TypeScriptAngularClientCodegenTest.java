@@ -724,4 +724,189 @@ public class TypeScriptAngularClientCodegenTest {
         TestUtils.assertFileContains(service, "public getPetResourceResource(options?: ApiHttpResourceOptions<string>)");
         TestUtils.assertFileNotContains(service, "public getPetResource(options?: ApiHttpResourceOptions<string>)");
     }
+
+    @Test
+    public void testMultipleImportsFromSameModuleAndExternalModelReExport() throws IOException {
+        Path spec = Files.createTempFile("external-imports-spec", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.1",
+                "info: {title: test, version: 1.0.0}",
+                "paths:",
+                "  /items:",
+                "    get:",
+                "      operationId: getItems",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                $ref: '#/components/schemas/ItemDto'",
+                "    post:",
+                "      operationId: createItem",
+                "      requestBody:",
+                "        content:",
+                "          application/json:",
+                "            schema:",
+                "              $ref: '#/components/schemas/ItemCreateRequest'",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                $ref: '#/components/schemas/ItemDto'",
+                "components:",
+                "  schemas:",
+                "    ItemDto:",
+                "      type: object",
+                "      properties:",
+                "        id:",
+                "          type: string",
+                "    ItemCreateRequest:",
+                "      type: object",
+                "      properties:",
+                "        name:",
+                "          type: string",
+                "    LocalModel:",
+                "      type: object",
+                "      properties:",
+                "        localProp:",
+                "          type: string"
+        ));
+
+        File output = Files.createTempDirectory("test-ext-imports").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> importMappings = new HashMap<>();
+        importMappings.put("ItemDto", "@contracts");
+        importMappings.put("ItemCreateRequest", "@contracts");
+
+        Map<String, String> typeMappings = new HashMap<>();
+        typeMappings.put("ItemDto", "ItemDto");
+        typeMappings.put("ItemCreateRequest", "ItemCreateRequest");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path defaultService = Paths.get(output + "/api/default.service.ts");
+        TestUtils.assertFileContains(defaultService,
+                "import { ItemCreateRequest } from '@contracts';",
+                "import { ItemDto } from '@contracts';");
+
+        Path modelsFile = Paths.get(output + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFile,
+                "export * from './localModel';",
+                "export * from '@contracts';");
+        String modelsContent = Files.readString(modelsFile);
+        int firstIdx = modelsContent.indexOf("export * from '@contracts';");
+        int lastIdx = modelsContent.lastIndexOf("export * from '@contracts';");
+        org.testng.Assert.assertEquals(firstIdx, lastIdx, "Expected '@contracts' to be re-exported exactly once without duplicate lines");
+
+        // Test backwards compatibility with Angular 9
+        File outputNg9 = Files.createTempDirectory("test-ext-imports-ng9").toFile();
+        outputNg9.deleteOnExit();
+
+        final CodegenConfigurator configuratorNg9 = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .addAdditionalProperty(TypeScriptAngularClientCodegen.NG_VERSION, "9.0.0")
+                .setOutputDir(outputNg9.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configuratorNg9.toClientOptInput()).generate();
+
+        Path modelsFileNg9 = Paths.get(outputNg9 + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFileNg9,
+                "export * from './localModel';",
+                "export * from '@contracts';");
+        String modelsContentNg9 = Files.readString(modelsFileNg9);
+        int firstNg9 = modelsContentNg9.indexOf("export * from '@contracts';");
+        int lastNg9 = modelsContentNg9.lastIndexOf("export * from '@contracts';");
+        org.testng.Assert.assertEquals(firstNg9, lastNg9, "Expected '@contracts' to be re-exported exactly once in Angular 9");
+    }
+
+    @Test
+    public void testIssue22533ImportMappingsSamePathInServices() throws IOException {
+        Path spec = Files.createTempFile("issue-22533-spec", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.0",
+                "info: {title: Sample API, version: '0'}",
+                "paths:",
+                "  /users/{foo}/{bar}:",
+                "    parameters:",
+                "      - name: foo",
+                "        in: path",
+                "        required: true",
+                "        schema:",
+                "          $ref: '#/components/schemas/Foo'",
+                "      - name: bar",
+                "        in: path",
+                "        required: true",
+                "        schema:",
+                "          $ref: '#/components/schemas/Bar'",
+                "    get:",
+                "      operationId: getUsers",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                type: array",
+                "                items:",
+                "                  type: string",
+                "components:",
+                "  schemas:",
+                "    Foo:",
+                "      type: object",
+                "      properties:",
+                "        id: {type: string}",
+                "    Bar:",
+                "      type: object",
+                "      properties:",
+                "        id: {type: string}"
+        ));
+
+        File output = Files.createTempDirectory("test-issue-22533").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> importMappings = new HashMap<>();
+        importMappings.put("Foo", "@foo/bar");
+        importMappings.put("Bar", "@foo/bar");
+
+        Map<String, String> typeMappings = new HashMap<>();
+        typeMappings.put("Foo", "Foo");
+        typeMappings.put("Bar", "Bar");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path defaultService = Paths.get(output + "/api/default.service.ts");
+        TestUtils.assertFileContains(defaultService,
+                "import { Bar } from '@foo/bar';",
+                "import { Foo } from '@foo/bar';");
+
+        Path modelsFile = Paths.get(output + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFile, "export * from '@foo/bar';");
+        String modelsContent = Files.readString(modelsFile);
+        int firstIdx = modelsContent.indexOf("export * from '@foo/bar';");
+        int lastIdx = modelsContent.lastIndexOf("export * from '@foo/bar';");
+        org.testng.Assert.assertEquals(firstIdx, lastIdx, "Expected '@foo/bar' to be re-exported exactly once");
+    }
 }
