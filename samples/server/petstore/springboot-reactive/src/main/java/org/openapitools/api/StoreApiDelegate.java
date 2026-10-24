@@ -57,7 +57,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
+    default @Valid Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
 
@@ -77,7 +77,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default Mono<ResponseEntity<Order>> getOrderById(Long orderId,
+    default @Valid Mono<ResponseEntity<Order>> getOrderById(Long orderId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -110,7 +110,7 @@ public interface StoreApiDelegate {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
+    default @Valid Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     

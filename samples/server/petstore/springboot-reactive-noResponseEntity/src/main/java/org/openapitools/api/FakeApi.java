@@ -109,7 +109,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Boolean> fakeOuterBooleanSerialize(
+    default @Valid Mono<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body
     ) {
         return getDelegate().fakeOuterBooleanSerialize(body);
@@ -141,7 +141,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<OuterComposite> fakeOuterCompositeSerialize(
+    default @Valid Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite
     ) {
         return getDelegate().fakeOuterCompositeSerialize(outerComposite);
@@ -173,7 +173,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<BigDecimal> fakeOuterNumberSerialize(
+    default @Valid Mono<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body
     ) {
         return getDelegate().fakeOuterNumberSerialize(body);
@@ -205,7 +205,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<String> fakeOuterStringSerialize(
+    default @Valid Mono<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
@@ -234,7 +234,7 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+    default @Valid Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().responseObjectDifferentNames(petId);
@@ -325,7 +325,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Client> testClientModel(
+    default @Valid Mono<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client
     ) {
         return getDelegate().testClientModel(client);
@@ -627,7 +627,7 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Integer> testWithResultExample(
+    default @Valid Mono<Integer> testWithResultExample(
         
     ) {
         return getDelegate().testWithResultExample();
@@ -665,7 +665,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<ModelApiResponse> uploadFileWithRequiredFile(
+    default @Valid Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata

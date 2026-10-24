@@ -83,7 +83,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
-    ResponseEntity<List<Pet>> findPetsByStatus(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -104,7 +104,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
-    ResponseEntity<Set<Pet>> findPetsByTags(
+    @Valid ResponseEntity<Set<@Valid Pet>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
@@ -124,7 +124,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         accept = { "application/json", "application/xml" }
     )
-    ResponseEntity<Pet> getPetById(
+    @Valid ResponseEntity<Pet> getPetById(
          @PathVariable("petId") Long petId
     );
 
@@ -141,7 +141,7 @@ public interface PetApi {
         value = PetApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         accept = { "application/json" }
     )
-    ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+    @Valid ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
          @PathVariable("petId") Long petId
     );
 
@@ -207,7 +207,7 @@ public interface PetApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    ResponseEntity<ModelApiResponse> uploadFile(
+    @Valid ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
@@ -230,7 +230,7 @@ public interface PetApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
+    @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

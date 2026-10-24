@@ -67,7 +67,7 @@ public interface AnotherFakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Client> call123testSpecialTags(
+    default @Valid Mono<Client> call123testSpecialTags(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client
     ) {
         return getDelegate().call123testSpecialTags(client);
