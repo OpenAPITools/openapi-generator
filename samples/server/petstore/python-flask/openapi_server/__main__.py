@@ -7,7 +7,7 @@ from openapi_server import encoder
 
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
-    app.app.json_encoder = encoder.JSONEncoder
+    app.app.json = encoder.JSONProvider(app.app)
     app.add_api('openapi.yaml',
                 arguments={'title': 'OpenAPI Petstore'},
                 pythonic_params=True)
