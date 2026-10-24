@@ -20,9 +20,9 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 }
 
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
-    return value as any;
+    return {{classname}}ToJSONTyped(value, false);
 }
 
-export function {{classname}}ToJSONTyped(value: any, ignoreDiscriminator: boolean): {{classname}} {
-    return value as {{classname}};
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator: boolean = false): any {
+    return value as any;
 }

@@ -46,8 +46,8 @@ export function StructuredTypeFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function StructuredTypeToJSON(json: any): StructuredType {
-    return StructuredTypeToJSONTyped(json, false);
+export function StructuredTypeToJSON(value?: StructuredType | null): any {
+    return StructuredTypeToJSONTyped(value, false);
 }
 
 export function StructuredTypeToJSONTyped(value?: StructuredType | null, ignoreDiscriminator: boolean = false): any {

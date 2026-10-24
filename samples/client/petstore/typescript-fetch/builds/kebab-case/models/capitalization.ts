@@ -72,8 +72,8 @@ export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function CapitalizationToJSON(json: any): Capitalization {
-    return CapitalizationToJSONTyped(json, false);
+export function CapitalizationToJSON(value?: Capitalization | null): any {
+    return CapitalizationToJSONTyped(value, false);
 }
 
 export function CapitalizationToJSONTyped(value?: Capitalization | null, ignoreDiscriminator: boolean = false): any {

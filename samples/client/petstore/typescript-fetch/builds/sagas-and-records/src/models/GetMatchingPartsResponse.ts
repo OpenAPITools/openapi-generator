@@ -67,8 +67,8 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function GetMatchingPartsResponseToJSON(json: any): GetMatchingPartsResponse {
-    return GetMatchingPartsResponseToJSONTyped(json, false);
+export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
+    return GetMatchingPartsResponseToJSONTyped(value, false);
 }
 
 export function GetMatchingPartsResponseToJSONTyped(value?: GetMatchingPartsResponse | null, ignoreDiscriminator: boolean = false): any {

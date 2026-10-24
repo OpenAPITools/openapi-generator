@@ -63,8 +63,8 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     };
 }
 
-export function AnimalToJSON(json: any): Animal {
-    return AnimalToJSONTyped(json, false);
+export function AnimalToJSON(value?: Animal | null): any {
+    return AnimalToJSONTyped(value, false);
 }
 
 export function AnimalToJSONTyped(value?: Animal | null, ignoreDiscriminator: boolean = false): any {
