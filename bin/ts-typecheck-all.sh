@@ -39,7 +39,7 @@ main() {
         pushd "${root_dir}/${dir}" > /dev/null
         npm_install \
             || npm_install --force # --force because we have some incompatible peer-dependencies that can't be fixed
-        npm exec --package=typescript@5.6.3 --yes -- tsc --noEmit
+        npm exec --package=typescript@6.0.3 --yes -- tsc --noEmit
         log "✓ ${dir}"
         log
         popd > /dev/null
