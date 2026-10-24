@@ -465,16 +465,13 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
         String description = property.getDescription();
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
-        boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean isUuid = property.isUuid;
         Boolean isEnum = property.isEnum;
         String tableName = this.toTableName(model.getName());
 
@@ -589,13 +586,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String description = property.getDescription();
-        String minimum = property.getMinimum();
-        String maximum = property.getMaximum();
-        boolean exclusiveMinimum = property.getExclusiveMinimum();
-        boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         Boolean isEnum = property.isEnum;
@@ -649,12 +640,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
             }
         } else {
-            Float min = (minimum != null) ? Float.valueOf(minimum) : null;
-            Float max = (maximum != null) ? Float.valueOf(maximum) : null;
-            if (exclusiveMinimum && min != null)
-                min += 1;
-            if (exclusiveMaximum && max != null)
-                max -= 1;
             columnDefinition.put("colDataType", "DECIMAL");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(20));
@@ -697,7 +682,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String description = property.getDescription();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
@@ -796,7 +780,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String description = property.getDescription();
