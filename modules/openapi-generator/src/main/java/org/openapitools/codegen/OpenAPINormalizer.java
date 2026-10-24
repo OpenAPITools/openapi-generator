@@ -1634,12 +1634,12 @@ public class OpenAPINormalizer {
         s1 = ModelUtils.getReferencedSchema(openAPI, s1);
 
         // find the string schema (enum)
-        if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
-            if (isEnum((StringSchema) s0)) { // s0 is enum, s1 is string
-                result = (StringSchema) s0;
-            } else if (isEnum((StringSchema) s1)) { // s1 is enum, s0 is string
-                result = (StringSchema) s1;
-            } else { // both are string
+        if (isSingleTypeSchema(s0, "string") && isSingleTypeSchema(s1, "string")) {
+            if (isEnum(s0) && !isEnum(s1)) { // s0 is enum, s1 is string
+                result = s0;
+            } else if (isEnum(s1) && !isEnum(s0)) { // s1 is enum, s0 is string
+                result = s1;
+            } else { // both are string, or both are enum
                 result = schema;
             }
         } else {
