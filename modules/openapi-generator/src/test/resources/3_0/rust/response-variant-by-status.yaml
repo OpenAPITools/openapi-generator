@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: response variant by status
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: existing pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '201':
+          description: created pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '204':
+          description: no content
+        '304':
+          description: not modified
+        '3XX':
+          description: redirected pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: not found
+        '409':
+          description: conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '5XX':
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /pets/{name}:
+    delete:
+      operationId: deletePet
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    Problem:
+      type: object
+      properties:
+        message:
+          type: string

@@ -122,7 +122,10 @@ pub async fn upload_multiple_fields(configuration: &configuration::Configuration
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<UploadMultipleFieldsError> = serde_json::from_str(&content).ok();
+        let entity: Option<UploadMultipleFieldsError> = match status.as_u16() {
+            400 => Some(UploadMultipleFieldsError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UploadMultipleFieldsError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -212,7 +215,10 @@ pub async fn upload_single_file(configuration: &configuration::Configuration, pa
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<UploadSingleFileError> = serde_json::from_str(&content).ok();
+        let entity: Option<UploadSingleFileError> = match status.as_u16() {
+            400 => Some(UploadSingleFileError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UploadSingleFileError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

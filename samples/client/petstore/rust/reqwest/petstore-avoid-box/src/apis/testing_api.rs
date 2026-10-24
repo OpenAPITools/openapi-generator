@@ -127,7 +127,10 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<TestsAllOfWithOneModelGetSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<TestsAllOfWithOneModelGetSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(TestsAllOfWithOneModelGetSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestsAllOfWithOneModelGetSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
@@ -179,7 +182,10 @@ pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configu
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<TestsInlineEnumBoxingGetSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<TestsInlineEnumBoxingGetSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(TestsInlineEnumBoxingGetSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestsInlineEnumBoxingGetSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
@@ -206,7 +212,10 @@ pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Config
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<TestsInlineEnumBoxingPostSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<TestsInlineEnumBoxingPostSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(TestsInlineEnumBoxingPostSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestsInlineEnumBoxingPostSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
@@ -231,7 +240,10 @@ pub async fn tests_type_testing_get(configuration: &configuration::Configuration
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<TestsTypeTestingGetSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<TestsTypeTestingGetSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(TestsTypeTestingGetSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestsTypeTestingGetSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;

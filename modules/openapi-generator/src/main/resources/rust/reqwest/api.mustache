@@ -635,13 +635,48 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/isResponseFile}}
         {{^isResponseFile}}
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+        {{#vendorExtensions.x-rust-success-by-status}}
+        let entity: Option<{{{operationIdCamelCase}}}Success> = match status.as_u16() {
+            {{#responses}}
+            {{#is2xx}}
+            {{#isRange}}200..=299{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&content).map({{{operationIdCamelCase}}}Success::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Success::Status{{code}}()){{/dataType}},
+            {{/is2xx}}
+            {{#is3xx}}
+            {{#isRange}}300..=399{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&content).map({{{operationIdCamelCase}}}Success::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Success::Status{{code}}()){{/dataType}},
+            {{/is3xx}}
+            {{/responses}}
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map({{{operationIdCamelCase}}}Success::UnknownValue).ok());
+        {{/vendorExtensions.x-rust-success-by-status}}
+        {{^vendorExtensions.x-rust-success-by-status}}
         let entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&content).ok();
+        {{/vendorExtensions.x-rust-success-by-status}}
         Ok(ResponseContent { status, content, entity })
         {{/isResponseFile}}
         {{/supportMultipleResponses}}
     } else {
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+        {{#vendorExtensions.x-rust-error-by-status}}
+        let entity: Option<{{{operationIdCamelCase}}}Error> = match status.as_u16() {
+            {{#responses}}
+            {{#is4xx}}
+            {{#isRange}}400..=499{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&content).map({{{operationIdCamelCase}}}Error::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::Status{{code}}()){{/dataType}},
+            {{/is4xx}}
+            {{#is5xx}}
+            {{#isRange}}500..=599{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&content).map({{{operationIdCamelCase}}}Error::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::Status{{code}}()){{/dataType}},
+            {{/is5xx}}
+            {{#isDefault}}
+            _ => {{#dataType}}serde_json::from_str(&content).map({{{operationIdCamelCase}}}Error::DefaultResponse).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::DefaultResponse()){{/dataType}},
+            {{/isDefault}}
+            {{/responses}}
+            {{^hasDefaultResponse}}
+            _ => None,
+            {{/hasDefaultResponse}}
+        }.or_else(|| serde_json::from_str(&content).map({{{operationIdCamelCase}}}Error::UnknownValue).ok());
+        {{/vendorExtensions.x-rust-error-by-status}}
+        {{^vendorExtensions.x-rust-error-by-status}}
         let entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&content).ok();
+        {{/vendorExtensions.x-rust-error-by-status}}
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

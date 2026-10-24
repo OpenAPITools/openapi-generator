@@ -78,7 +78,11 @@ impl StoreApi for StoreApiClient {
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             Ok(())
         } else {
-            let local_var_entity: Option<DeleteOrderError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<DeleteOrderError> = match local_var_status.as_u16() {
+                400 => Some(DeleteOrderError::Status400()),
+                404 => Some(DeleteOrderError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(DeleteOrderError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -162,7 +166,11 @@ impl StoreApi for StoreApiClient {
                 ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::Order`")))),
             }
         } else {
-            let local_var_entity: Option<GetOrderByIdError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<GetOrderByIdError> = match local_var_status.as_u16() {
+                400 => Some(GetOrderByIdError::Status400()),
+                404 => Some(GetOrderByIdError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(GetOrderByIdError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -201,7 +209,10 @@ impl StoreApi for StoreApiClient {
                 ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::Order`")))),
             }
         } else {
-            let local_var_entity: Option<PlaceOrderError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<PlaceOrderError> = match local_var_status.as_u16() {
+                400 => Some(PlaceOrderError::Status400()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(PlaceOrderError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }

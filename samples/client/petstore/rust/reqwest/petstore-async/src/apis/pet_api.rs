@@ -280,11 +280,17 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<AddPetSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<AddPetSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(AddPetSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(AddPetSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
+        let entity: Option<AddPetError> = match status.as_u16() {
+            405 => Some(AddPetError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(AddPetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -316,7 +322,10 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
+        let entity: Option<DeletePetError> = match status.as_u16() {
+            400 => Some(DeletePetError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(DeletePetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -351,11 +360,17 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByStatusSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(FindPetsByStatusSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByStatusSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByStatusError> = match status.as_u16() {
+            400 => Some(FindPetsByStatusError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByStatusError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -385,11 +400,17 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByTagsSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(FindPetsByTagsSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByTagsSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByTagsError> = match status.as_u16() {
+            400 => Some(FindPetsByTagsError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByTagsError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -419,11 +440,18 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<GetPetByIdSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<GetPetByIdSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(GetPetByIdSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetPetByIdSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetPetByIdError> = match status.as_u16() {
+            400 => Some(GetPetByIdError::Status400()),
+            404 => Some(GetPetByIdError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetPetByIdError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -448,11 +476,17 @@ pub async fn pets_explode_post(configuration: &configuration::Configuration, par
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<PetsExplodePostSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsExplodePostSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(PetsExplodePostSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsExplodePostSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsExplodePostError> = match status.as_u16() {
+            400 => Some(PetsExplodePostError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsExplodePostError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -477,11 +511,17 @@ pub async fn pets_post(configuration: &configuration::Configuration, params: Pet
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<PetsPostSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsPostSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(PetsPostSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsPostSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsPostError> = match status.as_u16() {
+            400 => Some(PetsPostError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsPostError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -507,11 +547,19 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<UpdatePetSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdatePetSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(UpdatePetSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdatePetSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdatePetError> = match status.as_u16() {
+            400 => Some(UpdatePetError::Status400()),
+            404 => Some(UpdatePetError::Status404()),
+            405 => Some(UpdatePetError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdatePetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -548,7 +596,10 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdatePetWithFormError> = match status.as_u16() {
+            405 => Some(UpdatePetWithFormError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdatePetWithFormError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -585,7 +636,10 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<UploadFileSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<UploadFileSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(UploadFileSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UploadFileSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
