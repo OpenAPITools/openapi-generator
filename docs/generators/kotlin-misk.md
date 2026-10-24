@@ -29,7 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |artifactId|Generated artifact id (name of jar).| |null|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
+|enumPropertyNaming|Naming convention for enum properties: `camelCase`, `PascalCase`, `snake_case`, `UPPERCASE`, `original`, and `bestEffortBacktick` (like `original` but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
 |generateStubImplClasses|Generate Stub Impl Classes| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |implicitHeaders|Skip header parameters in the generated API methods.| |false|
