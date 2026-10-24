@@ -1,0 +1,18 @@
+openapi: 3.2.0
+info:
+  title: invalid method name test
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      # contains a space - not a valid RFC 9110 token; must be skipped with a warning
+      "MY METHOD":
+        operationId: badMethod
+        responses:
+          '204':
+            description: done

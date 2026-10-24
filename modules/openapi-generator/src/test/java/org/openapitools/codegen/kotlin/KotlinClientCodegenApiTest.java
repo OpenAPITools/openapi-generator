@@ -17,9 +17,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -281,8 +291,8 @@ public class KotlinClientCodegenApiTest {
         // rather than replacing a query parameter of the same name
         assertFileContains(defaultApi.toPath(),
                 "is kotlin.collections.Iterable<*> -> value.toList()",
-                "}.filterNotNull().map { parameterToString(it) }",
-                "put(name, getOrElse(name) { emptyList() } + values)");
+                "}.filterNotNull().map { this@DefaultApi.parameterToString(it) }",
+                "put(localVariableName, getOrElse(localVariableName) { emptyList() } + localVariableValues)");
 
         // deepObject and form without explode both keep a single parameter
         assertFileContains(defaultApi.toPath(),
@@ -333,5 +343,949 @@ public class KotlinClientCodegenApiTest {
         codegen.additionalProperties().put(KotlinClientCodegen.USE_SPRING_BOOT3, "true");
         codegen.additionalProperties().put(KotlinClientCodegen.DATE_LIBRARY, "kotlinx-datetime");
         return codegen;
+    }
+
+    @Test
+    void testJvmOkhttp4OpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/query-operation.yaml", target);
+
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            // non-standard methods are emitted verbatim via customMethod; there is no RequestMethod.QUERY
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y", "A|B", "REPORT", "PROPPATCH"}) {
+                Assert.assertTrue(api.contains("customMethod = \"" + method + "\""),
+                        "expected verbatim customMethod literal for " + method);
+            }
+            // '$' must be escaped so the Kotlin string literal keeps it verbatim
+            Assert.assertTrue(api.contains("customMethod = \"A\\$B\""),
+                    "expected $-escaped customMethod literal for A$B");
+            Assert.assertTrue(api.contains("method = RequestMethod.GET"),
+                    "standard method kept on the RequestMethod enum");
+            // `in: querystring` is wired verbatim, excluded from the name=value query map
+            Assert.assertTrue(api.contains("encodedQueryString = listOfNotNull(qs).joinToString"),
+                    "querystring param should be passed verbatim");
+            Assert.assertFalse(api.contains("put(\"qs\""),
+                    "querystring param must not be serialized as a name=value pair");
+            // params named like template-internal locals are renamed, wire names stay
+            Assert.assertTrue(api.contains("fun collidePetsRequestConfig(paramLocalVariableQuery"),
+                    "colliding param names must be renamed");
+            Assert.assertTrue(api.contains("put(\"localVariableQuery\", listOf(paramLocalVariableQuery.toString()))"),
+                    "renamed param must keep its wire name");
+            Assert.assertTrue(api.contains("encodedQueryString = listOfNotNull(paramLocalVariableQuery).joinToString"),
+                    "renamed querystring param must still be wired verbatim");
+
+            String requestConfig = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(requestConfig.contains("val customMethod: String?"),
+                    "RequestConfig should carry the verbatim method field");
+            Assert.assertTrue(requestConfig.contains("val encodedQueryString: String?"),
+                    "RequestConfig should carry the querystring field");
+
+            String apiClient = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(apiClient.contains("builder.method(requestConfig.customMethod, customBody)"),
+                    "ApiClient should dispatch verbatim methods");
+            Assert.assertTrue(apiClient.contains("encodedQuery("),
+                    "ApiClient should append the querystring verbatim");
+            // OkHttp 5 rejects a null body for QUERY/REPORT/PROPPATCH, not just QUERY
+            Assert.assertTrue(apiClient.contains("requestConfig.customMethod in REQUIRES_REQUEST_BODY_METHODS"),
+                    "body-required methods must be handled as a set, not just QUERY");
+
+            String docs = new String(Files.readAllBytes(target.resolve("docs/DefaultApi.md")), StandardCharsets.UTF_8);
+            Assert.assertTrue(docs.contains("**A\\|B**"), "doc table should escape |");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    @Test
+    void testJvmOkhttp4DeepObjectCollisionKeepsSpecWireName() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-deepobj");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/kotlin-deep-object-collision.yaml", target);
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            // the kotlin parameter is renamed to avoid the localVariableBody local,
+            // but the `name[prop]` wire prefix must stay the spec baseName
+            Assert.assertTrue(api.contains("paramLocalVariableBody:"),
+                    "colliding param name must be renamed");
+            Assert.assertTrue(api.contains("put(\"localVariableBody[foo]\""),
+                    "deepObject wire prefix must use the spec baseName, not the renamed param");
+            Assert.assertFalse(api.contains("put(\"paramLocalVariableBody[foo]\""),
+                    "deepObject wire prefix must not leak the renamed param");
+            Assert.assertFalse(api.contains("put(\"foo[foo]\""),
+                    "deepObject wire prefix must not collapse to the property name");
+            // two deepObject params share the same cached property instance;
+            // each must keep its own baseName on the wire (no cross-leak)
+            Assert.assertTrue(api.contains("put(\"localVariableQuery[foo]\""),
+                    "second deepObject param must keep its own baseName on the wire");
+            Assert.assertTrue(api.contains("paramLocalVariableQuery:"),
+                    "second colliding param name must be renamed");
+            // spelling variants normalize to the same internal local names and
+            // must hit the collision guard, keeping spec baseNames on the wire
+            Assert.assertTrue(api.contains("put(\"local_variable_headers\", listOf(paramLocalVariableHeaders.toString()))"),
+                    "snake_case variant must be renamed but keep spec wire name");
+            Assert.assertTrue(api.contains("put(\"LocalVariableQuery\", listOf(paramLocalVariableQuery.toString()))"),
+                    "PascalCase variant must be renamed but keep spec wire name");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Canary for issue #15: spec parameters named after template-internal locals
+     * (the localVar prefix family) must be renamed while keeping their wire
+     * names, and class members must be qualified with `this.` so same-named
+     * parameters cannot shadow them. Covers every kotlin-client library.
+     */
+    @Test
+    void testKotlinLibrariesAvoidTemplateLocalCollisions() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-member-collision.yaml";
+        String[][] libraries = {
+                // {library, api source path, additionalProperties}
+                {"jvm-vertx", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-volley", "src/main/java/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=gson"},
+                {"jvm-spring-restclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-spring-webclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-retrofit2", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-okhttp4", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        // every library: colliding params are renamed but keep their wire names
+        String[][] renames = {
+                {"localVariableAuthNames", "paramLocalVariableAuthNames"},
+                {"local_variable_body", "paramLocalVariableBody"},
+                {"local_variable_query", "paramLocalVariableQuery"},
+                {"localVariableHeaders", "paramLocalVariableHeaders"},
+                {"local_variable_response", "paramLocalVariableResponse"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-collide-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                Path apiFile = target.resolve(lib[1]);
+                Assert.assertTrue(Files.exists(apiFile), lib[0] + " must emit " + lib[1]);
+                String api = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+                for (String[] rename : renames) {
+                    Assert.assertTrue(api.contains(rename[1] + ":"),
+                            lib[0] + ": param " + rename[0] + " must be renamed to " + rename[1]);
+                    Assert.assertTrue(api.contains("\"" + rename[0] + "\""),
+                            lib[0] + ": wire name " + rename[0] + " must be preserved");
+                }
+                switch (lib[0]) {
+                    case "jvm-vertx":
+                        // member refs must be qualified so same-named params cannot shadow them
+                        for (String member : new String[]{"this.vertx", "this.basePath", "this.apiKey",
+                                "this.apiKeyPrefix", "this.username", "this.password", "this.accessToken",
+                                "this.handleResponse(", "this.responseBody(", "this.encodeURIComponent(",
+                                "this.parseDateToQueryString<"}) {
+                            Assert.assertTrue(api.contains(member), "jvm-vertx must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("fun basicAuthCollide(username: kotlin.String?"),
+                                "jvm-vertx: spec param names must stay public");
+                        Assert.assertTrue(api.contains("vertx?.let { localVariableRequest.queryParams().add(\"vertx\""),
+                                "jvm-vertx: vertx param must be wired under its own name");
+                        Assert.assertTrue(api.contains("localVariableForm.add(\"form\", form)"),
+                                "jvm-vertx: form param must reach the form map");
+                        break;
+                    case "jvm-volley":
+                        for (String member : new String[]{"this.requestFactory", "this.basePath",
+                                "this.postProcessors", "this.requestQueue"}) {
+                            Assert.assertTrue(api.contains(member), "jvm-volley must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("\"form\" to IRequestFactory.parameterToString(form)"),
+                                "jvm-volley: form param must reach the form map");
+                        Assert.assertTrue(api.contains("\"request\" to IRequestFactory.parameterToString(request)"),
+                                "jvm-volley: request param must reach the request");
+                        break;
+                    case "jvm-spring-restclient":
+                        Assert.assertTrue(api.contains("this.request<"),
+                                "jvm-spring-restclient: member request() must be qualified");
+                        Assert.assertTrue(api.contains("val localVariableResult ="),
+                                "jvm-spring-restclient: result local must be prefixed");
+                        Assert.assertTrue(api.contains("val localVariableParams ="),
+                                "jvm-spring-restclient: params local must be prefixed");
+                        assertBareDateConversion(api, "jvm-spring-restclient");
+                        break;
+                    case "jvm-spring-webclient":
+                        Assert.assertTrue(api.contains("this.request<"),
+                                "jvm-spring-webclient: member request() must be qualified");
+                        Assert.assertTrue(api.contains("val localVariableParams ="),
+                                "jvm-spring-webclient: params local must be prefixed");
+                        assertBareDateConversion(api, "jvm-spring-webclient");
+                        break;
+                    case "jvm-okhttp4":
+                        // pre-existing locals keep their localVar* spelling
+                        Assert.assertTrue(api.contains("localVarResponse") && api.contains("localVarError"),
+                                "jvm-okhttp4: localVarResponse/localVarError must remain");
+                        // member calls inside apply{} blocks need a labeled receiver
+                        Assert.assertTrue(api.contains("this@DefaultApi.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
+                                "jvm-okhttp4: date conversion must reach the api class inside apply{}");
+                        Assert.assertTrue(api.contains("this@DefaultApi.encodeURIComponent(path.toString())"),
+                                "jvm-okhttp4: path encoding must reach the api class");
+                        break;
+                    case "jvm-ktor":
+                    case "multiplatform":
+                        // request()/jsonRequest()/urlEncodedFormRequest() are
+                        // inherited ApiClient members; a spec `request` param
+                        // must not shadow them
+                        for (String member : new String[]{"this.request(", "this.jsonRequest(",
+                                "this.urlEncodedFormRequest("}) {
+                            Assert.assertTrue(api.contains(member), lib[0] + " must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("request: kotlin.String?"),
+                                lib[0] + ": spec param `request` must keep its name");
+                        break;
+                    default:
+                        break;
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    /**
+     * Spring's parseDateToQueryString is a top-level function, and Kotlin
+     * resolves a call site to the function even when a value parameter shares
+     * its name — so no qualification is wanted at all. A package-qualified
+     * call would actually break whenever a parameter is named `org` (the
+     * first segment of the default package), which the fixture exercises.
+     */
+    private void assertBareDateConversion(String api, String lib) {
+        Assert.assertTrue(api.contains("listOf(parseDateToQueryString<java.time.LocalDate>(dueDate))"),
+                lib + ": date conversion must be an unqualified call");
+        Assert.assertFalse(api.contains("infrastructure.parseDateToQueryString"),
+                lib + ": date conversion must not be package-qualified");
+        Assert.assertFalse(api.contains("this.parseDateToQueryString"),
+                lib + ": date conversion must not be this-qualified");
+    }
+
+    /**
+     * Lint guard for issue #15: every `val`/`var` declared at statement level in
+     * an operation template must use the `localVar` prefix, so spec parameters
+     * (which are renamed by the toParamName prefix rule) can never collide with
+     * template-internal locals again.
+     */
+    @Test
+    void testKotlinApiTemplatesUseLocalVariablePrefix() throws IOException {
+        Path libs = Path.of("src/main/resources/kotlin-client/libraries");
+        Pattern localDecl = Pattern.compile("^\\s*(?:val|var)\\s+([a-zA-Z_]\\w*)");
+        List<String> violations = new ArrayList<>();
+        try (var stream = Files.walk(libs)) {
+            for (Path template : stream.filter(p -> p.getFileName().toString().equals("api.mustache")
+                    || p.getFileName().toString().matches("(queryParams|queryParam|explodedQueryParam|pathParams|headerParams|bodyParams|formParams|paramJavadoc)\\.mustache")).toList()) {
+                int lineNo = 0;
+                for (String line : Files.readAllLines(template, StandardCharsets.UTF_8)) {
+                    lineNo++;
+                    Matcher m = localDecl.matcher(line.replaceAll("\\{\\{[^}]*\\}\\}", ""));
+                    if (m.find() && !m.group(1).startsWith("localVar")) {
+                        violations.add(template + ":" + lineNo + " declares `" + m.group(1) + "`");
+                    }
+                }
+            }
+        }
+        Assert.assertTrue(violations.isEmpty(),
+                "operation-scope locals must use the localVar prefix:\n" + String.join("\n", violations));
+    }
+
+    /**
+     * Lint guard (issue #15, G1): every val/var member inherited from the
+     * library's ApiClient must be referenced as `this.`/`this@` inside the
+     * operation body, otherwise a spec parameter with the same name would
+     * silently shadow the member. Member names are extracted mechanically
+     * from the ApiClient constructor (volley: the api class's own header),
+     * and the same set is checked against api.mustache's {{#operation}}
+     * block plus the partial templates spliced into it. Comments and
+     * mustache tags are stripped first; template lambda bindings use the
+     * localVariable prefix so a bare member name is always a violation.
+     */
+    @Test
+    void testKotlinApiTemplatesQualifyInheritedMembers() throws IOException {
+        Path libs = Path.of("src/main/resources/kotlin-client/libraries");
+        String[][] libraries = {
+                {"jvm-ktor", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-okhttp", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-retrofit2", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-spring-restclient", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-spring-webclient", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-vertx", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-volley", "api.mustache"},
+                {"multiplatform", "infrastructure/ApiClient.kt.mustache"},
+        };
+        Pattern operationBlock = Pattern.compile("\\{\\{#operation\\}\\}(.*)\\{\\{/operation\\}\\}", Pattern.DOTALL);
+        Pattern mustacheTag = Pattern.compile("\\{\\{\\{[^}]*\\}\\}\\}|\\{\\{[^}]*\\}\\}");
+        List<String> violations = new ArrayList<>();
+        for (String[] library : libraries) {
+            Path libDir = libs.resolve(library[0]);
+            Set<String> members = constructorMemberNames(libDir.resolve(library[1]));
+            Assert.assertFalse(members.isEmpty(), library[0] + ": no ApiClient constructor members extracted");
+            List<Path> targets = new ArrayList<>();
+            try (var stream = Files.list(libDir)) {
+                for (Path p : stream.filter(p -> p.getFileName().toString().equals("api.mustache")
+                        || p.getFileName().toString().matches("(queryParams|queryParam|explodedQueryParam|pathParams|headerParams|bodyParams|formParams|paramJavadoc)\\.mustache")).toList()) {
+                    targets.add(p);
+                }
+            }
+            for (Path target : targets) {
+                String source = Files.readString(target, StandardCharsets.UTF_8);
+                // restrict api.mustache to the operation block; partials are
+                // operation-scope by construction
+                if (target.getFileName().toString().equals("api.mustache")) {
+                    Matcher op = operationBlock.matcher(source);
+                    if (!op.find()) {
+                        violations.add(target + ": no {{#operation}} block found");
+                        continue;
+                    }
+                    source = op.group(1);
+                }
+                int lineNo = 0;
+                for (String line : source.split("\n", -1)) {
+                    lineNo++;
+                    String code = mustacheTag.matcher(line).replaceAll("");
+                    String trimmed = code.strip();
+                    if (trimmed.startsWith("*") || trimmed.startsWith("//")) {
+                        continue;
+                    }
+                    for (String member : members) {
+                        if (Pattern.compile("(?<![\\w.@$\"])" + member + "\\b").matcher(code).find()) {
+                            violations.add(target + ":" + lineNo + " bare member `" + member + "`: " + trimmed);
+                        }
+                    }
+                }
+            }
+        }
+        Assert.assertTrue(violations.isEmpty(),
+                "inherited members must be qualified with this./this@ inside operation bodies:\n"
+                        + String.join("\n", violations));
+    }
+
+    /**
+     * Extracts `val`/`var` member names from the first `class X(...)`
+     * constructor in the given template (mustache tags stripped).
+     */
+    private static Set<String> constructorMemberNames(Path template) throws IOException {
+        String source = Files.readString(template, StandardCharsets.UTF_8);
+        Matcher cls = Pattern.compile("class\\s+[^\\s(]+\\s*\\(").matcher(source);
+        if (!cls.find()) {
+            return Collections.emptySet();
+        }
+        int depth = 1;
+        int end = cls.end();
+        while (end < source.length() && depth > 0) {
+            char c = source.charAt(end);
+            if (c == '(') {
+                depth++;
+            } else if (c == ')') {
+                depth--;
+            }
+            end++;
+        }
+        String ctor = source.substring(cls.end(), end - 1)
+                .replaceAll("\\{\\{[^}]*\\}\\}", "");
+        Set<String> names = new TreeSet<>();
+        Matcher m = Pattern.compile("\\b(?:val|var)\\s+([a-zA-Z_]\\w*)").matcher(ctor);
+        while (m.find()) {
+            names.add(m.group(1));
+        }
+        return names;
+    }
+
+    /**
+     * Wire names containing `$` (OData-style `$filter`/`$top`) must be emitted
+     * as escaped Kotlin string literals (`"\$filter"`), otherwise Kotlin
+     * string interpolation turns the wire key into the same-named parameter's
+     * value — or fails compilation when no such variable exists. Covers every
+     * kotlin-client library (jvm-okhttp already escaped; the rest did not).
+     */
+    @Test
+    void testKotlinLibrariesEscapeDollarInWireNames() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-dollar-wire-name.yaml";
+        String[][] libraries = {
+                {"jvm-vertx", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-volley", "src/main/java/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=gson"},
+                {"jvm-spring-restclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-spring-webclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"jvm-retrofit2", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"jvm-okhttp4", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-dollar-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                Path apiFile = target.resolve(lib[1]);
+                Assert.assertTrue(Files.exists(apiFile), lib[0] + " must emit " + lib[1]);
+                String api = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("\\$filter"),
+                        lib[0] + ": wire name $filter must be escaped in the Kotlin literal");
+                Assert.assertTrue(api.contains("\\$top"),
+                        lib[0] + ": wire name $top must be escaped in the Kotlin literal");
+                // "$top" unescaped could only come from the wire key — no `top`
+                // variable exists in scope, so it cannot be a legitimate
+                // interpolation ("$filter" appears legitimately as the
+                // `filter` param's value-side interpolation)
+                Assert.assertFalse(api.contains("\"$top\""),
+                        lib[0] + ": bare \"$top\" means the wire key is unescaped");
+                // the static path `/odata/$count` and the `{$id}` path
+                // placeholder are Kotlin string literals too — `$count`/`$id`
+                // would interpolate (or fail compilation) unless escaped.
+                // retrofit2 drops the leading slash, so match `odata/...`
+                Assert.assertTrue(api.contains("odata/\\$count"),
+                        lib[0] + ": static path segment $count must be escaped");
+                // `odata/$count"` with a closing quote can only come from an
+                // unescaped string literal — the KDoc comment shows the path
+                // without quotes (`GET /odata/$count`)
+                Assert.assertFalse(api.contains("odata/$count\""),
+                        lib[0] + ": bare odata/$count means the path literal is unescaped");
+                Assert.assertTrue(api.contains("{\\$id}"),
+                        lib[0] + ": path placeholder {$id} must be escaped");
+                Assert.assertTrue(api.contains("dollarId"),
+                        lib[0] + ": path param $id must be renamed to a valid identifier");
+                // exploded-object libraries wire each property by its baseName;
+                // vertx/volley/spring/multiplatform keep `opts` as a single value
+                switch (lib[0]) {
+                    case "jvm-okhttp4":
+                    case "jvm-ktor":
+                        Assert.assertTrue(api.contains("\\$a"),
+                                lib[0] + ": exploded wire name $a must be escaped");
+                        break;
+                    case "jvm-retrofit2":
+                        // the @Query string keeps the escaped wire name, while
+                        // the identifier is the sanitized property name —
+                        // `"\$a"` inside the string vs `dollarA:` outside it
+                        Assert.assertTrue(api.contains("@Query(\"\\$a\") dollarA"),
+                                "jvm-retrofit2: exploded wire name $a must stay escaped in @Query "
+                                        + "and the identifier must be the sanitized name");
+                        Assert.assertFalse(api.contains("\\$a:"),
+                                "jvm-retrofit2: `\\$a` is not a valid Kotlin identifier");
+                        break;
+                    default:
+                        Assert.assertTrue(api.contains("opts"),
+                                lib[0] + ": object query param must still be emitted");
+                        break;
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    /**
+     * multiplatform wraps array/map responses via a receiver lambda
+     * `.map { value }`; a spec parameter named `value` shadows the
+     * receiver's member, so the decoded field must be referenced as
+     * `this.value`.
+     */
+    @Test
+    void testMultiplatformWrapMapUsesExplicitReceiver() throws IOException {
+        Path target = Files.createTempDirectory("kotlin-mp-value");
+        try {
+            generate("multiplatform", "src/test/resources/3_0/kotlin/kotlin-receiver-value.yaml",
+                    target, "dateLibrary=kotlinx-datetime");
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt")),
+                    StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("`value`: kotlin.String?"),
+                    "the spec `value` param must keep its (backticked) name");
+            Assert.assertTrue(api.contains("wrap<ListItemsResponse>().map { this.value }"),
+                    "array response must dereference the wrapper's value via explicit receiver");
+            Assert.assertTrue(api.contains("wrap<LookupItemsResponse>().map { this.value }"),
+                    "map response must dereference the wrapper's value via explicit receiver");
+            Assert.assertFalse(api.contains(".map { value }"),
+                    "bare `value` inside map{} resolves to the spec param, not the wrapper field");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * ktor/multiplatform build form bodies inside `ParametersBuilder().also {}`,
+     * whose implicit `it` is the builder. A form field named `it` shadows the
+     * implicit parameter and `it.append(...)` resolves against the String
+     * parameter instead of the builder — a compile error. The builder must be
+     * bound to an explicit localVariable name.
+     */
+    @Test
+    void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml";
+        String[][] libraries = {
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-formit-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                String api = new String(Files.readAllBytes(target.resolve(lib[1])), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("`it`: kotlin.String?"),
+                        lib[0] + ": the spec `it` param must keep its (backticked) name");
+                Assert.assertTrue(api.contains("localVariableBuilder.append(\"it\""),
+                        lib[0] + ": form field `it` must be appended via the named builder");
+                Assert.assertFalse(api.contains("it.append("),
+                        lib[0] + ": implicit `it` is shadowed by the spec param inside also{}");
+                if (lib[0].equals("jvm-ktor")) {
+                    // issue #17 D4: the urlencoded array loop inside the `also`
+                    // block must call append on the named builder — a bare
+                    // `append` has no receiver there and cannot resolve
+                    Assert.assertTrue(api.contains("localVariableBuilder.append(\"tags\", x.toString())"),
+                            "jvm-ktor: array form fields must be appended via the named builder");
+                    Assert.assertFalse(api.contains("for (x in tags ?: listOf()) {\n                            append("),
+                            "jvm-ktor: bare `append` inside also{} cannot resolve");
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    /**
+     * File parts in a multipart body are appended as whole FormPart values.
+     * multiplatform embedded the wire name as a bare expression
+     * (`append(my-file)` — a syntax error), and jvm-ktor's array loop
+     * appended the undefined implicit `it` instead of the loop variable.
+     * The whole FormPart carries its own key, so append the parameter
+     * (or loop variable) itself.
+     */
+    @Test
+    void testKtorMultiplatformMultipartFileAppendUsesParameter() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml";
+        String[][] libraries = {
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-mpfile-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                String api = new String(Files.readAllBytes(target.resolve(lib[1])), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("append(myFile)"),
+                        lib[0] + ": file part must append the FormPart parameter");
+                Assert.assertFalse(api.contains("append(my-file)"),
+                        lib[0] + ": wire name must not be embedded as a bare expression");
+                if (lib[0].equals("jvm-ktor")) {
+                    Assert.assertTrue(api.contains("for (x in files ?: listOf()) {\n                            append(x)"),
+                            "jvm-ktor: file array must append the loop variable");
+                }
+                if (lib[0].equals("multiplatform")) {
+                    Assert.assertTrue(api.contains("files?.onEach {\n                    append(it)"),
+                            "multiplatform: file array appends each FormPart element");
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    @Test
+    void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-skip");
+        try {
+            generate("jvm-ktor", "src/test/resources/3_2/query-operation.yaml", target);
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("listPets"), "GET operation should be kept");
+            for (String op : new String[]{"queryPets", "purgePets", "customPets", "checkFetchPets", "hashPets", "pipePets", "dollarPets", "reportItems", "propPatch", "searchItems"}) {
+                Assert.assertFalse(api.contains(op + "RequestConfig"),
+                        "jvm-ktor must skip unsupported 3.2 operation " + op);
+            }
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    @Test
+    void testJvmOkhttp4SkipsInvalidMethodToken() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-invalid");
+        try {
+            // "MY METHOD" is not a valid RFC 9110 token; okhttp does not validate
+            // tokens itself, so the generator must reject it
+            String spec = "openapi: 3.2.0\n"
+                    + "info: {title: t, version: '1'}\n"
+                    + "paths:\n"
+                    + "  /pets:\n"
+                    + "    get:\n"
+                    + "      operationId: listPets\n"
+                    + "      responses: {'200': {description: ok}}\n"
+                    + "    additionalOperations:\n"
+                    + "      \"MY METHOD\":\n"
+                    + "        operationId: badMethod\n"
+                    + "        responses: {'204': {description: done}}\n";
+            Path specFile = target.resolve("spec.yaml");
+            Files.writeString(specFile, spec);
+            generate("jvm-okhttp4", specFile.toString(), target.resolve("out"));
+            String api = new String(Files.readAllBytes(
+                    target.resolve("out/src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("listPets"), "GET operation should be kept");
+            Assert.assertFalse(api.contains("badMethod"),
+                    "invalid RFC 9110 method token must be skipped");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * End-to-end check: compiles the generated jvm-okhttp4 client with kotlinc and
+     * runs a raw ServerSocket capture, verifying query/additionalOperations methods
+     * and `in: querystring` reach the wire verbatim. Skipped when kotlinc is not on
+     * PATH or the dependency jars cannot be located.
+     */
+    @Test
+    void testJvmOkhttp4GeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = captureDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin32-verify");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/query-operation.yaml", target);
+            Path srcDir = target.resolve("src/main/kotlin");
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_2/kotlin-okhttp-capture/Capture.kt"), capture);
+
+            List<String> sources = Files.walk(srcDir)
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Issue #15 regression: a spec parameter named `org` breaks a
+     * package-qualified parseDateToQueryString call (the qualifier resolves
+     * against the parameter, not the package). The call is intentionally
+     * unqualified — Kotlin prefers the function over a value parameter at a
+     * call site — and both spring libraries must compile as-is with kotlinc,
+     * alongside colliding parameters (`org`, `parseDateToQueryString`,
+     * `request`, ...). Skipped when kotlinc or the copied deps are missing.
+     */
+    @Test
+    void testJvmSpringGeneratedClientsCompileWithCollidingParams() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = captureDepJars(kotlinc);
+        String classPath = String.join(File.pathSeparator, jars);
+
+        String[][] libraries = {
+                {"jvm-spring-restclient", "serializationLibrary=jackson", "useSpringBoot3=true"},
+                {"jvm-spring-webclient", "serializationLibrary=jackson", "useSpringBoot3=true"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-spring-compile-" + lib[0]);
+            try {
+                generate(lib[0], "src/test/resources/3_0/kotlin/kotlin-member-collision.yaml",
+                        target, Arrays.copyOfRange(lib, 1, lib.length));
+                List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                        .filter(p -> p.toString().endsWith(".kt"))
+                        .map(Path::toString)
+                        .collect(Collectors.toList());
+                Assert.assertFalse(sources.isEmpty(), lib[0] + " produced no kotlin sources");
+                List<String> compile = new ArrayList<>(List.of(
+                        kotlinc.toString(), "-cp", classPath, "-d",
+                        target.resolve("classes").toString(), "-jvm-target", "17"));
+                compile.addAll(sources);
+                runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    /**
+     * Issue #17 wire check: jvm-vertx filled a `localVariableForm` MultiMap but
+     * never attached it to the request — form fields were silently dropped.
+     * Compiles the generated vertx client with kotlinc and captures the raw
+     * HTTP request, asserting the urlencoded form body reaches the wire.
+     * Skipped when kotlinc or the copied vertx deps are unavailable.
+     */
+    @Test
+    void testJvmVertxGeneratedClientSendsFormFields() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = vertxCaptureDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-vertx-form");
+        try {
+            generate("jvm-vertx", "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_0/kotlin-vertx-capture/Capture.kt"), capture);
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated vertx client did not send the form fields:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Issue #17 (D1) wire check: jvm-vertx sent a multipart `File` part as the
+     * file's path string (`attribute("file", file.toString())`) instead of its
+     * content, and non-file arrays as a `[a, b]` toString blob. Compiles the
+     * generated vertx client with kotlinc and captures the raw multipart
+     * request, asserting the file content and repeated array parts reach the
+     * wire. Skipped when kotlinc or the copied vertx deps are unavailable —
+     * upstream CI without the ~/.m2 vertx jars will skip this test, so it is
+     * not protective there.
+     */
+    @Test
+    void testJvmVertxGeneratedClientSendsMultipartFileContent() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = vertxCaptureDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-vertx-multipart");
+        try {
+            generate("jvm-vertx", "src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_0/kotlin-vertx-multipart-capture/Capture.kt"), capture);
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated vertx client did not send file content/array parts on the wire:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Issue #17 (D4) compile check: jvm-ktor's urlencoded array branch emitted
+     * a bare `append(...)` inside `ParametersBuilder().also { }`, which has no
+     * receiver — a compile error. Compiles the generated ktor client (which
+     * has a urlencoded `tags` array field and a field literally named `it`)
+     * with kotlinc. Skipped when kotlinc or the copied ktor deps are
+     * unavailable — upstream CI without the ~/.m2 ktor jars will skip this
+     * test, so it is not protective there.
+     */
+    @Test
+    void testJvmKtorGeneratedClientCompilesFormParams() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = ktorCompileDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-ktor-form");
+        try {
+            generate("jvm-ktor", "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Assert.assertFalse(sources.isEmpty(), "jvm-ktor produced no kotlin sources");
+
+            String classPath = String.join(File.pathSeparator, jars);
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d",
+                    target.resolve("classes").toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * ktor jars are not part of the build's dependency graph, so they are
+     * located directly in the local repository (~/.m2), alongside jackson and
+     * kotlinx-coroutines. Skips when absent.
+     */
+    private static List<String> ktorCompileDepJars(Path kotlinc) throws IOException {
+        Path m2 = Path.of(System.getProperty("user.home"), ".m2", "repository");
+        List<String> jars = new ArrayList<>();
+        for (String group : new String[]{"io/ktor", "com/fasterxml/jackson",
+                "org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm"}) {
+            Path dir = m2.resolve(group);
+            if (!Files.isDirectory(dir)) {
+                continue;
+            }
+            try (var stream = Files.walk(dir)) {
+                stream.filter(p -> p.toString().endsWith(".jar"))
+                        .filter(p -> !p.getFileName().toString().contains("sources"))
+                        .filter(p -> !p.getFileName().toString().contains("javadoc"))
+                        .forEach(p -> jars.add(p.toAbsolutePath().toString()));
+            }
+        }
+        if (jars.size() < 10 || jars.stream().noneMatch(j -> j.contains("ktor-client-core-jvm"))) {
+            throw new org.testng.SkipException("ktor jars not found in " + m2 + ", found " + jars.size());
+        }
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
+            Path jar = kotlincLib.resolve(name);
+            if (!Files.exists(jar)) {
+                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
+            }
+            jars.add(jar.toString());
+        }
+        return jars;
+    }
+
+    /**
+     * vertx jars are not part of the build's dependency graph, so they are
+     * located directly in the local repository (~/.m2) — matching the
+     * environment note in issue #17. Skips when absent.
+     */
+    private static List<String> vertxCaptureDepJars(Path kotlinc) throws IOException {
+        Path m2 = Path.of(System.getProperty("user.home"), ".m2", "repository");
+        List<String> jars = new ArrayList<>();
+        for (String group : new String[]{"io/vertx", "io/netty", "com/fasterxml/jackson",
+                "org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm"}) {
+            Path dir = m2.resolve(group);
+            if (!Files.isDirectory(dir)) {
+                continue;
+            }
+            try (var stream = Files.walk(dir)) {
+                stream.filter(p -> p.toString().endsWith(".jar"))
+                        .filter(p -> !p.getFileName().toString().contains("sources"))
+                        .filter(p -> !p.getFileName().toString().contains("javadoc"))
+                        .forEach(p -> jars.add(p.toAbsolutePath().toString()));
+            }
+        }
+        if (jars.size() < 15 || jars.stream().noneMatch(j -> j.contains("vertx-web-client"))) {
+            throw new org.testng.SkipException("vertx jars not found in " + m2 + ", found " + jars.size());
+        }
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        Path stdlib = kotlincLib.resolve("kotlin-stdlib.jar");
+        if (!Files.exists(stdlib)) {
+            throw new org.testng.SkipException("kotlinc lib dir lacks kotlin-stdlib.jar: " + kotlincLib);
+        }
+        jars.add(stdlib.toAbsolutePath().toString());
+        return jars;
+    }
+
+    private static Path requireKotlinc() throws IOException {
+        Path kotlinc = findOnPath("kotlinc");
+        if (kotlinc == null) {
+            throw new org.testng.SkipException("kotlinc is not on PATH; skipping generated-client verification");
+        }
+        // PATH may hold a symlink into the install; resolve it so lib/ is found correctly
+        return kotlinc.toRealPath();
+    }
+
+    private static List<String> captureDepJars(Path kotlinc) {
+        // okhttp5/moshi/spring jars are copied out-of-band by
+        // maven-dependency-plugin (kotlin-capture-deps): they carry Kotlin
+        // 1.8+/2.x metadata that the embedded 1.6 compiler in KotlinTestUtils
+        // cannot read, so they must never sit on the shared test classpath
+        Path depDir = Path.of("target/kotlin-capture-deps");
+        List<String> jars;
+        try (var stream = Files.list(depDir)) {
+            jars = stream.filter(p -> p.toString().endsWith(".jar"))
+                    .map(p -> p.toAbsolutePath().toString())
+                    .collect(Collectors.toCollection(ArrayList::new));
+        } catch (IOException e) {
+            throw new org.testng.SkipException("kotlin-capture-deps missing (dependency:copy did not run): " + e);
+        }
+        if (jars.size() < 5) {
+            throw new org.testng.SkipException("expected okhttp/okio/moshi/spring jars in " + depDir + ", found " + jars);
+        }
+        // use the stdlib/reflect bundled with the detected kotlinc so versions match
+        // the compiler (the module's own test classpath pins an older kotlin.version)
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
+            Path jar = kotlincLib.resolve(name);
+            if (!Files.exists(jar)) {
+                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
+            }
+            jars.add(jar.toString());
+        }
+        return jars;
+    }
+
+    private static void generate(String library, String spec, Path outputDir, String... additionalProperties) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(library)
+                .setInputSpec(spec)
+                .setSkipOverwrite(false)
+                .setOutputDir(outputDir.toAbsolutePath().toString().replace("\\", "/"));
+        for (String kv : additionalProperties) {
+            int eq = kv.indexOf('=');
+            configurator.addAdditionalProperty(kv.substring(0, eq), kv.substring(eq + 1));
+        }
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+    }
+
+    private static Path findOnPath(String executable) {
+        for (String dir : System.getenv("PATH").split(File.pathSeparator)) {
+            for (String name : new String[]{executable, executable + ".bat", executable + ".exe"}) {
+                Path candidate = Path.of(dir, name);
+                if (Files.isExecutable(candidate)) {
+                    return candidate;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static String runProcess(Path workDir, String logName, long timeoutSeconds, String... command)
+            throws IOException, InterruptedException {
+        Path log = workDir.resolve(logName);
+        Process p = new ProcessBuilder(command)
+                .directory(workDir.toFile())
+                .redirectErrorStream(true)
+                .redirectOutput(log.toFile())
+                .start();
+        if (!p.waitFor(timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS)) {
+            p.destroyForcibly();
+            Assert.fail("process timed out: " + String.join(" ", command)
+                    + "\n" + new String(Files.readAllBytes(log), StandardCharsets.UTF_8));
+        }
+        String output = new String(Files.readAllBytes(log), StandardCharsets.UTF_8);
+        Assert.assertEquals(p.exitValue(), 0, "process failed: " + String.join(" ", command) + "\n" + output);
+        return output;
+    }
+
+    private static void deleteRecursively(Path dir) throws IOException {
+        if (Files.exists(dir)) {
+            try (var stream = Files.walk(dir)) {
+                stream.sorted(java.util.Comparator.reverseOrder())
+                        .forEach(p -> p.toFile().delete());
+            }
+        }
     }
 }

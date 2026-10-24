@@ -69,7 +69,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -101,7 +101,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -133,7 +133,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -166,7 +166,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -200,7 +200,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -237,7 +237,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -269,7 +269,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -302,7 +302,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

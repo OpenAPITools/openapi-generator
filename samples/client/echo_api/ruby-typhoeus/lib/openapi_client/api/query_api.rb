@@ -79,7 +79,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_enum_ref_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -145,7 +145,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_datetime_date_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -211,7 +211,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_integer_boolean_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -271,7 +271,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_deep_object_explode_true_object\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -331,7 +331,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_deep_object_explode_true_object_all_of\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -391,7 +391,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_form_explode_false_array_integer\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -451,7 +451,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_form_explode_false_array_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -511,7 +511,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_form_explode_true_array_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -571,7 +571,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_form_explode_true_object\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -631,7 +631,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_form_explode_true_object_all_of\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -694,7 +694,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: QueryApi#test_query_style_json_serialization_object\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

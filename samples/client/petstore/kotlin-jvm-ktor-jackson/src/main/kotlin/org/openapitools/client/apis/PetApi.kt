@@ -70,7 +70,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -105,7 +105,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -140,7 +140,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -175,7 +175,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -209,7 +209,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -241,7 +241,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -262,9 +262,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
-                        ParametersBuilder().also {
-                        name?.apply { it.append("name", name) }
-                        status?.apply { it.append("status", status) }
+                        ParametersBuilder().also { localVariableBuilder ->
+                        name?.apply { localVariableBuilder.append("name", name) }
+                        status?.apply { localVariableBuilder.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -279,7 +279,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return urlEncodedFormRequest(
+            return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -318,7 +318,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = true,
             )
 
-            return multipartFormRequest(
+            return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
