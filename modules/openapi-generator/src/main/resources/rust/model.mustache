@@ -25,6 +25,11 @@ use serde_repr::{Serialize_repr,Deserialize_repr};
 pub enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
+{{#-last}}
+{{#enumUnknownDefaultCase}}
+    #[serde(other)]
+{{/enumUnknownDefaultCase}}
+{{/-last}}
     {{{name}}} = {{{value}}},
 {{/enumVars}}{{/allowableValues}}
 }
@@ -51,6 +56,11 @@ pub enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
+{{#-last}}
+{{#enumUnknownDefaultCase}}
+    #[serde(other)]
+{{/enumUnknownDefaultCase}}
+{{/-last}}
     {{{name}}},
 {{/enumVars}}{{/allowableValues}}
 }
@@ -216,6 +226,11 @@ impl Default for {{classname}} {
 pub enum {{{enumName}}} {
 {{#allowableValues}}
 {{#enumVars}}
+{{#-last}}
+{{#enumUnknownDefaultCase}}
+    #[serde(other)]
+{{/enumUnknownDefaultCase}}
+{{/-last}}
     {{{name}}} = {{{value}}},
 {{/enumVars}}
 {{/allowableValues}}
@@ -240,6 +255,11 @@ pub enum {{{enumName}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
+{{#-last}}
+{{#enumUnknownDefaultCase}}
+    #[serde(other)]
+{{/enumUnknownDefaultCase}}
+{{/-last}}
     {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
