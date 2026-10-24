@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NullableClass
     /// </summary>
-    public partial class NullableClass : IValidatableObject
+    public partial class NullableClass : IEquatable<NullableClass?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
@@ -252,6 +252,77 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as NullableClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if NullableClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of NullableClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(NullableClass? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (ArrayAndItemsNullableProp != null)
+                    hashCode = (hashCode * 59) + ArrayAndItemsNullableProp.GetHashCode();
+
+                if (ArrayItemsNullable != null)
+                    hashCode = (hashCode * 59) + ArrayItemsNullable.GetHashCode();
+
+                if (ArrayNullableProp != null)
+                    hashCode = (hashCode * 59) + ArrayNullableProp.GetHashCode();
+
+                if (BooleanProp != null)
+                    hashCode = (hashCode * 59) + BooleanProp.GetHashCode();
+
+                if (DateProp != null)
+                    hashCode = (hashCode * 59) + DateProp.GetHashCode();
+
+                if (DatetimeProp != null)
+                    hashCode = (hashCode * 59) + DatetimeProp.GetHashCode();
+
+                if (IntegerProp != null)
+                    hashCode = (hashCode * 59) + IntegerProp.GetHashCode();
+
+                if (NumberProp != null)
+                    hashCode = (hashCode * 59) + NumberProp.GetHashCode();
+
+                if (ObjectAndItemsNullableProp != null)
+                    hashCode = (hashCode * 59) + ObjectAndItemsNullableProp.GetHashCode();
+
+                if (ObjectItemsNullable != null)
+                    hashCode = (hashCode * 59) + ObjectItemsNullable.GetHashCode();
+
+                if (ObjectNullableProp != null)
+                    hashCode = (hashCode * 59) + ObjectNullableProp.GetHashCode();
+
+                if (StringProp != null)
+                    hashCode = (hashCode * 59) + StringProp.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
