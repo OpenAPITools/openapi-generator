@@ -1,9 +1,7 @@
-
 # Connexion 3.x
 connexion[flask,swagger-ui,uvicorn]>=3.3.0,<4.0.0
 
-Flask>=2.2.0,<4.0.0
-
+Flask>=2.3.3,<4.0.0
 python-dateutil>=2.8.2
 setuptools>=21.0.0
 

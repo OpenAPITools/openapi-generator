@@ -8,15 +8,14 @@ VERSION = "{{packageVersion}}"
 REQUIRES = [
 {{^useConnexion3}}
     "connexion[swagger-ui]>=2.15.1,<3.0.0",
-    "Flask>=2.3.3,<3.0.0",
 {{#featureCORS}}
     "flask-cors>=4.0.0",
 {{/featureCORS}}
 {{/useConnexion3}}
 {{#useConnexion3}}
     "connexion[flask,swagger-ui,uvicorn]>=3.3.0,<4.0.0",
-    "Flask>=3.1.3,<4.0.0",
 {{/useConnexion3}}
+    "Flask>=2.3.3,<4.0.0",
     "python-dateutil>=2.8.2",
 ]
 

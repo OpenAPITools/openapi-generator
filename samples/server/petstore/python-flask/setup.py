@@ -7,7 +7,7 @@ VERSION = "1.0.0"
 
 REQUIRES = [
     "connexion[swagger-ui]>=2.15.1,<3.0.0",
-    "Flask>=2.3.3,<3.0.0",
+    "Flask>=2.3.3,<4.0.0",
     "python-dateutil>=2.8.2",
 ]
 
