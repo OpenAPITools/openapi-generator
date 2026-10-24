@@ -24,7 +24,7 @@ import {{packageName}}.infrastructure.*
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
 
     {{#jackson}}
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(WebClient.builder()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String = ApiClient.BASE_URL) : this(WebClient.builder()
         .baseUrl(baseUrl)
         .codecs {
             it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
@@ -32,6 +32,12 @@ import {{packageName}}.infrastructure.*
         }
         .build()
     )
+
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun createWithBasePath(baseUrl: String, basePath: String = ApiClient.BASE_PATH_WITHOUT_HOST): {{classname}} {
+            return {{classname}}(createUrlWithBasePath(baseUrl, basePath))
+        }
+    }
     {{/jackson}}
 
     {{#operation}}
