@@ -25,8 +25,11 @@ defmodule OpenapiPetstore.Model.Order do
     :complete => boolean() | nil
   }
 
+  alias OpenapiPetstore.Deserializer
+
   def decode(value) do
     value
+     |> Deserializer.deserialize(:shipDate, :datetime, nil)
   end
 end
 
