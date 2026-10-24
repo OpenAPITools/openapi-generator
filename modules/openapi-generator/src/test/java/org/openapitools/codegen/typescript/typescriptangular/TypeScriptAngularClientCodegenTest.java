@@ -762,11 +762,13 @@ public class TypeScriptAngularClientCodegenTest {
         Path modelsFile = Paths.get(output + "/model/models.ts");
         TestUtils.assertFileContains(modelsFile,
                 "export * from './localModel';",
-                "export type { ItemCreateRequest, ItemDto } from '@contracts';");
-        TestUtils.assertFileNotContains(modelsFile,
                 "export * from '@contracts';");
+        String modelsContent = Files.readString(modelsFile);
+        int firstIdx = modelsContent.indexOf("export * from '@contracts';");
+        int lastIdx = modelsContent.lastIndexOf("export * from '@contracts';");
+        org.testng.Assert.assertEquals(firstIdx, lastIdx, "Expected '@contracts' to be re-exported exactly once without duplicate lines");
 
-        // Test backwards compatibility with Angular 9 (TypeScript < 3.8 without 'export type')
+        // Test backwards compatibility with Angular 9
         File outputNg9 = Files.createTempDirectory("test-ext-imports-ng9").toFile();
         outputNg9.deleteOnExit();
 
@@ -783,9 +785,86 @@ public class TypeScriptAngularClientCodegenTest {
         Path modelsFileNg9 = Paths.get(outputNg9 + "/model/models.ts");
         TestUtils.assertFileContains(modelsFileNg9,
                 "export * from './localModel';",
-                "export { ItemCreateRequest, ItemDto } from '@contracts';");
-        TestUtils.assertFileNotContains(modelsFileNg9,
-                "export type {",
                 "export * from '@contracts';");
+        String modelsContentNg9 = Files.readString(modelsFileNg9);
+        int firstNg9 = modelsContentNg9.indexOf("export * from '@contracts';");
+        int lastNg9 = modelsContentNg9.lastIndexOf("export * from '@contracts';");
+        org.testng.Assert.assertEquals(firstNg9, lastNg9, "Expected '@contracts' to be re-exported exactly once in Angular 9");
+    }
+
+    @Test
+    public void testIssue22533ImportMappingsSamePathInServices() throws IOException {
+        Path spec = Files.createTempFile("issue-22533-spec", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.0",
+                "info: {title: Sample API, version: '0'}",
+                "paths:",
+                "  /users/{foo}/{bar}:",
+                "    parameters:",
+                "      - name: foo",
+                "        in: path",
+                "        required: true",
+                "        schema:",
+                "          $ref: '#/components/schemas/Foo'",
+                "      - name: bar",
+                "        in: path",
+                "        required: true",
+                "        schema:",
+                "          $ref: '#/components/schemas/Bar'",
+                "    get:",
+                "      operationId: getUsers",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                type: array",
+                "                items:",
+                "                  type: string",
+                "components:",
+                "  schemas:",
+                "    Foo:",
+                "      type: object",
+                "      properties:",
+                "        id: {type: string}",
+                "    Bar:",
+                "      type: object",
+                "      properties:",
+                "        id: {type: string}"
+        ));
+
+        File output = Files.createTempDirectory("test-issue-22533").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> importMappings = new HashMap<>();
+        importMappings.put("Foo", "@foo/bar");
+        importMappings.put("Bar", "@foo/bar");
+
+        Map<String, String> typeMappings = new HashMap<>();
+        typeMappings.put("Foo", "Foo");
+        typeMappings.put("Bar", "Bar");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(spec.toString())
+                .setImportMappings(importMappings)
+                .setTypeMappings(typeMappings)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path defaultService = Paths.get(output + "/api/default.service.ts");
+        TestUtils.assertFileContains(defaultService,
+                "import { Bar } from '@foo/bar';",
+                "import { Foo } from '@foo/bar';");
+
+        Path modelsFile = Paths.get(output + "/model/models.ts");
+        TestUtils.assertFileContains(modelsFile, "export * from '@foo/bar';");
+        String modelsContent = Files.readString(modelsFile);
+        int firstIdx = modelsContent.indexOf("export * from '@foo/bar';");
+        int lastIdx = modelsContent.lastIndexOf("export * from '@foo/bar';");
+        org.testng.Assert.assertEquals(firstIdx, lastIdx, "Expected '@foo/bar' to be re-exported exactly once");
     }
 }

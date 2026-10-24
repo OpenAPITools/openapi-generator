@@ -296,7 +296,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         additionalProperties.put(NG_VERSION, ngVersion);
         additionalProperties.put("ngVersionAtLeast_17", ngVersionAtLeast_17);
-        additionalProperties.put("supportsExportType", ngVersion.atLeast("10.0.0"));
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
             String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
@@ -600,7 +599,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         objs.put("hasExternalModelExports", !externalModelExports.isEmpty());
         objs.put("externalModelExports", externalModelExports);
-        objs.put("supportsExportType", additionalProperties.getOrDefault("supportsExportType", true));
 
         return objs;
     }

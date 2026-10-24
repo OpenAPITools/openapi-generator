@@ -6,10 +6,5 @@ export * from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 {{#externalModelExports}}
-{{#supportsExportType}}
-export type { {{{ types }}} } from '{{{ module }}}';
-{{/supportsExportType}}
-{{^supportsExportType}}
-export { {{{ types }}} } from '{{{ module }}}';
-{{/supportsExportType}}
+export * from '{{{ module }}}';
 {{/externalModelExports}}
