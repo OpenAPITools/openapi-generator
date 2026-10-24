@@ -18,7 +18,7 @@ setup(
     author_email="",
     url="",
     keywords=["OpenAPI", "OpenAPI Petstore"],
-    python_requires=">=3.11,<3.15",
+    python_requires=">=3.11",
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={
