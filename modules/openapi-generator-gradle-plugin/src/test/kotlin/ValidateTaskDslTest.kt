@@ -503,6 +503,87 @@ paths:
         )
     }
 
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should warn about unused models by default`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-with-unused-schema.yaml")
+        )
+
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Unused model: UnusedSchema"),
+            "Expected unused model warning to be present by default."
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should suppress unused model warnings when skipUnusedModels is true`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-with-unused-schema.yaml")
+        )
+
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
+            |   skipUnusedModels = true
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Unused model: UnusedSchema").not(),
+            "Expected unused model warning to be suppressed when skipUnusedModels = true."
+        )
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Expected spec to be reported as valid."
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
+
     @Test(dataProvider = "gradle_version_only_provider")
     fun `openApiValidate should support task-level configuration with Kotlin DSL set String syntax`(gradleVersion: String?) {
         // Create a valid spec file
