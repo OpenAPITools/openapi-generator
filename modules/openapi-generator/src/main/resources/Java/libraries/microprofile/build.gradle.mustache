@@ -1,0 +1,149 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
+
+repositories {
+    mavenCentral()
+}
+
+{{#java17}}
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+{{/java17}}
+{{^java17}}
+{{#microprofile3}}
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+{{/microprofile3}}
+{{^microprofile3}}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+{{/microprofile3}}
+{{/java17}}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+           artifactId = '{{artifactId}}'
+           from components.java
+        }
+    }
+}
+
+task execute(type:JavaExec) {
+   mainClass = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+ext {
+    microprofile_rest_client_api_version = "{{microprofileRestClientVersion}}"
+    {{#useBeanValidation}}
+    {{#microprofile3}}
+    beanvalidation_version = "3.0.1"
+    {{/microprofile3}}
+    {{^microprofile3}}
+    beanvalidation_version = "3.0.2"
+    {{/microprofile3}}
+    {{/useBeanValidation}}
+    {{#useBeanValidationFeature}}
+    hibernate_validator_version = "{{#microprofile3}}8.0.3.Final{{/microprofile3}}{{^microprofile3}}5.2.2.Final{{/microprofile3}}"
+    {{/useBeanValidationFeature}}
+    jackson_jaxrs_version = "2.17.1"
+    {{#jackson}}
+    jackson_version = "2.17.1"
+    {{/jackson}}
+    {{#microprofile3}}
+    jakarta_activation_version = "2.1.0"
+    jakarta_annotation_version = "2.0.0"
+    jakarta_json_bind_version = "3.0.0"
+    jakarta_json_version = "2.0.1"
+    jakarta_ws_rs_version = "3.0.0"
+    jakarta_xml_bind_version = "3.0.1"
+    jaxb_version = "3.0.2"
+    {{/microprofile3}}
+    {{^microprofile3}}
+    jakarta_activation_version = "1.2.2"
+    jakarta_annotation_version = "1.3.5"
+    jakarta_json_bind_version = "1.0.2"
+    jakarta_json_version = "1.1.6"
+    jakarta_ws_rs_version = "2.1.6"
+    jakarta_xml_bind_version = "2.3.3"
+    jaxb_version = "2.2.11"
+    {{/microprofile3}}
+    {{#microprofileMutiny}}
+    mutiny_version = "1.10.0"
+    {{/microprofileMutiny}}
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
+    junit_version = "5.10.2"
+}
+
+dependencies {
+    // Eclipse MicroProfile Rest Client
+    implementation "org.eclipse.microprofile.rest.client:microprofile-rest-client-api:$microprofile_rest_client_api_version"
+
+    // JAX-RS
+    compileOnly "jakarta.ws.rs:jakarta.ws.rs-api:$jakarta_ws_rs_version"
+
+    compileOnly "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useBeanValidation}}
+    // Bean Validation API support
+    compileOnly "jakarta.validation:jakarta.validation-api:$beanvalidation_version"
+    {{/useBeanValidation}}
+    {{#useBeanValidationFeature}}
+    implementation "org.hibernate{{#microprofile3}}.validator{{/microprofile3}}:hibernate-validator:$hibernate_validator_version"
+    {{/useBeanValidationFeature}}
+    {{#jsonb}}
+    implementation "jakarta.json.bind:jakarta.json.bind-api:$jakarta_json_bind_version"
+    implementation "jakarta.json:jakarta.json-api:$jakarta_json_version"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:$jakarta_xml_bind_version"
+    implementation "com.sun.xml.bind:jaxb-core:$jaxb_version"
+    implementation "com.sun.xml.bind:jaxb-impl:$jaxb_version"
+    {{/jsonb}}
+    {{#jackson}}
+    // JSON processing: jackson
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    {{#withXml}}
+    // XML processing with Jackson
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:$jakarta_xml_bind_version"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    {{/withXml}}
+    {{/jackson}}
+    implementation "jakarta.activation:jakarta.activation-api:$jakarta_activation_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_jaxrs_version"
+    {{#microprofileMutiny}}
+    implementation "io.smallrye.reactive:mutiny:$mutiny_version"
+    {{/microprofileMutiny}}
+    {{#useReflectionEqualsHashCode}}
+    // For equals and hashCode using reflection
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+}
+
+test {
+    useJUnitPlatform()
+}

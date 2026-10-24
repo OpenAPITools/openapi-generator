@@ -1,9 +1,16 @@
 README.md
+build.gradle
 docs/Cat.md
 docs/DefaultApi.md
 docs/Dog.md
 docs/Status.md
+gradle.properties
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 pom.xml
+settings.gradle
 src/main/java/org/openapitools/client/api/ApiException.java
 src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
 src/main/java/org/openapitools/client/api/DefaultApi.java
