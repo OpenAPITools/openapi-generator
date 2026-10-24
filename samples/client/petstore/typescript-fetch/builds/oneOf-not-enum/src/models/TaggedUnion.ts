@@ -43,14 +43,16 @@ export function TaggedUnionFromJSONTyped(json: any, ignoreDiscriminator: boolean
     if (json == null) {
         return json;
     }
+    if (typeof json === 'object') {
+        if (instanceOfKnown(json)) {
+            return KnownFromJSONTyped(json, true);
+        }
+        if (instanceOfOther(json)) {
+            return OtherFromJSONTyped(json, true);
+        }
+    }
     if (typeof json !== 'object') {
         return json;
-    }
-    if (instanceOfKnown(json)) {
-        return KnownFromJSONTyped(json, true);
-    }
-    if (instanceOfOther(json)) {
-        return OtherFromJSONTyped(json, true);
     }
     return {} as any;
 }
@@ -63,14 +65,16 @@ export function TaggedUnionToJSONTyped(value?: TaggedUnion | null, ignoreDiscrim
     if (value == null) {
         return value;
     }
+    if (typeof value === 'object') {
+        if (instanceOfKnown(value)) {
+            return KnownToJSON(value as Known);
+        }
+        if (instanceOfOther(value)) {
+            return OtherToJSON(value as Other);
+        }
+    }
     if (typeof value !== 'object') {
         return value;
-    }
-    if (instanceOfKnown(value)) {
-        return KnownToJSON(value as Known);
-    }
-    if (instanceOfOther(value)) {
-        return OtherToJSON(value as Other);
     }
     return {};
 }

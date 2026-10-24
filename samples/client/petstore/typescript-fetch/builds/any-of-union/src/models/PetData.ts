@@ -43,22 +43,24 @@ export function PetDataFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
     if (json == null) {
         return json;
     }
+    if (typeof json === 'object') {
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+        if (instanceOfCat(json)) {
+            anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };
+            anyOfMatched = true;
+        }
+        if (instanceOfDog(json)) {
+            anyOfResult = { ...anyOfResult, ...DogFromJSONTyped(json, true) };
+            anyOfMatched = true;
+        }
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
+    }
     if (typeof json !== 'object') {
         return json;
-    }
-    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
-    let anyOfResult: any = {};
-    let anyOfMatched = false;
-    if (instanceOfCat(json)) {
-        anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };
-        anyOfMatched = true;
-    }
-    if (instanceOfDog(json)) {
-        anyOfResult = { ...anyOfResult, ...DogFromJSONTyped(json, true) };
-        anyOfMatched = true;
-    }
-    if (anyOfMatched) {
-        return anyOfResult;
     }
     return {} as any;
 }
@@ -71,22 +73,24 @@ export function PetDataToJSONTyped(value?: PetData | null, ignoreDiscriminator: 
     if (value == null) {
         return value;
     }
+    if (typeof value === 'object') {
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+        if (instanceOfCat(value)) {
+            anyOfResult = { ...anyOfResult, ...CatToJSON(value as Cat) };
+            anyOfMatched = true;
+        }
+        if (instanceOfDog(value)) {
+            anyOfResult = { ...anyOfResult, ...DogToJSON(value as Dog) };
+            anyOfMatched = true;
+        }
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
+    }
     if (typeof value !== 'object') {
         return value;
-    }
-    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
-    let anyOfResult: any = {};
-    let anyOfMatched = false;
-    if (instanceOfCat(value)) {
-        anyOfResult = { ...anyOfResult, ...CatToJSON(value as Cat) };
-        anyOfMatched = true;
-    }
-    if (instanceOfDog(value)) {
-        anyOfResult = { ...anyOfResult, ...DogToJSON(value as Dog) };
-        anyOfMatched = true;
-    }
-    if (anyOfMatched) {
-        return anyOfResult;
     }
     return {};
 }

@@ -1,6 +1,7 @@
 .gitignore
 .npmignore
 README.md
+docs/AnyOfWithProperties.md
 docs/Cat.md
 docs/CreatePet.md
 docs/CreatePetContent.md
@@ -16,6 +17,7 @@ package.json
 src/apis/DefaultApi.ts
 src/apis/index.ts
 src/index.ts
+src/models/AnyOfWithProperties.ts
 src/models/Cat.ts
 src/models/CreatePet.ts
 src/models/CreatePetContent.ts

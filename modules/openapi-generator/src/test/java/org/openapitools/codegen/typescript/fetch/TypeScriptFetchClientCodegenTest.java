@@ -1452,6 +1452,8 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelFile.apply("CreatePetData"), "export type CreatePetData = Cat | Dog;");
         // inline anyOf of primitives on a property (#19155)
         TestUtils.assertFileContains(modelFile.apply("CreatePetContent"), "export type CreatePetContent = number | string;");
+        // model, array and primitive members
+        TestUtils.assertFileContains(modelFile.apply("MixedPet"), "export type MixedPet = Array<Dog> | Cat | string;");
         // null is valid when at least one branch is nullable (for oneOf: exactly one)
         TestUtils.assertFileContains(modelFile.apply("NullableValue"), "export type NullableValue = null | number | string;");
         TestUtils.assertFileContains(modelFile.apply("MultipleNullableValue"), "export type MultipleNullableValue = null | number | string;");
@@ -1485,6 +1487,30 @@ public class TypeScriptFetchClientCodegenTest {
         Path testResponse = Paths.get(output + "/models/TestResponse.ts");
         TestUtils.assertFileContains(testResponse, "return TestAFromJSONTyped(json, true);");
         TestUtils.assertFileNotContains(testResponse, "anyOfResult");
+
+        // the model checks only run for objects, so the declared primitive check is reachable
+        TestUtils.assertFileContains(testResponse, "if (typeof json === 'object') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof json === 'string') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof value === 'object') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof value === 'string') {");
+
+        // null items must not reach the instanceOf checks of array members
+        Path testArrayResponse = Paths.get(output + "/models/TestArrayResponse.ts");
+        TestUtils.assertFileContains(testArrayResponse, "json.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileContains(testArrayResponse, "value.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileNotContains(testArrayResponse, "every(item => typeof item === 'object')");
+    }
+
+    @Test(description = "Verify an anyOf declaring its own properties stays an interface with generateAnyOfAsUnion")
+    public void testAnyOfWithOwnPropertiesStaysInterface() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, true);
+        File output = generate(properties, ANY_OF_SPEC);
+
+        Path model = Paths.get(output + "/models/AnyOfWithProperties.ts");
+        TestUtils.assertFileContains(model, "export interface AnyOfWithProperties {");
+        TestUtils.assertFileContains(model, "label: string;");
+        TestUtils.assertFileNotContains(model, "export type AnyOfWithProperties =");
     }
 
     @Test(description = "Verify an anyOf with a discriminator keeps the discriminator switch and does not merge members")
@@ -1510,6 +1536,14 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(model, "anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };");
         TestUtils.assertFileContains(model, "return json.map(value => DogFromJSONTyped(value, true));");
         TestUtils.assertFileContains(model, "if (typeof json === 'string') {");
+        TestUtils.assertFileContains(model, "return value.map(value => DogToJSON(value as Dog));");
+        TestUtils.assertFileContains(model, "if (typeof value === 'string') {");
+        // the model checks only run for objects, so the primitive checks are reachable
+        TestUtils.assertFileContains(model, "if (typeof json === 'object') {");
+        TestUtils.assertFileContains(model, "if (typeof value === 'object') {");
+        // null items must not reach instanceOfDog
+        TestUtils.assertFileContains(model, "json.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileContains(model, "value.every(item => item !== null && typeof item === 'object')");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

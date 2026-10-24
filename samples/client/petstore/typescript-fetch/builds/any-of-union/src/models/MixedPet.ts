@@ -43,21 +43,20 @@ export function MixedPetFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     if (json == null) {
         return json;
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
-    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
-    let anyOfResult: any = {};
-    let anyOfMatched = false;
-    if (instanceOfCat(json)) {
-        anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };
-        anyOfMatched = true;
-    }
-    if (anyOfMatched) {
-        return anyOfResult;
+    if (typeof json === 'object') {
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+        if (instanceOfCat(json)) {
+            anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };
+            anyOfMatched = true;
+        }
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
     }
     if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'object')) {
+        if (json.every(item => item !== null && typeof item === 'object')) {
             if (json.every(item => instanceOfDog(item))) {
                 return json.map(value => DogFromJSONTyped(value, true));
             }
@@ -67,6 +66,9 @@ export function MixedPetFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         return json;
     }
     if (typeof json === 'string') {
+        return json;
+    }
+    if (typeof json !== 'object') {
         return json;
     }
     return {} as any;
@@ -80,21 +82,20 @@ export function MixedPetToJSONTyped(value?: MixedPet | null, ignoreDiscriminator
     if (value == null) {
         return value;
     }
-    if (typeof value !== 'object') {
-        return value;
-    }
-    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
-    let anyOfResult: any = {};
-    let anyOfMatched = false;
-    if (instanceOfCat(value)) {
-        anyOfResult = { ...anyOfResult, ...CatToJSON(value as Cat) };
-        anyOfMatched = true;
-    }
-    if (anyOfMatched) {
-        return anyOfResult;
+    if (typeof value === 'object') {
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+        if (instanceOfCat(value)) {
+            anyOfResult = { ...anyOfResult, ...CatToJSON(value as Cat) };
+            anyOfMatched = true;
+        }
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
     }
     if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'object')) {
+        if (value.every(item => item !== null && typeof item === 'object')) {
             if (value.every(item => instanceOfDog(item))) {
                 return value.map(value => DogToJSON(value as Dog));
             }
@@ -104,6 +105,9 @@ export function MixedPetToJSONTyped(value?: MixedPet | null, ignoreDiscriminator
         return value;
     }
     if (typeof value === 'string') {
+        return value;
+    }
+    if (typeof value !== 'object') {
         return value;
     }
     return {};

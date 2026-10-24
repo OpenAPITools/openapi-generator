@@ -65,6 +65,15 @@ components:
           items:
             $ref: '#/components/schemas/Dog'
         - type: string
+    AnyOfWithProperties:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      properties:
+        label:
+          type: string
+      required:
+        - label
     NullableValue:
       anyOf:
         - type: string

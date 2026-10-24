@@ -55,6 +55,7 @@ All URIs are relative to *http://localhost*
 
 ### Models
 
+- [AnyOfWithProperties](docs/AnyOfWithProperties.md)
 - [Cat](docs/Cat.md)
 - [CreatePet](docs/CreatePet.md)
 - [CreatePetContent](docs/CreatePetContent.md)

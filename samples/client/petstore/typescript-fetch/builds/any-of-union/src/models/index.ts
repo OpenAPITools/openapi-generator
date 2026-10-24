@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AnyOfWithProperties';
 export * from './Cat';
 export * from './CreatePet';
 export * from './CreatePetContent';

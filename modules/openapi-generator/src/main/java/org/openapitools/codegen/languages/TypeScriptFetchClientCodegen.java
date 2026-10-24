@@ -850,7 +850,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        return new ExtendedCodegenModel(cm);
+        ExtendedCodegenModel result = new ExtendedCodegenModel(cm);
+        // The union template renders no properties, so an anyOf declaring its own properties stays an interface.
+        result.anyOfHasOwnProperties = model.getAnyOf() != null && !model.getAnyOf().isEmpty()
+                && model.getProperties() != null && !model.getProperties().isEmpty();
+        return result;
     }
 
     @Override
@@ -1098,7 +1102,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .orElse(Collections.emptyList());
 
         // With generateAnyOfAsUnion an anyOf is modeled like a oneOf, so the oneOf templates render it as a union.
-        boolean fromAnyOf = this.generateAnyOfAsUnion && cm.oneOf.isEmpty() && !cm.anyOf.isEmpty();
+        boolean fromAnyOf = this.generateAnyOfAsUnion && cm.oneOf.isEmpty() && !cm.anyOf.isEmpty() && !cm.anyOfHasOwnProperties;
         if (fromAnyOf) {
             oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
                     .map(CodegenComposedSchemas::getAnyOf)
@@ -2145,6 +2149,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean parentIsOneOf; // true when this model's parent is a oneOf union type
         @Getter @Setter
         public boolean isAnyOfUnion; // true when an anyOf is generated as a union type (generateAnyOfAsUnion)
+        public boolean anyOfHasOwnProperties; // true when an anyOf schema declares properties next to its members
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
