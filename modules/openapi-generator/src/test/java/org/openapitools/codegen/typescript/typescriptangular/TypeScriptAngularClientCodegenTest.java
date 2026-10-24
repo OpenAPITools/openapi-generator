@@ -454,6 +454,22 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void testBasePathFromAdditionalProperties() throws IOException {
+        for (String basePath : new String[]{"", "/api"}) {
+            File output = Files.createTempDirectory("angular-base-path").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/typescript-angular/issue_20760.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty("basePath", basePath);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String baseService = Files.readString(output.toPath().resolve("api.base.service.ts"));
+            assertThat(baseService).containsOnlyOnce("protected basePath = '" + basePath + "';");
+        }
+    }
+
+    @Test
     public void testEnumAsConst() throws IOException {
         // GIVEN
         final String specPath = "src/test/resources/3_0/enum.yaml";

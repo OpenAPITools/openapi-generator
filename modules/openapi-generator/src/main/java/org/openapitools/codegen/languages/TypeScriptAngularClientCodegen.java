@@ -590,6 +590,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        // supporting files bundle puts server URL over additionalProperties, keep user supplied basePath
+        if (additionalProperties.containsKey("basePath")) {
+            objs.put("basePath", additionalProperties.get("basePath"));
+        }
+        return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModels(objs);
         return postProcessModelsEnum(result);
