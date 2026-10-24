@@ -29,9 +29,15 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Tag {
 
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
 
