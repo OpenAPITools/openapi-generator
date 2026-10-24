@@ -423,7 +423,8 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             String varName = name
                     .replace("-", "MINUS_")
                     .replace("+", "PLUS_")
-                    .replace(".", "_DOT_");
+                    .replace(".", "_DOT_")
+                    .toUpperCase(Locale.ROOT);
             return varName.matches("^\\d.*") ? NUMERIC_ENUM_PREFIX + varName : varName;
         }
         // Standard case (mirrors the stock ruby generator): upcase the underscored value.
