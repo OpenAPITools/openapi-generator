@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets CopyActivitytt
         /// </summary>
-        [DataMember(Name = "copyActivitytt", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "copyActivitytt", IsRequired = true, EmitDefaultValue = false)]
         public string CopyActivitytt
         {
             get{ return _CopyActivitytt;}
