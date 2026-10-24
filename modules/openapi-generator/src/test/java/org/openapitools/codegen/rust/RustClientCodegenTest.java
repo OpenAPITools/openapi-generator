@@ -516,6 +516,55 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testChronoDateTimeParamsSerializeAsRfc3339() throws IOException {
+        // chrono's Display for DateTime is "2024-01-02 03:04:05 +00:00", not RFC 3339
+        // each row: library, then the expected path, query, header and nullable query/header sites
+        String[][] expected = {
+                {"reqwest", "since=p_path_since.to_rfc3339()", "(\"createdAfter\", &p_query_created_after.to_rfc3339())",
+                        "(\"day\", &param_value.to_string())",
+                        "(\"updatedAfter\", &param_value.to_rfc3339())", "header(\"X-Updated-At\", param_value.to_rfc3339())"},
+                {"reqwest-trait", "since=since.to_rfc3339()", "(\"createdAfter\", &created_after.to_rfc3339())",
+                        "(\"day\", &param_value.to_string())",
+                        "(\"updatedAfter\", &param_value.to_rfc3339())", "header(\"X-Updated-At\", local_var_param_value.to_rfc3339())"},
+                {"hyper", "(\"since\".to_string(), since.to_rfc3339())", "(\"createdAfter\".to_string(), created_after.to_rfc3339())",
+                        "let query_value = s.to_string();",
+                        "(\"updatedAfter\".to_string(), param_value.to_rfc3339())", "(\"X-Updated-At\".to_string(), param_value.to_rfc3339())"},
+                {"hyper0x", "(\"since\".to_string(), since.to_rfc3339())", "(\"createdAfter\".to_string(), created_after.to_rfc3339())",
+                        "let query_value = s.to_string();",
+                        "(\"updatedAfter\".to_string(), param_value.to_rfc3339())", "(\"X-Updated-At\".to_string(), param_value.to_rfc3339())"},
+        };
+        for (String[] e : expected) {
+            Path outputPath = generateDateTimeParamsApi(e[0], true);
+            // NaiveDate's Display is already ISO 8601, so date params keep to_string()
+            TestUtils.assertFileContains(outputPath, e[1], e[2], e[3], e[4], e[5], "param_value.to_rfc3339()");
+            TestUtils.assertFileNotContains(outputPath, "since.to_string()", "created_after.to_string()",
+                    "updated_after.to_string()", "param_value.to_string()); },", "\"X-Request-Time\", param_value.to_string()");
+        }
+
+        // without chrono, date-time params are plain Strings
+        for (String library : new String[] {"reqwest", "reqwest-trait", "hyper", "hyper0x"}) {
+            TestUtils.assertFileNotContains(generateDateTimeParamsApi(library, false), "to_rfc3339");
+        }
+    }
+
+    private Path generateDateTimeParamsApi(String library, boolean useChrono) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary(library)
+                .addAdditionalProperty("useChrono", useChrono)
+                .setInputSpec("src/test/resources/3_0/rust/date-time-params.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        return outputPath;
+    }
+
+    @Test
     public void testOneOfMemberWithoutTitleOrType() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
