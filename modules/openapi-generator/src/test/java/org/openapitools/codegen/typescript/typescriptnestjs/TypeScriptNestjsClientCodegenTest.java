@@ -7,12 +7,17 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -20,6 +25,7 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientCodegenTest {
@@ -166,6 +172,48 @@ public class TypeScriptNestjsClientCodegenTest {
 
         Assert.assertEquals(res.getOperations().getOperation().get(0).path,
             "test/${encodeURIComponent(String(pathParam1))}/${encodeURIComponent(String(pathParam2))}");
+    }
+
+    @Test
+    public void testBooleanOptionsPassedAsStrings() throws IOException {
+        // --additional-properties and gradle configOptions pass boolean options as strings
+        for (Object option : new Object[]{null, false, "false", true, "true"}) {
+            boolean enabled = Boolean.parseBoolean(String.valueOf(option));
+            String label = option == null ? "unset" : option + " (" + option.getClass().getSimpleName() + ")";
+
+            File output = Files.createTempDirectory("nestjs-boolean-options").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-nestjs")
+                    .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptNestjsClientCodegen.WITH_INTERFACES, option);
+                configurator.addAdditionalProperty(TypeScriptNestjsClientCodegen.USE_SINGLE_REQUEST_PARAMETER, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String service = Files.readString(output.toPath().resolve("api/multipart.service.ts"));
+            assertThat(output.toPath().resolve("api/multipart.serviceInterface.ts").toFile().exists())
+                    .as("interface file, withInterfaces=" + label).isEqualTo(enabled);
+            assertThat(service.contains("implements MultipartServiceInterface"))
+                    .as("implements clause, withInterfaces=" + label).isEqualTo(enabled);
+            assertThat(service.contains("export interface MultipartServiceMultipartArrayRequest"))
+                    .as("useSingleRequestParameter=" + label).isEqualTo(enabled);
+
+            output = Files.createTempDirectory("nestjs-tagged-unions").toFile();
+            output.deleteOnExit();
+            configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-nestjs")
+                    .setInputSpec("src/test/resources/3_0/typescript-angular/composed-schemas.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptNestjsClientCodegen.TAGGED_UNIONS, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String model = Files.readString(output.toPath().resolve("model/catInherited.ts"));
+            assertThat(model.contains("export interface CatInherited extends PetWithSimpleDiscriminator"))
+                    .as("plain interface, taggedUnions=" + label).isEqualTo(!enabled);
+        }
     }
 
     private CodegenParameter createPathParam(String paramName, String baseName) {
