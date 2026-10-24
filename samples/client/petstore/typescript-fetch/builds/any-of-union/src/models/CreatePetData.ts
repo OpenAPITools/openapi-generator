@@ -59,9 +59,6 @@ export function CreatePetDataFromJSONTyped(json: any, ignoreDiscriminator: boole
             return anyOfResult;
         }
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
     return {} as any;
 }
 
@@ -88,9 +85,6 @@ export function CreatePetDataToJSONTyped(value?: CreatePetData | null, ignoreDis
         if (anyOfMatched) {
             return anyOfResult;
         }
-    }
-    if (typeof value !== 'object') {
-        return value;
     }
     return {};
 }

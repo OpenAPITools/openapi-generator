@@ -51,9 +51,6 @@ export function TaggedUnionFromJSONTyped(json: any, ignoreDiscriminator: boolean
             return OtherFromJSONTyped(json, true);
         }
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
     return {} as any;
 }
 
@@ -72,9 +69,6 @@ export function TaggedUnionToJSONTyped(value?: TaggedUnion | null, ignoreDiscrim
         if (instanceOfOther(value)) {
             return OtherToJSON(value as Other);
         }
-    }
-    if (typeof value !== 'object') {
-        return value;
     }
     return {};
 }

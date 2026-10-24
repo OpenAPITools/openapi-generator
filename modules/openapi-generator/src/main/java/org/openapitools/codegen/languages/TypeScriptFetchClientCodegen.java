@@ -74,7 +74,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DATE_LIBRARY_STRING = "string";
     public static final String DATE_LIBRARY_TEMPORAL = "temporal";
     public static final String GENERATE_ANY_OF_AS_UNION = "generateAnyOfAsUnion";
-    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging all members' properties. A value matching several object members keeps the properties of all of them.";
+    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging all members' properties. A value matching several object members keeps the properties of all of them. An anyOf schema that also declares its own properties stays an interface.";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -617,6 +617,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (ExtendedCodegenModel m : allModels) {
             if (m.parent != null && oneOfModelNames.contains(m.parent)) {
                 m.parentIsOneOf = true;
+            }
+        }
+
+        // Split the oneOf/anyOf model members: the instanceOf check of an enum takes the primitive value itself,
+        // while the one of an object model needs an object.
+        Set<String> enumModelNames = allModels.stream()
+                .filter(m -> m.isEnum)
+                .map(m -> m.classname)
+                .collect(Collectors.toSet());
+        for (ExtendedCodegenModel m : allModels) {
+            for (String member : m.oneOfModels) {
+                if (enumModelNames.contains(member)) {
+                    m.oneOfEnumModels.add(member);
+                } else {
+                    m.oneOfObjectModels.add(member);
+                }
             }
         }
 
@@ -2139,6 +2155,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // 'TypedJSON' conversion methods in the composed model classes.
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
+        // oneOfModels split by kind, see postProcessAllModels
+        public Set<String> oneOfObjectModels = new TreeSet<>();
+        public Set<String> oneOfEnumModels = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter

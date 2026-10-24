@@ -44,7 +44,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfObjectModels}}
     {{#-first}}
     if (typeof json === 'object') {
     {{#isAnyOfUnion}}
@@ -72,7 +72,12 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/isAnyOfUnion}}
     }
     {{/-last}}
-    {{/oneOfModels}}
+    {{/oneOfObjectModels}}
+    {{#oneOfEnumModels}}
+    if (instanceOf{{{.}}}(json)) {
+        return {{{.}}}FromJSONTyped(json, true);
+    }
+    {{/oneOfEnumModels}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(json)) {
@@ -193,13 +198,6 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/isString}}
     {{/isArray}}
     {{/oneOfPrimitives}}
-    {{#oneOfModels}}
-    {{#-first}}
-    if (typeof json !== 'object') {
-        return json;
-    }
-    {{/-first}}
-    {{/oneOfModels}}
     return {} as any;
 {{/discriminator}}
 }
@@ -223,7 +221,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfObjectModels}}
     {{#-first}}
     if (typeof value === 'object') {
     {{#isAnyOfUnion}}
@@ -251,7 +249,12 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{/isAnyOfUnion}}
     }
     {{/-last}}
-    {{/oneOfModels}}
+    {{/oneOfObjectModels}}
+    {{#oneOfEnumModels}}
+    if (instanceOf{{{.}}}(value)) {
+        return {{{.}}}ToJSON(value as {{{.}}});
+    }
+    {{/oneOfEnumModels}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(value)) {
@@ -370,13 +373,6 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{/isString}}
     {{/isArray}}
     {{/oneOfPrimitives}}
-    {{#oneOfModels}}
-    {{#-first}}
-    if (typeof value !== 'object') {
-        return value;
-    }
-    {{/-first}}
-    {{/oneOfModels}}
     return {};
 {{/discriminator}}
 }

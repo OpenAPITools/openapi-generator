@@ -68,9 +68,6 @@ export function MixedPetFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     if (typeof json === 'string') {
         return json;
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
     return {} as any;
 }
 
@@ -105,9 +102,6 @@ export function MixedPetToJSONTyped(value?: MixedPet | null, ignoreDiscriminator
         return value;
     }
     if (typeof value === 'string') {
-        return value;
-    }
-    if (typeof value !== 'object') {
         return value;
     }
     return {};

@@ -57,6 +57,7 @@ All URIs are relative to *http://localhost*
 
 - [AnyOfWithProperties](docs/AnyOfWithProperties.md)
 - [Cat](docs/Cat.md)
+- [Color](docs/Color.md)
 - [CreatePet](docs/CreatePet.md)
 - [CreatePetContent](docs/CreatePetContent.md)
 - [CreatePetData](docs/CreatePetData.md)
@@ -65,6 +66,8 @@ All URIs are relative to *http://localhost*
 - [MixedPet](docs/MixedPet.md)
 - [MultipleNullableValue](docs/MultipleNullableValue.md)
 - [NullableValue](docs/NullableValue.md)
+- [OneOfModelAndDateTime](docs/OneOfModelAndDateTime.md)
+- [OneOfModelAndEnum](docs/OneOfModelAndEnum.md)
 - [PetData](docs/PetData.md)
 
 ### Authorization

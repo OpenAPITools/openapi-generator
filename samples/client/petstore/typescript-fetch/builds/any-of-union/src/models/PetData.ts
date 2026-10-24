@@ -59,9 +59,6 @@ export function PetDataFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
             return anyOfResult;
         }
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
     return {} as any;
 }
 
@@ -88,9 +85,6 @@ export function PetDataToJSONTyped(value?: PetData | null, ignoreDiscriminator: 
         if (anyOfMatched) {
             return anyOfResult;
         }
-    }
-    if (typeof value !== 'object') {
-        return value;
     }
     return {};
 }

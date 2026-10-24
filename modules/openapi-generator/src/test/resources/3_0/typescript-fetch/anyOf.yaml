@@ -74,6 +74,20 @@ components:
           type: string
       required:
         - label
+    Color:
+      type: string
+      enum:
+        - red
+        - blue
+    OneOfModelAndEnum:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Color'
+    OneOfModelAndDateTime:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: string
+          format: date-time
     NullableValue:
       anyOf:
         - type: string
