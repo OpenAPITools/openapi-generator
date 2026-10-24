@@ -206,4 +206,36 @@ public class ElixirClientCodegenTest {
             FileUtils.deleteDirectory(output);
         }
     }
+
+    @Test
+    public void testOas31PropertiesFromAllOfAreTyped() throws Exception {
+        File output = Files.createTempDirectory("elixir-codegen").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setInputSpec("src/test/resources/3_1/allof-nullable-type-array.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Path derived;
+            try (Stream<Path> paths = Files.walk(output.toPath())) {
+                derived = paths
+                        .filter(path -> path.getFileName().toString().equals("derived.ex"))
+                        .findFirst()
+                        .orElseThrow();
+            }
+            String model = Files.readString(derived, StandardCharsets.UTF_8);
+
+            // properties that Derived gets from Base through allOf keep their OpenAPI 3.1 `types`
+            Assert.assertTrue(model.contains(":id => String.t | nil"), model);
+            Assert.assertTrue(model.contains(":tags => [String.t] | nil"), model);
+            Assert.assertTrue(model.contains(":meta => %{optional(String.t) => String.t} | nil"), model);
+            Assert.assertTrue(model.contains(":name => String.t | nil"), model);
+            Assert.assertTrue(model.contains(":email => String.t | nil"), model);
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
 }
