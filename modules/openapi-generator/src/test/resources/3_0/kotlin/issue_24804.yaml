@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Generic response entity reproduction
+  version: 1.0.0
+paths:
+  /operations:
+    post:
+      operationId: startOperation
+      responses:
+        '201':
+          description: Operation completed successfully
+        '202':
+          description: Operation accepted for asynchronous processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationStatusResponse'
+components:
+  schemas:
+    OperationStatusResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string

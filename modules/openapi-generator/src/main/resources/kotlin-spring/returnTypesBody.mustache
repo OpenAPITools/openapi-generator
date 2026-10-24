@@ -1,0 +1,6 @@
+{{! Resolve the body type shared by API interfaces and delegates. Comments suppress line breaks. }}
+{{#useSealedResponseInterfaces}}{{!
+}}{{#vendorExtensions.x-sealed-response-interface}}{{vendorExtensions.x-sealed-response-interface}}{{/vendorExtensions.x-sealed-response-interface}}{{!
+}}{{^vendorExtensions.x-sealed-response-interface}}{{>returnTypes}}{{/vendorExtensions.x-sealed-response-interface}}{{!
+}}{{/useSealedResponseInterfaces}}{{!
+}}{{^useSealedResponseInterfaces}}{{>returnTypes}}{{/useSealedResponseInterfaces}}
