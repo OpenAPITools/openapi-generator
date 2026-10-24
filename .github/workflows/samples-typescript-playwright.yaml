@@ -23,7 +23,7 @@ jobs:
         sample:
           - samples/client/petstore/typescript-playwright/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v7
         with:
