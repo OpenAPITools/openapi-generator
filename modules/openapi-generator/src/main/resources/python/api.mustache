@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 {{#imports}}
-{{import}}
+{{#x-python-lazy-import}}lazy {{/x-python-lazy-import}}{{import}}
 {{/imports}}
 
 from {{packageName}}.api_client import ApiClient, RequestSerialized

@@ -7,7 +7,7 @@ import re  # noqa: F401
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
@@ -220,7 +220,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
-{{{.}}}
+{{#lazyNativeImport}}lazy {{/lazyNativeImport}}{{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)

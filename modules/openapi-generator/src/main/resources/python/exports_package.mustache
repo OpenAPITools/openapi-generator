@@ -1,5 +1,5 @@
 # import apis into sdk package
-{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}} as {{classname}}
+{{#apiInfo}}{{#apis}}{{#lazyNativeImport}}lazy {{/lazyNativeImport}}from {{apiPackage}}.{{classFilename}} import {{classname}} as {{classname}}
 {{/apis}}{{/apiInfo}}
 # import ApiClient
 from {{packageName}}.api_response import ApiResponse as ApiResponse
@@ -16,5 +16,5 @@ from {{packageName}}.signing import HttpSigningConfiguration as HttpSigningConfi
 {{/hasHttpSignatureMethods}}
 
 # import models into sdk package
-{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}} as {{classname}}
+{{#models}}{{#model}}{{#lazyNativeImport}}lazy {{/lazyNativeImport}}from {{modelPackage}}.{{classFilename}} import {{classname}} as {{classname}}
 {{/model}}{{/models}}

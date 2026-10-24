@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Lazy imports regression
+  version: 1.0.0
+paths:
+  /parents/{id}:
+    get:
+      tags: [Parents]
+      operationId: getParent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A parent with nested children
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parent'
+  /unused:
+    get:
+      tags: [Unused]
+      operationId: getUnused
+      responses:
+        '200':
+          description: An unused model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unused'
+components:
+  schemas:
+    Child:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Parent:
+      type: object
+      required: [children]
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Child'
+    Unused:
+      type: object
+      properties:
+        value:
+          type: string
+    Choice:
+      oneOf:
+        - $ref: '#/components/schemas/Child'
+        - type: string
+    AnyChoice:
+      anyOf:
+        - $ref: '#/components/schemas/Child'
+        - type: integer
+    Left:
+      type: object
+      properties:
+        right:
+          $ref: '#/components/schemas/Right'
+    Right:
+      type: object
+      properties:
+        left:
+          $ref: '#/components/schemas/Left'
