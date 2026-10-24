@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Records with additionalProperties
+  version: 1.0.0
+paths:
+  /tagged:
+    post:
+      operationId: createTagged
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tagged'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Tagged:
+      description: A string-valued map next to declared properties
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+          default: 3
+        note:
+          type: string
+          nullable: true
+        secret:
+          type: string
+          format: password
+      additionalProperties:
+        type: string
+    Loose:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties: true
+    Typed:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties:
+        $ref: '#/components/schemas/Item'
+    Lists:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties:
+        type: array
+        items:
+          type: integer
+    Item:
+      type: object
+      properties:
+        value:
+          type: string
+    Base:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+    Child:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            x:
+              type: string
+          additionalProperties:
+            type: string
+    Holder:
+      type: object
+      properties:
+        tagged:
+          $ref: '#/components/schemas/Tagged'
+        loose:
+          $ref: '#/components/schemas/Loose'
