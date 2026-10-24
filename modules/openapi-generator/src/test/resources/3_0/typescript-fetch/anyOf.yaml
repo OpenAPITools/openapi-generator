@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: anyOf as union
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePet'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetData'
+components:
+  schemas:
+    Cat:
+      type: object
+      properties:
+        kind:
+          type: string
+        meowCount:
+          type: integer
+      required:
+        - kind
+        - meowCount
+    Dog:
+      type: object
+      properties:
+        kind:
+          type: string
+        barkCount:
+          type: integer
+        tailLength:
+          type: integer
+        breed:
+          type: string
+      required:
+        - kind
+        - barkCount
+        - tailLength
+    PetData:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    DiscriminatedPet:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: kind
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    MixedPet:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: array
+          items:
+            $ref: '#/components/schemas/Dog'
+        - type: string
+    NullableValue:
+      anyOf:
+        - type: string
+          nullable: true
+        - type: number
+    MultipleNullableValue:
+      anyOf:
+        - type: string
+          nullable: true
+        - type: number
+          nullable: true
+    CreatePet:
+      type: object
+      properties:
+        id:
+          type: string
+        data:
+          anyOf:
+            - $ref: '#/components/schemas/Cat'
+            - $ref: '#/components/schemas/Dog'
+        content:
+          anyOf:
+            - type: number
+            - type: string
+      required:
+        - id

@@ -44,6 +44,28 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
+    {{#isAnyOfUnion}}
+    {{#oneOfModels}}
+    {{#-first}}
+    if (typeof json !== 'object') {
+        return json;
+    }
+    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+    let anyOfResult: any = {};
+    let anyOfMatched = false;
+    {{/-first}}
+    if (instanceOf{{{.}}}(json)) {
+        anyOfResult = { ...anyOfResult, ...{{{.}}}FromJSONTyped(json, true) };
+        anyOfMatched = true;
+    }
+    {{#-last}}
+    if (anyOfMatched) {
+        return anyOfResult;
+    }
+    {{/-last}}
+    {{/oneOfModels}}
+    {{/isAnyOfUnion}}
+    {{^isAnyOfUnion}}
     {{#oneOfModels}}
     {{#-first}}
     if (typeof json !== 'object') {
@@ -54,6 +76,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return {{{.}}}FromJSONTyped(json, true);
     }
     {{/oneOfModels}}
+    {{/isAnyOfUnion}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(json)) {
@@ -197,6 +220,28 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     }
 {{/discriminator}}
 {{^discriminator}}
+    {{#isAnyOfUnion}}
+    {{#oneOfModels}}
+    {{#-first}}
+    if (typeof value !== 'object') {
+        return value;
+    }
+    // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+    let anyOfResult: any = {};
+    let anyOfMatched = false;
+    {{/-first}}
+    if (instanceOf{{{.}}}(value)) {
+        anyOfResult = { ...anyOfResult, ...{{{.}}}ToJSON(value as {{{.}}}) };
+        anyOfMatched = true;
+    }
+    {{#-last}}
+    if (anyOfMatched) {
+        return anyOfResult;
+    }
+    {{/-last}}
+    {{/oneOfModels}}
+    {{/isAnyOfUnion}}
+    {{^isAnyOfUnion}}
     {{#oneOfModels}}
     {{#-first}}
     if (typeof value !== 'object') {
@@ -207,6 +252,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
         return {{{.}}}ToJSON(value as {{{.}}});
     }
     {{/oneOfModels}}
+    {{/isAnyOfUnion}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(value)) {
