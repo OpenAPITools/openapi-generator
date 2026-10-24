@@ -34,11 +34,9 @@ enum Fields(val fieldName : String) extends Field(fieldName) {
 
 {{#vars}}
     {{#isEnum}}
-        // baseName={{{baseName}}}
-        // nameInCamelCase = {{{nameInCamelCase}}}
         enum {{datatypeWithEnum}} derives ReadWriter {
         {{#_enum}}
-            case {{.}}
+            case {{#isNumeric}}_{{/isNumeric}}{{.}}
         {{/_enum}}
         }
     {{/isEnum}}
