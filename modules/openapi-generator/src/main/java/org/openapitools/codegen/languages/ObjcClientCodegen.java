@@ -526,11 +526,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String apiFileFolder() {
         return (outputFolder + "/" + apiPackage() + "/" + apiFilesPath).replace("/", File.separator);
     }

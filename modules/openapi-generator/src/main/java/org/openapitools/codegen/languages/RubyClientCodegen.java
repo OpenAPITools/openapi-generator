@@ -487,11 +487,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toApiTestFilename(String name) {
         return toApiFilename(name) + "_spec";
     }
