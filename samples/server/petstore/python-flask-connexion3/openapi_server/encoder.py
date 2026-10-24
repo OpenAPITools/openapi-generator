@@ -8,25 +8,24 @@ from werkzeug.http import http_date
 from openapi_server.models.base_model import Model
 
 
+def _model_to_dict(model, include_nulls):
+    dikt = {}
+    for attr in model.openapi_types:
+        value = getattr(model, attr)
+        if value is None and not include_nulls:
+            continue
+        dikt[model.attribute_map[attr]] = value
+    return dikt
+
+
 class JSONEncoder(json.JSONEncoder):
     include_nulls = False
 
     def default(self, o):
         if isinstance(o, Model):
-            dikt = {}
-            for attr in o.openapi_types:
-                value = getattr(o, attr)
-                if value is None and not self.include_nulls:
-                    continue
-                attr = o.attribute_map[attr]
-                dikt[attr] = value
-            return dikt
-        # Connexion 3 removed FlaskJSONEncoder, which is what used to
-        # give us this handling for free -- replicate it here so
-        # date/datetime/Decimal/UUID-typed model attributes (e.g. an
-        # OpenAPI `date-time` field) still serialize instead of raising
-        # TypeError. http_date() matches Flask's own default encoder
-        # behavior for date/datetime (RFC 2822, not ISO 8601).
+            return _model_to_dict(o, self.include_nulls)
+        # Preserve this adapter's HTTP-date and string representations.
+        # Connexion 2 delegates special types to its JSON provider instead.
         if isinstance(o, datetime.date):
             return http_date(o)
         if isinstance(o, (decimal.Decimal, uuid.UUID)):
