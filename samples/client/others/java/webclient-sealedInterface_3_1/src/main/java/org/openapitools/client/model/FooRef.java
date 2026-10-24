@@ -106,6 +106,18 @@ public final class FooRef extends EntityRef implements FooRefOrValue {
   }
 
   @Override
+  public FooRef name(@javax.annotation.Nullable String name) {
+    this.setName(name);
+    return this;
+  }
+
+  @Override
+  public FooRef atReferredType(@javax.annotation.Nullable String atReferredType) {
+    this.setAtReferredType(atReferredType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
