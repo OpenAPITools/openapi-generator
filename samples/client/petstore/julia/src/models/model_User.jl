@@ -70,6 +70,9 @@ function OpenAPI.validate_property(::Type{ User }, name::Symbol, val)
 
 
 
+    if name === Symbol("password")
+        OpenAPI.validate_param(name, "User", :format, val, "password")
+    end
 
 
     if name === Symbol("userStatus")
