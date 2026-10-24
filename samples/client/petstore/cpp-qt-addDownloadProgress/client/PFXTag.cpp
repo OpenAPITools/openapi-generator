@@ -65,10 +65,10 @@ QString PFXTag::asJson() const {
 
 QJsonObject PFXTag::asJsonObject() const {
     QJsonObject obj;
-    if (m_id_isSet) {
+    if (true && m_id_isSet) {
         obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
-    if (m_name_isSet) {
+    if (true && m_name_isSet) {
         obj.insert(QString("name"), ::test_namespace::toJsonValue(m_name));
     }
     return obj;
