@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-core" % "2.21.7" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.21" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.21.7" % "compile",
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.21.7" % "compile",
+      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.21.7" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
       "org.assertj" % "assertj-core" % "3.23.1" % "test",
