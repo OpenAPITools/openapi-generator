@@ -199,6 +199,24 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testNullTypeProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/null-type-property.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "openapi_client", "models", "m.py");
+        TestUtils.assertFileContains(model, "plugin: Optional[None] = Field(");
+    }
+
+    @Test
     public void testOneOfNotEnumValidation() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
