@@ -5828,6 +5828,62 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void lombokAllArgsConstructorReplacesRequiredArgsConstructor_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok generates Pet(Long, String), a generated one would be a duplicate
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("Tag.java"))
+                .assertConstructor("Long");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorOfNullableProperty_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "true",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the field is JsonNullable<String> but the generated parameter is String, so lombok's constructor differs
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorWithInheritedProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok only covers the own field, the generated constructor also takes the inherited one
+        JavaFileAssert.assertThat(output.get("Dog.java"))
+                .assertConstructor("String", "String")
+                .bodyContainsLines("super(kind)", "this.breed = breed");
+        // the parent has no required property, so the signature is the same as lombok's
+        JavaFileAssert.assertThat(output.get("Hound.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("String");
+    }
+
+    @Test
     public void allOfDuplicatedProperties() throws IOException {
         Map<String, File> output = generateFromContract(
                 "src/test/resources/3_0/allOfDuplicatedProperties.yaml",
