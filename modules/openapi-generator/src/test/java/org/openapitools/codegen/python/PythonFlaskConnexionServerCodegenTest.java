@@ -163,4 +163,38 @@ public class PythonFlaskConnexionServerCodegenTest {
         Assert.assertFalse(Files.exists(old),
                 "Untagged operations should honor defaultController, not fall back to default_controller.py");
     }
+
+    @Test
+    public void testWebhookControllerDoesNotImportPydantic() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+
+        final Path controller = Paths.get(outputPath + "openapi_server/controllers/hooks_controller.py");
+        assertFileExists(controller);
+        assertFileContains(
+                controller,
+                "from openapi_server.models.header_arg import HeaderArg  # noqa: E501",
+                "from openapi_server import util",
+                "x_json_arg =  HeaderArg.from_dict(flask.request.get_json())  # noqa: E501",
+                "def item_event_post(filter, x_json_arg):");
+        assertFileNotContains(controller, "pydantic");
+
+        final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
+        assertFileExists(controllerTest);
+        assertFileNotContains(controllerTest, "pydantic");
+    }
+
+    @Test
+    public void testWebhookConnexion3SkipsMultipleProduces() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+
+        final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
+        assertFileExists(controllerTest);
+        assertFileNotContains(controllerTest, "pydantic");
+        assertFileContains(
+                controllerTest,
+                "@unittest.skip(\"Connexion 3 requires the handler to specify which content type to return");
+    }
 }

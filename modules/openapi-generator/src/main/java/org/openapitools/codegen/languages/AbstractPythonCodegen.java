@@ -34,6 +34,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1391,13 +1392,23 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getOperations()));
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getWebhooks()));
+        return objs;
+    }
+
+    protected List<Map<String, String>> postProcessOperationsAndBuildImports(OperationMap objectMap) {
         hasModelsToImport = false;
 
         TreeSet<String> modelImports = new TreeSet<>();
         TreeSet<String> postponedModelImports = new TreeSet<>();
         PythonImports moduleImports = new PythonImports();
 
-        OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation operation : operations) {
@@ -1498,9 +1509,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        // reset imports with newImports
-        objs.setImports(newImports);
-        return objs;
+        return newImports;
     }
 
     protected PydanticType getPydanticParameterType(CodegenParameter parameter,
