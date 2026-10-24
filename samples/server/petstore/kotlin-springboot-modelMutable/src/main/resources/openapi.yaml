@@ -638,6 +638,7 @@ components:
         email:
           type: string
         password:
+          format: password
           type: string
         phone:
           type: string

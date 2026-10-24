@@ -120,6 +120,7 @@ parameters:
           type: string
         password:
           type: string
+          format: password
       required:
         - id
 definitions:
