@@ -80,8 +80,8 @@ library(openapi)
 # Test query parameter(s)
 #
 # prepare function argument(s)
-var_datetime_query <- "datetime_query_example" # character |  (Optional)
-var_date_query <- "date_query_example" # character |  (Optional)
+var_datetime_query <- as.POSIXct("2020-01-01T12:00:00", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC") # POSIXct |  (Optional)
+var_date_query <- as.Date("2020-01-01") # Date |  (Optional)
 var_string_query <- "string_query_example" # character |  (Optional)
 
 api_instance <- QueryApi$new()
@@ -95,8 +95,8 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **datetime_query** | **character**|  | [optional] 
- **date_query** | **character**|  | [optional] 
+ **datetime_query** | **POSIXct**|  | [optional] 
+ **date_query** | **Date**|  | [optional] 
  **string_query** | **character**|  | [optional] 
 
 ### Return type
@@ -464,7 +464,7 @@ library(openapi)
 # Test query parameter(s)
 #
 # prepare function argument(s)
-var_query_object <- DataQuery$new(123, c("SUCCESS"), "suffix_example", "text_example", "date_example") # DataQuery |  (Optional)
+var_query_object <- DataQuery$new(123, c("SUCCESS"), "suffix_example", "text_example", as.POSIXct("2020-01-01T12:00:00", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")) # DataQuery |  (Optional)
 
 api_instance <- QueryApi$new()
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.

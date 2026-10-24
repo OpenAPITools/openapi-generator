@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: R generator edge cases
+  description: >
+    Edge-case spec for the R client generator.
+  version: 0.0.1
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateTimeObject'
+      responses:
+        '200':
+          description: OK
+  /dates:
+    get:
+      tags:
+        - date_test
+      parameters:
+        - name: date_query
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: datetime_query
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: date_header
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: datetime_header
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+  /date-arrays:
+    get:
+      tags:
+        - date_test
+      parameters:
+        - name: date_array
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - name: datetime_array
+          in: query
+          required: false
+          explode: false
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+              format: date-time
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    DateTimeObject:
+      properties:
+        start:
+          format: date-time
+          type: string
+        end:
+          format: date-time
+          type: string
+          nullable: true
+      type: object
+    DateObject:
+      properties:
+        start:
+          format: date
+          type: string
+        end:
+          format: date
+          type: string
+          nullable: true
+      type: object
+    # Array-of-date and array-of-date-time fields exercise the container item
+    # validation path: the generated sapply() must check inherits(x, "Date")
+    # for date items and inherits(x, "POSIXt") for date-time items.
+    DateArrayObject:
+      required:
+        - dates
+        - dateTimes
+      properties:
+        dates:
+          type: array
+          items:
+            type: string
+            format: date
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
+      type: object
+    # Optional date-time fields with defaults exercise rDateTime() UTC
+    # normalization: a trailing 'Z' is stripped (same instant), an explicit
+    # offset is shifted to UTC, and a zone-less value is interpreted as UTC.
+    DateTimeDefaults:
+      properties:
+        withZ:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00Z'
+        withOffset:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00+05:00'
+        withoutTimezone:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00'
+      type: object
+    # A model named `Date` exercises the deserializeObj precedence fix: the
+    # generated api_client.R must NOT add "Date" to primitive_types so this
+    # model takes precedence over the temporal primitive of the same name.
+    Date:
+      description: to test model name collision with the temporal primitive Date
+      properties:
+        className:
+          type: string
+      required:
+        - className
+      type: object
+    # A model with a property whose JSON key (baseName) differs from the R field
+    # name exercises the fromJSONString baseName fix for date/date-time fields.
+    # toVarName("ship-date") = underscore(camelize("ship-date")) = "ship_date",
+    # so name="ship_date" but baseName="ship-date".
+    FieldAlias:
+      properties:
+        ship-date:
+          type: string
+          format: date
+      type: object
