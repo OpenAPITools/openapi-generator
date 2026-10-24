@@ -214,6 +214,28 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void testModelImportsWithLowercaseModelSuffix() throws IOException {
+        for (String suffix : new String[]{"Dto", "dto"}) {
+            File output = Files.createTempDirectory("angular-model-suffix").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty(TypeScriptAngularClientCodegen.MODEL_SUFFIX, suffix);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path pet = output.toPath().resolve("model/pet.ts");
+            assertThat(pet).as("modelSuffix=" + suffix).exists();
+            assertThat(Files.readString(pet)).as("modelSuffix=" + suffix)
+                    .contains("export interface PetDto {")
+                    .contains("import { CategoryDto } from './category';");
+            assertThat(Files.readString(output.toPath().resolve("api/pet.service.ts"))).as("modelSuffix=" + suffix)
+                    .contains("import { PetDto } from '../model/pet';");
+        }
+    }
+
+    @Test
     public void testSchema() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
 
