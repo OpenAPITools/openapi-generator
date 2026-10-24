@@ -10,5 +10,11 @@ RSpec.describe {{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiN
     api = described_class.new(client.connection)
     expect(api).to be_a(described_class)
   end
+{{#rbNamespaceResources}}
+
+  it 'exposes {{accessor}} through the namespace client' do
+    expect(client.{{rbNamespaceAccessor}}.{{accessor}}).to be_a({{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiNamespacePresent}}{{className}})
+  end
+{{/rbNamespaceResources}}
 end
 {{/operations}}
