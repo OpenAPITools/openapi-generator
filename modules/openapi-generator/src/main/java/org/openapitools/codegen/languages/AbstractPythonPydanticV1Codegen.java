@@ -627,12 +627,14 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     public String patternCorrection(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return "";
+        }
         // Java does not recognize starting and ending forward slashes and mode modifiers
         // It considers them as characters with no special meaning and tries to find them in the match string
-        boolean checkEnding = pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
-        if (checkEnding) pattern = pattern.substring(0, pattern.length() - 2);
-        if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length() - 1);
-        if (pattern.startsWith("/")) pattern = pattern.substring(1);
+        if (pattern.matches("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$")) {
+            return pattern.substring(1, pattern.lastIndexOf('/'));
+        }
         return pattern;
     }
 
@@ -1914,6 +1916,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             // TODO update the check below follow python convention
@@ -1945,9 +1948,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
-            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        if (!pattern.matches("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$")) {
+            // Escape each '/' only when preceded by an even number of backslashes.
+            return "/" + pattern.replaceAll("((?<!\\\\)(?:\\\\\\\\)*)/", "$1\\\\/") + "/";
         }
 
         return pattern;

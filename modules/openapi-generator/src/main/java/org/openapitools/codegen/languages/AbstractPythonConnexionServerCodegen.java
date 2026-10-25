@@ -736,6 +736,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             //Must follow Perl /pattern/modifiers convention
