@@ -60,6 +60,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
+    private static final String WILDCARD_MIME = "*/*";
     // same expression as Configuration.isJsonMime in configuration.mustache
     private static final Pattern JSON_MIME_PATTERN = Pattern.compile("^(application/json|[^;/ \\t]+/[^;/ \\t]+[+]json)[ \\t]*(;.*)?$", Pattern.CASE_INSENSITIVE);
 
@@ -98,6 +99,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String X_ANGULAR_HTTP_RESOURCE_TYPE = "x-angular-http-resource-type";
     public static final String X_ANGULAR_HTTP_RESOURCE_ACCEPT = "x-angular-http-resource-accept";
     public static final String X_ANGULAR_REQUEST_PARAMS_INTERFACE = "x-angular-request-params-interface";
+    public static final String X_ANGULAR_WILDCARD_RESPONSE_TYPE = "x-angular-wildcard-response-type";
 
     protected String ngVersion = "22.0.0";
     @Getter @Setter
@@ -468,6 +470,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 hasSomeFormParams = true;
             }
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
+            markWildcardResponseType(op);
             if (markHttpResource(op, nicknames)) {
                 hasSomeHttpResource = true;
             }
@@ -535,10 +538,35 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     /**
+     * Stores the responseType to use when the selected Accept header is the wildcard {@code *}{@code /*}
+     * (e.g. springdoc's default for a controller without {@code produces}). Such an Accept header says
+     * nothing about the body, so the declared return type decides: a plain string is read as text, any
+     * other non-file type as JSON. Operations without a return type and file responses are left out.
+     *
+     * @param op the operation
+     */
+    private void markWildcardResponseType(CodegenOperation op) {
+        op.vendorExtensions.remove(X_ANGULAR_WILDCARD_RESPONSE_TYPE);
+        String responseType = wildcardResponseType(op);
+        if (responseType != null && op.produces != null && op.produces.stream()
+                .anyMatch(mediaType -> WILDCARD_MIME.equals(mediaType.get("mediaType")))) {
+            op.vendorExtensions.put(X_ANGULAR_WILDCARD_RESPONSE_TYPE, responseType);
+        }
+    }
+
+    private static String wildcardResponseType(CodegenOperation op) {
+        if (op.returnType == null || op.isResponseFile) {
+            return null;
+        }
+        return "string".equals(op.returnType) ? "text" : "json";
+    }
+
+    /**
      * Marks a GET operation without a request body for an additional httpResource method.
      * The factory mirrors the responseType the Observable method picks at runtime for the default
      * Accept header (Configuration.selectHeaderAccept): JSON (or no produces) uses httpResource,
-     * text uses httpResource.text, anything else, and file responses, httpResource.blob.
+     * text uses httpResource.text, the wildcard {@code *}{@code /*} follows the return type
+     * (see {@link #markWildcardResponseType}), anything else, and file responses, httpResource.blob.
      *
      * @param op        the operation, with its http method already lower-cased
      * @param nicknames the nicknames of all operations of the same API class
@@ -575,6 +603,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         } else if (accept == null || JSON_MIME_PATTERN.matcher(accept).matches()) {
             factory = "";
             type = op.returnType != null ? op.returnType : "any";
+        } else if (WILDCARD_MIME.equals(accept) && op.returnType != null) {
+            factory = "text".equals(wildcardResponseType(op)) ? ".text" : "";
+            type = op.returnType;
         } else {
             factory = ".blob";
             type = "Blob";

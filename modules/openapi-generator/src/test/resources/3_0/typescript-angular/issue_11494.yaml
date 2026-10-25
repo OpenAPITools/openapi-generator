@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  title: wildcard accept
+  version: 1.0.0
+paths:
+  /pet:
+    get:
+      operationId: getPet
+      responses:
+        '200':
+          description: a model behind */*, as springdoc documents a controller without produces
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /pet/names:
+    get:
+      operationId: getPetNames
+      responses:
+        '200':
+          description: an array of strings is still JSON
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+  /pet/name:
+    get:
+      operationId: getPetName
+      responses:
+        '200':
+          description: a plain string is text
+          content:
+            '*/*':
+              schema:
+                type: string
+  /pet/photo:
+    get:
+      operationId: getPetPhoto
+      responses:
+        '200':
+          description: a file stays a blob
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+  /pet/json:
+    get:
+      operationId: getPetJson
+      responses:
+        '200':
+          description: no wildcard, no extra branch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
