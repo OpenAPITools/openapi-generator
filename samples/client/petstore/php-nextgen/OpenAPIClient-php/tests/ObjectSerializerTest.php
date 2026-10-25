@@ -242,6 +242,54 @@ class ObjectSerializerTest extends TestCase
     }
 
     /**
+     * Booleans in a collection must be serialized as "true"/"false" rather than PHP's
+     * string casts "1"/"" - header and path parameters are built this way.
+     *
+     * @covers ObjectSerializer::serializeCollection
+     * @dataProvider provideBooleanCollections
+     */
+    public function testSerializeCollectionWithBooleans(
+        array $collection,
+        string $style,
+        bool $allowCollectionFormatMulti,
+        string $expected
+    ): void {
+        $this->assertSame(
+            $expected,
+            ObjectSerializer::serializeCollection($collection, $style, $allowCollectionFormatMulti)
+        );
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function provideBooleanCollections(): array
+    {
+        return [
+            'csv' => [[true, false], 'csv', false, 'true,false'],
+            'ssv' => [[true, false], 'ssv', false, 'true false'],
+            'spaceDelimited' => [[true, false], 'spaceDelimited', false, 'true false'],
+            'tsv' => [[true, false], 'tsv', false, "true\tfalse"],
+            'pipes' => [[true, false], 'pipes', false, 'true|false'],
+            'pipeDelimited' => [[true, false], 'pipeDelimited', false, 'true|false'],
+            'multi' => [['flag' => [true, false]], 'multi', true, 'flag=true&flag=false'],
+            'mixed values' => [[true, 0, 'false', false], 'csv', false, 'true,0,false,false'],
+        ];
+    }
+
+    /**
+     * @covers ObjectSerializer::toHeaderValue
+     * @covers ObjectSerializer::toPathValue
+     */
+    public function testToHeaderAndPathValueWithBooleans(): void
+    {
+        $this->assertSame('true', ObjectSerializer::toHeaderValue(true));
+        $this->assertSame('false', ObjectSerializer::toHeaderValue(false));
+        $this->assertSame('true', ObjectSerializer::toPathValue(true));
+        $this->assertSame('false', ObjectSerializer::toPathValue(false));
+    }
+
+    /**
      * Objects nested in a plain object are converted as well: a shallow (array) cast would
      * leave them in place, and building the query would then fail to stringify them.
      *

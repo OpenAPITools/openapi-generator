@@ -158,6 +158,53 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testBooleanHeaderAndPathParamsAreSerializedAsTrueOrFalse() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/boolean-header-path-params.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> apiContent = Files
+                .readAllLines(files.get("DefaultApi.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // Arrays are joined by serializeCollection(), single values go through toHeaderValue()/toPathValue()
+        Assert.assertListContains(apiContent, a -> a.equals("$x_flags = ObjectSerializer::serializeCollection($x_flags, 'csv');"), "");
+        Assert.assertListContains(apiContent, a -> a.equals("$headerParams['X-Flag'] = ObjectSerializer::toHeaderValue($x_flag);"), "");
+        Assert.assertListContains(apiContent, a -> a.equals("$flags = ObjectSerializer::serializeCollection($flags, 'csv');"), "");
+        Assert.assertListContains(apiContent, a -> a.equals("ObjectSerializer::toPathValue($flag),"), "");
+
+        List<String> objectSerializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(objectSerializerContent,
+                a -> a.equals("public static function toHeaderValue(string|bool $value): string"),
+                "toHeaderValue() must accept booleans, a string parameter would cast them to \"1\"/\"\"");
+        Assert.assertListContains(objectSerializerContent,
+                a -> a.equals("public static function toPathValue(string|bool $value): string"),
+                "toPathValue() must accept booleans, a string parameter would cast them to \"1\"/\"\"");
+        Assert.assertListContains(objectSerializerContent,
+                a -> a.equals("array_walk_recursive($collection, static function (mixed &$value): void {"),
+                "serializeCollection() must convert booleans before joining the collection");
+    }
+
+    @Test
     public void testDiscriminatorUsesModelPackageNamespace() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
