@@ -51,6 +51,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonPydanticV1Codegen.class);
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
+    private static final Pattern PERL_DELIMITER_PATTERN =
+            Pattern.compile("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -632,7 +634,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         }
         // Java does not recognize starting and ending forward slashes and mode modifiers
         // It considers them as characters with no special meaning and tries to find them in the match string
-        if (pattern.matches("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$")) {
+        if (PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
             return pattern.substring(1, pattern.lastIndexOf('/'));
         }
         return pattern;
@@ -1948,7 +1950,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return pattern;
         }
 
-        if (!pattern.matches("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$")) {
+        if (!PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
             // Escape each '/' only when preceded by an even number of backslashes.
             return "/" + pattern.replaceAll("((?<!\\\\)(?:\\\\\\\\)*)/", "$1\\\\/") + "/";
         }
