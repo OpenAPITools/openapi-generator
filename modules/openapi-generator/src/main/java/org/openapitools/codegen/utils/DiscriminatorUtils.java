@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 import org.jspecify.annotations.Nullable;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ public class DiscriminatorUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscriminatorUtils.class);
 
+    private static final String FAILED_TO_FIND_SCHEMA =
+            "Failed to lookup the schema '{}' when processing the discriminator mapping oneOf/anyOf. Please check to ensure it's defined properly.";
     private static final String CONFLICTING_DISCRIMINATOR_NAMES =
             "The alternative schemas have conflicting discriminator property names. The schemas must have the same property name, but found {}";
     private static final String CONFLICTING_DISCRIMINATOR_TYPES =
@@ -183,6 +186,35 @@ public class DiscriminatorUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the discriminator descendants defined explicitly by the source discriminator mapping.
+     * Each mapping entry is converted into a {@link MappedModel}, using the mapped name when a
+     * discriminator value is provided, or resolving the referenced model name when the mapping points
+     * to a schema reference.
+     *
+     * @param openAPI the OpenAPI specification
+     * @param sourceDiscriminator the discriminator containing explicit mappings
+     * @return the list of unique descendant models defined by the discriminator mapping
+     */
+    public static List<MappedModel> getUniqueDescendants(OpenAPI openAPI, Discriminator sourceDiscriminator) {
+        List<MappedModel> uniqueDescendants = new ArrayList<>();
+        if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
+            for (Map.Entry<String, String> entry : sourceDiscriminator.getMapping().entrySet()) {
+                String name;
+                if (entry.getValue().indexOf('/') >= 0) {
+                    name = ModelUtils.getSimpleRef(entry.getValue());
+                    if (ModelUtils.getSchema(openAPI, name) == null) {
+                        once(LOGGER).error(FAILED_TO_FIND_SCHEMA, name);
+                    }
+                } else {
+                    name = entry.getValue();
+                }
+                uniqueDescendants.add(new MappedModel(entry.getKey(), name, name, true));
+            }
+        }
+        return uniqueDescendants;
     }
 
     /**

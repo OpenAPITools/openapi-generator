@@ -3828,21 +3828,7 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setIsEnum(isEnum);
 
         discriminator.setMapping(sourceDiscriminator.getMapping());
-        List<MappedModel> uniqueDescendants = new ArrayList<>();
-        if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
-            for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
-                String name;
-                if (e.getValue().indexOf('/') >= 0) {
-                    name = ModelUtils.getSimpleRef(e.getValue());
-                    if (ModelUtils.getSchema(openAPI, name) == null) {
-                        once(LOGGER).error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
-                    }
-                } else {
-                    name = e.getValue();
-                }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), name, true));
-            }
-        }
+        List<MappedModel> uniqueDescendants = adjustModelNames(getUniqueDescendants(openAPI, sourceDiscriminator.getDiscriminator()));
 
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
@@ -3906,7 +3892,7 @@ public class DefaultCodegen implements CodegenConfig {
      * <p>
      * @param schemas  the list of schemas to compare.
      *
-     * @Return the comman type
+     * @return the common type
      */
     protected String getCommonSchemaType(List<Schema> schemas) {
         switch (schemas.size()) {
@@ -3936,16 +3922,6 @@ public class DefaultCodegen implements CodegenConfig {
                 break;
         }
 
-//        boolean allRef = schemas.stream().allMatch(s -> s.get$ref() != null);
-//        if (allRef) {
-//            Set<String> modelNames = schemas.stream()
-//                    .map(s -> toModelName(ModelUtils.getSimpleRef(s.get$ref())))
-//                    .filter(Objects::nonNull)
-//                    .collect(Collectors.toSet());
-//            if (modelNames.size() == 1) {
-//                return modelNames.iterator().next();
-//            }
-//        }
         schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
         return getCommonTypeMapping(schemas);
     }
