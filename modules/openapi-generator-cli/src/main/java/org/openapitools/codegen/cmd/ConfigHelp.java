@@ -205,7 +205,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append("|");
 
             // option
-            sb.append(escapeHtml4(key)).append("|");
+            sb.append('`').append(key).append("`|");
             // description
             sb.append(escapeHtml4(langCliOption.getDescription())).append("|");
 
