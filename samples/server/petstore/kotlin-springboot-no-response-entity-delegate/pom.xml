@@ -8,7 +8,7 @@
     <properties>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
-        <kotlin-test-junit5.version>1.6.21</kotlin-test-junit5.version>
+        <kotlin-test-junit5.version>2.4.20</kotlin-test-junit5.version>
 
         <kotlin.version>2.4.20</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
