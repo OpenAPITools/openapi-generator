@@ -119,7 +119,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
         // Language Specific Primitives.  These types will not trigger imports by the client generator
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("Integer", "Int128", "Int64", "Int32", "Int16", "Int8", "UInt128", "UInt64", "UInt32", "UInt16", "UInt8", "Float64", "Float32", "Float16", "Char", "Vector", "Dict", "Vector{UInt8}", "Bool", "String", "Date", "DateTime", "ZonedDateTime", "Nothing", "Any")
+                Arrays.asList("Integer", "Int128", "Int64", "Int32", "Int16", "Int8", "UInt128", "UInt64", "UInt32", "UInt16", "UInt8", "Float64", "Float32", "Float16", "Char", "Vector", "Dict", "Vector{'{UInt8}'}", "Bool", "String", "Date", "DateTime", "ZonedDateTime", "Nothing", "Any")
         );
 
         typeMapping.clear();
@@ -132,7 +132,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         typeMapping.put("double", "Float64");
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
-        typeMapping.put("binary", "Vector{UInt8}");
+        typeMapping.put("binary", "Vector{'{UInt8}'}");
         typeMapping.put("boolean", "Bool");
         typeMapping.put("number", "Float64");
         typeMapping.put("decimal", "Float64");
@@ -145,7 +145,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         typeMapping.put("file", "String");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
-        typeMapping.put("ByteArray", "Vector{UInt8}");
+        typeMapping.put("ByteArray", "Vector{'{UInt8}'}");
         typeMapping.put("object", "Any");
         typeMapping.put("Object", "Any");
         typeMapping.put("AnyType", "Any");
