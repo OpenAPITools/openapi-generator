@@ -16,13 +16,17 @@
 
 package org.openapitools.codegen.cmd;
 
-import io.airlift.airline.Cli;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -31,7 +35,7 @@ import static org.testng.Assert.assertTrue;
 public class ListGeneratorsTest {
 
     @Test
-    public void testDocsiteWrapsGeneratorLists() {
+    public void testDocsiteWrapsGeneratorLists() throws IOException, InterruptedException {
         String output = list("list", "--docsite", "--include", "all");
 
         assertTrue(output.contains("## CLIENT generators\n\n<div className=\"generators-list\">\n\n"
@@ -40,7 +44,7 @@ public class ListGeneratorsTest {
     }
 
     @Test
-    public void testGithubIndexRemainsMarkdown() {
+    public void testGithubIndexRemainsMarkdown() throws IOException, InterruptedException {
         String output = list("list", "--github-nested-index", "--include", "all");
 
         assertTrue(output.contains("## CLIENT generators\n* [ada](ada.md)"), output);
@@ -58,28 +62,39 @@ public class ListGeneratorsTest {
     }
 
     @Test(dataProvider = "shortFormats")
-    public void testShortOutputIgnoresDocumentationFormat(String[] args) {
+    public void testShortOutputIgnoresDocumentationFormat(String[] args) throws IOException, InterruptedException {
         assertEquals(list(args), list("list", "--short"));
     }
 
     @Test
-    public void testDocsiteTakesPrecedenceOverGithubIndex() {
+    public void testDocsiteTakesPrecedenceOverGithubIndex() throws IOException, InterruptedException {
         assertEquals(list("list", "--docsite", "--github-nested-index"), list("list", "--docsite"));
     }
 
-    private String list(String... args) {
-        PrintStream original = System.out;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        try (PrintStream captured = new PrintStream(output, true, StandardCharsets.UTF_8)) {
-            System.setOut(captured);
-            Cli.<Runnable>builder("openapi-generator-cli")
-                    .withCommand(ListGenerators.class)
-                    .build()
-                    .parse(args)
-                    .run();
+    private String list(String... args) throws IOException, InterruptedException {
+        List<String> command = new ArrayList<>(Arrays.asList(
+                Path.of(System.getProperty("java.home"), "bin", "java").toString(),
+                "-cp", System.getProperty("surefire.test.class.path", System.getProperty("java.class.path")),
+                "org.openapitools.codegen.OpenAPIGenerator"));
+        command.addAll(Arrays.asList(args));
+
+        Path output = Files.createTempFile("ListGeneratorsTest", ".out");
+        try {
+            Process process = new ProcessBuilder(command)
+                    .redirectOutput(output.toFile())
+                    .redirectError(ProcessBuilder.Redirect.INHERIT)
+                    .start();
+            try {
+                assertTrue(process.waitFor(30, TimeUnit.SECONDS), "Generator list command timed out");
+                assertEquals(process.exitValue(), 0, "Generator list command failed; see stderr");
+                return Files.readString(output, StandardCharsets.UTF_8).replace("\r\n", "\n");
+            } finally {
+                if (process.isAlive()) {
+                    process.destroyForcibly().waitFor();
+                }
+            }
         } finally {
-            System.setOut(original);
+            Files.deleteIfExists(output);
         }
-        return new String(output.toByteArray(), StandardCharsets.UTF_8).replace("\r\n", "\n");
     }
 }
