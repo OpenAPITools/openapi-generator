@@ -2202,9 +2202,9 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
-                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+                "The `additionalProperties` implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+                "Keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
@@ -2216,7 +2216,7 @@ public class DefaultCodegen implements CodegenConfig {
         enumUnknownDefaultCaseOpts.put("false",
                 "No changes to the enums are made, this is the default option.");
         enumUnknownDefaultCaseOpts.put("true",
-                "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
+                "With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
         enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
         cliOptions.add(enumUnknownDefaultCaseOpt);
         this.setEnumUnknownDefaultCase(false);
