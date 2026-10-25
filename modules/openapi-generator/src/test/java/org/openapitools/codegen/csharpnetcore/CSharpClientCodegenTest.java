@@ -123,6 +123,44 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostEnumUnknownDefaultCaseMapsUnknownValues() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("Color", new StringSchema()._enum(List.of("red", "green")))
+                .addSchemas("Pet", new ObjectSchema()
+                        .addProperty("status", new StringSchema()._enum(List.of("available", "sold")))
+                        .addProperty("color", new Schema<>().$ref("#/components/schemas/Color"))));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File pet = getGeneratedModel(files, output, "Pet");
+        File color = getGeneratedModel(files, output, "Color");
+
+        // FromString and FromStringOrDefault both end by returning the unknown default member
+        String returnsUnknown = "\\(string value\\)\\s*\\{[^}]*"
+                + "return %s\\.UnknownDefaultOpenApi;\\s*\\}";
+        String statusReturnsUnknown = String.format(returnsUnknown, "StatusEnum");
+        String colorReturnsUnknown = String.format(returnsUnknown, "Color");
+        assertThat(Files.readString(pet.toPath()))
+                .containsPattern("StatusEnumFromString" + statusReturnsUnknown)
+                .containsPattern("StatusEnumFromStringOrDefault" + statusReturnsUnknown);
+        assertFileNotContains(pet.toPath(), "Could not convert value to type StatusEnum");
+        assertThat(Files.readString(color.toPath()))
+                .containsPattern(" FromString" + colorReturnsUnknown)
+                .containsPattern(" FromStringOrDefault" + colorReturnsUnknown);
+        assertFileNotContains(color.toPath(), "Could not convert value to type Color");
+    }
+
+    @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
         Map<String, File> publicModels = generateIssue23046Models(false);
         File publicModel = publicModels.get("DynamicMetadataValue");
