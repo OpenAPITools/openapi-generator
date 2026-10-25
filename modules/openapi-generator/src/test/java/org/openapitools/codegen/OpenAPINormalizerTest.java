@@ -2279,7 +2279,16 @@ public class OpenAPINormalizerTest {
                 "        application/json:\n" +
                 "          schema:\n" +
                 "            description: Arbitrary variable value\n" +
-                "            example: John Doe\n");
+                "            example: John Doe\n" +
+                "    '201':\n" +
+                "      description: list of values\n" +
+                "      content:\n" +
+                "        application/json:\n" +
+                "          schema:\n" +
+                "            type: array\n" +
+                "            items:\n" +
+                "              description: Arbitrary item value\n" +
+                "              example: item1\n");
 
         Path schemaFile = tempDir.resolve("variable-value.yaml");
         Files.writeString(schemaFile,
@@ -2349,6 +2358,28 @@ public class OpenAPINormalizerTest {
         assertFalse(ModelUtils.isFreeFormObject(componentSchema, openAPI));
         assertEquals(componentSchema.getDescription(), "Arbitrary variable value");
         assertEquals(componentSchema.getExample(), "John Doe");
+
+        Schema<?> arrayResponseSchema = openAPI.getPaths().get("/variables")
+                .getGet().getResponses().get("201")
+                .getContent().get("application/json").getSchema();
+        assertNotNull(arrayResponseSchema);
+        Schema<?> inlineArrayItemSchema = arrayResponseSchema.getItems();
+        assertNotNull(inlineArrayItemSchema);
+        assertNull(inlineArrayItemSchema.getType());
+        assertFalse(ModelUtils.isObjectSchema(inlineArrayItemSchema));
+        assertTrue(ModelUtils.isAnyType(inlineArrayItemSchema));
+        assertEquals(inlineArrayItemSchema.getDescription(), "Arbitrary item value");
+
+        Schema<?> holderSchema = openAPI.getComponents().getSchemas().get("VariableHolder");
+        assertNotNull(holderSchema);
+        Schema<?> valuesProp = (Schema<?>) holderSchema.getProperties().get("values");
+        assertNotNull(valuesProp);
+        assertNotNull(valuesProp.getItems());
+        Schema<?> resolvedHolderItem = ModelUtils.getReferencedSchema(openAPI, valuesProp.getItems());
+        assertNotNull(resolvedHolderItem);
+        assertNull(resolvedHolderItem.getType());
+        assertFalse(ModelUtils.isObjectSchema(resolvedHolderItem));
+        assertTrue(ModelUtils.isAnyType(resolvedHolderItem));
 
         Schema<?> explicitObjSchema = openAPI.getComponents().getSchemas().get("explicit-object");
         assertNotNull(explicitObjSchema);

@@ -1181,7 +1181,9 @@ public class OpenAPINormalizer {
                 schema.getJsonSchema() != null &&
                 !schema.getJsonSchema().containsKey("type") &&
                 !schema.getJsonSchema().containsKey("properties") &&
+                !schema.getJsonSchema().containsKey("items") &&
                 schema.getProperties() == null &&
+                schema.getItems() == null &&
                 schema.getAdditionalProperties() == null &&
                 schema.getRequired() == null &&
                 schema.getMinProperties() == null &&
