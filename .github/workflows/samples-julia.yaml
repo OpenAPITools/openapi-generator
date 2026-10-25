@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'
+      - '.github/workflows/samples-julia.yaml'
   pull_request:
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'
+      - '.github/workflows/samples-julia.yaml'
 
 jobs:
   tests-julia:
