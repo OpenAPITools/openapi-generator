@@ -9,8 +9,10 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 plugins {
