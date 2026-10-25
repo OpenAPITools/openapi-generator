@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '2.4.20'
     ext.retrofitVersion = '2.9.0'
 
     repositories {
