@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
@@ -2261,6 +2263,102 @@ public class OpenAPINormalizerTest {
         assertEquals(errorsValue.getType(), "array");
         assertTrue(errorsValue.getNullable());
         assertNotNull(errorsValue.getItems());
+    }
+
+    @Test
+    public void testTypelessSchemaInReferencedFileRemainsAnyType() throws IOException {
+        Path tempDir = Files.createTempDirectory("openapi-normalizer-typeless-ext");
+        Path pathItemFile = tempDir.resolve("variables-path.yaml");
+        Files.writeString(pathItemFile,
+                "get:\n" +
+                "  operationId: getVariable\n" +
+                "  responses:\n" +
+                "    '200':\n" +
+                "      description: ok\n" +
+                "      content:\n" +
+                "        application/json:\n" +
+                "          schema:\n" +
+                "            description: Arbitrary variable value\n" +
+                "            example: John Doe\n");
+
+        Path schemaFile = tempDir.resolve("variable-value.yaml");
+        Files.writeString(schemaFile,
+                "description: Arbitrary variable value\n" +
+                "example: John Doe\n");
+
+        Path explicitObjectFile = tempDir.resolve("explicit-object.yaml");
+        Files.writeString(explicitObjectFile,
+                "type: object\n" +
+                "description: Explicit free-form object\n");
+
+        Path requiredConstraintFile = tempDir.resolve("required-only.yaml");
+        Files.writeString(requiredConstraintFile,
+                "required:\n" +
+                "  - id\n");
+
+        Path rootSpec = tempDir.resolve("openapi.yaml");
+        Files.writeString(rootSpec,
+                "openapi: 3.0.3\n" +
+                "info:\n" +
+                "  title: Typeless External Schema Test\n" +
+                "  version: 1.0.0\n" +
+                "paths:\n" +
+                "  /variables:\n" +
+                "    $ref: './variables-path.yaml'\n" +
+                "components:\n" +
+                "  schemas:\n" +
+                "    VariableHolder:\n" +
+                "      type: object\n" +
+                "      properties:\n" +
+                "        value:\n" +
+                "          $ref: './variable-value.yaml'\n" +
+                "        values:\n" +
+                "          type: array\n" +
+                "          items:\n" +
+                "            $ref: './variable-value.yaml'\n" +
+                "        explicitObj:\n" +
+                "          $ref: './explicit-object.yaml'\n" +
+                "        requiredOnly:\n" +
+                "          $ref: './required-only.yaml'\n");
+
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        parseOptions.setResolveResponses(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(rootSpec.toString(), null, parseOptions).getOpenAPI();
+        assertNotNull(openAPI);
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        openAPINormalizer.normalize();
+
+        Schema<?> responseSchema = openAPI.getPaths().get("/variables")
+                .getGet().getResponses().get("200")
+                .getContent().get("application/json").getSchema();
+        assertNotNull(responseSchema);
+        assertNull(responseSchema.getType());
+        assertFalse(ModelUtils.isObjectSchema(responseSchema));
+        assertTrue(ModelUtils.isAnyType(responseSchema));
+        assertFalse(ModelUtils.isFreeFormObject(responseSchema, openAPI));
+        assertEquals(responseSchema.getDescription(), "Arbitrary variable value");
+        assertEquals(responseSchema.getExample(), "John Doe");
+
+        Schema<?> componentSchema = openAPI.getComponents().getSchemas().get("variable-value");
+        assertNotNull(componentSchema);
+        assertNull(componentSchema.getType());
+        assertFalse(ModelUtils.isObjectSchema(componentSchema));
+        assertTrue(ModelUtils.isAnyType(componentSchema));
+        assertFalse(ModelUtils.isFreeFormObject(componentSchema, openAPI));
+        assertEquals(componentSchema.getDescription(), "Arbitrary variable value");
+        assertEquals(componentSchema.getExample(), "John Doe");
+
+        Schema<?> explicitObjSchema = openAPI.getComponents().getSchemas().get("explicit-object");
+        assertNotNull(explicitObjSchema);
+        assertEquals(explicitObjSchema.getType(), "object");
+        assertTrue(ModelUtils.isObjectSchema(explicitObjSchema));
+        assertTrue(ModelUtils.isFreeFormObject(explicitObjSchema, openAPI));
+
+        Schema<?> requiredOnlySchema = openAPI.getComponents().getSchemas().get("required-only");
+        assertNotNull(requiredOnlySchema);
+        assertEquals(requiredOnlySchema.getRequired(), Collections.singletonList("id"));
     }
 
 }

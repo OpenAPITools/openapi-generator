@@ -984,7 +984,9 @@ public class OpenAPINormalizer {
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
-            normalizeSchema(result.getItems(), visitedSchemas);
+            if (result.getItems() != null) {
+                result.setItems(normalizeSchema(result.getItems(), visitedSchemas));
+            }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -1048,11 +1050,7 @@ public class OpenAPINormalizer {
                 result.setAdditionalProperties(anyTypeNullable);
             } else {
                 Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
-                if (getRule(NORMALIZE_31SPEC)) {
-                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
-                    // value is rewritten to a proper array schema), which would otherwise be lost.
-                    result.setAdditionalProperties(normalized);
-                }
+                result.setAdditionalProperties(normalized);
             }
 
             return result;
@@ -1179,6 +1177,38 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
+        if (schema instanceof ObjectSchema &&
+                schema.getJsonSchema() != null &&
+                !schema.getJsonSchema().containsKey("type") &&
+                !schema.getJsonSchema().containsKey("properties") &&
+                schema.getProperties() == null &&
+                schema.getAdditionalProperties() == null &&
+                schema.getRequired() == null &&
+                schema.getMinProperties() == null &&
+                schema.getMaxProperties() == null &&
+                schema.getPatternProperties() == null &&
+                schema.getDiscriminator() == null &&
+                schema.getEnum() == null) {
+            // When swagger-parser resolves an external file via Jackson (ModelDeserializer),
+            // a typeless OAS 3.0 schema is deserialized into ObjectSchema (type="object")
+            // with raw fields recorded in jsonSchema (without a "type" key). Convert it
+            // back to a base Schema (type=null) so generators treat it as AnyType.
+            Schema sc = new Schema<>();
+            ModelUtils.copyMetadata(schema, sc);
+            sc.setPattern(schema.getPattern());
+            sc.setFormat(schema.getFormat());
+            sc.setMultipleOf(schema.getMultipleOf());
+            sc.setUniqueItems(schema.getUniqueItems());
+            sc.setExclusiveMinimum(schema.getExclusiveMinimum());
+            sc.setExclusiveMaximum(schema.getExclusiveMaximum());
+            sc.setExclusiveMinimumValue(schema.getExclusiveMinimumValue());
+            sc.setExclusiveMaximumValue(schema.getExclusiveMaximumValue());
+            sc.setNot(schema.getNot());
+            sc.setXml(schema.getXml());
+            sc.setExternalDocs(schema.getExternalDocs());
+            sc.setJsonSchema(schema.getJsonSchema());
+            schema = sc;
+        }
         Schema result = processNormalize31Spec(schema, visitedSchemas);
         return processSetPrimitiveTypesToNullable(result);
     }
