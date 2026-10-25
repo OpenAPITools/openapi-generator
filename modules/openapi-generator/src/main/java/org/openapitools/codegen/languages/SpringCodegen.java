@@ -399,7 +399,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 useSpringBoot4));
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set).", useJackson3));
         cliOptions.add(new CliOption(INCLUDE_HTTP_REQUEST_CONTEXT,
-                "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.",
+                "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to `true` for reactive and `false` for blocking.",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue("true (reactive) / false (blocking)"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
@@ -411,7 +411,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
-        cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
+        cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for `version` attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
             .defaultValue("false")
@@ -439,30 +439,30 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalNotNullAnnotations));
         final CliOption autoXSpringPaginatedOption = new CliOption(AUTO_X_SPRING_PAGINATED,
                 "Automatically add x-spring-paginated to operations that have the given set of pagination query "
-                + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
-                + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
+                + "parameters. `page-size-sort` requires `page`, `size`, and `sort`; `page-size` requires only "
+                + "`page` and `size` (sort may be absent). Operations with x-spring-paginated explicitly set to "
                 + "false will not be auto-detected. Only applies when library is spring-boot or spring-cloud. "
-                + "The legacy values 'true' (alias for 'page-size-sort') and 'false' (alias for 'none') are "
+                + "The legacy values `true` (alias for `page-size-sort`) and `false` (alias for `none`) are "
                 + "deprecated and will be removed in a future release.")
                 .defaultValue(autoXSpringPaginated);
         autoXSpringPaginatedOption.setEnum(SpringPageableScanUtils.getAutoPaginationModeEnumValues());
         cliOptions.add(autoXSpringPaginatedOption);
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
-                + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
+                + "the injected Pageable parameter of operations whose `sort` parameter has enum values. "
                 + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
                 "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to "
-                + "the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. "
+                + "the injected Pageable parameter of operations whose `page` or `size` parameter specifies a maximum constraint. "
                 + "The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generatePageableConstraintValidation));
         cliOptions.add(CliOption.newBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL,
-                "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
+                "Detect schemas that represent paginated responses (an object with a `content` array property and a `page` "
                 + "pagination-metadata property) and replace their generated references with "
-                + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
+                + "PagedModel<T>. By default this uses a generated type in the config package (default `org.openapitools.configuration`), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
                 + "schema are suppressed from code generation.",
                 substituteGenericPagedModel));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
@@ -587,7 +587,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
             applyJakartaPackage();
 
-            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary. useJakartaEe defaulted to 'true'. useBeanValidation and performBeanValidation are supported.");
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary. useJakartaEe defaulted to `true`. useBeanValidation and performBeanValidation are supported.");
         }
 
         // clear model and api doc template as this codegen
@@ -1520,14 +1520,14 @@ public class SpringCodegen extends AbstractJavaCodegen
      * The imports are expanded by the mustache {{import}} tag available to model and api
      * templates.
      *
-     * #8315 Also handles removing 'size', 'page' and 'sort' query parameters if using 'x-spring-paginated'.
+     * #8315 Also handles removing `size`, `page` and `sort` query parameters if using `x-spring-paginated`.
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated auto-detection is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
-        // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
+        // codegenOperation.vendorExtensions from the extension we just set on `operation`.
         // Only for libraries that support Pageable (spring-boot, spring-cloud);
         // respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
@@ -1573,7 +1573,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     SpringPageableScanUtils.AnnotationSyntax.JAVA,
                     DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider()));
 
-            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+            // #8315 Remove matching Spring Data Web default query params if `x-spring-paginated` with Pageable is used
             SpringPageableScanUtils.removePageableQueryParams(codegenOperation);
 
             // Build and attach pageable parameter annotations
@@ -1619,7 +1619,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // double check schema format
                 List<Schema> eventTypes = schemaTypes.get("array");
                 if (eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
-                    throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
+                    throw new RuntimeException("schema format `event-stream` is required, when SSE is detected");
                 }
                 // double check item types
                 Set<String> itemTypes = eventTypes.stream()
@@ -1779,7 +1779,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
                 // Suppress meta schemas only when no remaining (non-suppressed) schema references them.
-                // Example: if SearchResult has a 'page: PageMeta' property, PageMeta must be kept.
+                // Example: if SearchResult has a `page: PageMeta` property, PageMeta must be kept.
                 for (Map.Entry<String, String> metaEntry : metaSchemasToCheck.entrySet()) {
                     String metaName = metaEntry.getKey();       // transformed — matches cm.imports values
                     String rawMetaName = metaEntry.getValue();  // raw — matches objs key
