@@ -2787,6 +2787,37 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testUseJackson3() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaJAXRSSpecServerCodegen.USE_JACKSON_3, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pet = output.resolve("src/gen/java/org/openapitools/model/Pet.java");
+
+        assertFileContains(pet,
+                "import tools.jackson.databind.annotation.JsonDeserialize;"
+        );
+        assertFileNotContains(pet,
+                "import com.fasterxml.jackson.databind.annotation.JsonDeserialize;"
+        );
+
+        Path pom = output.resolve("pom.xml");
+
+        assertFileContains(pom,
+                "<groupId>tools.jackson.jaxrs</groupId>",
+                "<jackson-version>3.1.2</jackson-version>"
+        );
+        assertFileNotContains(pom,
+                "jackson-datatype-jsr310"
+        );
+        Path nullableClass = output.resolve("src/gen/java/org/openapitools/model/NullableClass.java");
+
+        assertFileContains(nullableClass,
+                "@JsonFormat(shape=JsonFormat.Shape.POJO)"
+        );
+    }
+
+    @Test
     public void testSerializationLibraryJsonbWithJakartaEe() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
