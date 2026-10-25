@@ -79,21 +79,23 @@
       <scope>provided</scope>
     </dependency>
     {{^jsonb}}
+    {{^useJackson3}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/useJackson3}}
     {{^useJakartaEe}}
     <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <groupId>{{jacksonPackage}}.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     {{/useJakartaEe}}
     {{#useJakartaEe}}
     <dependency>
-      <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+      <groupId>{{jacksonPackage}}.jakarta.rs</groupId>
       <artifactId>jackson-jakarta-rs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
@@ -232,7 +234,12 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     {{^jsonb}}
+    {{^useJackson3}}
     <jackson-version>2.21.7</jackson-version>
+    {{/useJackson3}}
+    {{#useJackson3}}
+    <jackson-version>3.1.2</jackson-version>
+    {{/useJackson3}}
     {{/jsonb}}
     {{#jsonb}}
     <json-api-version>{{#useJakartaEe}}2.1.3{{/useJakartaEe}}{{^useJakartaEe}}1.1.4{{/useJakartaEe}}</json-api-version>
