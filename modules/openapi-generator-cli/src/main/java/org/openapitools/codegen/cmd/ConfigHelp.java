@@ -225,8 +225,8 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             }
             sb.append("|");
 
-            // default
-            sb.append(escapeHtml4(langCliOption.getDefault())).append("|").append(newline);
+            // default, wrapped in backticks
+            sb.append('`').append(escapeHtml4(langCliOption.getDefault())).append("`|").append(newline);
         });
     }
 
