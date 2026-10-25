@@ -68,6 +68,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_SEALED = "useSealed";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -108,6 +112,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
      */
     @Getter @Setter
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
+
+    @Getter @Setter
+    protected boolean useJackson3 = false;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -186,6 +193,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         serializationLibraryOption.setEnum(serializationOptions);
         cliOptions.add(serializationLibraryOption);
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.", useJspecify));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Whether to use Jackson 3 (tools.jackson) instead of Jackson 2 (com.fasterxml.jackson). Only valid when serializationLibrary is set to jackson.", useJackson3));
     }
 
     @Override
@@ -253,7 +261,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setDateLibrary("java8");
         }
 
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
+
+        if (useJackson3) {
+            applyJackson3Package();
+        } else {
+            applyJackson2Package();
+        }
+
         super.processOpts();
+
+        // JsonDeserialize lives in jackson-databind, which moved to tools.jackson in Jackson 3.
+        importMapping.put("JsonDeserialize", (isUseJackson3() ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
         if (QUARKUS_LIBRARY.equals(library)) {
@@ -574,6 +593,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         // nullable_var_annotations.mustache emits @{{javaxPackage}}.annotation.Nullable; the lambda
         // finds that and re-injects a bare @Nullable in type-use position, so tell it what to look for.
         jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+    }
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
     }
 
 }
