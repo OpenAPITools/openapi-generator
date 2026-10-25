@@ -5884,6 +5884,22 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorWithAdditionalProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the additionalProperties map is a field too, so lombok's constructor takes it as a third parameter
+        JavaFileAssert.assertThat(output.get("Bag.java"))
+                .assertConstructor().toFileAssert()
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
     public void allOfDuplicatedProperties() throws IOException {
         Map<String, File> output = generateFromContract(
                 "src/test/resources/3_0/allOfDuplicatedProperties.yaml",

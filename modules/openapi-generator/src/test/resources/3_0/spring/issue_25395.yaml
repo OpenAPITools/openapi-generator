@@ -84,3 +84,16 @@ components:
           properties:
             scent:
               type: string
+    Bag:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      additionalProperties:
+        type: string
