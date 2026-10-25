@@ -117,7 +117,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
          * The generator
          * will use the resource stream to attempt to read the templates.
          */
-        templateDir = "elixir";
+        embeddedTemplateDir = templateDir = "elixir";
 
         /**
          * Reserved words. Override this with reserved words specific to your language

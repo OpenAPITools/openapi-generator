@@ -89,6 +89,44 @@ public class ElixirClientCodegenTest {
     }
 
     @Test
+    public void testCustomTemplateDirectoryFallsBackToEmbeddedTemplates() throws Exception {
+        File output = Files.createTempDirectory("elixir-req-custom-templates").toFile();
+        try {
+            Path templates = Files.createDirectory(output.toPath().resolve("templates"));
+            String marker = "# generated from the custom template directory";
+            String modelTemplate = Files.readString(Path.of("src/main/resources/elixir/model.mustache"), StandardCharsets.UTF_8)
+                    .replace("{{>licenseInfo}}\n", "{{>licenseInfo}}\n" + marker + "\n");
+            Files.writeString(templates.resolve("model.mustache"), modelTemplate, StandardCharsets.UTF_8);
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary("req")
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setTemplateDir(templates.toString())
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.toPath().resolve("generated").toString());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Assert.assertEquals(input.getConfig().embeddedTemplateDir(), "elixir");
+            Assert.assertEquals(input.getConfig().templateDir(), templates.toString());
+            Path generated = output.toPath().resolve("generated");
+            Path model = generated.resolve("lib/petstore/model/pet.ex");
+            Assert.assertTrue(Files.exists(model));
+            Assert.assertTrue(Files.readString(model, StandardCharsets.UTF_8).contains(marker));
+            Path api = generated.resolve("lib/petstore/api/pet.ex");
+            Assert.assertTrue(Files.exists(api));
+            Assert.assertFalse(Files.readString(api, StandardCharsets.UTF_8).contains(marker));
+            Path readme = generated.resolve("README.md");
+            Assert.assertTrue(Files.exists(readme));
+            Assert.assertFalse(Files.readString(readme, StandardCharsets.UTF_8).contains(marker));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
     public void testReqLibraryAndGeneratedTypespec() throws Exception {
         File output = Files.createTempDirectory("elixir-req-codegen").toFile();
         try {
