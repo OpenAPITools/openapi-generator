@@ -956,11 +956,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
     }
@@ -2290,11 +2285,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (this.serializableModel) {
             for (ModelMap mo : objs.getModels()) {
                 CodegenModel cm = mo.getModel();
-                List<String> xImplements = new ArrayList<>(getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)));
-                if (!xImplements.contains("Serializable")) {
-                    xImplements.add("Serializable");
-                }
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
+                addInterfaceToVendorExtensions(cm.getVendorExtensions(), "Serializable");
+                forEachModelPropertyRecursively(cm, property -> {
+                    if (property.isEnum) {
+                        addInterfaceToVendorExtensions(property.getVendorExtensions(), "Serializable");
+                    }
+                });
             }
         }
 
@@ -2307,6 +2303,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (matcher.find()) {
                 String className = matcher.group("ClassName");
                 lombokOptions.put(className, true);
+                if ("Data".equals(className)) {
+                    lombokOptions.put("Getter", true);
+                    lombokOptions.put("Setter", true);
+                    lombokOptions.put("ToString", true);
+                    lombokOptions.put("EqualsAndHashCode", true);
+                    lombokOptions.put("RequiredArgsConstructor", true);
+                }
             }
         }
         if (!lombokOptions.isEmpty()) {
@@ -2377,6 +2380,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         for (CodegenProperty property : properties) {
             normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
         }
+    }
+
+    /**
+     * Adds an interface to the {@code x-implements} vendor extension if it is not already present.
+     * The existing extension value is normalized to a mutable list of strings before it is updated.
+     *
+     * @param vendorExtensions vendor extension map to update
+     * @param interfaceName    interface name to add
+     */
+    private void addInterfaceToVendorExtensions(Map<String, Object> vendorExtensions, String interfaceName) {
+        List<String> interfaces = new ArrayList<>(getObjectAsStringList(vendorExtensions.get(X_IMPLEMENTS)));
+        if (!interfaces.contains(interfaceName)) {
+            interfaces.add(interfaceName);
+        }
+        vendorExtensions.put(X_IMPLEMENTS, interfaces);
     }
 
     /**

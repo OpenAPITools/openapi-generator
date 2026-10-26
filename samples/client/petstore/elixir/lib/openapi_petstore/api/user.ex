@@ -125,7 +125,7 @@ defmodule OpenapiPetstore.Api.User do
     request =
       %{}
       |> method(:delete)
-      |> url("/user/#{username}")
+      |> url("/user/#{encode_path_param(username)}")
       |> finalize_request()
       |> Enum.into([])
 
@@ -157,7 +157,7 @@ defmodule OpenapiPetstore.Api.User do
     request =
       %{}
       |> method(:get)
-      |> url("/user/#{username}")
+      |> url("/user/#{encode_path_param(username)}")
       |> finalize_request()
       |> Enum.into([])
 
@@ -256,7 +256,7 @@ defmodule OpenapiPetstore.Api.User do
     request =
       %{}
       |> method(:put)
-      |> url("/user/#{username}")
+      |> url("/user/#{encode_path_param(username)}")
       |> add_param(:body, :body, user)
       |> finalize_request()
       |> Enum.into([])

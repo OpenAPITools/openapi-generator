@@ -29,7 +29,6 @@ using Polly;
 {{#hasOAuthMethods}}
 using {{packageName}}.Client.Auth;
 {{/hasOAuthMethods}}
-using {{packageName}}.{{modelPackage}};
 
 namespace {{packageName}}.Client
 {
@@ -70,10 +69,10 @@ namespace {{packageName}}.Client
         /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && obj is AbstractOpenAPISchema)
+            if (obj != null && obj is {{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
-                return ((AbstractOpenAPISchema)obj).ToJson();
+                return (({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema)obj).ToJson();
             }
             else
             {
@@ -496,7 +495,7 @@ namespace {{packageName}}.Client
                 {{/throwOnAnyError}}
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-                if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+                if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
                     try
                     {

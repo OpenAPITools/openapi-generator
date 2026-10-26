@@ -42,6 +42,8 @@ defmodule {{moduleName}}.RequestBuilder do
     Map.put_new(request, :url, url)
   end
 
+{{>encode_path_param}}
+
   @doc """
   Add optional parameters to the request.
 
@@ -154,6 +156,14 @@ defmodule {{moduleName}}.RequestBuilder do
     |> Map.update!(:body, &add_multipart_field(&1, to_string(name), value))
   end
 
+  def add_param(request, :form, name, value) do
+    Map.update(request, :body, %{name => value}, &(Map.put(&1, name, value)))
+  end
+
+  def add_param(request, location, key, value) do
+    Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
+  end
+
   defp add_multipart_field(multipart, name, value) when is_binary(value) do
     Tesla.Multipart.add_field(multipart, name, value)
   end
@@ -170,14 +180,6 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp add_multipart_field(multipart, name, value) do
     Tesla.Multipart.add_field(multipart, name, to_string(value))
-  end
-
-  def add_param(request, :form, name, value) do
-    Map.update(request, :body, %{name => value}, &(Map.put(&1, name, value)))
-  end
-
-  def add_param(request, location, key, value) do
-    Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
   end
 
   defp add_cookies(request, cookies) do
