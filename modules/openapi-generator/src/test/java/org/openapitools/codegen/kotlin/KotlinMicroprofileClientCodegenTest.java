@@ -50,8 +50,10 @@ public class KotlinMicroprofileClientCodegenTest {
         List<File> files = generate(codegen);
         Path api = find(files, "PetApi.kt");
         Path pet = find(files, "Pet.kt");
-        List<String> sources = files.stream().filter(file -> file.getPath().contains("src/main/kotlin") && file.getName().endsWith(".kt"))
+        List<String> sources = files.stream().filter(file -> file.toPath().startsWith(Path.of(codegen.getOutputDir(), "src", "main", "kotlin"))
+                        && file.getName().endsWith(".kt"))
                 .map(File::getAbsolutePath).collect(Collectors.toList());
+        assertThat(sources).isNotEmpty();
         ClassLoader compiled;
         try (URLClassLoader runtime = runtimeClasspath(version)) {
             compiled = KotlinTestUtils.buildModule(sources, runtime);
@@ -116,8 +118,10 @@ public class KotlinMicroprofileClientCodegenTest {
         codegen.additionalProperties().put("serializableModel", true);
 
         List<File> files = generate(codegen);
-        List<String> sources = files.stream().filter(file -> file.getPath().contains("src/main/kotlin") && file.getName().endsWith(".kt"))
+        List<String> sources = files.stream().filter(file -> file.toPath().startsWith(Path.of(codegen.getOutputDir(), "src", "main", "kotlin"))
+                        && file.getName().endsWith(".kt"))
                 .map(File::getAbsolutePath).collect(Collectors.toList());
+        assertThat(sources).isNotEmpty();
         ClassLoader compiled = KotlinTestUtils.buildModule(sources, getClass().getClassLoader());
 
         assertThat(compiled.loadClass("org.openapitools.client.models.Choice"))
@@ -131,8 +135,10 @@ public class KotlinMicroprofileClientCodegenTest {
         KotlinClientCodegen codegen = codegen();
 
         List<File> files = generate(codegen, "src/test/resources/3_1/kotlin-microprofile-nullability.yaml");
-        List<String> sources = files.stream().filter(file -> file.getPath().contains("src/main/kotlin") && file.getName().endsWith(".kt"))
+        List<String> sources = files.stream().filter(file -> file.toPath().startsWith(Path.of(codegen.getOutputDir(), "src", "main", "kotlin"))
+                        && file.getName().endsWith(".kt"))
                 .map(File::getAbsolutePath).collect(Collectors.toList());
+        assertThat(sources).isNotEmpty();
         ClassLoader compiled = KotlinTestUtils.buildModule(sources, getClass().getClassLoader());
 
         assertThat(compiled.loadClass("org.openapitools.client.apis.PetApi").isInterface()).isTrue();

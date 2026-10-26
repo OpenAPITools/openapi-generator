@@ -7,3 +7,6 @@ Inherits properties from [Animal](Animal.md).
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **lives** | **kotlin.Int** |  |  |
+
+
+

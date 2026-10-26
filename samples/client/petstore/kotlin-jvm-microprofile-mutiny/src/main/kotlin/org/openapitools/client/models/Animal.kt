@@ -54,3 +54,4 @@ interface Animal {
     val kind: kotlin.String?
 
 }
+

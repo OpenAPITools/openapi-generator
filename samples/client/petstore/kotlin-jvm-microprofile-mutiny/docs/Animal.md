@@ -7,3 +7,6 @@
 | **name** | **kotlin.String** |  |  |
 | **nickname** | **kotlin.String?** |  |  |
 | **kind** | **kotlin.String?** |  |  [optional] |
+
+
+
