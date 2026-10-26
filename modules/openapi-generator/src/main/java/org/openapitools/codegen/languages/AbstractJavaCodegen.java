@@ -2303,6 +2303,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (matcher.find()) {
                 String className = matcher.group("ClassName");
                 lombokOptions.put(className, true);
+                if ("Data".equals(className)) {
+                    lombokOptions.put("Getter", true);
+                    lombokOptions.put("Setter", true);
+                    lombokOptions.put("ToString", true);
+                    lombokOptions.put("EqualsAndHashCode", true);
+                    lombokOptions.put("RequiredArgsConstructor", true);
+                }
             }
         }
         if (!lombokOptions.isEmpty()) {

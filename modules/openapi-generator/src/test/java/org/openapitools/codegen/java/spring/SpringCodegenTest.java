@@ -17,6 +17,14 @@
 
 package org.openapitools.codegen.java.spring;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -5828,6 +5836,78 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void lombokAllArgsConstructorReplacesRequiredArgsConstructor_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok generates Pet(Long, String), a generated one would be a duplicate
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("Tag.java"))
+                .assertConstructor("Long");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorOfNullableProperty_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "true",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the field is JsonNullable<String> but the generated parameter is String, so lombok's constructor differs
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorWithInheritedProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok only covers the own field, the generated constructor also takes the inherited one
+        JavaFileAssert.assertThat(output.get("Dog.java"))
+                .assertConstructor("String", "String")
+                .bodyContainsLines("super(kind)", "this.breed = breed");
+        // the parent has no required property, so the signature is the same as lombok's
+        JavaFileAssert.assertThat(output.get("Hound.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("String");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorWithAdditionalProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the additionalProperties map is a field too, so lombok's constructor takes it as a third parameter
+        JavaFileAssert.assertThat(output.get("Bag.java"))
+                .assertConstructor().toFileAssert()
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
     public void allOfDuplicatedProperties() throws IOException {
         Map<String, File> output = generateFromContract(
                 "src/test/resources/3_0/allOfDuplicatedProperties.yaml",
@@ -5882,6 +5962,329 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @DataProvider(name = "lombokModelEquivalenceSpecs")
+    public Object[][] lombokModelEquivalenceSpecs() {
+        return new Object[][]{
+                {"src/test/resources/3_0/petstore.yaml"},
+                {"src/test/resources/3_1/petstore.yaml"},
+                {"src/test/resources/3_0/typescript-fetch/validation-attributes.yaml"},
+                {"src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "lombokModelEquivalenceSpecs")
+    public void testLombokModelEquivalence(String specPath) throws IOException {
+        Map<String, File> withoutLombokFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true"
+                )
+        );
+        Map<String, File> lombokGetterSetterFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter"
+                )
+        );
+        Map<String, File> lombokGetterOnlyFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter"
+                )
+        );
+        Map<String, File> lombokSetterOnlyFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Setter"
+                )
+        );
+        Map<String, File> lombokDataFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data"
+                )
+        );
+
+        List<String> modelFileNames = withoutLombokFiles.entrySet().stream()
+                .filter(e -> e.getValue().getParentFile().getName().equals("model")
+                        && e.getKey().endsWith(".java")
+                        && !"model/package-info.java".equals(e.getKey()))
+                .map(Map.Entry::getKey)
+                .sorted()
+                .collect(Collectors.toList());
+
+        assertThat(modelFileNames).isNotEmpty();
+
+        for (String fileName : modelFileNames) {
+            CompilationUnit withoutLombokCu = StaticJavaParser.parse(withoutLombokFiles.get(fileName));
+            CompilationUnit getterSetterCu = StaticJavaParser.parse(lombokGetterSetterFiles.get(fileName));
+            CompilationUnit getterOnlyCu = StaticJavaParser.parse(lombokGetterOnlyFiles.get(fileName));
+            CompilationUnit setterOnlyCu = StaticJavaParser.parse(lombokSetterOnlyFiles.get(fileName));
+            CompilationUnit dataCu = StaticJavaParser.parse(lombokDataFiles.get(fileName));
+
+            if (!withoutLombokCu.getType(0).isClassOrInterfaceDeclaration()) {
+                assertThat(getterSetterCu).as("Enum %s with @Getter;@Setter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(getterOnlyCu).as("Enum %s with @Getter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(setterOnlyCu).as("Enum %s with @Setter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(dataCu).as("Enum %s with @Data", fileName).isEqualTo(withoutLombokCu);
+                continue;
+            }
+
+            CompilationUnit expectedGetterOnlyCu = withoutLombokCu.clone();
+            CompilationUnit expectedSetterOnlyCu = withoutLombokCu.clone();
+
+            ClassOrInterfaceDeclaration withoutLombokClass = withoutLombokCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration expectedGetterOnlyClass = expectedGetterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration expectedSetterOnlyClass = expectedSetterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration getterSetterClass = getterSetterCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration getterOnlyClass = getterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration setterOnlyClass = setterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration dataClass = dataCu.getType(0).asClassOrInterfaceDeclaration();
+
+            List<MethodDeclaration> methodsToRemove = new ArrayList<>();
+
+            for (FieldDeclaration withoutLombokField : withoutLombokClass.getFields()) {
+                String fieldName = withoutLombokField.getVariable(0).getNameAsString();
+                if ("serialVersionUID".equals(fieldName)) {
+                    continue;
+                }
+
+                MethodDeclaration getter = withoutLombokClass.getMethods().stream()
+                        .filter(m -> m.getParameters().isEmpty()
+                                && m.getAnnotationByName("JsonAnyGetter").isEmpty()
+                                && m.getBody().map(b -> b.getStatements().size() == 1
+                                        && b.getStatement(0).toString().equals("return " + fieldName + ";"))
+                                .orElse(false))
+                        .findFirst()
+                        .orElse(null);
+
+                if (getter == null && "additionalProperties".equals(fieldName)) {
+                    NodeList<AnnotationExpr> expectedAdditionalPropsSetterAnnotations = new NodeList<>(
+                            StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                    );
+                    assertThat(getterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter", fileName)
+                            .isEmpty();
+                    assertThat(getterSetterClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter;@Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(setterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(dataClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Data", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+
+                    withoutLombokField.setAnnotations(expectedAdditionalPropsSetterAnnotations);
+                    expectedSetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                            .setAnnotations(new NodeList<>(
+                                    StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                            ));
+                    continue;
+                }
+
+                assertThat(getter)
+                        .as("Getter for field %s in %s", fieldName, fileName)
+                        .isNotNull();
+
+                MethodDeclaration setter = withoutLombokClass.getMethods().stream()
+                        .filter(m -> m.getType().isVoidType()
+                                && m.getParameters().size() == 1
+                                && m.getBody().map(b -> b.getStatements().size() == 1
+                                        && b.getStatement(0).toString().equals("this." + fieldName + " = " + fieldName + ";"))
+                                .orElse(false))
+                        .findFirst()
+                        .orElse(null);
+
+                assertThat(setter)
+                        .as("Setter for field %s in %s", fieldName, fileName)
+                        .isNotNull();
+
+                assertThat(getterSetterClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Getter;@Setter should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterSetterClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Getter;@Setter should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterOnlyClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Getter should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterOnlyClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Getter should keep %s in %s", setter.getNameAsString(), fileName)
+                        .hasSize(1);
+                assertThat(setterOnlyClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Setter should keep %s in %s", getter.getNameAsString(), fileName)
+                        .hasSize(1);
+                assertThat(setterOnlyClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Setter should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(dataClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Data should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(dataClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Data should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+
+                NodeList<AnnotationExpr> expectedGetterOnlyFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr getterAnn : getter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(getterAnn)) {
+                        expectedGetterOnlyFieldAnnotations.add(getterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedGetterOnlyFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                NodeList<AnnotationExpr> expectedFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr getterAnn : getter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(getterAnn)) {
+                        expectedFieldAnnotations.add(getterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr setterAnn : setter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(setterAnn)
+                            && !expectedFieldAnnotations.contains(setterAnn)) {
+                        expectedFieldAnnotations.add(setterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                NodeList<AnnotationExpr> expectedSetterOnlyFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr setterAnn : setter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(setterAnn)) {
+                        expectedSetterOnlyFieldAnnotations.add(setterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedSetterOnlyFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                FieldDeclaration getterSetterField = getterSetterClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration getterOnlyField = getterOnlyClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration setterOnlyField = setterOnlyClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration dataField = dataClass.getFieldByName(fieldName).orElseThrow();
+
+                assertThat(getterSetterField.getElementType())
+                        .as("Field type for %s.%s with @Getter;@Setter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(getterOnlyField.getElementType())
+                        .as("Field type for %s.%s with @Getter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(setterOnlyField.getElementType())
+                        .as("Field type for %s.%s with @Setter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(dataField.getElementType())
+                        .as("Field type for %s.%s with @Data", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+
+                assertThat(getterSetterField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Getter;@Setter", fileName, fieldName)
+                        .isEqualTo(expectedFieldAnnotations);
+                assertThat(getterOnlyField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Getter", fileName, fieldName)
+                        .isEqualTo(expectedGetterOnlyFieldAnnotations);
+                assertThat(setterOnlyField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Setter", fileName, fieldName)
+                        .isEqualTo(expectedSetterOnlyFieldAnnotations);
+
+                boolean isPasswordField = withoutLombokClass.getMethodsByName("toString").stream()
+                        .anyMatch(m -> m.getBody()
+                                .map(b -> b.toString().contains("    " + fieldName + ": \").append(\"*\")"))
+                                .orElse(false));
+                NodeList<AnnotationExpr> expectedDataFieldAnnotations = new NodeList<>();
+                if (isPasswordField) {
+                    expectedDataFieldAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.ToString.Exclude"));
+                }
+                for (AnnotationExpr ann : expectedFieldAnnotations) {
+                    expectedDataFieldAnnotations.add(ann.clone());
+                }
+                assertThat(dataField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Data", fileName, fieldName)
+                        .isEqualTo(expectedDataFieldAnnotations);
+
+                withoutLombokField.setAnnotations(expectedFieldAnnotations);
+                methodsToRemove.add(getter);
+                methodsToRemove.add(setter);
+
+                expectedGetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                        .setAnnotations(expectedGetterOnlyFieldAnnotations);
+                expectedGetterOnlyClass.getMethodsByName(getter.getNameAsString()).forEach(expectedGetterOnlyClass::remove);
+
+                expectedSetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                        .setAnnotations(expectedSetterOnlyFieldAnnotations);
+                expectedSetterOnlyClass.getMethodsByName(setter.getNameAsString()).forEach(expectedSetterOnlyClass::remove);
+            }
+
+            // Remove getters, setters, and inherited fluent setters (omitted when @lombok.Setter is used)
+            methodsToRemove.forEach(withoutLombokClass::remove);
+            withoutLombokClass.getMethods().stream()
+                    .filter(m -> m.getBody().map(b -> b.toString().contains("super.") && b.toString().contains("return this;")).orElse(false))
+                    .collect(Collectors.toList())
+                    .forEach(withoutLombokClass::remove);
+            expectedSetterOnlyClass.getMethods().stream()
+                    .filter(m -> m.getBody().map(b -> b.toString().contains("super.") && b.toString().contains("return this;")).orElse(false))
+                    .collect(Collectors.toList())
+                    .forEach(expectedSetterOnlyClass::remove);
+
+            NodeList<AnnotationExpr> expectedDataClassAnnotations = new NodeList<>();
+            expectedDataClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Data"));
+            expectedDataClassAnnotations.addAll(withoutLombokClass.getAnnotations());
+            assertThat(dataClass.getAnnotations())
+                    .as("Class annotations of %s with @Data", fileName)
+                    .isEqualTo(expectedDataClassAnnotations);
+
+            // Prepend @lombok.Getter and/or @lombok.Setter to the normalized without-Lombok classes
+            NodeList<AnnotationExpr> normalizedClassAnnotations = new NodeList<>();
+            normalizedClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Getter"));
+            normalizedClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Setter"));
+            normalizedClassAnnotations.addAll(withoutLombokClass.getAnnotations());
+            withoutLombokClass.setAnnotations(normalizedClassAnnotations);
+
+            NodeList<AnnotationExpr> normalizedGetterOnlyAnnotations = new NodeList<>();
+            normalizedGetterOnlyAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Getter"));
+            normalizedGetterOnlyAnnotations.addAll(expectedGetterOnlyClass.getAnnotations());
+            expectedGetterOnlyClass.setAnnotations(normalizedGetterOnlyAnnotations);
+
+            NodeList<AnnotationExpr> normalizedSetterOnlyAnnotations = new NodeList<>();
+            normalizedSetterOnlyAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Setter"));
+            normalizedSetterOnlyAnnotations.addAll(expectedSetterOnlyClass.getAnnotations());
+            expectedSetterOnlyClass.setAnnotations(normalizedSetterOnlyAnnotations);
+
+            withoutLombokCu.getAllContainedComments().forEach(Comment::remove);
+            expectedGetterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            expectedSetterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            getterSetterCu.getAllContainedComments().forEach(Comment::remove);
+            getterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            setterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+
+            assertThat(getterSetterCu)
+                    .as("Normalized AST of %s should match @lombok.Getter;@lombok.Setter", fileName)
+                    .isEqualTo(withoutLombokCu);
+            assertThat(getterOnlyCu)
+                    .as("Normalized AST of %s should match @lombok.Getter", fileName)
+                    .isEqualTo(expectedGetterOnlyCu);
+            assertThat(setterOnlyCu)
+                    .as("Normalized AST of %s should match @lombok.Setter", fileName)
+                    .isEqualTo(expectedSetterOnlyCu);
+        }
     }
 
     @Test

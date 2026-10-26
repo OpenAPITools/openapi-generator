@@ -1758,6 +1758,15 @@ public class SpringCodegen extends AbstractJavaCodegen
                     && (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
+            // the required args constructor only has lombok's signature when every own field is a plain required
+            // argument: requiredVars also holds inherited properties, a JsonNullable field takes a plain value
+            // and the additionalProperties map is a field too
+            if (lombokAnnotations != null && lombokAnnotations.containsKey("AllArgsConstructor")
+                    && cm.additionalPropertiesType == null
+                    && cm.requiredVars.size() == cm.vars.size()
+                    && cm.vars.stream().allMatch(p -> p.required && !(openApiNullable && p.isNullable))) {
+                cm.vendorExtensions.put("x-java-lombok-duplicates-required-args-constructor", true);
+            }
         }
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {

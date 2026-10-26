@@ -143,6 +143,22 @@ module Qdrant
           body: create_collection
         )
       end
+
+      def index
+        @index ||= Collections::Index.new(@connection)
+      end
+
+      def points
+        @points ||= Collections::Points.new(@connection)
+      end
+
+      def shards
+        @shards ||= Collections::Shards.new(@connection)
+      end
+
+      def snapshots
+        @snapshots ||= Collections::Snapshots.new(@connection)
+      end
     end
   end
 end
