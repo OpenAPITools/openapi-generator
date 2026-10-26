@@ -1450,7 +1450,7 @@ public class TypeScriptFetchClientCodegenTest {
                 "RequestCredentials");
         TestUtils.assertFileContains(runtime,
                 "export type FetchCredentials = NonNullable<RequestInit['credentials']>;",
-                "export type FetchAPI = (url: string, init: RequestInit) => Promise<Response>;",
+                "export type FetchAPI = { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }['fetch'];",
                 "credentials?: FetchCredentials;",
                 "get credentials(): FetchCredentials | undefined {");
     }

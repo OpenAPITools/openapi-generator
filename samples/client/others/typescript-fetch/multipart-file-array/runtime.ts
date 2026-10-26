@@ -302,11 +302,11 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
-// Node's fetch types declare RequestInit but not the DOM fetch global.
-// Platform fetch is assignable to this callback. typeof fetch is not, because
-// the middleware wrapper only accepts the string URL this runtime builds.
+// Node's fetch types declare RequestInit, URL and Request but not the DOM fetch global.
+// FetchAPI is a method type, so a fetch that takes only a string URL or a required
+// init still fits, as it did with typeof fetch.
 export type FetchCredentials = NonNullable<RequestInit['credentials']>;
-export type FetchAPI = (url: string, init: RequestInit) => Promise<Response>;
+export type FetchAPI = { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }['fetch'];
 
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
