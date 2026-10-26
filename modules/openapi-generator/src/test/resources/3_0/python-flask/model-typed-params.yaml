@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: model-typed non-body parameters
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/Filter'
+        - name: X-Trace
+          in: header
+          schema:
+            $ref: '#/components/schemas/Trace'
+        - name: filters
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Filter'
+        - name: filterMap
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Filter'
+        - name: count
+          in: query
+          schema:
+            type: integer
+          example: openapi_server.int()
+        - name: label
+          in: query
+          schema:
+            type: string
+          example: openapi_server.Filter()
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createThing
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Filter:
+      type: object
+      properties:
+        name:
+          type: string
+    Trace:
+      type: object
+      properties:
+        id:
+          type: string

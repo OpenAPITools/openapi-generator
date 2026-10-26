@@ -163,4 +163,25 @@ public class PythonFlaskConnexionServerCodegenTest {
         Assert.assertFalse(Files.exists(old),
                 "Untagged operations should honor defaultController, not fall back to default_controller.py");
     }
+
+    @Test(description = "model examples in generated controller tests use the imported class name, not the package")
+    public void testControllerTestModelExampleUsesImportedName() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/model-typed-params.yaml");
+
+        // The test module imports Filter/Trace by class name, so "openapi_server.Filter()" raised NameError.
+        final Path controllerTest = Paths.get(outputPath, "openapi_server/test/test_default_controller.py");
+        assertFileExists(controllerTest);
+        assertFileContains(controllerTest,
+                "from openapi_server.models.filter import Filter",
+                "from openapi_server.models.trace import Trace",
+                "query_string = [('filter', Filter()),",
+                "('filters', [Filter()]),",
+                "('filterMap', {'key': Filter()}),",
+                "filter = Filter()",
+                ": Trace(),");
+        // User-supplied examples that merely look like a constructor are kept verbatim.
+        assertFileContains(controllerTest, "('label', 'openapi_server.Filter()')", "('count', openapi_server.int())");
+        assertFileNotContains(controllerTest, "('filter', openapi_server.Filter())", "[openapi_server.Filter()]", "openapi_server.Trace()");
+    }
 }
