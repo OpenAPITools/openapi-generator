@@ -274,6 +274,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         // JsonDeserialize lives in jackson-databind, which moved to tools.jackson in Jackson 3.
         importMapping.put("JsonDeserialize", (isUseJackson3() ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
+        if (useJackson3 && StringUtils.isNotEmpty(library) && !DEFAULT_LIBRARY.equals(library)) {
+            throw new IllegalArgumentException("'" + USE_JACKSON_3 + "=true' is only supported by the library '"
+                    + DEFAULT_LIBRARY + "', not by '" + library + "'.");
+        }
+
         // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
         if (QUARKUS_LIBRARY.equals(library)) {
             convertPropertyToBooleanAndWriteBack(USE_JAKARTA_SECURITY_ANNOTATIONS, value -> useJakartaSecurityAnnotations = value);
@@ -415,6 +420,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         if (additionalProperties.containsKey(JACKSON) && jackson) {
             throw new IllegalArgumentException("Flags '" + JACKSON + "=true' and '" + CodegenConstants.SERIALIZATION_LIBRARY + "="
+                    + SERIALIZATION_LIBRARY_JSONB + "' are mutually exclusive. Please enable only one.");
+        }
+        if (useJackson3) {
+            throw new IllegalArgumentException("Flags '" + USE_JACKSON_3 + "=true' and '" + CodegenConstants.SERIALIZATION_LIBRARY + "="
                     + SERIALIZATION_LIBRARY_JSONB + "' are mutually exclusive. Please enable only one.");
         }
         if (additionalProperties.containsKey(OPENAPI_NULLABLE) && openApiNullable) {

@@ -229,7 +229,7 @@
     {{/openApiNullable}}
   </dependencies>
   <properties>
-    <java.version>{{#useSealed}}17{{/useSealed}}{{^useSealed}}1.8{{/useSealed}}</java.version>
+    <java.version>{{#useJackson3}}17{{/useJackson3}}{{^useJackson3}}{{#useSealed}}17{{/useSealed}}{{^useSealed}}1.8{{/useSealed}}{{/useJackson3}}</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
