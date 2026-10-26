@@ -18,9 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|apiPackage|package for generated api classes| |null|
-|modelPackage|package for generated models| |null|
-|packageName|Finch package name (e.g. org.openapitools).| |org.openapitools|
+|`apiPackage`|package for generated api classes| |`null`|
+|`modelPackage`|package for generated models| |`null`|
+|`packageName`|Finch package name (e.g. org.openapitools).| |`org.openapitools`|
 
 ## IMPORT MAPPING
 

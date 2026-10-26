@@ -18,14 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|authorEmail|Email to use in the podspec file.| |team@openapitools.org|
-|authorName|Name to use in the podspec file.| |OpenAPI|
-|classPrefix|prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`| |OAI|
-|coreData|Should generate core data models| |false|
-|gitRepoURL|URL for the git repo where this podspec should point to.| |https://github.com/openapitools/openapi-generator|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|podName|cocoapods package name (convention: CameCase).| |OpenAPIClient|
-|podVersion|cocoapods package version.| |1.0.0|
+|`authorEmail`|Email to use in the podspec file.| |`team@openapitools.org`|
+|`authorName`|Name to use in the podspec file.| |`OpenAPI`|
+|`classPrefix`|prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`| |`OAI`|
+|`coreData`|Should generate core data models| |`false`|
+|`gitRepoURL`|URL for the git repo where this podspec should point to.| |`https://github.com/openapitools/openapi-generator`|
+|`hideGenerationTimestamp`|Hides the generation timestamp when files are generated.| |`true`|
+|`podName`|cocoapods package name (convention: CameCase).| |`OpenAPIClient`|
+|`podVersion`|cocoapods package version.| |`1.0.0`|
 
 ## IMPORT MAPPING
 

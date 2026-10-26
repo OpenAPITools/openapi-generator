@@ -18,8 +18,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|packageName|Rust crate name (convention: snake_case).| |openapi_client|
-|packageVersion|Rust crate version.| |null|
+|`packageName`|Rust crate name (convention: snake_case).| |`openapi_client`|
+|`packageVersion`|Rust crate version.| |`null`|
 
 ## IMPORT MAPPING
 

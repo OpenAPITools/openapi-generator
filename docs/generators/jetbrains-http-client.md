@@ -18,8 +18,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|bodyVariables|whether to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})| |null|
-|customHeaders|custom headers that can be set for each request. Can be used for unsupported features, for example auth methods like oauth.| |null|
+|`bodyVariables`|whether to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})| |`null`|
+|`customHeaders`|custom headers that can be set for each request. Can be used for unsupported features, for example auth methods like oauth.| |`null`|
 
 ## IMPORT MAPPING
 

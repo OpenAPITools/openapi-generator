@@ -18,12 +18,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.server.api|
-|declspec|C++ preprocessor to place before the class name for handling dllexport/dllimport.| ||
-|defaultInclude|The default include statement that should be placed in all headers for including things like the declspec (convention: #include &quot;Commons.h&quot; | ||
-|modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.server.model|
-|packageVersion|C++ package version.| |1.0.0|
-|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
+|`apiPackage`|C++ namespace for apis (convention: name.space.api).| |`org.openapitools.server.api`|
+|`declspec`|C++ preprocessor to place before the class name for handling dllexport/dllimport.| |``|
+|`defaultInclude`|The default include statement that should be placed in all headers for including things like the declspec (convention: #include &quot;Commons.h&quot; | |``|
+|`modelPackage`|C++ namespace for models (convention: name.space.model).| |`org.openapitools.server.model`|
+|`packageVersion`|C++ package version.| |`1.0.0`|
+|`reservedWordPrefix`|Prefix to prepend to reserved words in order to avoid conflicts| |`r_`|
 
 ## IMPORT MAPPING
 

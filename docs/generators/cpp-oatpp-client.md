@@ -18,9 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|addExternalLibs|Add the Possibility to fetch and compile external Libraries needed by this Framework.| |true|
-|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
-|variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
+|`addExternalLibs`|Add the Possibility to fetch and compile external Libraries needed by this Framework.| |`true`|
+|`reservedWordPrefix`|Prefix to prepend to reserved words in order to avoid conflicts| |`r_`|
+|`variableNameFirstCharacterUppercase`|Make first character of variable name uppercase (eg. value -&gt; Value)| |`true`|
 
 ## IMPORT MAPPING
 

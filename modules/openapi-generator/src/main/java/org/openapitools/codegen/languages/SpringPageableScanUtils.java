@@ -81,10 +81,10 @@ public class SpringPageableScanUtils {
     static {
         Map<String, String> values = new LinkedHashMap<>();
         values.put(AUTO_PAGINATION_MODE_NONE, "Disable auto-detection.");
-        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE_SORT, "Require 'page', 'size', and 'sort' query parameters.");
-        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE, "Require only 'page' and 'size' query parameters.");
-        values.put(AUTO_PAGINATION_MODE_LEGACY_TRUE, "(deprecated) alias for 'page-size-sort'.");
-        values.put(AUTO_PAGINATION_MODE_LEGACY_FALSE, "(deprecated) alias for 'none'.");
+        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE_SORT, "Require `page`, `size`, and `sort` query parameters.");
+        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE, "Require only `page` and `size` query parameters.");
+        values.put(AUTO_PAGINATION_MODE_LEGACY_TRUE, "(deprecated) alias for `page-size-sort`.");
+        values.put(AUTO_PAGINATION_MODE_LEGACY_FALSE, "(deprecated) alias for `none`.");
         AUTO_PAGINATION_MODE_ENUM_VALUES = Collections.unmodifiableMap(values);
     }
 
