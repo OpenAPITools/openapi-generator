@@ -30,8 +30,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -181,6 +183,47 @@ public class ElixirClientCodegenTest {
                     .reduce((first, second) -> second)
                     .orElse("");
             Assert.assertEquals(deleteOrderDoc, "  - `" + deleteOrderSuccessTypes + "` on success");
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
+    public void testRequestBuilderKeepsClausesOfEachFunctionTogether() throws Exception {
+        File output = Files.createTempDirectory("elixir-codegen").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Path requestBuilder;
+            try (Stream<Path> paths = Files.walk(output.toPath())) {
+                requestBuilder = paths
+                        .filter(path -> path.getFileName().toString().equals("request_builder.ex"))
+                        .findFirst()
+                        .orElseThrow();
+            }
+
+            // Elixir warns "clauses with the same name and arity should be grouped together"
+            // when another definition sits between two clauses of a function
+            List<String> functionNames = Files.readAllLines(requestBuilder, StandardCharsets.UTF_8).stream()
+                    .filter(line -> line.matches("^  defp? [a-z_?!]+.*"))
+                    .map(line -> line.trim().split("[ (,]")[1])
+                    .collect(Collectors.toList());
+            Set<String> finished = new HashSet<>();
+            for (int i = 1; i < functionNames.size(); i++) {
+                String previous = functionNames.get(i - 1);
+                String current = functionNames.get(i);
+                if (!current.equals(previous)) {
+                    finished.add(previous);
+                    Assert.assertFalse(finished.contains(current),
+                            current + " has clauses on both sides of another function in request_builder.ex");
+                }
+            }
         } finally {
             FileUtils.deleteDirectory(output);
         }
