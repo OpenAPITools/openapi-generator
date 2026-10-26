@@ -339,8 +339,11 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
-            writer.WriteString("just_symbol", justSymbolRawValue);
+            if (enumArrays.JustSymbolOption.IsSet)
+            {
+                var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
+                writer.WriteString("just_symbol", justSymbolRawValue);
+            }
         }
     }
 }

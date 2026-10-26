@@ -407,8 +407,11 @@ namespace Org.OpenAPITools.Model
                                 JsonSerializer.Serialize(writer, order.ShipDateOption.Value!.Value, jsonSerializerOptions);
                             }
 
-            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
-            writer.WriteString("status", statusRawValue);
+            if (order.StatusOption.IsSet)
+            {
+                var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
+                writer.WriteString("status", statusRawValue);
+            }
         }
     }
 }
