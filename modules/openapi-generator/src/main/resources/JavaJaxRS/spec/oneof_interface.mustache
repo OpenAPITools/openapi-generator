@@ -1,3 +1,21 @@
+{{#vars}}
+{{#isEnum}}
+{{#isDiscriminator}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.*;
+{{/jackson}}
+{{#jsonb}}
+import {{javaxPackage}}.json.bind.annotation.*;
+import {{javaxPackage}}.json.bind.serializer.*;
+import {{javaxPackage}}.json.stream.*;
+{{/jsonb}}
+{{#withXml}}
+import {{javaxPackage}}.xml.bind.annotation.*;
+{{/withXml}}
+{{/isDiscriminator}}
+{{/isEnum}}
+{{/vars}}
+
 {{>additionalOneOfTypeAnnotations}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
@@ -15,6 +33,13 @@
 {{>generatedAnnotation}}
 
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
+    {{#vars}}
+    {{#isEnum}}
+    {{#isDiscriminator}}
+{{>enumClass}}
+    {{/isDiscriminator}}
+    {{/isEnum}}
+    {{/vars}}
     {{#discriminator}}
     {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}

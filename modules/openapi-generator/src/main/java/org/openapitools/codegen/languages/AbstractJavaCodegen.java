@@ -832,6 +832,27 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // A oneOf interface declares the inline enum of its own discriminator (oneof_interface.mustache) and the
+        // implementors inherit it. A property in an implementor's allVars is its own and keeps its enum.
+        if (useOneOfInterfaces && !(this instanceof GroovyClientCodegen)) {
+            for (CodegenModel cm : allModels.values()) {
+                for (CodegenProperty disc : cm.vars) {
+                    boolean fromImplementors = cm.interfaceModels != null && cm.interfaceModels.stream()
+                            .flatMap(m -> m.allVars.stream())
+                            .anyMatch(v -> disc.baseName.equals(v.baseName));
+                    if (cm.oneOf.isEmpty() || !disc.isDiscriminator || !disc.isEnum) continue;
+                    if (fromImplementors) {
+                        disc.isEnum = false;
+                        continue;
+                    }
+                    cm.oneOf.stream().map(allModels::get).filter(Objects::nonNull)
+                            .flatMap(impl -> impl.vars.stream())
+                            .filter(v -> disc.baseName.equals(v.baseName))
+                            .forEach(v -> v.isEnum = false);
+                }
+            }
+        }
+
         if (isGenerateConstructorWithAllArgs()) {
             // conditionally force the generation of all args constructor.
             for (CodegenModel cm : allModels.values()) {

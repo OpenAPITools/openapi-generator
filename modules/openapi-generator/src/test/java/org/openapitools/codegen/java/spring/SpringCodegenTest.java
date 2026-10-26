@@ -2566,6 +2566,17 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testOneOfInterfaceDeclaresInlineDiscriminatorEnum() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25398.yaml", SPRING_BOOT);
+
+        assertThat(files.get("Pet.java").toPath()).content()
+                .contains("public enum PetTypeEnum {", "public PetTypeEnum getPetType();");
+        assertThat(files.get("Dog.java").toPath()).content()
+                .contains("private PetTypeEnum petType;")
+                .doesNotContain("enum PetTypeEnum");
+    }
+
+    @Test
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
