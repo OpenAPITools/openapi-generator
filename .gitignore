@@ -164,6 +164,7 @@ samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcworkspace/x
 samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
 
 # C#
+**/problems-report.html
 *.csproj.user
 samples/client/petstore/csharp/SwaggerClient/IO.Swagger.userprefs
 samples/client/petstore/csharp/SwaggerClientTest/obj
@@ -278,6 +279,7 @@ samples/server/petstore/erlang-server/rebar.lock
 **/dart*/**/pubspec.lock
 # Dart dio
 **/dart*/**/*.g.dart
+**/dart*/**/*.freezed.dart
 
 # JS
 samples/client/petstore/javascript-es6/package-lock.json

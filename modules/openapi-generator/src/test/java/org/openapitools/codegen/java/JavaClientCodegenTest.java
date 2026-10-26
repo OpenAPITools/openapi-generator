@@ -43,6 +43,8 @@ import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -2263,6 +2265,31 @@ public class JavaClientCodegenTest {
                 .doesNotContain("Map<String, Object> additionalProperties;");
     }
 
+    @Test
+    public void testAdditionalPropertiesFieldIsDeclaredBelowOneOfAndAnyOfParentsForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-composed-parent.yaml");
+
+        // a oneOf/anyOf wrapper has no bag to inherit, so its allOf children declare their own
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java"))
+                .content()
+                .contains("public class Pet extends AbstractOpenApiSchema")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPet.java"))
+                .content()
+                .contains("public class ExtendedPet extends Pet {")
+                .contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedShape.java"))
+                .content()
+                .contains("public class ExtendedShape extends Shape {")
+                .contains("private Map<String, Object> additionalProperties;");
+        // below the first class that declares it, the bag is inherited as usual
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPetLeaf.java"))
+                .content()
+                .contains("public class ExtendedPetLeaf extends ExtendedPet {")
+                .contains("public ExtendedPetLeaf putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
     private Path generateOkHttpGsonWithAdditionalProperties(String inputSpec) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -4411,6 +4438,66 @@ public class JavaClientCodegenTest {
         );
     }
 
+    /**
+     * oneOf/anyOf members that are arrays or maps must not generate invalid Java such as
+     * {@code getList<String>()} or {@code List<String>.class}.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/22304 and
+     * https://github.com/OpenAPITools/openapi-generator/issues/22249
+     */
+    @Test
+    public void testNativeOneOfAnyOfWithContainerMembers() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/java/native/issue22304.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        final Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+        assertThat(modelDir.resolve("Projects.java")).content()
+                .contains(
+                        "public Projects(List<String> o) {",
+                        "deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<List<String>>() {});",
+                        "schemas.put(\"List<String>\", List.class);",
+                        "if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {",
+                        "public List<String> getListString() throws ClassCastException {",
+                        "public UUID getUUID() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+        assertThat(modelDir.resolve("ProjectsRequestProjects.java")).content()
+                .contains("public List<String> getListString() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+        // List<BigDecimal> and List<Integer> have the same erasure: only one constructor and
+        // one instance check, but a getter for each.
+        assertThat(modelDir.resolve("Numbers.java")).content()
+                .contains(
+                        "public Numbers(List<BigDecimal> o) {",
+                        "public List<BigDecimal> getListBigDecimal() throws ClassCastException {",
+                        "public List<Integer> getListInteger() throws ClassCastException {")
+                .doesNotContain("public Numbers(List<Integer> o) {");
+        assertThat(modelDir.resolve("PetOrPets.java")).content()
+                .contains(
+                        "public List<Pet> getListPet() throws ClassCastException {",
+                        "if (getActualInstance() instanceof List) {")
+                .doesNotContain("instanceof List<Pet>");
+        assertThat(modelDir.resolve("CountsOrName.java")).content()
+                .contains(
+                        "readValueAs(new TypeReference<Map<String, Integer>>() {});",
+                        "public Map<String, Integer> getMapStringInteger() throws ClassCastException {",
+                        "if (getActualInstance() instanceof Map) {")
+                .doesNotContain("Map<String, Integer>.class", "instanceof Map<String, Integer>");
+        assertThat(modelDir.resolve("TagsOrLabel.java")).content()
+                .contains(
+                        "public TagsOrLabel(List<String> o) {",
+                        "readValueAs(new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {});",
+                        "schemas.put(\"List<String>\", List.class);",
+                        "public List<String> getListString() throws ClassCastException {",
+                        "public Integer getInteger() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+    }
+
     @Test
     public void testEnumWithImplements() {
         final Path output = newTempFolder();
@@ -4422,6 +4509,114 @@ public class JavaClientCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
+    }
+
+    @Test
+    public void testSerializableModelAddsSerializableToInnerEnums_issue23082() {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/issue_23082.yaml",
+                JavaClientCodegen.OKHTTP_GSON,
+                Map.of(SERIALIZABLE_MODEL, true));
+
+        JavaFileAssert.assertThat(files.get("ExampleWithInnerEnums.java")).fileContains(
+                "class ExampleWithInnerEnums implements Serializable {",
+                "enum ExampleInnerEnum implements Serializable {",
+                "enum NestedExamplesEnum implements Serializable {");
+    }
+
+    @Test
+    public void testSerializableModelTraversesEveryNestedPropertyLocation_issue23082() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(SERIALIZABLE_MODEL, true);
+        codegen.processOpts();
+
+        CodegenModel model = new CodegenModel();
+        CodegenProperty container = new CodegenProperty();
+        // components.schemas.Model.properties.container
+        model.vars.add(container);
+
+        CodegenProperty directEnum = newEnumProperty();
+        // properties.directEnum
+        container.vars.add(directEnum);
+
+        CodegenProperty arrayEnum = newEnumProperty();
+        CodegenProperty nestedArray = new CodegenProperty();
+        // type: array
+        // items:
+        //   type: array
+        //   items: { type: string, enum: [...] }
+        nestedArray.setItems(arrayEnum);
+        container.setItems(nestedArray);
+
+        CodegenProperty additionalPropertiesEnum = newEnumProperty();
+        // additionalProperties: { type: string, enum: [...] }
+        container.setAdditionalProperties(additionalPropertiesEnum);
+
+        CodegenProperty containsEnum = newEnumProperty();
+        // contains: { type: string, enum: [...] } (OpenAPI 3.1)
+        container.setContains(containsEnum);
+
+        CodegenProperty requiredPropertyEnum = newEnumProperty();
+        // required: [requiredProperty]
+        // properties.requiredProperty: { type: string, enum: [...] }
+        container.setRequiredVarsMap(Map.of("requiredProperty", requiredPropertyEnum));
+
+        CodegenProperty allOfEnum = newEnumProperty();
+        CodegenProperty oneOfEnum = newEnumProperty();
+        CodegenProperty anyOfEnum = newEnumProperty();
+        CodegenProperty notEnum = newEnumProperty();
+        // allOf: [{ type: string, enum: [...] }]
+        // oneOf: [{ type: string, enum: [...] }]
+        // anyOf: [{ type: string, enum: [...] }]
+        // not: { type: string, enum: [...] }
+        container.setComposedSchemas(new CodegenComposedSchemas(
+                List.of(allOfEnum), List.of(oneOfEnum), List.of(anyOfEnum), notEnum));
+
+        // Exercise model-level schema locations as well as property-level locations.
+        CodegenProperty modelItemsEnum = newEnumProperty();
+        // components.schemas.Model: { type: array, items: { type: string, enum: [...] } }
+        model.setItems(modelItemsEnum);
+        CodegenProperty modelAdditionalPropertiesEnum = newEnumProperty();
+        // components.schemas.Model: { type: object, additionalProperties: { type: string, enum: [...] } }
+        model.setAdditionalProperties(modelAdditionalPropertiesEnum);
+        CodegenProperty modelContainsEnum = newEnumProperty();
+        // components.schemas.Model: { type: array, contains: { type: string, enum: [...] } }
+        model.setContains(modelContainsEnum);
+
+        // A malformed or mutually recursive graph must not cause unbounded traversal.
+        container.vars.add(container);
+
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(model);
+        ModelsMap modelsMap = new ModelsMap();
+        modelsMap.setModels(List.of(modelMap));
+        modelsMap.setImports(new ArrayList<>());
+
+        codegen.postProcessModels(modelsMap);
+
+        List<CodegenProperty> nestedEnums = List.of(
+                directEnum,
+                arrayEnum,
+                additionalPropertiesEnum,
+                containsEnum,
+                requiredPropertyEnum,
+                allOfEnum,
+                oneOfEnum,
+                anyOfEnum,
+                notEnum,
+                modelItemsEnum,
+                modelAdditionalPropertiesEnum,
+                modelContainsEnum);
+        for (CodegenProperty nestedEnum : nestedEnums) {
+            assertThat(nestedEnum.getVendorExtensions())
+                    .containsEntry(X_IMPLEMENTS, List.of("Serializable"));
+        }
+    }
+
+    private static CodegenProperty newEnumProperty() {
+        CodegenProperty property = new CodegenProperty();
+        property.isEnum = true;
+        return property;
     }
 
     /**

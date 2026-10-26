@@ -822,6 +822,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         regexp = regexp.replace(",", "\\\\,");
                     }
 
+                    // Go source can't hold control characters (NUL, for example) or a byte order mark,
+                    // even inside a raw string, so write them as regexp escapes
+                    regexp = escapeControlCharacters(regexp);
+
                     String validate = String.format(Locale.getDefault(), "validate:\"%s\"", regexp);
                     cp.vendorExtensions.put(X_GO_CUSTOM_TAG, validate);
                 }
@@ -906,6 +910,28 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         return postProcessModelsEnum(objs);
+    }
+
+    /**
+     * Replaces each control character and byte order mark with a regexp escape such as {@code \\x00}. The
+     * backslash is doubled because Go unquotes the struct tag value before the validator compiles the pattern.
+     * A single backslash would put the raw byte back, which is not valid UTF-8 above {@code 0x7f}.
+     *
+     * @param value the text to escape
+     * @return the text with no control characters or byte order marks
+     */
+    static String escapeControlCharacters(String value) {
+        StringBuilder escaped = new StringBuilder(value.length());
+        value.codePoints().forEach(codePoint -> {
+            if (Character.isISOControl(codePoint)) {
+                escaped.append(String.format(Locale.ROOT, "\\\\x%02x", codePoint));
+            } else if (codePoint == 0xFEFF) {
+                escaped.append("\\\\x{feff}");
+            } else {
+                escaped.appendCodePoint(codePoint);
+            }
+        });
+        return escaped.toString();
     }
 
     @Override

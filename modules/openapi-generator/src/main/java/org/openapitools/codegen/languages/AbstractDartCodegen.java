@@ -37,6 +37,7 @@ import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.BUNGIE_X_ENUM_VALUES;
 import static org.openapitools.codegen.utils.EnumUtils.getBungieEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -748,7 +749,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         .map(ModelUtils::getSimpleRef)
                         .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
                         .ifPresent(schema -> {
-                            property.isEnum = schema.getEnum() != null;
+                            property.isEnum = isEnum(schema);
                             property.isModel = true;
                         });
 

@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info: {title: free-form object params, version: 1.0.0}
+servers: [{url: /v1}]
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - {name: meta, in: query, schema: {type: object}}
+        - {name: tags, in: query, schema: {type: object, additionalProperties: true}}
+        - {name: X-Extra, in: header, schema: {type: object}}
+        - {name: composed, in: query, schema: {$ref: '#/components/schemas/Composed'}}
+      responses: {'200': {description: OK}}
+components:
+  schemas:
+    Base:
+      type: object
+      properties:
+        id: {type: string}
+    Composed:
+      # no top-level "type": flagged isAnyType, but still a generated model
+      allOf:
+        - $ref: '#/components/schemas/Base'

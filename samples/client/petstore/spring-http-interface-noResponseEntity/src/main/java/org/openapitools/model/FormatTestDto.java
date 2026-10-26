@@ -15,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -88,7 +87,6 @@ public class FormatTestDto {
    * maximum: 100
    * @return integer
    */
-  
   @JsonProperty("integer")
   public @Nullable Integer getInteger() {
     return integer;
@@ -110,7 +108,6 @@ public class FormatTestDto {
    * maximum: 200
    * @return int32
    */
-  
   @JsonProperty("int32")
   public @Nullable Integer getInt32() {
     return int32;
@@ -130,7 +127,6 @@ public class FormatTestDto {
    * Get int64
    * @return int64
    */
-  
   @JsonProperty("int64")
   public @Nullable Long getInt64() {
     return int64;
@@ -152,7 +148,6 @@ public class FormatTestDto {
    * maximum: 543.2
    * @return number
    */
-  @NotNull
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
@@ -174,7 +169,6 @@ public class FormatTestDto {
    * maximum: 987.6
    * @return _float
    */
-  
   @JsonProperty("float")
   public @Nullable Float getFloat() {
     return _float;
@@ -196,7 +190,6 @@ public class FormatTestDto {
    * maximum: 123.4
    * @return _double
    */
-  
   @JsonProperty("double")
   public @Nullable Double getDouble() {
     return _double;
@@ -216,7 +209,6 @@ public class FormatTestDto {
    * Get string
    * @return string
    */
-  
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
@@ -236,7 +228,6 @@ public class FormatTestDto {
    * Get _byte
    * @return _byte
    */
-  @NotNull
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -256,7 +247,6 @@ public class FormatTestDto {
    * Get binary
    * @return binary
    */
-  
   @JsonProperty("binary")
   public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
@@ -276,7 +266,6 @@ public class FormatTestDto {
    * Get date
    * @return date
    */
-  @NotNull
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
@@ -296,7 +285,6 @@ public class FormatTestDto {
    * Get dateTime
    * @return dateTime
    */
-  
   @JsonProperty("dateTime")
   public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
@@ -316,7 +304,6 @@ public class FormatTestDto {
    * Get uuid
    * @return uuid
    */
-  
   @JsonProperty("uuid")
   public @Nullable UUID getUuid() {
     return uuid;
@@ -336,7 +323,6 @@ public class FormatTestDto {
    * Get password
    * @return password
    */
-  @NotNull
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -356,7 +342,6 @@ public class FormatTestDto {
    * Get bigDecimal
    * @return bigDecimal
    */
-  
   @JsonProperty("BigDecimal")
   public @Nullable BigDecimal getBigDecimal() {
     return bigDecimal;

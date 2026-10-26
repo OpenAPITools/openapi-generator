@@ -98,6 +98,7 @@ import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -3459,7 +3460,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && isEnumSchema(schema)) {
             // TODO remove the anyType check here in the future ANyType models can have enums defined
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
@@ -3827,21 +3828,7 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setIsEnum(isEnum);
 
         discriminator.setMapping(sourceDiscriminator.getMapping());
-        List<MappedModel> uniqueDescendants = new ArrayList<>();
-        if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
-            for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
-                String name;
-                if (e.getValue().indexOf('/') >= 0) {
-                    name = ModelUtils.getSimpleRef(e.getValue());
-                    if (ModelUtils.getSchema(openAPI, name) == null) {
-                        once(LOGGER).error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
-                    }
-                } else {
-                    name = e.getValue();
-                }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), name, true));
-            }
-        }
+        List<MappedModel> uniqueDescendants = adjustModelNames(getUniqueDescendants(openAPI, sourceDiscriminator.getDiscriminator()));
 
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
@@ -3905,7 +3892,7 @@ public class DefaultCodegen implements CodegenConfig {
      * <p>
      * @param schemas  the list of schemas to compare.
      *
-     * @Return the comman type
+     * @return the common type
      */
     protected String getCommonSchemaType(List<Schema> schemas) {
         switch (schemas.size()) {
@@ -3935,16 +3922,6 @@ public class DefaultCodegen implements CodegenConfig {
                 break;
         }
 
-//        boolean allRef = schemas.stream().allMatch(s -> s.get$ref() != null);
-//        if (allRef) {
-//            Set<String> modelNames = schemas.stream()
-//                    .map(s -> toModelName(ModelUtils.getSimpleRef(s.get$ref())))
-//                    .filter(Objects::nonNull)
-//                    .collect(Collectors.toSet());
-//            if (modelNames.size() == 1) {
-//                return modelNames.iterator().next();
-//            }
-//        }
         schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
         return getCommonTypeMapping(schemas);
     }
@@ -4326,7 +4303,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         //Inline enum case:
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+        if (isEnumSchema(p)) {
             List<Object> _enum = p.getEnum();
             property._enum = new ArrayList<>();
             for (Object i : _enum) {
@@ -4351,7 +4328,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (referencedSchema != p && isEnumSchema(referencedSchema)) {
             List<Object> _enum = referencedSchema.getEnum();
 
             property.isEnumRef = true;
@@ -4751,6 +4728,71 @@ public class DefaultCodegen implements CodegenConfig {
             currentProperty = currentProperty.items;
         }
         return currentProperty;
+    }
+
+    /**
+     * Applies an action to every property recursively reachable from a model.
+     * Properties are de-duplicated by identity to avoid repeated processing and cycles.
+     *
+     * @param model  model whose properties should be visited
+     * @param action action to apply to each property
+     */
+    protected void forEachModelPropertyRecursively(CodegenModel model, Consumer<CodegenProperty> action) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitNestedProperties(model, visited, action);
+    }
+
+    /**
+     * Applies an action to a property and recursively visits its nested properties.
+     */
+    private void visitProperty(CodegenProperty property, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (property == null || !visited.add(property)) {
+            return;
+        }
+
+        action.accept(property);
+        visitNestedProperties(property, visited, action);
+    }
+
+    /**
+     * Visits every canonical location in which a schema can contain another {@link CodegenProperty}.
+     * Other derived views such as {@code mostInnerItems} are intentionally omitted
+     * because their properties are already reachable through {@code items}. Note that
+     * {@code requiredVarsMap} is traversed explicitly below.
+     */
+    private void visitNestedProperties(IJsonSchemaValidationProperties schema,
+            Set<CodegenProperty> visited, Consumer<CodegenProperty> action) {
+        visitProperties(schema.getVars(), visited, action);
+        visitProperty(schema.getItems(), visited, action);
+        visitProperty(schema.getAdditionalProperties(), visited, action);
+        visitProperty(schema.getContains(), visited, action);
+
+        Map<String, CodegenProperty> requiredVarsMap = schema.getRequiredVarsMap();
+        if (requiredVarsMap != null) {
+            visitProperties(requiredVarsMap.values(), visited, action);
+        }
+
+        CodegenComposedSchemas composedSchemas = schema.getComposedSchemas();
+        if (composedSchemas != null) {
+            visitProperties(composedSchemas.getAllOf(), visited, action);
+            visitProperties(composedSchemas.getOneOf(), visited, action);
+            visitProperties(composedSchemas.getAnyOf(), visited, action);
+            visitProperty(composedSchemas.getNot(), visited, action);
+        }
+    }
+
+    /**
+     * Visits each property in a collection and its nested properties.
+     */
+    private void visitProperties(Collection<CodegenProperty> properties, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (properties == null) {
+            return;
+        }
+        for (CodegenProperty property : properties) {
+            visitProperty(property, visited, action);
+        }
     }
 
     protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
@@ -5942,7 +5984,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (isEnumSchema(referencedSchema)) {
             referencedSchema = parameterSchema;
         }
         return referencedSchema;

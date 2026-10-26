@@ -18,11 +18,11 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/others/java/native-oneOf-array/**
       - samples/client/others/java/okhttp-gson-streaming/**
-      - samples/client/others/java/resteasy/**
-      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+      - samples/client/echo_api/java/okhttp-gson-user-defined-templates/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -40,11 +40,11 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/others/java/native-oneOf-array/**
       - samples/client/others/java/okhttp-gson-streaming/**
-      - samples/client/others/java/resteasy/**
-      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+      - samples/client/echo_api/java/okhttp-gson-user-defined-templates/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -109,6 +109,7 @@ jobs:
           - samples/client/others/java/webclient-useAbstractionForFiles/
           - samples/client/others/java/jersey2-oneOf-duplicates/
           - samples/client/others/java/jersey2-oneOf-Mixed/
+          - samples/client/others/java/native-oneOf-array/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
           - samples/client/others/java/okhttp-gson-streaming/

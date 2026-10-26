@@ -33,7 +33,7 @@ import jakarta.annotation.Generated;
 })
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Vehicle {
+public sealed class Vehicle permits Car {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String type;
@@ -129,5 +129,69 @@ public class Vehicle {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Vehicle instance;
+
+    public Builder() {
+      this(new Vehicle());
+    }
+
+    protected Builder(Vehicle instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Vehicle value) { 
+      this.instance.setType(value.type);
+      this.instance.setWheels(value.wheels);
+      return this;
+    }
+
+    public Vehicle.Builder type(String type) {
+      this.instance.type(type);
+      return this;
+    }
+    
+    public Vehicle.Builder wheels(Integer wheels) {
+      this.instance.wheels(wheels);
+      return this;
+    }
+    
+    /**
+    * returns a built Vehicle instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Vehicle build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Vehicle.Builder builder() {
+    return new Vehicle.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Vehicle.Builder toBuilder() {
+    Vehicle.Builder builder = new Vehicle.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

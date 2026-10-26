@@ -18,78 +18,61 @@ import jakarta.annotation.Generated;
 
 /**
  * Square
+ *
+ * @param side Get side
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Square implements Shape {
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Double side;
-
-  public Square() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Square(Double side) {
-    this.side = side;
-  }
-
-  public Square side(Double side) {
-    this.side = side;
-    return this;
-  }
+public record Square(
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @NotNull 
+    @Schema(name = "side", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("side")
+    Double side
+) implements Shape {
 
   /**
-   * Get side
-   * @return side
+   * Builder of Square. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
    */
-  @NotNull 
-  @Schema(name = "side", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("side")
-  public Double getSide() {
-    return side;
-  }
+  public static class Builder {
 
-  @JsonProperty("side")
-  public void setSide(Double side) {
-    this.side = side;
-  }
+    private Double side;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Builder() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    protected Builder copyOf(Square value) {
+      this.side = value.side();
+      return this;
     }
-    Square square = (Square) o;
-    return Objects.equals(this.side, square.side);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(side);
-  }
+    public Square.Builder side(Double side) {
+      this.side = side;
+      return this;
+    }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Square {\n");
-    sb.append("    side: ").append(toIndentedString(side)).append("\n");
-    sb.append("}");
-    return sb.toString();
+    /**
+     * Returns a new Square from the values set so far; the builder stays usable.
+     */
+    public Square build() {
+      return new Square(this.side);
+    }
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Create a builder with no initialized component (the constructor applies the initial values).
    */
-  private String toIndentedString(@Nullable Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  public static Square.Builder builder() {
+    return new Square.Builder();
   }
+
+  /**
+   * Create a builder holding every component of this record.
+   */
+  public Square.Builder toBuilder() {
+    return new Square.Builder().copyOf(this);
+  }
+
 }
 

@@ -20,11 +20,20 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements
 
+{{^useFreezed}}
 * Dart 2.15.0+ or Flutter 2.8.0+
+{{/useFreezed}}
+{{#useFreezed}}
+* Dart 3.8.0+ or Flutter 3.32.0+
+{{/useFreezed}}
 * Dio 5.0.0+ (https://pub.dev/packages/dio)
 {{#useJsonSerializable}}
 * JSON Serializable 6.1.5+ (https://pub.dev/packages/json_serializable)
 {{/useJsonSerializable}}
+{{#useFreezed}}
+* Freezed 3.0.0+ (https://pub.dev/packages/freezed)
+* JSON Serializable 6.9.3+ (https://pub.dev/packages/json_serializable)
+{{/useFreezed}}
 {{#useDateLibTimeMachine}}
 * timemachine option currently **DOES NOT** support sound null-safety and may not work
 {{/useDateLibTimeMachine}}

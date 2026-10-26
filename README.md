@@ -1132,6 +1132,7 @@ Here is a list of template creators:
    * TypeScript (jQuery): @bherila
    * TypeScript (Nestjs): @vfrank66
    * TypeScript (Node):  @mhardorf
+   * TypeScript (Playwright):  @roydekleijn
    * TypeScript (Rxjs): @denyo
    * TypeScript (redux-query): @petejohansonxo
    * Xojo: @Topheee

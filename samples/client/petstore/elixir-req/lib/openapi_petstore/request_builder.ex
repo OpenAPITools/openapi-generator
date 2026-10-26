@@ -45,6 +45,30 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
 
   @doc """
+  Percent-encodes a path parameter so it occupies exactly one path segment.
+
+  Every character outside the RFC 3986 unreserved set is encoded, including
+  `/`, `?`, `#` and `%`. A value consisting only of dots would become a dot
+  segment, so those are encoded as well.
+
+  ### Parameters
+
+  - `value` (any) - The parameter value; converted with `to_string/1`
+
+  ### Returns
+
+  String
+  """
+  @spec encode_path_param(term()) :: String.t()
+  def encode_path_param(value) do
+    case to_string(value) do
+      "." -> "%2E"
+      ".." -> "%2E%2E"
+      string -> URI.encode(string, &URI.char_unreserved?/1)
+    end
+  end
+
+  @doc """
   Mark a request as multipart/form-data.
 
   Multipart fields and files are encoded when the request is sent.

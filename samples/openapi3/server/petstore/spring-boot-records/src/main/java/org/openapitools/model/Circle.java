@@ -18,78 +18,61 @@ import jakarta.annotation.Generated;
 
 /**
  * Circle
+ *
+ * @param radius Get radius
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Circle implements Shape {
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Double radius;
-
-  public Circle() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Circle(Double radius) {
-    this.radius = radius;
-  }
-
-  public Circle radius(Double radius) {
-    this.radius = radius;
-    return this;
-  }
+public record Circle(
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @NotNull 
+    @Schema(name = "radius", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("radius")
+    Double radius
+) implements Shape {
 
   /**
-   * Get radius
-   * @return radius
+   * Builder of Circle. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
    */
-  @NotNull 
-  @Schema(name = "radius", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("radius")
-  public Double getRadius() {
-    return radius;
-  }
+  public static class Builder {
 
-  @JsonProperty("radius")
-  public void setRadius(Double radius) {
-    this.radius = radius;
-  }
+    private Double radius;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Builder() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    protected Builder copyOf(Circle value) {
+      this.radius = value.radius();
+      return this;
     }
-    Circle circle = (Circle) o;
-    return Objects.equals(this.radius, circle.radius);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(radius);
-  }
+    public Circle.Builder radius(Double radius) {
+      this.radius = radius;
+      return this;
+    }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Circle {\n");
-    sb.append("    radius: ").append(toIndentedString(radius)).append("\n");
-    sb.append("}");
-    return sb.toString();
+    /**
+     * Returns a new Circle from the values set so far; the builder stays usable.
+     */
+    public Circle build() {
+      return new Circle(this.radius);
+    }
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Create a builder with no initialized component (the constructor applies the initial values).
    */
-  private String toIndentedString(@Nullable Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  public static Circle.Builder builder() {
+    return new Circle.Builder();
   }
+
+  /**
+   * Create a builder holding every component of this record.
+   */
+  public Circle.Builder toBuilder() {
+    return new Circle.Builder().copyOf(this);
+  }
+
 }
 

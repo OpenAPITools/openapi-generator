@@ -30,8 +30,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /**
- * 
- *
  * Values: _0,_1,_2
  */
 @Serializable(with = CodeSerializer::class)

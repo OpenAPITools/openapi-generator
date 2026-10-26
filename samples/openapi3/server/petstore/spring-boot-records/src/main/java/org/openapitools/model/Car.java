@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Car extends Vehicle {
+public final class Car extends Vehicle {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer doors;
@@ -108,5 +108,78 @@ public class Car extends Vehicle {
   private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Vehicle.Builder {
+
+    private Car instance;
+
+    public Builder() {
+      this(new Car());
+    }
+
+    protected Builder(Car instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Car value) { 
+      super.copyOf(value);
+      this.instance.setDoors(value.doors);
+      return this;
+    }
+
+    public Car.Builder doors(Integer doors) {
+      this.instance.doors(doors);
+      return this;
+    }
+    
+    @Override
+    public Car.Builder type(String type) {
+      this.instance.type(type);
+      return this;
+    }
+    
+    @Override
+    public Car.Builder wheels(Integer wheels) {
+      this.instance.wheels(wheels);
+      return this;
+    }
+    
+    /**
+    * returns a built Car instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Car build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Car.Builder builder() {
+    return new Car.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Car.Builder toBuilder() {
+    Car.Builder builder = new Car.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

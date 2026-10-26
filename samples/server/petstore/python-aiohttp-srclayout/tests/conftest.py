@@ -6,7 +6,7 @@ import connexion
 
 
 @pytest.fixture
-def client(loop, aiohttp_client):
+async def client(aiohttp_client):
     logging.getLogger('connexion.operation').setLevel('ERROR')
     options = {
         "swagger_ui": True
@@ -19,4 +19,4 @@ def client(loop, aiohttp_client):
                                options=options)
     app.add_api('openapi.yaml', pythonic_params=True,
                 pass_context_arg_name='request')
-    return loop.run_until_complete(aiohttp_client(app.app))
+    return await aiohttp_client(app.app)

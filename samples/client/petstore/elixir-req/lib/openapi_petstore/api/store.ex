@@ -29,7 +29,7 @@ defmodule OpenapiPetstore.Api.Store do
     request =
       %{}
       |> method(:delete)
-      |> url("/store/order/#{order_id}")
+      |> url("/store/order/#{encode_path_param(order_id)}")
       |> finalize_request()
       |> Enum.into([])
 
@@ -91,7 +91,7 @@ defmodule OpenapiPetstore.Api.Store do
     request =
       %{}
       |> method(:get)
-      |> url("/store/order/#{order_id}")
+      |> url("/store/order/#{encode_path_param(order_id)}")
       |> finalize_request()
       |> Enum.into([])
 

@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Setter;
 import org.apache.commons.lang3.Strings;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
@@ -65,6 +66,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String BUILD_SYSTEM = "buildSystem";
     public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
     public static final String USE_INDEPENDENT_IMPLICIT_CLIENTS = "useIndependentImplicitClients";
+    private static final String USE_LEGACY_MODEL_HELPERS_MODULE = "useLegacyModelHelpersModule";
+    private static final String LEGACY_MODEL_HELPERS_FILE = "_legacy_model_helpers.py";
     private static final Set<String> SYNC_API_LIFECYCLE_METHODS =
             Set.of("close", "__enter__", "__exit__");
     private static final Set<String> ASYNC_API_LIFECYCLE_METHODS =
@@ -402,6 +405,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         String modelPath = srcPath + File.separatorChar + modelPackage.replace('.', File.separatorChar);
         String apiPath = srcPath + File.separatorChar + apiPackage.replace('.', File.separatorChar);
 
+        if (compatibleWithPythonLegacy && generatesLegacyModelHelpersModule()) {
+            additionalProperties.put(USE_LEGACY_MODEL_HELPERS_MODULE, true);
+            supportingFiles.add(new SupportingFile(
+                    "_legacy_model_helpers.mustache", srcPath, LEGACY_MODEL_HELPERS_FILE));
+        } else {
+            additionalProperties.remove(USE_LEGACY_MODEL_HELPERS_MODULE);
+        }
+
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
@@ -546,11 +557,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String apiFileFolder() {
         StringBuffer sb = new StringBuffer(outputFolder);
         sb.append(File.separatorChar);
@@ -604,7 +610,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.10+";
+        return "3.11+";
     }
 
     @Override
@@ -701,6 +707,29 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     private boolean usesLegacyApiCompatibility() {
         return compatibleWithPythonLegacy && DEFAULT_LIBRARY.equals(getLibrary());
+    }
+
+    /**
+     * Returns whether legacy-compatible models can import their conversion helpers from a shared supporting file.
+     *
+     * @return true when supporting-file generation includes the legacy model helpers file
+     */
+    private boolean generatesLegacyModelHelpersModule() {
+        if (!Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_SUPPORTING_FILES))) {
+            return false;
+        }
+
+        String requestedSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
+        if (requestedSupportingFiles == null || requestedSupportingFiles.isEmpty()) {
+            return true;
+        }
+
+        for (String requestedFile : requestedSupportingFiles.split(",")) {
+            if (LEGACY_MODEL_HELPERS_FILE.equals(requestedFile.trim())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isHttpxLibrary() {
