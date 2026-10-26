@@ -8,6 +8,9 @@ from typing import Union
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
+{{#hasObjectHeaderParam}}
+from {{packageName}} import param_parsing
+{{/hasObjectHeaderParam}}
 from {{packageName}} import util
 {{#operations}}
 {{#operation}}
@@ -65,6 +68,9 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
     {{#allParams}}
         {{#isHeaderParam}}
     {{paramName}} = flask.request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{#vendorExtensions.x-python-connexion-object-style}}
+    {{paramName}} = param_parsing.parse_simple_object({{paramName}}, explode={{#vendorExtensions.x-python-connexion-object-explode}}True{{/vendorExtensions.x-python-connexion-object-explode}}{{^vendorExtensions.x-python-connexion-object-explode}}False{{/vendorExtensions.x-python-connexion-object-explode}}, model={{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}})
+        {{/vendorExtensions.x-python-connexion-object-style}}
         {{/isHeaderParam}}
         {{#isCookieParam}}
     {{paramName}} = flask.request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})

@@ -23,7 +23,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{paramName}} = {{{example}}}
         {{/bodyParam}}
         {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}{{#vendorExtensions.x-python-connexion-test-query-pairs}}('{{key}}', {{{value}}}){{^-last}}, {{/-last}}{{/vendorExtensions.x-python-connexion-test-query-pairs}}{{^vendorExtensions.x-python-connexion-test-query-pairs}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{/vendorExtensions.x-python-connexion-test-query-pairs}}{{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         headers = { {{#vendorExtensions.x-preferred-produce}}
             'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}

@@ -70,6 +70,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+    // Effective style/explode of an object-typed (model) query or header parameter.
+    static final String X_OBJECT_STYLE = "x-python-connexion-object-style";
+    static final String X_OBJECT_EXPLODE = "x-python-connexion-object-explode";
+    static final String HAS_OBJECT_PARAMS = "connexionObjectParams";
 
     // An object mapper that is used to convert an example string to
     // a "python-compliant" example string (boolean as True/False).
@@ -739,6 +743,42 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         return formatPythonStringLiteral(value.toString());
     }
 
+    /**
+     * Whether the generated server ships param_parsing.py to deserialize object-typed query/header
+     * parameters that Connexion leaves as raw strings (Connexion only parses style=deepObject itself).
+     */
+    protected boolean supportsObjectParameterParsing() {
+        return true;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        super.setParameterExampleValue(codegenParameter, parameter);
+        // This hook is the one place that sees both the CodegenParameter and the raw Parameter. The raw one
+        // is needed because DefaultCodegen leaves CodegenParameter.style null when the spec omits it and sets
+        // isExplode=false even for style=form, whose OpenAPI default is explode=true.
+        if (!supportsObjectParameterParsing() || !codegenParameter.isModel
+                || !(codegenParameter.isQueryParam || codegenParameter.isHeaderParam)
+                // serialized via "content" (e.g. JSON), handled by the JSON header path instead
+                || parameter.getContent() != null
+                // param_parsing.py only rebuilds plain objects (type: object), not allOf/oneOf/anyOf
+                || !isPlainObjectSchema(ModelUtils.getReferencedSchema(openAPI, parameter.getSchema()))) {
+            return;
+        }
+        // OpenAPI defaults: query -> style=form, header -> style=simple; explode defaults to true only for form.
+        String style = parameter.getStyle() != null ? parameter.getStyle().toString()
+                : (codegenParameter.isQueryParam ? "form" : "simple");
+        boolean supportedStyle = codegenParameter.isQueryParam
+                ? "form".equals(style) || "deepObject".equals(style)
+                : "simple".equals(style);
+        if (!supportedStyle) {
+            return;
+        }
+        boolean explode = parameter.getExplode() != null ? parameter.getExplode() : "form".equals(style);
+        codegenParameter.vendorExtensions.put(X_OBJECT_STYLE, style);
+        codegenParameter.vendorExtensions.put(X_OBJECT_EXPLODE, explode);
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
@@ -781,6 +821,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         List<CodegenOperation> operationList = operations.getOperation();
 
         boolean hasJsonHeaderParam = false;
+        boolean hasObjectParams = false;
+        boolean hasObjectHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
             for (CodegenParameter param : operation.allParams) {
@@ -792,6 +834,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
+            // allParams, queryParams and headerParams hold separate copies of each parameter.
+            for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.queryParams,
+                    operation.headerParams)) {
+                for (CodegenParameter param : params) {
+                    if (supportsObjectParameterParsing() && param.vendorExtensions.containsKey(X_OBJECT_STYLE)) {
+                        hasObjectParams = true;
+                        hasObjectHeaderParam |= param.isHeaderParam;
+                        prepareObjectParameterExample(param, allModels);
+                    }
+                }
+            }
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
@@ -859,7 +912,123 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
+        if (hasObjectHeaderParam) {
+            objs.put("hasObjectHeaderParam", Boolean.TRUE);
+        }
+        if (hasObjectParams) {
+            if (!Boolean.TRUE.equals(additionalProperties.get(HAS_OBJECT_PARAMS))) {
+                additionalProperties.put(HAS_OBJECT_PARAMS, Boolean.TRUE);
+                supportingFiles.add(new SupportingFile("param_parsing.mustache", packagePath(), "param_parsing.py"));
+            }
+        }
         return objs;
+    }
+
+    /**
+     * Serializes the example of an object-typed query/header parameter the way the OpenAPI style
+     * prescribes, so the generated controller test sends a request the server can deserialize:
+     * header (simple) -> "k,v,k2,v2" (or "k=v,k2=v2" when exploded) as the example;
+     * query (form, explode) -> one (property, value) pair per property;
+     * query (deepObject) -> ("param[property]", value) pairs;
+     * query (form, no explode) -> a single ("param", "k,v,k2,v2") pair.
+     * Only primitive properties of the model are used.
+     */
+    private void prepareObjectParameterExample(CodegenParameter param, List<ModelMap> allModels) {
+        CodegenModel model = null;
+        String type = param.baseType != null ? param.baseType : param.dataType;
+        for (ModelMap mm : allModels) {
+            if (mm.getModel() != null && mm.getModel().classname.equals(type)) {
+                model = mm.getModel();
+                break;
+            }
+        }
+        List<String[]> values = new ArrayList<>();
+        if (model != null) {
+            for (CodegenProperty var : model.vars) {
+                String value = wireExampleValue(var);
+                if (value != null) {
+                    values.add(new String[]{var.baseName, value});
+                }
+            }
+        }
+        String style = (String) param.vendorExtensions.get(X_OBJECT_STYLE);
+        boolean explode = Boolean.TRUE.equals(param.vendorExtensions.get(X_OBJECT_EXPLODE));
+        if (param.isHeaderParam || ("form".equals(style) && !explode)) {
+            List<String> parts = new ArrayList<>();
+            for (String[] kv : values) {
+                parts.add(explode ? kv[0] + "=" + kv[1] : kv[0] + "," + kv[1]);
+            }
+            param.example = "'" + escapeTextInSingleQuotes(String.join(",", parts)) + "'";
+            if (param.isQueryParam) {
+                param.vendorExtensions.put("x-python-connexion-test-query-pairs",
+                        Collections.singletonList(testPair(param.baseName, param.example)));
+            }
+            return;
+        }
+        List<Map<String, String>> pairs = new ArrayList<>();
+        for (String[] kv : values) {
+            String key = "deepObject".equals(style) ? param.baseName + "[" + kv[0] + "]" : kv[0];
+            pairs.add(testPair(key, "'" + escapeTextInSingleQuotes(kv[1]) + "'"));
+        }
+        param.vendorExtensions.put("x-python-connexion-test-query-pairs", pairs);
+    }
+
+    private static boolean isPlainObjectSchema(Schema<?> schema) {
+        if (schema == null || ModelUtils.isComposedSchema(schema)) {
+            return false;
+        }
+        return "object".equals(schema.getType())
+                || (schema.getTypes() != null && schema.getTypes().contains("object"));
+    }
+
+    private static Map<String, String> testPair(String key, String value) {
+        Map<String, String> pair = new HashMap<>();
+        pair.put("key", key);
+        pair.put("value", value);
+        return pair;
+    }
+
+    /**
+     * Example value of a primitive model property as it appears on the wire, or null to leave it out.
+     * OpenAPI defines no escaping for "," and "=" inside style=simple/form values, so an example
+     * containing them is replaced by a placeholder rather than producing a request that parses wrongly.
+     */
+    private String wireExampleValue(CodegenProperty var) {
+        String value = rawWireExampleValue(var);
+        if (value != null && (value.contains(",") || value.contains("="))) {
+            return var.isString ? var.baseName + "_example" : null;
+        }
+        return value;
+    }
+
+    private String rawWireExampleValue(CodegenProperty var) {
+        if (var.isBoolean) {
+            return var.example != null ? var.example.toLowerCase(Locale.ROOT) : "true";
+        }
+        if (var.isInteger || var.isLong) {
+            return var.example != null ? var.example : "56";
+        }
+        if (var.isNumber || var.isFloat || var.isDouble) {
+            return var.example != null ? var.example : "3.4";
+        }
+        // Property examples are Python literals here (e.g. 'abc'); the wire value is the bare text.
+        String example = var.example;
+        if (example != null && example.length() >= 2 && example.startsWith("'") && example.endsWith("'")) {
+            example = example.substring(1, example.length() - 1).replace("\\'", "'");
+        }
+        if (var.isEnum && var._enum != null && !var._enum.isEmpty()) {
+            return var._enum.contains(example) ? example : var._enum.get(0);
+        }
+        if (var.isString || var.isDate || var.isDateTime) {
+            if (var.isDate && (example == null || !example.matches("\\d{4}-\\d{2}-\\d{2}"))) {
+                return "2013-10-20";
+            }
+            if (var.isDateTime && (example == null || !example.matches("\\d{4}-\\d{2}-\\d{2}T.*"))) {
+                return "2013-10-20T19:20:30+01:00";
+            }
+            return StringUtils.isEmpty(example) ? var.baseName + "_example" : example;
+        }
+        return null;
     }
 
     /*

@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info: {title: object-typed query and header parameters, version: 1.0.0}
+servers: [{url: /v1}]
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - {name: search, in: query, required: true, schema: {$ref: '#/components/schemas/Filter'}}
+        - {name: deep, in: query, style: deepObject, schema: {$ref: '#/components/schemas/Filter'}}
+        - {name: packed, in: query, explode: false, schema: {$ref: '#/components/schemas/Filter'}}
+        - {name: label, in: query, schema: {$ref: '#/components/schemas/Label'}}
+        - {name: X-Trace, in: header, required: true, schema: {$ref: '#/components/schemas/Trace'}}
+        - name: X-Meta
+          in: header
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Trace'}
+        - {name: limit, in: query, schema: {type: integer}}
+        # not plain objects / unsupported styles: left to the default handling
+        - {name: composed, in: query, schema: {$ref: '#/components/schemas/Composed'}}
+        - {name: piped, in: query, style: pipeDelimited, schema: {$ref: '#/components/schemas/Label'}}
+      responses: {'200': {description: OK}}
+components:
+  schemas:
+    Filter:
+      type: object
+      properties:
+        name: {type: string, example: abc}
+        size: {type: integer}
+        active: {type: boolean}
+        kind: {type: string, enum: [small, large]}
+        since: {type: string, format: date}
+    Label:
+      type: object
+      properties:
+        label: {type: string, example: tag}
+    Composed:
+      allOf:
+        - $ref: '#/components/schemas/Label'
+    Trace:
+      type: object
+      properties:
+        # an example containing the "simple" delimiter is replaced by a placeholder
+        id: {type: string, example: 'a,b'}
+        hops: {type: integer}
+        sampled: {type: boolean, example: false}

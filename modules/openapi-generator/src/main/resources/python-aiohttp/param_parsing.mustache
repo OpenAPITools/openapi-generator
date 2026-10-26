@@ -1,0 +1,103 @@
+"""Deserialize object-typed query and header parameters.
+
+Connexion only turns ``style: deepObject`` query parameters into objects. A
+``style: form`` query parameter (``?name=a&size=3``) or a ``style: simple``
+header (``X-Trace: id,abc``) whose schema is an object reaches validation as
+missing or as a plain string, so valid requests are rejected with 400. The
+classes below rebuild those objects before Connexion validates them, following
+https://spec.openapis.org/oas/v3.0.3#style-values.
+"""
+try:  # Connexion 3
+    from connexion.uri_parsing import OpenAPIURIParser
+    from connexion.validators.parameter import ParameterValidator
+except ImportError:  # Connexion 2
+    from connexion.decorators.uri_parsing import OpenAPIURIParser
+    from connexion.decorators.validation import ParameterValidator
+
+
+def _is_object(param):
+    return param.get('schema', {}).get('type') == 'object'
+
+
+def _cast(value, target):
+    """Cast a serialized scalar to ``target`` (int, float or bool); leave it unchanged otherwise."""
+    if not isinstance(value, str):
+        return value
+    if target is bool:
+        lowered = value.lower()
+        return lowered == 'true' if lowered in ('true', 'false') else value
+    if target in (int, float):
+        try:
+            return target(value)
+        except ValueError:
+            return value
+    return value
+
+
+_SCHEMA_TYPES = {'integer': int, 'number': float, 'boolean': bool}
+
+
+def _cast_by_schema(obj, schema):
+    properties = schema.get('properties', {})
+    return {key: _cast(value, _SCHEMA_TYPES.get(properties.get(key, {}).get('type')))
+            for key, value in obj.items()}
+
+
+def parse_simple_object(value, explode=False, model=None):
+    """Parse a ``style: simple`` (or non-exploded ``style: form``) object.
+
+    ``'k1,v1,k2,v2'`` when ``explode`` is false, ``'k1=v1,k2=v2'`` when true.
+    When ``model`` is given, values are cast to the types of its attributes.
+    """
+    if not isinstance(value, str):
+        return value
+    parts = value.split(',') if value else []
+    if explode:
+        obj = dict(part.split('=', 1) for part in parts if '=' in part)
+    else:
+        obj = dict(zip(parts[0::2], parts[1::2]))
+    if model is not None:
+        instance = model()  # openapi_types/attribute_map are set per instance
+        types = {instance.attribute_map[attr]: t for attr, t in instance.openapi_types.items()}
+        obj = {key: _cast(item, types.get(key)) for key, item in obj.items()}
+    return obj
+
+
+class ObjectParameterURIParser(OpenAPIURIParser):
+    """Collects object-typed ``style: form`` query parameters into a single value."""
+
+    def resolve_query(self, query_data):
+        original = dict(query_data)
+        query_data = dict(query_data)
+        consumed = set()
+        for name, param in self.param_defns.items():
+            if param.get('in') != 'query' or not _is_object(param) or param.get('style', 'form') != 'form':
+                continue
+            if param.get('explode', True):
+                # ?name=abc&size=3 -> {'name': 'abc', 'size': '3'}; a property may share the parameter's name.
+                properties = param.get('schema', {}).get('properties', {})
+                picked = {key: original[key][-1] for key in properties if key in original}
+                if picked:
+                    query_data[name] = [picked]
+                    consumed.update(picked)
+            elif name in original:
+                query_data[name] = [parse_simple_object(original[name][-1])]
+        # Drop the property keys we consumed so strict_validation does not report them as unknown,
+        # but keep any that are parameters of their own.
+        for key in consumed:
+            if key not in self.param_defns:
+                query_data.pop(key, None)
+        return super().resolve_query(query_data)
+
+
+class ObjectParameterValidator(ParameterValidator):
+    """Parses object-typed ``style: simple`` headers before validating them."""
+
+    def validate_header_parameter(self, param, request):
+        value = request.headers.get(param['name'])
+        if value is not None and _is_object(param):
+            # Connexion 3 validates header values as they are (no type coercion), so cast the leaves here;
+            # Connexion 2 would coerce them itself, and casting twice is harmless.
+            value = _cast_by_schema(parse_simple_object(value, param.get('explode', False)),
+                                    param.get('schema', {}))
+        return self.validate_parameter('header', value, param)
