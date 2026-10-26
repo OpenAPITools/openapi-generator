@@ -343,7 +343,7 @@ public class CSharpClientCodegenTest {
                 "throw new ArgumentException(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\");");
         // Also enforced in Validate() for explicit validation.
         assertFileContains(other,
-                "yield return new ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
         // The Known member (plain enum) must NOT get the not-enum handling.
         assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
                 "must not be a value excluded by the 'not' schema");
@@ -937,6 +937,45 @@ public class CSharpClientCodegenTest {
         assertFileContains(updateCommand.toPath(),
                 "public UpdateThingCommand(bool autoRenew = default, int period = default, int? graceDays = default, StatusEnum? status = default, RenewalModeEnum? renewalMode = default, string note = default)");
         assertFileNotContains(updateCommand.toPath(), "_flagAutoRenew");
+    }
+
+    @Test(description = "restsharp ApiClient does not import the model namespace, so schemas named Parameter, ParameterType or Task do not collide with RestSharp/System types")
+    public void testRestSharpApiClientDoesNotImportModelNamespace() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File apiClient = files.get("ApiClient.cs");
+        assertNotNull(apiClient);
+        assertFileNotContains(apiClient.toPath(), "using Org.OpenAPITools.Model;");
+        assertFileContains(apiClient.toPath(), "obj is Org.OpenAPITools.Model.AbstractOpenAPISchema");
+    }
+
+    @Test(description = "a schema named ValidationResult does not hide the DataAnnotations type in generated models")
+    public void testValidatableModelsQualifyValidationResult() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File model = files.get("ValidationResult.cs");
+        assertNotNull(model);
+        assertFileContains(model.toPath(),
+                "IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)",
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(");
+        assertFileNotContains(model.toPath(), "IEnumerable<ValidationResult>", "new ValidationResult(");
+    }
+
+    private Map<String, File> generateModelNameCollisions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/model-name-collisions.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        return defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity(), (first, second) -> first));
     }
 
     private Map<String, File> generateConditionalSerializationValueTypeModels(boolean conditionalSerialization) throws IOException {
