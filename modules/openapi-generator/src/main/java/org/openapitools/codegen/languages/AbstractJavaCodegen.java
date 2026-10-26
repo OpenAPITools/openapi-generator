@@ -629,11 +629,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         this.sanitizeConfig();
 
-        // optional jackson mappings for BigDecimal support
-        if (serializeBigDecimalAsString) {
-            importMapping.put("JsonFormat", "com.fasterxml.jackson.annotation.JsonFormat");
-        }
-
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
@@ -2075,14 +2070,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if (serializeBigDecimalAsString && jackson) {
-            if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
-                // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("x-extra-annotation", "@JsonFormat(shape = JsonFormat.Shape.STRING)");
+        if (jackson
+                && ((serializeBigDecimalAsString && ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)))
+                || ("decimal".equals(property.getDataFormat()) && "string".equals(property.getOpenApiType())))) {
+            // we serialize BigDecimal as `string` to avoid precision loss
+            property.vendorExtensions.put("x-extra-annotation", "@JsonFormat(shape = JsonFormat.Shape.STRING)");
 
-                // this requires some more imports to be added for this model...
-                model.imports.add("JsonFormat");
-            }
+            // this requires some more imports to be added for this model...
+            importMapping.putIfAbsent("JsonFormat", "com.fasterxml.jackson.annotation.JsonFormat");
+            model.imports.add("JsonFormat");
         }
 
         // hard-coded Arrays import in Java client as it has been removed from the templates
