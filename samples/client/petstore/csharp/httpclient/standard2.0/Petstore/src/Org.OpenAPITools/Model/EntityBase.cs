@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Schema
         /// </summary>
-        [DataMember(Name = "$schema", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "$schema", IsRequired = true, EmitDefaultValue = false)]
         public string Schema { get; set; }
 
         /// <summary>

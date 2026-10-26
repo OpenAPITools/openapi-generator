@@ -64,8 +64,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
 
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status
+        [DataMember(Name = "status", EmitDefaultValue = true)]
+        public StatusEnum Status
         {
             get{ return _Status;}
             set
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
                 _flagStatus = true;
             }
         }
-        private StatusEnum? _Status;
+        private StatusEnum _Status;
         private bool _flagStatus;
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id
         {
             get{ return _Id;}
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
         /*
         <example>doggie</example>
         */
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public string Name
         {
             get{ return _Name;}
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
         public List<string> PhotoUrls
         {
             get{ return _PhotoUrls;}
