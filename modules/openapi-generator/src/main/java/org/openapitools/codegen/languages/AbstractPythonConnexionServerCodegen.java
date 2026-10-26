@@ -724,6 +724,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                 }
             }
+            for (CodegenParameter param : operation.allParams) {
+                if ((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType)) {
+                    param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+                }
+            }
         }
         return objs;
     }

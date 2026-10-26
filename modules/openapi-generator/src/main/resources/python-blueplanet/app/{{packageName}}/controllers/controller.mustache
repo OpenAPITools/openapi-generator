@@ -67,8 +67,10 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if connexion.request.is_json:
         {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                        {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

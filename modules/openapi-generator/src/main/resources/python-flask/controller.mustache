@@ -73,8 +73,10 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if flask.request.is_json:
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(flask.request.get_json())  # noqa: E501
+                        {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
