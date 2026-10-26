@@ -126,7 +126,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsDateOnly = Boolean.FALSE;
     protected boolean useIntForTimeout = Boolean.FALSE;
     protected boolean throwOnAnyError = Boolean.FALSE;
-    protected boolean useClientFactory = Boolean.FALSE;
+    @Setter protected boolean useClientFactory = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -253,7 +253,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 this.throwOnAnyError);
 
         addSwitch(USE_CLIENT_FACTORY,
-                "Construct RestClient with useClientFactory: true so a shared HttpClient is reused across requests. (restsharp only)",
+                "Reuse one HttpClient per base URL across requests. Proxy, client certificates, default credentials and the certificate validation callback are fixed by the first request to that URL. (restsharp only)",
                 this.useClientFactory);
 
         CliOption framework = new CliOption(
@@ -1296,10 +1296,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setThrowOnAnyError(Boolean throwOnAnyError) {
         this.throwOnAnyError = throwOnAnyError;
-    }
-
-    public void setUseClientFactory(Boolean useClientFactory) {
-        this.useClientFactory = useClientFactory;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

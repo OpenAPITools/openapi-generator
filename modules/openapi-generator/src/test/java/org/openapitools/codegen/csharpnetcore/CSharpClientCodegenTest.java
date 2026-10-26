@@ -495,9 +495,10 @@ public class CSharpClientCodegenTest {
                     .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
             assertNotNull(apiClient);
             if (useClientFactory) {
-                assertFileContains(apiClient.toPath(), "useClientFactory: true))");
+                assertFileContains(apiClient.toPath(), "useClientFactory: true))",
+                        "client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));");
             } else {
-                assertFileNotContains(apiClient.toPath(), "useClientFactory: true");
+                assertFileNotContains(apiClient.toPath(), "useClientFactory: true", "KnownHeaders.UserAgent");
             }
         }
     }
