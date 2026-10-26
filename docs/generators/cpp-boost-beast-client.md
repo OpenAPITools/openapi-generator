@@ -18,19 +18,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
-|compileWithValidation|Emit schema-validation IR and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active.| |true|
-|exportMacro|C++ export macro placed before public classes and functions. When non-empty, ApiExport.h is generated for Windows DLL export/import handling.| ||
-|formatAssertionPolicy|Format handling in composition branch matching. Only 'annotation' is supported: format metadata never affects match counts.|<dl><dt>**annotation**</dt><dd>Formats are annotations and do not affect validation</dd></dl>|annotation|
-|inferConditionalSseOperations|Infer conditional SSE for dual JSON/SSE operations only when the request selector and event model are unambiguous. Enabled by default.| |true|
-|modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
-|packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
-|preserveAdditionalProperties|Retain undeclared JSON object members in generated object models and re-emit them. Composition validation accepts such members while decoding; set to false for strict additionalProperties handling.| |false|
-|sseEventTypeMappings|Comma-separated operationId=Model mappings for the JSON schema of each SSE event data payload.| |null|
-|sseOperationIds|Comma-separated operationIds whose JSON request body conditionally selects text/event-stream (default request property: stream).| |null|
-|sseRequestPropertyMappings|Comma-separated operationId=property mappings for the boolean request property that selects SSE.| |null|
-|sseSchemaMode|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the media representation; callbacks receive an owning SseEvent with raw data, event, id, and retry metadata. 'jsonEventData': decode each complete event data payload against the response schema and pass both the typed value and SseEvent metadata to the callback. Use x-sse-event-data-schema for per-operation typed decoding.|<dl><dt>**representation**</dt><dd>Schema describes the media representation; callback receives SseEvent</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|representation|
-|tolerateNonNullableNulls|Treat explicit JSON null values as absent for generated model properties whose schemas do not allow null. Enabled by default to tolerate non-conforming server responses while preserving required-key presence checks; set to false for strict schema decoding. Non-null values remain fully validated.| |true|
+|`apiPackage`|C++ namespace for apis (convention: name.space.api).| |`org.openapitools.client.api`|
+|`compileWithValidation`|Emit schema-validation IR and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active.| |`true`|
+|`exportMacro`|C++ export macro placed before public classes and functions. When non-empty, ApiExport.h is generated for Windows DLL export/import handling.| |``|
+|`formatAssertionPolicy`|Format handling in composition branch matching. Only 'annotation' is supported: format metadata never affects match counts.|<dl><dt>**annotation**</dt><dd>Formats are annotations and do not affect validation</dd></dl>|`annotation`|
+|`inferConditionalSseOperations`|Infer conditional SSE for dual JSON/SSE operations only when the request selector and event model are unambiguous. Enabled by default.| |`true`|
+|`modelPackage`|C++ namespace for models (convention: name.space.model).| |`org.openapitools.client.model`|
+|`packageName`|C++ package and library name.| |`CppBoostBeastOpenAPIClient`|
+|`preserveAdditionalProperties`|Retain undeclared JSON object members in generated object models and re-emit them. Composition validation accepts such members while decoding; set to false for strict additionalProperties handling.| |`false`|
+|`sseEventTypeMappings`|Comma-separated operationId=Model mappings for the JSON schema of each SSE event data payload.| |`null`|
+|`sseOperationIds`|Comma-separated operationIds whose JSON request body conditionally selects text/event-stream (default request property: stream).| |`null`|
+|`sseRequestPropertyMappings`|Comma-separated operationId=property mappings for the boolean request property that selects SSE.| |`null`|
+|`sseSchemaMode`|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the media representation; callbacks receive an owning SseEvent with raw data, event, id, and retry metadata. 'jsonEventData': decode each complete event data payload against the response schema and pass both the typed value and SseEvent metadata to the callback. Use x-sse-event-data-schema for per-operation typed decoding.|<dl><dt>**representation**</dt><dd>Schema describes the media representation; callback receives SseEvent</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|`representation`|
+|`tolerateNonNullableNulls`|Treat explicit JSON null values as absent for generated model properties whose schemas do not allow null. Enabled by default to tolerate non-conforming server responses while preserving required-key presence checks; set to false for strict schema decoding. Non-null values remain fully validated.| |`true`|
 
 ## IMPORT MAPPING
 

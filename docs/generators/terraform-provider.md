@@ -18,12 +18,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|packageName|Go package name (convention: lowercase).| |openapi|
-|packageVersion|Go package version.| |1.0.0|
-|providerAddress|Terraform provider registry address| |registry.terraform.io/example/example|
-|providerName|Terraform provider name (e.g. 'petstore')| |example|
-|providerVersion|Terraform provider version| |0.1.0|
+|`hideGenerationTimestamp`|Hides the generation timestamp when files are generated.| |`true`|
+|`packageName`|Go package name (convention: lowercase).| |`openapi`|
+|`packageVersion`|Go package version.| |`1.0.0`|
+|`providerAddress`|Terraform provider registry address| |`registry.terraform.io/example/example`|
+|`providerName`|Terraform provider name (e.g. 'petstore')| |`example`|
+|`providerVersion`|Terraform provider version| |`0.1.0`|
 
 ## IMPORT MAPPING
 

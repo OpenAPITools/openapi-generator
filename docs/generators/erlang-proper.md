@@ -18,8 +18,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|packageName|Erlang application name (convention: lowercase).| |openapi|
-|packageVersion|Erlang application version| |1.0.0|
+|`packageName`|Erlang application name (convention: lowercase).| |`openapi`|
+|`packageVersion`|Erlang application version| |`1.0.0`|
 
 ## IMPORT MAPPING
 

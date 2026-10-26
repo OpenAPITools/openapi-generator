@@ -18,9 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|exportModels|Whether to generate code to export model names.| |false|
-|exportOperations|Whether to generate code to export operation names.| |false|
-|packageName|Julia client package name.| |APIClient|
+|`exportModels`|Whether to generate code to export model names.| |`false`|
+|`exportOperations`|Whether to generate code to export operation names.| |`false`|
+|`packageName`|Julia client package name.| |`APIClient`|
 
 ## IMPORT MAPPING
 

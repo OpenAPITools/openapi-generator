@@ -18,22 +18,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|buildTarget|Target the build for a program or library.| |program|
-|generateBody|Generates method body.| |true|
-|licenseName|The name of the license| |NoLicense|
-|licenseUrl|The URL of the license| |http://localhost|
-|packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
-|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
-|packageGuid|The GUID that will be associated with the C# project| |null|
-|packageName|F# module name (convention: Title.Case).| |OpenAPI|
-|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
-|packageVersion|F# package version.| |1.0.0|
-|returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |OpenAPI/src|
-|useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
-|useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
-|useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |false|
+|`buildTarget`|Target the build for a program or library.| |`program`|
+|`generateBody`|Generates method body.| |`true`|
+|`licenseName`|The name of the license| |`NoLicense`|
+|`licenseUrl`|The URL of the license| |`http://localhost`|
+|`packageAuthors`|Specifies Authors property in the .NET Core project file.| |`OpenAPI`|
+|`packageCopyright`|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |`No Copyright`|
+|`packageGuid`|The GUID that will be associated with the C# project| |`null`|
+|`packageName`|F# module name (convention: Title.Case).| |`OpenAPI`|
+|`packageTitle`|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |`OpenAPI Library`|
+|`packageVersion`|F# package version.| |`1.0.0`|
+|`returnICollection`|Return ICollection&lt;T&gt; instead of the concrete type.| |`false`|
+|`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
+|`sourceFolder`|source folder for generated code| |`OpenAPI/src`|
+|`useCollection`|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |`false`|
+|`useDateTimeOffset`|Use DateTimeOffset to model date-time properties| |`false`|
+|`useSwashbuckle`|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |`false`|
 
 ## IMPORT MAPPING
 

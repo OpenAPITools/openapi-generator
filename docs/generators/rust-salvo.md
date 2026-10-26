@@ -18,12 +18,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|enableAuthMiddleware|Enable authentication middleware| |false|
-|enableCorsMiddleware|Enable CORS middleware| |false|
-|enableRequestValidation|Enable request validation middleware| |true|
-|enableResponseValidation|Enable response validation middleware| |false|
-|packageName|Rust crate name (convention: snake_case).| |salvo_openapi|
-|packageVersion|Rust crate version.| |null|
+|`enableAuthMiddleware`|Enable authentication middleware| |`false`|
+|`enableCorsMiddleware`|Enable CORS middleware| |`false`|
+|`enableRequestValidation`|Enable request validation middleware| |`true`|
+|`enableResponseValidation`|Enable response validation middleware| |`false`|
+|`packageName`|Rust crate name (convention: snake_case).| |`salvo_openapi`|
+|`packageVersion`|Rust crate version.| |`null`|
 
 ## IMPORT MAPPING
 

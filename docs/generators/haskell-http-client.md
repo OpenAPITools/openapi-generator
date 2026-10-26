@@ -18,36 +18,36 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|allowFromJsonNulls|allow JSON Null during model decoding from JSON| |true|
-|allowNonUniqueOperationIds|allow different API modules to contain the same operationId. Each API must be imported qualified| |false|
-|allowToJsonNulls|allow emitting JSON Null during model encoding to JSON| |false|
-|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|baseModule|Set the base module namespace| |null|
-|cabalPackage|Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens| |null|
-|cabalVersion|Set the cabal version number, consisting of a sequence of one or more integers separated by dots| |null|
-|configType|Set the name of the type used for configuration| |null|
-|customTestInstanceModule|test module used to provide typeclass instances for types not known by the generator| |null|
-|dateFormat|format string used to parse/render a date| |%Y-%m-%d|
-|dateTimeFormat|format string used to parse/render a datetime| |null|
-|dateTimeParseFormat|overrides the format string used to parse a datetime| |null|
-|disallowAdditionalPropertiesIfNotPresent|If false, the `additionalProperties` implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|generateEnums|Generate specific datatypes for OpenAPI enums| |true|
-|generateFormUrlEncodedInstances|Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded| |true|
-|generateLenses|Generate Lens optics for Models| |true|
-|generateModelConstructors|Generate smart constructors (only supply required fields) for models| |true|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|inlineMimeTypes|Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option| |true|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|modelDeriving|Additional classes to include in the deriving() clause of Models| |null|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|queryExtraUnreserved|Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'| |null|
-|requestType|Set the name of the type used to generate requests| |null|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|strictFields|Add strictness annotations to all model fields| |true|
-|useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
+|`allowFromJsonNulls`|allow JSON Null during model decoding from JSON| |`true`|
+|`allowNonUniqueOperationIds`|allow different API modules to contain the same operationId. Each API must be imported qualified| |`false`|
+|`allowToJsonNulls`|allow emitting JSON Null during model encoding to JSON| |`false`|
+|`allowUnicodeIdentifiers`|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |`false`|
+|`baseModule`|Set the base module namespace| |`null`|
+|`cabalPackage`|Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens| |`null`|
+|`cabalVersion`|Set the cabal version number, consisting of a sequence of one or more integers separated by dots| |`null`|
+|`configType`|Set the name of the type used for configuration| |`null`|
+|`customTestInstanceModule`|test module used to provide typeclass instances for types not known by the generator| |`null`|
+|`dateFormat`|format string used to parse/render a date| |`%Y-%m-%d`|
+|`dateTimeFormat`|format string used to parse/render a datetime| |`null`|
+|`dateTimeParseFormat`|overrides the format string used to parse a datetime| |`null`|
+|`disallowAdditionalPropertiesIfNotPresent`|If false, the `additionalProperties` implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.|<dl><dt>**false**</dt><dd>The `additionalProperties` implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.</dd></dl>|`true`|
+|`ensureUniqueParams`|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |`true`|
+|`enumUnknownDefaultCase`|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|`false`|
+|`generateEnums`|Generate specific datatypes for OpenAPI enums| |`true`|
+|`generateFormUrlEncodedInstances`|Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded| |`true`|
+|`generateLenses`|Generate Lens optics for Models| |`true`|
+|`generateModelConstructors`|Generate smart constructors (only supply required fields) for models| |`true`|
+|`hideGenerationTimestamp`|Hides the generation timestamp when files are generated.| |`true`|
+|`inlineMimeTypes`|Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option| |`true`|
+|`legacyDiscriminatorBehavior`|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|`true`|
+|`modelDeriving`|Additional classes to include in the deriving() clause of Models| |`null`|
+|`prependFormOrBodyParameters`|Add form or body parameters to the beginning of the parameter list.| |`false`|
+|`queryExtraUnreserved`|Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'| |`null`|
+|`requestType`|Set the name of the type used to generate requests| |`null`|
+|`sortModelPropertiesByRequiredFlag`|Sort model properties to place required parameters before optional parameters.| |`true`|
+|`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
+|`strictFields`|Add strictness annotations to all model fields| |`true`|
+|`useKatip`|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |`true`|
 
 ## IMPORT MAPPING
 
