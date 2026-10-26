@@ -742,6 +742,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        // A free-form object (or untyped) parameter has no model class to convert into: its type is the
+        // builtin "object", so "object.from_dict(...)" would raise AttributeError. Named models keep
+        // their own dataType even when flagged isAnyType (e.g. an allOf without a top-level type).
+        if ((parameter.isFreeFormObject || parameter.isAnyType) && "object".equals(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+        }
         Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
         if (openapiName instanceof String) {
             parameter.baseName = (String) openapiName;

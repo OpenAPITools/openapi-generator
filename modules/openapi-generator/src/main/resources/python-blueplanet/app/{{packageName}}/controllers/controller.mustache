@@ -115,8 +115,10 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{paramName}}{{^requir
         {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
                         {{/isBodyParam}}
                         {{^isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if isinstance({{paramName}}, dict):
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})  # noqa: E501
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                         {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}

@@ -114,8 +114,10 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
     {{paramName}} = {{baseType}}.from_dict({{paramName}})
                         {{/isBodyParam}}
                         {{^isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if isinstance({{paramName}}, dict):
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                         {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
