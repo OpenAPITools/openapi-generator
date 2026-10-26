@@ -502,6 +502,48 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void testBooleanOptionsPassedAsStrings() throws IOException {
+        // --additional-properties and gradle configOptions pass boolean options as strings
+        for (Object option : new Object[]{null, false, "false", true, "true"}) {
+            boolean enabled = Boolean.parseBoolean(String.valueOf(option));
+            String label = option == null ? "unset" : option + " (" + option.getClass().getSimpleName() + ")";
+
+            File output = Files.createTempDirectory("angular-boolean-options").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptAngularClientCodegen.WITH_INTERFACES, option);
+                configurator.addAdditionalProperty(TypeScriptAngularClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String service = Files.readString(output.toPath().resolve("api/multipart.service.ts"));
+            assertThat(output.toPath().resolve("api/multipart.serviceInterface.ts").toFile().exists())
+                    .as("interface file, withInterfaces=" + label).isEqualTo(enabled);
+            assertThat(service.contains("implements MultipartServiceInterface"))
+                    .as("implements clause, withInterfaces=" + label).isEqualTo(enabled);
+            assertThat(service.contains("append('files[]'"))
+                    .as("useSquareBracketsInArrayNames=" + label).isEqualTo(enabled);
+
+            output = Files.createTempDirectory("angular-tagged-unions").toFile();
+            output.deleteOnExit();
+            configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/typescript-angular/composed-schemas.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            if (option != null) {
+                configurator.addAdditionalProperty(TypeScriptAngularClientCodegen.TAGGED_UNIONS, option);
+            }
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String model = Files.readString(output.toPath().resolve("model/catInherited.ts"));
+            assertThat(model.contains("export interface CatInherited extends PetWithSimpleDiscriminator"))
+                    .as("plain interface, taggedUnions=" + label).isEqualTo(!enabled);
+        }
+    }
+
+    @Test
     public void testDeepObject() throws IOException {
         // GIVEN
         final String specPath = "src/test/resources/3_0/deepobject.yaml";

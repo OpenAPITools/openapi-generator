@@ -45,6 +45,30 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
 
   @doc """
+  Percent-encodes a path parameter so it occupies exactly one path segment.
+
+  Every character outside the RFC 3986 unreserved set is encoded, including
+  `/`, `?`, `#` and `%`. A value consisting only of dots would become a dot
+  segment, so those are encoded as well.
+
+  ### Parameters
+
+  - `value` (any) - The parameter value; converted with `to_string/1`
+
+  ### Returns
+
+  String
+  """
+  @spec encode_path_param(term()) :: String.t()
+  def encode_path_param(value) do
+    case to_string(value) do
+      "." -> "%2E"
+      ".." -> "%2E%2E"
+      string -> URI.encode(string, &URI.char_unreserved?/1)
+    end
+  end
+
+  @doc """
   Add optional parameters to the request.
 
   ### Parameters
@@ -156,6 +180,14 @@ defmodule OpenapiPetstore.RequestBuilder do
     |> Map.update!(:body, &add_multipart_field(&1, to_string(name), value))
   end
 
+  def add_param(request, :form, name, value) do
+    Map.update(request, :body, %{name => value}, &(Map.put(&1, name, value)))
+  end
+
+  def add_param(request, location, key, value) do
+    Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
+  end
+
   defp add_multipart_field(multipart, name, value) when is_binary(value) do
     Tesla.Multipart.add_field(multipart, name, value)
   end
@@ -172,14 +204,6 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp add_multipart_field(multipart, name, value) do
     Tesla.Multipart.add_field(multipart, name, to_string(value))
-  end
-
-  def add_param(request, :form, name, value) do
-    Map.update(request, :body, %{name => value}, &(Map.put(&1, name, value)))
-  end
-
-  def add_param(request, location, key, value) do
-    Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
   end
 
   defp add_cookies(request, cookies) do

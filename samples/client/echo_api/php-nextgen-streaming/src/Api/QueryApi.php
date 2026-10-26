@@ -376,7 +376,8 @@ class QueryApi
             'string', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -385,7 +386,8 @@ class QueryApi
             'StringEnumRef', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -410,7 +412,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -651,7 +653,8 @@ class QueryApi
             'string', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -660,7 +663,8 @@ class QueryApi
             'string', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -669,7 +673,8 @@ class QueryApi
             'string', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -694,7 +699,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -935,7 +940,8 @@ class QueryApi
             'integer', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -944,7 +950,8 @@ class QueryApi
             'boolean', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -953,7 +960,8 @@ class QueryApi
             'string', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -978,7 +986,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1199,7 +1207,8 @@ class QueryApi
             'object', // openApiType
             'deepObject', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -1224,7 +1233,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1445,7 +1454,8 @@ class QueryApi
             '\OpenAPIClientModelBirdOpenAPIClientModelCategory', // openApiType
             'deepObject', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -1470,7 +1480,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1691,7 +1701,8 @@ class QueryApi
             'array', // openApiType
             'form', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -1716,7 +1727,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1937,7 +1948,8 @@ class QueryApi
             'array', // openApiType
             'form', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -1962,7 +1974,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2183,7 +2195,8 @@ class QueryApi
             'object', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -2208,7 +2221,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2429,7 +2442,8 @@ class QueryApi
             'object', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -2454,7 +2468,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2675,7 +2689,8 @@ class QueryApi
             'ObjectOpenAPIClientModelQuery', // openApiType
             'form', // style
             true, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -2700,7 +2715,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2931,7 +2946,8 @@ class QueryApi
             '', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2940,7 +2956,8 @@ class QueryApi
             '', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
@@ -2965,7 +2982,7 @@ class QueryApi
         );
 
         $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),

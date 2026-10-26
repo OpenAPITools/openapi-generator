@@ -10528,11 +10528,18 @@ public class SpringCodegenTest {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
             try {
                 Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-aliases.yaml", Map.of());
-                // direct alias, two-link chain, array items, map value, content, header, allOf member,
-                // array property of a parameter model, additionalProperties, alias of an array alias
-                for (String name : List.of("RA", "RB", "RC", "RD", "RE", "RF", "RG", "RH", "RI", "RJ", "ParamModel")) {
+                // direct alias, two-link chain, content and allOf member of a query parameter are bound by name,
+                // and so is the model with the array property
+                for (String name : List.of("RA", "RB", "RE", "RG", "ParamModel")) {
+                    assertThat(sourceOf(files.get(name + ".java"))).contains("public record " + name + "(");
+                }
+                // converted from one string: array items, map value, header, additional properties and the alias
+                // of an array alias
+                for (String name : List.of("RC", "RD", "RF", "RI", "RJ")) {
                     JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
                 }
+                // the item of an array property of a parameter object stays a class
+                JavaFileAssert.assertThat(files.get("RH.java")).isNormalClass();
                 // same shape, reachable only through a request body
                 assertThat(sourceOf(files.get("Ctl.java"))).contains("public record Ctl(");
                 // aliases are not models: no file
@@ -10543,9 +10550,14 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).contains(
-                "useRecords: model 'RA' is generated as a class: it is bound from request parameters",
-                "useRecords: model 'RB' is generated as a class: it is bound from request parameters",
-                "useRecords: model 'RJ' is generated as a class: it is bound from request parameters");
+                "useRecords: model 'RC' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RD' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RF' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RI' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RJ' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'RH' is generated as a class: it is a list or map element inside a parameter object");
+        assertThat(messages).noneMatch(m -> m.contains("model 'RA'") || m.contains("model 'RB'")
+                || m.contains("model 'ParamModel'"));
         // aliases get no decision and no log line
         assertThat(messages).noneMatch(m -> m.contains("model 'Alias") || m.contains("model 'ArrAlias")
                 || m.contains("model 'ArrBase") || m.contains("model 'ApHolder") || m.contains("model 'Ctl'"));
@@ -10585,12 +10597,20 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void useRecordsKeepsParameterObjectsAsClasses() throws IOException {
+    public void useRecordsMakesParameterObjectsRecordsExceptListAndMapElements() throws IOException {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
             try {
                 Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-parameters.yaml", Map.of());
-                for (String name : List.of("QDirect", "QNested", "QDeep", "QInArray", "QInMap", "QItem", "QComponent",
-                        "QWrapped", "QContent", "QPathLevel", "Both")) {
+                // direct, nested, deep, component, content, path-level and used as a body too
+                for (String name : List.of("QDirect", "QNested", "QDeep", "QComponent", "QContent", "QPathLevel", "Both")) {
+                    assertThat(sourceOf(files.get(name + ".java"))).contains("public record " + name + "(");
+                }
+                // the item of an array parameter and the schema of a header are converted from one string
+                for (String name : List.of("QItem", "QWrapped")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // the item of an array property and the value of a map property of a parameter object
+                for (String name : List.of("QInArray", "QInMap")) {
                     JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
                 }
                 assertThat(sourceOf(files.get("BodyOnly.java"))).contains("public record BodyOnly(");
@@ -10601,10 +10621,383 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).contains(
-                "useRecords: model 'QDirect' is generated as a class: it is bound from request parameters",
-                "useRecords: model 'QNested' is generated as a class: it is bound from request parameters",
-                "useRecords: model 'Both' is generated as a class: it is bound from request parameters");
+                "useRecords: model 'QInArray' is generated as a class: it is a list or map element inside a parameter object",
+                "useRecords: model 'QInMap' is generated as a class: it is a list or map element inside a parameter object");
+        assertThat(messages).contains(
+                "useRecords: model 'QItem' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'QWrapped' is generated as a class: it is bound from request parameters");
+        assertThat(messages).noneMatch(m -> m.contains("model 'BodyOnly'")
+                || m.contains("model 'BodySub'") || m.contains("model 'QDirect'") || m.contains("model 'Both'"));
+    }
+
+    private static final String RECORDS_PARAMETER_NAMES_SPEC = "src/test/resources/3_0/spring/records-parameter-names.yaml";
+    private static final String RECORDS_PARAMETER_GRAPH_SPEC = "src/test/resources/3_0/spring/records-parameter-graph.yaml";
+    private static final String RECORDS_PARAMETER_CAUSES_SPEC = "src/test/resources/3_0/spring/records-parameter-causes.yaml";
+    private static final String BIND_PARAM = "@org.springframework.web.bind.annotation.BindParam(";
+
+    private static void assertBindParam(String source, String baseName, String componentName) {
+        assertThat(source).containsPattern(Pattern.quote(BIND_PARAM + "\"" + baseName + "\")") + "[^,]*\\b" + componentName + ",?\\s");
+    }
+
+    @Test
+    public void useRecordsBindsParameterObjectComponentsByTheirDocumentedNames() throws IOException {
+        for (Map<String, Object> options : List.of(Map.<String, Object>of(),
+                Map.<String, Object>of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"))) {
+            Map<String, File> files = generateRecords(RECORDS_PARAMETER_NAMES_SPEC, options);
+
+            String names = sourceOf(files.get("PoNames.java"));
+            assertThat(names).contains("public record PoNames(");
+            assertBindParam(names, "class", "propertyClass");
+            assertBindParam(names, "default", "_default");
+            assertBindParam(names, "my-name", "myName");
+            assertBindParam(names, "a.b", "aB");
+            assertBindParam(names, "1st", "_1st");
+            assertBindParam(names, "x[y]", "xY");
+            assertBindParam(names, "_under", "under");
+            // the other components are bound under their own names
+            assertThat(names).doesNotContain("BindParam(\"plain\")", "BindParam(\"userId\")");
+            assertThat(occurrences(names, "BindParam(")).isEqualTo(7);
+            // written fully qualified, so there is no import to add
+            assertThat(names).doesNotContain("import org.springframework.web.bind.annotation.BindParam");
+
+            // a model nested in a parameter object is bound by name as well
+            assertThat(sourceOf(files.get("PoOuter.java"))).contains("public record PoOuter(").doesNotContain("BindParam");
+            String inner = sourceOf(files.get("PoInner.java"));
+            assertThat(inner).contains("public record PoInner(");
+            assertBindParam(inner, "sort-order", "sortOrder");
+            assertThat(occurrences(inner, "BindParam(")).isEqualTo(1);
+
+            // used as a query object and as a body: the annotation does not change what Jackson reads
+            String dual = sourceOf(files.get("Dual.java"));
+            assertThat(dual).contains("public record Dual(", "@JsonProperty(\"sort-order\")");
+            assertBindParam(dual, "sort-order", "sortOrder");
+        }
+    }
+
+    @Test
+    public void useRecordsKeepsModelsConvertedFromOneStringAsClassesAndBodyModelsRecords() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_NAMES_SPEC, Map.of());
+                // the item of an array parameter and the schema of a header, a cookie and a path parameter
+                for (String name : List.of("LItem", "LHeader", "LCookie", "LPath")) {
+                    assertThat(sourceOf(files.get(name + ".java"))).contains("public class " + name + " {")
+                            .doesNotContain("record", "BindParam");
+                }
+                // read from a body only
+                for (String name : List.of("BodyOnly", "BodySub")) {
+                    assertThat(sourceOf(files.get(name + ".java"))).contains("public record " + name + "(")
+                            .doesNotContain("BindParam");
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'LItem' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'LHeader' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'LCookie' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'LPath' is generated as a class: it is bound from request parameters");
         assertThat(messages).noneMatch(m -> m.contains("model 'BodyOnly'") || m.contains("model 'BodySub'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAModelInBothAQueryObjectAndAHeaderAClass() throws IOException {
+        String spec = "openapi: 3.0.3\ninfo: {title: both, version: 1.0.0}\npaths:\n  /q:\n    get:\n      operationId: q\n"
+                + "      parameters:\n"
+                + "        - {name: q, in: query, schema: {$ref: '#/components/schemas/Shared'}}\n"
+                + "        - {name: X-H, in: header, schema: {$ref: '#/components/schemas/Shared'}}\n"
+                + "      responses:\n        '200': {description: ok}\n"
+                + "components:\n  schemas:\n    Shared:\n      type: object\n      properties:\n        value: {type: string}\n";
+        File specFile = File.createTempFile("records-both", ".yaml");
+        specFile.deleteOnExit();
+        Files.writeString(specFile.toPath(), spec);
+
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(specFile.getAbsolutePath(), Map.of()), "Shared.java")
+                        .contains("public class Shared {").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Shared' is generated as a class: it is bound from request parameters");
+    }
+
+    @Test
+    public void useRecordsWritesTheDocumentedNameAsAJavaStringLiteralInBindParam() throws IOException {
+        String spec = "openapi: 3.0.3\ninfo: {title: literals, version: 1.0.0}\npaths:\n  /q:\n    get:\n      operationId: q\n"
+                + "      parameters:\n        - {name: q, in: query, schema: {$ref: '#/components/schemas/Literals'}}\n"
+                + "      responses:\n        '200': {description: ok}\n"
+                + "components:\n  schemas:\n    Literals:\n      type: object\n      properties:\n"
+                + "        'a\"b': {type: string}\n        'a\\b': {type: string}\n"
+                + "        'a/*b': {type: string}\n        'c*/d': {type: string}\n        '\u00E9-x': {type: string}\n";
+        File specFile = File.createTempFile("records-literals", ".yaml");
+        specFile.deleteOnExit();
+        Files.writeString(specFile.toPath(), spec);
+
+        Map<String, File> files = generateRecords(specFile.getAbsolutePath(), Map.of(
+                DOCUMENTATION_PROVIDER, "none", ANNOTATION_LIBRARY, "none", USE_BEANVALIDATION, "false"));
+        assertSource(files, "Literals.java").contains("public record Literals(",
+                BIND_PARAM + "\"a\\\"b\")",
+                BIND_PARAM + "\"a\\\\b\")",
+                // a comment marker is a plain character in a string literal, a non-ASCII letter is the same string
+                BIND_PARAM + "\"a/*b\")",
+                BIND_PARAM + "\"c*/d\")",
+                BIND_PARAM + "\"\\u00E9-x\")");
+    }
+
+    @Test
+    public void useRecordsKeepsParameterObjectsThatSpringCannotFillAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_CAUSES_SPEC, Map.of());
+                // a model, an array and a map under a renamed name; a nullable model and a nullable container
+                for (String name : List.of("RenamedModel", "RenamedArray", "RenamedMap", "NullableModel", "NullableContainer")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // a plain array with an initial value is fine, and what it holds is a record
+                assertThat(sourceOf(files.get("PlainContainer.java"))).contains("public record PlainContainer(");
+                assertThat(sourceOf(files.get("BelowPlainContainer.java"))).contains("public record BelowPlainContainer(");
+                // everything below a class stays a class
+                for (String name : List.of("BelowRenamedModel", "DeeperRenamedModel", "BelowRenamedArray", "BelowRenamedMap",
+                        "BelowNullableModel", "BelowNullableContainer")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        String differs = "' is a model or a container whose documented name differs from its Java name";
+        assertThat(messages).contains(
+                "useRecords: model 'RenamedModel' is generated as a class: property 'mySub" + differs,
+                "useRecords: model 'RenamedArray' is generated as a class: property 'myList" + differs,
+                "useRecords: model 'RenamedMap' is generated as a class: property 'myMap" + differs,
+                "useRecords: model 'NullableModel' is generated as a class: property 'inner' is a nullable model or container",
+                "useRecords: model 'NullableContainer' is generated as a class: property 'values' is a nullable model or container",
+                "useRecords: model 'BelowRenamedModel' is generated as a class: it is nested in 'RenamedModel', a parameter object that is a class",
+                "useRecords: model 'DeeperRenamedModel' is generated as a class: it is nested in 'RenamedModel', a parameter object that is a class",
+                "useRecords: model 'BelowRenamedArray' is generated as a class: it is nested in 'RenamedArray', a parameter object that is a class",
+                "useRecords: model 'BelowRenamedMap' is generated as a class: it is nested in 'RenamedMap', a parameter object that is a class",
+                "useRecords: model 'BelowNullableModel' is generated as a class: it is nested in 'NullableModel', a parameter object that is a class",
+                "useRecords: model 'BelowNullableContainer' is generated as a class: it is nested in 'NullableContainer', a parameter object that is a class");
+        assertThat(messages).noneMatch(m -> m.contains("model 'PlainContainer'") || m.contains("model 'BelowPlainContainer'"));
+    }
+
+    @Test
+    public void useRecordsKeepsParameterObjectsWithWrappedOrUntypedComponentsAsClasses() throws IOException {
+        List<String> wrapped = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_CAUSES_SPEC, Map.of());
+                for (String name : List.of("WrappedScalar", "AnyType", "FreeForm")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(wrapped).contains(
+                // a scalar the record would wrap in JsonNullable, and a property of any type (JsonNullable<Object>)
+                "useRecords: model 'WrappedScalar' is generated as a class: property 'name' is wrapped in JsonNullable",
+                "useRecords: model 'AnyType' is generated as a class: property 'anyType' is wrapped in JsonNullable",
+                // a free-form object is an Object
+                "useRecords: model 'FreeForm' is generated as a class: property 'free' has no fixed type");
+
+        // without the wrapper a nullable scalar is a plain component
+        Map<String, File> plain = generateRecords(RECORDS_PARAMETER_CAUSES_SPEC, Map.of(SpringCodegen.OPENAPI_NULLABLE, "false"));
+        assertThat(sourceOf(plain.get("WrappedScalar.java"))).contains("public record WrappedScalar(");
+        JavaFileAssert.assertThat(plain.get("FreeForm.java")).isNormalClass();
+    }
+
+    @Test
+    public void useRecordsKeepsParameterObjectsOfScalarsRecordsAndRenamesOnlyThemWithBindParam() throws IOException {
+        Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-parameter-scalars.yaml", Map.of());
+
+        String scalars = sourceOf(files.get("Scalars.java"));
+        assertThat(scalars).contains("public record Scalars(");
+        // string, integer, number, boolean, date, date-time, uuid, uri, an enum by reference and an inline enum
+        for (String name : List.of("text", "count", "ratio", "flag", "day", "moment", "id", "link", "color", "size")) {
+            assertBindParam(scalars, "my-" + name, "my" + name.substring(0, 1).toUpperCase(java.util.Locale.ROOT) + name.substring(1));
+            assertThat(scalars).doesNotContain(BIND_PARAM + "\"" + name + "\")");
+        }
+        assertThat(occurrences(scalars, "BindParam(")).isEqualTo(10);
+    }
+
+    @Test
+    public void useRecordsDoesNotBindAQueryParameterThatIsAOneOfOrAnAnyOfByName() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-parameter-composed.yaml", Map.of());
+                // a oneOf (through an alias) and an anyOf: the members and what they hold keep step 3's result
+                for (String name : List.of("Cat2", "Dog2", "Toy", "Bird", "Fish")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // an allOf with one $ref is bound by name, and so are the members of an allOf of two objects
+                for (String name : List.of("Single", "Part", "PartA", "PartB")) {
+                    assertThat(sourceOf(files.get(name + ".java"))).contains("public record " + name + "(");
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'Cat2' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Dog2' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Toy' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Bird' is generated as a class: it is bound from request parameters",
+                "useRecords: model 'Fish' is generated as a class: it is bound from request parameters");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Single'") || m.contains("model 'PartA'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAContainerWithoutAnInitialValueAsAClass() throws IOException {
+        // without openApiNullable a nullable container has no initial value
+        List<String> nullable = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_CAUSES_SPEC, Map.of(SpringCodegen.OPENAPI_NULLABLE, "false"));
+                JavaFileAssert.assertThat(files.get("NullableContainer.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("BelowNullableContainer.java")).isNormalClass();
+                // a nullable model is a plain component then
+                assertThat(sourceOf(files.get("NullableModel.java"))).contains("public record NullableModel(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(nullable).contains(
+                "useRecords: model 'NullableContainer' is generated as a class: property 'values' is a container without an initial value",
+                "useRecords: model 'BelowNullableContainer' is generated as a class: it is nested in 'NullableContainer', a parameter object that is a class");
+        assertThat(nullable).noneMatch(m -> m.contains("model 'NullableModel'"));
+
+        // a container that defaults to null
+        List<String> toNull = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_CAUSES_SPEC,
+                        Map.of(AbstractJavaCodegen.CONTAINER_DEFAULT_TO_NULL, "true"));
+                JavaFileAssert.assertThat(files.get("PlainContainer.java")).isNormalClass();
+                JavaFileAssert.assertThat(files.get("BelowPlainContainer.java")).isNormalClass();
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(toNull).contains(
+                "useRecords: model 'PlainContainer' is generated as a class: property 'values' is a container without an initial value",
+                "useRecords: model 'BelowPlainContainer' is generated as a class: it is nested in 'PlainContainer', a parameter object that is a class");
+    }
+
+    @Test
+    public void useRecordsKeepsEverythingBelowAParameterObjectThatIsAClassAsClasses() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_GRAPH_SPEC, Map.of());
+                // the holder is a record, it holds a model that stays a class, and that model's own model is a class
+                for (String kind : List.of("Parent", "Additional", "Fail")) {
+                    assertThat(sourceOf(files.get("Holder" + kind + ".java"))).contains("public record Holder" + kind + "(");
+                    JavaFileAssert.assertThat(files.get("Kid" + kind + ".java")).isNormalClass();
+                    JavaFileAssert.assertThat(files.get("Grand" + kind + ".java")).isNormalClass();
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'KidParent' is generated as a class: it has a parent (Base)",
+                "useRecords: model 'KidAdditional' is generated as a class: it has additionalProperties",
+                "useRecords: model 'KidFail' is generated as a class: property 's' uses the FAIL null policy",
+                "useRecords: model 'GrandParent' is generated as a class: it is nested in 'KidParent', a parameter object that is a class",
+                "useRecords: model 'GrandAdditional' is generated as a class: it is nested in 'KidAdditional', a parameter object that is a class",
+                "useRecords: model 'GrandFail' is generated as a class: it is nested in 'KidFail', a parameter object that is a class");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Holder"));
+    }
+
+    @Test
+    public void useRecordsKeepsTheModelsOfAParameterObjectWithMoreThanTheLimitAsClasses() throws IOException {
+        StringBuilder many = new StringBuilder();
+        for (int i = 0; i < 251; i++) {
+            many.append("        p").append(i).append(": {type: string}\n");
+        }
+        String spec = "openapi: 3.0.3\ninfo: {title: nested, version: 1.0.0}\npaths:\n  /q:\n    get:\n      operationId: q\n"
+                + "      parameters:\n        - {name: q, in: query, schema: {$ref: '#/components/schemas/Holder'}}\n"
+                + "      responses:\n        '200': {description: ok}\n"
+                + "components:\n  schemas:\n"
+                + "    Holder:\n      type: object\n      properties:\n        kid: {$ref: '#/components/schemas/Kid'}\n"
+                + "    Kid:\n      type: object\n      properties:\n        grand: {$ref: '#/components/schemas/Grand'}\n" + many
+                + "    Grand:\n      type: object\n      properties:\n        value: {type: string}\n";
+        File specFile = File.createTempFile("records-nested-limit", ".yaml");
+        specFile.deleteOnExit();
+        Files.writeString(specFile.toPath(), spec);
+
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(specFile.getAbsolutePath(), Map.of());
+                assertSource(files, "Holder.java").contains("public record Holder(");
+                assertSource(files, "Kid.java").contains("public class Kid {").doesNotContain("record");
+                assertSource(files, "Grand.java").contains("public class Grand {").doesNotContain("record");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'Kid' is generated as a class: it has more than 250 properties",
+                "useRecords: model 'Grand' is generated as a class: it is nested in 'Kid', a parameter object that is a class");
+    }
+
+    @Test
+    public void useRecordsKeepsListAndMapElementsOfParameterObjectsAsClasses() throws IOException {
+        for (Map<String, Object> options : List.of(Map.<String, Object>of(),
+                Map.<String, Object>of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"))) {
+            List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+                try {
+                    Map<String, File> files = generateRecords(RECORDS_PARAMETER_GRAPH_SPEC, options);
+                    // the holder and a plain model property stay records
+                    for (String name : List.of("HolderLists", "Plain", "HolderAlias")) {
+                        assertThat(sourceOf(files.get(name + ".java"))).contains("public record " + name + "(");
+                    }
+                    // the item of an array property, the value of a map property, the item of an array alias, and
+                    // the model below an element
+                    for (String name : List.of("Element", "MapValue", "Tag", "ElementInner")) {
+                        JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                    }
+                } catch (IOException e) {
+                    throw new IllegalStateException(e);
+                }
+            });
+
+            assertThat(messages).contains(
+                    "useRecords: model 'Element' is generated as a class: it is a list or map element inside a parameter object",
+                    "useRecords: model 'MapValue' is generated as a class: it is a list or map element inside a parameter object",
+                    "useRecords: model 'Tag' is generated as a class: it is a list or map element inside a parameter object",
+                    "useRecords: model 'ElementInner' is generated as a class: it is nested in 'Element', a parameter object that is a class");
+            assertThat(messages).noneMatch(m -> m.contains("model 'Plain'") || m.contains("model 'Holder"));
+        }
+    }
+
+    @Test
+    public void useRecordsKeepsADiscriminatorBaseUsedAsAParameterObjectAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_GRAPH_SPEC, Map.of());
+                JavaFileAssert.assertThat(files.get("Base.java")).isNormalClass();
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Base' is generated as a class: it has child models");
+    }
+
+    @Test
+    public void useRecordsOffKeepsParameterObjectsAsClassesWithoutBindParam() throws IOException {
+        for (String spec : List.of(RECORDS_PARAMETER_NAMES_SPEC, RECORDS_PARAMETER_GRAPH_SPEC,
+                "src/test/resources/3_0/spring/records-parameters.yaml", "src/test/resources/3_0/spring/records-aliases.yaml")) {
+            Map<String, File> files = generateFromContract(spec, SPRING_BOOT);
+            for (Map.Entry<String, File> file : files.entrySet()) {
+                if (file.getKey().endsWith(".java") && file.getValue().getPath().contains("/model/")) {
+                    assertThat(sourceOf(file.getValue())).as(spec + " " + file.getKey())
+                            .doesNotContain("public record ", "BindParam");
+                }
+            }
+        }
     }
 
     @Test
@@ -11105,9 +11498,11 @@ public class SpringCodegenTest {
                 Map<String, File> files = generateOneOfRecords(Map.of(GENERATE_BUILDERS, "true"));
 
                 assertSource(files, "Mixed.java").contains("public sealed interface Mixed permits Blob, Reserved, Bound, Named, Fine {");
-                for (String name : List.of("Blob.java", "Reserved.java", "Bound.java", "Named.java")) {
+                for (String name : List.of("Blob.java", "Reserved.java", "Named.java")) {
                     assertSource(files, name).contains("public final class").contains("implements Mixed").doesNotContain("record");
                 }
+                // a parameter object is a record like any other member
+                assertSource(files, "Bound.java").contains("public record Bound(", ") implements Mixed {");
                 assertSource(files, "Fine.java").contains("public record Fine(", ") implements Mixed {");
             } catch (IOException e) {
                 throw new IllegalStateException(e);
@@ -11117,9 +11512,8 @@ public class SpringCodegenTest {
         assertThat(messages).contains(
                 "useRecords: model 'Blob' is generated as a class: property 'data' is a byte[]",
                 "useRecords: model 'Reserved' is generated as a class: property 'hashCode' cannot be a record component name",
-                "useRecords: model 'Bound' is generated as a class: it is bound from request parameters",
                 "useRecords: model 'Named' is generated as a class: property 'builder' clashes with a method of the record's builder");
-        assertThat(messages).noneMatch(m -> m.contains("model 'Fine'"));
+        assertThat(messages).noneMatch(m -> m.contains("model 'Fine'") || m.contains("model 'Bound'"));
     }
 
     @Test
@@ -11457,6 +11851,37 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity(), (a, b) -> a));
 
         JavaFileAssert.assertThat(files.get("Pet.java")).isNormalClass().fileDoesNotContain("record");
+    }
+
+    private static final String RECORDS_PARAMETER_DEFAULTS_SPEC = "src/test/resources/3_0/spring/records-parameter-defaults.yaml";
+
+    @Test
+    public void useRecordsKeepsAParameterObjectWithAModelDefaultAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_PARAMETER_DEFAULTS_SPEC, Map.of());
+                // a default with a value and an empty one: the binder fills the default's object in place only in a class
+                for (String name : List.of("Holder", "EmptyHolder", "Top", "EmptyTop")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // the same shape used only as a JSON body, and a model component without a default
+                assertThat(sourceOf(files.get("BodyHolder.java"))).contains("public record BodyHolder(");
+                assertThat(sourceOf(files.get("PlainHolder.java"))).contains("public record PlainHolder(");
+                assertThat(sourceOf(files.get("Plain.java"))).contains("public record Plain(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        String reason = "property 'top' is a model with a default, which the data binder fills in place only in a class";
+        assertThat(messages).contains(
+                "useRecords: model 'Holder' is generated as a class: " + reason,
+                "useRecords: model 'EmptyHolder' is generated as a class: " + reason,
+                "useRecords: model 'Top' is generated as a class: the default of property 'top' in model 'Holder' constructs it with new Top()",
+                "useRecords: model 'EmptyTop' is generated as a class: the default of property 'top' in model 'EmptyHolder' constructs it with new EmptyTop()");
+        assertThat(messages).noneMatch(m -> m.startsWith("useRecords: model 'BodyHolder' is generated as a class")
+                || m.startsWith("useRecords: model 'PlainHolder' is generated as a class")
+                || m.startsWith("useRecords: model 'Plain' is generated as a class"));
     }
 
     private static final String RECORDS_MODEL_DEFAULTS_SPEC = "src/test/resources/3_0/spring/records-model-defaults.yaml";

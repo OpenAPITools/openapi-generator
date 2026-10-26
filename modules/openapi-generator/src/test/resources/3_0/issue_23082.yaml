@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Issue 23082 reproduction
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    ExampleWithInnerEnums:
+      type: object
+      description: Example with inner enum class
+      properties:
+        exampleInner:
+          type: string
+          description: Example of an inner enum class
+          enum:
+            - ENUM1
+            - ENUM2
+            - ENUM3
+        nestedExamples:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              enum:
+                - NESTED1
+                - NESTED2
