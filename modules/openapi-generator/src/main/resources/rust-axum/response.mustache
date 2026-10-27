@@ -15,6 +15,43 @@ pub enum {{{operationId}}}Response {
     {{#vendorExtensions}}
     {{{x-response-id}}}
     {{/vendorExtensions}}
+    {{#range}}
+    {
+        status: u16,
+      {{#dataType}}
+        {{#vendorExtensions}}
+          {{#x-produces-sse}}
+        body: models::SSE,
+          {{/x-produces-sse}}
+          {{#x-produces-plain-text}}
+        body: String,
+          {{/x-produces-plain-text}}
+          {{#x-produces-bytes}}
+        body: ByteArray,
+          {{/x-produces-bytes}}
+          {{^x-produces-sse}}
+          {{^x-produces-plain-text}}
+          {{^x-produces-bytes}}
+        body: {{{dataType}}},
+          {{/x-produces-bytes}}
+          {{/x-produces-plain-text}}
+          {{/x-produces-sse}}
+        {{/vendorExtensions}}
+      {{/dataType}}
+      {{#headers}}
+        {{{name}}}:
+        {{^required}}
+        Option<
+        {{/required}}
+        {{{dataType}}}
+        {{^required}}
+        >
+        {{/required}}
+        ,
+      {{/headers}}
+    }
+    {{/range}}
+    {{^range}}
     {{^dataType}}
       {{#hasHeaders}}
     {
@@ -79,6 +116,7 @@ pub enum {{{operationId}}}Response {
     }
       {{/-last}}
     {{/headers}}
+    {{/range}}
     {{^-last}}
     ,
     {{/-last}}
