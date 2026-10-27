@@ -56,7 +56,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: '8.14.3'
+          gradle-version: '9.1.0'
       - name: Gradle tests
         run: |
           gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
