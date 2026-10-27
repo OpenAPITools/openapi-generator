@@ -218,7 +218,7 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.source}</target>
                     <annotationProcessors>
-                        lombok.launch.AnnotationProcessorHider$AnnotationProcessor,lombok.launch.AnnotationProcessorHider$ClaimingProcessor,javaslang.match.PatternsProcessor
+                        lombok.launch.AnnotationProcessorHider$AnnotationProcessor,lombok.launch.AnnotationProcessorHider$ClaimingProcessor
                     </annotationProcessors>
                     <annotationProcessorPaths>
                         <processorPath>
