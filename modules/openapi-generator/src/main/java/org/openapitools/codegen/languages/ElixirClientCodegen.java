@@ -633,7 +633,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
             } else {
                 return this.moduleName + ".Model." + refType + ".t";
             }
-        } else if (p.getType() == null) {
+        } else if (ModelUtils.getType(p) == null) {
+            // ModelUtils.getType also reads an OpenAPI 3.1 schema's `types`; getType() is null for those
             return "any()";
         }
         return super.getTypeDeclaration(p);
