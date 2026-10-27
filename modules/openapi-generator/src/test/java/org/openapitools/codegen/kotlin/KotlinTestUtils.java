@@ -11,9 +11,14 @@ import org.jetbrains.kotlin.cli.common.messages.MessageRenderer;
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector;
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles;
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment;
-import org.jetbrains.kotlin.scripting.compiler.plugin.KotlinToJVMBytecodeCompiler;
 import org.jetbrains.kotlin.cli.jvm.config.JvmContentRootsKt;
-import org.jetbrains.kotlin.codegen.state.GenerationState;
+import org.jetbrains.kotlin.cli.common.ExitCode;
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments;
+import org.jetbrains.kotlin.cli.common.messages.MessageCollector;
+import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler;
+import org.jetbrains.kotlin.config.Services;
+import org.jetbrains.kotlin.cli.common.messages.MessageRenderer;
+import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector;
 import org.jetbrains.kotlin.com.intellij.openapi.Disposable;
 import org.jetbrains.kotlin.config.CommonConfigurationKeys;
 import org.jetbrains.kotlin.config.CompilerConfiguration;
@@ -53,39 +58,51 @@ public class KotlinTestUtils {
 
     }
 
-    private static GenerationState compileModule(String moduleName, List<String> sourcePath, File saveClassesDir, ClassLoader classLoader, boolean forcedAddKotlinStd) {
-        Disposable stubDisposable = new StubDisposable();
-        CompilerConfiguration configuration = new CompilerConfiguration();
-        configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
-        configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
-        configuration.put(JVMConfigurationKeys.OUTPUT_DIRECTORY, saveClassesDir);
-//        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)
-        configuration.put(JVMConfigurationKeys.JVM_TARGET, JvmTarget.JVM_1_8);
-        Set<File> classPath = new HashSet<>();
-        if (classLoader != null) {
-            classPath.addAll(classpathFromClassloader(classLoader, false));
-        }
-        if (forcedAddKotlinStd) {
-            classPath.add(KotlinJars.INSTANCE.getStdlib());
-        }
-        JvmContentRootsKt.addJvmClasspathRoots(configuration, new ArrayList<>(classPath));
-        ContentRootsKt.addKotlinSourceRoots(configuration, sourcePath);
+    private static void compileModule(
+        String moduleName,
+        List<String> sourcePath,
+        File saveClassesDir,
+        ClassLoader classLoader,
+        boolean forcedAddKotlinStd) {
 
-        KotlinCoreEnvironment env = KotlinCoreEnvironment.createForProduction(stubDisposable, configuration, EnvironmentConfigFiles.JVM_CONFIG_FILES);
-        GenerationState result = KotlinToJVMBytecodeCompiler.INSTANCE.analyzeAndGenerate(env);
-        ps.flush();
-        if (result != null) {
-            return result;
-        } else {
-            String s;
-            try {
-                s = baos.toString("UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try (PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8)) {
+            MessageCollector messageCollector =
+                    new PrintingMessageCollector(
+                            ps,
+                            MessageRenderer.PLAIN_FULL_PATHS,
+                            true);
+
+            Set<File> classPath = new HashSet<>();
+            if (classLoader != null) {
+                classPath.addAll(classpathFromClassloader(classLoader, false));
             }
-            throw new IllegalStateException("Compilation error. Details:\n" + s);
+            if (forcedAddKotlinStd) {
+                classPath.add(KotlinJars.INSTANCE.getStdlib());
+            }
+
+            K2JVMCompiler compiler = new K2JVMCompiler();
+            K2JVMCompilerArguments arguments = compiler.createArguments();
+
+            arguments.setModuleName(moduleName);
+            arguments.setDestination(saveClassesDir.getAbsolutePath());
+            arguments.setJvmTarget("1.8");
+            arguments.setClasspath(
+                    classPath.stream()
+                            .map(File::getAbsolutePath)
+                            .collect(Collectors.joining(File.pathSeparator)));
+            arguments.setFreeArgs(sourcePath);
+
+            ExitCode exitCode = compiler.exec(
+                    messageCollector,
+                    Services.EMPTY,
+                    arguments);
+
+            if (exitCode != ExitCode.OK) {
+                throw new IllegalStateException(
+                        "Compilation error. Details:\n" + baos);
+            }
         }
     }
 
