@@ -1228,6 +1228,7 @@ components:
         email:
           type: string
         password:
+          format: password
           type: string
         phone:
           nullable: true
@@ -1433,6 +1434,7 @@ components:
         email:
           type: string
         password:
+          format: password
           type: string
         phone:
           nullable: true
