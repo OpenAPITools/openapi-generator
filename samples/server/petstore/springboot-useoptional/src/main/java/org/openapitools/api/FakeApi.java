@@ -459,7 +459,7 @@ public interface FakeApi {
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") Optional<String> enumQueryString,
         @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_integer", required = false) Optional<Integer> enumQueryInteger,
         @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_double", required = false) Optional<Double> enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) Optional<List<String>> enumFormStringArray,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestParam(value = "enum_form_string_array", required = false) Optional<List<String>> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @RequestParam(value = "enum_form_string", required = false) Optional<String> enumFormString
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

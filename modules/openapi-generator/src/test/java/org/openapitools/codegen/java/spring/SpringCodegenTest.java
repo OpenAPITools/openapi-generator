@@ -5714,6 +5714,21 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testUrlEncodedFormArraysUseRequestParam() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_14866.yaml", SPRING_BOOT,
+                Map.of(INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("IssueApi.java"))
+                .assertMethod("reproduceIssue", "List<String>", "List<String>")
+                .assertParameter("listOfStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"listOfStrings\"", "required", "false"))
+                .toParameter().toMethod()
+                .assertParameter("requiredStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"requiredStrings\"", "required", "true"));
+    }
+
+    @Test
     public void testAllArgsConstructor_16797() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
                 Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),

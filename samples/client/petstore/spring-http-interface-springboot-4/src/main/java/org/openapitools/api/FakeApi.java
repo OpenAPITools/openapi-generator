@@ -282,7 +282,7 @@ public interface FakeApi {
          @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 
