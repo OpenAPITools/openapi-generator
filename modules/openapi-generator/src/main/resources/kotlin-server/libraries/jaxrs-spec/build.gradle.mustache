@@ -41,16 +41,12 @@ apply plugin: "application"
 
 sourceCompatibility = 11
 
-tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
-    }
+tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
 
-tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileTestKotlin") {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
-    }
+tasks.named("compileTestKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
 
 repositories {
