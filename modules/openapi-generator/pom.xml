@@ -465,7 +465,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-script-util</artifactId>
-            <version>${kotlin.version}</version>
+            <version>1.8.22</version>
             <scope>test</scope>
         </dependency>
         <dependency>
