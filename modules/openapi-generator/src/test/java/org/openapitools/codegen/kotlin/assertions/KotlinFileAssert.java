@@ -29,7 +29,7 @@ public class KotlinFileAssert extends AbstractAssert<KotlinFileAssert, KtFile> {
     }
 
     public static KotlinFileAssert assertThat(final File file) {
-        final CompilerConfiguration config = new CompilerConfiguration();
+        CompilerConfiguration config = CompilerConfiguration.Companion.create();
         config.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.Companion.getNONE());
         final KotlinCoreEnvironment env = KotlinCoreEnvironment.createForProduction(Disposer.newDisposable(), config, EnvironmentConfigFiles.JVM_CONFIG_FILES);
         final VirtualFile vFile = new CoreLocalFileSystem().findFileByIoFile(file);
