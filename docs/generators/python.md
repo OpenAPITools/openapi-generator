@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lazyImports|Enable lazy imports.| |false|
+|lazyNativeImport|Use native lazy imports for generated APIs and models. Requires Python 3.15 or newer and Pydantic 2.14 or newer. Lazy imports load a module on first use rather than when the import statement is executed. Large clients can contain many Pydantic models that an application never uses; avoiding their eager loading can reduce startup work and initial memory use. The cost moves to first use, import errors and module initialization side effects may occur later, and gains depend on which APIs and models are used. Cannot be combined with lazyImports=true. Native imports are not guaranteed to use less memory than lazyImports.| |false|
 |library|library template (sub-template) to use: asyncio, urllib3, httpx, httpx2| |urllib3|
 |mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.| |Union[StrictFloat, StrictInt]|
 |packageName|python package name (convention: snake_case).| |openapi_client|
