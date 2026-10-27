@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.stream.Collectors;
 import java.util.*;
 
 import static kotlin.script.experimental.jvm.util.JvmClasspathUtilKt.classpathFromClassloader;
