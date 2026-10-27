@@ -102,7 +102,7 @@ public class KotlinTestUtils {
 
             if (exitCode != ExitCode.OK) {
                 throw new IllegalStateException(
-                        "Compilation error. Details:\n" + baos);
+                        "Compilation error. Details:\n" + baos.toString(StandardCharsets.UTF_8));
             }
         }
     }
