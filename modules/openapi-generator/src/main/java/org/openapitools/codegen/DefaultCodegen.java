@@ -3674,114 +3674,6 @@ public class DefaultCodegen implements CodegenConfig {
         return DiscriminatorUtils.recursiveGetDiscriminator(openAPI, this.getLegacyDiscriminatorBehavior(), sc, visitedSchemas);
     }
 
-    /**
-     * This function is only used for composed schemas which have a discriminator
-     * Process oneOf and anyOf models in a composed schema and adds them into
-     * a list if the oneOf and anyOf models contain
-     * the required discriminator. If they don't contain the required
-     * discriminator or the discriminator is the wrong type then an error is
-     * thrown
-     *
-     * @param composedSchemaName The String model name of the composed schema where we are setting the discriminator map
-     * @param discPropName       The String that is the discriminator propertyName in the schema
-     * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
-     * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
-     */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, Schema c) {
-        ArrayList<List<Schema>> listOLists = new ArrayList<>();
-        listOLists.add(c.getOneOf());
-        listOLists.add(c.getAnyOf());
-        List<MappedModel> descendentSchemas = new ArrayList<>();
-        for (List<Schema> schemaList : listOLists) {
-            if (schemaList == null) {
-                continue;
-            }
-            for (Schema sc : schemaList) {
-                if (ModelUtils.isNullType(sc)) {
-                    continue;
-                }
-                String ref = sc.get$ref();
-                if (ref == null) {
-                    // for schemas with no ref, it is not possible to build the discriminator map
-                    // because ref is how we get the model name
-                    // we only hit this use case for a schema with inline composed schemas, and one of those
-                    // schemas also has inline composed schemas
-                    // Note: if it is only inline one level, then the inline model resolver will move it into its own
-                    // schema and make it a $ref schema in the oneOf/anyOf location
-                    once(LOGGER).warn(
-                            "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition",
-                            composedSchemaName);
-                }
-                CodegenProperty df = DiscriminatorUtils.discriminatorFound(openAPI, composedSchemaName, sc, discPropName, new TreeSet<String>());
-                String modelName = ModelUtils.getSimpleRef(ref);
-                if (df == null || !df.isString || !df.required) {
-                    once(LOGGER).warn(getDiscriminatorSchemaError(df, discPropName, modelName, composedSchemaName));
-                }
-                MappedModel mm = new MappedModel(modelName, modelName, modelName, false);
-                descendentSchemas.add(mm);
-                Schema cs = ModelUtils.getSchema(openAPI, modelName);
-                if (cs == null) { // cannot lookup the model based on the name
-                    once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
-                } else {
-                    discriminatorVendorExtensionValue(cs)
-                            .ifPresent(discriminatorValue -> descendentSchemas.add(new MappedModel(discriminatorValue, modelName, modelName, true)));
-                }
-            }
-        }
-        return descendentSchemas;
-    }
-
-    protected List<MappedModel> getAllOfDescendants(String thisSchemaName) {
-        ArrayList<String> queue = new ArrayList();
-        List<MappedModel> descendentSchemas = new ArrayList();
-        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-        String currentSchemaName = thisSchemaName;
-        Set<String> keys = schemas.keySet();
-
-        int count = 0;
-        // hack: avoid infinite loop on potential self-references in event our checks fail.
-        while (100000 > count++) {
-            for (String childName : keys) {
-                if (childName.equals(thisSchemaName)) {
-                    continue;
-                }
-                Schema child = schemas.get(childName);
-                if (ModelUtils.isComposedSchema(child)) {
-                    List<Schema> parents = child.getAllOf();
-                    if (parents != null) {
-                        for (Schema parent : parents) {
-                            String ref = parent.get$ref();
-                            if (ref == null) {
-                                // for schemas with no ref, it is not possible to build the discriminator map
-                                // because ref is how we get the model name
-                                // we hit this use case when an allOf composed schema contains an inline schema
-                                continue;
-                            }
-                            String parentName = ModelUtils.getSimpleRef(ref);
-                            if (parentName != null && parentName.equals(currentSchemaName)) {
-                                if (queue.contains(childName) || descendentSchemas.stream().anyMatch(i -> childName.equals(i.getMappingName()))) {
-                                    throw new RuntimeException("Stack overflow hit when looking for " + thisSchemaName + " an infinite loop starting and ending at " + childName + " was seen");
-                                }
-                                queue.add(childName);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (queue.size() == 0) {
-                break;
-            }
-            currentSchemaName = queue.remove(0);
-            Schema cs = schemas.get(currentSchemaName);
-            String mappingName = discriminatorVendorExtensionValue(cs)
-                            .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, currentSchemaName, currentSchemaName, !mappingName.equals(currentSchemaName));
-            descendentSchemas.add(mm);
-        }
-        return descendentSchemas;
-    }
-
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         DiscriminatorData sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
         if (sourceDiscriminator == null) {
@@ -3822,7 +3714,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional
-                .ofNullable(DiscriminatorUtils.discriminatorFound(openAPI, schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .ofNullable(discriminatorFound(openAPI, schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
                 .map(CodegenProperty::getIsEnum)
                 .orElse(false);
         discriminator.setIsEnum(isEnum);
@@ -3833,8 +3725,7 @@ public class DefaultCodegen implements CodegenConfig {
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
-            List<MappedModel> otherDescendants =
-                    adjustModelNames(getAllOfDescendants(schemaName));
+            List<MappedModel> otherDescendants = adjustModelNames(getAllOfDescendants(openAPI, schemaName));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
@@ -3854,7 +3745,7 @@ public class DefaultCodegen implements CodegenConfig {
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants =
-                    adjustModelNames(getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema));
+                    adjustModelNames(getOneOfAnyOfDescendants(openAPI, schemaName, discriminatorPropertyName, schema));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the model names are not the same
                 if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
