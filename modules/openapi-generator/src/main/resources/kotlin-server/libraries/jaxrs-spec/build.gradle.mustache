@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 group "{{groupId}}"
 version "{{artifactVersion}}"
 
@@ -39,12 +41,16 @@ apply plugin: "application"
 
 sourceCompatibility = 11
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "11"
+tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
 }
 
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "11"
+tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileTestKotlin") {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
 }
 
 repositories {
