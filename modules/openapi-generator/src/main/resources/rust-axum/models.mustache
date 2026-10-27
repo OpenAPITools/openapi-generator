@@ -990,6 +990,9 @@ impl From<{{{dataType}}}> for {{{classname}}} {
 {{^oneOf.size}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+{{#vendorExtensions.x-rust-deny-unknown-fields}}
+#[serde(deny_unknown_fields)]
+{{/vendorExtensions.x-rust-deny-unknown-fields}}
 pub struct {{{classname}}} {
 {{#vars}}
 {{#description}}

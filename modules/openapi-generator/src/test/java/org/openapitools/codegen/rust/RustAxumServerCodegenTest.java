@@ -6,6 +6,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -18,6 +19,36 @@ import java.util.List;
 import static org.openapitools.codegen.TestUtils.linearize;
 
 public class RustAxumServerCodegenTest {
+    @DataProvider(name = "additionalPropertiesSpecs")
+    public Object[][] additionalPropertiesSpecs() {
+        return new Object[][] {
+                {"src/test/resources/3_0/rust-axum/additional-properties.yaml"},
+                {"src/test/resources/3_1/rust-axum/additional-properties.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "additionalPropertiesSpecs")
+    public void testAdditionalPropertiesFalse(String inputSpec) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec(inputSpec)
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        for (String model : List.of("ClosedObject", "ClosedNested", "ClosedOptional")) {
+            TestUtils.assertFileContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+        for (String model : List.of("OpenObject", "UnspecifiedObject", "TypedAdditionalProperties")) {
+            TestUtils.assertFileContains(modelsPath, "pub struct " + model + " {");
+            TestUtils.assertFileNotContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+    }
+
     @Test
     public void testObjectStructFieldIsPublic() throws IOException {
         Path target = Files.createTempDirectory("test");

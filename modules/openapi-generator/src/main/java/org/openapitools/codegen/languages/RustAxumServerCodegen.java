@@ -1421,6 +1421,20 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        final CodegenModel model = super.fromModel(name, schema);
+        // Only explicit false closes an object; an omitted keyword must retain its current behavior.
+        final Object additionalProperties = schema.getAdditionalProperties();
+        final boolean denyUnknownFields = Boolean.FALSE.equals(additionalProperties)
+                || (additionalProperties instanceof Schema
+                && Boolean.FALSE.equals(((Schema) additionalProperties).getBooleanSchemaValue()));
+        if (denyUnknownFields) {
+            model.vendorExtensions.put("x-rust-deny-unknown-fields", true);
+        }
+        return model;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap modelsMap) {
         for (ModelMap mo : modelsMap.getModels()) {
             CodegenModel cm = mo.getModel();
