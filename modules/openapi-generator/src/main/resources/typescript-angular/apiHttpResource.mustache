@@ -1,0 +1,78 @@
+    /**
+{{#summary}}
+     * {{.}}
+{{/summary}}
+{{#notes}}
+     * {{.}}
+{{/notes}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
+{{#hasRequiredParams}}
+     * @param params returns the request parameters. The resource stays idle while it returns undefined or a required parameter is null or undefined.
+{{/hasRequiredParams}}
+{{^hasRequiredParams}}
+{{#hasParams}}
+     * @param params returns the request parameters, all of them optional. The resource stays idle while it returns undefined.
+{{/hasParams}}
+{{/hasRequiredParams}}
+     * @param options resource and request options
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+{{#hasParams}}
+{{#hasRequiredParams}}
+    public {{nickname}}Resource(params: () => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined, options: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}> & { defaultValue: {{{vendorExtensions.x-angular-http-resource-type}}} }): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}}>;
+    public {{nickname}}Resource(params: () => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined, options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined>;
+    public {{nickname}}Resource(params: () => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined, options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined> {
+{{/hasRequiredParams}}
+{{^hasRequiredParams}}
+    public {{nickname}}Resource(params: (() => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined) | undefined, options: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}> & { defaultValue: {{{vendorExtensions.x-angular-http-resource-type}}} }): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}}>;
+    public {{nickname}}Resource(params?: () => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined, options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined>;
+    public {{nickname}}Resource(params: () => {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams | undefined = () => ({}), options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined> {
+{{/hasRequiredParams}}
+        const { context, transferCache, ...resourceOptions } = options ?? {};
+        return httpResource{{vendorExtensions.x-angular-http-resource-factory}}<{{{vendorExtensions.x-angular-http-resource-type}}}>(() => {
+            const requestParameters = params();
+            return requestParameters === undefined ? undefined : this.{{nickname}}ResourceRequest(requestParameters, context, transferCache);
+        }, resourceOptions);
+    }
+{{/hasParams}}
+{{^hasParams}}
+    public {{nickname}}Resource(options: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}> & { defaultValue: {{{vendorExtensions.x-angular-http-resource-type}}} }): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}}>;
+    public {{nickname}}Resource(options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined>;
+    public {{nickname}}Resource(options?: ApiHttpResourceOptions<{{{vendorExtensions.x-angular-http-resource-type}}}>): HttpResourceRef<{{{vendorExtensions.x-angular-http-resource-type}}} | undefined> {
+        const { context, transferCache, ...resourceOptions } = options ?? {};
+        return httpResource{{vendorExtensions.x-angular-http-resource-factory}}<{{{vendorExtensions.x-angular-http-resource-type}}}>(() => this.{{nickname}}ResourceRequest(context, transferCache), resourceOptions);
+    }
+{{/hasParams}}
+
+    private {{nickname}}ResourceRequest({{#hasParams}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/hasParams}}localVarHttpContext: HttpContext | undefined, localVarTransferCache: boolean | undefined): HttpResourceRequest{{#hasRequiredParams}} | undefined{{/hasRequiredParams}} {
+{{#allParams}}
+        const {{paramName}} = requestParameters.{{paramName}};
+{{#required}}
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            return undefined;
+        }
+{{/required}}
+{{/allParams}}
+
+{{>apiRequestQueryAndHeaders}}
+{{#vendorExtensions.x-angular-http-resource-accept}}
+        localVarHeaders = localVarHeaders.set('Accept', '{{{.}}}');
+{{/vendorExtensions.x-angular-http-resource-accept}}
+
+        let localVarPath = `{{{path}}}`;
+        const { basePath, withCredentials } = this.configuration;
+        return {
+            url: `${basePath}${localVarPath}`,
+            method: 'GET',
+{{#hasQueryParamsOrAuth}}
+            params: localVarQueryParameters.toHttpParams(),
+{{/hasQueryParamsOrAuth}}
+            headers: localVarHeaders,
+            context: localVarHttpContext ?? new HttpContext(),
+            transferCache: localVarTransferCache ?? true,
+            ...(withCredentials ? { withCredentials } : {}),
+        };
+    }
+

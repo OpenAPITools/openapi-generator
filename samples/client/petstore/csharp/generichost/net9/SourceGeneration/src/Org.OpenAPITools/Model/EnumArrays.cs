@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -348,8 +348,11 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
-            writer.WriteString("just_symbol", justSymbolRawValue);
+            if (enumArrays.JustSymbolOption.IsSet)
+            {
+                var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
+                writer.WriteString("just_symbol", justSymbolRawValue);
+            }
         }
     }
 

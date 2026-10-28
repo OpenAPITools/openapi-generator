@@ -1,0 +1,16 @@
+openapi: 3.2.0
+info:
+  title: issue 24212 unparseable-version test
+  version: '1.0'
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      responses:
+        '200':
+          description: OK
+    query:
+      operationId: queryTasks
+      responses:
+        '200':
+          description: OK

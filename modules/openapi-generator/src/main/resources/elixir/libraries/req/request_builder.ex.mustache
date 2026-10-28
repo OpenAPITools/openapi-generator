@@ -42,6 +42,8 @@ defmodule {{moduleName}}.RequestBuilder do
     Map.put_new(request, :url, url)
   end
 
+{{>encode_path_param}}
+
   @doc """
   Mark a request as multipart/form-data.
 

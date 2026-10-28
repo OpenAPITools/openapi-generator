@@ -221,11 +221,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
     }

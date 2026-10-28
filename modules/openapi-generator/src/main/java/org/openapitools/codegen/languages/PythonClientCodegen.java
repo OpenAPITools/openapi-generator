@@ -558,11 +558,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String apiFileFolder() {
         StringBuffer sb = new StringBuffer(outputFolder);
         sb.append(File.separatorChar);

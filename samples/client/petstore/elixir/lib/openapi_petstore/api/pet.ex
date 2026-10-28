@@ -67,7 +67,7 @@ defmodule OpenapiPetstore.Api.Pet do
     request =
       %{}
       |> method(:delete)
-      |> url("/pet/#{pet_id}")
+      |> url("/pet/#{encode_path_param(pet_id)}")
       |> add_optional_params(optional_params, opts)
       |> finalize_request()
       |> Enum.into([])
@@ -166,7 +166,7 @@ defmodule OpenapiPetstore.Api.Pet do
     request =
       %{}
       |> method(:get)
-      |> url("/pet/#{pet_id}")
+      |> url("/pet/#{encode_path_param(pet_id)}")
       |> finalize_request()
       |> Enum.into([])
 
@@ -241,7 +241,7 @@ defmodule OpenapiPetstore.Api.Pet do
     request =
       %{}
       |> method(:post)
-      |> url("/pet/#{pet_id}")
+      |> url("/pet/#{encode_path_param(pet_id)}")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
       |> finalize_request()
@@ -282,7 +282,7 @@ defmodule OpenapiPetstore.Api.Pet do
     request =
       %{}
       |> method(:post)
-      |> url("/pet/#{pet_id}/uploadImage")
+      |> url("/pet/#{encode_path_param(pet_id)}/uploadImage")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
       |> finalize_request()
@@ -321,7 +321,7 @@ defmodule OpenapiPetstore.Api.Pet do
     request =
       %{}
       |> method(:post)
-      |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
+      |> url("/fake/#{encode_path_param(pet_id)}/uploadImageWithRequiredFile")
       |> add_param(:file, :requiredFile, required_file)
       |> add_optional_params(optional_params, opts)
       |> finalize_request()

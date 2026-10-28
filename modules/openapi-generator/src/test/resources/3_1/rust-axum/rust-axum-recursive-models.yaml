@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Recursive models
+  description: Models that reference themselves, directly or through other models
+  version: 1.0.0
+paths:
+  /nodes:
+    get:
+      operationId: getNode
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+  /employees:
+    get:
+      operationId: getEmployee
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+  /pets:
+    get:
+      operationId: getPet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /shapes:
+    get:
+      operationId: getShape
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shape'
+components:
+  schemas:
+    Node:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        parent:
+          $ref: '#/components/schemas/Node'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+    Employee:
+      type: object
+      required:
+        - name
+        - manager
+      properties:
+        name:
+          type: string
+        manager:
+          anyOf:
+            - $ref: '#/components/schemas/Employee'
+            - type: 'null'
+        mentor:
+          oneOf:
+            - $ref: '#/components/schemas/Employee'
+            - type: 'null'
+        department:
+          $ref: '#/components/schemas/Department'
+    Department:
+      type: object
+      properties:
+        name:
+          type: string
+        head:
+          $ref: '#/components/schemas/Employee'
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/Owner'
+    Owner:
+      type: object
+      properties:
+        name:
+          type: string
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+    Circle:
+      type: object
+      properties:
+        radius:
+          type: number
+        inner:
+          $ref: '#/components/schemas/Shape'
+    Square:
+      type: object
+      properties:
+        side:
+          type: number

@@ -23,6 +23,7 @@ src/main/java/org/openapitools/model/Filter.java
 src/main/java/org/openapitools/model/Owner.java
 src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/PetKind.java
+src/main/java/org/openapitools/model/Range.java
 src/main/java/org/openapitools/model/Shape.java
 src/main/java/org/openapitools/model/Square.java
 src/main/java/org/openapitools/model/Vehicle.java

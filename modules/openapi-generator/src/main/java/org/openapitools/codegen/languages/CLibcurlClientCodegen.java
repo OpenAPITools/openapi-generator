@@ -695,11 +695,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toApiTestFilename(String name) {
         return ("test_" + toApiFilename(name)).replaceAll("_", "-");
     }
