@@ -1,4 +1,7 @@
 import flask
+{{#hasJsonHeaderParam}}
+import json
+{{/hasJsonHeaderParam}}
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -10,7 +13,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-handler-params}}):  # noqa: E501
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}} # noqa: E501
@@ -60,21 +63,71 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
     :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
     """
     {{#allParams}}
+        {{#isHeaderParam}}
+    {{paramName}} = flask.request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{/isHeaderParam}}
+        {{#isCookieParam}}
+    {{paramName}} = flask.request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{/isCookieParam}}
+        {{#vendorExtensions.x-python-connexion-cast-int}}
+    if {{paramName}} is not None:
+        {{paramName}} = int({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-int}}
+        {{#vendorExtensions.x-python-connexion-cast-float}}
+    if {{paramName}} is not None:
+        {{paramName}} = float({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-float}}
+        {{#vendorExtensions.x-python-connexion-cast-bool}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.lower() == 'true'
+        {{/vendorExtensions.x-python-connexion-cast-bool}}
+        {{#vendorExtensions.x-python-connexion-json-content}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = json.loads({{paramName}})
+        {{/vendorExtensions.x-python-connexion-json-content}}
+        {{#vendorExtensions.x-python-connexion-split-csv}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.split(',')
+        {{/vendorExtensions.x-python-connexion-split-csv}}
+        {{#vendorExtensions.x-python-connexion-cast-int-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [int(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-int-items}}
+        {{#vendorExtensions.x-python-connexion-cast-float-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [float(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-float-items}}
+        {{#vendorExtensions.x-python-connexion-cast-bool-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-bool-items}}
         {{#isBodyParam}}
     {{paramName}} = body
         {{/isBodyParam}}
         {{^isContainer}}
             {{#isDate}}
-    {{paramName}} = util.deserialize_date({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_date({{paramName}})
             {{/isDate}}
             {{#isDateTime}}
-    {{paramName}} = util.deserialize_datetime({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_datetime({{paramName}})
             {{/isDateTime}}
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if flask.request.is_json:
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(flask.request.get_json())  # noqa: E501
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
+                        {{/isBodyParam}}
+                        {{^isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})  # noqa: E501
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
+                        {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -82,32 +135,68 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
         {{#isArray}}
             {{#items}}
                 {{#isDate}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = [util.deserialize_date(s) for s in flask.request.get_json()]  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [util.deserialize_date(s) for s in {{paramName}}]  # noqa: E501
+                    {{/isBodyParam}}
                 {{/isDate}}
                 {{#isDateTime}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = [util.deserialize_datetime(s) for s in flask.request.get_json()]  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [util.deserialize_datetime(s) for s in {{paramName}}]  # noqa: E501
+                    {{/isBodyParam}}
                 {{/isDateTime}}
                 {{#complexType}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = [{{complexType}}.from_dict(d) for d in flask.request.get_json()]  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in {{paramName}}]  # noqa: E501
+                    {{/isBodyParam}}
                 {{/complexType}}
             {{/items}}
         {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isDate}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = {k: util.deserialize_date(v) for k, v in flask.request.get_json().items()}  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}.items()}  # noqa: E501
+                    {{/isBodyParam}}
                 {{/isDate}}
                 {{#isDateTime}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = {k: util.deserialize_datetime(v) for k, v in flask.request.get_json().items()}  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}.items()}  # noqa: E501
+                    {{/isBodyParam}}
                 {{/isDateTime}}
                 {{#complexType}}
+                    {{#isBodyParam}}
     if flask.request.is_json:
         {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in flask.request.get_json().items()}  # noqa: E501
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}.items()}  # noqa: E501
+                    {{/isBodyParam}}
                 {{/complexType}}
             {{/items}}
         {{/isMap}}

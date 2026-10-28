@@ -1,0 +1,51 @@
+openapi: 3.1.0
+
+info:
+  title: Map and free-form parameter test
+  version: 1.0.0
+
+paths:
+  /test:
+    get:
+      operationId: testParams
+      parameters:
+        - name: date_map
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+              format: date
+        - name: datetime_map
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+              format: date-time
+        - name: model_map
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Tag'
+        - name: free_form
+          in: query
+          schema:
+            type: object
+        - name: any_val
+          in: query
+          schema: {}
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string

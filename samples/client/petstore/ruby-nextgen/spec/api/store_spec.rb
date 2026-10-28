@@ -9,4 +9,8 @@ RSpec.describe Petstore::Api::Store do
     api = described_class.new(client.connection)
     expect(api).to be_a(described_class)
   end
+
+  it 'is reachable through the namespace client' do
+    expect(client.store.order).to be_a(Petstore::Api::Store::Order)
+  end
 end
