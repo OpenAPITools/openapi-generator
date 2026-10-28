@@ -546,7 +546,8 @@ public class RustClientCodegenTest {
             files.forEach(File::deleteOnExit);
             Path outputPath = Path.of(target.toString(), "/src/apis/mod.rs");
             TestUtils.assertFileExists(outputPath);
-            TestUtils.assertFileContains(outputPath, ".replace(\"+\", \"%20\")");
+            TestUtils.assertFileContains(outputPath, "percent_encoding::utf8_percent_encode(s.as_ref(), PATH_ENCODING_SET).to_string()");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/Cargo.toml"), "percent-encoding");
         }
     }
 }

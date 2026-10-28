@@ -17,6 +17,7 @@ chrono = { version = "^0.4",  features = ["serde"] }
 aws-sigv4 = "0.3.0"
 http = "0.2.5"
 secrecy = "0.8.0"
+percent-encoding = "^2.3.2"
 reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 
 [features]

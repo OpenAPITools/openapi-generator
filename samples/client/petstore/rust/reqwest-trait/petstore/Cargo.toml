@@ -15,6 +15,7 @@ url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
 chrono = { version = "^0.4",  features = ["serde"] }
 async-trait = "^0.1"
+percent-encoding = "^2.3.2"
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 mockall = { version = "^0.13", optional = true}
 [features]

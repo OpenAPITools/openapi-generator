@@ -16,6 +16,7 @@ uuid = { version = "^1.8", features = ["serde", "v4"] }
 chrono = { version = "^0.4",  features = ["serde"] }
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
+percent-encoding = "^2.3.2"
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 
 [dev-dependencies]
