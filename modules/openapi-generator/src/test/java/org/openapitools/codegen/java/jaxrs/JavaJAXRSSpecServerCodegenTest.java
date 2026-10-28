@@ -2817,6 +2817,18 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "@JsonFormat(shape=JsonFormat.Shape.POJO)"
         );
     }
+    @Test
+    public void testUseJackson3WithXml() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaJAXRSSpecServerCodegen.USE_JACKSON_3, true);
+        properties.put(CodegenConstants.WITH_XML, true);
+        Path output = generateWithSerializationLibrary(properties);
+
+        Path pom = output.resolve("pom.xml");
+        assertFileContains(pom,
+                "<artifactId>jakarta.xml.bind-api</artifactId>"
+        );
+    }
 
     @Test
     public void testSerializationLibraryJsonbWithJakartaEe() throws Exception {
