@@ -32,9 +32,9 @@ lazy val root = (project in file(".")).
       {{/withXml}}
 {{/useJackson3}}
 {{^useJackson3}}
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.21.7",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.21.8",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.21",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.21.7",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.21.8",
       {{#openApiNullable}}
       "org.openapitools" % "jackson-databind-nullable" % "0.2.13",
       {{/openApiNullable}}
