@@ -381,6 +381,30 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testIntegerBoundsNextToRefOrAllOfStayIntegers() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23445.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel("Bounds", openAPI.getComponents().getSchemas().get("Bounds"));
+
+        CodegenProperty refWithMaximum = varNamed(model, "refWithMaximum");
+        assertEquals("1", refWithMaximum.getMinimum());
+        assertEquals("5000", refWithMaximum.getMaximum());
+
+        CodegenProperty allOfWithMaximum = varNamed(model, "allOfWithMaximum");
+        assertEquals("1", allOfWithMaximum.getMinimum());
+        assertEquals("5000", allOfWithMaximum.getMaximum());
+
+        // more digits than a double can hold
+        CodegenProperty largeBounds = varNamed(model, "largeBounds");
+        assertEquals("-9007199254740993", largeBounds.getMinimum());
+        assertEquals("9007199254740993", largeBounds.getMaximum());
+    }
+
+    @Test
     public void testOAS31ContentMediaTypeBinaryFormParameter() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
         new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();

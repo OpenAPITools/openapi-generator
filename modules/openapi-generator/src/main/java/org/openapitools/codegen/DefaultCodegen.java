@@ -78,6 +78,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
@@ -4365,10 +4366,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                property.setMaximum(toNumericBound(original.getMaximum(), referencedSchema));
             }
             if (original.getMinimum() != null) {
-                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                property.setMinimum(toNumericBound(original.getMinimum(), referencedSchema));
             }
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
@@ -8547,10 +8548,10 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                codegenParameter.setMaximum(toNumericBound(original.getMaximum(), schema));
             }
             if (original.getMinimum() != null) {
-                codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                codegenParameter.setMinimum(toNumericBound(original.getMinimum(), schema));
             }
             /* comment out below as we don't store `title` in the codegen parametera the moment
             if (original.getTitle() != null) {
@@ -8560,6 +8561,22 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return codegenParameter;
+    }
+
+    /**
+     * Formats a minimum/maximum declared next to a $ref or a single allOf the same way as an inline one
+     * (see {@link ModelUtils#syncValidationProperties}): integer schemas get an integer, so e.g. `5000`
+     * does not become `5000.0` and large int64 bounds keep all their digits.
+     *
+     * @param bound  the minimum or maximum declared on the outer schema
+     * @param schema the schema the bound applies to
+     * @return the bound as a string
+     */
+    private static String toNumericBound(BigDecimal bound, Schema schema) {
+        if (ModelUtils.isIntegerSchema(schema)) {
+            return String.valueOf(bound.toBigInteger());
+        }
+        return String.valueOf(bound);
     }
 
     protected void addRequiredVarsMap(Schema schema, IJsonSchemaValidationProperties property) {

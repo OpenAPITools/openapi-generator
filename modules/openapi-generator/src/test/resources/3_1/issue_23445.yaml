@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  title: Integer bounds next to a $ref or allOf
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    SmallInteger:
+      type: integer
+      format: int32
+      minimum: 1
+    LargeInteger:
+      type: integer
+      format: int64
+    Bounds:
+      type: object
+      properties:
+        refWithMaximum:
+          $ref: '#/components/schemas/SmallInteger'
+          maximum: 5000
+        allOfWithMaximum:
+          allOf:
+            - $ref: '#/components/schemas/SmallInteger'
+          maximum: 5000
+        largeBounds:
+          $ref: '#/components/schemas/LargeInteger'
+          minimum: -9007199254740993
+          maximum: 9007199254740993
