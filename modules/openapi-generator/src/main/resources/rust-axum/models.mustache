@@ -990,6 +990,9 @@ impl From<{{{dataType}}}> for {{{classname}}} {
 {{^oneOf.size}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+{{#vendorExtensions.x-rust-deny-unknown-fields}}
+#[serde(deny_unknown_fields)]
+{{/vendorExtensions.x-rust-deny-unknown-fields}}
 pub struct {{{classname}}} {
 {{#vars}}
 {{#description}}
@@ -1111,7 +1114,7 @@ pub struct {{{classname}}} {
         {{/isNullable}}
 {{/hasValidation}}
 {{#required}}
-    pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+    pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{#vendorExtensions.x-is-boxed}}Box<{{/vendorExtensions.x-is-boxed}}{{{dataType}}}{{#vendorExtensions.x-is-boxed}}>{{/vendorExtensions.x-is-boxed}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
 {{^required}}
 {{#isNullable}}
@@ -1119,7 +1122,7 @@ pub struct {{{classname}}} {
     #[serde(default = "default_optional_nullable")]
 {{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{#vendorExtensions.x-is-boxed}}Box<{{/vendorExtensions.x-is-boxed}}{{{dataType}}}{{#vendorExtensions.x-is-boxed}}>{{/vendorExtensions.x-is-boxed}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
 
 {{/vars}}
@@ -1187,7 +1190,7 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#vendorExtensions.x-discriminator-multi}}{{{name}}}: {{{dataType}}}, {{/vendorExtensions.x-discriminator-multi}}{{^vendorExtensions.x-discriminator-multi}}{{^isString}}{{^vendorExtensions.x-discriminator-enum-variant}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/vendorExtensions.x-discriminator-multi}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{#vendorExtensions.x-is-boxed}}Box<{{/vendorExtensions.x-is-boxed}}{{{dataType}}}{{#vendorExtensions.x-is-boxed}}>{{/vendorExtensions.x-is-boxed}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#vendorExtensions.x-discriminator-multi}}{{{name}}}: {{{dataType}}}, {{/vendorExtensions.x-discriminator-multi}}{{^vendorExtensions.x-discriminator-multi}}{{^isString}}{{^vendorExtensions.x-discriminator-enum-variant}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/vendorExtensions.x-discriminator-multi}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
 {{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#vendorExtensions.x-discriminator-multi}}{{{name}}}{{/vendorExtensions.x-discriminator-multi}}{{^vendorExtensions.x-discriminator-multi}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#vendorExtensions.x-discriminator-enum-variant}}{{{name}}}: Self::_name_for_{{{name}}}(){{/vendorExtensions.x-discriminator-enum-variant}}{{^vendorExtensions.x-discriminator-enum-variant}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/vendorExtensions.x-discriminator-enum-variant}}{{/isString}}{{/vendorExtensions.x-discriminator-multi}}{{/isDiscriminator}},
 {{/vars}}
@@ -1335,7 +1338,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#vendorExtensions.x-is-boxed}}.map(Box::new){{/vendorExtensions.x-is-boxed}}{{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
             {{/isNullable}}
             {{/vars}}
         })

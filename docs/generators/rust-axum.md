@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowBlockingResponseSerialize|By default, json/form-urlencoded response serialization, which might perform a lot of compute in a future without yielding, is executed on a blocking thread via tokio::task::spawn_blocking. Set this option to true will override this behaviour and allow blocking call to happen. It helps to improve the performance when response serialization (e.g. returns tiny data) is low cost.| |false|
 |allowBlockingValidator|By default, validation process, which might perform a lot of compute in a future without yielding, is executed on a blocking thread via tokio::task::spawn_blocking. Set this option to true will override this behaviour and allow blocking call to happen. It helps to improve the performance when validating request-data (header, path, query, body) is low cost.| |false|
+|boxRecursiveModels|Wrap model fields that lead back to their own model (directly or through other models) in Box, so recursive models compile. Changes the type of those fields.| |false|
 |disableValidator|Disable validating request-data (header, path, query, body) against OpenAPI Schema Specification.| |false|
 |packageName|Rust crate name (convention: snake_case).| |openapi|
 |packageVersion|Rust crate version.| |null|
