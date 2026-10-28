@@ -208,6 +208,10 @@ export class {{classname}} extends BaseService {
                 responseType_ = 'text';
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
+{{#vendorExtensions.x-angular-wildcard-response-type}}
+            } else if (localVarHttpHeaderAcceptSelected === '*/*') {
+                responseType_ = '{{.}}';
+{{/vendorExtensions.x-angular-wildcard-response-type}}
             } else {
                 responseType_ = 'blob';
             }

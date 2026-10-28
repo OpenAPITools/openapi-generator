@@ -724,4 +724,39 @@ public class TypeScriptAngularClientCodegenTest {
         TestUtils.assertFileContains(service, "public getPetResourceResource(options?: ApiHttpResourceOptions<string>)");
         TestUtils.assertFileNotContains(service, "public getPetResource(options?: ApiHttpResourceOptions<string>)");
     }
+
+    @Test
+    public void testWildcardAcceptReadsTheBodyByReturnType() throws IOException {
+        // https://github.com/OpenAPITools/openapi-generator/issues/11494
+        File output = generateAngular("src/test/resources/3_0/typescript-angular/issue_11494.yaml", new HashMap<>());
+
+        String service = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        String wildcardBranch = "} else if (localVarHttpHeaderAcceptSelected === '*/*') {\n";
+        assertThat(operationBody(service, "getPet")).contains(wildcardBranch + "                responseType_ = 'json';");
+        assertThat(operationBody(service, "getPetNames")).contains(wildcardBranch + "                responseType_ = 'json';");
+        assertThat(operationBody(service, "getPetName")).contains(wildcardBranch + "                responseType_ = 'text';");
+        assertThat(operationBody(service, "getPetPhoto")).doesNotContain(wildcardBranch).contains("responseType: \"blob\"");
+        assertThat(operationBody(service, "getPetJson")).doesNotContain(wildcardBranch);
+    }
+
+    @Test
+    public void testHttpResourceFactoryForWildcardAcceptFollowsTheReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, true);
+        File output = generateAngular("src/test/resources/3_0/typescript-angular/issue_11494.yaml", properties);
+
+        String service = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        assertThat(operationBody(service, "getPetResource")).contains("return httpResource<Pet>(");
+        assertThat(operationBody(service, "getPetNamesResource")).contains("return httpResource<Array<string>>(");
+        assertThat(operationBody(service, "getPetNameResource")).contains("return httpResource.text<string>(");
+        assertThat(operationBody(service, "getPetPhotoResource")).contains("return httpResource.blob<Blob>(");
+    }
+
+    /** The implementation of the given method: from its last overload signature to the next method. */
+    private static String operationBody(String service, String method) {
+        int start = service.lastIndexOf("public " + method + "(");
+        assertThat(start).as(method).isNotNegative();
+        int end = service.indexOf("\n    public ", start + 1);
+        return end < 0 ? service.substring(start) : service.substring(start, end);
+    }
 }
