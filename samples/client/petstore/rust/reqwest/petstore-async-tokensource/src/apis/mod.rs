@@ -60,14 +60,10 @@ impl <T> From<std::io::Error> for Error<T> {
     }
 }
 
-/// Per RFC3986, valid path characters are unreserved, pct-encoded, sub-delims, ":" and "@".
-/// Everything else is encoded. RFC3986 refers (src: https://www.rfc-editor.org/info/rfc3986/#section-3.3).
+/// Encode everything in path param, except unreserved characters.
+/// RFC3986 refers (src: https://www.rfc-editor.org/info/rfc3986/#section-2.3).
 const PATH_ENCODING_SET: &percent_encoding::AsciiSet = &percent_encoding::NON_ALPHANUMERIC
-    .remove(b'-').remove(b'.').remove(b'_').remove(b'~') // Unreserved characters (ref 2.3)
-    .remove(b'!').remove(b'$').remove(b'&').remove(b'\'') // Sub-delims (ref 2.2)
-    .remove(b'(').remove(b')').remove(b'*').remove(b'+')
-    .remove(b',').remove(b';').remove(b'=')
-    .remove(b':').remove(b'@'); // pchar (ref 3.3)
+    .remove(b'-').remove(b'.').remove(b'_').remove(b'~');
 
 pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     percent_encoding::utf8_percent_encode(s.as_ref(), PATH_ENCODING_SET).to_string()
