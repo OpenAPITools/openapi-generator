@@ -31,7 +31,7 @@ enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDe
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): Color {
-            return values().firstOrNull{ it.value == value }
+            return entries.firstOrNull{ it.value == value }
                 ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Color'")
         }
     }

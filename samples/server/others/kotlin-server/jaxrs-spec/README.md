@@ -3,7 +3,7 @@
 ## Requires
 
 * Kotlin 2.4.20
-* Gradle 6.8.2
+* Gradle 8.10.2
 
 ## Build
 

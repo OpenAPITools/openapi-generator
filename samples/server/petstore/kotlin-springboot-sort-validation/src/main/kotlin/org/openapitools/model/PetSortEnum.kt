@@ -29,7 +29,7 @@ enum class PetSortEnum(@get:JsonValue val value: kotlin.String) : java.io.Serial
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): PetSortEnum {
-            return values().firstOrNull{ it.value == value }
+            return entries.firstOrNull{ it.value == value }
                 ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'PetSortEnum'")
         }
     }

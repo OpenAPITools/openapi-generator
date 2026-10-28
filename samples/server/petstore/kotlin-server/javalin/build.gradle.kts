@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.25"
+    kotlin("jvm") version "2.4.20"
 }
 
 group = "org.openapitools"
@@ -12,8 +13,10 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 dependencies {

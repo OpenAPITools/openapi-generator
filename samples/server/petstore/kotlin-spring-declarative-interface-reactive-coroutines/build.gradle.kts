@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 group = "org.openapitools"
 version = "1.0.0"
@@ -9,8 +10,10 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 plugins {

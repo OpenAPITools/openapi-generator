@@ -1,8 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 group "org.openapitools"
 version "1.0.0"
 
 wrapper {
-    gradleVersion = '8.14.4'
+    gradleVersion = '8.14.5'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -28,12 +30,12 @@ apply plugin: "application"
 
 sourceCompatibility = 11
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "11"
+tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
 
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "11"
+tasks.named("compileTestKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
 
 repositories {
