@@ -66,6 +66,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -11307,7 +11308,8 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).contains(
-                "useRecords: model 'KidParent' is generated as a class: it has a parent (Base)",
+                "useRecords: model 'KidParent' is generated as a class: its family, with the parent 'Base', cannot be records: "
+                        + "model 'Base' is bound from request parameters",
                 "useRecords: model 'KidAdditional' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3,
                 "useRecords: model 'KidFail' is generated as a class: property 's' uses the FAIL null policy",
                 "useRecords: model 'GrandParent' is generated as a class: it is nested in 'KidParent', a parameter object that is a class",
@@ -11388,7 +11390,8 @@ public class SpringCodegenTest {
                 throw new IllegalStateException(e);
             }
         });
-        assertThat(messages).contains("useRecords: model 'Base' is generated as a class: it has child models");
+        assertThat(messages).contains("useRecords: model 'Base' is generated as a class: it is the parent of a family that cannot be records: "
+                + "model 'Base' is bound from request parameters");
     }
 
     @Test
@@ -11406,12 +11409,43 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void useRecordsMakesTheVehicleFamilyOfTheSampleSpecAnInterfaceAndRecords() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(USE_SEALED, "true", GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Vehicle.java")
+                .contains("public sealed interface Vehicle permits Bike, Car {", "String type();", "Integer wheels();",
+                        "FuelEnum fuel();", "public enum FuelEnum {")
+                .doesNotContain("Builder");
+        assertSource(files, "Car.java")
+                .contains("public record Car(", ") implements Vehicle {", "    String type,", "    @Nullable Integer wheels,",
+                        "    FuelEnum fuel,", "    @Nullable Integer doors", "public Car.Builder fuel(FuelEnum fuel) {")
+                .doesNotContain("enum FuelEnum");
+    }
+
+    @Test
+    public void useRecordsFamilyInterfaceCarriesNoCascadeMarkerWhileTheChildRecordsKeepIt() throws IOException {
+        // Hibernate Validator rejects a cascade marker on a method return value that is also marked in the
+        // implementing class (HV000131), so only the records cascade
+        for (String spring : List.of("false", "true")) {
+            Map<String, File> files = generateRecords(RECORDS_SPEC,
+                    Map.of(USE_SPRING_BOOT4, spring, USE_SEALED, "true", GENERATE_BUILDERS, "true"));
+
+            assertSource(files, "Vehicle.java")
+                    .contains("Owner owner();", "List<Owner> previousOwners();", "OffsetDateTime registeredAt();",
+                            "@NotNull \n  @Schema(name = \"type\"", "@JsonProperty(\"owner\")")
+                    .doesNotContain("@Valid");
+            String car = sourceOf(files.get("Car.java"));
+            assertThat(car).containsPattern("@Valid\\s+@Schema\\(name = \"owner\".*\\s+@JsonProperty\\(\"owner\"\\)\\s+@Nullable Owner owner,");
+            assertThat(car).contains("List<@Valid Owner> previousOwners,");
+            assertThat(car).containsPattern("@Valid\\s+@Schema\\(name = \"registeredAt\".*\\s+@JsonProperty\\(\"registeredAt\"\\)\\s+@Nullable OffsetDateTime registeredAt,");
+        }
+    }
+
+    @Test
     public void useRecordsKeepsOtherModelsAsClasses() throws IOException {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
             try {
                 Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of());
-                JavaFileAssert.assertThat(files.get("Car.java")).isNormalClass().extendsClass("Vehicle");
-                JavaFileAssert.assertThat(files.get("Vehicle.java")).isNormalClass();
                 JavaFileAssert.assertThat(files.get("Counters.java")).isNormalClass();
                 JavaFileAssert.assertThat(files.get("Shape.java")).isInterface();
             } catch (IOException e) {
@@ -11420,11 +11454,10 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).contains(
-                "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
-                "useRecords: model 'Vehicle' is generated as a class: it has child models",
                 "useRecords: model 'Counters' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'")
-                || m.contains("model 'Circle'") || m.contains("model 'Square'"));
+                || m.contains("model 'Circle'") || m.contains("model 'Square'") || m.contains("model 'Car'")
+                || m.contains("model 'Vehicle'"));
     }
 
     @Test
@@ -11593,9 +11626,8 @@ public class SpringCodegenTest {
     public void useRecordsBuilderKeepsTheClassBuilderForFallbackClasses() throws IOException {
         Map<String, File> files = generateRecords(RECORDS_SPEC, Map.of(GENERATE_BUILDERS, "true"));
 
-        assertThat(sourceOf(files.get("Vehicle.java")))
-                .contains("public class Vehicle", "private Vehicle instance;", "The builder is not reusable");
-        assertThat(sourceOf(files.get("Counters.java"))).contains("public class Counters", "private Counters instance;");
+        assertThat(sourceOf(files.get("Counters.java")))
+                .contains("public class Counters", "private Counters instance;", "The builder is not reusable");
         assertThat(sourceOf(files.get("Pet.java"))).doesNotContain("private Pet instance");
     }
 
@@ -11874,7 +11906,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void useRecordsMixesRecordsAndClassesInPermits() throws IOException {
+    public void useRecordsMakesAOneOfMemberThatExtendsAParentARecordOfAllItsProperties() throws IOException {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
             try {
                 Map<String, File> files = generateOneOfRecords(Map.of());
@@ -11883,17 +11915,17 @@ public class SpringCodegenTest {
                 assertSource(files, "Van.java").contains("public record Van(", ") implements Vehicle {",
                         "public String getVkind()");
                 assertSource(files, "Moped.java").contains("public record Moped(", ") implements Vehicle {");
-                // a member with a parent stays a class, final through sealed.mustache, and keeps the inherited getter
-                assertSource(files, "Truck.java").contains("public final class Truck extends VehicleBase implements Vehicle {")
-                        .doesNotContain("record");
+                // a member that extends a parent is a record of all its properties and implements the parent and the oneOf
+                assertSource(files, "Truck.java").contains("public record Truck(", ") implements VehicleBase, Vehicle {",
+                        "    String vkind,", "    @Nullable String plate,", "    @Nullable Integer payload", "public String getVkind()")
+                        .doesNotContain("extends");
+                assertSource(files, "VehicleBase.java").contains("public sealed interface VehicleBase permits Truck {", "String vkind();");
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         });
 
-        assertThat(messages).contains(
-                "useRecords: model 'Truck' is generated as a class: it has a parent (VehicleBase)",
-                "useRecords: model 'VehicleBase' is generated as a class: it has child models");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Truck'") || m.contains("model 'VehicleBase'"));
     }
 
     @Test
@@ -11997,7 +12029,7 @@ public class SpringCodegenTest {
                     .contains("true".equals(sealed) ? "public sealed interface Pet permits Cat, Dog {" : "public interface Pet {");
             if ("false".equals(sealed)) {
                 assertSource(files, "Pet.java").doesNotContain("sealed", "permits");
-                assertSource(files, "Truck.java").contains("public class Truck extends VehicleBase implements Vehicle {");
+                assertSource(files, "Truck.java").contains("public record Truck(", ") implements VehicleBase, Vehicle {");
             }
         }
     }
@@ -12420,15 +12452,17 @@ public class SpringCodegenTest {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
             try {
                 Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
-                assertSource(files, "Child.java").contains("public class Child extends Base");
+                // the allOf child is a flat record of the parent's property; the generator drops the child's own
+                // additionalProperties for the class as well
+                assertSource(files, "Child.java").contains("public record Child(", ") implements Base {");
+                assertSource(files, "Base.java").contains("public interface Base {");
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         });
 
-        assertThat(messages).contains(
-                "useRecords: model 'Child' is generated as a class: it has a parent (Base)");
-        assertThat(messages).noneMatch(m -> m.contains("model 'Tagged'") || m.contains("model 'Loose'")
+        assertThat(messages).noneMatch(m -> m.contains("model 'Child'") || m.contains("model 'Base'")
+                || m.contains("model 'Tagged'") || m.contains("model 'Loose'")
                 || m.contains("model 'Typed'") || m.contains("model 'Holder'"));
     }
 
@@ -12576,5 +12610,245 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).noneMatch(m -> m.contains("model 'URI'"));
+    }
+    private static final String RECORDS_ALLOF_SPEC = "src/test/resources/3_0/spring/records-allof.yaml";
+
+    @Test
+    public void useRecordsMakesTheParentOfAnAllOfFamilyAnInterfaceAndTheChildrenFlatRecords() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of(USE_SEALED, "true"));
+
+        // the parent keeps the type-info block it has as a class, lists the children only, and has no record of its own
+        assertSource(files, "Pet.java")
+                .contains("public sealed interface Pet permits Cat, Dog, Plain {",
+                        "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"petType\", visible = true)",
+                        "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")",
+                        "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")",
+                        "@JsonSubTypes.Type(value = Plain.class, name = \"plain\")",
+                        "  @NotNull @Size(max = 10) \n  @Schema(name = \"name\", requiredMode = Schema.RequiredMode.REQUIRED)\n  @JsonProperty(\"name\")\n  String name();",
+                        "  @Min(value = 1) \n  @Schema(name = \"weight\", requiredMode = Schema.RequiredMode.NOT_REQUIRED)\n  @JsonProperty(\"weight\")\n  Integer weight();",
+                        "  JsonNullable<String> nick();",
+                        "  List<String> tags();",
+                        "  StatusEnum status();")
+                .doesNotContain("record Pet", "class Pet", "PetImpl");
+        // one accessor for each of the seven properties and nothing else
+        assertThat(occurrences(sourceOf(files.get("Pet.java")), "();")).isEqualTo(7);
+        // a child lists all properties in the class's order, the parent's first, and implements the parent and its oneOf
+        assertSource(files, "Cat.java")
+                .contains("public record Cat(", ") implements Pet, PetPick {",
+                        "    String petType,", "    String name,", "    Integer weight,", "    List<String> tags,",
+                        "    JsonNullable<String> nick,", "    StatusEnum status,", "    @Nullable String secret,", "    Integer lives",
+                        "  public Cat {", "      weight = 5;", "      status = StatusEnum.ACTIVE;", "  public String getPetType() {")
+                .doesNotContain("extends", "enum StatusEnum", "class Cat");
+        assertThat(sourceOf(files.get("Cat.java")).indexOf("String petType,"))
+                .isLessThan(sourceOf(files.get("Cat.java")).indexOf("Integer lives"));
+        // a child with no property of its own is a record of the parent's properties; one that is not a oneOf member
+        // implements only the parent
+        assertSource(files, "Plain.java")
+                .contains("public record Plain(", ") implements Pet {", "    String petType,", "    @Nullable String secret")
+                .doesNotContain("getPetType");
+    }
+
+    @Test
+    public void useRecordsGivesAFamilyChildTheInlineEnumsOfItsOwnAndInheritsThoseOfTheParent() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+        // the enum of the parent is a member of the interface that the record inherits
+        assertSource(files, "Pet.java").contains("public enum StatusEnum {", "StatusEnum status();");
+        assertSource(files, "Dog.java")
+                .contains("    StatusEnum status,", "public enum SizeEnum {", "    @Nullable SizeEnum size")
+                .doesNotContain("enum StatusEnum");
+        assertThat(occurrences(sourceOf(files.get("Dog.java")), "enum ")).isEqualTo(1);
+    }
+
+    @Test
+    public void useRecordsWithoutUseSealedLeavesTheFamilyInterfaceOpen() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+        assertSource(files, "Pet.java").contains("public interface Pet {").doesNotContain("sealed", "permits");
+        assertSource(files, "Cat.java").contains(") implements Pet, PetPick {");
+    }
+
+    @Test
+    public void useRecordsFamilyBuildersCoverEveryComponentIncludingTheParents() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of(GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Cat.java")
+                .contains("public Cat.Builder petType(String petType) {", "public Cat.Builder name(String name) {",
+                        "public Cat.Builder lives(Integer lives) {", "public Cat.Builder nick(JsonNullable<String> nick) {",
+                        "return new Cat(this.petType, this.name, this.weight, this.tags, this.nick, this.status, this.secret, this.lives);",
+                        "this.secret = value.secret();");
+        assertSource(files, "Plain.java")
+                .contains("return new Plain(this.petType, this.name, this.weight, this.tags, this.nick, this.status, this.secret);");
+        assertSource(files, "Pet.java").doesNotContain("Builder");
+    }
+
+    @Test
+    public void useRecordsMasksTheParentsPasswordInTheToStringOfAFamilyChild() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+        assertSource(files, "Cat.java").contains("+ \", secret=\" + \"*\"").doesNotContain("+ \", secret=\" + secret");
+        assertSource(files, "Plain.java").contains("+ \", secret=\" + \"*\"");
+    }
+
+    @Test
+    public void useRecordsNamesTheChildrenOfAFamilyWithoutMappingByTheirSchemaNames() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+        assertSource(files, "Gadget.java")
+                .contains("public interface Gadget {", "@JsonSubTypes.Type(value = Phone.class, name = \"Phone\")",
+                        "@JsonSubTypes.Type(value = Watch.class, name = \"Watch\")", "String gadgetType();", "String serial();")
+                .doesNotContain("Gadget.class");
+        assertSource(files, "Phone.java")
+                .contains("public record Phone(", "    String gadgetType,", "    @Nullable String serial,", "    @Nullable String number",
+                        ") implements Gadget {");
+    }
+
+    @Test
+    public void useRecordsFamilyMembersKeepTheirUsesAsTypes() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+        assertSource(files, "Holder.java").contains("public record Holder(", "Pet pet,", "List<@Valid Pet> pets,", "Cat cat");
+        assertSource(files, "PetPick.java").contains("public interface PetPick {", "public String getPetType();");
+    }
+
+    @Test
+    public void useRecordsMakesAnAllOfWithoutDiscriminatorARecordLikeAnyOtherModel() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+                // merged into flat properties by the generator: no extends, no interface, nothing to say about it
+                assertSource(files, "FlatChild.java")
+                        .contains("public record FlatChild(", "    Long id,", "    @Nullable String name,", "    @Nullable String extra")
+                        .doesNotContain("implements", "extends");
+                assertSource(files, "FlatBase.java").contains("public record FlatBase(");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        assertThat(messages).noneMatch(m -> m.contains("model 'FlatChild'") || m.contains("model 'FlatBase'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAFamilyThatDoesNotQualifyAsClassesAndNamesTheParentAndTheCause() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC, Map.of());
+
+                for (String name : List.of("Chain", "ChainMid", "ChainLeaf", "Over", "OverChild", "Marked", "MarkedChild",
+                        "SelfRef", "SelfChild", "OpenBase", "OpenChild", "MemberBase", "MemberChild", "BlobBase",
+                        "BlobChild", "GetBase", "GetChild", "Filter", "NarrowFilter")) {
+                    assertSource(files, name + ".java").contains("public class " + name).doesNotContain("record ", "interface ");
+                }
+                assertSource(files, "ChainLeaf.java").contains("public class ChainLeaf extends ChainMid");
+                assertSource(files, "Over.java").contains("public class Over");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        String parent = "it is the parent of a family that cannot be records: ";
+        Map<String, String> causes = new LinkedHashMap<>();
+        causes.put("Chain", "the hierarchy is deeper than one level ('ChainLeaf' extends 'ChainMid')");
+        causes.put("Over", "'OverChild' redeclares the property 'name' of the parent");
+        causes.put("Marked", "the parent has no discriminator of its own");
+        causes.put("SelfRef", "the discriminator mapping names the parent itself ('base')");
+        causes.put("OpenBase", "the parent has additionalProperties");
+        causes.put("MemberBase", "the parent is a member of the oneOf interface Either");
+        causes.put("BlobBase", "model 'BlobChild': property 'data' is a byte[]");
+        causes.put("GetBase", "model 'GetBase': property 'getName' has a Java name that starts with 'get'");
+        causes.put("Filter", "model 'Filter' is bound from request parameters");
+        Map<String, List<String>> membersOf = Map.of("Chain", List.of("ChainMid", "ChainLeaf"), "Over", List.of("OverChild"),
+                "Marked", List.of("MarkedChild"), "SelfRef", List.of("SelfChild"), "OpenBase", List.of("OpenChild"),
+                "MemberBase", List.of("MemberChild"), "BlobBase", List.of("BlobChild"), "GetBase", List.of("GetChild"),
+                "Filter", List.of("NarrowFilter"));
+        for (Map.Entry<String, String> cause : causes.entrySet()) {
+            String familyParent = cause.getKey();
+            assertThat(messages).contains(
+                    "useRecords: model '" + familyParent + "' is generated as a class: " + parent + cause.getValue());
+            for (String member : membersOf.get(familyParent)) {
+                assertThat(messages).contains("useRecords: model '" + member + "' is generated as a class: "
+                        + "its family, with the parent '" + familyParent + "', cannot be records: " + cause.getValue());
+            }
+        }
+        // nothing of the qualifying families is reported
+        assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Cat'") || m.contains("model 'Dog'")
+                || m.contains("model 'Plain'") || m.contains("model 'Gadget'") || m.contains("model 'Phone'")
+                || m.contains("model 'Watch'") || m.contains("model 'Holder'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAFamilyAsClassesWhenAChildPropertyHasTheJavaNameOfAParentProperty() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-allof-java-name.yaml", Map.of());
+
+                for (String name : List.of("Shade", "DarkShade")) {
+                    assertSource(files, name + ".java").contains("public class " + name).doesNotContain("record ", "interface ");
+                }
+                assertSource(files, "DarkShade.java").contains("public class DarkShade extends Shade");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        String cause = "'DarkShade' has the property 'myColor' with the Java name 'myColor' of the parent's property 'my_color'";
+        assertThat(messages).contains(
+                "useRecords: model 'Shade' is generated as a class: it is the parent of a family that cannot be records: " + cause,
+                "useRecords: model 'DarkShade' is generated as a class: its family, with the parent 'Shade', cannot be records: " + cause);
+    }
+
+    @Test
+    public void useRecordsKeepsAFamilyWithAMiddleModelAsClassesAndNamesTheMiddleModel() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-allof-middle.yaml", Map.of());
+
+                for (String name : List.of("Top", "Mid", "Leaf", "AloneTop", "AloneMid", "PlainTop", "PlainMid", "PlainLeaf")) {
+                    assertSource(files, name + ".java").contains("public class " + name).doesNotContain("record ", "interface ");
+                }
+                assertSource(files, "Mid.java").contains("public class Mid extends Top");
+                assertSource(files, "Leaf.java").contains("public class Leaf extends Mid");
+                assertSource(files, "PlainLeaf.java").contains("public class PlainLeaf extends PlainMid");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        String parent = "it is the parent of a family that cannot be records: ";
+        String cause = "'Mid' has child models of its own";
+        assertThat(messages).contains("useRecords: model 'Top' is generated as a class: " + parent + cause);
+        assertThat(messages).contains("useRecords: model 'Mid' is generated as a class: its family, with the parent 'Top', cannot be records: " + cause);
+        // a middle model with a discriminator of its own and no children
+        String own = "'AloneMid' has a discriminator of its own";
+        assertThat(messages).contains("useRecords: model 'AloneTop' is generated as a class: " + parent + own);
+        assertThat(messages).contains("useRecords: model 'AloneMid' is generated as a class: its family, with the parent 'AloneTop', cannot be records: " + own);
+        // Leaf is in no family of Top; the child of a class keeps its parent a class
+        assertThat(messages).anyMatch(m -> m.startsWith("useRecords: model 'Leaf' is generated as a class: "));
+        // a middle model with children but no discriminator of its own: the codegen's walk reaches the leaf from the top
+        String plainCause = "the hierarchy is deeper than one level ('PlainLeaf' extends 'PlainMid')";
+        assertThat(messages).anyMatch(m -> m.startsWith("useRecords: model 'PlainTop' is generated as a class: ")
+                && m.contains(parent) && m.contains(plainCause));
+        assertThat(messages).anyMatch(m -> m.startsWith("useRecords: model 'PlainMid' is generated as a class: ")
+                && m.contains("the parent 'PlainTop'") && m.contains(plainCause));
+    }
+
+    @Test
+    public void useRecordsOffKeepsTheFamilyAsClasses() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_ALLOF_SPEC, SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Pet.java")).isNormalClass();
+        JavaFileAssert.assertThat(files.get("Cat.java")).isNormalClass().extendsClass("Pet");
+        JavaFileAssert.assertThat(files.get("Plain.java")).isNormalClass().extendsClass("Pet");
+    }
+
+    @Test
+    public void useRecordsFamiliesWithSpringBoot4AndJackson3() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ALLOF_SPEC,
+                Map.of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true", USE_SEALED, "true", GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Pet.java").contains("public sealed interface Pet permits Cat, Dog, Plain {", "String petType();");
+        assertSource(files, "Cat.java").contains("public record Cat(", ") implements Pet, PetPick {", "public Cat.Builder lives(Integer lives) {");
     }
 }

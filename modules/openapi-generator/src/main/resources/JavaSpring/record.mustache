@@ -99,6 +99,7 @@ public record {{classname}}(
   private static final long serialVersionUID = 1L;
 {{/serializableModel}}
   {{#vars}}
+    {{^vendorExtensions.x-record-inherited}}
     {{#isEnum}}
     {{^isContainer}}
 
@@ -111,6 +112,7 @@ public record {{classname}}(
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
+    {{/vendorExtensions.x-record-inherited}}
   {{/vars}}
   {{#vendorExtensions.x-record-has-initial-values}}
 

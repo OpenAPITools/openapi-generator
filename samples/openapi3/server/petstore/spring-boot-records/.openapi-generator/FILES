@@ -14,6 +14,7 @@ src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/Account.java
 src/main/java/org/openapitools/model/Animal.java
+src/main/java/org/openapitools/model/Bike.java
 src/main/java/org/openapitools/model/Car.java
 src/main/java/org/openapitools/model/Cat.java
 src/main/java/org/openapitools/model/Circle.java

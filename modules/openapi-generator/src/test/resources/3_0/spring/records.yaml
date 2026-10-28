@@ -233,10 +233,24 @@ components:
           type: string
         wheels:
           type: integer
+        fuel:
+          type: string
+          enum: [petrol, diesel]
+          default: petrol
+        owner:
+          $ref: '#/components/schemas/Owner'
+        previousOwners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+        registeredAt:
+          type: string
+          format: date-time
       discriminator:
         propertyName: type
         mapping:
           car: '#/components/schemas/Car'
+          bike: '#/components/schemas/Bike'
     Car:
       allOf:
         - $ref: '#/components/schemas/Vehicle'
@@ -244,6 +258,9 @@ components:
           properties:
             doors:
               type: integer
+    Bike:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
     Counters:
       type: object
       properties:

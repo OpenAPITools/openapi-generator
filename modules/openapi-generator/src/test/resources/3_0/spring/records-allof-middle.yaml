@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: useRecords with a middle model in an allOf family
+  version: 1.0.0
+paths:
+  /top:
+    get:
+      operationId: getTop
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Top'
+  /plain:
+    get:
+      operationId: getPlain
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlainTop'
+  /alone:
+    get:
+      operationId: getAlone
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AloneTop'
+components:
+  schemas:
+    AloneTop:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          alonemid: '#/components/schemas/AloneMid'
+    AloneMid:
+      allOf:
+        - $ref: '#/components/schemas/AloneTop'
+        - type: object
+          properties:
+            sub:
+              type: string
+      discriminator:
+        propertyName: sub
+    Top:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          mid: '#/components/schemas/Mid'
+          leaf: '#/components/schemas/Leaf'
+    Mid:
+      allOf:
+        - $ref: '#/components/schemas/Top'
+        - type: object
+          required: [sub]
+          properties:
+            sub:
+              type: string
+      discriminator:
+        propertyName: sub
+        mapping:
+          leaf: '#/components/schemas/Leaf'
+    Leaf:
+      allOf:
+        - $ref: '#/components/schemas/Mid'
+        - type: object
+          properties:
+            x:
+              type: string
+    PlainTop:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          plainmid: '#/components/schemas/PlainMid'
+          plainleaf: '#/components/schemas/PlainLeaf'
+    PlainMid:
+      allOf:
+        - $ref: '#/components/schemas/PlainTop'
+        - type: object
+          properties:
+            sub:
+              type: string
+    PlainLeaf:
+      allOf:
+        - $ref: '#/components/schemas/PlainMid'
+        - type: object
+          properties:
+            x:
+              type: string

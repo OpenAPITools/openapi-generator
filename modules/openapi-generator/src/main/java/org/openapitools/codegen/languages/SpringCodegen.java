@@ -327,7 +327,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate sealed model interfaces and classes"));
         cliOptions.add(CliOption.newBoolean(USE_RECORDS,
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
-                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), "
+                        + "be a record yet stays a class, and the reason is logged: inheritance (a family of allOf children one level below a parent with a discriminator of its own can be records: the parent becomes an interface, which cannot be read under its own name, and each child a record of all properties), additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), "
                         + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
                         + "property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. "
                         + "Not supported with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
@@ -1891,6 +1891,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         ParameterObjects parameterObjects = parameterObjects();
         Map<String, String> constructedByDefault = modelsConstructedByDefault(allModels);
 
+        // an allOf family (a parent with a discriminator of its own and the models that extend it) is decided as a whole
+        Map<String, List<CodegenModel>> familyOfParent = allOfFamilies(allModels);
+        Map<String, String> parentOfMember = new HashMap<>();
+        familyOfParent.forEach((parent, members) -> members.forEach(member -> parentOfMember.putIfAbsent(member.classname, parent)));
+
         List<CodegenModel> candidates = new ArrayList<>();
         Map<String, String> reasons = new HashMap<>();
         Map<String, List<Map<String, String>>> accessorsOfModel = new HashMap<>();
@@ -1901,10 +1906,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 continue;
             }
             candidates.add(cm);
+            if (familyOfParent.containsKey(cm.classname) || parentOfMember.containsKey(cm.classname)) {
+                continue;
+            }
             List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
             String reason = reasonForClass(cm, parameterObjects, constructedByDefault);
             if (reason == null) {
-                reason = oneOfDiscriminatorAccessors(cm, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
+                reason = oneOfDiscriminatorAccessors(cm, cm.vars, oneOfInterfacesWithEnclosing(cm.classname, oneOfInterfacesOfMember),
                         discriminatorAccessors);
             }
             if (reason != null) {
@@ -1912,7 +1920,39 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
             accessorsOfModel.put(cm.classname, discriminatorAccessors);
         }
-        keepParameterObjectGraphAsClasses(candidates, reasons, parameterObjects);
+        Map<String, String> familyCauses = new HashMap<>();
+        for (Map.Entry<String, List<CodegenModel>> family : familyOfParent.entrySet()) {
+            String cause = reasonForFamily(allModels.get(family.getKey()), family.getValue(), parameterObjects,
+                    constructedByDefault, oneOfInterfacesOfMember, accessorsOfModel);
+            if (cause != null) {
+                keepFamilyAsClasses(family.getKey(), family.getValue(), cause, reasons);
+                familyCauses.put(family.getKey(), cause);
+            }
+        }
+        // a family whose member stays a class for a reason found below (a parameter object) stays classes as a whole,
+        // and what that puts below a parameter object is decided again
+        int decided;
+        do {
+            decided = reasons.size();
+            keepParameterObjectGraphAsClasses(candidates, reasons, parameterObjects);
+            for (Map.Entry<String, List<CodegenModel>> family : familyOfParent.entrySet()) {
+                if (familyCauses.containsKey(family.getKey())) {
+                    continue;
+                }
+                List<CodegenModel> everyone = new ArrayList<>(family.getValue());
+                everyone.add(allModels.get(family.getKey()));
+                for (CodegenModel member : everyone) {
+                    String reason = reasons.get(member.classname);
+                    if (reason != null) {
+                        String cause = "model '" + member.classname + "' is generated as a class: " + reason;
+                        keepFamilyAsClasses(family.getKey(), family.getValue(), cause, reasons);
+                        familyCauses.put(family.getKey(), cause);
+                        break;
+                    }
+                }
+            }
+            keepParentsOfClassesAsClasses(candidates, allModels, familyOfParent, reasons);
+        } while (reasons.size() != decided);
 
         for (CodegenModel cm : candidates) {
             String reason = reasons.get(cm.classname);
@@ -1920,7 +1960,25 @@ public class SpringCodegen extends AbstractJavaCodegen
                 LOGGER.info("{}: model '{}' is generated as a class: {}", USE_RECORDS, cm.classname, reason);
                 continue;
             }
+            if (familyOfParent.containsKey(cm.classname)) {
+                // the parent of a family becomes an interface with one accessor for each property
+                cm.vendorExtensions.put("x-is-record-interface", true);
+                cm.vars = accessorsOfInterface(cm);
+                continue;
+            }
             cm.vendorExtensions.put("x-is-record", true);
+            String parentName = parentOfMember.get(cm.classname);
+            if (parentName != null) {
+                // a child is a flat record of all properties, the parent's first, and implements the parent
+                List<CodegenProperty> inherited = new ArrayList<>();
+                cm.vars = recordComponentsOfChild(cm, inherited);
+                inherited.forEach(cp -> cp.vendorExtensions.put("x-record-inherited", true));
+                cm.hasVars = !cm.vars.isEmpty();
+                List<String> implemented = new ArrayList<>();
+                implemented.add(parentName);
+                implemented.addAll(getObjectAsStringList(cm.vendorExtensions.get(CodegenConstants.X_IMPLEMENTS)));
+                cm.vendorExtensions.put(CodegenConstants.X_IMPLEMENTS, implemented);
+            }
             boolean boundByName = parameterObjects.boundByName.contains(cm.schemaName);
             boolean hasInitialValue = false;
             for (CodegenProperty cp : cm.vars) {
@@ -1940,6 +1998,190 @@ public class SpringCodegen extends AbstractJavaCodegen
             cm.vendorExtensions.put("x-record-discriminator-accessors", accessorsOfModel.get(cm.classname));
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
+    }
+
+    /**
+     * The allOf families: a model without a parent that has children, keyed by its class name, with every model
+     * that extends it directly or through another (the children the codegen collects). Only a model that is not an
+     * enum, alias or oneOf interface heads a family; the children of any other model keep their own reason.
+     */
+    private Map<String, List<CodegenModel>> allOfFamilies(Map<String, CodegenModel> allModels) {
+        Map<String, List<CodegenModel>> families = new TreeMap<>();
+        for (CodegenModel cm : allModels.values()) {
+            if (cm.isEnum || cm.isAlias || Boolean.TRUE.equals(cm.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))
+                    || cm.parent != null || cm.children == null || cm.children.isEmpty()) {
+                continue;
+            }
+            List<CodegenModel> members = new ArrayList<>(cm.children);
+            members.sort(Comparator.comparing(m -> m.classname));
+            families.put(cm.classname, members);
+        }
+        return families;
+    }
+
+    /**
+     * Defence in depth: a class cannot extend a record or an interface that is generated for its parent, so a model
+     * that stays a class keeps its parent (and the parent's family) a class too.
+     */
+    private void keepParentsOfClassesAsClasses(List<CodegenModel> candidates, Map<String, CodegenModel> allModels,
+                                               Map<String, List<CodegenModel>> familyOfParent, Map<String, String> reasons) {
+        for (CodegenModel cm : candidates) {
+            if (cm.parent == null || !reasons.containsKey(cm.classname) || reasons.containsKey(cm.parent)) {
+                continue;
+            }
+            String cause = "its child '" + cm.classname + "' is generated as a class";
+            List<CodegenModel> members = familyOfParent.get(cm.parent);
+            if (members != null) {
+                keepFamilyAsClasses(cm.parent, members, cause, reasons);
+            } else {
+                reasons.put(cm.parent, cause);
+            }
+        }
+    }
+
+    private void keepFamilyAsClasses(String parent, List<CodegenModel> members, String cause, Map<String, String> reasons) {
+        reasons.putIfAbsent(parent, "it is the parent of a family that cannot be records: " + cause);
+        String reason = "its family, with the parent '" + parent + "', cannot be records: " + cause;
+        members.forEach(member -> reasons.putIfAbsent(member.classname, reason));
+    }
+
+    /**
+     * Whether the family of {@code parent} can be records, decided for all its members together. The parent becomes
+     * an interface and each child a record of all properties, so it must have a discriminator of its own, children
+     * that extend it directly and do not redeclare one of its properties, by schema name or by Java name (the child's
+     * definition would win in the record, but the interface and the class would disagree), no additionalProperties
+     * and no oneOf or anyOf, must not be a oneOf member itself, and its mapping must not name the parent (an interface
+     * cannot be read under its own name). Then every member must pass the checks of a single model, also for the
+     * properties it inherits. Returns the cause that keeps the whole family as classes, or null when it qualifies.
+     */
+    private String reasonForFamily(CodegenModel parent, List<CodegenModel> members, ParameterObjects parameterObjects,
+                                   Map<String, String> constructedByDefault,
+                                   Map<String, List<CodegenModel>> oneOfInterfacesOfMember,
+                                   Map<String, List<Map<String, String>>> accessorsOfModel) {
+        if (parent.discriminator == null) {
+            return "the parent has no discriminator of its own";
+        }
+        for (CodegenModel member : members) {
+            if (!parent.classname.equals(member.parent)) {
+                return "the hierarchy is deeper than one level ('" + member.classname + "' extends '" + member.parent + "')";
+            }
+            if (member.isEnum || member.isAlias || Boolean.TRUE.equals(member.vendorExtensions.get(X_IS_ONE_OF_INTERFACE))) {
+                return "'" + member.classname + "' is not a model with properties";
+            }
+            if (member.hasChildren || (member.children != null && !member.children.isEmpty())) {
+                return "'" + member.classname + "' has child models of its own";
+            }
+            // a child inherits the parent's discriminator into its model, so only the schema tells one of its own
+            Schema memberSchema = openAPI.getComponents() == null || openAPI.getComponents().getSchemas() == null
+                    ? null : openAPI.getComponents().getSchemas().get(member.schemaName);
+            if (memberSchema != null && memberSchema.getDiscriminator() != null) {
+                return "'" + member.classname + "' has a discriminator of its own";
+            }
+        }
+        if (isNotEmpty(parent.additionalPropertiesType)) {
+            return "the parent has additionalProperties";
+        }
+        if ((parent.oneOf != null && !parent.oneOf.isEmpty()) || (parent.anyOf != null && !parent.anyOf.isEmpty())) {
+            return "the parent is a oneOf or anyOf composition";
+        }
+        List<CodegenModel> parentInterfaces = oneOfInterfacesOfMember.get(parent.classname);
+        if (parentInterfaces != null && !parentInterfaces.isEmpty()) {
+            return "the parent is a member of the oneOf interface " + parentInterfaces.get(0).classname;
+        }
+        for (CodegenDiscriminator.MappedModel mapped : parent.discriminator.getMappedModels()) {
+            if (parent.classname.equals(mapped.getModelName())) {
+                return "the discriminator mapping names the parent itself ('" + mapped.getMappingName() + "')";
+            }
+        }
+        // a child's record has one component per Java name, so a child property is a redeclaration when it has the
+        // name in the schema or the Java name of a parent property ('my_color' and 'myColor' are both 'myColor')
+        Map<String, CodegenProperty> parentByBaseName = new HashMap<>();
+        Map<String, CodegenProperty> parentByJavaName = new HashMap<>();
+        parent.vars.forEach(cp -> {
+            parentByBaseName.put(cp.baseName, cp);
+            parentByJavaName.put(cp.name, cp);
+        });
+        for (CodegenModel member : members) {
+            for (CodegenProperty cp : member.vars) {
+                if (parentByBaseName.containsKey(cp.baseName)) {
+                    return "'" + member.classname + "' redeclares the property '" + cp.baseName + "' of the parent";
+                }
+                CodegenProperty sameName = parentByJavaName.get(cp.name);
+                if (sameName != null) {
+                    return "'" + member.classname + "' has the property '" + cp.baseName + "' with the Java name '" + cp.name
+                            + "' of the parent's property '" + sameName.baseName + "'";
+                }
+            }
+        }
+        // an interface cannot be bound from request parameters, and a child that is would be a different type than
+        // the class the binder fills today, so a family with a member that is bound stays classes
+        List<CodegenModel> everyone = new ArrayList<>();
+        everyone.add(parent);
+        everyone.addAll(members);
+        for (CodegenModel member : everyone) {
+            if (parameterObjects.boundByName.contains(member.schemaName)) {
+                return "model '" + member.classname + "' is bound from request parameters";
+            }
+        }
+        String reason = reasonForComponents(parent, parent.vars, parameterObjects, constructedByDefault);
+        if (reason != null) {
+            return "model '" + parent.classname + "': " + reason;
+        }
+        accessorsOfModel.put(parent.classname, new ArrayList<>());
+        for (CodegenModel member : members) {
+            List<CodegenProperty> components = recordComponentsOfChild(member, new ArrayList<>());
+            reason = reasonForComponents(member, components, parameterObjects, constructedByDefault);
+            List<Map<String, String>> discriminatorAccessors = new ArrayList<>();
+            if (reason == null) {
+                reason = oneOfDiscriminatorAccessors(member, components,
+                        oneOfInterfacesWithEnclosing(member.classname, oneOfInterfacesOfMember), discriminatorAccessors);
+            }
+            if (reason != null) {
+                return "model '" + member.classname + "': " + reason;
+            }
+            accessorsOfModel.put(member.classname, discriminatorAccessors);
+        }
+        return null;
+    }
+
+    /**
+     * The properties of a family's parent as the accessors of its interface. Hibernate Validator rejects a cascade
+     * marker ({@code @Valid}) on a method return value that is also marked in an implementing class (HV000131), and
+     * each child record has the marker on its component, so the accessors of the interface carry none, neither on the
+     * method nor on the type argument of a container ({@code List<@Valid Pet>}). Every other annotation stays, as
+     * springdoc reads the schema of the parent from them. The accessors are copies of the properties, flagged with
+     * {@code x-record-no-cascade}, so that nothing else that holds the properties of the model sees the change.
+     */
+    private List<CodegenProperty> accessorsOfInterface(CodegenModel parent) {
+        List<CodegenProperty> accessors = new ArrayList<>();
+        for (CodegenProperty cp : parent.vars) {
+            CodegenProperty accessor = cp.clone();
+            accessor.vendorExtensions.put("x-record-no-cascade", true);
+            if (accessor.datatypeWithEnum != null) {
+                accessor.datatypeWithEnum = accessor.datatypeWithEnum.replace("@Valid ", "");
+            }
+            accessors.add(accessor);
+        }
+        return accessors;
+    }
+
+    /**
+     * All properties of a child in the class's order, the parent's first. The properties of the parent are added to
+     * {@code inherited}; the caller marks them {@code x-record-inherited} once the family qualified, so that the
+     * child's record does not declare an inline enum of its own for them: the enum is a member of the parent's
+     * interface and the record inherits it. A rejected family's properties stay untouched.
+     */
+    private List<CodegenProperty> recordComponentsOfChild(CodegenModel child, List<CodegenProperty> inherited) {
+        Set<String> own = new HashSet<>();
+        child.vars.forEach(cp -> own.add(cp.baseName));
+        List<CodegenProperty> components = new ArrayList<>();
+        for (CodegenProperty cp : child.allVars) {
+            if (!own.contains(cp.baseName)) {
+                inherited.add(cp);
+            }
+            components.add(cp);
+        }
+        return components;
     }
 
     /**
@@ -2172,7 +2414,7 @@ public class SpringCodegen extends AbstractJavaCodegen
      * either), or when one getter name would have to return two components, otherwise null. A component whose
      * Java name starts with {@code get} never gets here: {@code reasonForClass} keeps the model a class.
      */
-    private String oneOfDiscriminatorAccessors(CodegenModel cm, List<CodegenModel> interfaces,
+    private String oneOfDiscriminatorAccessors(CodegenModel cm, List<CodegenProperty> vars, List<CodegenModel> interfaces,
                                                List<Map<String, String>> accessors) {
         if (interfaces == null) {
             return null;
@@ -2185,7 +2427,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 continue;
             }
             CodegenProperty component = null;
-            for (CodegenProperty cp : cm.vars) {
+            for (CodegenProperty cp : vars) {
                 if (cp.baseName.equals(discriminator.getPropertyBaseName())) {
                     component = cp;
                     break;
@@ -2281,6 +2523,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (cm.discriminator != null) {
             return "it is a discriminator base";
         }
+        return reasonForComponents(cm, cm.vars, parameterObjects, constructedByDefault);
+    }
+
+    /**
+     * The reasons that do not depend on inheritance: what the model's own shape and its properties, given as
+     * {@code vars}, cannot be as a record. For a member of an allOf family these are all properties, the parent's
+     * included.
+     */
+    private String reasonForComponents(CodegenModel cm, List<CodegenProperty> vars, ParameterObjects parameterObjects,
+                                       Map<String, String> constructedByDefault) {
         if (isNotEmpty(cm.additionalPropertiesType)) {
             String reason = reasonForAdditionalProperties(cm, parameterObjects);
             if (reason != null) {
@@ -2290,13 +2542,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
             return "it is a oneOf or anyOf composition";
         }
-        if (cm.vars.size() + (isNotEmpty(cm.additionalPropertiesType) ? 1 : 0) > RECORD_MAX_COMPONENTS) {
+        if (vars.size() + (isNotEmpty(cm.additionalPropertiesType) ? 1 : 0) > RECORD_MAX_COMPONENTS) {
             return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
         }
         if (parameterObjects.converted.contains(cm.schemaName)) {
             return "it is bound from request parameters";
         }
-        for (CodegenProperty cp : cm.vars) {
+        for (CodegenProperty cp : vars) {
             if (cp.isByteArray) {
                 return "property '" + cp.name + "' is a byte[]";
             }

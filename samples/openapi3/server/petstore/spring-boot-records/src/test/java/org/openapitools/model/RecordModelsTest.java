@@ -40,8 +40,8 @@ class RecordModelsTest {
         assertThat(Account.class.isRecord()).isTrue();
         assertThat(Filter.class.isRecord()).as("bound from request parameters").isTrue();
         assertThat(Range.class.isRecord()).as("nested in the query object").isTrue();
-        assertThat(Vehicle.class.isRecord()).isFalse();
-        assertThat(Car.class.isRecord()).isFalse();
+        assertThat(Vehicle.class.isInterface()).as("parent of an allOf family").isTrue();
+        assertThat(Car.class.isRecord()).as("child of an allOf family").isTrue();
         assertThat(Counters.class.isRecord()).isFalse();
         assertThat(Circle.class.isRecord()).as("member of a oneOf interface").isTrue();
         assertThat(Square.class.isRecord()).isTrue();
@@ -270,10 +270,9 @@ class RecordModelsTest {
 
     @Test
     void modelsThatStayClassesKeepTheirBuilder() {
-        Vehicle vehicle = Vehicle.builder().type("car").wheels(4).build();
+        Counters counters = Counters.builder().id("c1").build();
 
-        assertThat(vehicle.getWheels()).isEqualTo(4);
-        assertThat(Car.builder().type("car").doors(5).build().getDoors()).isEqualTo(5);
+        assertThat(counters.getId()).isEqualTo("c1");
     }
 
     private static int occurrences(String text, String part) {
