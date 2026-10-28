@@ -1,0 +1,79 @@
+openapi: 3.1.0
+info:
+  title: Integer bounds next to a $ref or allOf
+  version: 1.0.0
+paths:
+  /allof-body:
+    post:
+      operationId: allOfBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/SmallInteger'
+              maximum: 5000
+      responses:
+        '204':
+          description: No content
+  /ref-body:
+    post:
+      operationId: refBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmallInteger'
+              maximum: 5000
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    SmallInteger:
+      type: integer
+      format: int32
+      minimum: 1
+    LargeInteger:
+      type: integer
+      format: int64
+    PlainInteger:
+      type: integer
+    Bounds:
+      type: object
+      properties:
+        refWithMaximum:
+          $ref: '#/components/schemas/SmallInteger'
+          maximum: 5000
+        allOfWithMaximum:
+          allOf:
+            - $ref: '#/components/schemas/SmallInteger'
+          maximum: 5000
+        largeBounds:
+          $ref: '#/components/schemas/LargeInteger'
+          minimum: -9007199254740993
+          maximum: 9007199254740993
+    FractionalBounds:
+      type: object
+      properties:
+        inline:
+          type: integer
+          minimum: 1.5
+          maximum: 9.5
+        inlineNegative:
+          type: integer
+          minimum: -9.5
+          maximum: -1.5
+        inlineExclusive:
+          type: integer
+          exclusiveMinimum: -1.5
+          exclusiveMaximum: 1.5
+        refWithBounds:
+          $ref: '#/components/schemas/PlainInteger'
+          minimum: 1.5
+          maximum: 9.5
+        allOfWithBounds:
+          allOf:
+            - $ref: '#/components/schemas/PlainInteger'
+          minimum: -9.5
+          maximum: -1.5

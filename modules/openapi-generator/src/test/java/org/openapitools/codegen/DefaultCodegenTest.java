@@ -380,6 +380,94 @@ public class DefaultCodegenTest {
                 .orElseThrow(() -> new AssertionError("no `" + baseName + "` var on " + model.name));
     }
 
+    private static OpenAPI parseIssue23445() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23445.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+        new InlineModelResolver().flatten(openAPI);
+        return openAPI;
+    }
+
+    @Test
+    public void testIntegerBoundsNextToRefOrAllOfStayIntegers() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel("Bounds", openAPI.getComponents().getSchemas().get("Bounds"));
+
+        CodegenProperty refWithMaximum = varNamed(model, "refWithMaximum");
+        assertEquals("1", refWithMaximum.getMinimum());
+        assertEquals("5000", refWithMaximum.getMaximum());
+
+        CodegenProperty allOfWithMaximum = varNamed(model, "allOfWithMaximum");
+        assertEquals("1", allOfWithMaximum.getMinimum());
+        assertEquals("5000", allOfWithMaximum.getMaximum());
+
+        // more digits than a double can hold
+        CodegenProperty largeBounds = varNamed(model, "largeBounds");
+        assertEquals("-9007199254740993", largeBounds.getMinimum());
+        assertEquals("9007199254740993", largeBounds.getMaximum());
+    }
+
+    @Test
+    public void testIntegerBoundsNextToAllOfInRequestBody() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenParameter body = codegen.fromOperation("/allof-body", "post",
+                openAPI.getPaths().get("/allof-body").getPost(), null).bodyParam;
+        assertEquals("1", body.getMinimum());
+        assertEquals("5000", body.getMaximum());
+    }
+
+    @Test
+    public void testIntegerBoundsNextToRefInRequestBody() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenParameter body = codegen.fromOperation("/ref-body", "post",
+                openAPI.getPaths().get("/ref-body").getPost(), null).bodyParam;
+        assertEquals("1", body.getMinimum());
+        assertEquals("5000", body.getMaximum());
+    }
+
+    @Test
+    public void testFractionalBoundsOnIntegerSchemasAreRoundedIntoRange() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel("FractionalBounds",
+                openAPI.getComponents().getSchemas().get("FractionalBounds"));
+
+        // 1.5 <= x <= 9.5 accepts the integers 2..9
+        CodegenProperty inline = varNamed(model, "inline");
+        assertEquals("2", inline.getMinimum());
+        assertEquals("9", inline.getMaximum());
+
+        // -9.5 <= x <= -1.5 accepts -9..-2
+        CodegenProperty inlineNegative = varNamed(model, "inlineNegative");
+        assertEquals("-9", inlineNegative.getMinimum());
+        assertEquals("-2", inlineNegative.getMaximum());
+
+        // -1.5 < x < 1.5 accepts -1..1, i.e. -2 < x < 2
+        CodegenProperty inlineExclusive = varNamed(model, "inlineExclusive");
+        assertEquals("-2", inlineExclusive.getMinimum());
+        assertTrue(inlineExclusive.getExclusiveMinimum());
+        assertEquals("2", inlineExclusive.getMaximum());
+        assertTrue(inlineExclusive.getExclusiveMaximum());
+
+        CodegenProperty refWithBounds = varNamed(model, "refWithBounds");
+        assertEquals("2", refWithBounds.getMinimum());
+        assertEquals("9", refWithBounds.getMaximum());
+
+        CodegenProperty allOfWithBounds = varNamed(model, "allOfWithBounds");
+        assertEquals("-9", allOfWithBounds.getMinimum());
+        assertEquals("-2", allOfWithBounds.getMaximum());
+    }
+
     @Test
     public void testOAS31ContentMediaTypeBinaryFormParameter() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
