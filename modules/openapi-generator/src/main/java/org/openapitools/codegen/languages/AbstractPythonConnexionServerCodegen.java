@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -73,6 +75,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     // Effective style/explode of an object-typed (model) query or header parameter.
     static final String X_OBJECT_STYLE = "x-python-connexion-object-style";
     static final String X_OBJECT_EXPLODE = "x-python-connexion-object-explode";
+    // Map<String, String> of wire values, used only by prepareObjectParameterExample (never by templates).
+    static final String X_OBJECT_EXAMPLE = "x-python-connexion-object-example";
+    // baseName escaped for a single-quoted Python literal.
+    static final String X_QUOTED_NAME = "x-python-connexion-quoted-name";
     static final String HAS_OBJECT_PARAMS = "connexionObjectParams";
 
     // An object mapper that is used to convert an example string to
@@ -761,8 +767,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 || !(codegenParameter.isQueryParam || codegenParameter.isHeaderParam)
                 // serialized via "content" (e.g. JSON), handled by the JSON header path instead
                 || parameter.getContent() != null
-                // param_parsing.py only rebuilds plain objects (type: object), not allOf/oneOf/anyOf
-                || !isPlainObjectSchema(ModelUtils.getReferencedSchema(openAPI, parameter.getSchema()))) {
+                // param_parsing.py only rebuilds plain objects whose properties are all scalars
+                // (style=simple/form cannot carry nested objects or arrays); not allOf/oneOf/anyOf
+                || !isScalarObjectSchema(ModelUtils.getReferencedSchema(openAPI, parameter.getSchema()))) {
             return;
         }
         // OpenAPI defaults: query -> style=form, header -> style=simple; explode defaults to true only for form.
@@ -777,6 +784,63 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         boolean explode = parameter.getExplode() != null ? parameter.getExplode() : "form".equals(style);
         codegenParameter.vendorExtensions.put(X_OBJECT_STYLE, style);
         codegenParameter.vendorExtensions.put(X_OBJECT_EXPLODE, explode);
+        // simple and non-exploded form put all properties in one comma-separated value
+        boolean delimited = !"deepObject".equals(style) && !("form".equals(style) && explode);
+        Map<String, String> explicitExample = explicitObjectExample(parameter, delimited);
+        if (explicitExample != null) {
+            codegenParameter.vendorExtensions.put(X_OBJECT_EXAMPLE, explicitExample);
+        }
+    }
+
+    /**
+     * The example the spec gives for an object parameter (parameter example/examples, then the schema's
+     * example or default), as wire values, or null when there is none usable. A candidate is used whole
+     * or not at all: one with a null/non-scalar value, a key that is not a property, or (when delimited)
+     * a value containing "," or "=" is skipped, rather than sent with parts silently dropped.
+     */
+    private Map<String, String> explicitObjectExample(Parameter parameter, boolean delimited) {
+        List<Object> candidates = new ArrayList<>();
+        candidates.add(parameter.getExample());
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example first = parameter.getExamples().values().iterator().next();
+            candidates.add(first == null ? null : first.getValue());
+        }
+        Schema<?> schema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
+        if (schema == null || schema.getProperties() == null) {
+            return null;
+        }
+        candidates.add(schema.getExample());
+        candidates.add(schema.getDefault());
+        for (Object candidate : candidates) {
+            if (candidate instanceof JsonNode) {
+                // swagger-parser keeps object examples as Jackson nodes
+                candidate = ((JsonNode) candidate).isObject() ? MAPPER.convertValue(candidate, Map.class) : null;
+            }
+            if (!(candidate instanceof Map) || ((Map<?, ?>) candidate).isEmpty()) {
+                continue;
+            }
+            Map<String, String> values = new LinkedHashMap<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) candidate).entrySet()) {
+                Object value = entry.getValue();
+                String key = String.valueOf(entry.getKey());
+                if (value == null || value instanceof Map || value instanceof Collection
+                        || !schema.getProperties().containsKey(key)) {
+                    values = null;
+                    break;
+                }
+                String text = value instanceof Boolean ? value.toString().toLowerCase(Locale.ROOT) : value.toString();
+                if (delimited && (text.contains(",") || text.contains("="))) {
+                    // OpenAPI defines no escaping for these inside a simple/form value
+                    values = null;
+                    break;
+                }
+                values.put(key, text);
+            }
+            if (values != null && !values.isEmpty()) {
+                return values;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -834,6 +898,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
+            // header/cookie names go into single-quoted Python literals in the generated controller and test;
+            // {{baseName}} would HTML-escape them (e.g. "X-A&B" -> "X-A&amp;B")
+            for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.headerParams,
+                    operation.cookieParams)) {
+                for (CodegenParameter param : params) {
+                    param.vendorExtensions.put(X_QUOTED_NAME, escapeTextInSingleQuotes(param.baseName));
+                }
+            }
             // allParams, queryParams and headerParams hold separate copies of each parameter.
             for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.queryParams,
                     operation.headerParams)) {
@@ -942,18 +1014,25 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 break;
             }
         }
+        String style = (String) param.vendorExtensions.get(X_OBJECT_STYLE);
+        boolean explode = Boolean.TRUE.equals(param.vendorExtensions.get(X_OBJECT_EXPLODE));
+        boolean delimited = param.isHeaderParam || ("form".equals(style) && !explode);
         List<String[]> values = new ArrayList<>();
-        if (model != null) {
+        @SuppressWarnings("unchecked")
+        Map<String, String> explicitExample = (Map<String, String>) param.vendorExtensions.get(X_OBJECT_EXAMPLE);
+        if (explicitExample != null) {
+            for (Map.Entry<String, String> entry : explicitExample.entrySet()) {
+                values.add(new String[]{entry.getKey(), entry.getValue()});
+            }
+        } else if (model != null) {
             for (CodegenProperty var : model.vars) {
-                String value = wireExampleValue(var);
+                String value = wireExampleValue(var, delimited);
                 if (value != null) {
                     values.add(new String[]{var.baseName, value});
                 }
             }
         }
-        String style = (String) param.vendorExtensions.get(X_OBJECT_STYLE);
-        boolean explode = Boolean.TRUE.equals(param.vendorExtensions.get(X_OBJECT_EXPLODE));
-        if (param.isHeaderParam || ("form".equals(style) && !explode)) {
+        if (delimited) {
             List<String> parts = new ArrayList<>();
             for (String[] kv : values) {
                 parts.add(explode ? kv[0] + "=" + kv[1] : kv[0] + "," + kv[1]);
@@ -961,24 +1040,52 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             param.example = "'" + escapeTextInSingleQuotes(String.join(",", parts)) + "'";
             if (param.isQueryParam) {
                 param.vendorExtensions.put("x-python-connexion-test-query-pairs",
-                        Collections.singletonList(testPair(param.baseName, param.example)));
+                        Collections.singletonList(testPair(escapeTextInSingleQuotes(param.baseName), param.example)));
             }
             return;
         }
         List<Map<String, String>> pairs = new ArrayList<>();
         for (String[] kv : values) {
             String key = "deepObject".equals(style) ? param.baseName + "[" + kv[0] + "]" : kv[0];
-            pairs.add(testPair(key, "'" + escapeTextInSingleQuotes(kv[1]) + "'"));
+            pairs.add(testPair(escapeTextInSingleQuotes(key), "'" + escapeTextInSingleQuotes(kv[1]) + "'"));
         }
         param.vendorExtensions.put("x-python-connexion-test-query-pairs", pairs);
     }
 
-    private static boolean isPlainObjectSchema(Schema<?> schema) {
-        if (schema == null || ModelUtils.isComposedSchema(schema)) {
+    /**
+     * A "type: object" schema that is not composed and whose properties are all scalars (string, integer,
+     * number, boolean, including enums and dates). "type" is required because Connexion itself reads
+     * param_schema['type'] while parsing query parameters. Must match _is_object() in param_parsing.mustache.
+     */
+    private boolean isScalarObjectSchema(Schema<?> schema) {
+        if (schema == null || ModelUtils.isComposedSchema(schema)
+                || schema.getProperties() == null || schema.getProperties().isEmpty()) {
             return false;
         }
-        return "object".equals(schema.getType())
-                || (schema.getTypes() != null && schema.getTypes().contains("object"));
+        if (!"object".equals(schemaType(schema))) {
+            return false;
+        }
+        for (Schema<?> property : schema.getProperties().values()) {
+            String propertyType = schemaType(ModelUtils.getReferencedSchema(openAPI, property));
+            if (!"string".equals(propertyType) && !"integer".equals(propertyType)
+                    && !"number".equals(propertyType) && !"boolean".equals(propertyType)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String schemaType(Schema<?> schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (schema.getType() != null) {
+            return schema.getType();
+        }
+        if (schema.getTypes() != null && schema.getTypes().size() == 1) {
+            return schema.getTypes().iterator().next();
+        }
+        return null;
     }
 
     private static Map<String, String> testPair(String key, String value) {
@@ -993,9 +1100,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
      * OpenAPI defines no escaping for "," and "=" inside style=simple/form values, so an example
      * containing them is replaced by a placeholder rather than producing a request that parses wrongly.
      */
-    private String wireExampleValue(CodegenProperty var) {
+    private String wireExampleValue(CodegenProperty var, boolean delimited) {
         String value = rawWireExampleValue(var);
-        if (value != null && (value.contains(",") || value.contains("="))) {
+        if (delimited && value != null && (value.contains(",") || value.contains("="))) {
             return var.isString ? var.baseName + "_example" : null;
         }
         return value;

@@ -15,8 +15,18 @@ except ImportError:  # Connexion 2
     from connexion.decorators.validation import ParameterValidator
 
 
+_SCALAR_TYPES = ('string', 'integer', 'number', 'boolean')
+
+
 def _is_object(param):
-    return param.get('schema', {}).get('type') == 'object'
+    """An object schema whose properties are all scalars; these are the only objects that
+    ``style: form``/``simple`` can carry. Must match the generator's isScalarObjectSchema()."""
+    schema = param.get('schema', {})
+    properties = schema.get('properties')
+    if (not properties or schema.get('type') != 'object'
+            or any(key in schema for key in ('allOf', 'oneOf', 'anyOf'))):
+        return False
+    return all(prop.get('type') in _SCALAR_TYPES for prop in properties.values())
 
 
 def _cast(value, target):
@@ -52,9 +62,15 @@ def parse_simple_object(value, explode=False, model=None):
     if not isinstance(value, str):
         return value
     parts = value.split(',') if value else []
+    # A malformed value is returned unchanged, so that validation rejects it instead of
+    # silently dropping part of the input.
     if explode:
-        obj = dict(part.split('=', 1) for part in parts if '=' in part)
+        if any('=' not in part for part in parts):
+            return value
+        obj = dict(part.split('=', 1) for part in parts)
     else:
+        if len(parts) % 2:
+            return value
         obj = dict(zip(parts[0::2], parts[1::2]))
     if model is not None:
         instance = model()  # openapi_types/attribute_map are set per instance
@@ -98,6 +114,7 @@ class ObjectParameterValidator(ParameterValidator):
         if value is not None and _is_object(param):
             # Connexion 3 validates header values as they are (no type coercion), so cast the leaves here;
             # Connexion 2 would coerce them itself, and casting twice is harmless.
-            value = _cast_by_schema(parse_simple_object(value, param.get('explode', False)),
-                                    param.get('schema', {}))
+            value = parse_simple_object(value, param.get('explode', False))
+            if isinstance(value, dict):  # a malformed value stays a string and fails validation
+                value = _cast_by_schema(value, param.get('schema', {}))
         return self.validate_parameter('header', value, param)

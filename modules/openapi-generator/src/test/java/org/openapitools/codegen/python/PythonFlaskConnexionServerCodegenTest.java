@@ -214,8 +214,16 @@ public class PythonFlaskConnexionServerCodegenTest {
                 "('label', 'tag'),",
                 "('limit', 56),",
                 "'X-Trace': 'id,id_example,hops,56,sampled,false',");
-        // allOf and pipeDelimited objects are not handled by param_parsing.py, so they are not style-encoded.
-        assertFileNotContains(controllerTest, "('composed[", "('piped[");
+        // allOf, pipeDelimited and objects with non-scalar properties are not handled by param_parsing.py,
+        // so they are not style-encoded.
+        assertFileNotContains(controllerTest, "('composed[", "('piped[", "('inner'", "('nested[");
+        // an explicit parameter example is used; keys are not HTML-escaped
+        assertFileContains(controllerTest, "'X-Hint': 'id,from-example,hops,7',", "('amp[a&b]', 'amp')");
+        assertFileNotContains(controllerTest, "&amp;");
+        assertFileContains(controllerTest, "'X-O\\'Brien': ");
+        // the handler reads the same, unescaped header name
+        assertFileContains(Paths.get(outputPath, "openapi_server/controllers/default_controller.py"),
+                "x_o_brien = flask.request.headers.get('X-O\\'Brien')");
     }
 
     @Test(description = "object-typed parameter parsing is registered for Connexion 3 as well")
