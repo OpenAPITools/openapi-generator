@@ -33,7 +33,8 @@ class AdditionalPropertiesRecordsTest {
         assertThat(Typed.class.isRecord()).isTrue();
         assertThat(Lists.class.isRecord()).isTrue();
         assertThat(Holder.class.isRecord()).isTrue();
-        assertThat(Child.class.isRecord()).as("has a parent").isFalse();
+        assertThat(Base.class.isInterface()).as("parent of an allOf family").isTrue();
+        assertThat(Child.class.isRecord()).as("child of an allOf family, which has no additionalProperties of its own").isTrue();
     }
 
     @Test

@@ -1,0 +1,386 @@
+openapi: 3.0.3
+info:
+  title: useRecords with allOf families
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: The stored pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /holders:
+    post:
+      operationId: addHolder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Holder'
+      responses:
+        '200':
+          description: The stored holder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holder'
+  /gadgets:
+    post:
+      operationId: addGadget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Gadget'
+      responses:
+        '200':
+          description: The stored gadget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gadget'
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    # a family that qualifies: a parent with a mapped discriminator of its own, three children of one level,
+    # one of them with no property of its own, two of them also members of a oneOf
+    Pet:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+          maxLength: 10
+        weight:
+          type: integer
+          minimum: 1
+          default: 5
+        tags:
+          type: array
+          items:
+            type: string
+        nick:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [active, gone]
+          default: active
+        secret:
+          type: string
+          format: password
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+          plain: '#/components/schemas/Plain'
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - lives
+          properties:
+            lives:
+              type: integer
+              minimum: 1
+              maximum: 9
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: string
+            size:
+              type: string
+              enum: [small, large]
+    Plain:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+    PetPick:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Holder:
+      type: object
+      properties:
+        pet:
+          $ref: '#/components/schemas/Pet'
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+        cat:
+          $ref: '#/components/schemas/Cat'
+    # a parent with no mapping: the children are named by their schema names
+    Gadget:
+      type: object
+      required:
+        - gadgetType
+      properties:
+        gadgetType:
+          type: string
+        serial:
+          type: string
+      discriminator:
+        propertyName: gadgetType
+    Phone:
+      allOf:
+        - $ref: '#/components/schemas/Gadget'
+        - type: object
+          properties:
+            number:
+              type: string
+    Watch:
+      allOf:
+        - $ref: '#/components/schemas/Gadget'
+        - type: object
+          properties:
+            straps:
+              type: integer
+    # allOf without a discriminator is merged into flat properties: a model like any other
+    FlatBase:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    FlatChild:
+      allOf:
+        - $ref: '#/components/schemas/FlatBase'
+        - type: object
+          properties:
+            extra:
+              type: string
+    # families that do not qualify, each for one cause
+    Chain:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          mid: '#/components/schemas/ChainMid'
+    ChainMid:
+      allOf:
+        - $ref: '#/components/schemas/Chain'
+        - type: object
+          properties:
+            midValue:
+              type: string
+    ChainLeaf:
+      allOf:
+        - $ref: '#/components/schemas/ChainMid'
+        - type: object
+          properties:
+            leafValue:
+              type: string
+    Over:
+      type: object
+      required:
+        - kind
+        - name
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/OverChild'
+    OverChild:
+      allOf:
+        - $ref: '#/components/schemas/Over'
+        - type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+              maxLength: 5
+    Marked:
+      type: object
+      x-parent: true
+      properties:
+        id:
+          type: string
+    MarkedChild:
+      allOf:
+        - $ref: '#/components/schemas/Marked'
+        - type: object
+          properties:
+            more:
+              type: string
+    SelfRef:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          base: '#/components/schemas/SelfRef'
+          child: '#/components/schemas/SelfChild'
+    SelfChild:
+      allOf:
+        - $ref: '#/components/schemas/SelfRef'
+        - type: object
+          properties:
+            more:
+              type: string
+    OpenBase:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+      additionalProperties:
+        type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/OpenChild'
+    OpenChild:
+      allOf:
+        - $ref: '#/components/schemas/OpenBase'
+        - type: object
+          properties:
+            more:
+              type: string
+    MemberBase:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/MemberChild'
+    MemberChild:
+      allOf:
+        - $ref: '#/components/schemas/MemberBase'
+        - type: object
+          properties:
+            more:
+              type: string
+    Other:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+    Either:
+      oneOf:
+        - $ref: '#/components/schemas/MemberBase'
+        - $ref: '#/components/schemas/Other'
+      discriminator:
+        propertyName: kind
+        mapping:
+          member: '#/components/schemas/MemberBase'
+          other: '#/components/schemas/Other'
+    BlobBase:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/BlobChild'
+    BlobChild:
+      allOf:
+        - $ref: '#/components/schemas/BlobBase'
+        - type: object
+          properties:
+            data:
+              type: string
+              format: byte
+    GetBase:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        getName:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/GetChild'
+    GetChild:
+      allOf:
+        - $ref: '#/components/schemas/GetBase'
+        - type: object
+          properties:
+            more:
+              type: string
+    Filter:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        limit:
+          type: integer
+      discriminator:
+        propertyName: kind
+        mapping:
+          narrow: '#/components/schemas/NarrowFilter'
+    NarrowFilter:
+      allOf:
+        - $ref: '#/components/schemas/Filter'
+        - type: object
+          properties:
+            field:
+              type: string
