@@ -22,9 +22,9 @@ repositories {
 ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.11.0"
-    jackson_version = "2.21.7"
+    jackson_version = "2.21.8"
     jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.7"
+    jackson_databind_version = "2.21.8"
     javax_ws_rs_api_version = "2.1.1"
     jackson_databind_nullable_version = "0.2.13"
     play_version = "2.6.7"

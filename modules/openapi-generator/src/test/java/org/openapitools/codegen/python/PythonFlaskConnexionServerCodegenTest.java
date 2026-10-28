@@ -182,6 +182,24 @@ public class PythonFlaskConnexionServerCodegenTest {
                 ": Trace(),");
         // User-supplied examples that merely look like a constructor are kept verbatim.
         assertFileContains(controllerTest, "('label', 'openapi_server.Filter()')", "('count', openapi_server.int())");
+        // A model-typed parameter with a default keeps the default as its example.
+        assertFileContains(controllerTest, "('status', 'open')]");
+        assertFileNotContains(controllerTest, "Status()");
         assertFileNotContains(controllerTest, "('filter', openapi_server.Filter())", "[openapi_server.Filter()]", "openapi_server.Trace()");
+    }
+
+    @Test(description = "free-form object query/header parameters are passed through, not converted with object.from_dict")
+    public void testFreeFormObjectParametersAreNotConvertedWithFromDict() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/free-form-object-params.yaml");
+
+        // Connexion passes {} for an absent object query parameter, so "object.from_dict(meta)" raised
+        // AttributeError (500) on every request.
+        final Path controller = Paths.get(outputPath, "openapi_server/controllers/default_controller.py");
+        assertFileExists(controller);
+        assertFileContains(controller, "x_extra = flask.request.headers.get('X-Extra')");
+        assertFileNotContains(controller, "object.from_dict");
+        // A named model without a top-level "type" (allOf) is still converted.
+        assertFileContains(controller, "composed = Composed.from_dict(composed)");
     }
 }

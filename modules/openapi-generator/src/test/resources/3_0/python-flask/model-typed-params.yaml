@@ -37,6 +37,11 @@ paths:
           schema:
             type: string
           example: openapi_server.Filter()
+        # a model-typed parameter with a default keeps the default as its example
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/Status'
       responses:
         '200':
           description: OK
@@ -62,3 +67,7 @@ components:
       properties:
         id:
           type: string
+    Status:
+      type: string
+      enum: [open, closed]
+      default: open
