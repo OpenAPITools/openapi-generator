@@ -777,7 +777,21 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();
+        postProcessConnexionOperationMap(objs.getOperations(), objs);
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
+        postProcessConnexionOperationMap(objs.getWebhooks(), objs);
+        return objs;
+    }
+
+    /**
+     * @param objs the enclosing operations/webhooks map; template-level flags (e.g. hasJsonHeaderParam) are set on it
+     */
+    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs) {
         List<CodegenOperation> operationList = operations.getOperation();
 
         boolean hasJsonHeaderParam = false;
@@ -859,7 +873,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
-        return objs;
     }
 
     /*
