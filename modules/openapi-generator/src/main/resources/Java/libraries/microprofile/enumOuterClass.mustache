@@ -65,6 +65,9 @@ import java.net.URI;
         return b;
       }
     }
-    {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/enumUnknownDefaultCase}}{{/useNullForUnknownEnumValue}}
+    {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}{{#enumUnknownDefaultCase}}{{#isNullable}}if (text == null) {
+      return null;
+    }
+    {{/isNullable}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/enumUnknownDefaultCase}}{{/useNullForUnknownEnumValue}}
   }
 }
