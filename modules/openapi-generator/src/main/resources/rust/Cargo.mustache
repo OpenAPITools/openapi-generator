@@ -68,7 +68,7 @@ http = "0.2.5"
 secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
-percent-encoding = "^2.3.2"
+percent-encoding = "^2.3"
 {{^supportAsync}}
 reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 {{#supportMiddleware}}
@@ -101,7 +101,7 @@ rustls = ["reqwest/rustls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
-percent-encoding = "^2.3.2"
+percent-encoding = "^2.3"
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
