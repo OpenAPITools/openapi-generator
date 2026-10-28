@@ -140,6 +140,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
         typeMapping.clear();
         typeMapping.put("integer", "Integer");
         typeMapping.put("long", "Long");
+        typeMapping.put("BigInteger", "BigInteger");
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("boolean", "Boolean");
