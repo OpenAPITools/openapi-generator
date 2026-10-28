@@ -984,7 +984,13 @@ public class OpenAPINormalizer {
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
-            normalizeSchema(result.getItems(), visitedSchemas);
+            if (result.getItems() != null) {
+                boolean isTypelessExt = isTypelessExternalObjectSchema(result.getItems());
+                Schema normalizedItems = normalizeSchema(result.getItems(), visitedSchemas);
+                if (isTypelessExt) {
+                    result.setItems(normalizedItems);
+                }
+            }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -1047,8 +1053,9 @@ public class OpenAPINormalizer {
                 anyTypeNullable.setNullable(true);
                 result.setAdditionalProperties(anyTypeNullable);
             } else {
+                boolean isTypelessExt = isTypelessExternalObjectSchema(additionalProperties);
                 Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
-                if (getRule(NORMALIZE_31SPEC)) {
+                if (getRule(NORMALIZE_31SPEC) || isTypelessExt) {
                     // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
                     // value is rewritten to a proper array schema), which would otherwise be lost.
                     result.setAdditionalProperties(normalized);
@@ -1178,7 +1185,49 @@ public class OpenAPINormalizer {
         return processSetMapToNullable(result);
     }
 
+    private boolean isTypelessExternalObjectSchema(Schema schema) {
+        if (openAPI != null && openAPI.getExtensions() != null &&
+                openAPI.getExtensions().containsKey("x-original-swagger-version")) {
+            return false;
+        }
+        return schema instanceof ObjectSchema &&
+                schema.getJsonSchema() != null &&
+                !schema.getJsonSchema().containsKey("type") &&
+                !schema.getJsonSchema().containsKey("properties") &&
+                !schema.getJsonSchema().containsKey("items") &&
+                schema.getProperties() == null &&
+                schema.getItems() == null &&
+                schema.getAdditionalProperties() == null &&
+                schema.getRequired() == null &&
+                schema.getMinProperties() == null &&
+                schema.getMaxProperties() == null &&
+                schema.getPatternProperties() == null &&
+                schema.getDiscriminator() == null &&
+                schema.getEnum() == null;
+    }
+
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
+        if (isTypelessExternalObjectSchema(schema)) {
+            // When swagger-parser resolves an external file via Jackson (ModelDeserializer),
+            // a typeless OAS 3.0 schema is deserialized into ObjectSchema (type="object")
+            // with raw fields recorded in jsonSchema (without a "type" key). Convert it
+            // back to a base Schema (type=null) so generators treat it as AnyType.
+            Schema sc = new Schema<>();
+            ModelUtils.copyMetadata(schema, sc);
+            sc.setPattern(schema.getPattern());
+            sc.setFormat(schema.getFormat());
+            sc.setMultipleOf(schema.getMultipleOf());
+            sc.setUniqueItems(schema.getUniqueItems());
+            sc.setExclusiveMinimum(schema.getExclusiveMinimum());
+            sc.setExclusiveMaximum(schema.getExclusiveMaximum());
+            sc.setExclusiveMinimumValue(schema.getExclusiveMinimumValue());
+            sc.setExclusiveMaximumValue(schema.getExclusiveMaximumValue());
+            sc.setNot(schema.getNot());
+            sc.setXml(schema.getXml());
+            sc.setExternalDocs(schema.getExternalDocs());
+            sc.setJsonSchema(schema.getJsonSchema());
+            schema = sc;
+        }
         Schema result = processNormalize31Spec(schema, visitedSchemas);
         return processSetPrimitiveTypesToNullable(result);
     }
