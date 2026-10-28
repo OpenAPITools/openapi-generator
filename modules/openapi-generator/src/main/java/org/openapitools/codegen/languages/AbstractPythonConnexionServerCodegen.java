@@ -881,7 +881,23 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();
+        postProcessConnexionOperationMap(objs.getOperations(), objs, allModels);
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
+        postProcessConnexionOperationMap(objs.getWebhooks(), objs, allModels);
+        return objs;
+    }
+
+    /**
+     * @param objs the enclosing operations/webhooks map; template-level flags (e.g. hasJsonHeaderParam) are set on it
+     * @param allModels all models, used to build examples for object-typed parameters
+     */
+    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs,
+                                                    List<ModelMap> allModels) {
         List<CodegenOperation> operationList = operations.getOperation();
 
         boolean hasJsonHeaderParam = false;
@@ -993,7 +1009,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 supportingFiles.add(new SupportingFile("param_parsing.mustache", packagePath(), "param_parsing.py"));
             }
         }
-        return objs;
     }
 
     /**
