@@ -259,6 +259,10 @@ paths:
                   type: string
                 'back\slash':
                   type: string
+                "we\x01ird":
+                  type: string
+                "de\x7flimited":
+                  type: string
       responses:
         '200':
           description: OK

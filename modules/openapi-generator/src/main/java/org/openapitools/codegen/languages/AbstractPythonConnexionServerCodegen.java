@@ -1108,10 +1108,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     /**
      * A form field's wire name as it should appear inside a {@code """} docstring:
-     * backslashes and double quotes are escaped so the generated source holds a
-     * valid Python string without a premature docstring terminator, while staying
-     * readable as the wire name (unlike {@link #pythonStringLiteral}, this is not
-     * wrapped in quotes).
+     * backslashes, double quotes and ASCII control characters are escaped so the
+     * generated source holds a valid Python string without a premature docstring
+     * terminator or raw control bytes, while staying readable as the wire name
+     * (unlike {@link #pythonStringLiteral}, this is not wrapped in quotes).
      */
     private static String docstringFieldName(String baseName) {
         if (baseName == null) {
@@ -1137,7 +1137,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     sb.append("\\t");
                     break;
                 default:
-                    sb.append(c);
+                    if (c < 0x20 || c == 0x7f) {
+                        sb.append(String.format(Locale.ROOT, "\\x%02x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
             }
         }
         return sb.toString();

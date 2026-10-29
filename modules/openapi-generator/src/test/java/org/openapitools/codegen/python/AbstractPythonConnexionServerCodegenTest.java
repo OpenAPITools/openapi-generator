@@ -613,8 +613,17 @@ public class AbstractPythonConnexionServerCodegenTest {
                 // wire names are emitted as escaped Python string literals
                 "async def create_quoted(request: web.Request, body=None) -> web.Response:",
                 "its = _form_body.get('it\\'s')",
-                "back_slash = _form_body.get('back\\\\slash')");
+                "back_slash = _form_body.get('back\\\\slash')",
+                "weird = _form_body.get('we\\x01ird')",
+                "delimited = _form_body.get('de\\x7flimited')",
+                // control characters in wire names are escaped in the docstring
+                // too, so the generated source stays loadable Python
+                ":param body: Form fields: it's (str); back\\\\slash (str); "
+                        + "we\\x01ird (str); de\\x7flimited (str)");
         assertFileNotContains(aiohttpController, "def update_pet_with_form(request: web.Request, pet_id, name");
+        // no raw control bytes are left in the generated source
+        assertFileNotContains(aiohttpController, "we\u0001ird");
+        assertFileNotContains(aiohttpController, "de\u007flimited");
         // the collapsed fields are no longer handler arguments, so they must not
         // keep their own :param entries; their names, types and descriptions move
         // into the dict argument's :param line
@@ -673,8 +682,14 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "note = _form_body.get('note')",
                     "def create_quoted(body=None):  # noqa: E501",
                     "its = _form_body.get('it\\'s')",
-                    "back_slash = _form_body.get('back\\\\slash')");
+                    "back_slash = _form_body.get('back\\\\slash')",
+                    "weird = _form_body.get('we\\x01ird')",
+                    "delimited = _form_body.get('de\\x7flimited')",
+                    ":param body: Form fields: it's (str); back\\\\slash (str); "
+                            + "we\\x01ird (str); de\\x7flimited (str)");
             assertFileNotContains(flaskController, "def update_pet_with_form(pet_id, name");
+            assertFileNotContains(flaskController, "we\u0001ird");
+            assertFileNotContains(flaskController, "de\u007flimited");
             assertFileNotContains(flaskController, ":param name:");
             assertFileNotContains(flaskController, ":param size:");
             assertFileNotContains(flaskController, ":param tag:");
