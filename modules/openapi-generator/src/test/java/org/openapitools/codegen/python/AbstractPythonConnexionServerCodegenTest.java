@@ -675,4 +675,15 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(blueplanetController, "_form_body");
         assertFileNotContains(blueplanetController, "def update_pet_with_form(pet_id, body");
     }
+
+    @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")
+    public void testAiohttpRequirementsIncludePythonDateutil() throws IOException {
+        Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
+        Path aiohttpRequirements = aiohttpDir.resolve("requirements.txt");
+        Path aiohttpSetupPy = aiohttpDir.resolve("setup.py");
+        assertFileExists(aiohttpRequirements);
+        assertFileExists(aiohttpSetupPy);
+        assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
+        assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
+    }
 }
