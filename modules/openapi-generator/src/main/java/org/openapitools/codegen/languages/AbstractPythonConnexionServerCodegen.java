@@ -776,6 +776,29 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        super.setParameterExampleValue(p);
+        // controller_test.mustache imports models by class name ({{#imports}}) and never imports the
+        // package (its __init__.py is empty), so a synthesized model example must be "Filter()"
+        // rather than "openapi_server.Filter()". Only the forms the parent builds for model types
+        // are rewritten; defaults and primitive-typed examples are left untouched.
+        String type = p.baseType != null ? p.baseType : p.dataType;
+        if (p.example == null || p.defaultValue != null || type == null
+                || languageSpecificPrimitives.contains(type)) {
+            return;
+        }
+        String qualified = packageName + "." + type + "()";
+        String bare = type + "()";
+        if (p.example.equals(qualified)) {
+            p.example = bare;
+        } else if (p.example.equals("[" + qualified + "]")) {
+            p.example = "[" + bare + "]";
+        } else if (p.example.equals("{'key': " + qualified + "}")) {
+            p.example = "{'key': " + bare + "}";
+        }
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         postProcessConnexionOperationMap(objs.getOperations(), objs);
         return objs;

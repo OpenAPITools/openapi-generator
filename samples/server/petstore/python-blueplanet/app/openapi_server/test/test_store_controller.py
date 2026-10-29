@@ -50,7 +50,7 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        body = openapi_server.Order()
+        body = Order()
         response = self.client.open(
             '/v2/store/order',
             method='POST',
