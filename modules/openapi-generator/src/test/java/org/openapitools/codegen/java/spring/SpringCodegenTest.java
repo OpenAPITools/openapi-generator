@@ -3071,6 +3071,10 @@ public class SpringCodegenTest {
                 .assertParameter("literalNull")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"null\""));
+        api.assertMethod("getPlaces")
+                .assertParameter("referencedLiteralNull")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"null\""));
     }
 
     @Test

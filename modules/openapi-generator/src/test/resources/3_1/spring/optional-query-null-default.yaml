@@ -47,6 +47,17 @@ paths:
           schema:
             type: string
             default: "null"
+        - name: referencedLiteralNull
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/stringWithNullDefault'
+            default: "null"
       responses:
         "200":
           description: OK
+components:
+  schemas:
+    stringWithNullDefault:
+      type: string
+      default: null

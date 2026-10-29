@@ -97,7 +97,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public String toDefaultParameterValue(Schema<?> schema) {
         Schema<?> effectiveSchema = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema) : schema;
-        Object defaultValue = effectiveSchema.getDefault();
+        Object defaultValue = schema.getDefault() != null ? schema.getDefault() : effectiveSchema.getDefault();
         if (defaultValue instanceof JsonNode && ((JsonNode) defaultValue).isNull()) {
             return null;
         }
