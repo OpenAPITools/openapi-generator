@@ -115,7 +115,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   @JsonCreator
   public {{classname}}(
     {{#requiredVars}}
-    @JsonProperty(required = {{required}}, value = "{{baseName}}") {{>beanValidatedType}} {{name}}{{^-last}},{{/-last}}
+    @JsonProperty(required = {{required}}, value = "{{baseName}}") {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{>beanValidatedType}}{{/lambda.jSpecifyDatatype}} {{name}}{{^-last}},{{/-last}}
     {{/requiredVars}}
   ) {
     {{#parent}}
@@ -141,7 +141,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   @JsonbCreator
   public {{classname}}(
     {{#requiredVars}}
-    @JsonbProperty("{{baseName}}") {{>beanValidatedType}} {{name}}{{^-last}},{{/-last}}
+    @JsonbProperty("{{baseName}}") {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{>beanValidatedType}}{{/lambda.jSpecifyDatatype}} {{name}}{{^-last}},{{/-last}}
     {{/requiredVars}}
   ) {
     {{#parent}}

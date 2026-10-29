@@ -30,11 +30,11 @@ public class RequiredAndNullable   {
 
   @JsonCreator
   public RequiredAndNullable(
-    @JsonProperty(required = true, value = "str") String str,
-    @JsonProperty(required = true, value = "file") File _file,
-    @JsonProperty(required = true, value = "color") String color,
+    @JsonProperty(required = true, value = "str") @Nullable String str,
+    @JsonProperty(required = true, value = "file") @Nullable File _file,
+    @JsonProperty(required = true, value = "color") @Nullable String color,
     @JsonProperty(required = true, value = "onlyRequired") String onlyRequired,
-    @JsonProperty(required = true, value = "list") List<String> _list
+    @JsonProperty(required = true, value = "list") @Nullable List<String> _list
   ) {
     this.str = str;
     this._file = _file;
