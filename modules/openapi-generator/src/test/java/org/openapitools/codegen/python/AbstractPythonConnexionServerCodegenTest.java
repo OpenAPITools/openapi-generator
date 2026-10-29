@@ -161,12 +161,17 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, additionalProperties, "src/test/resources/3_0/python/connexion-param-sources.yaml");
+    }
+
+    private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties,
+                                          String specPath) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(specPath)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -557,5 +562,117 @@ public class AbstractPythonConnexionServerCodegenTest {
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
         }
+    }
+
+    @Test(description = "OpenAPI 3 form request bodies are received as a single dict argument "
+            + "the way Connexion passes them (x-body-name or 'body'), with file fields staying "
+            + "separate arguments")
+    public void testFormBodyCollapsedIntoBodyArgument() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-body.yaml";
+
+        Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "async def update_pet_with_form(request: web.Request, pet_id, body=None) -> web.Response:",
+                "_form_body = body or {}",
+                "name = _form_body.get('name')",
+                "size = _form_body.get('size')",
+                "tag = _form_body.get('tag')",
+                "tag = util.deserialize_date(tag)",
+                "async def upload_pet_image(request: web.Request, pet_id, file, body=None) -> web.Response:",
+                "note = _form_body.get('note')",
+                "async def create_thing(request: web.Request, verbose=None, form=None) -> web.Response:",
+                "_form_body = form or {}",
+                "payload = _form_body.get('payload')",
+                "async def create_order(request: web.Request, body, coupon=None) -> web.Response:",
+                "amount = _form_body.get('amount')",
+                "async def replace_pet_form(request: web.Request, pet_id, body) -> web.Response:",
+                "async def create_gadget(request: web.Request, body=None) -> web.Response:",
+                "body = _form_body.get('body')",
+                "async def upload_mixed_case(request: web.Request, body=None, file=None) -> web.Response:",
+                ":param body:",
+                ":param form:",
+                ":type body: dict");
+        assertFileNotContains(aiohttpController, "def update_pet_with_form(request: web.Request, pet_id, name");
+        assertFileNotContains(aiohttpController, ":type body: dict | bytes");
+        // python-aiohttp always runs on Connexion 2.x, which prefers the requestBody-level
+        // x-body-name its own codegen injects ('body'), not the schema-level one
+        assertFileContains(
+                aiohttpController,
+                "async def create_widget(request: web.Request, body=None) -> web.Response:");
+        assertFileNotContains(aiohttpController, "schbody");
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            Path flaskController = generateOutputDir("python-flask", props, specPath)
+                    .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            assertFileExists(flaskController);
+            assertFileContains(
+                    flaskController,
+                    "def update_pet_with_form(pet_id, body=None):  # noqa: E501",
+                    "_form_body = body or {}",
+                    "name = _form_body.get('name')",
+                    "size = _form_body.get('size')",
+                    "tag = _form_body.get('tag')",
+                    "tag = util.deserialize_date(tag)",
+                    "def upload_pet_image(pet_id, file, body=None):  # noqa: E501",
+                    "note = _form_body.get('note')",
+                    "def create_thing(verbose=None, form=None):  # noqa: E501",
+                    "_form_body = form or {}",
+                    "payload = _form_body.get('payload')",
+                    "def create_order(body, coupon=None):  # noqa: E501",
+                    "amount = _form_body.get('amount')",
+                    "def replace_pet_form(pet_id, body):  # noqa: E501",
+                    "def create_gadget(body=None):  # noqa: E501",
+                    "body = _form_body.get('body')",
+                    "def upload_mixed_case(body=None, file=None):  # noqa: E501",
+                    ":param body:",
+                    ":param form:",
+                    ":type body: dict");
+            assertFileNotContains(flaskController, "def update_pet_with_form(pet_id, name");
+            assertFileNotContains(flaskController, ":type body: dict | bytes");
+        }
+
+        Path flaskCx2Controller = generateOutputDir("python-flask", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        // Connexion 2.x still reads the deprecated schema-level x-body-name as a fallback
+        assertFileContains(
+                flaskCx2Controller,
+                "def create_widget(schbody=None):  # noqa: E501",
+                "_form_body = schbody or {}",
+                ":param schbody:",
+                ":type schbody: dict");
+        Path flaskCx3Controller = generateOutputDir("python-flask", ImmutableMap.of("useConnexion3", "true"), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        // Connexion 3.x only reads x-body-name on the requestBody, so the schema-level
+        // extension is ignored and the argument falls back to 'body'
+        assertFileContains(
+                flaskCx3Controller,
+                "def create_widget(body=None):  # noqa: E501",
+                "note = _form_body.get('note')");
+        assertFileNotContains(flaskCx3Controller, "schbody");
+    }
+
+    @Test(description = "python-blueplanet targets Connexion 1.x, which passes form fields "
+            + "individually, so its handlers keep one argument per form field")
+    public void testBlueplanetKeepsIndividualFormFieldArguments() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-body.yaml";
+
+        Path blueplanetController = generateOutputDir("python-blueplanet", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(blueplanetController);
+        assertFileContains(
+                blueplanetController,
+                "def update_pet_with_form(pet_id, name, size=None, tag=None):  # noqa: E501",
+                "def upload_pet_image(pet_id, file, note=None):  # noqa: E501",
+                "def create_thing(verbose=None, payload=None):  # noqa: E501",
+                "def create_order(coupon=None, amount=None):  # noqa: E501",
+                "def replace_pet_form(pet_id, amount=None):  # noqa: E501",
+                "def create_widget(note=None):  # noqa: E501",
+                "def create_gadget(body=None, name=None):  # noqa: E501",
+                "def upload_mixed_case(name=None, file=None):  # noqa: E501");
+        assertFileNotContains(blueplanetController, "_form_body");
+        assertFileNotContains(blueplanetController, "def update_pet_with_form(pet_id, body");
     }
 }

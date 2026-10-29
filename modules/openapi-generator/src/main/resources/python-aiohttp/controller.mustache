@@ -31,7 +31,12 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
                 {{/isFile}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#vendorExtensions.x-python-connexion-form-body}}
+    :type {{paramName}}: dict
+                        {{/vendorExtensions.x-python-connexion-form-body}}
+                        {{^vendorExtensions.x-python-connexion-form-body}}
     :type {{paramName}}: dict | bytes
+                        {{/vendorExtensions.x-python-connexion-form-body}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -60,6 +65,12 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
 
     """
     {{#allParams}}
+        {{#vendorExtensions.x-python-connexion-form-dict-init}}
+    {{vendorExtensions.x-python-connexion-form-dict-local}} = {{vendorExtensions.x-python-connexion-form-field}} or {}
+        {{/vendorExtensions.x-python-connexion-form-dict-init}}
+        {{#vendorExtensions.x-python-connexion-form-field}}
+    {{paramName}} = {{vendorExtensions.x-python-connexion-form-dict-local}}.get('{{baseName}}')
+        {{/vendorExtensions.x-python-connexion-form-field}}
         {{#isHeaderParam}}
     {{paramName}} = request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isHeaderParam}}

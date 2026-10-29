@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: Form body test
+  version: 1.0.0
+paths:
+  /pets/{petId}/form:
+    post:
+      operationId: update_pet_with_form
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                size:
+                  description: Updated size of the pet
+                  type: integer
+                tag:
+                  description: Tag date
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: OK
+  /pets/{petId}/upload:
+    post:
+      operationId: upload_pet_image
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                note:
+                  description: Image note
+                  type: string
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+  /things:
+    post:
+      operationId: create_thing
+      parameters:
+        - name: verbose
+          in: query
+          required: false
+          schema:
+            type: boolean
+      requestBody:
+        x-body-name: form
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /orders:
+    post:
+      operationId: create_order
+      parameters:
+        - name: coupon
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+  /pets/{petId}/required-form:
+    post:
+      operationId: replace_pet_form
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+  /widgets:
+    post:
+      operationId: create_widget
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              x-body-name: schbody
+              type: object
+              properties:
+                note:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /gadgets:
+    post:
+      operationId: create_gadget
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /uploads:
+    post:
+      operationId: upload_mixed_case
+      requestBody:
+        content:
+          Multipart/Form-Data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK

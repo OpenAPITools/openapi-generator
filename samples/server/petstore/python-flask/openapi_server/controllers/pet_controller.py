@@ -95,13 +95,15 @@ def update_pet(body):  # noqa: E501
     return 'do some magic!'
 
 
-def update_pet_with_form(pet_id, name=None, status=None):  # noqa: E501
+def update_pet_with_form(pet_id, body=None):  # noqa: E501
     """Updates a pet in the store with form data
 
      # noqa: E501
 
     :param pet_id: ID of pet that needs to be updated
     :type pet_id: int
+    :param body: 
+    :type body: dict
     :param name: Updated name of the pet
     :type name: str
     :param status: Updated status of the pet
@@ -109,16 +111,21 @@ def update_pet_with_form(pet_id, name=None, status=None):  # noqa: E501
 
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
+    _form_body = body or {}
+    name = _form_body.get('name')
+    status = _form_body.get('status')
     return 'do some magic!'
 
 
-def upload_file(pet_id, additional_metadata=None, file=None):  # noqa: E501
+def upload_file(pet_id, body=None, file=None):  # noqa: E501
     """uploads an image
 
      # noqa: E501
 
     :param pet_id: ID of pet to update
     :type pet_id: int
+    :param body: 
+    :type body: dict
     :param additional_metadata: Additional data to pass to server
     :type additional_metadata: str
     :param file: file to upload
@@ -126,4 +133,6 @@ def upload_file(pet_id, additional_metadata=None, file=None):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
+    _form_body = body or {}
+    additional_metadata = _form_body.get('additionalMetadata')
     return 'do some magic!'

@@ -797,13 +797,50 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
+            boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation);
+            CodegenParameter formBodyParam = null;
+            String formDictLocal = null;
+            int formBodyIndex = -1;
+            int allParamsFormIndex = -1;
+            int allParamIndex = -1;
             for (CodegenParameter param : operation.allParams) {
+                allParamIndex++;
                 if (!param.isHeaderParam && !param.isCookieParam) {
-                    handlerParams.add(param);
+                    if (collapseFormBody && param.isFormParam && !param.isFile) {
+                        if (formBodyParam == null) {
+                            formBodyParam = newFormBodyParameter(operation);
+                            formBodyIndex = handlerParams.size();
+                            allParamsFormIndex = allParamIndex;
+                            formDictLocal = uniqueFormDictLocalName(operation, formBodyParam.paramName);
+                            // fields may be named like the dict argument itself (e.g. a form
+                            // field called 'body'), so the template extracts them from a
+                            // non-colliding local that this first field emits
+                            param.vendorExtensions.put("x-python-connexion-form-dict-init", Boolean.TRUE);
+                        }
+                        param.vendorExtensions.put("x-python-connexion-form-field", formBodyParam.paramName);
+                        param.vendorExtensions.put("x-python-connexion-form-dict-local", formDictLocal);
+                    } else {
+                        handlerParams.add(param);
+                    }
                 }
                 if (Boolean.TRUE.equals(param.vendorExtensions.get("x-python-connexion-json-content"))) {
                     hasJsonHeaderParam = true;
                 }
+            }
+            if (formBodyParam != null && !containsParam(handlerParams, formBodyParam.paramName)) {
+                // A dict argument after a required argument must not have a default (= invalid
+                // Python), and a required argument after an optional one must not be a bare name.
+                // Clamp the insertion point to the boundary between required and optional args;
+                // Connexion passes every argument by name, so the order only affects validity.
+                int requiredBoundary = 0;
+                while (requiredBoundary < handlerParams.size() && handlerParams.get(requiredBoundary).required) {
+                    requiredBoundary++;
+                }
+                int insertAt = formBodyParam.required
+                        ? Math.min(formBodyIndex, requiredBoundary)
+                        : Math.max(formBodyIndex, requiredBoundary);
+                handlerParams.add(insertAt, formBodyParam);
+                operation.allParams.add(allParamsFormIndex, formBodyParam);
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
             Map<String, String> skipTests = new HashMap<>();
@@ -873,6 +910,132 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
+    }
+
+    /**
+     * Whether non-file form fields of an OpenAPI 3 form request body are collapsed into the
+     * single dict argument that Connexion 2.x/3.x passes ({@code x-body-name}, or {@code body}).
+     * python-blueplanet targets Connexion 1.x, which passes form fields individually.
+     */
+    protected boolean collapseFormBodyToDictArgument() {
+        return false;
+    }
+
+    private static boolean containsParam(List<CodegenParameter> params, String paramName) {
+        for (CodegenParameter param : params) {
+            if (param.paramName.equals(paramName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * A handler-local name to stash the form body dict in. It must not collide with
+     * any parameter-derived local: a form field may itself be named like the dict
+     * argument (e.g. 'body') or like the default local name.
+     */
+    private static String uniqueFormDictLocalName(CodegenOperation operation, String dictArgName) {
+        Set<String> usedNames = new HashSet<>();
+        for (CodegenParameter param : operation.allParams) {
+            usedNames.add(param.paramName);
+        }
+        usedNames.add(dictArgName);
+        String localName = "_form_body";
+        while (usedNames.contains(localName)) {
+            localName = "_" + localName;
+        }
+        return localName;
+    }
+
+    /**
+     * Whether Connexion treats the operation's first content type as a form body
+     * ({@code application/x-www-form-urlencoded} or {@code multipart/*}), the same rule
+     * {@link DefaultCodegen} uses to create form parameters.
+     */
+    private boolean consumesFormContent(CodegenOperation operation) {
+        if (operation.consumes == null || operation.consumes.isEmpty()) {
+            return false;
+        }
+        String mediaType = operation.consumes.get(0).get(MEDIA_TYPE);
+        if (mediaType == null) {
+            return false;
+        }
+        String normalized = mediaType.toLowerCase(Locale.ROOT);
+        return normalized.startsWith("application/x-www-form-urlencoded")
+                || normalized.startsWith("multipart");
+    }
+
+    /**
+     * The requestBody of the operation as defined in the source spec, for reading
+     * {@code x-body-name} and {@code required} the way Connexion does at runtime.
+     */
+    private RequestBody getOperationRequestBody(CodegenOperation operation) {
+        if (this.openAPI == null || this.openAPI.getPaths() == null || operation.httpMethod == null) {
+            return null;
+        }
+        PathItem pathItem = this.openAPI.getPaths().get(operation.path);
+        if (pathItem == null) {
+            return null;
+        }
+        Operation swaggerOperation;
+        try {
+            swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        if (swaggerOperation == null) {
+            return null;
+        }
+        return ModelUtils.getReferencedRequestBody(this.openAPI, swaggerOperation.getRequestBody());
+    }
+
+    /**
+     * Whether the deprecated schema-level {@code x-body-name} is honored when naming
+     * the form body dict argument. Connexion 2.x reads it (with a deprecation warning)
+     * as a fallback; Connexion 3.x only reads the requestBody-level extension.
+     */
+    protected boolean honorSchemaLevelBodyName() {
+        return true;
+    }
+
+    /**
+     * The synthetic handler argument Connexion passes an OpenAPI 3 form body as:
+     * a single dict argument named after the requestBody's {@code x-body-name}
+     * ({@code body} otherwise, also the deprecated schema-level {@code x-body-name}
+     * where the targeted Connexion version still honors it), {@code =None} unless
+     * the requestBody is required.
+     */
+    private CodegenParameter newFormBodyParameter(CodegenOperation operation) {
+        RequestBody requestBody = getOperationRequestBody(operation);
+        String argName = "body";
+        boolean required = false;
+        String description = null;
+        if (requestBody != null) {
+            required = Boolean.TRUE.equals(requestBody.getRequired());
+            description = requestBody.getDescription();
+            Object name = requestBody.getExtensions() != null
+                    ? requestBody.getExtensions().get("x-body-name") : null;
+            if (name instanceof String && StringUtils.isNotEmpty((String) name)) {
+                argName = (String) name;
+            } else if (honorSchemaLevelBodyName()) {
+                Schema<?> schema = ModelUtils.getSchemaFromRequestBody(requestBody);
+                schema = schema != null ? ModelUtils.getReferencedSchema(this.openAPI, schema) : null;
+                Object schemaName = schema != null && schema.getExtensions() != null
+                        ? schema.getExtensions().get("x-body-name") : null;
+                if (schemaName instanceof String && StringUtils.isNotEmpty((String) schemaName)) {
+                    argName = (String) schemaName;
+                }
+            }
+        }
+        CodegenParameter formBodyParam = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        formBodyParam.paramName = toParamName(argName);
+        formBodyParam.baseName = formBodyParam.paramName;
+        formBodyParam.required = required;
+        formBodyParam.description = escapeText(description);
+        formBodyParam.vendorExtensions.put("x-python-connexion-form-body", Boolean.TRUE);
+        formBodyParam.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+        return formBodyParam;
     }
 
     /*
