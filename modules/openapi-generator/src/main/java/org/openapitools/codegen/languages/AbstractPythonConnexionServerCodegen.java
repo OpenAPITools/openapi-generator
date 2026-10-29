@@ -656,16 +656,156 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
+    public String toDefaultValue(Schema p) {
+        Schema<?> unaliased = p != null ? ModelUtils.unaliasSchema(this.openAPI, p) : null;
+        Object rawDefault = p != null && p.getDefault() != null ? p.getDefault()
+                : (unaliased != null ? unaliased.getDefault() : null);
+        Schema<?> target = unaliased != null ? unaliased : p;
+        if (target != null && ModelUtils.isArraySchema(target) && rawDefault instanceof Iterable<?>) {
+            return formatPythonDefaultValue(rawDefault, target);
+        }
+        return super.toDefaultValue(p);
+    }
+
+    private String formatPythonDefaultValue(Object value, Schema<?> schema) {
+        Schema<?> target = schema != null ? ModelUtils.unaliasSchema(this.openAPI, schema) : null;
+        if (value == null || (value instanceof com.fasterxml.jackson.databind.JsonNode
+                && ((com.fasterxml.jackson.databind.JsonNode) value).isNull())) {
+            return "None";
+        }
+        if (value instanceof com.fasterxml.jackson.databind.JsonNode) {
+            com.fasterxml.jackson.databind.JsonNode node = (com.fasterxml.jackson.databind.JsonNode) value;
+            if (node.isArray()) {
+                Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+                List<String> elements = new ArrayList<>();
+                for (com.fasterxml.jackson.databind.JsonNode elem : node) {
+                    elements.add(formatPythonDefaultValue(elem, itemSchema));
+                }
+                return "[" + String.join(", ", elements) + "]";
+            }
+            if (node.isObject()) {
+                List<String> entries = new ArrayList<>();
+                Iterator<Map.Entry<String, com.fasterxml.jackson.databind.JsonNode>> fields = node.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, com.fasterxml.jackson.databind.JsonNode> entry = fields.next();
+                    Schema<?> propSchema = null;
+                    if (target != null && target.getProperties() != null) {
+                        propSchema = (Schema<?>) target.getProperties().get(entry.getKey());
+                    } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                        propSchema = ModelUtils.getAdditionalProperties(target);
+                    }
+                    entries.add(formatPythonStringLiteral(entry.getKey()) + ": "
+                            + formatPythonDefaultValue(entry.getValue(), propSchema));
+                }
+                return "{" + String.join(", ", entries) + "}";
+            }
+            if (node.isBoolean() || (target != null && ModelUtils.isBooleanSchema(target))) {
+                return node.asBoolean() ? "True" : "False";
+            }
+            if (node.isNumber() || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+                return node.asText();
+            }
+            return formatPythonStringLiteral(node.asText());
+        }
+        if (value instanceof Iterable<?>) {
+            Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+            List<String> elements = new ArrayList<>();
+            for (Object elem : (Iterable<?>) value) {
+                elements.add(formatPythonDefaultValue(elem, itemSchema));
+            }
+            return "[" + String.join(", ", elements) + "]";
+        }
+        if (value instanceof Map<?, ?>) {
+            List<String> entries = new ArrayList<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+                String key = String.valueOf(entry.getKey());
+                Schema<?> propSchema = null;
+                if (target != null && target.getProperties() != null) {
+                    propSchema = (Schema<?>) target.getProperties().get(key);
+                } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                    propSchema = ModelUtils.getAdditionalProperties(target);
+                }
+                entries.add(formatPythonStringLiteral(key) + ": "
+                        + formatPythonDefaultValue(entry.getValue(), propSchema));
+            }
+            return "{" + String.join(", ", entries) + "}";
+        }
+        if (value instanceof Boolean || (target != null && ModelUtils.isBooleanSchema(target))) {
+            return Boolean.parseBoolean(value.toString()) ? "True" : "False";
+        }
+        if (value instanceof Number || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+            return value.toString();
+        }
+        return formatPythonStringLiteral(value.toString());
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
+        if (openapiName instanceof String) {
+            parameter.baseName = (String) openapiName;
+        }
+        if (parameter.isHeaderParam || parameter.isCookieParam) {
+            boolean isJsonContent = parameter.headerIsJsonMimeType
+                    || isJsonMimeType(parameter.contentType)
+                    || isJsonVendorMimeType(parameter.contentType);
+            if (isJsonContent) {
+                parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
+            } else if (parameter.isArray) {
+                if (parameter.items == null || !parameter.items.isModel) {
+                    parameter.vendorExtensions.put("x-python-connexion-split-csv", Boolean.TRUE);
+                }
+                if (parameter.items != null) {
+                    if (parameter.items.isInteger || parameter.items.isLong) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-int-items", Boolean.TRUE);
+                    } else if (parameter.items.isNumber || parameter.items.isFloat || parameter.items.isDouble) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-float-items", Boolean.TRUE);
+                    } else if (parameter.items.isBoolean) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-bool-items", Boolean.TRUE);
+                    }
+                }
+            } else if (parameter.isInteger || parameter.isLong) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-int", Boolean.TRUE);
+            } else if (parameter.isNumber || parameter.isFloat || parameter.isDouble) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-float", Boolean.TRUE);
+            } else if (parameter.isBoolean) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-bool", Boolean.TRUE);
+            }
+        }
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();
+        postProcessConnexionOperationMap(objs.getOperations(), objs);
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
+        postProcessConnexionOperationMap(objs.getWebhooks(), objs);
+        return objs;
+    }
+
+    /**
+     * @param objs the enclosing operations/webhooks map; template-level flags (e.g. hasJsonHeaderParam) are set on it
+     */
+    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs) {
         List<CodegenOperation> operationList = operations.getOperation();
 
+        boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
+            List<CodegenParameter> handlerParams = new ArrayList<>();
+            for (CodegenParameter param : operation.allParams) {
+                if (!param.isHeaderParam && !param.isCookieParam) {
+                    handlerParams.add(param);
+                }
+                if (Boolean.TRUE.equals(param.vendorExtensions.get("x-python-connexion-json-content"))) {
+                    hasJsonHeaderParam = true;
+                }
+            }
+            operation.vendorExtensions.put("x-handler-params", handlerParams);
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
@@ -724,8 +864,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                 }
             }
+            for (CodegenParameter param : operation.allParams) {
+                if ((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType)) {
+                    param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+                }
+            }
         }
-        return objs;
+        if (hasJsonHeaderParam) {
+            objs.put("hasJsonHeaderParam", Boolean.TRUE);
+        }
     }
 
     /*
@@ -736,6 +883,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             //Must follow Perl /pattern/modifiers convention

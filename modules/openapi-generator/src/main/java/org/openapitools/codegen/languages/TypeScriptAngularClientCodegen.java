@@ -263,10 +263,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces = convertPropertyToBooleanAndWriteBack(WITH_INTERFACES);
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
+        }
+
+        if (additionalProperties.containsKey(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES)) {
+            convertPropertyToBooleanAndWriteBack(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES);
         }
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
@@ -275,7 +279,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
-            taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
+            taggedUnions = convertPropertyToBooleanAndWriteBack(TAGGED_UNIONS);
         }
 
         if (additionalProperties.containsKey(PROVIDED_IN)) {

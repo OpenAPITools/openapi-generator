@@ -560,11 +560,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String apiFileFolder() {
         StringBuffer sb = new StringBuffer(outputFolder);
         sb.append(File.separatorChar);
@@ -657,33 +652,39 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
-        List<CodegenOperation> operations = objs.getOperations().getOperation();
-
-        if (useIndependentImplicitClients) {
-            renameIndependentClientOperationMembers(operations);
-        }
-
-        boolean hasJsonHeader = operations.stream()
-                .flatMap(operation -> operation.headerParams.stream())
-                .anyMatch(parameter ->
-                        parameter.vendorExtensions.containsKey("x-python-json-header"));
-
-        if (hasJsonHeader) {
-            objs.put("x-python-has-json-header", true);
-        }
-
+        postProcessClientOperations(objs, objs.getOperations().getOperation());
         OperationsMap result = super.postProcessOperationsWithModels(objs, allModels);
         flagOpenAPI32Operations(result.getOperations().getOperation());
         return result;
     }
 
     @Override
-    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+    public WebhooksMap postProcessWebhooksWithModels(
+            WebhooksMap objs, List<ModelMap> allModels) {
+        postProcessClientOperations(objs, objs.getWebhooks().getOperation());
         // webhooks render through api.mustache as well, so their non-standard
         // methods and querystring parameters need the same flags
-        objs = super.postProcessWebhooksWithModels(objs, allModels);
-        flagOpenAPI32Operations(objs.getWebhooks().getOperation());
-        return objs;
+        WebhooksMap result = super.postProcessWebhooksWithModels(objs, allModels);
+        flagOpenAPI32Operations(result.getWebhooks().getOperation());
+        return result;
+    }
+
+    private void postProcessClientOperations(
+            Map<String, Object> objs, List<CodegenOperation> operations) {
+        if (useIndependentImplicitClients) {
+            renameIndependentClientOperationMembers(operations);
+        }
+
+        if (hasJsonHeaderParameter(operations)) {
+            objs.put("x-python-has-json-header", true);
+        }
+    }
+
+    private boolean hasJsonHeaderParameter(List<CodegenOperation> operations) {
+        return operations.stream()
+                .flatMap(operation -> operation.headerParams.stream())
+                .anyMatch(parameter ->
+                        parameter.vendorExtensions.containsKey("x-python-json-header"));
     }
 
     // RFC 9110 tchar — additionalOperations keys must match this to be

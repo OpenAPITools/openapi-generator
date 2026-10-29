@@ -139,6 +139,47 @@ public class RubyNextgenClientCodegenTest {
     }
 
     @Test
+    public void testSupportingFilesRespectSelectiveApiGeneration() {
+        io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
+                .parseSpec("src/test/resources/3_0/petstore.yaml");
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        java.util.Map<String, java.util.List<org.openapitools.codegen.CodegenOperation>> groups =
+                new java.util.TreeMap<>();
+        for (java.util.Map.Entry<String, io.swagger.v3.oas.models.PathItem> pathEntry
+                : openAPI.getPaths().entrySet()) {
+            for (java.util.Map.Entry<io.swagger.v3.oas.models.PathItem.HttpMethod,
+                    io.swagger.v3.oas.models.Operation> operationEntry
+                    : pathEntry.getValue().readOperationsMap().entrySet()) {
+                org.openapitools.codegen.CodegenOperation operation = codegen.fromOperation(
+                        pathEntry.getKey(), operationEntry.getKey().name(), operationEntry.getValue(), null);
+                codegen.addOperationToGroup(null, pathEntry.getKey(), operationEntry.getValue(), operation, groups);
+            }
+        }
+
+        org.openapitools.codegen.model.OperationMap generatedOperations =
+                new org.openapitools.codegen.model.OperationMap();
+        generatedOperations.setClassname(codegen.toApiName("pet"));
+        org.openapitools.codegen.model.OperationsMap generatedApi =
+                new org.openapitools.codegen.model.OperationsMap();
+        generatedApi.setOperation(generatedOperations);
+        org.openapitools.codegen.model.ApiInfoMap apiInfo =
+                new org.openapitools.codegen.model.ApiInfoMap();
+        apiInfo.setApis(java.util.Collections.singletonList(generatedApi));
+
+        java.util.Map<String, Object> supportingData = new java.util.HashMap<>();
+        supportingData.put("apiInfo", apiInfo);
+        codegen.postProcessSupportingFileData(supportingData);
+
+        java.util.List<java.util.Map<String, Object>> namespaces =
+                (java.util.List<java.util.Map<String, Object>>) supportingData.get("rbNamespaces");
+        assertEquals(namespaces.size(), 1);
+        assertEquals(namespaces.get(0).get("routeName"), "pet");
+    }
+
+    @Test
     public void testOperationIdCollisionIsDeduped() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
                 .parseSpec("src/test/resources/3_0/petstore.yaml");
@@ -390,12 +431,98 @@ public class RubyNextgenClientCodegenTest {
         // and the model file itself must define the acronym-cased constant
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme/models/http_config.rb"), "HTTPConfig");
-        // Acronyms in API resource classes must be registered too: the file
-        // api/dedicated_cloud/two_fa_whitelist.rb defines DedicatedCloud::TwoFAWhitelist,
-        // which the default inflector (expecting TwoFaWhitelist) would fail to autoload.
+        // Acronyms in API resource classes must be registered too. Namespace and resource
+        // classes use separate files so Zeitwerk sees one constant per path.
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme.rb"), "\"two_fa_whitelist\" => \"TwoFAWhitelist\"");
         org.openapitools.codegen.TestUtils.assertFileContains(
-                target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "TwoFAWhitelist");
+                target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "class DedicatedCloud::TwoFAWhitelist");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/acme/api/dedicated_cloud.rb"),
+                "class DedicatedCloud", "def two_fa_whitelist",
+                "@two_fa_whitelist ||= DedicatedCloud::TwoFAWhitelist.new(@connection)");
+    }
+
+    @Test
+    public void testNestedResourcesAreReachableFromClient() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/nested-resources.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/client.rb"), "def stables", "Petstore::Api::Stables.new",
+                "def only", "Petstore::Api::Only.new");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/stables.rb"),
+                "def ponies", "@ponies ||= Stables::Ponies.new(@connection)");
+        org.openapitools.codegen.TestUtils.assertFileExists(
+                target.resolve("lib/petstore/api/stables/ponies.rb"));
+
+        java.nio.file.Path namespaceOnly = target.resolve("lib/petstore/api/only.rb");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                namespaceOnly, "class Only", "def children", "@children ||= Only::Children.new(@connection)",
+                "def siblings", "@siblings ||= Only::Siblings.new(@connection)");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(
+                namespaceOnly, "class Only::Children", "class Only::Siblings");
+        assertEquals(java.nio.file.Files.readString(namespaceOnly),
+                "# frozen_string_literal: true\n"
+                        + "\n"
+                        + "module Petstore\n"
+                        + "  module Api\n"
+                        + "    class Only\n"
+                        + "      def initialize(connection)\n"
+                        + "        @connection = connection\n"
+                        + "      end\n"
+                        + "\n"
+                        + "      def children\n"
+                        + "        @children ||= Only::Children.new(@connection)\n"
+                        + "      end\n"
+                        + "\n"
+                        + "      def siblings\n"
+                        + "        @siblings ||= Only::Siblings.new(@connection)\n"
+                        + "      end\n"
+                        + "    end\n"
+                        + "  end\n"
+                        + "end\n");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("spec/api/only_spec.rb"),
+                "exposes children through the namespace client",
+                "exposes siblings through the namespace client");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/only/children.rb"), "class Only::Children");
+        org.openapitools.codegen.TestUtils.assertFileExists(
+                target.resolve("lib/petstore/api/only/siblings.rb"));
+    }
+
+    @Test
+    public void testResourceAccessorsUseFinalOperationIdsAndAvoidObjectMethods() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        java.util.Map<String, String> mappings = new java.util.HashMap<>();
+        mappings.put("stablesStats", "stables_ponies");
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/resource-accessor-collisions.yaml")
+                        .setOutputDir(target.toString())
+                        .setOperationIdNameMappings(mappings)
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        java.nio.file.Path stables = target.resolve("lib/petstore/api/stables.rb");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                stables, "def ponies(stable:", "def ponies_api", "def class_api", "def hash_api");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
     }
 }

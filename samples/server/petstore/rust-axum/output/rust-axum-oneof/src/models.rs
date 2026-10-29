@@ -94,6 +94,7 @@ pub fn check_xss_map<T>(
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+#[serde(deny_unknown_fields)]
 pub struct Goodbye {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(default = "Goodbye::_name_for_op")]
@@ -399,6 +400,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GoodbyeD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+#[serde(deny_unknown_fields)]
 pub struct Greeting {
     #[serde(rename = "d")]
     #[validate(nested)]
@@ -702,6 +704,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GreetingD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+#[serde(deny_unknown_fields)]
 pub struct Hello {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(default = "Hello::_name_for_op")]

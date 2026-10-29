@@ -38,7 +38,20 @@ use InvalidArgumentException;
  */
 class Configuration
 {
+    /**
+     * Serialize booleans in query strings as "1" or "0"
+     *
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
+     */
     public const BOOLEAN_FORMAT_INT = 'int';
+
+    /**
+     * Serialize booleans in query strings as "true" or "false" (default)
+     *
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
+     */
     public const BOOLEAN_FORMAT_STRING = 'string';
 
     /**
@@ -71,8 +84,10 @@ class Configuration
      * Boolean format for query string
      *
      * @var string
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
-    protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_INT;
+    protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_STRING;
 
     /**
      * Username for HTTP basic authentication
@@ -227,6 +242,8 @@ class Configuration
      * @param string $booleanFormat Boolean format for query string
      *
      * @return $this
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
     public function setBooleanFormatForQueryString(string $booleanFormat): static
     {
@@ -239,6 +256,8 @@ class Configuration
      * Gets boolean format for query string.
      *
      * @return string Boolean format for query string
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
     public function getBooleanFormatForQueryString(): string
     {

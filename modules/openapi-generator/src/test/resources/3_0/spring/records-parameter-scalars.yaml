@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects of scalars
+  version: 1.0.0
+paths:
+  /scalars:
+    get:
+      operationId: scalars
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/Scalars'}}
+      responses:
+        '200': {description: ok}
+components:
+  schemas:
+    Color:
+      type: string
+      enum: [red, green]
+    Scalars:
+      type: object
+      properties:
+        text: {type: string}
+        my-text: {type: string}
+        count: {type: integer, format: int32}
+        my-count: {type: integer, format: int64}
+        ratio: {type: number}
+        my-ratio: {type: number, format: double}
+        flag: {type: boolean}
+        my-flag: {type: boolean}
+        day: {type: string, format: date}
+        my-day: {type: string, format: date}
+        moment: {type: string, format: date-time}
+        my-moment: {type: string, format: date-time}
+        id: {type: string, format: uuid}
+        my-id: {type: string, format: uuid}
+        link: {type: string, format: uri}
+        my-link: {type: string, format: uri}
+        color: {$ref: '#/components/schemas/Color'}
+        my-color: {$ref: '#/components/schemas/Color'}
+        size: {type: string, enum: [s, m]}
+        my-size: {type: string, enum: [s, m]}
