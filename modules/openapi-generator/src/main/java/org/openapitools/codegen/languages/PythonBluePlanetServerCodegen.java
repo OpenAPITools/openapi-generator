@@ -268,4 +268,10 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     public String generatorLanguageVersion() {
         return "3.5.2+";
     }
+
+    @Override
+    protected boolean supportsObjectParameterParsing() {
+        // Connexion 1.x (Swagger 2.0) has no object-typed query/header parameters.
+        return false;
+    }
 }

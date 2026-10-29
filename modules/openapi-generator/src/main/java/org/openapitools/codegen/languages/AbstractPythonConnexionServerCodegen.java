@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -70,6 +72,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+    // Effective style/explode of an object-typed (model) query or header parameter.
+    static final String X_OBJECT_STYLE = "x-python-connexion-object-style";
+    static final String X_OBJECT_EXPLODE = "x-python-connexion-object-explode";
+    // Map<String, String> of wire values, used only by prepareObjectParameterExample (never by templates).
+    static final String X_OBJECT_EXAMPLE = "x-python-connexion-object-example";
+    // baseName escaped for a single-quoted Python literal.
+    static final String X_QUOTED_NAME = "x-python-connexion-quoted-name";
+    static final String HAS_OBJECT_PARAMS = "connexionObjectParams";
 
     // An object mapper that is used to convert an example string to
     // a "python-compliant" example string (boolean as True/False).
@@ -739,6 +749,100 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         return formatPythonStringLiteral(value.toString());
     }
 
+    /**
+     * Whether the generated server ships param_parsing.py to deserialize object-typed query/header
+     * parameters that Connexion leaves as raw strings (Connexion only parses style=deepObject itself).
+     */
+    protected boolean supportsObjectParameterParsing() {
+        return true;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        super.setParameterExampleValue(codegenParameter, parameter);
+        // This hook is the one place that sees both the CodegenParameter and the raw Parameter. The raw one
+        // is needed because DefaultCodegen leaves CodegenParameter.style null when the spec omits it and sets
+        // isExplode=false even for style=form, whose OpenAPI default is explode=true.
+        if (!supportsObjectParameterParsing() || !codegenParameter.isModel
+                || !(codegenParameter.isQueryParam || codegenParameter.isHeaderParam)
+                // serialized via "content" (e.g. JSON), handled by the JSON header path instead
+                || parameter.getContent() != null
+                // param_parsing.py only rebuilds plain objects whose properties are all scalars
+                // (style=simple/form cannot carry nested objects or arrays); not allOf/oneOf/anyOf
+                || !isScalarObjectSchema(ModelUtils.getReferencedSchema(openAPI, parameter.getSchema()))) {
+            return;
+        }
+        // OpenAPI defaults: query -> style=form, header -> style=simple; explode defaults to true only for form.
+        String style = parameter.getStyle() != null ? parameter.getStyle().toString()
+                : (codegenParameter.isQueryParam ? "form" : "simple");
+        boolean supportedStyle = codegenParameter.isQueryParam
+                ? "form".equals(style) || "deepObject".equals(style)
+                : "simple".equals(style);
+        if (!supportedStyle) {
+            return;
+        }
+        boolean explode = parameter.getExplode() != null ? parameter.getExplode() : "form".equals(style);
+        codegenParameter.vendorExtensions.put(X_OBJECT_STYLE, style);
+        codegenParameter.vendorExtensions.put(X_OBJECT_EXPLODE, explode);
+        // simple and non-exploded form put all properties in one comma-separated value
+        boolean delimited = !"deepObject".equals(style) && !("form".equals(style) && explode);
+        Map<String, String> explicitExample = explicitObjectExample(parameter, delimited);
+        if (explicitExample != null) {
+            codegenParameter.vendorExtensions.put(X_OBJECT_EXAMPLE, explicitExample);
+        }
+    }
+
+    /**
+     * The example the spec gives for an object parameter (parameter example/examples, then the schema's
+     * example or default), as wire values, or null when there is none usable. A candidate is used whole
+     * or not at all: one with a null/non-scalar value, a key that is not a property, or (when delimited)
+     * a value containing "," or "=" is skipped, rather than sent with parts silently dropped.
+     */
+    private Map<String, String> explicitObjectExample(Parameter parameter, boolean delimited) {
+        List<Object> candidates = new ArrayList<>();
+        candidates.add(parameter.getExample());
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example first = parameter.getExamples().values().iterator().next();
+            candidates.add(first == null ? null : first.getValue());
+        }
+        Schema<?> schema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
+        if (schema == null || schema.getProperties() == null) {
+            return null;
+        }
+        candidates.add(schema.getExample());
+        candidates.add(schema.getDefault());
+        for (Object candidate : candidates) {
+            if (candidate instanceof JsonNode) {
+                // swagger-parser keeps object examples as Jackson nodes
+                candidate = ((JsonNode) candidate).isObject() ? MAPPER.convertValue(candidate, Map.class) : null;
+            }
+            if (!(candidate instanceof Map) || ((Map<?, ?>) candidate).isEmpty()) {
+                continue;
+            }
+            Map<String, String> values = new LinkedHashMap<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) candidate).entrySet()) {
+                Object value = entry.getValue();
+                String key = String.valueOf(entry.getKey());
+                if (value == null || value instanceof Map || value instanceof Collection
+                        || !schema.getProperties().containsKey(key)) {
+                    values = null;
+                    break;
+                }
+                String text = value instanceof Boolean ? value.toString().toLowerCase(Locale.ROOT) : value.toString();
+                if (delimited && (text.contains(",") || text.contains("="))) {
+                    // OpenAPI defines no escaping for these inside a simple/form value
+                    values = null;
+                    break;
+                }
+                values.put(key, text);
+            }
+            if (values != null && !values.isEmpty()) {
+                return values;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
@@ -777,24 +881,28 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        postProcessConnexionOperationMap(objs.getOperations(), objs);
+        postProcessConnexionOperationMap(objs.getOperations(), objs, allModels);
         return objs;
     }
 
     @Override
     public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
         // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
-        postProcessConnexionOperationMap(objs.getWebhooks(), objs);
+        postProcessConnexionOperationMap(objs.getWebhooks(), objs, allModels);
         return objs;
     }
 
     /**
      * @param objs the enclosing operations/webhooks map; template-level flags (e.g. hasJsonHeaderParam) are set on it
+     * @param allModels all models, used to build examples for object-typed parameters
      */
-    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs) {
+    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs,
+                                                    List<ModelMap> allModels) {
         List<CodegenOperation> operationList = operations.getOperation();
 
         boolean hasJsonHeaderParam = false;
+        boolean hasObjectParams = false;
+        boolean hasObjectHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
             for (CodegenParameter param : operation.allParams) {
@@ -806,6 +914,25 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
+            // header/cookie names go into single-quoted Python literals in the generated controller and test;
+            // {{baseName}} would HTML-escape them (e.g. "X-A&B" -> "X-A&amp;B")
+            for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.headerParams,
+                    operation.cookieParams)) {
+                for (CodegenParameter param : params) {
+                    param.vendorExtensions.put(X_QUOTED_NAME, escapeTextInSingleQuotes(param.baseName));
+                }
+            }
+            // allParams, queryParams and headerParams hold separate copies of each parameter.
+            for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.queryParams,
+                    operation.headerParams)) {
+                for (CodegenParameter param : params) {
+                    if (supportsObjectParameterParsing() && param.vendorExtensions.containsKey(X_OBJECT_STYLE)) {
+                        hasObjectParams = true;
+                        hasObjectHeaderParam |= param.isHeaderParam;
+                        prepareObjectParameterExample(param, allModels);
+                    }
+                }
+            }
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
@@ -873,6 +1000,157 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
+        if (hasObjectHeaderParam) {
+            objs.put("hasObjectHeaderParam", Boolean.TRUE);
+        }
+        if (hasObjectParams) {
+            if (!Boolean.TRUE.equals(additionalProperties.get(HAS_OBJECT_PARAMS))) {
+                additionalProperties.put(HAS_OBJECT_PARAMS, Boolean.TRUE);
+                supportingFiles.add(new SupportingFile("param_parsing.mustache", packagePath(), "param_parsing.py"));
+            }
+        }
+    }
+
+    /**
+     * Serializes the example of an object-typed query/header parameter the way the OpenAPI style
+     * prescribes, so the generated controller test sends a request the server can deserialize:
+     * header (simple) -> "k,v,k2,v2" (or "k=v,k2=v2" when exploded) as the example;
+     * query (form, explode) -> one (property, value) pair per property;
+     * query (deepObject) -> ("param[property]", value) pairs;
+     * query (form, no explode) -> a single ("param", "k,v,k2,v2") pair.
+     * Only primitive properties of the model are used.
+     */
+    private void prepareObjectParameterExample(CodegenParameter param, List<ModelMap> allModels) {
+        CodegenModel model = null;
+        String type = param.baseType != null ? param.baseType : param.dataType;
+        for (ModelMap mm : allModels) {
+            if (mm.getModel() != null && mm.getModel().classname.equals(type)) {
+                model = mm.getModel();
+                break;
+            }
+        }
+        String style = (String) param.vendorExtensions.get(X_OBJECT_STYLE);
+        boolean explode = Boolean.TRUE.equals(param.vendorExtensions.get(X_OBJECT_EXPLODE));
+        boolean delimited = param.isHeaderParam || ("form".equals(style) && !explode);
+        List<String[]> values = new ArrayList<>();
+        @SuppressWarnings("unchecked")
+        Map<String, String> explicitExample = (Map<String, String>) param.vendorExtensions.get(X_OBJECT_EXAMPLE);
+        if (explicitExample != null) {
+            for (Map.Entry<String, String> entry : explicitExample.entrySet()) {
+                values.add(new String[]{entry.getKey(), entry.getValue()});
+            }
+        } else if (model != null) {
+            for (CodegenProperty var : model.vars) {
+                String value = wireExampleValue(var, delimited);
+                if (value != null) {
+                    values.add(new String[]{var.baseName, value});
+                }
+            }
+        }
+        if (delimited) {
+            List<String> parts = new ArrayList<>();
+            for (String[] kv : values) {
+                parts.add(explode ? kv[0] + "=" + kv[1] : kv[0] + "," + kv[1]);
+            }
+            param.example = "'" + escapeTextInSingleQuotes(String.join(",", parts)) + "'";
+            if (param.isQueryParam) {
+                param.vendorExtensions.put("x-python-connexion-test-query-pairs",
+                        Collections.singletonList(testPair(escapeTextInSingleQuotes(param.baseName), param.example)));
+            }
+            return;
+        }
+        List<Map<String, String>> pairs = new ArrayList<>();
+        for (String[] kv : values) {
+            String key = "deepObject".equals(style) ? param.baseName + "[" + kv[0] + "]" : kv[0];
+            pairs.add(testPair(escapeTextInSingleQuotes(key), "'" + escapeTextInSingleQuotes(kv[1]) + "'"));
+        }
+        param.vendorExtensions.put("x-python-connexion-test-query-pairs", pairs);
+    }
+
+    /**
+     * A "type: object" schema that is not composed and whose properties are all scalars (string, integer,
+     * number, boolean, including enums and dates). "type" is required because Connexion itself reads
+     * param_schema['type'] while parsing query parameters. Must match _is_object() in param_parsing.mustache.
+     */
+    private boolean isScalarObjectSchema(Schema<?> schema) {
+        if (schema == null || ModelUtils.isComposedSchema(schema)
+                || schema.getProperties() == null || schema.getProperties().isEmpty()) {
+            return false;
+        }
+        if (!"object".equals(schemaType(schema))) {
+            return false;
+        }
+        for (Schema<?> property : schema.getProperties().values()) {
+            String propertyType = schemaType(ModelUtils.getReferencedSchema(openAPI, property));
+            if (!"string".equals(propertyType) && !"integer".equals(propertyType)
+                    && !"number".equals(propertyType) && !"boolean".equals(propertyType)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String schemaType(Schema<?> schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (schema.getType() != null) {
+            return schema.getType();
+        }
+        if (schema.getTypes() != null && schema.getTypes().size() == 1) {
+            return schema.getTypes().iterator().next();
+        }
+        return null;
+    }
+
+    private static Map<String, String> testPair(String key, String value) {
+        Map<String, String> pair = new HashMap<>();
+        pair.put("key", key);
+        pair.put("value", value);
+        return pair;
+    }
+
+    /**
+     * Example value of a primitive model property as it appears on the wire, or null to leave it out.
+     * OpenAPI defines no escaping for "," and "=" inside style=simple/form values, so an example
+     * containing them is replaced by a placeholder rather than producing a request that parses wrongly.
+     */
+    private String wireExampleValue(CodegenProperty var, boolean delimited) {
+        String value = rawWireExampleValue(var);
+        if (delimited && value != null && (value.contains(",") || value.contains("="))) {
+            return var.isString ? var.baseName + "_example" : null;
+        }
+        return value;
+    }
+
+    private String rawWireExampleValue(CodegenProperty var) {
+        if (var.isBoolean) {
+            return var.example != null ? var.example.toLowerCase(Locale.ROOT) : "true";
+        }
+        if (var.isInteger || var.isLong) {
+            return var.example != null ? var.example : "56";
+        }
+        if (var.isNumber || var.isFloat || var.isDouble) {
+            return var.example != null ? var.example : "3.4";
+        }
+        // Property examples are Python literals here (e.g. 'abc'); the wire value is the bare text.
+        String example = var.example;
+        if (example != null && example.length() >= 2 && example.startsWith("'") && example.endsWith("'")) {
+            example = example.substring(1, example.length() - 1).replace("\\'", "'");
+        }
+        if (var.isEnum && var._enum != null && !var._enum.isEmpty()) {
+            return var._enum.contains(example) ? example : var._enum.get(0);
+        }
+        if (var.isString || var.isDate || var.isDateTime) {
+            if (var.isDate && (example == null || !example.matches("\\d{4}-\\d{2}-\\d{2}"))) {
+                return "2013-10-20";
+            }
+            if (var.isDateTime && (example == null || !example.matches("\\d{4}-\\d{2}-\\d{2}T.*"))) {
+                return "2013-10-20T19:20:30+01:00";
+            }
+            return StringUtils.isEmpty(example) ? var.baseName + "_example" : example;
+        }
+        return null;
     }
 
     /*

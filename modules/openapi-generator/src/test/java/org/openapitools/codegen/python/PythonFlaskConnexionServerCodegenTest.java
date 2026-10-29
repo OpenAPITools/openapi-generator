@@ -15,6 +15,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen;
 import org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -214,5 +215,88 @@ public class PythonFlaskConnexionServerCodegenTest {
         assertFileNotContains(controller, "object.from_dict");
         // A named model without a top-level "type" (allOf) is still converted.
         assertFileContains(controller, "composed = Composed.from_dict(composed)");
+    }
+
+    @Test(description = "object-typed query/header parameters are deserialized by the generated server and sent"
+            + " in their OpenAPI style by the generated controller test")
+    public void testObjectTypedQueryAndHeaderParameters() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/object-typed-params.yaml");
+
+        assertFileExists(Paths.get(outputPath, "openapi_server/param_parsing.py"));
+        assertFileContains(Paths.get(outputPath, "openapi_server/__main__.py"),
+                "options={'uri_parser_class': param_parsing.ObjectParameterURIParser}",
+                "validator_map={'parameter': param_parsing.ObjectParameterValidator}");
+        assertFileContains(Paths.get(outputPath, "openapi_server/test/__init__.py"),
+                "options={'uri_parser_class': param_parsing.ObjectParameterURIParser}",
+                "validator_map={'parameter': param_parsing.ObjectParameterValidator}");
+
+        // Connexion never passes header parameters to the handler, so the handler parses the header itself.
+        final Path controller = Paths.get(outputPath, "openapi_server/controllers/default_controller.py");
+        assertFileContains(controller, "from openapi_server import param_parsing",
+                "x_trace = param_parsing.parse_simple_object(x_trace, explode=False, model=Trace)");
+        // A header serialized via "content" (JSON) keeps the JSON path and is not parsed by style.
+        assertFileContains(controller, "x_meta = json.loads(x_meta)");
+        assertFileNotContains(controller, "parse_simple_object(x_meta");
+
+        // style=form (exploded), style=deepObject, style=form with explode=false, and a style=simple header.
+        final Path controllerTest = Paths.get(outputPath, "openapi_server/test/test_default_controller.py");
+        assertFileContains(controllerTest,
+                "query_string = [('name', 'abc'), ('size', '56'), ('active', 'true'), ('kind', 'small'),"
+                        + " ('since', '2013-10-20'),",
+                "('deep[name]', 'abc'), ('deep[size]', '56'), ('deep[active]', 'true'), ('deep[kind]', 'small'),"
+                        + " ('deep[since]', '2013-10-20'),",
+                "('packed', 'name,abc,size,56,active,true,kind,small,since,2013-10-20'),",
+                // a property that shares its parameter's name
+                "('label', 'tag'),",
+                "('limit', 56),",
+                "'X-Trace': 'id,id_example,hops,56,sampled,false',");
+        // allOf, pipeDelimited and objects with non-scalar properties are not handled by param_parsing.py,
+        // so they are not style-encoded.
+        assertFileNotContains(controllerTest, "('composed[", "('piped[", "('inner'", "('nested[");
+        // an explicit parameter example is used; keys are not HTML-escaped
+        assertFileContains(controllerTest, "'X-Hint': 'id,from-example,hops,7',", "('amp[a&b]', 'amp')");
+        assertFileNotContains(controllerTest, "&amp;");
+        assertFileContains(controllerTest, "'X-O\\'Brien': ");
+        // the handler reads the same, unescaped header name
+        assertFileContains(Paths.get(outputPath, "openapi_server/controllers/default_controller.py"),
+                "x_o_brien = flask.request.headers.get('X-O\\'Brien')");
+    }
+
+    @Test(description = "object-typed parameter parsing is registered for Connexion 3 as well")
+    public void testObjectTypedParametersConnexion3() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put("useConnexion3", true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/object-typed-params.yaml");
+
+        for (String file : new String[]{"openapi_server/__main__.py", "openapi_server/test/__init__.py"}) {
+            assertFileContains(Paths.get(outputPath, file),
+                    "uri_parser_class=param_parsing.ObjectParameterURIParser,",
+                    "validator_map={'parameter': param_parsing.ObjectParameterValidator}");
+        }
+    }
+
+    @Test(description = "object-typed parameter parsing is registered for python-aiohttp")
+    public void testObjectTypedParametersAiohttp() throws IOException {
+        final DefaultCodegen codegen = new PythonAiohttpConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/object-typed-params.yaml");
+
+        assertFileExists(Paths.get(outputPath, "openapi_server/param_parsing.py"));
+        for (String file : new String[]{"openapi_server/__init__.py", "tests/conftest.py"}) {
+            assertFileContains(Paths.get(outputPath, file),
+                    "\"uri_parser_class\": param_parsing.ObjectParameterURIParser",
+                    "validator_map={'parameter': param_parsing.ObjectParameterValidator}");
+        }
+        assertFileContains(Paths.get(outputPath, "openapi_server/controllers/default_controller.py"),
+                "x_trace = param_parsing.parse_simple_object(x_trace, explode=False, model=Trace)");
+    }
+
+    @Test(description = "specs without object-typed query/header parameters do not get param_parsing.py")
+    public void testNoObjectTypedParametersNoParamParsing() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/petstore.yaml");
+
+        Assert.assertFalse(Files.exists(Paths.get(outputPath, "openapi_server/param_parsing.py")));
+        assertFileNotContains(Paths.get(outputPath, "openapi_server/__main__.py"), "param_parsing");
     }
 }

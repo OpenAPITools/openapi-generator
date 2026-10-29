@@ -8,21 +8,29 @@ import connexion
 from flask_testing import TestCase
 
 from {{packageName}}.encoder import JSONEncoder
+{{#connexionObjectParams}}
+from {{packageName}} import param_parsing
+{{/connexionObjectParams}}
 
 
 class BaseTestCase(TestCase):
 
     def create_app(self):
         logging.getLogger('connexion.operation').setLevel('ERROR')
-        app = connexion.App(__name__, specification_dir='../openapi/')
+        app = connexion.App(__name__, specification_dir='../openapi/'{{#connexionObjectParams}},
+                            options={'uri_parser_class': param_parsing.ObjectParameterURIParser}{{/connexionObjectParams}})
         app.app.json_encoder = JSONEncoder
-        app.add_api('openapi.yaml', pythonic_params=True)
+        app.add_api('openapi.yaml', pythonic_params=True{{#connexionObjectParams}},
+                    validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
         return app.app
 {{/useConnexion3}}
 {{#useConnexion3}}
 from connexion.jsonifier import Jsonifier
 
 from {{packageName}}.encoder import JSONEncoder
+{{#connexionObjectParams}}
+from {{packageName}} import param_parsing
+{{/connexionObjectParams}}
 
 
 class _FlaskStyleResponse:
@@ -59,7 +67,9 @@ class BaseTestCase(unittest.TestCase):
         logging.getLogger('connexion.operation').setLevel('ERROR')
         app = connexion.FlaskApp(__name__, specification_dir='../openapi/')
         app.add_api('openapi.yaml', pythonic_params=True,
-                     jsonifier=Jsonifier(cls=JSONEncoder))
+                     jsonifier=Jsonifier(cls=JSONEncoder){{#connexionObjectParams}},
+                     uri_parser_class=param_parsing.ObjectParameterURIParser,
+                     validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
         self._raw_client_cm = app.test_client()
         self.client = _FlaskStyleTestClient(self._raw_client_cm.__enter__())
 
