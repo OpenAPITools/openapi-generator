@@ -32,7 +32,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
             {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'Basic Zm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
         }
         {{#formParams}}
-        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
+        {{#-first}}data = { {{/-first}}{{^-first}}            {{/-first}}'{{baseName}}': {{{example}}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
         {{/formParams}}
         response = self.client.open(
             '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},

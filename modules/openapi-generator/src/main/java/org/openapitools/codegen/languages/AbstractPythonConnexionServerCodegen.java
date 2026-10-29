@@ -50,8 +50,22 @@ import java.util.*;
 import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
 import static org.openapitools.codegen.CodegenConstants.X_REGEX;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
+    protected static final Set<String> PYTHON_BUILTINS = Set.of(
+            "abs", "aiter", "all", "anext", "any", "ascii", "bin", "bool",
+            "breakpoint", "bytearray", "bytes", "callable", "chr", "classmethod",
+            "compile", "complex", "copyright", "credits", "delattr", "dict",
+            "dir", "divmod", "enumerate", "eval", "exec", "exit", "filter",
+            "float", "format", "frozenset", "getattr", "globals", "hasattr",
+            "hash", "help", "hex", "id", "input", "int", "isinstance",
+            "issubclass", "iter", "len", "license", "list", "locals", "map",
+            "max", "memoryview", "min", "next", "object", "oct", "open", "ord",
+            "pow", "print", "property", "quit", "range", "repr", "reversed",
+            "round", "set", "setattr", "slice", "sorted", "staticmethod", "str",
+            "sum", "super", "tuple", "type", "vars", "zip");
+
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
         @Override
         public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -326,6 +340,47 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     /**
+     * Whether the generated application registers the API with Connexion's
+     * {@code pythonic_params} option. When enabled, Connexion passes handler
+     * arguments in snake_case with a trailing underscore on names that shadow
+     * a Python builtin or keyword, so parameter names are derived accordingly.
+     * Generators that register the API without {@code pythonic_params}
+     * (python-blueplanet, which targets Connexion 1.x) keep the parent's
+     * parameter naming.
+     *
+     * @return true when Connexion applies pythonic_params to handler arguments
+     */
+    protected boolean usesPythonicParams() {
+        return true;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        if (!usesPythonicParams()) {
+            return super.toParamName(name);
+        }
+
+        name = sanitizeName(name);
+        name = name.replace("$", "");
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase(Locale.ROOT);
+        }
+        name = underscore(name);
+
+        if (name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        } else if (PYTHON_BUILTINS.contains(name) || PYTHON_KEYWORDS.contains(name)) {
+            name = name + "_";
+        }
+
+        return name;
+    }
+
+    /**
      * Location to write api files.  You can use the apiPackage() as defined when the class is
      * instantiated
      */
@@ -587,6 +642,22 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             }
         }
 
+        // $ref'd parameters live under components; when the spec was parsed
+        // without resolving references, the $ref stub in the operation carries
+        // no extension and is skipped above, so revert components directly.
+        Components openAPIComponents = openAPI.getComponents();
+        if (openAPIComponents != null && openAPIComponents.getParameters() != null) {
+            for (Parameter parameter : openAPIComponents.getParameters().values()) {
+                Map<String, Object> parameterExtensions = parameter.getExtensions();
+                if (parameterExtensions != null) {
+                    String swaggerParameterName = (String) parameterExtensions.remove("x-python-connexion-openapi-name");
+                    if (swaggerParameterName != null && !swaggerParameterName.equals(parameter.getName())) {
+                        parameter.setName(swaggerParameterName);
+                    }
+                }
+            }
+        }
+
         generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
@@ -747,6 +818,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             parameter.baseName = (String) openapiName;
         }
         if (parameter.isHeaderParam || parameter.isCookieParam) {
+            // Header and cookie parameters are not passed to the handler by
+            // Connexion; the handler body reads them from the request into a
+            // local variable. Use the parent naming here so a header named
+            // e.g. 'json' becomes '_json' and cannot shadow names used by the
+            // templates (json.loads for JSON content headers).
+            parameter.paramName = super.toParamName(parameter.baseName);
             boolean isJsonContent = parameter.headerIsJsonMimeType
                     || isJsonMimeType(parameter.contentType)
                     || isJsonVendorMimeType(parameter.contentType);

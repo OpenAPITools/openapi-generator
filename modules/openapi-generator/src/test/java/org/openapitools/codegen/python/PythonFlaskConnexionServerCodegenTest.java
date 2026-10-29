@@ -176,7 +176,7 @@ public class PythonFlaskConnexionServerCodegenTest {
                 "from openapi_server.models.header_arg import HeaderArg  # noqa: E501",
                 "from openapi_server import util",
                 // header parameters are read from the request, not passed in by Connexion
-                "def item_event_post(filter):",
+                "def item_event_post(filter_):",
                 "x_json_arg = flask.request.headers.get('X-Json-Arg')",
                 "x_json_arg = json.loads(x_json_arg)",
                 "x_json_arg = HeaderArg.from_dict(x_json_arg)  # noqa: E501");
@@ -214,5 +214,89 @@ public class PythonFlaskConnexionServerCodegenTest {
         assertFileNotContains(controller, "object.from_dict");
         // A named model without a top-level "type" (allOf) is still converted.
         assertFileContains(controller, "composed = Composed.from_dict(composed)");
+    }
+
+    @Test(description = "handler argument names append trailing underscore for Python builtins and keywords to match Connexion pythonic_params")
+    public void testBuiltinAndKeywordParameterNames() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        Assert.assertEquals(codegen.toParamName("id"), "id_");
+        Assert.assertEquals(codegen.toParamName("filter"), "filter_");
+        Assert.assertEquals(codegen.toParamName("type"), "type_");
+        Assert.assertEquals(codegen.toParamName("format"), "format_");
+        Assert.assertEquals(codegen.toParamName("from"), "from_");
+        Assert.assertEquals(codegen.toParamName("aiter"), "aiter_");
+        Assert.assertEquals(codegen.toParamName("anext"), "anext_");
+        Assert.assertEquals(codegen.toParamName("pageSize"), "page_size");
+        // Connexion keeps leading underscores and passes 'callback' unchanged;
+        // parent reserved words that are not builtins/keywords stay as-is too.
+        Assert.assertEquals(codegen.toParamName("_from"), "_from");
+        Assert.assertEquals(codegen.toParamName("callback"), "callback");
+        Assert.assertEquals(codegen.toParamName("date"), "date");
+        Assert.assertEquals(codegen.toParamName("self"), "self");
+        Assert.assertEquals(codegen.toParamName("json"), "json");
+
+        final DefaultCodegen mappedCodegen = new PythonFlaskConnexionServerCodegen();
+        mappedCodegen.parameterNameMapping().put("filter", "custom_filter");
+        Assert.assertEquals(mappedCodegen.toParamName("filter"), "custom_filter");
+
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/builtin-param-names.yaml");
+
+        final Path controller = Paths.get(outputPath, "openapi_server/controllers/default_controller.py");
+        assertFileExists(controller);
+        assertFileContains(
+                controller,
+                "def get_thing(id_, filter_=None, type_=None, format_=None, from_=None, page_size=None):",
+                // id arrives via a $ref'd components/parameters entry
+                "def get_probe(id_, _from=None, callback=None, date=None, self=None):",
+                // a JSON header named 'json' must not shadow the json module
+                // used by the template for JSON content headers
+                "_json = flask.request.headers.get('json')",
+                "_json = json.loads(_json)",
+                // form fields keep Connexion's pythonic names in the signature
+                "def post_thing_form(filter_, type_=None):",
+                "def post_thing_multipart(filter_=None):");
+
+        final Path openapiYaml = Paths.get(outputPath, "openapi_server/openapi/openapi.yaml");
+        assertFileExists(openapiYaml);
+        assertFileContains(
+                openapiYaml,
+                "/things/{id}:",
+                "/probe/{id}:",
+                "name: id",
+                "name: filter",
+                "name: type",
+                "name: format",
+                "name: from",
+                "name: _from",
+                "name: callback",
+                "name: date",
+                "name: self",
+                "name: json",
+                "name: pageSize");
+        assertFileNotContains(
+                openapiYaml,
+                "/things/{id_}:",
+                "/probe/{id_}:",
+                "name: id_",
+                "name: filter_",
+                "name: type_",
+                "name: format_",
+                "name: from_",
+                "name: page_size",
+                "name: _json",
+                "x-python-connexion-openapi-name");
+
+        final Path controllerTest = Paths.get(outputPath, "openapi_server/test/test_default_controller.py");
+        assertFileExists(controllerTest);
+        assertFileContains(
+                controllerTest,
+                "('filter', 'filter__example')",
+                "('type', 'type__example')",
+                "('format', 'format__example')",
+                "('from', 'from__example')",
+                "('pageSize', 56)",
+                "'/v1/things/{id_}'.format(id_='id__example')",
+                // generated tests send form data under the wire (original) names
+                "data = { 'filter': 'filter__example',");
     }
 }
