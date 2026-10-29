@@ -511,7 +511,13 @@ namespace {{packageName}}.Client
                     }
                     catch (Exception ex)
                     {
+                        {{#throwOnAnyError}}
+                        var error = ex.InnerException != null ? ex.InnerException : ex;
+                        throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);
+                        {{/throwOnAnyError}}
+                        {{^throwOnAnyError}}
                         throw ex.InnerException != null ? ex.InnerException : ex;
+                        {{/throwOnAnyError}}
                     }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response

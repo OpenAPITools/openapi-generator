@@ -508,7 +508,8 @@ namespace Org.OpenAPITools.Client
                     }
                     catch (Exception ex)
                     {
-                        throw ex.InnerException != null ? ex.InnerException : ex;
+                        var error = ex.InnerException != null ? ex.InnerException : ex;
+                        throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);
                     }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
