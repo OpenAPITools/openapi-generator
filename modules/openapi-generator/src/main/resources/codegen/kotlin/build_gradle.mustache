@@ -1,8 +1,9 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.3.41"
+    kotlin("jvm") version "2.4.20"
     id("com.github.johnrengelman.shadow") version("5.0.0")
 }
 
@@ -51,8 +52,10 @@ tasks.register<ShadowJar>("standalone") {
     manifest.attributes(mapOf("Main-Class" to "org.openapitools.codegen.OpenAPIGenerator"))
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
 }
 
 tasks.wrapper {

@@ -9,9 +9,9 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <jackson3.version>3.1.6</jackson3.version>
         <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
-        <kotlin-test-junit5.version>2.2.0</kotlin-test-junit5.version>
+        <kotlin-test-junit5.version>2.4.20</kotlin-test-junit5.version>
 
-        <kotlin.version>2.2.0</kotlin.version>
+        <kotlin.version>2.4.20</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <parent>

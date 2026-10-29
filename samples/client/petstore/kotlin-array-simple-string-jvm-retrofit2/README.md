@@ -2,8 +2,8 @@
 
 ## Requires
 
-* Kotlin 1.4.30
-* Gradle 6.8.3
+* Kotlin 2.4.20
+* Gradle 8.14.5
 
 ## Build
 

@@ -110,7 +110,7 @@ data class Dog(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Breed {
-                return values().firstOrNull{ it.value == value }
+                return entries.firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Breed'")
             }
         }

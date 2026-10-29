@@ -29,7 +29,7 @@ enum class ReasonCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnu
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.Int): ReasonCode {
-            return values().firstOrNull{ it.value == value }
+            return entries.firstOrNull{ it.value == value }
                 ?: UNKNOWN_DEFAULT_OPEN_API
         }
     }
