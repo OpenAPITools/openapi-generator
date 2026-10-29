@@ -87,8 +87,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
 
     // Python function name suffix per security scheme name (e.g. "api-key" -> "api_key").
-    // Suffixes are assigned in spec order by addSecurityExtensions (called from
-    // preprocessOpenAPI) so that the x-*Func references written into the spec and the
+    // Suffixes are assigned by addSecurityExtensions (called from preprocessOpenAPI):
+    // scheme names that are already valid identifier parts keep their name, the rest are
+    // numbered in spec order, so that the x-*Func references written into the spec and the
     // function definitions emitted by security_controller.mustache always agree, even when
     // the scheme name is not a valid Python identifier. fromSecurity only reads the values
     // computed there; the computeIfAbsent fallback is not exercised in the normal flow.
@@ -468,6 +469,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
             securityFunctionNameSuffixes.clear();
+            // Reserve the suffix of names that already are valid identifier parts (no
+            // character replacement needed) so they keep the same function name as before.
+            // The remaining names are numbered afterwards, in spec order, avoiding the
+            // reserved suffixes (e.g. "api-key" listed before "api_key" gets "api_key_2",
+            // while "api_key" keeps "api_key").
+            for (String securityName : securitySchemes.keySet()) {
+                if (toPythonIdentifierSuffix(securityName).equals(securityName)) {
+                    securityFunctionNameSuffixes.put(securityName, securityName);
+                }
+            }
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
@@ -510,8 +521,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     /**
      * Returns the Python identifier suffix used for the info_from_/validate_scope_ functions
      * of the given security scheme name. The result is stable per scheme name and unique across
-     * schemes of the same spec: if the sanitized suffix is already taken by another scheme name
-     * (e.g. "api-key" vs "api.key"), "_2", "_3", ... is appended in spec order.
+     * schemes of the same spec. Scheme names that already are valid identifier parts are
+     * reserved by addSecurityExtensions and keep their name; for the others, if the sanitized
+     * suffix is already taken by another scheme name (e.g. "api-key" vs "api.key"), "_2",
+     * "_3", ... is appended in spec order.
      */
     private String securityFunctionNameSuffix(String schemeName) {
         return securityFunctionNameSuffixes.computeIfAbsent(schemeName, name -> {

@@ -115,11 +115,33 @@ paths:
             application/json:
               schema:
                 type: string
+  /plain:
+    get:
+      tags: [health]
+      operationId: ping_plain
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   securitySchemes:
+    # Sanitizes to "api_key", but that suffix and "api_key_2" are kept by the
+    # already-valid names below, so this is bumped to "api_key_3".
     api-key:
       type: apiKey
       name: X-API-Key
+      in: header
+    # Already a valid identifier even though listed after "api-key", which
+    # sanitizes to the same suffix: it must keep "api_key" unnumbered (the same
+    # function name as before the names were sanitized).
+    api_key:
+      type: apiKey
+      name: X-Plain-Key
       in: header
     petstore.auth:
       type: oauth2
@@ -133,13 +155,13 @@ components:
       type: http
       scheme: basic
     # Already a valid identifier and literally "api_key_2": it claims that
-    # suffix, so the colliding "api.key" below is bumped to "api_key_3".
+    # suffix, so the colliding "api-key" and "api.key" skip it.
     api_key_2:
       type: apiKey
       name: X-Third-Key
       in: header
-    # Sanitizes to the same suffix as "api-key"; "api_key_2" is also taken, so
-    # this must get "api_key_3".
+    # Sanitizes to the same suffix as "api-key"; "api_key" through "api_key_3"
+    # are taken, so this must get "api_key_4".
     api.key:
       type: apiKey
       name: X-API-Key-Alt

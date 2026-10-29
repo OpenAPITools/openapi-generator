@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -574,6 +575,25 @@ public class AbstractPythonConnexionServerCodegenTest {
         String specPath = "src/test/resources/3_0/python-flask/security-scheme-names.yaml";
         String funcBase = "openapi_server.controllers.security_controller.";
 
+        // scheme name -> extension name -> function name the extension must reference.
+        // "api_key" and "api_key_2" are already valid identifiers listed after names that
+        // sanitize to their suffix: they keep the unnumbered suffix (the same output as
+        // before sanitization), so "api-key" is bumped to "api_key_3" and "api.key" to
+        // "api_key_4". The user-provided x-apikeyInfoFunc on "alias-key" is preserved
+        // instead of being overwritten with the generated "info_from_alias_key".
+        Map<String, Map<String, String>> expectedFuncRefs = new LinkedHashMap<>();
+        expectedFuncRefs.put("api-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_3"));
+        expectedFuncRefs.put("api_key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key"));
+        expectedFuncRefs.put("petstore.auth", ImmutableMap.of(
+                "x-tokenInfoFunc", "info_from_petstore_auth",
+                "x-scopeValidateFunc", "validate_scope_petstore_auth"));
+        expectedFuncRefs.put("basic-auth", ImmutableMap.of("x-basicInfoFunc", "info_from_basic_auth"));
+        expectedFuncRefs.put("api_key_2", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_2"));
+        expectedFuncRefs.put("api.key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_4"));
+        expectedFuncRefs.put("1st-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_1st_key"));
+        expectedFuncRefs.put("bearer-token", ImmutableMap.of("x-bearerInfoFunc", "info_from_bearer_token"));
+        expectedFuncRefs.put("alias-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key"));
+
         Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
         variants.put("python-flask", Collections.emptyMap());
         variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
@@ -587,17 +607,6 @@ public class AbstractPythonConnexionServerCodegenTest {
             Path securityController = outputDir.resolve(
                     Paths.get("openapi_server", "controllers", "security_controller.py"));
             assertFileExists(securityController);
-            assertFileContains(
-                    securityController,
-                    "def info_from_api_key(",
-                    "def info_from_petstore_auth(",
-                    "def validate_scope_petstore_auth(",
-                    "def info_from_basic_auth(",
-                    "def info_from_api_key_2(",
-                    "def info_from_1st_key(",
-                    "def info_from_bearer_token(",
-                    "def info_from_alias_key(",
-                    "def info_from_api_key_3(");
             assertFileNotContains(
                     securityController,
                     "def info_from__1st_key(",
@@ -621,6 +630,7 @@ public class AbstractPythonConnexionServerCodegenTest {
                             "info_from_api_key",
                             "info_from_api_key_2",
                             "info_from_api_key_3",
+                            "info_from_api_key_4",
                             "info_from_petstore_auth",
                             "validate_scope_petstore_auth",
                             "info_from_basic_auth",
@@ -628,25 +638,39 @@ public class AbstractPythonConnexionServerCodegenTest {
                             "info_from_bearer_token",
                             "info_from_alias_key");
 
-            // the x-*Func references in the spec must point at the generated functions
+            // each scheme's x-*Func reference in the generated spec must point at the
+            // function defined for it in security_controller.py
             Path openapiYaml = outputDir.resolve(
                     Paths.get("openapi_server", "openapi", "openapi.yaml"));
             assertFileExists(openapiYaml);
-            assertFileContains(
-                    openapiYaml,
-                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key",
-                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key_2",
-                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key_3",
-                    "x-apikeyInfoFunc: " + funcBase + "info_from_1st_key",
-                    "x-tokenInfoFunc: " + funcBase + "info_from_petstore_auth",
-                    "x-scopeValidateFunc: " + funcBase + "validate_scope_petstore_auth",
-                    "x-basicInfoFunc: " + funcBase + "info_from_basic_auth",
-                    "x-bearerInfoFunc: " + funcBase + "info_from_bearer_token");
-            // a user-provided x-apikeyInfoFunc ("alias-key" -> info_from_api_key) is
-            // preserved instead of being overwritten with the generated name
-            assertFileNotContains(
-                    openapiYaml,
-                    "x-apikeyInfoFunc: " + funcBase + "info_from_alias_key");
+            OpenAPI generatedSpec = new OpenAPIParser()
+                    .readLocation(openapiYaml.toString(), null, new ParseOptions())
+                    .getOpenAPI();
+            assertThat(generatedSpec)
+                    .as("%s: generated openapi.yaml must parse as OpenAPI", label)
+                    .isNotNull();
+            Map<String, SecurityScheme> securitySchemes =
+                    generatedSpec.getComponents().getSecuritySchemes();
+            assertThat(securitySchemes)
+                    .as("%s: generated spec must declare security schemes", label)
+                    .isNotNull();
+            assertThat(securitySchemes.keySet())
+                    .as("%s: generated spec must declare every fixture scheme", label)
+                    .containsExactlyInAnyOrderElementsOf(expectedFuncRefs.keySet());
+            for (Map.Entry<String, Map<String, String>> schemeEntry : expectedFuncRefs.entrySet()) {
+                Map<String, Object> extensions =
+                        securitySchemes.get(schemeEntry.getKey()).getExtensions();
+                for (Map.Entry<String, String> funcRef : schemeEntry.getValue().entrySet()) {
+                    assertThat(extensions)
+                            .as("%s: %s.%s must reference the generated function",
+                                    label, schemeEntry.getKey(), funcRef.getKey())
+                            .containsEntry(funcRef.getKey(), funcBase + funcRef.getValue());
+                    assertThat(functionNames)
+                            .as("%s: %s.%s target must be defined in security_controller.py",
+                                    label, schemeEntry.getKey(), funcRef.getKey())
+                            .contains(funcRef.getValue());
+                }
+            }
         }
     }
 
