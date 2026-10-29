@@ -1,0 +1,3 @@
+{{! The :type expression for a collapsed form field, in the same notation the :type
+cascade in controller.mustache produces. File fields and the form-body dict itself
+are absent: collapsed fields are never files, and the dict is a real argument. }}{{^isContainer}}{{#isPrimitiveType}}{{>param_type}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isUuid}}{{>param_type}}{{/isUuid}}{{^isUuid}}dict | bytes{{/isUuid}}{{/isPrimitiveType}}{{/isContainer}}{{#isArray}}{{#items}}{{#isPrimitiveType}}List[{{>param_type}}]{{/isPrimitiveType}}{{^isPrimitiveType}}list | bytes{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isPrimitiveType}}Dict[str, {{>param_type}}]{{/isPrimitiveType}}{{^isPrimitiveType}}dict | bytes{{/isPrimitiveType}}{{/items}}{{/isMap}}

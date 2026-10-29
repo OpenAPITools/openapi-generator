@@ -19,7 +19,8 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
     {{notes}} # noqa: E501
 
     {{#allParams}}
-    :param {{paramName}}: {{description}}
+        {{^vendorExtensions.x-python-connexion-form-field}}
+    :param {{paramName}}: {{description}}{{#vendorExtensions.x-python-connexion-form-body}}{{>form_fields_doc}}{{/vendorExtensions.x-python-connexion-form-body}}
         {{^isContainer}}
             {{#isPrimitiveType}}
     :type {{paramName}}: {{>param_type}}
@@ -33,7 +34,12 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
                 {{/isFile}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#vendorExtensions.x-python-connexion-form-body}}
+    :type {{paramName}}: dict
+                        {{/vendorExtensions.x-python-connexion-form-body}}
+                        {{^vendorExtensions.x-python-connexion-form-body}}
     :type {{paramName}}: dict | bytes
+                        {{/vendorExtensions.x-python-connexion-form-body}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -58,11 +64,18 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}
+        {{/vendorExtensions.x-python-connexion-form-field}}
     {{/allParams}}
 
     :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
     """
     {{#allParams}}
+        {{#vendorExtensions.x-python-connexion-form-dict-init}}
+    {{vendorExtensions.x-python-connexion-form-dict-local}} = {{{vendorExtensions.x-python-connexion-form-dict-init}}}
+        {{/vendorExtensions.x-python-connexion-form-dict-init}}
+        {{#vendorExtensions.x-python-connexion-form-field}}
+    {{paramName}} = {{vendorExtensions.x-python-connexion-form-dict-local}}.get({{{vendorExtensions.x-python-connexion-form-field-key}}})
+        {{/vendorExtensions.x-python-connexion-form-field}}
         {{#isHeaderParam}}
     {{paramName}} = flask.request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isHeaderParam}}

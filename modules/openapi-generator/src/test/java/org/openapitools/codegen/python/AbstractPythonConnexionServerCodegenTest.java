@@ -161,12 +161,17 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, additionalProperties, "src/test/resources/3_0/python/connexion-param-sources.yaml");
+    }
+
+    private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties,
+                                          String specPath) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(specPath)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -557,6 +562,218 @@ public class AbstractPythonConnexionServerCodegenTest {
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
         }
+    }
+
+    @Test(description = "OpenAPI 3 form request bodies are received as a single dict argument "
+            + "the way Connexion passes them (x-body-name or 'body'), with file fields staying "
+            + "separate arguments")
+    public void testFormBodyCollapsedIntoBodyArgument() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-body.yaml";
+
+        Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "async def update_pet_with_form(request: web.Request, pet_id, body=None) -> web.Response:",
+                "_form_body = body or {}",
+                "name = _form_body.get('name')",
+                "size = _form_body.get('size')",
+                "tag = _form_body.get('tag')",
+                "tag = util.deserialize_date(tag)",
+                "async def upload_pet_image(request: web.Request, pet_id, file, body=None) -> web.Response:",
+                "note = _form_body.get('note')",
+                "async def create_thing(request: web.Request, verbose=None, form=None) -> web.Response:",
+                "_form_body = form or {}",
+                "payload = _form_body.get('payload')",
+                "async def create_order(request: web.Request, body, coupon=None) -> web.Response:",
+                "amount = _form_body.get('amount')",
+                "async def replace_pet_form(request: web.Request, pet_id, body) -> web.Response:",
+                "async def create_gadget(request: web.Request, body=None) -> web.Response:",
+                "body = _form_body.get('body')",
+                "async def upload_mixed_case(request: web.Request, body=None, file=None) -> web.Response:",
+                "async def submit_pet_survey(request: web.Request, pet_id, body=None) -> web.Response:",
+                "scores = _form_body.get('scores')",
+                ":param body: Form fields: name (str): Updated name of the pet; "
+                        + "size (int): Updated size of the pet; tag (str): Tag date",
+                ":param body: Survey answers submitted by the owner. "
+                        + "Form fields: scores (List[int]): Rating scores; "
+                        + "labels (Dict[str, str]); comment (str); metadata (dict | bytes)",
+                ":param form: Form fields: payload (str)",
+                ":param file: file to upload",
+                ":type body: dict",
+                // a non-file argument colliding with the body name never reaches the
+                // handler (Connexion overwrites it with the dict), so the signature and
+                // docstring describe the dict that actually arrives
+                "async def create_collision_thing(request: web.Request, body=None) -> web.Response:",
+                "_form_body = body if isinstance(body, dict) else {}",
+                // a same-named file field is passed after the dict and wins instead
+                "async def upload_file_collision(request: web.Request, body=None) -> web.Response:",
+                "note = _form_body.get('note')",
+                // wire names are emitted as escaped Python string literals
+                "async def create_quoted(request: web.Request, body=None) -> web.Response:",
+                "its = _form_body.get('it\\'s')",
+                "back_slash = _form_body.get('back\\\\slash')",
+                "weird = _form_body.get('we\\x01ird')",
+                "delimited = _form_body.get('de\\x7flimited')",
+                // control characters in wire names are escaped in the docstring
+                // too, so the generated source stays loadable Python
+                ":param body: Form fields: it's (str); back\\\\slash (str); "
+                        + "we\\x01ird (str); de\\x7flimited (str)");
+        assertFileNotContains(aiohttpController, "def update_pet_with_form(request: web.Request, pet_id, name");
+        // no raw control bytes are left in the generated source
+        assertFileNotContains(aiohttpController, "we\u0001ird");
+        assertFileNotContains(aiohttpController, "de\u007flimited");
+        // the collapsed fields are no longer handler arguments, so they must not
+        // keep their own :param entries; their names, types and descriptions move
+        // into the dict argument's :param line
+        assertFileNotContains(aiohttpController, ":param name:");
+        assertFileNotContains(aiohttpController, ":param size:");
+        assertFileNotContains(aiohttpController, ":param tag:");
+        assertFileNotContains(aiohttpController, ":param scores:");
+        assertFileNotContains(aiohttpController, ":param payload:");
+        assertFileNotContains(aiohttpController, ":param amount:");
+        assertFileNotContains(aiohttpController, ":type body: dict | bytes");
+        assertFileNotContains(aiohttpController, "shadowed query parameter");
+        assertFileNotContains(aiohttpController, "&#39;");
+        // python-aiohttp always runs on Connexion 2.x, which prefers the requestBody-level
+        // x-body-name its own codegen injects ('body'), not the schema-level one
+        assertFileContains(
+                aiohttpController,
+                "async def create_widget(request: web.Request, body=None) -> web.Response:");
+        assertFileNotContains(aiohttpController, "schbody");
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            Path flaskController = generateOutputDir("python-flask", props, specPath)
+                    .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            assertFileExists(flaskController);
+            assertFileContains(
+                    flaskController,
+                    "def update_pet_with_form(pet_id, body=None):  # noqa: E501",
+                    "_form_body = body or {}",
+                    "name = _form_body.get('name')",
+                    "size = _form_body.get('size')",
+                    "tag = _form_body.get('tag')",
+                    "tag = util.deserialize_date(tag)",
+                    "def upload_pet_image(pet_id, file, body=None):  # noqa: E501",
+                    "note = _form_body.get('note')",
+                    "def create_thing(verbose=None, form=None):  # noqa: E501",
+                    "_form_body = form or {}",
+                    "payload = _form_body.get('payload')",
+                    "def create_order(body, coupon=None):  # noqa: E501",
+                    "amount = _form_body.get('amount')",
+                    "def replace_pet_form(pet_id, body):  # noqa: E501",
+                    "def create_gadget(body=None):  # noqa: E501",
+                    "body = _form_body.get('body')",
+                    "def upload_mixed_case(body=None, file=None):  # noqa: E501",
+                    "def submit_pet_survey(pet_id, body=None):  # noqa: E501",
+                    "scores = _form_body.get('scores')",
+                    ":param body: Form fields: name (str): Updated name of the pet; "
+                            + "size (int): Updated size of the pet; tag (str): Tag date",
+                    ":param body: Survey answers submitted by the owner. "
+                            + "Form fields: scores (List[int]): Rating scores; "
+                            + "labels (Dict[str, str]); comment (str); metadata (dict | bytes)",
+                    ":param form: Form fields: payload (str)",
+                    ":param file: file to upload",
+                    ":type body: dict",
+                    "def create_collision_thing(body=None):  # noqa: E501",
+                    "_form_body = body if isinstance(body, dict) else {}",
+                    "def upload_file_collision(body=None):  # noqa: E501",
+                    "note = _form_body.get('note')",
+                    "def create_quoted(body=None):  # noqa: E501",
+                    "its = _form_body.get('it\\'s')",
+                    "back_slash = _form_body.get('back\\\\slash')",
+                    "weird = _form_body.get('we\\x01ird')",
+                    "delimited = _form_body.get('de\\x7flimited')",
+                    ":param body: Form fields: it's (str); back\\\\slash (str); "
+                            + "we\\x01ird (str); de\\x7flimited (str)");
+            assertFileNotContains(flaskController, "def update_pet_with_form(pet_id, name");
+            assertFileNotContains(flaskController, "we\u0001ird");
+            assertFileNotContains(flaskController, "de\u007flimited");
+            assertFileNotContains(flaskController, ":param name:");
+            assertFileNotContains(flaskController, ":param size:");
+            assertFileNotContains(flaskController, ":param tag:");
+            assertFileNotContains(flaskController, ":param scores:");
+            assertFileNotContains(flaskController, ":param payload:");
+            assertFileNotContains(flaskController, ":param amount:");
+            assertFileNotContains(flaskController, ":type body: dict | bytes");
+            assertFileNotContains(flaskController, "shadowed query parameter");
+            assertFileNotContains(flaskController, "&#39;");
+        }
+
+        Path flaskCx2Controller = generateOutputDir("python-flask", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        // Connexion 2.x still reads the deprecated schema-level x-body-name as a fallback
+        assertFileContains(
+                flaskCx2Controller,
+                "def create_widget(schbody=None):  # noqa: E501",
+                "_form_body = schbody or {}",
+                ":param schbody:",
+                ":type schbody: dict");
+        Path flaskCx3Controller = generateOutputDir("python-flask", ImmutableMap.of("useConnexion3", "true"), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        // Connexion 3.x only reads x-body-name on the requestBody, so the schema-level
+        // extension is ignored and the argument falls back to 'body'
+        assertFileContains(
+                flaskCx3Controller,
+                "def create_widget(body=None):  # noqa: E501",
+                "note = _form_body.get('note')");
+        assertFileNotContains(flaskCx3Controller, "schbody");
+    }
+
+    @Test(description = "webhook operations get their form body argument name and "
+            + "required flag from the webhook PathItem's requestBody, the same way "
+            + "path operations do (x-body-name or 'body')")
+    public void testFormBodyCollapsedForWebhook() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-webhook.yaml";
+
+        Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "async def on_new_thing(request: web.Request, payload) -> web.Response:",
+                "_form_body = payload or {}",
+                "name = _form_body.get('name')",
+                ":param payload: Form fields: name (str)");
+        assertFileNotContains(aiohttpController, ":param name:");
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            Path flaskController = generateOutputDir("python-flask", props, specPath)
+                    .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            assertFileExists(flaskController);
+            assertFileContains(
+                    flaskController,
+                    "def on_new_thing(payload):  # noqa: E501",
+                    "_form_body = payload or {}",
+                    "name = _form_body.get('name')",
+                    ":param payload: Form fields: name (str)");
+            assertFileNotContains(flaskController, ":param name:");
+        }
+    }
+
+    @Test(description = "python-blueplanet targets Connexion 1.x, which passes form fields "
+            + "individually, so its handlers keep one argument per form field")
+    public void testBlueplanetKeepsIndividualFormFieldArguments() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-body.yaml";
+
+        Path blueplanetController = generateOutputDir("python-blueplanet", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(blueplanetController);
+        assertFileContains(
+                blueplanetController,
+                "def update_pet_with_form(pet_id, name, size=None, tag=None):  # noqa: E501",
+                "def upload_pet_image(pet_id, file, note=None):  # noqa: E501",
+                "def create_thing(verbose=None, payload=None):  # noqa: E501",
+                "def submit_pet_survey(pet_id, scores=None, labels=None, comment=None, metadata=None):  # noqa: E501",
+                ":param name: Updated name of the pet",
+                "def create_order(coupon=None, amount=None):  # noqa: E501",
+                "def replace_pet_form(pet_id, amount=None):  # noqa: E501",
+                "def create_widget(note=None):  # noqa: E501",
+                "def create_gadget(body=None, name=None):  # noqa: E501",
+                "def upload_mixed_case(name=None, file=None):  # noqa: E501");
+        assertFileNotContains(blueplanetController, "_form_body");
+        assertFileNotContains(blueplanetController, "def update_pet_with_form(pet_id, body");
     }
 
     @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")

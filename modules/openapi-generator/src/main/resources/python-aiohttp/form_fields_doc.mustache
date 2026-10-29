@@ -1,0 +1,3 @@
+{{! Appended to the form-body dict argument's :param line. Folds the collapsed form
+fields' wire names, types and descriptions into the dict description; the fields
+themselves emit no :param entries because they are not handler arguments. }}{{#description}}. {{/description}}Form fields: {{#vendorExtensions.x-python-connexion-form-doc-fields}}{{{vendorExtensions.x-python-connexion-form-field-doc-name}}} ({{>form_field_type}}){{#description}}: {{description}}{{/description}}{{^-last}}; {{/-last}}{{/vendorExtensions.x-python-connexion-form-doc-fields}}

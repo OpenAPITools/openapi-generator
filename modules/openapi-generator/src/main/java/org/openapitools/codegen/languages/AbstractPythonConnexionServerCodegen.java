@@ -797,12 +797,133 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
+            List<CodegenParameter> formDocFields = new ArrayList<>();
+            boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation);
+            CodegenParameter formBodyParam = null;
+            CodegenParameter formDictInitParam = null;
+            String formDictLocal = null;
+            int formBodyIndex = -1;
+            int allParamsFormIndex = -1;
+            int allParamIndex = -1;
             for (CodegenParameter param : operation.allParams) {
+                allParamIndex++;
                 if (!param.isHeaderParam && !param.isCookieParam) {
-                    handlerParams.add(param);
+                    if (collapseFormBody && param.isFormParam && !param.isFile) {
+                        if (formBodyParam == null) {
+                            formBodyParam = newFormBodyParameter(operation);
+                            formBodyIndex = handlerParams.size();
+                            allParamsFormIndex = allParamIndex;
+                            formDictLocal = uniqueFormDictLocalName(operation, formBodyParam.paramName);
+                            // fields may be named like the dict argument itself (e.g. a form
+                            // field called 'body'), so the template extracts them from a
+                            // non-colliding local that this first field emits
+                            formDictInitParam = param;
+                            param.vendorExtensions.put("x-python-connexion-form-dict-init",
+                                    formBodyParam.paramName + " or {}");
+                        }
+                        param.vendorExtensions.put("x-python-connexion-form-field", formBodyParam.paramName);
+                        param.vendorExtensions.put("x-python-connexion-form-dict-local", formDictLocal);
+                        // the wire name goes into a Python string literal, so it must be
+                        // escaped for it; the template emits it with {{{ }}} (no HTML
+                        // escaping, which would corrupt e.g. a quote in the name)
+                        param.vendorExtensions.put("x-python-connexion-form-field-key",
+                                pythonStringLiteral(param.baseName));
+                        // the wire name is also quoted in the dict argument's :param
+                        // docstring, where a bare backslash would produce an invalid
+                        // escape sequence in the generated source
+                        param.vendorExtensions.put("x-python-connexion-form-field-doc-name",
+                                docstringFieldName(param.baseName));
+                        // an empty-string description is truthy in mustache (the default
+                        // compiler does not set emptyStringIsFalse), so normalize it or
+                        // the docstring emits a stray ": " after the field
+                        if (param.description != null && param.description.isEmpty()) {
+                            param.description = null;
+                        }
+                        formDocFields.add(param);
+                    } else {
+                        handlerParams.add(param);
+                    }
                 }
                 if (Boolean.TRUE.equals(param.vendorExtensions.get("x-python-connexion-json-content"))) {
                     hasJsonHeaderParam = true;
+                }
+            }
+            if (formBodyParam != null) {
+                // the collapsed fields are not handler arguments, so the docstring must not
+                // emit :param entries for them; the template folds their names, types and
+                // descriptions into the dict argument's :param line via this list
+                formBodyParam.vendorExtensions.put("x-python-connexion-form-doc-fields", formDocFields);
+                // Connexion passes path, then query, then the body dict, then file fields as
+                // handler arguments under the same Python name. A same-named non-file
+                // argument therefore never reaches the handler (the dict overwrites it) and
+                // is dropped so the signature and docstring describe the dict that actually
+                // arrives; a same-named file field wins instead, leaving the dict unreadable.
+                int allParamsInsertAt = allParamsFormIndex;
+                boolean collides = false;
+                for (Iterator<CodegenParameter> it = handlerParams.iterator(); it.hasNext(); ) {
+                    CodegenParameter param = it.next();
+                    if (!formBodyParam.paramName.equals(param.paramName)) {
+                        continue;
+                    }
+                    collides = true;
+                    if (param.isFile) {
+                        LOGGER.warn("Operation {}: the form request body is shadowed by the file "
+                                        + "field that Connexion passes under the same handler argument "
+                                        + "name '{}', so the non-file form fields never reach the "
+                                        + "handler. Set a distinct x-body-name on the requestBody to "
+                                        + "receive both.",
+                                operation.operationId, formBodyParam.paramName);
+                    } else {
+                        int paramIndex = operation.allParams.indexOf(param);
+                        if (paramIndex >= 0) {
+                            operation.allParams.remove(paramIndex);
+                            allParamsInsertAt = Math.min(allParamsInsertAt, paramIndex);
+                        }
+                        it.remove();
+                        LOGGER.warn("Operation {}: {} is shadowed by the form request body that "
+                                        + "Connexion passes under the same handler argument name "
+                                        + "'{}', so it never reaches the handler and was dropped from "
+                                        + "the generated signature. Set a distinct x-body-name on the "
+                                        + "requestBody to receive both.",
+                                operation.operationId, describeParam(param), formBodyParam.paramName);
+                    }
+                }
+                // header and cookie parameters are not handler arguments either; the
+                // template binds them to a local variable of the same name, overwriting
+                // the dict argument before the first form field reads it
+                for (CodegenParameter param : operation.allParams) {
+                    if (formBodyParam.paramName.equals(param.paramName)
+                            && (param.isHeaderParam || param.isCookieParam)) {
+                        collides = true;
+                        LOGGER.warn("Operation {}: {} binds to the same local variable name as the "
+                                        + "form request body argument '{}', overwriting it, so the "
+                                        + "non-file form fields never reach the handler. Set a "
+                                        + "distinct x-body-name on the requestBody to receive both.",
+                                operation.operationId, describeParam(param), formBodyParam.paramName);
+                    }
+                }
+                if (collides && formDictInitParam != null) {
+                    // the surviving argument is not guaranteed to hold the dict (a file field
+                    // wins, or a non-form request body may arrive), so read it defensively
+                    formDictInitParam.vendorExtensions.put("x-python-connexion-form-dict-init",
+                            formBodyParam.paramName + " if isinstance(" + formBodyParam.paramName
+                                    + ", dict) else {}");
+                }
+                if (!containsParam(handlerParams, formBodyParam.paramName)) {
+                    // A dict argument after a required argument must not have a default (= invalid
+                    // Python), and a required argument after an optional one must not be a bare name.
+                    // Clamp the insertion point to the boundary between required and optional args;
+                    // Connexion passes every argument by name, so the order only affects validity.
+                    int requiredBoundary = 0;
+                    while (requiredBoundary < handlerParams.size() && handlerParams.get(requiredBoundary).required) {
+                        requiredBoundary++;
+                    }
+                    int insertAt = Math.min(formBodyParam.required
+                            ? Math.min(formBodyIndex, requiredBoundary)
+                            : Math.max(formBodyIndex, requiredBoundary), handlerParams.size());
+                    handlerParams.add(insertAt, formBodyParam);
+                    operation.allParams.add(Math.min(allParamsInsertAt, operation.allParams.size()),
+                            formBodyParam);
                 }
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
@@ -873,6 +994,238 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);
         }
+    }
+
+    /**
+     * Whether non-file form fields of an OpenAPI 3 form request body are collapsed into the
+     * single dict argument that Connexion 2.x/3.x passes ({@code x-body-name}, or {@code body}).
+     * python-blueplanet targets Connexion 1.x, which passes form fields individually.
+     */
+    protected boolean collapseFormBodyToDictArgument() {
+        return false;
+    }
+
+    private static boolean containsParam(List<CodegenParameter> params, String paramName) {
+        for (CodegenParameter param : params) {
+            if (param.paramName.equals(paramName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * A handler-local name to stash the form body dict in. It must not collide with
+     * any parameter-derived local: a form field may itself be named like the dict
+     * argument (e.g. 'body') or like the default local name.
+     */
+    private static String uniqueFormDictLocalName(CodegenOperation operation, String dictArgName) {
+        Set<String> usedNames = new HashSet<>();
+        for (CodegenParameter param : operation.allParams) {
+            usedNames.add(param.paramName);
+        }
+        usedNames.add(dictArgName);
+        String localName = "_form_body";
+        while (usedNames.contains(localName)) {
+            localName = "_" + localName;
+        }
+        return localName;
+    }
+
+    /**
+     * Whether Connexion treats the operation's first content type as a form body
+     * ({@code application/x-www-form-urlencoded} or {@code multipart/*}), the same rule
+     * {@link DefaultCodegen} uses to create form parameters.
+     */
+    private boolean consumesFormContent(CodegenOperation operation) {
+        if (operation.consumes == null || operation.consumes.isEmpty()) {
+            return false;
+        }
+        String mediaType = operation.consumes.get(0).get(MEDIA_TYPE);
+        if (mediaType == null) {
+            return false;
+        }
+        String normalized = mediaType.toLowerCase(Locale.ROOT);
+        return normalized.startsWith("application/x-www-form-urlencoded")
+                || normalized.startsWith("multipart");
+    }
+
+    /**
+     * Where a dropped handler argument came from, for collision warnings.
+     */
+    private static String describeParam(CodegenParameter param) {
+        String location = param.isQueryParam ? "query "
+                : param.isPathParam ? "path "
+                : param.isBodyParam ? "body "
+                : param.isFormParam ? "form "
+                : param.isHeaderParam ? "header "
+                : param.isCookieParam ? "cookie "
+                : "";
+        return location + "parameter '" + param.baseName + "'";
+    }
+
+    /**
+     * A single-quoted Python string literal for an arbitrary wire name, escaping
+     * the quote, backslash, and ASCII control characters so any form field name
+     * produces valid Python. Unlike {@link #formatPythonStringLiteral}, which is
+     * for default values and switches to triple quotes for newlines, this keeps
+     * the literal on one line (dict keys do not need triple-quoted forms).
+     */
+    private static String pythonStringLiteral(String name) {
+        if (name == null) {
+            return "''";
+        }
+        StringBuilder sb = new StringBuilder(name.length() + 2);
+        sb.append('\'');
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\'':
+                    sb.append("\\'");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    if (c < 0x20 || c == 0x7f) {
+                        sb.append(String.format(Locale.ROOT, "\\x%02x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.append('\'').toString();
+    }
+
+    /**
+     * A form field's wire name as it should appear inside a {@code """} docstring:
+     * backslashes, double quotes and ASCII control characters are escaped so the
+     * generated source holds a valid Python string without a premature docstring
+     * terminator or raw control bytes, while staying readable as the wire name
+     * (unlike {@link #pythonStringLiteral}, this is not wrapped in quotes).
+     */
+    private static String docstringFieldName(String baseName) {
+        if (baseName == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder(baseName.length());
+        for (int i = 0; i < baseName.length(); i++) {
+            char c = baseName.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '"':
+                    sb.append("\\\"");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    if (c < 0x20 || c == 0x7f) {
+                        sb.append(String.format(Locale.ROOT, "\\x%02x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * The requestBody of the operation as defined in the source spec, for reading
+     * {@code x-body-name} and {@code required} the way Connexion does at runtime.
+     * Webhook operations carry the webhook name as their path (possibly with a
+     * '/' prepended under strict spec behavior) and are looked up in webhooks.
+     */
+    private RequestBody getOperationRequestBody(CodegenOperation operation) {
+        if (this.openAPI == null || operation.path == null || operation.httpMethod == null) {
+            return null;
+        }
+        PathItem pathItem = this.openAPI.getPaths() != null
+                ? this.openAPI.getPaths().get(operation.path) : null;
+        if (pathItem == null && this.openAPI.getWebhooks() != null) {
+            pathItem = this.openAPI.getWebhooks().get(operation.path);
+            if (pathItem == null && operation.path.startsWith("/")) {
+                pathItem = this.openAPI.getWebhooks().get(operation.path.substring(1));
+            }
+        }
+        if (pathItem == null) {
+            return null;
+        }
+        Operation swaggerOperation;
+        try {
+            swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        if (swaggerOperation == null) {
+            return null;
+        }
+        return ModelUtils.getReferencedRequestBody(this.openAPI, swaggerOperation.getRequestBody());
+    }
+
+    /**
+     * Whether the deprecated schema-level {@code x-body-name} is honored when naming
+     * the form body dict argument. Connexion 2.x reads it (with a deprecation warning)
+     * as a fallback; Connexion 3.x only reads the requestBody-level extension.
+     */
+    protected boolean honorSchemaLevelBodyName() {
+        return true;
+    }
+
+    /**
+     * The synthetic handler argument Connexion passes an OpenAPI 3 form body as:
+     * a single dict argument named after the requestBody's {@code x-body-name}
+     * ({@code body} otherwise, also the deprecated schema-level {@code x-body-name}
+     * where the targeted Connexion version still honors it), {@code =None} unless
+     * the requestBody is required.
+     */
+    private CodegenParameter newFormBodyParameter(CodegenOperation operation) {
+        RequestBody requestBody = getOperationRequestBody(operation);
+        String argName = "body";
+        boolean required = false;
+        String description = null;
+        if (requestBody != null) {
+            required = Boolean.TRUE.equals(requestBody.getRequired());
+            description = requestBody.getDescription();
+            Object name = requestBody.getExtensions() != null
+                    ? requestBody.getExtensions().get("x-body-name") : null;
+            if (name instanceof String && StringUtils.isNotEmpty((String) name)) {
+                argName = (String) name;
+            } else if (honorSchemaLevelBodyName()) {
+                Schema<?> schema = ModelUtils.getSchemaFromRequestBody(requestBody);
+                schema = schema != null ? ModelUtils.getReferencedSchema(this.openAPI, schema) : null;
+                Object schemaName = schema != null && schema.getExtensions() != null
+                        ? schema.getExtensions().get("x-body-name") : null;
+                if (schemaName instanceof String && StringUtils.isNotEmpty((String) schemaName)) {
+                    argName = (String) schemaName;
+                }
+            }
+        }
+        CodegenParameter formBodyParam = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        formBodyParam.paramName = toParamName(argName);
+        formBodyParam.baseName = formBodyParam.paramName;
+        formBodyParam.required = required;
+        formBodyParam.description = StringUtils.isEmpty(description) ? null : escapeText(description);
+        formBodyParam.vendorExtensions.put("x-python-connexion-form-body", Boolean.TRUE);
+        formBodyParam.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+        return formBodyParam;
     }
 
     /*
