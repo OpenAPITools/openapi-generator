@@ -1583,7 +1583,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
 
-    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded without BigDecimal.serializer()")
+    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded and decoded without a BigDecimal serializer")
     public void oneOfAnyOfKotlinxSerializationUnformattedNumber() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -1604,6 +1604,11 @@ public class KotlinClientCodegenModelTest {
             TestUtils.assertFileNotContains(modelPath(output, model), "java.math.BigDecimal.serializer()");
             TestUtils.assertFileContains(modelPath(output, model),
                     "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+            // the number is a JsonPrimitive and a plain Json has no BigDecimal serializer, so it is read from the content
+            TestUtils.assertFileNotContains(modelPath(output, model), "decodeFromJsonElement<java.math.BigDecimal>");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "if (jsonElement is JsonPrimitive && !jsonElement.isString) { try { return " + model
+                            + ".BigDecimalValue(jsonElement.content.toBigDecimal())");
         }
     }
 }
