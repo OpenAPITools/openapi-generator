@@ -53,6 +53,11 @@ paths:
           schema:
             $ref: '#/components/schemas/stringWithNullDefault'
             default: "null"
+        - name: referencedNullDefault
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/stringWithNullDefault'
       responses:
         "200":
           description: OK
