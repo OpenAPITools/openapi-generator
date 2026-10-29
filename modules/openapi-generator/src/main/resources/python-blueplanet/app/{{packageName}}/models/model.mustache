@@ -43,7 +43,7 @@ class {{classname}}(Model):
 
         self.attribute_map = {
 {{#vars}}
-            '{{name}}': '{{baseName}}'{{^-last}},{{/-last}}
+            '{{name}}': '{{{vendorExtensions.x-python-connexion-quoted-base-name}}}'{{^-last}},{{/-last}}
 {{/vars}}
         }
 {{#vars}}{{#-first}}

@@ -70,6 +70,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+    // names escaped for a single-quoted Python literal; emitting them via {{baseName}}/{{name}}
+    // would HTML-escape them (e.g. "a&b" -> "a&amp;b")
+    static final String X_QUOTED_BASE_NAME = "x-python-connexion-quoted-base-name";
+    static final String X_QUOTED_KEY_PARAM_NAME = "x-python-connexion-quoted-key-param-name";
+    // CodegenParameter.baseName escaped for a single-quoted Python literal; same name and
+    // meaning as the vendor extension used by the object-params work on controllers
+    static final String X_QUOTED_NAME = "x-python-connexion-quoted-name";
 
     // An object mapper that is used to convert an example string to
     // a "python-compliant" example string (boolean as True/False).
@@ -627,7 +634,67 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (anyPropertyMatches(property, p -> p.isUuid)) {
             addImport(model, "from uuid import UUID");
         }
+        // baseName goes into a single-quoted Python literal in attribute_map
+        property.vendorExtensions.put(X_QUOTED_BASE_NAME, escapeForPythonSingleQuotedLiteral(property.baseName));
         postProcessPattern(property.pattern, property.vendorExtensions);
+    }
+
+    /**
+     * Escape a name for embedding inside a single-quoted Python string literal (the
+     * surrounding quotes are supplied by the templates). Unlike
+     * {@link DefaultCodegen#escapeTextInSingleQuotes}, which folds tab/newline/CR into
+     * spaces and rewrites "'''" via {@link AbstractPythonCodegen#escapeUnsafeCharacters},
+     * this conversion is lossless: the literal always evaluates back to the original name.
+     */
+    public static String escapeForPythonSingleQuotedLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder(input.length());
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\'':
+                    sb.append("\\'");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    if (c < 0x20 || (c >= 0x7f && c <= 0x9f)) {
+                        sb.append("\\x");
+                        if (c < 0x10) {
+                            sb.append('0');
+                        }
+                        sb.append(Integer.toHexString(c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
+        for (CodegenSecurity cs : codegenSecurities) {
+            if (cs.keyParamName != null) {
+                // an apiKey-in-header's keyParamName goes into a single-quoted Python literal
+                // in generated tests (it is the header name, not the security scheme name)
+                cs.vendorExtensions.put(X_QUOTED_KEY_PARAM_NAME, escapeForPythonSingleQuotedLiteral(cs.keyParamName));
+            }
+        }
+        return codegenSecurities;
     }
 
     @Override
@@ -745,6 +812,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
         if (openapiName instanceof String) {
             parameter.baseName = (String) openapiName;
+        }
+        if (parameter.baseName != null) {
+            // baseName (the original wire name) goes into single-quoted Python literals in
+            // generated tests (query keys, blueplanet header names). Same extension name and
+            // meaning as in the object-params work that consumes it for controller lines.
+            parameter.vendorExtensions.put(X_QUOTED_NAME, escapeForPythonSingleQuotedLiteral(parameter.baseName));
         }
         if (parameter.isHeaderParam || parameter.isCookieParam) {
             boolean isJsonContent = parameter.headerIsJsonMimeType
