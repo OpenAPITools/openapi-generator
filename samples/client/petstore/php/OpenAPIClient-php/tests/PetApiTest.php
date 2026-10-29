@@ -433,14 +433,12 @@ class PetApiTest extends TestCase
         $length = strlen((string) ($value));
         $contents = implode("\n", array_map('trim', explode("\n", $contents)));
 
-        $expected = <<<END
-            Content-Disposition: form-data; name="{$name}"
-            Content-Length: {$length}
-            
-            {$value}
-            END;
+        // guzzlehttp/psr7 3.x no longer adds a Content-Length header to each part
+        $expected = '/' . preg_quote("Content-Disposition: form-data; name=\"{$name}\"", '/')
+            . "\n(Content-Length: {$length}\n)?\n"
+            . preg_quote((string) $value, '/') . "\n/";
 
-        $this->assertStringContainsString($expected, $contents);
+        $this->assertMatchesRegularExpression($expected, $contents);
     }
 
 //    Disabled as currently we don't have any endpoint that would return file
