@@ -9503,6 +9503,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void oneOf_single_alternative_with_description_is_removed_with_default_normalization() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_single_alternative_normalization.yaml", SPRING_BOOT,
+                Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true));
+
+        assertThat(files).doesNotContainKey("Shape.java");
+        assertThat(files).containsKeys("Circle.java");
+        JavaFileAssert.assertThat(files.get("Circle.java")).fileContains("class Circle", "kind", "radius")
+                .fileDoesNotContain("description = \"A shape to draw.\"");
+        assertThat(files).containsKeys("NullableShape.java");
+        JavaFileAssert.assertThat(files.get("NullableShape.java")).fileContains("description = \"A shape to draw.\"");
+    }
+
+    @Test
     void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", SPRING_BOOT,
             Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true"));

@@ -2681,7 +2681,9 @@ public class ModelUtils {
      * @return The simplified schema
      */
     public static Schema simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
-        if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
+        boolean openapi31 = openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion());
+        boolean nullSubSchemaRemoved = subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema));
+        if (nullSubSchemaRemoved) {
             schema.setNullable(true);
         }
 
@@ -2691,11 +2693,17 @@ public class ModelUtils {
             // The parser may reuse a $ref schema instance in multiple locations. Clone the
             // remaining $ref before applying parent metadata so those locations stay isolated.
             if (subSchema.get$ref() != null) {
-                subSchema = cloneSchema(subSchema,
-                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
+                subSchema = cloneSchema(subSchema, openapi31);
             }
-            // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
-            if (subSchema.getDescription() == null && schema.getDescription() != null) {
+            // Preserve parent-level docs when anyOf/oneOf collapses to a single child schema.
+            // Exception: a non-nullable collapse to a $ref is a pure alias. Adding the parent
+            // description there would turn the $ref into a schema with sibling metadata and
+            // prevent the alias from being removed, so the description is dropped in that case.
+            boolean transferDescriptionToChild = subSchema.getDescription() == null && schema.getDescription() != null;
+            boolean collapsesToRefAlias = subSchema.get$ref() != null
+                    && !nullSubSchemaRemoved
+                    && !Boolean.TRUE.equals(schema.getNullable());
+            if (transferDescriptionToChild && !collapsesToRefAlias) {
                 subSchema.setDescription(schema.getDescription());
             }
             if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting

@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: Shape API
+  version: "1"
+paths:
+  /shapes:
+    post:
+      operationId: createShape
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Shape"
+      responses:
+        "201":
+          description: Created
+components:
+  schemas:
+    # The default normalization behavior for a oneOf schema with a single alternative is to collapse the oneOf and use the child schema directly.
+    # This is because the oneOf can be considered redundant when there is only one option.
+    # The description is ignored since we want to ensure that the collapsed schema is treated as an alias and removed.
+    Shape:
+      description: A shape to draw.
+      oneOf:
+        - $ref: "#/components/schemas/Circle"
+    NullableShape:
+      description: A shape to draw.
+      oneOf:
+        - $ref: "#/components/schemas/Circle"
+        - type: "null"
+    Circle:
+      type: object
+      required:
+        - kind
+        - radius
+      properties:
+        kind:
+          type: string
+        radius:
+          type: number
+
