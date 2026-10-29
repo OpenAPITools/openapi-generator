@@ -27,6 +27,10 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import java.io.Serializable
 
 /**
