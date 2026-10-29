@@ -174,3 +174,58 @@ paths:
       responses:
         '200':
           description: OK
+  /collisions:
+    post:
+      operationId: create_collision_thing
+      parameters:
+        - name: body
+          in: query
+          required: false
+          description: shadowed query parameter
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /file-collisions:
+    post:
+      operationId: upload_file_collision
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                body:
+                  description: file field shadowing the form dict
+                  type: string
+                  format: binary
+                note:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /quoted:
+    post:
+      operationId: create_quoted
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                "it's":
+                  type: string
+                'back\slash':
+                  type: string
+      responses:
+        '200':
+          description: OK

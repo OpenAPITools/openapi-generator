@@ -594,9 +594,23 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "async def upload_mixed_case(request: web.Request, body=None, file=None) -> web.Response:",
                 ":param body:",
                 ":param form:",
-                ":type body: dict");
+                ":type body: dict",
+                // a non-file argument colliding with the body name never reaches the
+                // handler (Connexion overwrites it with the dict), so the signature and
+                // docstring describe the dict that actually arrives
+                "async def create_collision_thing(request: web.Request, body=None) -> web.Response:",
+                "_form_body = body if isinstance(body, dict) else {}",
+                // a same-named file field is passed after the dict and wins instead
+                "async def upload_file_collision(request: web.Request, body=None) -> web.Response:",
+                "note = _form_body.get('note')",
+                // wire names are emitted as escaped Python string literals
+                "async def create_quoted(request: web.Request, body=None) -> web.Response:",
+                "its = _form_body.get('it\\'s')",
+                "back_slash = _form_body.get('back\\\\slash')");
         assertFileNotContains(aiohttpController, "def update_pet_with_form(request: web.Request, pet_id, name");
         assertFileNotContains(aiohttpController, ":type body: dict | bytes");
+        assertFileNotContains(aiohttpController, "shadowed query parameter");
+        assertFileNotContains(aiohttpController, "&#39;");
         // python-aiohttp always runs on Connexion 2.x, which prefers the requestBody-level
         // x-body-name its own codegen injects ('body'), not the schema-level one
         assertFileContains(
@@ -629,9 +643,18 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "def upload_mixed_case(body=None, file=None):  # noqa: E501",
                     ":param body:",
                     ":param form:",
-                    ":type body: dict");
+                    ":type body: dict",
+                    "def create_collision_thing(body=None):  # noqa: E501",
+                    "_form_body = body if isinstance(body, dict) else {}",
+                    "def upload_file_collision(body=None):  # noqa: E501",
+                    "note = _form_body.get('note')",
+                    "def create_quoted(body=None):  # noqa: E501",
+                    "its = _form_body.get('it\\'s')",
+                    "back_slash = _form_body.get('back\\\\slash')");
             assertFileNotContains(flaskController, "def update_pet_with_form(pet_id, name");
             assertFileNotContains(flaskController, ":type body: dict | bytes");
+            assertFileNotContains(flaskController, "shadowed query parameter");
+            assertFileNotContains(flaskController, "&#39;");
         }
 
         Path flaskCx2Controller = generateOutputDir("python-flask", Collections.emptyMap(), specPath)
@@ -652,6 +675,33 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "def create_widget(body=None):  # noqa: E501",
                 "note = _form_body.get('note')");
         assertFileNotContains(flaskCx3Controller, "schbody");
+    }
+
+    @Test(description = "webhook operations get their form body argument name and "
+            + "required flag from the webhook PathItem's requestBody, the same way "
+            + "path operations do (x-body-name or 'body')")
+    public void testFormBodyCollapsedForWebhook() throws IOException {
+        final String specPath = "src/test/resources/3_0/python-flask/form-webhook.yaml";
+
+        Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath)
+                .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "async def on_new_thing(request: web.Request, payload) -> web.Response:",
+                "_form_body = payload or {}",
+                "name = _form_body.get('name')");
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            Path flaskController = generateOutputDir("python-flask", props, specPath)
+                    .resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            assertFileExists(flaskController);
+            assertFileContains(
+                    flaskController,
+                    "def on_new_thing(payload):  # noqa: E501",
+                    "_form_body = payload or {}",
+                    "name = _form_body.get('name')");
+        }
     }
 
     @Test(description = "python-blueplanet targets Connexion 1.x, which passes form fields "

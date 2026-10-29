@@ -799,6 +799,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             List<CodegenParameter> handlerParams = new ArrayList<>();
             boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation);
             CodegenParameter formBodyParam = null;
+            CodegenParameter formDictInitParam = null;
             String formDictLocal = null;
             int formBodyIndex = -1;
             int allParamsFormIndex = -1;
@@ -815,10 +816,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             // fields may be named like the dict argument itself (e.g. a form
                             // field called 'body'), so the template extracts them from a
                             // non-colliding local that this first field emits
-                            param.vendorExtensions.put("x-python-connexion-form-dict-init", Boolean.TRUE);
+                            formDictInitParam = param;
+                            param.vendorExtensions.put("x-python-connexion-form-dict-init",
+                                    formBodyParam.paramName + " or {}");
                         }
                         param.vendorExtensions.put("x-python-connexion-form-field", formBodyParam.paramName);
                         param.vendorExtensions.put("x-python-connexion-form-dict-local", formDictLocal);
+                        // the wire name goes into a Python string literal, so it must be
+                        // escaped for it; the template emits it with {{{ }}} (no HTML
+                        // escaping, which would corrupt e.g. a quote in the name)
+                        param.vendorExtensions.put("x-python-connexion-form-field-key",
+                                pythonStringLiteral(param.baseName));
                     } else {
                         handlerParams.add(param);
                     }
@@ -827,20 +835,79 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     hasJsonHeaderParam = true;
                 }
             }
-            if (formBodyParam != null && !containsParam(handlerParams, formBodyParam.paramName)) {
-                // A dict argument after a required argument must not have a default (= invalid
-                // Python), and a required argument after an optional one must not be a bare name.
-                // Clamp the insertion point to the boundary between required and optional args;
-                // Connexion passes every argument by name, so the order only affects validity.
-                int requiredBoundary = 0;
-                while (requiredBoundary < handlerParams.size() && handlerParams.get(requiredBoundary).required) {
-                    requiredBoundary++;
+            if (formBodyParam != null) {
+                // Connexion passes path, then query, then the body dict, then file fields as
+                // handler arguments under the same Python name. A same-named non-file
+                // argument therefore never reaches the handler (the dict overwrites it) and
+                // is dropped so the signature and docstring describe the dict that actually
+                // arrives; a same-named file field wins instead, leaving the dict unreadable.
+                int allParamsInsertAt = allParamsFormIndex;
+                boolean collides = false;
+                for (Iterator<CodegenParameter> it = handlerParams.iterator(); it.hasNext(); ) {
+                    CodegenParameter param = it.next();
+                    if (!formBodyParam.paramName.equals(param.paramName)) {
+                        continue;
+                    }
+                    collides = true;
+                    if (param.isFile) {
+                        LOGGER.warn("Operation {}: the form request body is shadowed by the file "
+                                        + "field that Connexion passes under the same handler argument "
+                                        + "name '{}', so the non-file form fields never reach the "
+                                        + "handler. Set a distinct x-body-name on the requestBody to "
+                                        + "receive both.",
+                                operation.operationId, formBodyParam.paramName);
+                    } else {
+                        int paramIndex = operation.allParams.indexOf(param);
+                        if (paramIndex >= 0) {
+                            operation.allParams.remove(paramIndex);
+                            allParamsInsertAt = Math.min(allParamsInsertAt, paramIndex);
+                        }
+                        it.remove();
+                        LOGGER.warn("Operation {}: {} is shadowed by the form request body that "
+                                        + "Connexion passes under the same handler argument name "
+                                        + "'{}', so it never reaches the handler and was dropped from "
+                                        + "the generated signature. Set a distinct x-body-name on the "
+                                        + "requestBody to receive both.",
+                                operation.operationId, describeParam(param), formBodyParam.paramName);
+                    }
                 }
-                int insertAt = formBodyParam.required
-                        ? Math.min(formBodyIndex, requiredBoundary)
-                        : Math.max(formBodyIndex, requiredBoundary);
-                handlerParams.add(insertAt, formBodyParam);
-                operation.allParams.add(allParamsFormIndex, formBodyParam);
+                // header and cookie parameters are not handler arguments either; the
+                // template binds them to a local variable of the same name, overwriting
+                // the dict argument before the first form field reads it
+                for (CodegenParameter param : operation.allParams) {
+                    if (formBodyParam.paramName.equals(param.paramName)
+                            && (param.isHeaderParam || param.isCookieParam)) {
+                        collides = true;
+                        LOGGER.warn("Operation {}: {} binds to the same local variable name as the "
+                                        + "form request body argument '{}', overwriting it, so the "
+                                        + "non-file form fields never reach the handler. Set a "
+                                        + "distinct x-body-name on the requestBody to receive both.",
+                                operation.operationId, describeParam(param), formBodyParam.paramName);
+                    }
+                }
+                if (collides && formDictInitParam != null) {
+                    // the surviving argument is not guaranteed to hold the dict (a file field
+                    // wins, or a non-form request body may arrive), so read it defensively
+                    formDictInitParam.vendorExtensions.put("x-python-connexion-form-dict-init",
+                            formBodyParam.paramName + " if isinstance(" + formBodyParam.paramName
+                                    + ", dict) else {}");
+                }
+                if (!containsParam(handlerParams, formBodyParam.paramName)) {
+                    // A dict argument after a required argument must not have a default (= invalid
+                    // Python), and a required argument after an optional one must not be a bare name.
+                    // Clamp the insertion point to the boundary between required and optional args;
+                    // Connexion passes every argument by name, so the order only affects validity.
+                    int requiredBoundary = 0;
+                    while (requiredBoundary < handlerParams.size() && handlerParams.get(requiredBoundary).required) {
+                        requiredBoundary++;
+                    }
+                    int insertAt = Math.min(formBodyParam.required
+                            ? Math.min(formBodyIndex, requiredBoundary)
+                            : Math.max(formBodyIndex, requiredBoundary), handlerParams.size());
+                    handlerParams.add(insertAt, formBodyParam);
+                    operation.allParams.add(Math.min(allParamsInsertAt, operation.allParams.size()),
+                            formBodyParam);
+                }
             }
             operation.vendorExtensions.put("x-handler-params", handlerParams);
             Map<String, String> skipTests = new HashMap<>();
@@ -967,14 +1034,79 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     /**
+     * Where a dropped handler argument came from, for collision warnings.
+     */
+    private static String describeParam(CodegenParameter param) {
+        String location = param.isQueryParam ? "query "
+                : param.isPathParam ? "path "
+                : param.isBodyParam ? "body "
+                : param.isFormParam ? "form "
+                : param.isHeaderParam ? "header "
+                : param.isCookieParam ? "cookie "
+                : "";
+        return location + "parameter '" + param.baseName + "'";
+    }
+
+    /**
+     * A single-quoted Python string literal for an arbitrary wire name, escaping
+     * the quote, backslash, and ASCII control characters so any form field name
+     * produces valid Python. Unlike {@link #formatPythonStringLiteral}, which is
+     * for default values and switches to triple quotes for newlines, this keeps
+     * the literal on one line (dict keys do not need triple-quoted forms).
+     */
+    private static String pythonStringLiteral(String name) {
+        if (name == null) {
+            return "''";
+        }
+        StringBuilder sb = new StringBuilder(name.length() + 2);
+        sb.append('\'');
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\'':
+                    sb.append("\\'");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    if (c < 0x20 || c == 0x7f) {
+                        sb.append(String.format(Locale.ROOT, "\\x%02x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.append('\'').toString();
+    }
+
+    /**
      * The requestBody of the operation as defined in the source spec, for reading
      * {@code x-body-name} and {@code required} the way Connexion does at runtime.
+     * Webhook operations carry the webhook name as their path (possibly with a
+     * '/' prepended under strict spec behavior) and are looked up in webhooks.
      */
     private RequestBody getOperationRequestBody(CodegenOperation operation) {
-        if (this.openAPI == null || this.openAPI.getPaths() == null || operation.httpMethod == null) {
+        if (this.openAPI == null || operation.path == null || operation.httpMethod == null) {
             return null;
         }
-        PathItem pathItem = this.openAPI.getPaths().get(operation.path);
+        PathItem pathItem = this.openAPI.getPaths() != null
+                ? this.openAPI.getPaths().get(operation.path) : null;
+        if (pathItem == null && this.openAPI.getWebhooks() != null) {
+            pathItem = this.openAPI.getWebhooks().get(operation.path);
+            if (pathItem == null && operation.path.startsWith("/")) {
+                pathItem = this.openAPI.getWebhooks().get(operation.path.substring(1));
+            }
+        }
         if (pathItem == null) {
             return null;
         }

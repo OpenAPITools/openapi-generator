@@ -66,10 +66,10 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
     """
     {{#allParams}}
         {{#vendorExtensions.x-python-connexion-form-dict-init}}
-    {{vendorExtensions.x-python-connexion-form-dict-local}} = {{vendorExtensions.x-python-connexion-form-field}} or {}
+    {{vendorExtensions.x-python-connexion-form-dict-local}} = {{{vendorExtensions.x-python-connexion-form-dict-init}}}
         {{/vendorExtensions.x-python-connexion-form-dict-init}}
         {{#vendorExtensions.x-python-connexion-form-field}}
-    {{paramName}} = {{vendorExtensions.x-python-connexion-form-dict-local}}.get('{{baseName}}')
+    {{paramName}} = {{vendorExtensions.x-python-connexion-form-dict-local}}.get({{{vendorExtensions.x-python-connexion-form-field-key}}})
         {{/vendorExtensions.x-python-connexion-form-field}}
         {{#isHeaderParam}}
     {{paramName}} = request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
