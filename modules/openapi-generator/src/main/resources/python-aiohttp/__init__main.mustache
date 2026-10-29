@@ -13,7 +13,7 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': '{{appName}}'},
                 pythonic_params=True,
-                pass_context_arg_name='request')
+                pass_context_arg_name='{{connexionContextArgName}}')
 
 {{#featureCORS}}
     # Enable CORS for all origins.

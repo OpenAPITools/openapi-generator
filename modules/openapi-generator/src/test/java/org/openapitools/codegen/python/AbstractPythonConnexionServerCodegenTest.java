@@ -161,12 +161,18 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, "src/test/resources/3_0/python/connexion-param-sources.yaml",
+                additionalProperties);
+    }
+
+    private static Path generateOutputDir(String generatorName, String specPath,
+                                          Map<String, Object> additionalProperties) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(specPath)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -557,6 +563,103 @@ public class AbstractPythonConnexionServerCodegenTest {
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
         }
+    }
+
+    @Test(description = "a parameter named 'request' must not collide with the aiohttp request context passed via pass_context_arg_name")
+    public void testAiohttpConnexionContextArgNameAvoidsParameterNamedRequest() throws IOException {
+        // a query parameter named "request" renames the context argument to request_context
+        Path aiohttpDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-param-name.yaml", Collections.emptyMap());
+        Path aiohttpController = aiohttpDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path aiohttpInit = aiohttpDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        Path aiohttpConftest = aiohttpDir.resolve(Paths.get("tests", "conftest.py"));
+        assertFileExists(aiohttpController);
+        assertFileExists(aiohttpInit);
+        assertFileExists(aiohttpConftest);
+        assertFileContains(
+                aiohttpController,
+                "async def list_things(request_context: web.Request, request=None) -> web.Response:",
+                "x_trace = request_context.headers.get('X-Trace')");
+        assertFileNotContains(aiohttpController, "request: web.Request, request");
+        assertFileContains(aiohttpInit, "pass_context_arg_name='request_context'");
+        assertFileContains(aiohttpConftest, "pass_context_arg_name='request_context'");
+
+        // the alternative name gets numbered when it collides with a parameter too
+        Path collisionDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-context-param-name.yaml", Collections.emptyMap());
+        Path collisionController = collisionDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path collisionInit = collisionDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(collisionController);
+        assertFileExists(collisionInit);
+        assertFileContains(
+                collisionController,
+                "async def list_things(request_context2: web.Request, request=None, request_context=None) -> web.Response:",
+                "x_trace = request_context2.headers.get('X-Trace')");
+        assertFileNotContains(collisionController, "request_context: web.Request");
+        assertFileContains(collisionInit, "pass_context_arg_name='request_context2'");
+
+        // without a 'request' parameter the context argument keeps its default name
+        Path defaultDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
+        Path defaultInit = defaultDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        Path defaultConftest = defaultDir.resolve(Paths.get("tests", "conftest.py"));
+        Path defaultController = defaultDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(defaultInit);
+        assertFileExists(defaultConftest);
+        assertFileExists(defaultController);
+        assertFileContains(defaultInit, "pass_context_arg_name='request'");
+        assertFileContains(defaultConftest, "pass_context_arg_name='request'");
+        assertFileNotContains(defaultInit, "request_context");
+        assertFileContains(
+                defaultController,
+                "async def create_item(request: web.Request, filter_param, body, date_list=None, model_map=None) -> web.Response:",
+                "x_req_header = request.headers.get('X-Req-Header')");
+    }
+
+    @Test(description = "the aiohttp request context argument must not collide with names produced by duplicate-parameter renumbering or form fields inside composed schemas")
+    public void testAiohttpConnexionContextArgNameAvoidsRenumberedAndComposedFormNames() throws IOException {
+        // duplicate parameters are renumbered (request_context -> request_context2),
+        // so the context argument is numbered past them
+        Path duplicateDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-context-duplicate-param-name.yaml", Collections.emptyMap());
+        Path duplicateController = duplicateDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path duplicateInit = duplicateDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(duplicateController);
+        assertFileExists(duplicateInit);
+        assertFileContains(
+                duplicateController,
+                "async def list_things(request_context3: web.Request, request_context2, request=None, request_context=None) -> web.Response:");
+        assertFileNotContains(duplicateController, "request_context2: web.Request");
+        assertFileContains(duplicateInit, "pass_context_arg_name='request_context3'");
+
+        // a form field declared inside an allOf schema becomes a handler argument too
+        Path formDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-form-allof-param-name.yaml", Collections.emptyMap());
+        Path formController = formDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path formInit = formDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(formController);
+        assertFileExists(formInit);
+        assertFileContains(
+                formController,
+                "async def create_thing(request_context: web.Request, request=None) -> web.Response:");
+        assertFileNotContains(formController, "request: web.Request, request");
+        assertFileContains(formInit, "pass_context_arg_name='request_context'");
+    }
+
+    @Test(description = "the aiohttp request context argument must not collide with a webhook parameter named 'request'")
+    public void testAiohttpConnexionContextArgNameAvoidsWebhookParameterNamedRequest() throws IOException {
+        // webhooks render through controller.mustache like regular operations, so a
+        // webhook parameter named "request" renames the context argument too
+        Path webhookDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_1/python/webhook-request-param-name.yaml", Collections.emptyMap());
+        Path webhookController = webhookDir.resolve(Paths.get("openapi_server", "controllers", "hooks_controller.py"));
+        Path webhookInit = webhookDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(webhookController);
+        assertFileExists(webhookInit);
+        assertFileContains(
+                webhookController,
+                "async def on_new_thing(request_context: web.Request, request=None) -> web.Response:");
+        assertFileNotContains(webhookController, "request: web.Request, request");
+        assertFileContains(webhookInit, "pass_context_arg_name='request_context'");
     }
 
     @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")

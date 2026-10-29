@@ -11,7 +11,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-handler-params}}) -> web.Response:
+async def {{operationId}}({{connexionContextArgName}}: web.Request, {{#vendorExtensions.x-handler-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-handler-params}}) -> web.Response:
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}}
@@ -61,10 +61,10 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
     """
     {{#allParams}}
         {{#isHeaderParam}}
-    {{paramName}} = request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+    {{paramName}} = {{connexionContextArgName}}.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isHeaderParam}}
         {{#isCookieParam}}
-    {{paramName}} = request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+    {{paramName}} = {{connexionContextArgName}}.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isCookieParam}}
         {{#vendorExtensions.x-python-connexion-cast-int}}
     if {{paramName}} is not None:
