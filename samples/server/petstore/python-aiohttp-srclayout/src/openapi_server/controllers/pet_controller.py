@@ -90,12 +90,8 @@ async def update_pet_with_form(request: web.Request, pet_id, body=None) -> web.R
 
     :param pet_id: ID of pet that needs to be updated
     :type pet_id: int
-    :param body: 
+    :param body: Form fields: name (str): Updated name of the pet; status (str): Updated status of the pet
     :type body: dict
-    :param name: Updated name of the pet
-    :type name: str
-    :param status: Updated status of the pet
-    :type status: str
 
     """
     _form_body = body or {}
@@ -111,10 +107,8 @@ async def upload_file(request: web.Request, pet_id, body=None, file=None) -> web
 
     :param pet_id: ID of pet to update
     :type pet_id: int
-    :param body: 
+    :param body: Form fields: additionalMetadata (str): Additional data to pass to server
     :type body: dict
-    :param additional_metadata: Additional data to pass to server
-    :type additional_metadata: str
     :param file: file to upload
     :type file: str
 

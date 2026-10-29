@@ -17,7 +17,8 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
     {{notes}}
 
     {{#allParams}}
-    :param {{paramName}}: {{description}}
+        {{^vendorExtensions.x-python-connexion-form-field}}
+    :param {{paramName}}: {{description}}{{#vendorExtensions.x-python-connexion-form-body}}{{>form_fields_doc}}{{/vendorExtensions.x-python-connexion-form-body}}
         {{^isContainer}}
             {{#isPrimitiveType}}
     :type {{paramName}}: {{>param_type}}
@@ -61,6 +62,7 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}
+        {{/vendorExtensions.x-python-connexion-form-field}}
     {{/allParams}}
 
     """

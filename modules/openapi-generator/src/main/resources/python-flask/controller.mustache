@@ -19,7 +19,8 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
     {{notes}} # noqa: E501
 
     {{#allParams}}
-    :param {{paramName}}: {{description}}
+        {{^vendorExtensions.x-python-connexion-form-field}}
+    :param {{paramName}}: {{description}}{{#vendorExtensions.x-python-connexion-form-body}}{{>form_fields_doc}}{{/vendorExtensions.x-python-connexion-form-body}}
         {{^isContainer}}
             {{#isPrimitiveType}}
     :type {{paramName}}: {{>param_type}}
@@ -63,6 +64,7 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{^isBodyParam}}{{para
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}
+        {{/vendorExtensions.x-python-connexion-form-field}}
     {{/allParams}}
 
     :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]

@@ -592,8 +592,15 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "async def create_gadget(request: web.Request, body=None) -> web.Response:",
                 "body = _form_body.get('body')",
                 "async def upload_mixed_case(request: web.Request, body=None, file=None) -> web.Response:",
-                ":param body:",
-                ":param form:",
+                "async def submit_pet_survey(request: web.Request, pet_id, body=None) -> web.Response:",
+                "scores = _form_body.get('scores')",
+                ":param body: Form fields: name (str): Updated name of the pet; "
+                        + "size (int): Updated size of the pet; tag (str): Tag date",
+                ":param body: Survey answers submitted by the owner. "
+                        + "Form fields: scores (List[int]): Rating scores; "
+                        + "labels (Dict[str, str]); comment (str); metadata (dict | bytes)",
+                ":param form: Form fields: payload (str)",
+                ":param file: file to upload",
                 ":type body: dict",
                 // a non-file argument colliding with the body name never reaches the
                 // handler (Connexion overwrites it with the dict), so the signature and
@@ -608,6 +615,15 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "its = _form_body.get('it\\'s')",
                 "back_slash = _form_body.get('back\\\\slash')");
         assertFileNotContains(aiohttpController, "def update_pet_with_form(request: web.Request, pet_id, name");
+        // the collapsed fields are no longer handler arguments, so they must not
+        // keep their own :param entries; their names, types and descriptions move
+        // into the dict argument's :param line
+        assertFileNotContains(aiohttpController, ":param name:");
+        assertFileNotContains(aiohttpController, ":param size:");
+        assertFileNotContains(aiohttpController, ":param tag:");
+        assertFileNotContains(aiohttpController, ":param scores:");
+        assertFileNotContains(aiohttpController, ":param payload:");
+        assertFileNotContains(aiohttpController, ":param amount:");
         assertFileNotContains(aiohttpController, ":type body: dict | bytes");
         assertFileNotContains(aiohttpController, "shadowed query parameter");
         assertFileNotContains(aiohttpController, "&#39;");
@@ -641,8 +657,15 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "def create_gadget(body=None):  # noqa: E501",
                     "body = _form_body.get('body')",
                     "def upload_mixed_case(body=None, file=None):  # noqa: E501",
-                    ":param body:",
-                    ":param form:",
+                    "def submit_pet_survey(pet_id, body=None):  # noqa: E501",
+                    "scores = _form_body.get('scores')",
+                    ":param body: Form fields: name (str): Updated name of the pet; "
+                            + "size (int): Updated size of the pet; tag (str): Tag date",
+                    ":param body: Survey answers submitted by the owner. "
+                            + "Form fields: scores (List[int]): Rating scores; "
+                            + "labels (Dict[str, str]); comment (str); metadata (dict | bytes)",
+                    ":param form: Form fields: payload (str)",
+                    ":param file: file to upload",
                     ":type body: dict",
                     "def create_collision_thing(body=None):  # noqa: E501",
                     "_form_body = body if isinstance(body, dict) else {}",
@@ -652,6 +675,12 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "its = _form_body.get('it\\'s')",
                     "back_slash = _form_body.get('back\\\\slash')");
             assertFileNotContains(flaskController, "def update_pet_with_form(pet_id, name");
+            assertFileNotContains(flaskController, ":param name:");
+            assertFileNotContains(flaskController, ":param size:");
+            assertFileNotContains(flaskController, ":param tag:");
+            assertFileNotContains(flaskController, ":param scores:");
+            assertFileNotContains(flaskController, ":param payload:");
+            assertFileNotContains(flaskController, ":param amount:");
             assertFileNotContains(flaskController, ":type body: dict | bytes");
             assertFileNotContains(flaskController, "shadowed query parameter");
             assertFileNotContains(flaskController, "&#39;");
@@ -690,7 +719,9 @@ public class AbstractPythonConnexionServerCodegenTest {
                 aiohttpController,
                 "async def on_new_thing(request: web.Request, payload) -> web.Response:",
                 "_form_body = payload or {}",
-                "name = _form_body.get('name')");
+                "name = _form_body.get('name')",
+                ":param payload: Form fields: name (str)");
+        assertFileNotContains(aiohttpController, ":param name:");
 
         for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
             Path flaskController = generateOutputDir("python-flask", props, specPath)
@@ -700,7 +731,9 @@ public class AbstractPythonConnexionServerCodegenTest {
                     flaskController,
                     "def on_new_thing(payload):  # noqa: E501",
                     "_form_body = payload or {}",
-                    "name = _form_body.get('name')");
+                    "name = _form_body.get('name')",
+                    ":param payload: Form fields: name (str)");
+            assertFileNotContains(flaskController, ":param name:");
         }
     }
 
@@ -717,6 +750,8 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "def update_pet_with_form(pet_id, name, size=None, tag=None):  # noqa: E501",
                 "def upload_pet_image(pet_id, file, note=None):  # noqa: E501",
                 "def create_thing(verbose=None, payload=None):  # noqa: E501",
+                "def submit_pet_survey(pet_id, scores=None, labels=None, comment=None, metadata=None):  # noqa: E501",
+                ":param name: Updated name of the pet",
                 "def create_order(coupon=None, amount=None):  # noqa: E501",
                 "def replace_pet_form(pet_id, amount=None):  # noqa: E501",
                 "def create_widget(note=None):  # noqa: E501",

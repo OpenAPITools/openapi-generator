@@ -104,6 +104,39 @@ paths:
       responses:
         '200':
           description: OK
+  /pets/{petId}/survey:
+    post:
+      operationId: submit_pet_survey
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Survey answers submitted by the owner
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                scores:
+                  description: Rating scores
+                  type: array
+                  items:
+                    type: integer
+                labels:
+                  type: object
+                  additionalProperties:
+                    type: string
+                comment:
+                  type: string
+                metadata:
+                  type: object
+      responses:
+        '200':
+          description: OK
   /pets/{petId}/required-form:
     post:
       operationId: replace_pet_form

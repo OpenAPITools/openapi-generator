@@ -797,6 +797,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
+            List<CodegenParameter> formDocFields = new ArrayList<>();
             boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation);
             CodegenParameter formBodyParam = null;
             CodegenParameter formDictInitParam = null;
@@ -827,6 +828,18 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         // escaping, which would corrupt e.g. a quote in the name)
                         param.vendorExtensions.put("x-python-connexion-form-field-key",
                                 pythonStringLiteral(param.baseName));
+                        // the wire name is also quoted in the dict argument's :param
+                        // docstring, where a bare backslash would produce an invalid
+                        // escape sequence in the generated source
+                        param.vendorExtensions.put("x-python-connexion-form-field-doc-name",
+                                docstringFieldName(param.baseName));
+                        // an empty-string description is truthy in mustache (the default
+                        // compiler does not set emptyStringIsFalse), so normalize it or
+                        // the docstring emits a stray ": " after the field
+                        if (param.description != null && param.description.isEmpty()) {
+                            param.description = null;
+                        }
+                        formDocFields.add(param);
                     } else {
                         handlerParams.add(param);
                     }
@@ -836,6 +849,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             if (formBodyParam != null) {
+                // the collapsed fields are not handler arguments, so the docstring must not
+                // emit :param entries for them; the template folds their names, types and
+                // descriptions into the dict argument's :param line via this list
+                formBodyParam.vendorExtensions.put("x-python-connexion-form-doc-fields", formDocFields);
                 // Connexion passes path, then query, then the body dict, then file fields as
                 // handler arguments under the same Python name. A same-named non-file
                 // argument therefore never reaches the handler (the dict overwrites it) and
@@ -1090,6 +1107,43 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     /**
+     * A form field's wire name as it should appear inside a {@code """} docstring:
+     * backslashes and double quotes are escaped so the generated source holds a
+     * valid Python string without a premature docstring terminator, while staying
+     * readable as the wire name (unlike {@link #pythonStringLiteral}, this is not
+     * wrapped in quotes).
+     */
+    private static String docstringFieldName(String baseName) {
+        if (baseName == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder(baseName.length());
+        for (int i = 0; i < baseName.length(); i++) {
+            char c = baseName.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '"':
+                    sb.append("\\\"");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
      * The requestBody of the operation as defined in the source spec, for reading
      * {@code x-body-name} and {@code required} the way Connexion does at runtime.
      * Webhook operations carry the webhook name as their path (possibly with a
@@ -1164,7 +1218,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         formBodyParam.paramName = toParamName(argName);
         formBodyParam.baseName = formBodyParam.paramName;
         formBodyParam.required = required;
-        formBodyParam.description = escapeText(description);
+        formBodyParam.description = StringUtils.isEmpty(description) ? null : escapeText(description);
         formBodyParam.vendorExtensions.put("x-python-connexion-form-body", Boolean.TRUE);
         formBodyParam.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
         return formBodyParam;
