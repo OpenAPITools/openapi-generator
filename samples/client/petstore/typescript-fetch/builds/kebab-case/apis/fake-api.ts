@@ -986,7 +986,7 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+            headerParameters["Authorization"] = "Basic " + btoa((this.configuration.username || "") + ":" + (this.configuration.password || ""));
         }
         const consumes: runtime.Consume[] = [
             { contentType: 'application/x-www-form-urlencoded' },
