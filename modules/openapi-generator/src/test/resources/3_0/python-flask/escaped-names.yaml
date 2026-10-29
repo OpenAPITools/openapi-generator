@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: escaped names
+  version: 1.0.0
+servers:
+  - url: /v1
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: "q&we's"
+          in: query
+          schema:
+            type: string
+        - name: "X-A&B'Head"
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EscapedNames'
+security:
+  - apiKeyAuth: []
+    apiQueryAuth: []
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      name: "X-A&B'Key"
+      in: header
+    apiQueryAuth:
+      type: apiKey
+      name: api_query_token
+      in: query
+  schemas:
+    EscapedNames:
+      type: object
+      properties:
+        'a&b':
+          type: string
+        "o'k":
+          type: string
+        'back\slash':
+          type: string
+        'dq"x':
+          type: string
+        'unicodeé':
+          type: string
