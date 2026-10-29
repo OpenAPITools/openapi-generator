@@ -3030,6 +3030,50 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void nullSchemaDefaultIsNotRenderedAsSpringRequestParamDefault() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, true);
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, true);
+        additionalProperties.put(USE_SPRING_BOOT4, true);
+        additionalProperties.put("useJackson3", true);
+        additionalProperties.put(USE_JSPECIFY, true);
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true);
+        additionalProperties.put(AbstractJavaCodegen.CONTAINER_DEFAULT_TO_NULL, true);
+        additionalProperties.put(GENERATE_JSON_INCLUDE_ANNOTATIONS, true);
+        additionalProperties.put(PERFORM_BEANVALIDATION, true);
+        additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, false);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/spring/optional-query-null-default.yaml", SPRING_HTTP_INTERFACE, additionalProperties);
+
+        JavaFileAssert api = JavaFileAssert.assertThat(files.get("PlacesApi.java"));
+        api.assertMethod("getPlaces")
+                .assertParameter("ids").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("RequestParam", List.of("defaultValue"));
+        api.assertMethod("getPlaces")
+                .assertParameter("search")
+                .assertParameterAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("RequestParam", List.of("defaultValue"));
+        api.assertMethod("getPlaces")
+                .assertParameter("limit")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"10\""));
+        api.assertMethod("getPlaces")
+                .assertParameter("requiredIds")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "true"));
+        api.assertMethod("getPlaces")
+                .assertParameter("defaultIds")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"a,b\""));
+        api.assertMethod("getPlaces")
+                .assertParameter("literalNull")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("defaultValue", "\"null\""));
+    }
+
+    @Test
     public void explicitXSpringPaginatedFalseKeepsQueryParamsForSpringCloud_issue24720() throws IOException {
         // Regression #24720: x-spring-paginated: false on a spring-cloud operation must NOT be
         // treated as enabled. The individual page/size/sort query params must be retained and no
