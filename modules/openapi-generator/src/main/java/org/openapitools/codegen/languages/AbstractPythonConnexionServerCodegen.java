@@ -92,7 +92,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     // numbered in spec order, so that the x-*Func references written into the spec and the
     // function definitions emitted by security_controller.mustache always agree, even when
     // the scheme name is not a valid Python identifier. fromSecurity only reads the values
-    // computed there; the computeIfAbsent fallback is not exercised in the normal flow.
+    // that addSecurityExtensions has already computed.
     private final Map<String, String> securityFunctionNameSuffixes = new HashMap<>();
 
     public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
