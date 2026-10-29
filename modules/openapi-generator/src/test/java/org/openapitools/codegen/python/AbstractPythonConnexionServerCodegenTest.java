@@ -23,9 +23,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -161,12 +165,18 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, additionalProperties,
+                "src/test/resources/3_0/python/connexion-param-sources.yaml");
+    }
+
+    private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties,
+                                          String inputSpec) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -556,6 +566,87 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "addl =");
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
+        }
+    }
+
+    @Test(description = "security scheme names with '-' or '.' produce valid, unique Python function names that match the x-*Func references")
+    public void testSecuritySchemeNamesProduceValidPythonFunctions() throws IOException {
+        String specPath = "src/test/resources/3_0/python-flask/security-scheme-names.yaml";
+        String funcBase = "openapi_server.controllers.security_controller.";
+
+        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
+        variants.put("python-flask", Collections.emptyMap());
+        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
+        variants.put("python-aiohttp", Collections.emptyMap());
+
+        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
+            String generatorName = variant.getKey().replace("+useConnexion3", "");
+            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
+            String label = variant.getKey();
+
+            Path securityController = outputDir.resolve(
+                    Paths.get("openapi_server", "controllers", "security_controller.py"));
+            assertFileExists(securityController);
+            assertFileContains(
+                    securityController,
+                    "def info_from_api_key(",
+                    "def info_from_petstore_auth(",
+                    "def validate_scope_petstore_auth(",
+                    "def info_from_basic_auth(",
+                    "def info_from_api_key_2(",
+                    "def info_from_1st_key(",
+                    "def info_from_bearer_token(",
+                    "def info_from_alias_key(",
+                    "def info_from_api_key_3(");
+            assertFileNotContains(
+                    securityController,
+                    "def info_from__1st_key(",
+                    "def info_from_1st_key_2(");
+
+            // every generated function name must be a valid Python identifier and unique
+            String code = Files.readString(securityController);
+            Matcher defMatcher =
+                    Pattern.compile("def\\s+(\\S+)\\s*\\(").matcher(code);
+            Set<String> functionNames = new HashSet<>();
+            while (defMatcher.find()) {
+                String functionName = defMatcher.group(1);
+                assertThat(functionName)
+                        .as("%s: %s must be a valid Python identifier", label, functionName)
+                        .matches("[a-zA-Z_][a-zA-Z0-9_]*");
+                functionNames.add(functionName);
+            }
+            assertThat(functionNames)
+                    .as("%s: info_from_/validate_scope_ function names must be unique", label)
+                    .containsExactlyInAnyOrder(
+                            "info_from_api_key",
+                            "info_from_api_key_2",
+                            "info_from_api_key_3",
+                            "info_from_petstore_auth",
+                            "validate_scope_petstore_auth",
+                            "info_from_basic_auth",
+                            "info_from_1st_key",
+                            "info_from_bearer_token",
+                            "info_from_alias_key");
+
+            // the x-*Func references in the spec must point at the generated functions
+            Path openapiYaml = outputDir.resolve(
+                    Paths.get("openapi_server", "openapi", "openapi.yaml"));
+            assertFileExists(openapiYaml);
+            assertFileContains(
+                    openapiYaml,
+                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key",
+                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key_2",
+                    "x-apikeyInfoFunc: " + funcBase + "info_from_api_key_3",
+                    "x-apikeyInfoFunc: " + funcBase + "info_from_1st_key",
+                    "x-tokenInfoFunc: " + funcBase + "info_from_petstore_auth",
+                    "x-scopeValidateFunc: " + funcBase + "validate_scope_petstore_auth",
+                    "x-basicInfoFunc: " + funcBase + "info_from_basic_auth",
+                    "x-bearerInfoFunc: " + funcBase + "info_from_bearer_token");
+            // a user-provided x-apikeyInfoFunc ("alias-key" -> info_from_api_key) is
+            // preserved instead of being overwritten with the generated name
+            assertFileNotContains(
+                    openapiYaml,
+                    "x-apikeyInfoFunc: " + funcBase + "info_from_alias_key");
         }
     }
 }

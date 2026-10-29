@@ -86,6 +86,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean usePythonSrcRootInImports = Boolean.FALSE;
     protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
 
+    // Python function name suffix per security scheme name (e.g. "api-key" -> "api_key").
+    // Suffixes are assigned in spec order by addSecurityExtensions (called from
+    // preprocessOpenAPI) so that the x-*Func references written into the spec and the
+    // function definitions emitted by security_controller.mustache always agree, even when
+    // the scheme name is not a valid Python identifier. fromSecurity only reads the values
+    // computed there; the computeIfAbsent fallback is not exercised in the normal flow.
+    private final Map<String, String> securityFunctionNameSuffixes = new HashMap<>();
+
     public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
 
@@ -459,32 +467,78 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
+            securityFunctionNameSuffixes.clear();
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
+                String functionSuffix = securityFunctionNameSuffix(securityName);
                 String baseFunctionName = controllerPackage + ".security_controller.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
-                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         break;
                     case HTTP:
                         if ("basic".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         } else if ("bearer".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         }
                         break;
                     case OPENIDCONNECT:
                         LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
-                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
-                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
+                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
+                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + functionSuffix);
                         break;
                     default:
                         LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
                 }
             }
         }
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(schemes);
+        for (CodegenSecurity codegenSecurity : codegenSecurities) {
+            codegenSecurity.vendorExtensions.put("x-python-connexion-security-function-suffix",
+                    securityFunctionNameSuffix(codegenSecurity.name));
+        }
+        return codegenSecurities;
+    }
+
+    /**
+     * Returns the Python identifier suffix used for the info_from_/validate_scope_ functions
+     * of the given security scheme name. The result is stable per scheme name and unique across
+     * schemes of the same spec: if the sanitized suffix is already taken by another scheme name
+     * (e.g. "api-key" vs "api.key"), "_2", "_3", ... is appended in spec order.
+     */
+    private String securityFunctionNameSuffix(String schemeName) {
+        return securityFunctionNameSuffixes.computeIfAbsent(schemeName, name -> {
+            String base = toPythonIdentifierSuffix(name);
+            String suffix = base;
+            for (int i = 2; securityFunctionNameSuffixes.containsValue(suffix); i++) {
+                suffix = base + "_" + i;
+            }
+            return suffix;
+        });
+    }
+
+    /**
+     * Maps a security scheme name to a string usable as part of a Python identifier:
+     * every character that is not ASCII alphanumeric or '_' becomes '_'. The result is
+     * only used after the "info_from_"/"validate_scope_" prefixes, so a leading digit
+     * needs no further fix-up.
+     */
+    private static String toPythonIdentifierSuffix(String name) {
+        StringBuilder suffix = new StringBuilder(name.length());
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            boolean isIdentifierChar = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+                    || (c >= '0' && c <= '9') || c == '_';
+            suffix.append(isIdentifierChar ? c : '_');
+        }
+        return suffix.toString();
     }
 
     private static List<OperationMap> getOperations(Map<String, Object> objs) {
