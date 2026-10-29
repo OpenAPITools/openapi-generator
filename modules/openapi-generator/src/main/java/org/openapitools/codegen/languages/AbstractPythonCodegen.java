@@ -2248,6 +2248,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return anyType(cp);
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
+            } else if (cp.getIsNull()) {
+                // OpenAPI 3.1 `type: "null"`
+                return new PythonType("None");
             }
 
             return null;
