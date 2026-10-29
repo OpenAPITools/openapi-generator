@@ -3794,6 +3794,9 @@ public class DefaultCodegen implements CodegenConfig {
 
                 Schema first = schemas.get(0);
                 try {
+                    // a $ref to an alias of a primitive type has no model: use the aliased type,
+                    // like the type of the property in the concrete models
+                    first = unaliasSchema(first);
                     if (StringUtils.isNotEmpty(first.get$ref())) {
                         return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                     }
