@@ -219,7 +219,12 @@ import java.io.IOException
             {{/isNumber}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
+            {{#isNumber}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))
+            {{/isNumber}}
+            {{^isNumber}}
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+            {{/isNumber}}
             {{/isPrimitiveType}}
             {{/isArray}}
             {{/vendorExtensions.x-duplicated-data-type}}
