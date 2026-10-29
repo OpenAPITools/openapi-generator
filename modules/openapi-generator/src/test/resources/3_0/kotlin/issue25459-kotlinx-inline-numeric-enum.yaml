@@ -25,6 +25,13 @@ components:
         mode:
           type: string
           enum: [fast, slow]
+        ratio:
+          type: number
+          enum: [0.5, 1.5]
+        weight:
+          type: number
+          format: double
+          enum: [0.25, 0.75]
         speed:
           $ref: '#/components/schemas/Speed'
         label:

@@ -1653,6 +1653,20 @@ public class KotlinClientCodegenModelTest {
     }
 
     @Test
+    public void testKotlinxSerializationInlineBigDecimalEnumKeepsPlainSerializable() throws IOException {
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(false).resolve("Recording.kt");
+
+        // type: number maps to java.math.BigDecimal, which has no serializer() to build a value serializer from.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable enum class Ratio(val value: java.math.BigDecimal)");
+        TestUtils.assertFileNotContains(recordingKt, "RatioSerializer", "java.math.BigDecimal.serializer()");
+        // type: number with format double maps to kotlin.Double and keeps the value serializer.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = WeightSerializer::class)",
+                "encoder.encodeSerializableValue(kotlin.Double.serializer(), value.value)");
+    }
+
+    @Test
     public void testKotlinxSerializationInlineNumericEnumUsesValueSerializerForSerializableModel() throws IOException {
         // serializableModel imports kotlinx's Serializable under the alias KSerializable.
         Path recordingKt = generateKotlinxInlineNumericEnumModels(true).resolve("Recording.kt");
