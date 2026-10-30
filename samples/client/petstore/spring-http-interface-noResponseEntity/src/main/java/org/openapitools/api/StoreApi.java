@@ -84,7 +84,6 @@ public interface StoreApi {
     String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
-     * 
      *
      * @param orderDto order placed for purchasing the pet (required)
      * @return successful operation (status code 200)

@@ -48,7 +48,6 @@ public interface PetApi {
     String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -57,7 +56,6 @@ public interface PetApi {
     @Operation(
         operationId = "addPet",
         summary = "Add a new pet to the store",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -83,7 +81,6 @@ public interface PetApi {
     String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
-     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -93,7 +90,6 @@ public interface PetApi {
     @Operation(
         operationId = "deletePet",
         summary = "Deletes a pet",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -109,7 +105,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Void>> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
+        @Parameter(name = "api_key", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().deletePet(petId, apiKey, exchange);
@@ -147,7 +143,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status,
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status") List<String> status,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByStatus(status, exchange);
@@ -188,7 +184,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags") Set<String> tags,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByTags(tags, exchange);
@@ -238,7 +234,6 @@ public interface PetApi {
     String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -249,7 +244,6 @@ public interface PetApi {
     @Operation(
         operationId = "updatePet",
         summary = "Update an existing pet",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -277,7 +271,6 @@ public interface PetApi {
     String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
-     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -287,7 +280,6 @@ public interface PetApi {
     @Operation(
         operationId = "updatePetWithForm",
         summary = "Updates a pet in the store with form data",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
@@ -314,7 +306,6 @@ public interface PetApi {
     String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -324,7 +315,6 @@ public interface PetApi {
     @Operation(
         operationId = "uploadFile",
         summary = "uploads an image",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
