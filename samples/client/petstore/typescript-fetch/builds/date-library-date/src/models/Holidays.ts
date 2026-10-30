@@ -29,13 +29,13 @@ export function HolidaysFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         return json;
     }
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(parseDate(item).getTime())))) {
-            return json.map(value => parseDate(value));
+        if (json.every(item => typeof item === 'number')) {
+            return json;
         }
     }
     if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'number')) {
-            return json;
+        if (json.every(item => !(isNaN(parseDate(item).getTime())))) {
+            return json.map(value => parseDate(value));
         }
     }
     return {} as any;
@@ -50,13 +50,13 @@ export function HolidaysToJSONTyped(value?: Holidays | null, ignoreDiscriminator
         return value;
     }
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date)) {
-            return value.map(value => serializeDate(value));
+        if (value.every(item => typeof item === 'number')) {
+            return value;
         }
     }
     if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'number')) {
-            return value;
+        if (value.every(item => item instanceof Date)) {
+            return value.map(value => serializeDate(value));
         }
     }
     return {};
