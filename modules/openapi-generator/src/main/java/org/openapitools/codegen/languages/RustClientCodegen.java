@@ -913,6 +913,15 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 operation.vendorExtensions.put("x-supports-plain-text", Boolean.TRUE);
             }
 
+            // The untagged `{Op}Success`/`{Op}Error` enums can't tell apart variants of the same shape, so when
+            // they have `StatusXXX` variants the entity is selected by the response status code instead
+            if (operation.responses.stream().anyMatch(r -> r.is2xx || r.is3xx)) {
+                operation.vendorExtensions.put("x-rust-success-by-status", Boolean.TRUE);
+            }
+            if (operation.responses.stream().anyMatch(r -> r.is4xx || r.is5xx)) {
+                operation.vendorExtensions.put("x-rust-error-by-status", Boolean.TRUE);
+            }
+
             // update return type to conform to rust standard
             /*
             if (operation.returnType != null) {
