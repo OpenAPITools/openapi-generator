@@ -30,14 +30,15 @@ async def test_{{operationId}}(client):
     {{#bodyParam}}
     {{paramName}} = {{{example}}}
     {{/bodyParam}}
-    {{#queryParams}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
-    {{/queryParams}}
+    {{#vendorExtensions.x-test-query-string}}
+    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+    {{/vendorExtensions.x-test-query-string}}
     headers = { {{#vendorExtensions.x-preferred-produce}}
         'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
         'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
         '{{baseName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
-        {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
+        {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}{{#isKeyInHeader}}'{{keyParamName}}': 'special-key',{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}{{#vendorExtensions.x-test-apikey-cookie}}
+        'Cookie': '{{{vendorExtensions.x-test-apikey-cookie}}}',{{/vendorExtensions.x-test-apikey-cookie}}
     }
     {{#formParams}}
     {{#isMultipart}}
@@ -61,8 +62,8 @@ async def test_{{operationId}}(client):
         path='{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
         headers=headers,{{#bodyParam}}
         json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
-        data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}
-        params=params,{{/-first}}{{/queryParams}}
+        data=data,{{/-first}}{{/formParams}}{{#vendorExtensions.x-test-query-string}}{{#-first}}
+        params=params,{{/-first}}{{/vendorExtensions.x-test-query-string}}
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
