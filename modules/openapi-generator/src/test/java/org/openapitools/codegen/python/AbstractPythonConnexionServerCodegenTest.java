@@ -674,6 +674,93 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
+    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
+        variants.put("python-flask", Collections.emptyMap());
+        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
+        variants.put("python-aiohttp", Collections.emptyMap());
+        variants.put("python-blueplanet", Collections.emptyMap());
+
+        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
+            String generatorName = variant.getKey().replace("+useConnexion3", "");
+            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
+
+            boolean blueplanet = "python-blueplanet".equals(generatorName);
+            Path testFile = blueplanet
+                    ? outputDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"))
+                    : "python-aiohttp".equals(generatorName)
+                            ? outputDir.resolve(Paths.get("tests", "test_default_controller.py"))
+                            : outputDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+            assertFileExists(testFile);
+
+            // each variant carries the example in a different place of the media type;
+            // whatever the source, the generated test must send a JSON string literal
+            // (blueplanet renders headers as tuples, the others as dict entries)
+            String mediaExample = blueplanet
+                    ? "('X-Json-Media-Example', '{\"a\":1}')" : "'X-Json-Media-Example': '{\"a\":1}'";
+            assertFileContains(testFile,
+                    mediaExample,
+                    blueplanet ? "('X-Json-Examples', '{\"b\":2}')" : "'X-Json-Examples': '{\"b\":2}'",
+                    blueplanet ? "('X-Json-Ref-Example', '{\"e\":5}')" : "'X-Json-Ref-Example': '{\"e\":5}'",
+                    blueplanet ? "('X-Json-Schema-Example', '{\"c\":3}')" : "'X-Json-Schema-Example': '{\"c\":3}'",
+                    blueplanet ? "('X-Json-No-Example', '{}')" : "'X-Json-No-Example': '{}'");
+            String noneEntry = blueplanet
+                    ? "('X-Json-Media-Example', None)" : "'X-Json-Media-Example': None";
+            assertFileNotContains(testFile,
+                    noneEntry,
+                    blueplanet ? "('X-Json-Examples', None)" : "'X-Json-Examples': None",
+                    blueplanet ? "('X-Json-Schema-Example', None)" : "'X-Json-Schema-Example': None",
+                    blueplanet ? "('X-Json-No-Example', None)" : "'X-Json-No-Example': None");
+            // schema-based (non-content) headers keep the previous example behavior
+            assertFileContains(testFile,
+                    blueplanet ? "('X-Plain-Header', 'x_plain_header_example')"
+                            : "'X-Plain-Header': 'x_plain_header_example'");
+        }
+    }
+
+    @Test(description = "content (application/json) header/cookie params get X.from_dict() only for generated model classes; inline object schemas pass the json.loads result through")
+    public void testJsonContentHeaderParamsConvertOnlyGeneratedModels() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
+        variants.put("python-flask", Collections.emptyMap());
+        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
+        variants.put("python-aiohttp", Collections.emptyMap());
+        variants.put("python-blueplanet", Collections.emptyMap());
+
+        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
+            String generatorName = variant.getKey().replace("+useConnexion3", "");
+            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
+
+            boolean blueplanet = "python-blueplanet".equals(generatorName);
+            Path controller = blueplanet
+                    ? outputDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"))
+                    : outputDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+            assertFileExists(controller);
+
+            // JSON content params are still parsed from the raw string first
+            assertFileContains(controller,
+                    "x_json_media_example = json.loads(x_json_media_example)",
+                    "x_json_inline_cookie = json.loads(x_json_inline_cookie)");
+            // inline `type: object` schemas produce no model class, so the parsed
+            // dict is passed through instead of calling object.from_dict
+            assertFileNotContains(controller,
+                    "object.from_dict",
+                    "from_dict(x_json_media_example)",
+                    "from_dict(x_json_examples)",
+                    "from_dict(x_json_ref_example)",
+                    "from_dict(x_json_no_example)",
+                    "from_dict(x_json_inline_cookie)");
+            // $ref model headers/cookies keep the generated model conversion
+            assertFileContains(controller,
+                    "x_json_schema_example = HeaderWithExample.from_dict(x_json_schema_example)",
+                    "x_json_model_cookie = HeaderWithExample.from_dict(x_json_model_cookie)");
+        }
+    }
+
     @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")
     public void testAiohttpRequirementsIncludePythonDateutil() throws IOException {
         Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
