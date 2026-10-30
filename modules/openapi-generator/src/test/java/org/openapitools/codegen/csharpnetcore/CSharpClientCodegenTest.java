@@ -571,6 +571,36 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testAnyOfDiscriminatorWritesSelectedSubtype() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitAnyOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        assertFileContains(file.toPath(),
+            "appleAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.AppleAnyOfDiscOption.Value, jsonSerializerOptions);",
+            "bananaAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.BananaAnyOfDiscOption.Value, jsonSerializerOptions);");
+    }
+
+    @Test
     public void testDoubleDepthArrayAliasCSharp() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_21585.yaml");
         String schemaName = "GeoJSON_MultiLineString";
