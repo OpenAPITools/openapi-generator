@@ -1,0 +1,26 @@
+openapi: 3.2.0
+info:
+  title: schema $id scope fixture
+  version: 1.0.0
+paths:
+  /t:
+    get:
+      operationId: getT
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  withid:
+                    # the $id is not used as the reference base (matching
+                    # the released parser's 3.1 result): the relative
+                    # $ref inside this scope resolves against this file's
+                    # directory, ext-a.yaml sits next to it
+                    $id: models/W
+                    type: object
+                    properties:
+                      child:
+                        $ref: 'ext-a.yaml#/components/schemas/A'

@@ -30,7 +30,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.config.SpecLoader;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -1738,5 +1740,36 @@ public class InlineModelResolverTest {
         assertRewritten("response headers", response.getHeaders().get("X-Response").getSchema());
         assertRewritten("encoding headers", response.getContent().get("application/json")
                 .getEncoding().get("ok").getHeaders().get("X-Encoding").getSchema());
+    }
+
+    @Test
+    public void restoredOas32OperationsInlineModelsAreFlattened() {
+        // OpenAPI 3.2 via the compatibility loader (issue #25477): operations
+        // kept in x-oas32-* extensions flow through the resolver like
+        // fixed-method operations — their inline request/response schemas
+        // become named components instead of degrading to UNKNOWN_BASE_TYPE
+        // at codegen time.
+        String spec = "src/test/resources/3_2/oas32-cb-query.yaml";
+        ParseOptions options = new ParseOptions();
+        options.setResolve(true);
+        options.setResolveResponses(true);
+        OpenAPI openAPI = SpecLoader.forInputSpec(spec).load(spec, null, options).getOpenAPI();
+        Assert.assertNotNull(openAPI);
+
+        new InlineModelResolver().flatten(openAPI);
+
+        Operation query = Oas32Extensions
+                .operations(openAPI, openAPI.getPaths().get("/things")).get("QUERY");
+        Assert.assertNotNull(query);
+        Schema<?> body = query.getRequestBody().getContent()
+                .get("application/json").getSchema();
+        Assert.assertNotNull(body.get$ref(),
+                "inline QUERY request body must be flattened into a component schema");
+        Assert.assertTrue(body.get$ref().startsWith("#/components/schemas/"));
+
+        Schema<?> responseSchema = query.getResponses().get("200").getContent()
+                .get("application/json").getSchema();
+        Assert.assertNotNull(responseSchema.get$ref(),
+                "inline QUERY response must be flattened into a component schema");
     }
 }

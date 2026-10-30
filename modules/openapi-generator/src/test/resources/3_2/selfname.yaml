@@ -1,0 +1,20 @@
+openapi: 3.2.0
+info: {title: self by name, version: "1"}
+paths:
+  /t:
+    get:
+      operationId: getT
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'selfname.yaml#/components/schemas/WithXml'
+components:
+  schemas:
+    WithXml:
+      type: object
+      xml: {name: w, nodeType: element}
+      properties:
+        id: {type: string}

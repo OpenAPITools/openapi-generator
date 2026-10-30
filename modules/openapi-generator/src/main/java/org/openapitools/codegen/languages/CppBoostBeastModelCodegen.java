@@ -35,6 +35,7 @@ import org.openapitools.codegen.languages.Oas31CompositionLowering.CompositionDe
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.SpecUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,7 +153,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             return true;
         }
         try {
-            JsonNode document = Oas31RawSpecRecovery.readRawDocument(inputSpec);
+            JsonNode document = SpecUtils.readRawDocument(inputSpec);
             return document != null && document.isObject() && document.has("servers");
         } catch (Exception exception) {
             throw new IllegalStateException(
