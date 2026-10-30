@@ -569,4 +569,12 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
         assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
     }
+
+    @Test(description = "python-blueplanet generated swagger.yaml is not empty and contains the OpenAPI spec")
+    public void testBlueplanetSwaggerYamlNotEmpty() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path swaggerYaml = blueplanetDir.resolve(Paths.get("app", "openapi_server", "swagger", "swagger.yaml"));
+        assertFileExists(swaggerYaml);
+        assertFileContains(swaggerYaml, "openapi:", "paths:");
+    }
 }
