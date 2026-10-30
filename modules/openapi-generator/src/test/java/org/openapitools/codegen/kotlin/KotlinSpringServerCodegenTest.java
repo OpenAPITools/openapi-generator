@@ -149,6 +149,11 @@ public class KotlinSpringServerCodegenTest {
         assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val shared:"));
         assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val alreadyOptional:"));
         assertTrue(constructor.indexOf("val second:") < constructor.indexOf("val alreadyOptional:"));
+        String documentation = constructor.substring(0, constructor.indexOf("data class OrderedAnyOf"));
+        assertTrue(documentation.contains("@param first"));
+        assertTrue(documentation.indexOf("@param first") < documentation.indexOf("@param shared"));
+        assertTrue(documentation.indexOf("@param shared") < documentation.indexOf("@param second"));
+        assertTrue(documentation.indexOf("@param second") < documentation.indexOf("@param alreadyOptional"));
         TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/NestedAnyOf.kt"),
                 "val sometimes: kotlin.String? = null");
         TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/AnyOfWithOptionalBranch.kt"),

@@ -85,6 +85,28 @@ public class KotlinServerCodegenTest {
                 "val sometimes: kotlin.String? = null");
     }
 
+    @Test(description = "anyOf discriminator uses the post-processed sealed parent constructor")
+    public void anyOfDiscriminatorConstructor() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN5);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/anyof-discriminator.yaml"))
+                .config(codegen)).generate();
+
+        Path modelFolder = Paths.get(codegen.modelFileFolder());
+        Path parent = modelFolder.resolve("PetChoice.kt");
+        assertFileContains(parent, "sealed class PetChoice(", "open val kind: kotlin.String");
+        assertFileNotContains(parent, "catName", "dogAge");
+        assertFileContains(modelFolder.resolve("Cat.kt"),
+                "override val kind: kotlin.String = \"cat\"", ") : PetChoice(kind = kind)");
+        assertFileContains(modelFolder.resolve("Dog.kt"),
+                "override val kind: kotlin.String = \"dog\"", ") : PetChoice(kind = kind)");
+    }
+
     @Test
     public void enumDescription() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

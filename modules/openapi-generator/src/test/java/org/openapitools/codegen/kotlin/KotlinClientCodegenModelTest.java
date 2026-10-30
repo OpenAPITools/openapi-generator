@@ -743,6 +743,10 @@ public class KotlinClientCodegenModelTest {
                 "val alreadyOptional: kotlin.String? = null");
         TestUtils.assertFileNotContains(ordered,
                 "val shared: kotlin.String?");
+        String constructor = Files.readString(ordered);
+        Assert.assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val shared:"));
+        Assert.assertTrue(constructor.indexOf("val shared:") < constructor.indexOf("val second:"));
+        Assert.assertTrue(constructor.indexOf("val second:") < constructor.indexOf("val alreadyOptional:"));
         TestUtils.assertFileContains(modelPath(output, "NestedAnyOf"),
                 "val sometimes: kotlin.String? = null");
         TestUtils.assertFileContains(modelPath(output, "AnyOfWithOptionalBranch"),

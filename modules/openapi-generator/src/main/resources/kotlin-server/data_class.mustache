@@ -87,12 +87,11 @@ import java.io.Serializable
 {{>typeInfoAnnotation}}
 {{#vendorExtensions.x-discriminator-has-parent-properties}}
 sealed class {{classname}}(
-{{#vendorExtensions.x-kotlin-ordered-constructor-vars}}
+{{#requiredVars}}
 {{>data_class_sealed_var}}{{^-last}},
-{{/-last}}{{/vendorExtensions.x-kotlin-ordered-constructor-vars}}{{^vendorExtensions.x-kotlin-ordered-constructor-vars}}{{#requiredVars}}{{>data_class_sealed_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_sealed_var}}{{^-last}},
-{{/-last}}{{/optionalVars}}{{/vendorExtensions.x-kotlin-ordered-constructor-vars}}
+{{/-last}}{{/optionalVars}}
 )
 {{/vendorExtensions.x-discriminator-has-parent-properties}}
 {{^vendorExtensions.x-discriminator-has-parent-properties}}

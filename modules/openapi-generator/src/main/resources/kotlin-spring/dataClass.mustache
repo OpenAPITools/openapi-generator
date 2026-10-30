@@ -1,11 +1,16 @@
 /**
  * {{{description}}}
+{{#vendorExtensions.x-kotlin-ordered-constructor-vars}}
+ * @param {{{name}}}{{#description}} {{{description}}}{{/description}}
+{{/vendorExtensions.x-kotlin-ordered-constructor-vars}}
+{{^vendorExtensions.x-kotlin-ordered-constructor-vars}}
 {{#requiredVars}}
  * @param {{{name}}} {{{description}}}
 {{/requiredVars}}
 {{#optionalVars}}
  * @param {{{name}}} {{{description}}}
 {{/optionalVars}}
+{{/vendorExtensions.x-kotlin-ordered-constructor-vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
 {{#additionalModelTypeAnnotations}}

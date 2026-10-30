@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: AnyOf discriminator
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetChoice:
+      discriminator:
+        propertyName: kind
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Cat:
+      type: object
+      properties:
+        kind:
+          type: string
+        cat_name:
+          type: string
+      required: [kind, cat_name]
+    Dog:
+      type: object
+      properties:
+        kind:
+          type: string
+        dog_age:
+          type: integer
+      required: [kind, dog_age]
