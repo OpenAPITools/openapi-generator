@@ -45,12 +45,14 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -2357,6 +2359,41 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
+     * Applies string-based enum rendering adjustments to a property that has already
+     * been marked with {@code x-enum-as-string} by upstream processing.
+     * <p>
+     * This method updates Java generation details by switching
+     * {@code datatypeWithEnum} to the plain data type, converting enum constant
+     * defaults to their string literal values, and adding {@code Set}/{@code HashSet}
+     * imports used by string-value validation logic in Java templates.
+     * <p>
+     * It does not set the {@code x-enum-as-string} vendor extension itself.
+     */
+    protected void handleEnumAsString(CodegenProperty var, CodegenModel cm, List<Map<String, String>> imports) {
+        // treat enum string as just string
+        var.datatypeWithEnum = var.dataType;
+
+        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
+            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
+            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
+                if (defaultValue.equals(enumVars.getEnumName())) {
+                    // update default to use the string directly instead of enum string
+                    var.defaultValue = (String) enumVars.getEnumValue();
+                }
+            }
+        }
+
+        // add import for Set, HashSet
+        cm.imports.add("Set");
+        Map<String, String> importsSet = new HashMap<>();
+        importsSet.put("import", "java.util.Set");
+        imports.add(importsSet);
+        Map<String, String> importsHashSet = new HashMap<>();
+        importsHashSet.put("import", "java.util.HashSet");
+        imports.add(importsHashSet);
+    }
+
+    /**
      * Normalizes a model property vendor extension across all property collections.
      * In this context, normalization means converting a missing value, a single string, or a list value
      * into a predictable mutable {@code List<String>} on each property. The same property can appear in
@@ -2931,9 +2968,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
             // only add JsonNullable and related imports to optional and nullable values
             addImports |= isOptionalNullable;
-            var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+            var.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, isOptionalNullable);
             findByName(var.name, cm.readOnlyVars)
-                    .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
+                    .ifPresent(p -> p.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, isOptionalNullable));
         }
         return addImports;
     }

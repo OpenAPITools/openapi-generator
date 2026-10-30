@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1295,28 +1294,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                 for (CodegenProperty var : cm.vars) {
                     addNullableImports = isAddNullableImports(cm, addNullableImports, var);
-                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
-                        // treat enum string as just string
-                        var.datatypeWithEnum = var.dataType;
 
-                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
-                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
-                                if (defaultValue.equals(enumVars.getEnumName())) {
-                                    // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.getEnumValue();
-                                }
-                            }
-                        }
-
-                        // add import for Set, HashSet
-                        cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<>();
-                        importsSet.put("import", "java.util.Set");
-                        imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<>();
-                        importsHashSet.put("import", "java.util.HashSet");
-                        imports.add(importsHashSet);
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get(X_ENUM_AS_STRING))) {
+                        handleEnumAsString(var, cm, imports);
                     }
 
                 }
