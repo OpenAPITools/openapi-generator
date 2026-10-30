@@ -24,9 +24,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
- * @param username 
- * @param name 
- * @param photoUrls 
  * @param id 
  * @param firstName 
  * @param lastName 
@@ -37,23 +34,11 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param category 
  * @param tags 
  * @param status pet status in the store
+ * @param username 
+ * @param name 
+ * @param photoUrls 
  */
 data class AnyOfUserOrPetOrArrayString(
-
-    @Schema(required = true, description = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("username", required = true)
-    @get:JsonProperty("username", required = true) val username: kotlin.String,
-
-    @Schema(example = "doggie", required = true, description = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("name", required = true)
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
-
-    @Schema(required = true, description = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("photoUrls", required = true)
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
@@ -116,7 +101,25 @@ data class AnyOfUserOrPetOrArrayString(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("status")
-    @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null
+    @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null,
+
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("username")
+    @get:JsonProperty("username") val username: kotlin.String? = null,
+
+    @Schema(example = "doggie", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
+    @get:JsonProperty("name") val name: kotlin.String? = null,
+
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("photoUrls")
+    @get:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>? = null
 ) {
 
     /**
