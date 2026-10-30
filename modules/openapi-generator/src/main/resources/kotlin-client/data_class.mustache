@@ -43,6 +43,12 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
 {{#hasEnums}}
+{{^enumUnknownDefaultCase}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/enumUnknownDefaultCase}}
 {{/hasEnums}}
 {{#discriminator}}
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -144,7 +150,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
      */
     {{^multiplatform}}
     {{#kotlinx_serialization}}
-    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}{{^enumUnknownDefaultCase}}{{^isString}}{{^isNumber}}{{^isContainer}}(with = {{{nameInPascalCase}}}Serializer::class){{/isContainer}}{{/isNumber}}{{/isString}}{{/enumUnknownDefaultCase}}
     {{/kotlinx_serialization}}
     {{#moshi}}
     @JsonClass(generateAdapter = false)
@@ -201,6 +207,30 @@ import {{packageName}}.infrastructure.ITransformForStorage
         }
     }
     {{/enumUnknownDefaultCase}}
+    {{^multiplatform}}
+    {{^enumUnknownDefaultCase}}
+    {{^isString}}
+    {{^isNumber}}
+    {{^isContainer}}
+
+    internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
+        override val descriptor = {{dataType}}.serializer().descriptor
+
+        override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
+            val value = decoder.decodeSerializableValue({{dataType}}.serializer())
+            return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
+                ?: throw IllegalArgumentException("Unknown enum value: $value")
+        }
+
+        override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
+            encoder.encodeSerializableValue({{dataType}}.serializer(), value.value)
+        }
+    }
+    {{/isContainer}}
+    {{/isNumber}}
+    {{/isString}}
+    {{/enumUnknownDefaultCase}}
+    {{/multiplatform}}
     {{/kotlinx_serialization}}
 {{/isEnum}}
 {{/vars}}
