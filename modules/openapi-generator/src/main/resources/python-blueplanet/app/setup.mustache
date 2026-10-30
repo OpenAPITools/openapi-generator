@@ -18,10 +18,10 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="{{appName}}",
-    author_email="{{infoEmail}}",
+    description={{{appNameDoubleQuotedLiteral}}},
+    author_email={{{infoEmailDoubleQuotedLiteral}}},
     url="{{packageUrl}}",
-    keywords=["Swagger", "{{appName}}"],
+    keywords=["Swagger", {{{appNameDoubleQuotedLiteral}}}],
     install_requires=REQUIRES,
     packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
     package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
@@ -30,7 +30,7 @@ setup(
     entry_points={
         'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},
     long_description="""\
-    {{appDescription}}
+    {{{appDescriptionTripleQuotedContent}}}
     """
 )
 {{/-last}}{{/apis}}{{/apiInfo}}

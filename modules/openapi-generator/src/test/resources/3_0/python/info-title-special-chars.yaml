@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: "Tom & Jerry <Service> 'quoted' \"dquoted\" \\path"
+  version: 1.0.0
+  description: "Line one & more <stuff>.\nHe said \"\"\"triple quotes\"\"\" end.\nWindows path C:\\tmp\\dir\n'single' and \"double\" quotes\nnull\0byte\x01end\n"
+  contact:
+    email: "\"weird\" <api@example.com>"
+servers:
+  - url: /api
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string

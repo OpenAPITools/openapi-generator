@@ -2,6 +2,7 @@ package org.openapitools.codegen.python;
 
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -13,19 +14,23 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
 import org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -161,12 +166,18 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDirFromSpec(generatorName,
+                "src/test/resources/3_0/python/connexion-param-sources.yaml", additionalProperties);
+    }
+
+    private static Path generateOutputDirFromSpec(String generatorName, String specPath,
+                                                  Map<String, Object> additionalProperties) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(specPath)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -568,5 +579,113 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(aiohttpSetupPy);
         assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
         assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
+    }
+
+    @Test(description = "info.title is embedded in generated Python source as a Python string literal, not HTML-escaped")
+    public void testInfoTitleEmbeddedAsPythonStringLiteral() throws IOException, InterruptedException {
+        // spec title: Tom & Jerry <Service> 'quoted' "dquoted" \path
+        String specPath = "src/test/resources/3_0/python/info-title-special-chars.yaml";
+        OpenAPI spec = new OpenAPIParser().readLocation(specPath, null, new ParseOptions()).getOpenAPI();
+        String expectedTitle = spec.getInfo().getTitle();
+        String expectedDescription = spec.getInfo().getDescription();
+        String expectedEmail = spec.getInfo().getContact().getEmail();
+        String singleQuotedTitle = "'Tom & Jerry <Service> \\'quoted\\' \"dquoted\" \\\\path'";
+        String doubleQuotedTitle = "\"Tom & Jerry <Service> 'quoted' \\\"dquoted\\\" \\\\path\"";
+        String[] htmlEscaped = {"&amp;", "&lt;", "&gt;", "&#39;", "&quot;"};
+
+        Path flaskDir = generateOutputDirFromSpec("python-flask", specPath, Collections.emptyMap());
+        Path flaskMain = flaskDir.resolve(Paths.get("openapi_server", "__main__.py"));
+        Path flaskSetup = flaskDir.resolve("setup.py");
+        assertFileExists(flaskMain);
+        assertFileExists(flaskSetup);
+        assertFileContains(flaskMain, "arguments={'title': " + singleQuotedTitle + "},");
+        assertFileNotContains(flaskMain, htmlEscaped);
+        assertFileContains(flaskSetup,
+                "description=" + doubleQuotedTitle + ",",
+                "keywords=[\"OpenAPI\", " + doubleQuotedTitle + "]",
+                "author_email=\"\\\"weird\\\" <api@example.com>\"",
+                "He said \\\"\\\"\\\"triple quotes\\\"\\\"\\\" end.",
+                "Windows path C:\\\\tmp\\\\dir",
+                "null\\x00byte\\x01end");
+        assertFileNotContains(flaskSetup, htmlEscaped);
+        assertSetupPyValuesMatchSpec(flaskSetup, expectedTitle, expectedDescription, expectedEmail);
+
+        Path flask3Dir = generateOutputDirFromSpec("python-flask", specPath, ImmutableMap.of("useConnexion3", "true"));
+        Path flask3Main = flask3Dir.resolve(Paths.get("openapi_server", "__main__.py"));
+        Path flask3Setup = flask3Dir.resolve("setup.py");
+        assertFileExists(flask3Main);
+        assertFileContains(flask3Main, "arguments={'title': " + singleQuotedTitle + "},");
+        assertFileNotContains(flask3Main, htmlEscaped);
+        assertSetupPyValuesMatchSpec(flask3Setup, expectedTitle, expectedDescription, expectedEmail);
+
+        Path aiohttpDir = generateOutputDirFromSpec("python-aiohttp", specPath, Collections.emptyMap());
+        Path aiohttpMain = aiohttpDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        Path aiohttpSetup = aiohttpDir.resolve("setup.py");
+        assertFileExists(aiohttpMain);
+        assertFileExists(aiohttpSetup);
+        assertFileContains(aiohttpMain, "arguments={'title': " + singleQuotedTitle + "},");
+        assertFileNotContains(aiohttpMain, htmlEscaped);
+        assertFileContains(aiohttpSetup,
+                "description=" + doubleQuotedTitle + ",",
+                "keywords=[\"OpenAPI\", " + doubleQuotedTitle + "]",
+                "author_email=\"\\\"weird\\\" <api@example.com>\"");
+        assertFileNotContains(aiohttpSetup, htmlEscaped);
+        assertSetupPyValuesMatchSpec(aiohttpSetup, expectedTitle, expectedDescription, expectedEmail);
+
+        Path blueplanetDir = generateOutputDirFromSpec("python-blueplanet", specPath, Collections.emptyMap());
+        Path blueplanetMain = blueplanetDir.resolve(Paths.get("app", "openapi_server", "__main__.py"));
+        Path blueplanetSetup = blueplanetDir.resolve(Paths.get("app", "setup.py"));
+        assertFileExists(blueplanetMain);
+        assertFileExists(blueplanetSetup);
+        assertFileContains(blueplanetMain, "arguments={'title': " + singleQuotedTitle + "})");
+        assertFileNotContains(blueplanetMain, htmlEscaped);
+        assertFileContains(blueplanetSetup,
+                "description=" + doubleQuotedTitle + ",",
+                "keywords=[\"Swagger\", " + doubleQuotedTitle + "]",
+                "author_email=\"\\\"weird\\\" <api@example.com>\"");
+        assertFileNotContains(blueplanetSetup, htmlEscaped);
+        assertSetupPyValuesMatchSpec(blueplanetSetup, expectedTitle, expectedDescription, expectedEmail);
+    }
+
+    /**
+     * Parses the generated setup.py with python's ast and asserts that the
+     * description/long_description/author_email kwargs evaluate to the raw
+     * spec values (the long_description template wraps the description in
+     * "    " + ... + "\n    " inside its """...""" literal).
+     */
+    private static void assertSetupPyValuesMatchSpec(Path setupPy, String expectedTitle,
+                                                     String expectedDescription, String expectedEmail)
+            throws IOException, InterruptedException {
+        Map<String, String> expected = new LinkedHashMap<>();
+        expected.put("description", expectedTitle);
+        expected.put("author_email", expectedEmail);
+        expected.put("long_description", "    " + expectedDescription + "\n    ");
+        File expectedJson = File.createTempFile("expected-setup-kwargs", ".json");
+        expectedJson.deleteOnExit();
+        Json.mapper().writeValue(expectedJson, expected);
+
+        String script = "import ast, json, sys\n"
+                + "tree = ast.parse(open(sys.argv[1]).read())\n"
+                + "call = next(n for n in ast.walk(tree)\n"
+                + "            if isinstance(n, ast.Call) and getattr(n.func, 'id', None) == 'setup')\n"
+                + "kwargs = {k.arg: ast.literal_eval(k.value) for k in call.keywords\n"
+                + "          if isinstance(k.value, ast.Constant)}\n"
+                + "expected = json.load(open(sys.argv[2]))\n"
+                + "for key, want in expected.items():\n"
+                + "    got = kwargs.get(key)\n"
+                + "    assert got == want, '%s mismatch: got %r want %r' % (key, got, want)\n"
+                + "print('setup() kwargs match:', sys.argv[1])\n";
+        Process process;
+        try {
+            process = new ProcessBuilder("python3", "-c", script,
+                    setupPy.toAbsolutePath().toString(), expectedJson.getAbsolutePath())
+                    .redirectErrorStream(true).start();
+        } catch (IOException e) {
+            throw new SkipException("python3 is not available to evaluate generated setup.py", e);
+        }
+        boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+        assertThat(finished).as("python3 assertion timed out for " + setupPy).isTrue();
+        String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        assertThat(process.exitValue()).as(output).isEqualTo(0);
     }
 }
