@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Closed schema with an inline map property (issue 25430)
+  version: 1.0.0
+paths:
+  /patch:
+    post:
+      operationId: patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchRequest"
+      responses:
+        "204":
+          description: No content
+components:
+  schemas:
+    PatchRequest:
+      type: object
+      properties:
+        context:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
