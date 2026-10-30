@@ -38,6 +38,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
@@ -949,6 +950,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
+        // okhttp-gson emits the HTTP method verbatim as a Java string literal,
+        // so additionalOperations keys that are not RFC 9110 tokens would
+        // produce uncompilable code
+        if (supportsAdditionalOperations()) {
+            OperationMap operations = objs.getOperations();
+            if (operations != null && operations.getOperation() != null) {
+                skipNonTokenHttpMethods(operations.getOperation());
+            }
+        }
+
         if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
@@ -1462,6 +1473,37 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
         jSpecifyNullableLambda.setNullableAnnotation(nullableAnnotation);
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // webhooks render through api.mustache as well, so their
+        // additionalOperations keys need the same RFC 9110 token check
+        WebhooksMap result = super.postProcessWebhooksWithModels(objs, allModels);
+        if (supportsAdditionalOperations()
+                && result.getWebhooks() != null && result.getWebhooks().getOperation() != null) {
+            skipNonTokenHttpMethods(result.getWebhooks().getOperation());
+        }
+        return result;
+    }
+
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH", "CONNECT"));
+
+    // RFC 9110 tchar — additionalOperations keys must match this to be
+    // emitted as a Java string literal
+    private static final Pattern HTTP_TOKEN = Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    private void skipNonTokenHttpMethods(List<CodegenOperation> operations) {
+        for (Iterator<CodegenOperation> it = operations.iterator(); it.hasNext(); ) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod != null && !STANDARD_HTTP_METHODS.contains(op.httpMethod)
+                    && !HTTP_TOKEN.matcher(op.httpMethod).matches()) {
+                LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
+                            op.httpMethod, op.operationId);
+                it.remove();
+            }
+        }
     }
 
     @Override

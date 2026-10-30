@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.java;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.filter.Filter;
+import ch.qos.logback.core.read.ListAppender;
+import ch.qos.logback.core.spi.FilterReply;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
@@ -48,6 +52,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -5911,6 +5916,57 @@ public class JavaClientCodegenTest {
                 .contains("addOperationLookupEntry(path, \"QUERY\", pathItem.getQuery());")
                 .contains("pathItem.getAdditionalOperations()")
                 .contains("case \"querystring\":");
+    }
+
+    @Test
+    public void testAdditionalOperationsSkipsInvalidHttpMethodTokens() {
+        final Path output = newTempFolder();
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(JavaClientCodegen.class);
+        final String testThreadName = Thread.currentThread().getName();
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.addFilter(new Filter<ILoggingEvent>() {
+            @Override
+            public FilterReply decide(ILoggingEvent event) {
+                return testThreadName.equals(event.getThreadName())
+                        ? FilterReply.NEUTRAL : FilterReply.DENY;
+            }
+        });
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR) // default library okhttp-gson
+                    .setInputSpec("src/test/resources/3_2/java-invalid-method.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            validateJavaSourceFiles(files);
+            // additionalOperations keys that are not RFC 9110 tokens are
+            // skipped with a warning; valid tokens (including tchar
+            // punctuation) reach the generated code verbatim
+            assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                    .content()
+                    .contains("searchPetsCall(")
+                    .contains("checkFetchPetsCall(")
+                    .contains("\"SEARCH\"")
+                    .contains("\"CHECK&FETCH\"")
+                    .doesNotContain("badMethod")
+                    .doesNotContain("quotedMethod")
+                    .doesNotContain("unicodeMethod");
+            for (String method : new String[]{"BAD METHOD", "A\"B", "ÄÖ"}) {
+                boolean warned = listAppender.list.stream()
+                        .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                        .map(ILoggingEvent::getFormattedMessage)
+                        .anyMatch(msg -> msg.contains(method)
+                                && msg.contains("not a valid RFC 9110 token"));
+                Assert.assertTrue(warned,
+                        "expected a WARN mentioning '" + method + "' and 'not a valid RFC 9110 token'");
+            }
+        } finally {
+            logger.detachAppender(listAppender);
+        }
     }
 
     @Test
