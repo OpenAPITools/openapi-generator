@@ -21,3 +21,21 @@ components:
         name:
           type: string
           pattern: '[^\/:?*<>\"|]*'
+        unescapedQuote:
+          type: string
+          pattern: '^a"b$'
+        alreadyEscapedQuote:
+          type: string
+          pattern: '^a\"b$'
+        evenBackslashes:
+          type: string
+          pattern: '^a\\"b$'
+        oddBackslashes:
+          type: string
+          pattern: '^a\\\"b$'
+        trailingBackslashes:
+          type: string
+          pattern: 'a\\'
+        trailingFourBackslashes:
+          type: string
+          pattern: 'a\\\\'
