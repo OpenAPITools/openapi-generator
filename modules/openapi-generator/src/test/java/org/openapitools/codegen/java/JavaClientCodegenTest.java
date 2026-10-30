@@ -5884,6 +5884,10 @@ public class JavaClientCodegenTest {
                 .contains("purgePetsCall(")
                 .contains("\"QUERY\"")
                 .contains("\"PURGE\"")
+                // additionalOperations keys are RFC 9110 tchar (no '"' or '\\')
+                // and must reach the wire verbatim, not HTML-escaped by Mustache
+                .contains("\"CHECK&FETCH\"")
+                .doesNotContain("&amp;")
                 .contains("localVarPath = localVarPath + (localVarPath.contains(\"?\") ? \"&\" : \"?\") + qs;");
     }
 
