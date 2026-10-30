@@ -112,7 +112,7 @@ async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-pa
                     {{^isUuid}}
                         {{#isBodyParam}}
                             {{^vendorExtensions.x-python-connexion-skip-from-dict}}
-    {{paramName}} = {{baseType}}.from_dict({{paramName}})
+    {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})
                             {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                         {{/isBodyParam}}
                         {{^isBodyParam}}
