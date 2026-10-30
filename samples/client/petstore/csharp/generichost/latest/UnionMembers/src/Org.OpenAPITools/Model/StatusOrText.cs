@@ -118,13 +118,13 @@ namespace Org.OpenAPITools.Model
             Status? status = default;
             string? varString = default;
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderStatus = utf8JsonReader;
                 ClientUtils.TryDeserialize<Status?>(ref utf8JsonReaderStatus, jsonSerializerOptions, out status);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
                 ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
@@ -133,10 +133,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
             while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
                     break;
 
                 if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)

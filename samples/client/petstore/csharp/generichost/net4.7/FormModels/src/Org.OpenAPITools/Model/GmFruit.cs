@@ -141,16 +141,13 @@ namespace Org.OpenAPITools.Model
             Apple apple = default;
             Banana banana = default;
 
-            if (isScalarToken && apple == null && banana == null)
+            if (startingTokenType != JsonTokenType.StartObject && apple == null && banana == null)
                 throw new JsonException();
 
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
             while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
                     break;
 
                 if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)

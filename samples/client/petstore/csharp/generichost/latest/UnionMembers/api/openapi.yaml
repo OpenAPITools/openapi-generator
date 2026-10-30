@@ -35,6 +35,21 @@ components:
       oneOf:
       - $ref: "#/components/schemas/Status"
       - type: string
+    PatternedText:
+      oneOf:
+      - pattern: ^a
+        type: string
+      - pattern: ^b
+        type: string
+    FlexibleValue:
+      oneOf:
+      - type: boolean
+      - type: string
+      - type: object
+      - items:
+          type: string
+        type: array
+        default: null
     Foo:
       example:
         id: 0
@@ -152,6 +167,8 @@ components:
         status: active
         nullableStatus: null
         statusOrText: null
+        patternedText: PatternedText
+        flexibleValue: true
         fooOrList:
           id: 0
         entry:
@@ -172,6 +189,10 @@ components:
           $ref: "#/components/schemas/NullableOpenStatus"
         statusOrText:
           $ref: "#/components/schemas/StatusOrText"
+        patternedText:
+          $ref: "#/components/schemas/PatternedText"
+        flexibleValue:
+          $ref: "#/components/schemas/FlexibleValue"
         fooOrList:
           $ref: "#/components/schemas/FooOrList"
         entry:

@@ -35,20 +35,24 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="asset">asset</param>
         /// <param name="entry">entry</param>
+        /// <param name="flexibleValue">flexibleValue</param>
         /// <param name="fooOrList">fooOrList</param>
         /// <param name="fruit">fruit</param>
         /// <param name="nullableStatus">nullableStatus</param>
+        /// <param name="patternedText">patternedText</param>
         /// <param name="pet">pet</param>
         /// <param name="status">status</param>
         /// <param name="statusOrText">statusOrText</param>
         [JsonConstructor]
-        public Holder(Option<Asset?> asset = default, Option<Entry?> entry = default, Option<FooOrList?> fooOrList = default, Option<Fruit?> fruit = default, Option<NullableOpenStatus?> nullableStatus = default, Option<Pet?> pet = default, Option<OpenStatus?> status = default, Option<StatusOrText?> statusOrText = default)
+        public Holder(Option<Asset?> asset = default, Option<Entry?> entry = default, Option<FlexibleValue?> flexibleValue = default, Option<FooOrList?> fooOrList = default, Option<Fruit?> fruit = default, Option<NullableOpenStatus?> nullableStatus = default, Option<PatternedText?> patternedText = default, Option<Pet?> pet = default, Option<OpenStatus?> status = default, Option<StatusOrText?> statusOrText = default)
         {
             AssetOption = asset;
             EntryOption = entry;
+            FlexibleValueOption = flexibleValue;
             FooOrListOption = fooOrList;
             FruitOption = fruit;
             NullableStatusOption = nullableStatus;
+            PatternedTextOption = patternedText;
             PetOption = pet;
             StatusOption = status;
             StatusOrTextOption = statusOrText;
@@ -82,6 +86,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("entry")]
         public Entry? Entry { get { return this.EntryOption.Value; } set { this.EntryOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of FlexibleValue
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<FlexibleValue?> FlexibleValueOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets FlexibleValue
+        /// </summary>
+        [JsonPropertyName("flexibleValue")]
+        public FlexibleValue? FlexibleValue { get { return this.FlexibleValueOption.Value; } set { this.FlexibleValueOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of FooOrList
@@ -121,6 +138,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("nullableStatus")]
         public NullableOpenStatus? NullableStatus { get { return this.NullableStatusOption.Value; } set { this.NullableStatusOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of PatternedText
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<PatternedText?> PatternedTextOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets PatternedText
+        /// </summary>
+        [JsonPropertyName("patternedText")]
+        public PatternedText? PatternedText { get { return this.PatternedTextOption.Value; } set { this.PatternedTextOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Pet
@@ -171,9 +201,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Holder {\n");
             sb.Append("  Asset: ").Append(Asset).Append("\n");
             sb.Append("  Entry: ").Append(Entry).Append("\n");
+            sb.Append("  FlexibleValue: ").Append(FlexibleValue).Append("\n");
             sb.Append("  FooOrList: ").Append(FooOrList).Append("\n");
             sb.Append("  Fruit: ").Append(Fruit).Append("\n");
             sb.Append("  NullableStatus: ").Append(NullableStatus).Append("\n");
+            sb.Append("  PatternedText: ").Append(PatternedText).Append("\n");
             sb.Append("  Pet: ").Append(Pet).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  StatusOrText: ").Append(StatusOrText).Append("\n");
@@ -226,9 +258,11 @@ namespace Org.OpenAPITools.Model
 
             Option<Asset?> asset = default;
             Option<Entry?> entry = default;
+            Option<FlexibleValue?> flexibleValue = default;
             Option<FooOrList?> fooOrList = default;
             Option<Fruit?> fruit = default;
             Option<NullableOpenStatus?> nullableStatus = default;
+            Option<PatternedText?> patternedText = default;
             Option<Pet?> pet = default;
             Option<OpenStatus?> status = default;
             Option<StatusOrText?> statusOrText = default;
@@ -254,6 +288,9 @@ namespace Org.OpenAPITools.Model
                         case "entry":
                             entry = new Option<Entry?>(JsonSerializer.Deserialize<Entry>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "flexibleValue":
+                            flexibleValue = new Option<FlexibleValue?>(JsonSerializer.Deserialize<FlexibleValue>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         case "fooOrList":
                             fooOrList = new Option<FooOrList?>(JsonSerializer.Deserialize<FooOrList>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
@@ -262,6 +299,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "nullableStatus":
                             nullableStatus = new Option<NullableOpenStatus?>(JsonSerializer.Deserialize<NullableOpenStatus>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "patternedText":
+                            patternedText = new Option<PatternedText?>(JsonSerializer.Deserialize<PatternedText>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "pet":
                             pet = new Option<Pet?>(JsonSerializer.Deserialize<Pet>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -284,11 +324,17 @@ namespace Org.OpenAPITools.Model
             if (entry.IsSet && entry.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: entry.");
 
+            if (flexibleValue.IsSet && flexibleValue.Value == null)
+                throw new JsonException("Property is not nullable for class Holder: flexibleValue.");
+
             if (fooOrList.IsSet && fooOrList.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: fooOrList.");
 
             if (fruit.IsSet && fruit.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: fruit.");
+
+            if (patternedText.IsSet && patternedText.Value == null)
+                throw new JsonException("Property is not nullable for class Holder: patternedText.");
 
             if (pet.IsSet && pet.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: pet.");
@@ -299,7 +345,7 @@ namespace Org.OpenAPITools.Model
             if (statusOrText.IsSet && statusOrText.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: statusOrText.");
 
-            return new Holder(asset, entry, fooOrList, fruit, nullableStatus, pet, status, statusOrText);
+            return new Holder(asset, entry, flexibleValue, fooOrList, fruit, nullableStatus, patternedText, pet, status, statusOrText);
         }
 
         /// <summary>
@@ -330,11 +376,17 @@ namespace Org.OpenAPITools.Model
             if (holder.EntryOption.IsSet && holder.Entry == null)
                 throw new JsonException("Cannot write null property Holder.Entry to non-nullable JSON property 'entry'.");
 
+            if (holder.FlexibleValueOption.IsSet && holder.FlexibleValue == null)
+                throw new JsonException("Cannot write null property Holder.FlexibleValue to non-nullable JSON property 'flexibleValue'.");
+
             if (holder.FooOrListOption.IsSet && holder.FooOrList == null)
                 throw new JsonException("Cannot write null property Holder.FooOrList to non-nullable JSON property 'fooOrList'.");
 
             if (holder.FruitOption.IsSet && holder.Fruit == null)
                 throw new JsonException("Cannot write null property Holder.Fruit to non-nullable JSON property 'fruit'.");
+
+            if (holder.PatternedTextOption.IsSet && holder.PatternedText == null)
+                throw new JsonException("Cannot write null property Holder.PatternedText to non-nullable JSON property 'patternedText'.");
 
             if (holder.PetOption.IsSet && holder.Pet == null)
                 throw new JsonException("Cannot write null property Holder.Pet to non-nullable JSON property 'pet'.");
@@ -355,6 +407,11 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("entry");
                 JsonSerializer.Serialize(writer, holder.Entry, jsonSerializerOptions);
             }
+            if (holder.FlexibleValueOption.IsSet)
+            {
+                writer.WritePropertyName("flexibleValue");
+                JsonSerializer.Serialize(writer, holder.FlexibleValue, jsonSerializerOptions);
+            }
             if (holder.FooOrListOption.IsSet)
             {
                 writer.WritePropertyName("fooOrList");
@@ -373,6 +430,11 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("nullableStatus");
+            if (holder.PatternedTextOption.IsSet)
+            {
+                writer.WritePropertyName("patternedText");
+                JsonSerializer.Serialize(writer, holder.PatternedText, jsonSerializerOptions);
+            }
             if (holder.PetOption.IsSet)
             {
                 writer.WritePropertyName("pet");

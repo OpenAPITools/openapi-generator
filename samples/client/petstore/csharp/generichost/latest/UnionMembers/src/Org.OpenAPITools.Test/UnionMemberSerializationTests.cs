@@ -25,6 +25,11 @@ namespace Org.OpenAPITools.Test
         [InlineData("""{"nullableStatus":"inactive"}""")]
         [InlineData("""{"nullableStatus":"frozen"}""")]
         [InlineData("""{"statusOrText":"frozen"}""")]
+        [InlineData("""{"patternedText":"abc"}""")]
+        [InlineData("""{"flexibleValue":true}""")]
+        [InlineData("""{"flexibleValue":"text"}""")]
+        [InlineData("""{"flexibleValue":{"a":1}}""")]
+        [InlineData("""{"flexibleValue":["a","b"]}""")]
         // https://github.com/OpenAPITools/openapi-generator/issues/23529
         [InlineData("""{"fooOrList":{"id":1}}""")]
         [InlineData("""{"fooOrList":[{"id":1},{"id":2}]}""")]
@@ -67,9 +72,13 @@ namespace Org.OpenAPITools.Test
 
         [Theory]
         [InlineData("""{"status":5}""")]
+        [InlineData("""{"status":[1,2]}""")]
+        [InlineData("""{"fooOrList":"foo"}""")]
         [InlineData("""{"pet":"cat"}""")]
         [InlineData("""{"entry":"d1"}""")]
-        public void ScalarWithNoMatchingMemberThrows(string json)
+        [InlineData("""{"flexibleValue":5}""")]
+        [InlineData("""{"asset":5}""")]
+        public void ValueWithNoMatchingMemberThrows(string json)
         {
             Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Holder>(json, _options));
         }
@@ -81,6 +90,15 @@ namespace Org.OpenAPITools.Test
 
             Assert.Null(fooOrList.Foo);
             Assert.Equal(new int?[] { 1, 2 }, fooOrList.List!.Select(foo => foo.Id));
+        }
+
+        [Fact]
+        public void ArrayIsNotReadIntoAFreeFormObjectMember()
+        {
+            FlexibleValue value = JsonSerializer.Deserialize<FlexibleValue>("""["a","b"]""", _options)!;
+
+            Assert.Null(value.Object);
+            Assert.Equal(new[] { "a", "b" }, value.List);
         }
     }
 }

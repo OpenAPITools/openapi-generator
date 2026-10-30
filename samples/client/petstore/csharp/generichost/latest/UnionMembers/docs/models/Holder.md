@@ -6,9 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Asset** | [**Asset**](Asset.md) |  | [optional] 
 **Entry** | [**Entry**](Entry.md) |  | [optional] 
+**FlexibleValue** | [**FlexibleValue**](FlexibleValue.md) |  | [optional] 
 **FooOrList** | [**FooOrList**](FooOrList.md) |  | [optional] 
 **Fruit** | [**Fruit**](Fruit.md) |  | [optional] 
 **NullableStatus** | [**NullableOpenStatus**](NullableOpenStatus.md) |  | [optional] 
+**PatternedText** | [**PatternedText**](PatternedText.md) |  | [optional] 
 **Pet** | [**Pet**](Pet.md) |  | [optional] 
 **Status** | [**OpenStatus**](OpenStatus.md) |  | [optional] 
 **StatusOrText** | [**StatusOrText**](StatusOrText.md) |  | [optional] 

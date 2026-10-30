@@ -34,6 +34,20 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Status'
         - type: string
+    PatternedText:
+      oneOf:
+        - type: string
+          pattern: ^a
+        - type: string
+          pattern: ^b
+    FlexibleValue:
+      oneOf:
+        - type: boolean
+        - type: string
+        - type: object
+        - type: array
+          items:
+            type: string
     Foo:
       type: object
       properties:
@@ -154,6 +168,10 @@ components:
           $ref: '#/components/schemas/NullableOpenStatus'
         statusOrText:
           $ref: '#/components/schemas/StatusOrText'
+        patternedText:
+          $ref: '#/components/schemas/PatternedText'
+        flexibleValue:
+          $ref: '#/components/schemas/FlexibleValue'
         fooOrList:
           $ref: '#/components/schemas/FooOrList'
         entry:

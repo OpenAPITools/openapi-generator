@@ -12,6 +12,7 @@ docs/models/Diagnostic.md
 docs/models/Document.md
 docs/models/Dog.md
 docs/models/Entry.md
+docs/models/FlexibleValue.md
 docs/models/Foo.md
 docs/models/FooOrList.md
 docs/models/Fruit.md
@@ -20,6 +21,7 @@ docs/models/Image.md
 docs/models/NullableOpenStatus.md
 docs/models/Observation.md
 docs/models/OpenStatus.md
+docs/models/PatternedText.md
 docs/models/Pet.md
 docs/models/Status.md
 docs/models/StatusOrText.md
@@ -59,6 +61,7 @@ src/Org.OpenAPITools/Model/Diagnostic.cs
 src/Org.OpenAPITools/Model/Document.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Entry.cs
+src/Org.OpenAPITools/Model/FlexibleValue.cs
 src/Org.OpenAPITools/Model/Foo.cs
 src/Org.OpenAPITools/Model/FooOrList.cs
 src/Org.OpenAPITools/Model/Fruit.cs
@@ -67,6 +70,7 @@ src/Org.OpenAPITools/Model/Image.cs
 src/Org.OpenAPITools/Model/NullableOpenStatus.cs
 src/Org.OpenAPITools/Model/Observation.cs
 src/Org.OpenAPITools/Model/OpenStatus.cs
+src/Org.OpenAPITools/Model/PatternedText.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Status.cs
 src/Org.OpenAPITools/Model/StatusOrText.cs

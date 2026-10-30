@@ -177,40 +177,37 @@ namespace Org.OpenAPITools.Model
             decimal? varDecimal = default;
             MixedSubId? mixedSubId = default;
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
                 ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
                 ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderInt = utf8JsonReader;
                 ClientUtils.TryDeserialize<int?>(ref utf8JsonReaderInt, jsonSerializerOptions, out varInt);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject)
+            if (isScalarToken)
             {
                 Utf8JsonReader utf8JsonReaderDecimal = utf8JsonReader;
                 ClientUtils.TryDeserialize<decimal?>(ref utf8JsonReaderDecimal, jsonSerializerOptions, out varDecimal);
             }
 
-            if (isScalarToken && varString == null && varBool == null && varInt == null && varDecimal == null && mixedSubId == null)
+            if (startingTokenType != JsonTokenType.StartObject && varString == null && varBool == null && varInt == null && varDecimal == null && mixedSubId == null)
                 throw new JsonException();
 
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
             while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
                     break;
 
                 if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)

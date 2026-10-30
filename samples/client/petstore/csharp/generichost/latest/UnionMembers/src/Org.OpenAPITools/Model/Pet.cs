@@ -124,16 +124,13 @@ namespace Org.OpenAPITools.Model
             Cat? cat = default;
             Dog? dog = default;
 
-            if (isScalarToken && cat == null && dog == null)
+            if (startingTokenType != JsonTokenType.StartObject && cat == null && dog == null)
                 throw new JsonException();
 
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
             while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
                     break;
 
                 if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)

@@ -109,6 +109,24 @@ namespace Org.OpenAPITools.Model
             bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             string? varString = default;
+            if (isScalarToken)
+            {
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+            }
+
+            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
+            {
+                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                {
+                    Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                    ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+                }
+            }
 
             while (!isScalarToken && utf8JsonReader.Read())
             {
