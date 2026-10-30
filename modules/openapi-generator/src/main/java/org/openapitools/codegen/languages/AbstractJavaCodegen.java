@@ -205,7 +205,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
     @Setter protected boolean implicitHeaders = false;
-    protected String implicitHeadersRegex = null;
+    @Setter protected String implicitHeadersRegex = null;
     private Pattern implicitHeadersPattern = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
@@ -2933,15 +2933,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    public void setImplicitHeadersRegex(String implicitHeadersRegex) {
-        this.implicitHeadersRegex = implicitHeadersRegex;
-        // HTTP header names are case insensitive, so the regex is too
-        this.implicitHeadersPattern = StringUtils.isBlank(implicitHeadersRegex)
-                ? null : Pattern.compile(implicitHeadersRegex, Pattern.CASE_INSENSITIVE);
-    }
-
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
-        return implicitHeadersPattern != null && implicitHeadersPattern.matcher(parameter.baseName).matches();
+        if (StringUtils.isBlank(implicitHeadersRegex)) {
+            return false;
+        }
+        // Compiled once and kept in step with the field. HTTP header names are case insensitive, so the regex is too
+        if (implicitHeadersPattern == null || !implicitHeadersPattern.pattern().equals(implicitHeadersRegex)) {
+            implicitHeadersPattern = Pattern.compile(implicitHeadersRegex, Pattern.CASE_INSENSITIVE);
+        }
+        return implicitHeadersPattern.matcher(parameter.baseName).matches();
     }
 
     @Override
