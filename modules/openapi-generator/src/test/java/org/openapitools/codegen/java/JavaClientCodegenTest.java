@@ -1773,7 +1773,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -1786,7 +1786,7 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, @javax.annotation.Nonnull org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, @javax.annotation.Nonnull org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedRequestMarker> markerArray, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
@@ -3315,7 +3315,7 @@ public class JavaClientCodegenTest {
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -3329,7 +3329,7 @@ public class JavaClientCodegenTest {
                         + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull File _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull File _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedRequestMarker> markerArray, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", new FileSystemResource(_file));",
 
                 // single file
@@ -3346,7 +3346,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -3359,7 +3359,7 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedRequestMarker> markerArray, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
@@ -5790,7 +5790,7 @@ public class JavaClientCodegenTest {
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -5804,6 +5804,7 @@ public class JavaClientCodegenTest {
                         "@FormParam(\"file\") File _fileDetail",
                         // a file next to a non-file array: only the file type is affected
                         "@FormParam(\"file\") File _fileDetail, @FormParam(\"marker\")  MultipartMixedRequestMarker marker,"
+                                + " @FormParam(\"markerArray\")  List<MultipartMixedRequestMarker> markerArray,"
                                 + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
     }
 
