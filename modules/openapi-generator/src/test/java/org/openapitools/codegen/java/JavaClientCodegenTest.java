@@ -5946,4 +5946,47 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
     }
+
+    /**
+     * Test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/25264">#25264</a>:
+     * When microprofileRegisterRestClient is true (default), the generated MicroProfile API interfaces
+     * should contain @RegisterRestClient and its import.
+     */
+    @Test
+    public void testMicroprofileRegisterRestClientDefaultTrue() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .contains("import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;")
+                .contains("@RegisterRestClient");
+    }
+
+    /**
+     * Test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/25264">#25264</a>:
+     * When microprofileRegisterRestClient is false, the generated MicroProfile API interfaces
+     * should NOT contain @RegisterRestClient nor its import.
+     */
+    @Test
+    public void testMicroprofileRegisterRestClientDisabled() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REGISTER_REST_CLIENT, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .doesNotContain("import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;")
+                .doesNotContain("@RegisterRestClient");
+    }
 }
