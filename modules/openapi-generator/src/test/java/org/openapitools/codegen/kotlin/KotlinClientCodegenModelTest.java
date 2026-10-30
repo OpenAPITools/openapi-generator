@@ -1582,4 +1582,33 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(option.getDefault(), "false");
         Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
+
+    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded and decoded without a BigDecimal serializer")
+    public void oneOfAnyOfKotlinxSerializationUnformattedNumber() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName(KOTLIN_GENERATOR)
+                        .setLibrary("jvm-retrofit2")
+                        .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                        .addAdditionalProperty(GENERATE_ONEOF_ANYOF_WRAPPERS, true)
+                        .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+
+        for (String model : new String[]{"AnyOfValue", "OneOfValue"}) {
+            // kotlinx.serialization has no serializer for java.math.BigDecimal, so this call cannot compile
+            TestUtils.assertFileNotContains(modelPath(output, model), "java.math.BigDecimal.serializer()");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+            // the number is a JsonPrimitive and a plain Json has no BigDecimal serializer, so it is read from the content
+            TestUtils.assertFileNotContains(modelPath(output, model), "decodeFromJsonElement<java.math.BigDecimal>");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "if (jsonElement is JsonPrimitive && !jsonElement.isString) { try { return " + model
+                            + ".BigDecimalValue(jsonElement.content.toBigDecimal())");
+        }
+    }
 }
