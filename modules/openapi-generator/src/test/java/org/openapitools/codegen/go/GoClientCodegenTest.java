@@ -113,12 +113,14 @@ public class GoClientCodegenTest {
         Assert.assertEquals(codegen.toModelFilename("AnimalTest"), "model_animal_test_");
         Assert.assertEquals(codegen.toModelFilename("AnimalFarm"), "model_animal_farm");
         Assert.assertEquals(codegen.toModelFilename("AnimalFarmTest"), "model_animal_farm_test_");
+        Assert.assertEquals(codegen.toModelFilename("MobileIos"), "model_mobile_ios_");
 
         // API names are generated from tag names
         Assert.assertEquals(codegen.toApiFilename("Animal"), "api_animal");
         Assert.assertEquals(codegen.toApiFilename("Animal Test"), "api_animal_test_");
         Assert.assertEquals(codegen.toApiFilename("Animal Farm"), "api_animal_farm");
         Assert.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
+        Assert.assertEquals(codegen.toApiFilename("Mobile Ios"), "api_mobile_ios_");
     }
 
     @Test
