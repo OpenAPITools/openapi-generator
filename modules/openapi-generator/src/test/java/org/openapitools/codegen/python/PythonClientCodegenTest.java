@@ -289,6 +289,17 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testRegexWithEscapedDoubleQuote() throws IOException {
+        String output = generateFiles(new PythonClientCodegen(),
+                "src/test/resources/3_0/python/regex-escaped-quote.yaml");
+        Path model = Paths.get(output, "openapi_client", "models", "pattern_model.py");
+        String pattern = "[^\\/:?*<>\\\"|]*";
+        assertFileContains(model,
+                "re.match(r\"" + pattern + "\", value)",
+                "raise ValueError(r\"must validate the regular expression /" + pattern + "/\")");
+    }
+
+    @Test
     public void testSettersForConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setHideGenerationTimestamp(false);

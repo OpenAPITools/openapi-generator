@@ -1585,10 +1585,25 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
-            vendorExtensions.put(X_PATTERN, pattern.replace("\"", "\\\""));
+            vendorExtensions.put(X_REGEX, escapeUnescapedDoubleQuotes(regex));
+            vendorExtensions.put(X_PATTERN, escapeUnescapedDoubleQuotes(pattern));
             vendorExtensions.put(X_MODIFIERS, modifiers);
         }
+    }
+
+    private static String escapeUnescapedDoubleQuotes(String value) {
+        StringBuilder escaped = new StringBuilder(value.length());
+        int backslashes = 0;
+        for (int index = 0; index < value.length(); index++) {
+            char current = value.charAt(index);
+            // A quote after an odd number of backslashes is already escaped in a raw Python string.
+            if (current == '"' && backslashes % 2 == 0) {
+                escaped.append('\\');
+            }
+            escaped.append(current);
+            backslashes = current == '\\' ? backslashes + 1 : 0;
+        }
+        return escaped.toString();
     }
 
     @Override
