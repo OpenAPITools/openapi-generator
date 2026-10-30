@@ -750,6 +750,8 @@ public class TypeScriptFetchClientCodegenTest {
         Path testResponse = Paths.get(output + "/models/test-response.ts");
         TestUtils.assertFileContains(testResponse, "} from './test-a';");
         TestUtils.assertFileNotContains(testResponse, "from './TestA';");
+        Path testArrayResponse = Paths.get(output + "/models/test-array-response.ts");
+        TestUtils.assertFileContains(testArrayResponse, "} from './test-a';", "} from './test-b';");
         Path discriminatorResponse = Paths.get(output + "/models/test-discriminator-response.ts");
         TestUtils.assertFileContains(discriminatorResponse, "} from './option-one';");
     }
