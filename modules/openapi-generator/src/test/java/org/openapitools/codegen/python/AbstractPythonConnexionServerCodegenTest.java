@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,9 +24,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -161,12 +166,18 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, additionalProperties,
+                "src/test/resources/3_0/python/connexion-param-sources.yaml");
+    }
+
+    private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties,
+                                          String inputSpec) throws IOException {
         File output = Files.createTempDirectory("test-" + generatorName).toFile().getCanonicalFile();
         output.deleteOnExit();
 
         CodegenConfigurator config = new CodegenConfigurator()
                 .setGeneratorName(generatorName)
-                .setInputSpec("src/test/resources/3_0/python/connexion-param-sources.yaml")
+                .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());
         for (Map.Entry<String, Object> entry : additionalProperties.entrySet()) {
             config.addAdditionalProperty(entry.getKey(), entry.getValue());
@@ -556,6 +567,110 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "addl =");
         } finally {
             FileUtils.deleteDirectory(flaskComposedOutput);
+        }
+    }
+
+    @Test(description = "security scheme names with '-' or '.' produce valid, unique Python function names that match the x-*Func references")
+    public void testSecuritySchemeNamesProduceValidPythonFunctions() throws IOException {
+        String specPath = "src/test/resources/3_0/python-flask/security-scheme-names.yaml";
+        String funcBase = "openapi_server.controllers.security_controller.";
+
+        // scheme name -> extension name -> function name the extension must reference.
+        // "api_key" and "api_key_2" are already valid identifiers listed after names that
+        // sanitize to their suffix: they keep the unnumbered suffix (the same output as
+        // before sanitization), so "api-key" is bumped to "api_key_3" and "api.key" to
+        // "api_key_4". The user-provided x-apikeyInfoFunc on "alias-key" is preserved
+        // instead of being overwritten with the generated "info_from_alias_key".
+        Map<String, Map<String, String>> expectedFuncRefs = new LinkedHashMap<>();
+        expectedFuncRefs.put("api-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_3"));
+        expectedFuncRefs.put("api_key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key"));
+        expectedFuncRefs.put("petstore.auth", ImmutableMap.of(
+                "x-tokenInfoFunc", "info_from_petstore_auth",
+                "x-scopeValidateFunc", "validate_scope_petstore_auth"));
+        expectedFuncRefs.put("basic-auth", ImmutableMap.of("x-basicInfoFunc", "info_from_basic_auth"));
+        expectedFuncRefs.put("api_key_2", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_2"));
+        expectedFuncRefs.put("api.key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key_4"));
+        expectedFuncRefs.put("1st-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_1st_key"));
+        expectedFuncRefs.put("bearer-token", ImmutableMap.of("x-bearerInfoFunc", "info_from_bearer_token"));
+        expectedFuncRefs.put("alias-key", ImmutableMap.of("x-apikeyInfoFunc", "info_from_api_key"));
+
+        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
+        variants.put("python-flask", Collections.emptyMap());
+        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
+        variants.put("python-aiohttp", Collections.emptyMap());
+
+        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
+            String generatorName = variant.getKey().replace("+useConnexion3", "");
+            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
+            String label = variant.getKey();
+
+            Path securityController = outputDir.resolve(
+                    Paths.get("openapi_server", "controllers", "security_controller.py"));
+            assertFileExists(securityController);
+            assertFileNotContains(
+                    securityController,
+                    "def info_from__1st_key(",
+                    "def info_from_1st_key_2(");
+
+            // every generated function name must be a valid Python identifier and unique
+            String code = Files.readString(securityController);
+            Matcher defMatcher =
+                    Pattern.compile("def\\s+(\\S+)\\s*\\(").matcher(code);
+            Set<String> functionNames = new HashSet<>();
+            while (defMatcher.find()) {
+                String functionName = defMatcher.group(1);
+                assertThat(functionName)
+                        .as("%s: %s must be a valid Python identifier", label, functionName)
+                        .matches("[a-zA-Z_][a-zA-Z0-9_]*");
+                functionNames.add(functionName);
+            }
+            assertThat(functionNames)
+                    .as("%s: info_from_/validate_scope_ function names must be unique", label)
+                    .containsExactlyInAnyOrder(
+                            "info_from_api_key",
+                            "info_from_api_key_2",
+                            "info_from_api_key_3",
+                            "info_from_api_key_4",
+                            "info_from_petstore_auth",
+                            "validate_scope_petstore_auth",
+                            "info_from_basic_auth",
+                            "info_from_1st_key",
+                            "info_from_bearer_token",
+                            "info_from_alias_key");
+
+            // each scheme's x-*Func reference in the generated spec must point at the
+            // function defined for it in security_controller.py
+            Path openapiYaml = outputDir.resolve(
+                    Paths.get("openapi_server", "openapi", "openapi.yaml"));
+            assertFileExists(openapiYaml);
+            OpenAPI generatedSpec = new OpenAPIParser()
+                    .readLocation(openapiYaml.toString(), null, new ParseOptions())
+                    .getOpenAPI();
+            assertThat(generatedSpec)
+                    .as("%s: generated openapi.yaml must parse as OpenAPI", label)
+                    .isNotNull();
+            Map<String, SecurityScheme> securitySchemes =
+                    generatedSpec.getComponents().getSecuritySchemes();
+            assertThat(securitySchemes)
+                    .as("%s: generated spec must declare security schemes", label)
+                    .isNotNull();
+            assertThat(securitySchemes.keySet())
+                    .as("%s: generated spec must declare every fixture scheme", label)
+                    .containsExactlyInAnyOrderElementsOf(expectedFuncRefs.keySet());
+            for (Map.Entry<String, Map<String, String>> schemeEntry : expectedFuncRefs.entrySet()) {
+                Map<String, Object> extensions =
+                        securitySchemes.get(schemeEntry.getKey()).getExtensions();
+                for (Map.Entry<String, String> funcRef : schemeEntry.getValue().entrySet()) {
+                    assertThat(extensions)
+                            .as("%s: %s.%s must reference the generated function",
+                                    label, schemeEntry.getKey(), funcRef.getKey())
+                            .containsEntry(funcRef.getKey(), funcBase + funcRef.getValue());
+                    assertThat(functionNames)
+                            .as("%s: %s.%s target must be defined in security_controller.py",
+                                    label, schemeEntry.getKey(), funcRef.getKey())
+                            .contains(funcRef.getValue());
+                }
+            }
         }
     }
 

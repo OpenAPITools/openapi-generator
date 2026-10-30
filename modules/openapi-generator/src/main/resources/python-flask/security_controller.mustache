@@ -3,7 +3,7 @@ from typing import List
 {{#authMethods}}
 {{#isOAuth}}
 
-def info_from_{{name}}(token):
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(token):
     """
     Validate and decode token.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -18,7 +18,7 @@ def info_from_{{name}}(token):
     return {'scopes': ['read:pets', 'write:pets'], 'uid': 'user_id'}
 
 
-def validate_scope_{{name}}(required_scopes, token_scopes):
+def validate_scope_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(required_scopes, token_scopes):
     """
     Validate required scopes are included in token scope
 
@@ -34,7 +34,7 @@ def validate_scope_{{name}}(required_scopes, token_scopes):
 {{/isOAuth}}
 {{#isApiKey}}
 
-def info_from_{{name}}(api_key, required_scopes):
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(api_key, required_scopes):
     """
     Check and retrieve authentication information from api_key.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -52,7 +52,7 @@ def info_from_{{name}}(api_key, required_scopes):
 {{/isApiKey}}
 {{#isBasicBasic}}
 
-def info_from_{{name}}(username, password, required_scopes):
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(username, password, required_scopes):
     """
     Check and retrieve authentication information from basic auth.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -72,7 +72,7 @@ def info_from_{{name}}(username, password, required_scopes):
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 
-def info_from_{{name}}(token):
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(token):
     """
     Check and retrieve authentication information from custom bearer token.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
