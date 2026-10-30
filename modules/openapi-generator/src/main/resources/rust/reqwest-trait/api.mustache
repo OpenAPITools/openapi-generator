@@ -8,9 +8,13 @@ use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize, de::Error as _};
-use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
-use crate::apis::ContentType;
+use super::super::{
+    apis::{self,
+        ResponseContent,
+        Error, configuration, ContentType,
+    },
+    models,
+};
 
 {{#mockall}}
 #[cfg_attr(feature = "mockall", automock)]
@@ -175,7 +179,7 @@ impl {{classname}} for {{classname}}Client {
 
         let local_var_client = &local_var_configuration.client;
 
-        let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
+        let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut local_var_req_builder = local_var_client.request(reqwest::Method::{{{httpMethod}}}, local_var_uri_str.as_str());
 
         {{#queryParams}}
@@ -199,7 +203,7 @@ impl {{classname}} for {{classname}}Client {
         {{#isDeepObject}}
         {{^isExplode}}
         if let Some(ref param_value) = {{{paramName}}} {
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
         }
         {{/isExplode}}
@@ -211,7 +215,7 @@ impl {{classname}} for {{classname}}Client {
         {{/isModel}}
         {{#isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
         }
         {{/isMap}}
@@ -257,7 +261,7 @@ impl {{classname}} for {{classname}}Client {
             {{^isArray}}
             {{#isDeepObject}}
             {{^isExplode}}
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
             {{/isExplode}}
             {{#isExplode}}
@@ -265,7 +269,7 @@ impl {{classname}} for {{classname}}Client {
             local_var_req_builder = local_var_req_builder.query(&param_value);
             {{/isModel}}
             {{#isMap}}
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            let params = apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
             {{/isMap}}
             {{/isExplode}}
