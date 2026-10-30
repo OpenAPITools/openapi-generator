@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: pets
+paths:
+  /pets:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/PetByAge'
+                - $ref: '#/components/schemas/PetByType'
+      responses:
+        '200':
+          description: Updated
+components:
+  schemas:
+    PetByAge:
+      type: object
+      properties:
+        age:
+          type: integer
+        nickname:
+          type: string
+      required:
+        - age
+    PetByType:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [Cat, Dog]
+        hunts:
+          type: boolean
+      required:
+        - pet_type

@@ -116,6 +116,26 @@ public class KotlinSpringServerCodegenTest {
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }
 
+    @Test(description = "Issue #18626")
+    public void anyOfRequiredPropertiesAreOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/issue_18626.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/PetsPatchRequest.kt");
+        TestUtils.assertFileContains(modelKt,
+                "val age: kotlin.Int? = null",
+                "val petType: PetsPatchRequest.PetType? = null");
+    }
+
     @Test(description = "should not generate @Validated annotation on interface when built-in validation option is set to true")
     public void shouldEnableBuiltInValidationOptionWhenSetToTrueInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

@@ -1015,6 +1015,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        makeAnyOfBranchPropertiesOptional(m, schema);
         m.getVendorExtensions().putIfAbsent(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
         List<String> schemaImplementedInterfacesClasses = this.getSchemaImplements().getOrDefault(m.getSchemaName(), List.of());
         List<String> schemaImplementedInterfacesFields = this.getSchemaImplementsFields().getOrDefault(m.getSchemaName(), List.of());
@@ -1103,6 +1104,46 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 )
                 .forEach(p -> p.isInherited = true);
         return m;
+    }
+
+    private void makeAnyOfBranchPropertiesOptional(CodegenModel model, Schema schema) {
+        if (ModelUtils.hasAllOf(schema) || !ModelUtils.hasAnyOf(schema)) {
+            return;
+        }
+
+        Set<String> optionalPropertyNames = new HashSet<>();
+        for (Object branch : schema.getAnyOf()) {
+            Map<String, Schema> properties = new LinkedHashMap<>();
+            List<String> required = new ArrayList<>();
+            addProperties(properties, required, (Schema) branch, new HashSet<>());
+            optionalPropertyNames.addAll(required);
+        }
+        if (schema.getRequired() != null) {
+            optionalPropertyNames.removeAll(schema.getRequired());
+        }
+        if (optionalPropertyNames.isEmpty()) {
+            return;
+        }
+
+        Stream.of(model.vars, model.allVars, model.requiredVars, model.optionalVars,
+                        model.readOnlyVars, model.readWriteVars)
+                .flatMap(List::stream)
+                .filter(property -> optionalPropertyNames.contains(property.baseName))
+                .forEach(property -> property.required = false);
+
+        List<CodegenProperty> optionalRequiredVars = model.requiredVars.stream()
+                .filter(property -> optionalPropertyNames.contains(property.baseName))
+                .collect(Collectors.toList());
+        model.requiredVars.removeAll(optionalRequiredVars);
+        model.optionalVars.addAll(optionalRequiredVars);
+
+        Set<String> optionalVariableNames = optionalPropertyNames.stream()
+                .map(this::toVarName)
+                .collect(Collectors.toSet());
+        model.mandatory.removeAll(optionalVariableNames);
+        model.allMandatory.removeAll(optionalVariableNames);
+        model.hasRequired = !model.requiredVars.isEmpty();
+        model.hasOptional = !model.optionalVars.isEmpty();
     }
 
     @Override

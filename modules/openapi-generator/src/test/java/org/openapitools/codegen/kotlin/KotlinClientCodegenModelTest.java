@@ -714,6 +714,28 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(parentModelKt, "val id: ObjectWithComplexAnyOfId?");
     }
 
+    @Test(description = "Issue #18626")
+    public void anyOfRequiredPropertiesAreOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("jvm-ktor")
+                .setInputSpec("src/test/resources/3_0/issue_18626.yaml")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "kotlinx_serialization")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", false)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/PetsPatchRequest.kt");
+        TestUtils.assertFileContains(modelKt,
+                "val age: kotlin.Int? = null",
+                "val petType: PetsPatchRequest.PetType? = null");
+    }
+
     @Test(description = "generate oneOf/anyOf wrappers with explicit API mode using kotlinx_serialization")
     public void oneOfAnyOfKotlinxSerializationExplicitApi() throws IOException {
         File output = generateKotlinxOneOfAnyOf(new HashMap<>() {{ put(KotlinClientCodegen.EXPLICIT_API, true); }});
