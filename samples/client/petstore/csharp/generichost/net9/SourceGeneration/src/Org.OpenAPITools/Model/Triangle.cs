@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             Option<string?> triangleType = default;
 
@@ -193,7 +192,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (!isScalarToken && utf8JsonReader.Read())
+            while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;

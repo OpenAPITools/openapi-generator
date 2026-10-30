@@ -130,22 +130,6 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<Number2?>(ref utf8JsonReaderNumber2, jsonSerializerOptions, out number2);
             }
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
-            {
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderNumber = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Number?>(ref utf8JsonReaderNumber, jsonSerializerOptions, out number);
-
-                    Utf8JsonReader utf8JsonReaderNumber2 = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Number2?>(ref utf8JsonReaderNumber2, jsonSerializerOptions, out number2);
-                }
-            }
-
             while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)

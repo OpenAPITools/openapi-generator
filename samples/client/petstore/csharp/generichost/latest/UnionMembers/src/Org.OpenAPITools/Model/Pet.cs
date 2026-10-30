@@ -124,24 +124,20 @@ namespace Org.OpenAPITools.Model
             Cat? cat = default;
             Dog? dog = default;
 
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderCat = utf8JsonReader;
+                ClientUtils.TryDeserialize<Cat?>(ref utf8JsonReaderCat, jsonSerializerOptions, out cat);
+            }
+
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderDog = utf8JsonReader;
+                ClientUtils.TryDeserialize<Dog?>(ref utf8JsonReaderDog, jsonSerializerOptions, out dog);
+            }
+
             if (startingTokenType != JsonTokenType.StartObject && cat == null && dog == null)
                 throw new JsonException();
-
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
-            {
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderCat = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Cat?>(ref utf8JsonReaderCat, jsonSerializerOptions, out cat);
-
-                    Utf8JsonReader utf8JsonReaderDog = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Dog?>(ref utf8JsonReaderDog, jsonSerializerOptions, out dog);
-                }
-            }
 
             while (!isScalarToken && utf8JsonReader.Read())
             {

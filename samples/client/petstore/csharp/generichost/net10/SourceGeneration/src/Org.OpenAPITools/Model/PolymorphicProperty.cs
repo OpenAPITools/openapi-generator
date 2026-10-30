@@ -171,32 +171,16 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
             }
 
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
+                ClientUtils.TryDeserialize<Object?>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
+            }
+
             if (startingTokenType == JsonTokenType.StartArray)
             {
                 Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
                 ClientUtils.TryDeserialize<List<string>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
-            }
-
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
-            {
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
-                    ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
-
-                    Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
-                    ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
-
-                    Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Object?>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
-
-                    Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
-                    ClientUtils.TryDeserialize<List<string>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
-                }
             }
 
             while (!isScalarToken && utf8JsonReader.Read())

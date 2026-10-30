@@ -118,20 +118,16 @@ namespace Org.OpenAPITools.Model
             Diagnostic? diagnostic = default;
             Observation? observation = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
+            if (startingTokenType == JsonTokenType.StartObject)
             {
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderDiagnostic = utf8JsonReader;
+                ClientUtils.TryDeserialize<Diagnostic?>(ref utf8JsonReaderDiagnostic, jsonSerializerOptions, out diagnostic);
+            }
 
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderDiagnostic = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Diagnostic?>(ref utf8JsonReaderDiagnostic, jsonSerializerOptions, out diagnostic);
-
-                    Utf8JsonReader utf8JsonReaderObservation = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Observation?>(ref utf8JsonReaderObservation, jsonSerializerOptions, out observation);
-                }
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderObservation = utf8JsonReader;
+                ClientUtils.TryDeserialize<Observation?>(ref utf8JsonReaderObservation, jsonSerializerOptions, out observation);
             }
 
             while (!isScalarToken && utf8JsonReader.Read())

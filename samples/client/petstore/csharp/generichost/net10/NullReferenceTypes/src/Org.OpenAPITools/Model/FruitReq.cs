@@ -119,20 +119,16 @@ namespace Org.OpenAPITools.Model
             AppleReq? appleReq = default;
             BananaReq? bananaReq = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
+            if (startingTokenType == JsonTokenType.StartObject)
             {
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
+            }
 
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
-
-                    Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
-                }
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
             }
 
             while (!isScalarToken && utf8JsonReader.Read())

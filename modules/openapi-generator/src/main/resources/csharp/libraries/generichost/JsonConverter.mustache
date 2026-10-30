@@ -62,6 +62,7 @@
             {{/composedSchemas.anyOf}}
             {{/model.discriminator}}
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            {{^model.discriminator}}
             {{#composedSchemas.anyOf}}
             {{#-first}}
             bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
@@ -74,6 +75,7 @@
             {{/-first}}
             {{/composedSchemas.oneOf}}
             {{/composedSchemas.anyOf}}
+            {{/model.discriminator}}
 
             {{#allVars}}
             Option<{{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}> {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = default;
@@ -145,48 +147,8 @@
             {{/oneOf}}
             {{#oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            {{^isFreeFormObject}}
-            {{^isMap}}
-            {{#isEnumRef}}
 {{>ReadUnionMember}}
-            {{/isEnumRef}}
-            {{^isEnumRef}}
-            {{#isPrimitiveType}}
-{{>ReadUnionMember}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            {{#isContainer}}
-{{>ReadUnionMember}}
-            {{/isContainer}}
-            {{/isPrimitiveType}}
-            {{/isEnumRef}}
-            {{/isMap}}
-            {{/isFreeFormObject}}
             {{/vendorExtensions.x-duplicated-data-type}}
-            {{/oneOf}}
-            {{#oneOf}}
-            {{#-first}}
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
-            {
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    {{#oneOf}}
-                    {{^vendorExtensions.x-duplicated-data-type}}
-                    {{^-first}}
-
-                    {{/-first}}
-                    Utf8JsonReader utf8JsonReader{{name}} = utf8JsonReader;
-                    ClientUtils.TryDeserialize<{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>(ref utf8JsonReader{{name}}, jsonSerializerOptions, out {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}});
-                    {{/vendorExtensions.x-duplicated-data-type}}
-                    {{/oneOf}}
-                }
-            }
-
-            {{/-first}}
             {{/oneOf}}
             {{#anyOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
@@ -198,23 +160,7 @@
             {{/anyOf}}
             {{#anyOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            {{^isFreeFormObject}}
-            {{^isMap}}
-            {{#isEnumRef}}
 {{>ReadUnionMember}}
-            {{/isEnumRef}}
-            {{^isEnumRef}}
-            {{#isPrimitiveType}}
-{{>ReadUnionMember}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            {{#isContainer}}
-{{>ReadUnionMember}}
-            {{/isContainer}}
-            {{/isPrimitiveType}}
-            {{/isEnumRef}}
-            {{/isMap}}
-            {{/isFreeFormObject}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/anyOf}}
             {{#anyOf}}
@@ -224,33 +170,9 @@
 
             {{/-first}}
             {{/anyOf}}
-            {{#anyOf}}
-            {{#-first}}
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
-            {
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    {{#anyOf}}
-                    {{^vendorExtensions.x-duplicated-data-type}}
-                    {{^-first}}
-
-                    {{/-first}}
-                    Utf8JsonReader utf8JsonReader{{name}} = utf8JsonReader;
-                    ClientUtils.TryDeserialize<{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>(ref utf8JsonReader{{name}}, jsonSerializerOptions, out {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}});
-                    {{/vendorExtensions.x-duplicated-data-type}}
-                    {{/anyOf}}
-                }
-            }
-
-            {{/-first}}
-            {{/anyOf}}
             {{/composedSchemas}}
             {{/model.discriminator}}
-            while ({{#composedSchemas.anyOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.anyOf}}{{^composedSchemas.anyOf}}{{#composedSchemas.oneOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.oneOf}}{{/composedSchemas.anyOf}}utf8JsonReader.Read())
+            while ({{^model.discriminator}}{{#composedSchemas.anyOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.anyOf}}{{^composedSchemas.anyOf}}{{#composedSchemas.oneOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.oneOf}}{{/composedSchemas.anyOf}}{{/model.discriminator}}utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;

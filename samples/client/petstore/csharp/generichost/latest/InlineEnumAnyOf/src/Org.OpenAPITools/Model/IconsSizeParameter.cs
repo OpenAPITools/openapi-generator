@@ -139,22 +139,6 @@ namespace Org.OpenAPITools.Model
             if (startingTokenType != JsonTokenType.StartObject && iconsSizeParameterAnyOf == null && varInt == null)
                 throw new JsonException();
 
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
-            {
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderIconsSizeParameterAnyOf = utf8JsonReader;
-                    ClientUtils.TryDeserialize<IconsSizeParameterAnyOf?>(ref utf8JsonReaderIconsSizeParameterAnyOf, jsonSerializerOptions, out iconsSizeParameterAnyOf);
-
-                    Utf8JsonReader utf8JsonReaderInt = utf8JsonReader;
-                    ClientUtils.TryDeserialize<int?>(ref utf8JsonReaderInt, jsonSerializerOptions, out varInt);
-                }
-            }
-
             while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)

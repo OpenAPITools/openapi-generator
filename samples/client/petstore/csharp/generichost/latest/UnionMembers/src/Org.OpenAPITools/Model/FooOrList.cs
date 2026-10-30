@@ -124,6 +124,12 @@ namespace Org.OpenAPITools.Model
             Foo? foo = default;
             List<Foo>? list = default;
 
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderFoo = utf8JsonReader;
+                ClientUtils.TryDeserialize<Foo?>(ref utf8JsonReaderFoo, jsonSerializerOptions, out foo);
+            }
+
             if (startingTokenType == JsonTokenType.StartArray)
             {
                 Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
@@ -132,22 +138,6 @@ namespace Org.OpenAPITools.Model
 
             if (startingTokenType != JsonTokenType.StartObject && foo == null && list == null)
                 throw new JsonException();
-
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
-            {
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderFoo = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Foo?>(ref utf8JsonReaderFoo, jsonSerializerOptions, out foo);
-
-                    Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
-                    ClientUtils.TryDeserialize<List<Foo>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
-                }
-            }
 
             while (!isScalarToken && utf8JsonReader.Read())
             {

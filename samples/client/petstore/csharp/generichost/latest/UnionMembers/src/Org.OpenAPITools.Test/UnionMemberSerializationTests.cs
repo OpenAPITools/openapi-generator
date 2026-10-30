@@ -29,6 +29,7 @@ namespace Org.OpenAPITools.Test
         [InlineData("""{"flexibleValue":true}""")]
         [InlineData("""{"flexibleValue":"text"}""")]
         [InlineData("""{"flexibleValue":{"a":1}}""")]
+        [InlineData("""{"flexibleValue":{}}""")]
         [InlineData("""{"flexibleValue":["a","b"]}""")]
         // https://github.com/OpenAPITools/openapi-generator/issues/23529
         [InlineData("""{"fooOrList":{"id":1}}""")]
@@ -43,6 +44,7 @@ namespace Org.OpenAPITools.Test
         [InlineData("""{"asset":{"documentUri":"https://example.com/d.pdf","id":2,"type":"document"}}""")]
         // object members of an anyOf without a discriminator are still merged
         [InlineData("""{"pet":{"meow":true}}""")]
+        [InlineData("""{"pet":{}}""")]
         public void RoundTrips(string json)
         {
             Holder holder = JsonSerializer.Deserialize<Holder>(json, _options)!;
