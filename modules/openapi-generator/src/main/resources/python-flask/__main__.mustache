@@ -22,7 +22,7 @@ def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
-                arguments={'title': '{{appName}}'},
+                arguments={'title': {{{appNameSingleQuotedLiteral}}}},
                 pythonic_params=True)
 {{/useConnexion3}}
 {{#useConnexion3}}
@@ -45,7 +45,7 @@ def main():
     )
 {{/featureCORS}}
     app.add_api('openapi.yaml',
-                arguments={'title': '{{appName}}'},
+                arguments={'title': {{{appNameSingleQuotedLiteral}}}},
                 pythonic_params=True,
                 jsonifier=Jsonifier(cls=encoder.JSONEncoder))
 {{/useConnexion3}}
