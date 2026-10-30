@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: Kotlin JAX-RS polymorphism regression
+  version: 1.0.0
+paths:
+  /animals:
+    get:
+      tags: [animals]
+      operationId: getAnimal
+      responses:
+        '200':
+          description: An animal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+    delete:
+      tags: [animals]
+      operationId: deleteAnimal
+      responses:
+        '204':
+          description: Deleted
+  /maybe-animal:
+    get:
+      tags: [animals]
+      operationId: getNullableAnimal
+      responses:
+        '200':
+          description: An animal or null
+          content:
+            application/json:
+              schema:
+                nullable: true
+                allOf:
+                  - $ref: '#/components/schemas/Animal'
+  /choices:
+    get:
+      tags: [animals]
+      operationId: getChoice
+      responses:
+        '200':
+          description: A discriminated choice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Choice'
+components:
+  schemas:
+    RootNode:
+      type: object
+      required: [kind, id]
+      discriminator:
+        propertyName: kind
+        mapping:
+          branch: '#/components/schemas/BranchNode'
+      properties:
+        kind:
+          type: string
+        id:
+          type: string
+        note:
+          type: string
+    BranchNode:
+      allOf:
+        - $ref: '#/components/schemas/RootNode'
+        - type: object
+          required: [label]
+          properties:
+            label:
+              type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          leaf: '#/components/schemas/LeafNode'
+    LeafNode:
+      allOf:
+        - $ref: '#/components/schemas/BranchNode'
+        - type: object
+          required: [value]
+          properties:
+            value:
+              type: integer
+    Alternative:
+      anyOf:
+        - $ref: '#/components/schemas/TextAlternative'
+        - $ref: '#/components/schemas/NumberAlternative'
+      discriminator:
+        propertyName: kind
+        mapping:
+          text: '#/components/schemas/TextAlternative'
+          number: '#/components/schemas/NumberAlternative'
+    TextAlternative:
+      type: object
+      required: [kind, text]
+      properties:
+        kind:
+          type: string
+        text:
+          type: string
+    NumberAlternative:
+      type: object
+      required: [kind, number]
+      properties:
+        kind:
+          type: string
+        number:
+          type: integer
+    AnimalKind:
+      type: string
+      enum: [cat, dog]
+    Animal:
+      type: object
+      required: [kind, name, nickname, labels]
+      discriminator:
+        propertyName: kind
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+      properties:
+        kind:
+          $ref: '#/components/schemas/AnimalKind'
+        name:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+        labels:
+          type: array
+          items:
+            type: string
+            nullable: true
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          required: [lives]
+          properties:
+            lives:
+              type: integer
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Choice:
+      oneOf:
+        - $ref: '#/components/schemas/FirstChoice'
+        - $ref: '#/components/schemas/SecondChoice'
+      discriminator:
+        propertyName: kind
+        mapping:
+          first: '#/components/schemas/FirstChoice'
+          second: '#/components/schemas/SecondChoice'
+    FirstChoice:
+      type: object
+      required: [kind, text]
+      properties:
+        kind:
+          type: string
+        text:
+          type: string
+    SecondChoice:
+      type: object
+      required: [kind, number]
+      properties:
+        kind:
+          type: string
+        number:
+          type: integer
