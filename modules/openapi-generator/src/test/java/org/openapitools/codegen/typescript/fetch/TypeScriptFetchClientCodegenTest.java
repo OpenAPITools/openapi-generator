@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -799,7 +800,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path exampleModelPath = Paths.get(outputPath + "/models/MyCustomSpeed.ts");
         //FromJSON
-        TestUtils.assertFileContains(exampleModelPath, "(typeof json !== 'object')");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'object')");
         TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(json))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'number' && (json === 10 || json === 20 || json === 30))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'string' && (json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'))");
@@ -807,7 +808,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'number'))");
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
         //ToJSON
-        TestUtils.assertFileContains(exampleModelPath, "(typeof value !== 'object')");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'object')");
         TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(value))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'number' && (value === 10 || value === 20 || value === 30))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'string' && (value === 'fixed-value-a' || value === 'fixed-value-b' || value === 'fixed-value-c'))");
@@ -1415,6 +1416,154 @@ public class TypeScriptFetchClientCodegenTest {
         // without explode the object stays a single parameter
         TestUtils.assertFileContains(api, "queryParameters['flatFilter'] = requestParameters['flatFilter'];");
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
+    }
+
+    private static final String ANY_OF_SPEC = "src/test/resources/3_0/typescript-fetch/anyOf.yaml";
+
+    @Test(description = "Verify anyOf stays one interface merging all members' properties by default")
+    public void testAnyOfIsMergedInterfaceByDefault() throws IOException {
+        File output = generate(new HashMap<>(), ANY_OF_SPEC);
+
+        Path petData = Paths.get(output + "/models/PetData.ts");
+        TestUtils.assertFileContains(petData, "export interface PetData {");
+        TestUtils.assertFileContains(petData, "meowCount: number;");
+        TestUtils.assertFileContains(petData, "barkCount: number;");
+        TestUtils.assertFileNotContains(petData, "export type PetData =");
+    }
+
+    @DataProvider
+    public Object[][] anyOfUnionRuntimeCheckModes() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "anyOfUnionRuntimeCheckModes", description = "Verify generateAnyOfAsUnion generates anyOf schemas as union types")
+    public void testGenerateAnyOfAsUnion(boolean withoutRuntimeChecks) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, withoutRuntimeChecks);
+        File output = generate(properties, ANY_OF_SPEC);
+
+        // without runtime checks all types are declared in models/index.ts
+        Function<String, Path> modelFile = name ->
+                withoutRuntimeChecks ? Paths.get(output + "/models/index.ts") : Paths.get(output + "/models/" + name + ".ts");
+
+        // top-level anyOf of refs, and the anyOf hoisted from an inline property
+        TestUtils.assertFileContains(modelFile.apply("PetData"), "export type PetData = Cat | Dog;");
+        TestUtils.assertFileContains(modelFile.apply("CreatePetData"), "export type CreatePetData = Cat | Dog;");
+        // inline anyOf of primitives on a property (#19155)
+        TestUtils.assertFileContains(modelFile.apply("CreatePetContent"), "export type CreatePetContent = number | string;");
+        // model, array and primitive members
+        TestUtils.assertFileContains(modelFile.apply("MixedPet"), "export type MixedPet = Array<Dog> | Cat | string;");
+        // null is valid when at least one branch is nullable (for oneOf: exactly one)
+        TestUtils.assertFileContains(modelFile.apply("NullableValue"), "export type NullableValue = null | number | string;");
+        TestUtils.assertFileContains(modelFile.apply("MultipleNullableValue"), "export type MultipleNullableValue = null | number | string;");
+
+        if (!withoutRuntimeChecks) {
+            Path petData = Paths.get(output + "/models/PetData.ts");
+            TestUtils.assertFileNotContains(petData, "export interface PetData");
+            TestUtils.assertFileContains(petData, "import type { Cat } from './Cat';");
+            TestUtils.assertFileContains(petData, "if (instanceOfCat(json)) {");
+            // a value matching several members keeps the fields of all of them
+            TestUtils.assertFileContains(petData, "anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };");
+            TestUtils.assertFileContains(petData, "anyOfResult = { ...anyOfResult, ...DogFromJSONTyped(json, true) };");
+            TestUtils.assertFileContains(petData, "anyOfResult = { ...anyOfResult, ...CatToJSON(value as Cat) };");
+            TestUtils.assertFileContains(petData, "anyOfResult = { ...anyOfResult, ...DogToJSON(value as Dog) };");
+            TestUtils.assertFileNotContains(petData, "return CatToJSON(value as Cat);");
+            TestUtils.assertFileContains(Paths.get(output + "/models/CreatePetContent.ts"), "if (typeof json === 'number') {");
+        }
+    }
+
+    @DataProvider
+    public Object[][] anyOfAsUnionOptionValues() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "anyOfAsUnionOptionValues", description = "Verify oneOf still returns the first matching member, also when generateAnyOfAsUnion is on")
+    public void testOneOfKeepsFirstMatchWithAnyOfUnionOption(boolean anyOfAsUnion) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, anyOfAsUnion);
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        Path testResponse = Paths.get(output + "/models/TestResponse.ts");
+        TestUtils.assertFileContains(testResponse, "return TestAFromJSONTyped(json, true);");
+        TestUtils.assertFileNotContains(testResponse, "anyOfResult");
+
+        // the model checks only run for objects, so the declared primitive check is reachable
+        TestUtils.assertFileContains(testResponse, "if (typeof json === 'object') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof json === 'string') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof value === 'object') {");
+        TestUtils.assertFileContains(testResponse, "if (typeof value === 'string') {");
+
+        // null items must not reach the instanceOf checks of array members
+        Path testArrayResponse = Paths.get(output + "/models/TestArrayResponse.ts");
+        TestUtils.assertFileContains(testArrayResponse, "json.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileContains(testArrayResponse, "value.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileNotContains(testArrayResponse, "every(item => typeof item === 'object')");
+    }
+
+    @Test(dataProvider = "anyOfUnionRuntimeCheckModes", description = "Verify an anyOf declaring its own properties stays an interface with generateAnyOfAsUnion")
+    public void testAnyOfWithOwnPropertiesStaysInterface(boolean withoutRuntimeChecks) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, withoutRuntimeChecks);
+        File output = generate(properties, ANY_OF_SPEC);
+
+        Path model = withoutRuntimeChecks ? Paths.get(output + "/models/index.ts") : Paths.get(output + "/models/AnyOfWithProperties.ts");
+        TestUtils.assertFileContains(model, "export interface AnyOfWithProperties {");
+        TestUtils.assertFileContains(model, "label: string;");
+        TestUtils.assertFileNotContains(model, "export type AnyOfWithProperties =");
+    }
+
+    @Test(description = "Verify a oneOf of a model and a date-time reaches the date parsing, and an enum member is checked by value")
+    public void testOneOfModelWithDateTimeAndEnumMembers() throws IOException {
+        File output = generate(new HashMap<>(), ANY_OF_SPEC);
+
+        String dateTime = Files.readString(Paths.get(output + "/models/OneOfModelAndDateTime.ts"), StandardCharsets.UTF_8);
+        // the parse and serialize branches come after the object block, and no primitive is passed through before them
+        assertThat(dateTime.indexOf("if (typeof json === 'object') {")).isGreaterThan(-1)
+                .isLessThan(dateTime.indexOf("parseDateTime(json)"));
+        assertThat(dateTime.indexOf("if (typeof value === 'object') {")).isGreaterThan(-1)
+                .isLessThan(dateTime.indexOf("value instanceof Date"));
+        assertThat(dateTime).doesNotContain("typeof json !== 'object'").doesNotContain("typeof value !== 'object'");
+
+        // the instanceOf check of an enum takes the primitive value, so it must not be inside the object block
+        String enumUnion = Files.readString(Paths.get(output + "/models/OneOfModelAndEnum.ts"), StandardCharsets.UTF_8);
+        assertThat(enumUnion).contains("if (instanceOfColor(json)) {").contains("if (instanceOfColor(value)) {");
+        assertThat(enumUnion.indexOf("if (instanceOfColor(json)) {")).isGreaterThan(enumUnion.indexOf("if (instanceOfCat(json)) {"));
+        assertThat(enumUnion).doesNotContain("typeof json !== 'object'").doesNotContain("typeof value !== 'object'");
+    }
+
+    @Test(description = "Verify an anyOf with a discriminator keeps the discriminator switch and does not merge members")
+    public void testGenerateAnyOfAsUnionWithDiscriminator() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, true);
+        File output = generate(properties, ANY_OF_SPEC);
+
+        Path model = Paths.get(output + "/models/DiscriminatedPet.ts");
+        TestUtils.assertFileContains(model, "export type DiscriminatedPet = { kind: 'cat' } & Cat | { kind: 'dog' } & Dog;");
+        TestUtils.assertFileContains(model, "switch (json['kind']) {");
+        TestUtils.assertFileNotContains(model, "anyOfResult");
+    }
+
+    @Test(description = "Verify an anyOf mixing a model, an array and a primitive merges only the object member")
+    public void testGenerateAnyOfAsUnionWithMixedMembers() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, true);
+        File output = generate(properties, ANY_OF_SPEC);
+
+        Path model = Paths.get(output + "/models/MixedPet.ts");
+        TestUtils.assertFileContains(model, "export type MixedPet = Array<Dog> | Cat | string;");
+        TestUtils.assertFileContains(model, "anyOfResult = { ...anyOfResult, ...CatFromJSONTyped(json, true) };");
+        TestUtils.assertFileContains(model, "return json.map(value => DogFromJSONTyped(value, true));");
+        TestUtils.assertFileContains(model, "if (typeof json === 'string') {");
+        TestUtils.assertFileContains(model, "return value.map(value => DogToJSON(value as Dog));");
+        TestUtils.assertFileContains(model, "if (typeof value === 'string') {");
+        // the model checks only run for objects, so the primitive checks are reachable
+        TestUtils.assertFileContains(model, "if (typeof json === 'object') {");
+        TestUtils.assertFileContains(model, "if (typeof value === 'object') {");
+        // null items must not reach instanceOfDog
+        TestUtils.assertFileContains(model, "json.every(item => item !== null && typeof item === 'object')");
+        TestUtils.assertFileContains(model, "value.every(item => item !== null && typeof item === 'object')");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

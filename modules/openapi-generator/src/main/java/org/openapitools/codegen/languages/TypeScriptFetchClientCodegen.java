@@ -73,6 +73,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DATE_LIBRARY_DATE = "date";
     public static final String DATE_LIBRARY_STRING = "string";
     public static final String DATE_LIBRARY_TEMPORAL = "temporal";
+    public static final String GENERATE_ANY_OF_AS_UNION = "generateAnyOfAsUnion";
+    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging all members' properties. A value matching several object members keeps the properties of all of them. An anyOf schema that also declares its own properties stays an interface.";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -96,6 +98,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean withoutRuntimeChecks = false;
     protected String dateLibrary = DATE_LIBRARY_DATE;
+    protected boolean generateAnyOfAsUnion = false;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
     protected String apiDocPath = "docs";
@@ -171,6 +174,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(GENERATE_ANY_OF_AS_UNION, GENERATE_ANY_OF_AS_UNION_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
@@ -234,6 +238,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setDateLibrary(String dateLibrary) {
         this.dateLibrary = dateLibrary;
+    }
+
+    public Boolean getGenerateAnyOfAsUnion() {
+        return this.generateAnyOfAsUnion;
+    }
+
+    public void setGenerateAnyOfAsUnion(Boolean generateAnyOfAsUnion) {
+        this.generateAnyOfAsUnion = generateAnyOfAsUnion;
     }
 
     public Boolean getStringEnums() {
@@ -342,6 +354,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
             this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
+        }
+
+        if (additionalProperties.containsKey(GENERATE_ANY_OF_AS_UNION)) {
+            this.setGenerateAnyOfAsUnion(convertPropertyToBoolean(GENERATE_ANY_OF_AS_UNION));
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
@@ -604,6 +620,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        // Split the oneOf/anyOf model members: the instanceOf check of an enum takes the primitive value itself,
+        // while the one of an object model needs an object.
+        Set<String> enumModelNames = allModels.stream()
+                .filter(m -> m.isEnum)
+                .map(m -> m.classname)
+                .collect(Collectors.toSet());
+        for (ExtendedCodegenModel m : allModels) {
+            for (String member : m.oneOfModels) {
+                if (enumModelNames.contains(member)) {
+                    m.oneOfEnumModels.add(member);
+                } else {
+                    m.oneOfObjectModels.add(member);
+                }
+            }
+        }
+
         for (ExtendedCodegenModel rootModel : allModels) {
             for (String curImport : rootModel.imports) {
                 boolean isModelImport = false;
@@ -834,7 +866,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public ExtendedCodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        return new ExtendedCodegenModel(cm);
+        ExtendedCodegenModel result = new ExtendedCodegenModel(cm);
+        // The union template renders no properties, so an anyOf declaring its own properties stays an interface.
+        result.anyOfHasOwnProperties = model.getAnyOf() != null && !model.getAnyOf().isEmpty()
+                && model.getProperties() != null && !model.getProperties().isEmpty();
+        return result;
     }
 
     @Override
@@ -1081,8 +1117,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
-        // Type names omit branch nullability. Null is valid only when exactly one branch accepts it.
-        if (oneOfsList.stream().filter(cp -> cp.isNullable).count() == 1) {
+        // With generateAnyOfAsUnion an anyOf is modeled like a oneOf, so the oneOf templates render it as a union.
+        boolean fromAnyOf = this.generateAnyOfAsUnion && cm.oneOf.isEmpty() && !cm.anyOf.isEmpty() && !cm.anyOfHasOwnProperties;
+        if (fromAnyOf) {
+            oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
+                    .map(CodegenComposedSchemas::getAnyOf)
+                    .orElse(Collections.emptyList());
+            cm.oneOf.addAll(cm.anyOf);
+            cm.isAnyOfUnion = true;
+        }
+
+        // Type names omit branch nullability. For oneOf, null is valid only when exactly one branch accepts it;
+        // for anyOf, when at least one branch does.
+        long nullableBranches = oneOfsList.stream().filter(cp -> cp.isNullable).count();
+        if (fromAnyOf ? nullableBranches >= 1 : nullableBranches == 1) {
             cm.oneOf.add("null");
         }
 
@@ -2107,6 +2155,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // 'TypedJSON' conversion methods in the composed model classes.
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
+        // oneOfModels split by kind, see postProcessAllModels
+        public Set<String> oneOfObjectModels = new TreeSet<>();
+        public Set<String> oneOfEnumModels = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter
@@ -2115,6 +2166,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
         @Getter @Setter
         public boolean parentIsOneOf; // true when this model's parent is a oneOf union type
+        @Getter @Setter
+        public boolean isAnyOfUnion; // true when an anyOf is generated as a union type (generateAnyOfAsUnion)
+        public boolean anyOfHasOwnProperties; // true when an anyOf schema declares properties next to its members
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
