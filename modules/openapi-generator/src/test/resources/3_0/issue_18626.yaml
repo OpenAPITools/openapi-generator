@@ -36,3 +36,61 @@ components:
           type: boolean
       required:
         - pet_type
+    SharedFields:
+      type: object
+      properties:
+        shared:
+          type: string
+      required: [shared]
+    OrderedAnyOf:
+      type: object
+      properties:
+        root_required:
+          type: string
+      required: [root_required]
+      anyOf:
+        - allOf:
+            - type: object
+              properties:
+                first:
+                  type: string
+                already_optional:
+                  type: string
+              required: [first]
+            - $ref: '#/components/schemas/SharedFields'
+        - allOf:
+            - $ref: '#/components/schemas/SharedFields'
+            - type: object
+              properties:
+                second:
+                  type: string
+              required: [second]
+    NestedAnyOf:
+      anyOf:
+        - anyOf:
+            - type: object
+              properties:
+                sometimes:
+                  type: string
+              required: [sometimes]
+            - type: object
+              properties:
+                other:
+                  type: string
+              required: [other]
+        - type: object
+          properties:
+            sometimes:
+              type: string
+          required: [sometimes]
+    AnyOfWithOptionalBranch:
+      anyOf:
+        - type: object
+          properties:
+            branch_only:
+              type: string
+          required: [branch_only]
+        - type: object
+          properties:
+            optional_only:
+              type: string

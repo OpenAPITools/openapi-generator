@@ -43,6 +43,24 @@ data class AnyOfUserOrPetOrArrayString(
     @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("username")
+    @get:JsonProperty("username") val username: kotlin.String? = null,
+
+    @Schema(example = "doggie", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
+    @get:JsonProperty("name") val name: kotlin.String? = null,
+
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("photoUrls")
+    @get:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>? = null,
+
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
@@ -101,25 +119,7 @@ data class AnyOfUserOrPetOrArrayString(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("status")
-    @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null,
-
-    @Schema(description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonSetter(nulls = Nulls.SKIP)
-    @param:JsonProperty("username")
-    @get:JsonProperty("username") val username: kotlin.String? = null,
-
-    @Schema(example = "doggie", description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonSetter(nulls = Nulls.SKIP)
-    @param:JsonProperty("name")
-    @get:JsonProperty("name") val name: kotlin.String? = null,
-
-    @Schema(description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonSetter(nulls = Nulls.SKIP)
-    @param:JsonProperty("photoUrls")
-    @get:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>? = null
+    @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null
 ) {
 
     /**

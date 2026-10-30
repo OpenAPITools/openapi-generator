@@ -134,6 +134,25 @@ public class KotlinSpringServerCodegenTest {
         TestUtils.assertFileContains(modelKt,
                 "val age: kotlin.Int? = null",
                 "val petType: PetsPatchRequest.PetType? = null");
+
+        final Path ordered = Paths.get(output + "/src/main/kotlin/org/openapitools/model/OrderedAnyOf.kt");
+        TestUtils.assertFileContains(ordered,
+                "val rootRequired: kotlin.String",
+                "val shared: kotlin.String",
+                "val first: kotlin.String? = null",
+                "val second: kotlin.String? = null",
+                "val alreadyOptional: kotlin.String? = null");
+        TestUtils.assertFileNotContains(ordered,
+                "val rootRequired: kotlin.String?",
+                "val shared: kotlin.String?");
+        String constructor = Files.readString(ordered);
+        assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val shared:"));
+        assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val alreadyOptional:"));
+        assertTrue(constructor.indexOf("val second:") < constructor.indexOf("val alreadyOptional:"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/NestedAnyOf.kt"),
+                "val sometimes: kotlin.String? = null");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/AnyOfWithOptionalBranch.kt"),
+                "val branchOnly: kotlin.String? = null");
     }
 
     @Test(description = "should not generate @Validated annotation on interface when built-in validation option is set to true")

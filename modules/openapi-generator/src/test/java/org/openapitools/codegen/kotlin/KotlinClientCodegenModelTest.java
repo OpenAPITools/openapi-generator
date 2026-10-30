@@ -734,6 +734,19 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(modelKt,
                 "val age: kotlin.Int? = null",
                 "val petType: PetsPatchRequest.PetType? = null");
+
+        final Path ordered = modelPath(output, "OrderedAnyOf");
+        TestUtils.assertFileContains(ordered,
+                "val shared: kotlin.String",
+                "val first: kotlin.String? = null",
+                "val second: kotlin.String? = null",
+                "val alreadyOptional: kotlin.String? = null");
+        TestUtils.assertFileNotContains(ordered,
+                "val shared: kotlin.String?");
+        TestUtils.assertFileContains(modelPath(output, "NestedAnyOf"),
+                "val sometimes: kotlin.String? = null");
+        TestUtils.assertFileContains(modelPath(output, "AnyOfWithOptionalBranch"),
+                "val branchOnly: kotlin.String? = null");
     }
 
     @Test(description = "generate oneOf/anyOf wrappers with explicit API mode using kotlinx_serialization")
