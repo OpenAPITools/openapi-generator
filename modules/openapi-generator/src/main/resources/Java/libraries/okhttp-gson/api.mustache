@@ -170,7 +170,7 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}
+            {{#isQueryStringParam}}{{! OpenAPI 3.2 in: querystring - the value is the whole (already encoded) query string }}localVarPath = localVarPath + (localVarPath.contains("?") ? "&" : "?") + {{paramName}};{{/isQueryStringParam}}{{^isQueryStringParam}}{{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}{{/isQueryStringParam}}
         }
 
         {{/queryParams}}
@@ -241,7 +241,7 @@ public class {{classname}} {
         {{/dynamicOperations}}
 
         String[] localVarAuthNames = new String[] { {{#withAWSV4Signature}}"AWS4Auth"{{/withAWSV4Signature}}{{#authMethods}}{{#-first}}{{#withAWSV4Signature}}, {{/withAWSV4Signature}}{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
-        return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{{httpMethod}}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     {{#isDeprecated}}

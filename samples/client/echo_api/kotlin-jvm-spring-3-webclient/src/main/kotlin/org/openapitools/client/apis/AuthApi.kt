@@ -57,7 +57,7 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBasicWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testAuthHttpBasicRequestConfig()
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -68,13 +68,13 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/auth/http/basic",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -92,7 +92,7 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBearerWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testAuthHttpBearerRequestConfig()
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -103,13 +103,13 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/auth/http/bearer",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

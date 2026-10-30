@@ -4975,7 +4975,7 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParams
      *
-     * @param  string $query query (required)
+     * @param  string $param_query param_query (required)
      * @param  \OpenAPI\Client\Model\User $user user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
@@ -4983,15 +4983,15 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testBodyWithQueryParams($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParams($param_query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
     {
-        $this->testBodyWithQueryParamsWithHttpInfo($query, $user, $contentType);
+        $this->testBodyWithQueryParamsWithHttpInfo($param_query, $user, $contentType);
     }
 
     /**
      * Operation testBodyWithQueryParamsWithHttpInfo
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
@@ -4999,9 +4999,9 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithQueryParamsWithHttpInfo($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsWithHttpInfo($param_query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
     {
-        $request = $this->testBodyWithQueryParamsRequest($query, $user, $contentType);
+        $request = $this->testBodyWithQueryParamsRequest($param_query, $user, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5039,16 +5039,16 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParamsAsync
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithQueryParamsAsync($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsAsync($param_query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
     {
-        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $user, $contentType)
+        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($param_query, $user, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5059,17 +5059,17 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParamsAsyncWithHttpInfo
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsAsyncWithHttpInfo($param_query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
     {
         $returnType = '';
-        $request = $this->testBodyWithQueryParamsRequest($query, $user, $contentType);
+        $request = $this->testBodyWithQueryParamsRequest($param_query, $user, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5097,20 +5097,20 @@ class FakeApi
     /**
      * Create request for operation 'testBodyWithQueryParams'
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyWithQueryParamsRequest($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsRequest($param_query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
     {
 
-        // verify the required parameter 'query' is set
-        if ($query === null || (is_array($query) && count($query) === 0)) {
+        // verify the required parameter 'param_query' is set
+        if ($param_query === null || (is_array($param_query) && count($param_query) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $query when calling testBodyWithQueryParams'
+                'Missing the required parameter $param_query when calling testBodyWithQueryParams'
             );
         }
 
@@ -5131,7 +5131,7 @@ class FakeApi
 
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $query,
+            $param_query,
             'query', // param base name
             'string', // openApiType
             'form', // style

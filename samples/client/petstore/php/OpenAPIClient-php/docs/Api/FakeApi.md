@@ -1036,7 +1036,7 @@ No authorization required
 ## `testBodyWithQueryParams()`
 
 ```php
-testBodyWithQueryParams($query, $user)
+testBodyWithQueryParams($param_query, $user)
 ```
 
 
@@ -1054,11 +1054,11 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query = 'query_example'; // string
+$param_query = 'param_query_example'; // string
 $user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User
 
 try {
-    $apiInstance->testBodyWithQueryParams($query, $user);
+    $apiInstance->testBodyWithQueryParams($param_query, $user);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
 }
@@ -1068,7 +1068,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query** | **string**|  | |
+| **param_query** | **string**|  | |
 | **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  | |
 
 ### Return type

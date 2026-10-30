@@ -77,7 +77,7 @@ open class DefaultApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

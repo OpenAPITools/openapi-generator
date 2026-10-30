@@ -26,7 +26,7 @@ All URIs are relative to *{{basePath}}*
 
 | Class | Method | HTTP request | Description
 | ----- | ------ | ------------ | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}/{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}/{{classname}}.md#{{operationIdLowerCase}}) | **{{vendorExtensions.x-ts-http-method-doc}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ### Models

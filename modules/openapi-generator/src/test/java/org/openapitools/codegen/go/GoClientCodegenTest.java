@@ -19,10 +19,12 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -31,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,19 @@ import java.util.regex.Pattern;
 
 
 public class GoClientCodegenTest {
+
+    // File.deleteOnExit() cannot remove non-empty directories, so generated
+    // output trees are collected here and deleted recursively after the class
+    private static final List<File> TEMP_DIRS = new ArrayList<>();
+
+    @AfterClass(alwaysRun = true)
+    public static void deleteTempDirs() throws IOException {
+        for (File dir : TEMP_DIRS) {
+            FileUtils.deleteDirectory(dir);
+        }
+        TEMP_DIRS.clear();
+    }
+
 
     @Test
     public void testInitialConfigValues() throws Exception {
@@ -124,7 +140,7 @@ public class GoClientCodegenTest {
     @Test
     public void testPrimitiveTypeInOneOf() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -134,7 +150,6 @@ public class GoClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         System.out.println(files);
-        files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_example.go");
         TestUtils.assertFileContains(modelFile, "Child *Child");
@@ -340,7 +355,7 @@ public class GoClientCodegenTest {
     @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -349,7 +364,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
     }
@@ -357,7 +371,7 @@ public class GoClientCodegenTest {
     @Test
     public void testMultipleRequiredPropertiesHasSameOneOfObject() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -367,7 +381,6 @@ public class GoClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         System.out.println(files);
-        files.forEach(File::deleteOnExit);
 
         Path docFile = Paths.get(output + "/docs/PetAPI.md");
         TestUtils.assertFileContains(docFile, "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
@@ -379,7 +392,7 @@ public class GoClientCodegenTest {
         properties.put(GoClientCodegen.STRUCT_PREFIX, true);
 
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -389,7 +402,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetAPIAddPetRequest struct");
     }
@@ -401,7 +413,7 @@ public class GoClientCodegenTest {
         properties.put(CodegenConstants.ENUM_CLASS_PREFIX, false);
 
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -411,7 +423,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         Path statusA = Paths.get(output + "/model_status_a.go");
         Path statusB = Paths.get(output + "/model_status_b.go");
@@ -437,7 +448,7 @@ public class GoClientCodegenTest {
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -446,7 +457,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
@@ -456,7 +466,7 @@ public class GoClientCodegenTest {
     @Test
     public void verifyTestImport() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -467,7 +477,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
@@ -477,7 +486,7 @@ public class GoClientCodegenTest {
     @Test
     public void verifyFormatErrorMessageInUse() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -486,7 +495,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/api_pet.go"));
         TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"),
@@ -496,7 +504,7 @@ public class GoClientCodegenTest {
     @Test
     public void verifyApiTestWithNullResponse() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -507,7 +515,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
         TestUtils.assertFileNotContains(Paths.get(output + "/test/api_pet_test.go"),
@@ -521,7 +528,7 @@ public class GoClientCodegenTest {
     @Test
     public void verifyApiWithAllOfMultipleRefAndDiscriminator() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -532,7 +539,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/model_final_item.go"));
         TestUtils.assertFileContains(Paths.get(output + "/model_final_item.go"),
@@ -542,7 +548,7 @@ public class GoClientCodegenTest {
     @Test
     public void testVendorExtensionGenerateUnmarshalJson() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -553,7 +559,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
         TestUtils.assertFileContains(Paths.get(output + "/model_base_item.go"),
@@ -563,7 +568,7 @@ public class GoClientCodegenTest {
     @Test
     public void testVendorExtensionSkipGenerateUnmarshalJson() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -574,7 +579,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
         TestUtils.assertFileNotContains(Paths.get(output + "/model_base_item.go"),
@@ -587,7 +591,7 @@ public class GoClientCodegenTest {
         properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
 
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -597,7 +601,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileNotContains(Paths.get(output + "/model_pet.go"), "bytes");
     }
@@ -605,7 +608,7 @@ public class GoClientCodegenTest {
     @Test
     public void testAdditionalPropertiesWithGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -615,7 +618,6 @@ public class GoClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         System.out.println(files);
-        files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");
         TestUtils.assertFileExists(goModFile);
@@ -626,7 +628,7 @@ public class GoClientCodegenTest {
     @Test
     public void testAdditionalPropertiesWithoutGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -637,7 +639,6 @@ public class GoClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         System.out.println(files);
-        files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");
         TestUtils.assertFileNotExists(goModFile);
@@ -652,7 +653,7 @@ public class GoClientCodegenTest {
         properties.put(GoClientCodegen.WITH_XML, true);
 
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -662,7 +663,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/model_pet.go"), "tags>tag");
     }
@@ -670,7 +670,7 @@ public class GoClientCodegenTest {
     @Test
     public void testArrayDefaultValue() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -679,7 +679,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
         Path apiPath = Paths.get(output + "/api_default.go");
         String defaultStringArrayString = "var defaultValue []string = []string{\"test1\", \"test2\"}";
         String defaultEnumArrayString = "var defaultValue []ExampleEnum = []ExampleEnum{\"example1\"}";
@@ -692,7 +691,7 @@ public class GoClientCodegenTest {
     @Test
     public void testEscapingInExamples() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -701,7 +700,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         Path docPath = Paths.get(output + "/docs/TestAPI.md");
         // Verify that quotes are properly escaped in parameter examples
@@ -742,7 +740,7 @@ public class GoClientCodegenTest {
         properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
 
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -752,7 +750,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         // With the flag disabled the validator import is not added, so the oneOf model must not
         // emit UnmarshalJSON (which would reference the missing validator package and fail to compile).
@@ -765,7 +762,7 @@ public class GoClientCodegenTest {
     @Test(description = "with the default generateUnmarshalJSON=true the oneOf UnmarshalJSON and the validator import are still generated")
     public void testOneOfUnmarshalJSONGeneratedByDefault() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        TEMP_DIRS.add(output);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
@@ -774,12 +771,117 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
 
         Path oneOfModel = Paths.get(output + "/model_object.go");
         TestUtils.assertFileContains(oneOfModel,
                 "func (dst *Object) UnmarshalJSON",
                 "validator.Validate",
                 "gopkg.in/validator.v2");
+    }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations and in:querystring generate working Go code")
+    public void testOpenAPI32QueryAndAdditionalOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        TEMP_DIRS.add(output);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiFile = Paths.get(output + "/api_default.go");
+        // non-standard methods are emitted as string literals; net/http has no
+        // MethodQuery/MethodPurge/MethodCustomMethod constants
+        TestUtils.assertFileContains(apiFile,
+                "localVarHTTPMethod   = \"QUERY\"",
+                "localVarHTTPMethod   = \"PURGE\"",
+                // additionalOperations keys are sent verbatim - no camelize
+                "localVarHTTPMethod   = \"customMethod\"",
+                // valid HTTP token punctuation must not be HTML-escaped
+                "localVarHTTPMethod   = \"CHECK&FETCH\"");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodQuery");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodPurge");
+        TestUtils.assertFileNotContains(apiFile, "&amp;");
+        // in:querystring appends the raw, already-encoded value to the path
+        TestUtils.assertFileContains(apiFile,
+                "localVarPath = localVarPath + \"?\" + *r.qs");
+    }
+
+    @Test(description = "prepareRequest keeps a path-embedded raw query string verbatim")
+    public void testOpenAPI32QueryStringPreservedInClient() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        TEMP_DIRS.add(output);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        Path clientFile = Paths.get(output + "/client.go");
+        // the full verbatim-preservation chain: the path-embedded raw query is
+        // captured before url.Query() merges it, then written back ahead of the
+        // encoded parameters (path-declared query data first)
+        TestUtils.assertFileContains(clientFile,
+                "rawQueryString := url.RawQuery",
+                "url.RawQuery = \"\"",
+                "url.RawQuery = rawQueryString + encodedQuery");
+        // and the capture must precede the merge into url.Query()
+        String client = new String(Files.readAllBytes(clientFile), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertTrue(
+                client.indexOf("rawQueryString := url.RawQuery")
+                        < client.indexOf("query := url.Query()"),
+                "raw query must be captured before url.Query() reads it");
+    }
+
+    @Test(description = "in:querystring together with a path parameter imports strings only once")
+    public void testOpenAPI32QueryStringWithPathParamImports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        TEMP_DIRS.add(output);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/go-querystring-pathparam.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiFile = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(apiFile, "strings.Contains(localVarPath, \"?\")");
+        // pathParams already pull in "strings"; a duplicate import would not compile
+        String content = new String(Files.readAllBytes(apiFile), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertEquals(content.split("\"strings\"", -1).length - 1, 1,
+                "duplicate \"strings\" import in generated Go file");
+    }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations in webhooks also emit verbatim method literals")
+    public void testOpenAPI32WebhookOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        TEMP_DIRS.add(output);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/webhook-operations.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        // webhooks render through the same api.mustache; their non-standard
+        // methods must be literals too, otherwise the output does not compile
+        Path apiFile = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(apiFile,
+                "localVarHTTPMethod   = \"QUERY\"",
+                "localVarHTTPMethod   = \"customMethod\"");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodQuery");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodCustommethod");
+        // webhook querystring parameters need the strings import as well
+        TestUtils.assertFileContains(apiFile, "\"strings\"");
     }
 }

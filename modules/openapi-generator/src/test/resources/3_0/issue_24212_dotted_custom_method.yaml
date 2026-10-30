@@ -1,0 +1,29 @@
+# 'M.FOO' / 'm.foo' below are custom HTTP method names containing a dot, which
+# RFC 9110 tchar permits ([!#$%&'*+\-.^_`|~0-9A-Za-z]). swagger-parser does not
+# know them, so it reports each as an unexpected attribute:
+#   attribute paths.'/tasks'.M.FOO is unexpected
+#   attribute paths.'/tasks'.m.foo is unexpected
+# This is the regression fixture for issue #24212's "a custom method name
+# containing a dot must still be reported as a dropped operation" test
+# (CodegenConfiguratorTest#shouldWarnAboutDroppedCustomMethodContainingDot).
+openapi: 3.0.3
+info:
+  title: issue 24212 dotted custom-method regression test
+  version: '1.0'
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      responses:
+        '200':
+          description: OK
+    M.FOO:
+      operationId: mFooTasks
+      responses:
+        '200':
+          description: OK
+    m.foo:
+      operationId: mFooLowerTasks
+      responses:
+        '200':
+          description: OK

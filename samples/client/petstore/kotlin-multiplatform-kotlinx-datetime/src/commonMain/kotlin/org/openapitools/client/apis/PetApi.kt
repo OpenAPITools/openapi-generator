@@ -78,7 +78,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -113,7 +113,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -166,11 +166,11 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<FindPetsByStatusResponse>().map { value }
+        ).wrap<FindPetsByStatusResponse>().map { this.value }
     }
 
     @Serializable(FindPetsByStatusResponse.Companion::class)
@@ -209,11 +209,11 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<FindPetsByTagsResponse>().map { value }
+        ).wrap<FindPetsByTagsResponse>().map { this.value }
     }
 
     @Serializable(FindPetsByTagsResponse.Companion::class)
@@ -251,7 +251,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -282,7 +282,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -304,9 +304,9 @@ open class PetApi : ApiClient {
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
-            ParametersBuilder().also {
-                name?.apply { it.append("name", name.toString()) }
-                status?.apply { it.append("status", status.toString()) }
+            ParametersBuilder().also { localVariableBuilder ->
+                name?.apply { localVariableBuilder.append("name", name.toString()) }
+                status?.apply { localVariableBuilder.append("status", status.toString()) }
             }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -320,7 +320,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return urlEncodedFormRequest(
+        return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -358,7 +358,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return multipartFormRequest(
+        return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
