@@ -449,6 +449,44 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testThrowOnAnyErrorWrapsOneOfDeserializationFailure() throws IOException {
+        // both restsharp ApiClient templates: the default one and the useIntForTimeout v7.9.0 fallback
+        for (boolean useIntForTimeout : new boolean[]{false, true}) {
+            for (boolean throwOnAnyError : new boolean[]{false, true}) {
+                File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+                output.deleteOnExit();
+                final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+                final DefaultGenerator defaultGenerator = new DefaultGenerator();
+                final ClientOptInput clientOptInput = new ClientOptInput();
+                clientOptInput.openAPI(openAPI);
+                CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+                cSharpClientCodegen.setLibrary("restsharp");
+                cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+                cSharpClientCodegen.additionalProperties().put("useIntForTimeout", useIntForTimeout);
+                cSharpClientCodegen.additionalProperties().put("throwOnAnyError", throwOnAnyError);
+                clientOptInput.config(cSharpClientCodegen);
+                defaultGenerator.opts(clientOptInput);
+
+                Map<String, File> files = defaultGenerator.generate().stream()
+                        .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+                File apiClient = files
+                        .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
+                assertNotNull(apiClient);
+                String wrapped = "throw new ApiException((int)response.StatusCode, string.Format(\"Error calling {0}: {1}\", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);";
+                String rethrown = "throw ex.InnerException != null ? ex.InnerException : ex;";
+                if (throwOnAnyError) {
+                    assertFileContains(apiClient.toPath(), wrapped);
+                    assertFileNotContains(apiClient.toPath(), rethrown);
+                } else {
+                    assertFileContains(apiClient.toPath(), rethrown);
+                    assertFileNotContains(apiClient.toPath(), wrapped);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testSelectHeaderAcceptKeepsAllTypesJsonFirst() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
