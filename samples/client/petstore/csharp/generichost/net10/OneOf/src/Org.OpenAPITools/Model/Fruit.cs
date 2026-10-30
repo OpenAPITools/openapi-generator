@@ -155,10 +155,8 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             Option<string?> color = default;
 
@@ -167,7 +165,7 @@ namespace Org.OpenAPITools.Model
             Orange? orange = default;
 
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
                     break;
@@ -188,7 +186,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -236,6 +234,24 @@ namespace Org.OpenAPITools.Model
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
+
+            if (fruit.Apple != null)
+            {
+                AppleJsonConverter appleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Apple.GetType()));
+                appleJsonConverter.WriteProperties(writer, fruit.Apple, jsonSerializerOptions);
+            }
+
+            if (fruit.Banana != null)
+            {
+                BananaJsonConverter bananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Banana.GetType()));
+                bananaJsonConverter.WriteProperties(writer, fruit.Banana, jsonSerializerOptions);
+            }
+
+            if (fruit.Orange != null)
+            {
+                OrangeJsonConverter orangeJsonConverter = (OrangeJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Orange.GetType()));
+                orangeJsonConverter.WriteProperties(writer, fruit.Orange, jsonSerializerOptions);
+            }
 
             WriteProperties(writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();

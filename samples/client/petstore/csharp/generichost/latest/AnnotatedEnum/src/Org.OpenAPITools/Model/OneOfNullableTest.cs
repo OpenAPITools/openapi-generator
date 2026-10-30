@@ -113,16 +113,26 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             int? varInt = default;
             string? varString = default;
 
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderInt = utf8JsonReader;
+                ClientUtils.TryDeserialize<int?>(ref utf8JsonReaderInt, jsonSerializerOptions, out varInt);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+            }
+
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
                     break;
@@ -140,7 +150,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -178,6 +188,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, OneOfNullableTest oneOfNullableTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfNullableTest.Int != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfNullableTest.Int, jsonSerializerOptions);
+                return;
+            }
+
+            if (oneOfNullableTest.String != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfNullableTest.String, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, oneOfNullableTest, jsonSerializerOptions);

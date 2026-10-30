@@ -119,16 +119,29 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             string? varString = default;
             List<string>? list = default;
 
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
+                ClientUtils.TryDeserialize<List<string>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+            }
+
+            if (isScalarToken && varString == null && list == null)
+                throw new JsonException();
+
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (utf8JsonReaderAnyOf.Read())
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
                     break;
@@ -146,7 +159,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -185,12 +198,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, AnyOfStringArrayOfString anyOfStringArrayOfString, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
-
             if (anyOfStringArrayOfString.StringOption.IsSet && anyOfStringArrayOfString.StringOption.Value != null)
-                writer.WriteString("AnyOfStringArrayOfString", anyOfStringArrayOfString.StringOption.Value);
+            {
+                JsonSerializer.Serialize(writer, anyOfStringArrayOfString.StringOption.Value, jsonSerializerOptions);
+                return;
+            }
 
             if (anyOfStringArrayOfString.ListOption.IsSet && anyOfStringArrayOfString.ListOption.Value != null)
+            {
+                JsonSerializer.Serialize(writer, anyOfStringArrayOfString.ListOption.Value, jsonSerializerOptions);
+                return;
+            }
+
+            writer.WriteStartObject();
 
             WriteProperties(writer, anyOfStringArrayOfString, jsonSerializerOptions);
             writer.WriteEndObject();

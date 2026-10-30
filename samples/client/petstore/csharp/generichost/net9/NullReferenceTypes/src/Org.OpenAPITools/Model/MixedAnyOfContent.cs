@@ -168,10 +168,8 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             string? varString = default;
             bool? varBool = default;
@@ -179,8 +177,35 @@ namespace Org.OpenAPITools.Model
             decimal? varDecimal = default;
             MixedSubId? mixedSubId = default;
 
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
+                ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderInt = utf8JsonReader;
+                ClientUtils.TryDeserialize<int?>(ref utf8JsonReaderInt, jsonSerializerOptions, out varInt);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderDecimal = utf8JsonReader;
+                ClientUtils.TryDeserialize<decimal?>(ref utf8JsonReaderDecimal, jsonSerializerOptions, out varDecimal);
+            }
+
+            if (isScalarToken && varString == null && varBool == null && varInt == null && varDecimal == null && mixedSubId == null)
+                throw new JsonException();
+
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (utf8JsonReaderAnyOf.Read())
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
                     break;
@@ -207,7 +232,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -255,19 +280,31 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, MixedAnyOfContent mixedAnyOfContent, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
-
             if (mixedAnyOfContent.StringOption.IsSet && mixedAnyOfContent.StringOption.Value != null)
-                writer.WriteString("content", mixedAnyOfContent.StringOption.Value);
+            {
+                JsonSerializer.Serialize(writer, mixedAnyOfContent.StringOption.Value, jsonSerializerOptions);
+                return;
+            }
 
             if (mixedAnyOfContent.BoolOption.IsSet && mixedAnyOfContent.BoolOption.Value != null)
-                writer.WriteBoolean("content", mixedAnyOfContent.BoolOption.Value.Value);
+            {
+                JsonSerializer.Serialize(writer, mixedAnyOfContent.BoolOption.Value, jsonSerializerOptions);
+                return;
+            }
 
             if (mixedAnyOfContent.IntOption.IsSet && mixedAnyOfContent.IntOption.Value != null)
-                writer.WriteNumber("content", mixedAnyOfContent.IntOption.Value.Value);
+            {
+                JsonSerializer.Serialize(writer, mixedAnyOfContent.IntOption.Value, jsonSerializerOptions);
+                return;
+            }
 
             if (mixedAnyOfContent.DecimalOption.IsSet && mixedAnyOfContent.DecimalOption.Value != null)
-                writer.WriteNumber("content", mixedAnyOfContent.DecimalOption.Value.Value);
+            {
+                JsonSerializer.Serialize(writer, mixedAnyOfContent.DecimalOption.Value, jsonSerializerOptions);
+                return;
+            }
+
+            writer.WriteStartObject();
 
             if (mixedAnyOfContent.MixedSubIdOption.IsSet && mixedAnyOfContent.MixedSubIdOption.Value != null)
             {

@@ -112,16 +112,14 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             AppleReq? appleReq = default;
             BananaReq? bananaReq = default;
 
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            while (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
                     break;
@@ -139,7 +137,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -178,6 +176,18 @@ namespace Org.OpenAPITools.Model
         public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
+
+            if (fruitReq.AppleReq != null)
+            {
+                AppleReqJsonConverter appleReqJsonConverter = (AppleReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruitReq.AppleReq.GetType()));
+                appleReqJsonConverter.WriteProperties(writer, fruitReq.AppleReq, jsonSerializerOptions);
+            }
+
+            if (fruitReq.BananaReq != null)
+            {
+                BananaReqJsonConverter bananaReqJsonConverter = (BananaReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruitReq.BananaReq.GetType()));
+                bananaReqJsonConverter.WriteProperties(writer, fruitReq.BananaReq, jsonSerializerOptions);
+            }
 
             WriteProperties(writer, fruitReq, jsonSerializerOptions);
             writer.WriteEndObject();

@@ -1,0 +1,185 @@
+openapi: 3.1.0
+info:
+  title: Union members that are not merged objects
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /holder:
+    get:
+      operationId: getHolder
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Holder"
+          description: OK
+components:
+  schemas:
+    Status:
+      enum:
+      - active
+      - inactive
+      type: string
+    OpenStatus:
+      anyOf:
+      - $ref: "#/components/schemas/Status"
+      - type: string
+    NullableOpenStatus:
+      anyOf:
+      - $ref: "#/components/schemas/Status"
+      - type: string
+      nullable: true
+    StatusOrText:
+      oneOf:
+      - $ref: "#/components/schemas/Status"
+      - type: string
+    Foo:
+      example:
+        id: 0
+      properties:
+        id:
+          type: integer
+    FooOrList:
+      anyOf:
+      - $ref: "#/components/schemas/Foo"
+      - items:
+          $ref: "#/components/schemas/Foo"
+        type: array
+        default: null
+    Diagnostic:
+      example:
+        resourceType: Diagnostic
+        id: id
+      properties:
+        resourceType:
+          enum:
+          - Diagnostic
+          type: string
+        id:
+          type: string
+      required:
+      - id
+      - resourceType
+    Observation:
+      properties:
+        resourceType:
+          enum:
+          - Observation
+          type: string
+        id:
+          type: string
+      required:
+      - id
+      - resourceType
+    Entry:
+      oneOf:
+      - $ref: "#/components/schemas/Diagnostic"
+      - $ref: "#/components/schemas/Observation"
+    Apple:
+      properties:
+        cultivar:
+          type: string
+      required:
+      - cultivar
+    Banana:
+      properties:
+        lengthCm:
+          type: number
+      required:
+      - lengthCm
+    Fruit:
+      example:
+        color: color
+      oneOf:
+      - $ref: "#/components/schemas/Apple"
+      - $ref: "#/components/schemas/Banana"
+      properties:
+        color:
+          type: string
+    Image:
+      example:
+        type: type
+        id: 6
+        imageUri: imageUri
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+        imageUri:
+          type: string
+      required:
+      - id
+      - type
+    Document:
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+        documentUri:
+          type: string
+      required:
+      - id
+      - type
+    Asset:
+      anyOf:
+      - $ref: "#/components/schemas/Image"
+      - $ref: "#/components/schemas/Document"
+      discriminator:
+        mapping:
+          image: "#/components/schemas/Image"
+          document: "#/components/schemas/Document"
+        propertyName: type
+    Cat:
+      example:
+        meow: true
+      properties:
+        meow:
+          type: boolean
+    Dog:
+      properties:
+        bark:
+          type: boolean
+    Pet:
+      anyOf:
+      - $ref: "#/components/schemas/Cat"
+      - $ref: "#/components/schemas/Dog"
+    Holder:
+      example:
+        status: active
+        nullableStatus: null
+        statusOrText: null
+        fooOrList:
+          id: 0
+        entry:
+          resourceType: Diagnostic
+          id: id
+        fruit:
+          color: color
+        asset:
+          type: type
+          id: 6
+          imageUri: imageUri
+        pet:
+          meow: true
+      properties:
+        status:
+          $ref: "#/components/schemas/OpenStatus"
+        nullableStatus:
+          $ref: "#/components/schemas/NullableOpenStatus"
+        statusOrText:
+          $ref: "#/components/schemas/StatusOrText"
+        fooOrList:
+          $ref: "#/components/schemas/FooOrList"
+        entry:
+          $ref: "#/components/schemas/Entry"
+        fruit:
+          $ref: "#/components/schemas/Fruit"
+        asset:
+          $ref: "#/components/schemas/Asset"
+        pet:
+          $ref: "#/components/schemas/Pet"
+
