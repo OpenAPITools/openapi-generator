@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Optional query null default
+  version: 1.0.0
+paths:
+  /places:
+    get:
+      operationId: getPlaces
+      parameters:
+        - name: ids
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            default: null
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: requiredIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: defaultIds
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            default: [a, b]
+        - name: literalNull
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "null"
+        - name: referencedLiteralNull
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/stringWithNullDefault'
+            default: "null"
+        - name: referencedNullDefault
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/stringWithNullDefault'
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    stringWithNullDefault:
+      type: string
+      default: null

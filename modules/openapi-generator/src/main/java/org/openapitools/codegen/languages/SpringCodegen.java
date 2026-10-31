@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -92,6 +93,16 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
+
+    @Override
+    public String toDefaultParameterValue(Schema<?> schema) {
+        Schema<?> effectiveSchema = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema) : schema;
+        Object defaultValue = schema.getDefault() != null ? schema.getDefault() : effectiveSchema.getDefault();
+        if (defaultValue instanceof JsonNode && ((JsonNode) defaultValue).isNull()) {
+            return null;
+        }
+        return super.toDefaultParameterValue(schema);
+    }
 
     public static final String RESOURCE_FOLDER = "resourceFolder";
     public static final String RESOURCE_FOLDER_DESC = "resource folder for generated resources";
