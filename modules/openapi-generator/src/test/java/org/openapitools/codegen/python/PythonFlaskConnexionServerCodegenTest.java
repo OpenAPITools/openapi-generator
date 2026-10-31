@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -53,6 +54,46 @@ public class PythonFlaskConnexionServerCodegenTest {
 
         Assert.assertTrue(files.size() > 0);
         return outputPath + "/";
+    }
+
+    @DataProvider
+    public Object[][] jsonSerializerConfigurations() {
+        return new Object[][] {
+                {false, "openapi_server"},
+                {true, "openapi_server"},
+                {false, "custom_server"},
+                {true, "custom_server"}
+        };
+    }
+
+    @Test(dataProvider = "jsonSerializerConfigurations",
+            description = "Configure the supported JSON adapter in both application and test bootstraps")
+    public void testJsonSerializerConfiguration(boolean useConnexion3, String packageName) throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, useConnexion3);
+        codegen.additionalProperties().put(CodegenConstants.PACKAGE_NAME, packageName);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/petstore.yaml");
+
+        final Path encoder = Paths.get(outputPath, packageName, "encoder.py");
+        final Path main = Paths.get(outputPath, packageName, "__main__.py");
+        final Path tests = Paths.get(outputPath, packageName, "test/__init__.py");
+        assertFileContains(encoder, "from " + packageName + ".models.base_model import Model");
+        assertFileNotContains(main, "json_encoder");
+        assertFileNotContains(tests, "json_encoder");
+
+        if (useConnexion3) {
+            assertFileContains(encoder, "class JSONEncoder(json.JSONEncoder):");
+            assertFileContains(main, "jsonifier=Jsonifier(cls=encoder.JSONEncoder)");
+            assertFileContains(tests, "jsonifier=Jsonifier(cls=JSONEncoder)");
+            assertFileNotContains(encoder, "FlaskJSONProvider");
+        } else {
+            assertFileContains(encoder, "from connexion.apps.flask_app import FlaskJSONProvider",
+                    "class JSONProvider(FlaskJSONProvider):");
+            assertFileContains(main, "app.app.json = encoder.JSONProvider(app.app)");
+            assertFileContains(tests, "from " + packageName + ".encoder import JSONProvider",
+                    "app.app.json = JSONProvider(app.app)");
+            assertFileNotContains(encoder, "FlaskJSONEncoder");
+        }
     }
 
 
