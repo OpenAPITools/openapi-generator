@@ -64,6 +64,8 @@ public class RubyNextgenClientCodegenTest {
         assertEquals(g.toEnumVarName("100", "String"), "N100");
         assertEquals(g.toEnumVarName("1", "Integer"), "N1");
         assertEquals(g.toEnumVarName("1.5", "Float"), "N1_DOT_5");
+        assertEquals(g.toEnumVarName("unknown_default_open_api", "Integer"), "UNKNOWN_DEFAULT_OPEN_API");
+        assertEquals(g.toEnumVarName("unknown_default_open_api", "Float"), "UNKNOWN_DEFAULT_OPEN_API");
         // non-numeric values are unaffected
         assertEquals(g.toEnumVarName("available", "String"), "AVAILABLE");
         assertEquals(g.toEnumVarName("", "String"), "EMPTY");
@@ -524,5 +526,31 @@ public class RubyNextgenClientCodegenTest {
                 stables, "def ponies(stable:", "def ponies_api", "def class_api", "def hash_api");
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
+    }
+
+    @Test
+    public void testEnumUnknownDefaultCaseGeneratesBuildMethod() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .addAdditionalProperty("enumUnknownDefaultCase", true)
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/models/enum_class.rb"),
+                "UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api'",
+                "def self.build(value)",
+                "valid?(value) ? value : UNKNOWN_DEFAULT_OPEN_API");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/models/outer_enum_integer.rb"),
+                "UNKNOWN_DEFAULT_OPEN_API = 11184809",
+                "def self.build(value)",
+                "valid?(value) ? value : UNKNOWN_DEFAULT_OPEN_API");
     }
 }
