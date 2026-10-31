@@ -714,6 +714,45 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(parentModelKt, "val id: ObjectWithComplexAnyOfId?");
     }
 
+    @Test(description = "Issue #18626")
+    public void anyOfRequiredPropertiesAreOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("jvm-ktor")
+                .setInputSpec("src/test/resources/3_0/issue_18626.yaml")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "kotlinx_serialization")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", false)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/PetsPatchRequest.kt");
+        TestUtils.assertFileContains(modelKt,
+                "val age: kotlin.Int? = null",
+                "val petType: PetsPatchRequest.PetType? = null");
+
+        final Path ordered = modelPath(output, "OrderedAnyOf");
+        TestUtils.assertFileContains(ordered,
+                "val shared: kotlin.String",
+                "val first: kotlin.String? = null",
+                "val second: kotlin.String? = null",
+                "val alreadyOptional: kotlin.String? = null");
+        TestUtils.assertFileNotContains(ordered,
+                "val shared: kotlin.String?");
+        String constructor = Files.readString(ordered);
+        Assert.assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val shared:"));
+        Assert.assertTrue(constructor.indexOf("val shared:") < constructor.indexOf("val second:"));
+        Assert.assertTrue(constructor.indexOf("val second:") < constructor.indexOf("val alreadyOptional:"));
+        TestUtils.assertFileContains(modelPath(output, "NestedAnyOf"),
+                "val sometimes: kotlin.String? = null");
+        TestUtils.assertFileContains(modelPath(output, "AnyOfWithOptionalBranch"),
+                "val branchOnly: kotlin.String? = null");
+    }
+
     @Test(description = "generate oneOf/anyOf wrappers with explicit API mode using kotlinx_serialization")
     public void oneOfAnyOfKotlinxSerializationExplicitApi() throws IOException {
         File output = generateKotlinxOneOfAnyOf(new HashMap<>() {{ put(KotlinClientCodegen.EXPLICIT_API, true); }});

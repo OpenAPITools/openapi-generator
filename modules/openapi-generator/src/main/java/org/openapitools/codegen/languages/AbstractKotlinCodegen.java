@@ -1015,6 +1015,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        makeAnyOfBranchPropertiesOptional(m, schema);
         m.getVendorExtensions().putIfAbsent(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
         List<String> schemaImplementedInterfacesClasses = this.getSchemaImplements().getOrDefault(m.getSchemaName(), List.of());
         List<String> schemaImplementedInterfacesFields = this.getSchemaImplementsFields().getOrDefault(m.getSchemaName(), List.of());
@@ -1103,6 +1104,98 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 )
                 .forEach(p -> p.isInherited = true);
         return m;
+    }
+
+    private void makeAnyOfBranchPropertiesOptional(CodegenModel model, Schema schema) {
+        if (ModelUtils.hasAllOf(schema) || !ModelUtils.hasAnyOf(schema)) {
+            return;
+        }
+
+        Set<String> optionalPropertyNames = new HashSet<>();
+        Set<String> commonRequired = null;
+        for (Object branch : schema.getAnyOf()) {
+            Map<String, Schema> properties = new LinkedHashMap<>();
+            List<String> required = new ArrayList<>();
+            addProperties(properties, required, (Schema) branch, new HashSet<>());
+            optionalPropertyNames.addAll(required);
+            Set<String> branchRequired = guaranteedRequiredProperties((Schema) branch, new HashSet<>());
+            if (commonRequired == null) {
+                commonRequired = branchRequired;
+            } else {
+                commonRequired.retainAll(branchRequired);
+            }
+        }
+        if (commonRequired != null) {
+            optionalPropertyNames.removeAll(commonRequired);
+        }
+        if (schema.getRequired() != null) {
+            optionalPropertyNames.removeAll(schema.getRequired());
+        }
+        if (optionalPropertyNames.isEmpty()) {
+            return;
+        }
+
+        List<CodegenProperty> constructorVars = Stream.concat(
+                model.requiredVars.stream(), model.optionalVars.stream().distinct())
+                .collect(Collectors.toList());
+        model.vendorExtensions.put("x-kotlin-ordered-constructor-vars", constructorVars);
+
+        Stream.of(model.vars, model.allVars, model.requiredVars, model.optionalVars,
+                        model.readOnlyVars, model.readWriteVars)
+                .flatMap(List::stream)
+                .filter(property -> optionalPropertyNames.contains(property.baseName))
+                .forEach(property -> property.required = false);
+
+        List<CodegenProperty> optionalRequiredVars = model.requiredVars.stream()
+                .filter(property -> optionalPropertyNames.contains(property.baseName))
+                .collect(Collectors.toList());
+        model.requiredVars.removeAll(optionalRequiredVars);
+        model.optionalVars.addAll(optionalRequiredVars);
+
+        Set<String> optionalVariableNames = optionalPropertyNames.stream()
+                .map(this::toVarName)
+                .collect(Collectors.toSet());
+        model.mandatory.removeAll(optionalVariableNames);
+        model.allMandatory.removeAll(optionalVariableNames);
+        model.hasRequired = !model.requiredVars.isEmpty();
+        model.hasOptional = !model.optionalVars.isEmpty();
+    }
+
+    private Set<String> guaranteedRequiredProperties(Schema schema, Set<Schema> visited) {
+        Set<String> required = new HashSet<>();
+        if (schema == null || !visited.add(schema)) {
+            return required;
+        }
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            return guaranteedRequiredProperties(ModelUtils.getReferencedSchema(openAPI, schema), visited);
+        }
+        if (schema.getRequired() != null) {
+            required.addAll(schema.getRequired());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object branch : schema.getAllOf()) {
+                required.addAll(guaranteedRequiredProperties((Schema) branch, new HashSet<>(visited)));
+            }
+        }
+        addCommonRequiredProperties(required, schema.getAnyOf(), visited);
+        addCommonRequiredProperties(required, schema.getOneOf(), visited);
+        return required;
+    }
+
+    private void addCommonRequiredProperties(Set<String> required, List<Schema> branches, Set<Schema> visited) {
+        if (branches == null || branches.isEmpty()) {
+            return;
+        }
+        Set<String> common = null;
+        for (Schema branch : branches) {
+            Set<String> branchRequired = guaranteedRequiredProperties(branch, new HashSet<>(visited));
+            if (common == null) {
+                common = branchRequired;
+            } else {
+                common.retainAll(branchRequired);
+            }
+        }
+        required.addAll(common);
     }
 
     @Override

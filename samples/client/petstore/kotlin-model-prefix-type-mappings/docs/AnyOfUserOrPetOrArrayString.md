@@ -4,9 +4,9 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String** |  |  |
-| **name** | **kotlin.String** |  |  |
-| **photoUrls** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  |
+| **username** | **kotlin.String** |  |  [optional] |
+| **name** | **kotlin.String** |  |  [optional] |
+| **photoUrls** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 | **id** | **kotlin.Long** |  |  [optional] |
 | **firstName** | **kotlin.String** |  |  [optional] |
 | **lastName** | **kotlin.String** |  |  [optional] |
