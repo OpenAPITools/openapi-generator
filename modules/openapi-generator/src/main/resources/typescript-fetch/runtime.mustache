@@ -14,7 +14,7 @@ export interface ConfigurationParameters {
     apiKey?: string | Promise<string> | ((name: string) => string | Promise<string>); // parameter for apiKey security
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
     headers?: HTTPHeaders; //header params we want to use on every request
-    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
+    credentials?: FetchCredentials; //value for the credentials param we want to use on each request
 }
 
 export class Configuration {
@@ -68,7 +68,7 @@ export class Configuration {
         return this.configuration.headers;
     }
 
-    get credentials(): RequestCredentials | undefined {
+    get credentials(): FetchCredentials | undefined {
         return this.configuration.credentials;
     }
 }
@@ -292,7 +292,11 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
-export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
+// Node's fetch types declare RequestInit, URL and Request but not the DOM fetch global.
+// FetchAPI is a method type, so a fetch that takes only a string URL or a required
+// init still fits, as it did with typeof fetch.
+export type FetchCredentials = NonNullable<RequestInit['credentials']>;
+export type FetchAPI = { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }['fetch'];
 
 {{#splitOperationsByContentType}}
 type AllKeys<T> = T extends unknown ? keyof T : never;
@@ -314,7 +318,7 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody };
+export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: FetchCredentials; body?: HTTPBody };
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>

@@ -1417,6 +1417,44 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "The runtime typechecks under Node fetch types without the DOM lib")
+    public void testRuntimeUsesPlatformFetchTypes() throws IOException {
+        Path spec = Files.createTempFile("typescript-fetch-node-fetch", ".json");
+        spec.toFile().deleteOnExit();
+        // Same minimal document as OpenAPITools/openapi-generator#25244.
+        Files.writeString(spec, String.join("\n",
+                "{",
+                "  \"openapi\": \"3.0.3\",",
+                "  \"info\": { \"title\": \"Reproduction\", \"version\": \"1.0.0\" },",
+                "  \"paths\": {",
+                "    \"/ping\": {",
+                "      \"get\": {",
+                "        \"operationId\": \"ping\",",
+                "        \"responses\": {",
+                "          \"204\": { \"description\": \"No content\" }",
+                "        }",
+                "      }",
+                "    }",
+                "  }",
+                "}",
+                ""));
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("supportsES6", true);
+        File output = generate(properties, spec.toAbsolutePath().toString());
+
+        Path runtime = Paths.get(output.getPath(), "runtime.ts");
+        // These names exist only in the DOM lib. Node's fetch types do not declare them.
+        TestUtils.assertFileNotContains(runtime,
+                "WindowOrWorkerGlobalScope",
+                "RequestCredentials");
+        TestUtils.assertFileContains(runtime,
+                "export type FetchCredentials = NonNullable<RequestInit['credentials']>;",
+                "export type FetchAPI = { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }['fetch'];",
+                "credentials?: FetchCredentials;",
+                "get credentials(): FetchCredentials | undefined {");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
