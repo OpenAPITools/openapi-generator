@@ -219,12 +219,14 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     /**
      * DefaultCodegen only populates the escaped {@code description} for body
      * parameters; the table templates render {@code unescapedDescription} to
-     * keep line breaks, so the unescaped value must be provided here.
+     * keep line breaks, so the unescaped value must be provided here. The
+     * assignment mirrors the unconditional {@code description} overwrite in
+     * DefaultCodegen.fromOperation.
      */
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         CodegenParameter parameter = super.fromRequestBody(body, imports, bodyParameterName);
-        if (parameter != null && parameter.unescapedDescription == null) {
+        if (parameter != null) {
             parameter.unescapedDescription = body.getDescription();
         }
         return parameter;
