@@ -66,6 +66,10 @@ public class ObjectWithDeprecatedFieldsDto {
     this.uuid = uuid;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFieldsDto id(@Nullable BigDecimal id) {
     this.id = id;
     return this;
@@ -85,7 +89,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("id")
@@ -93,6 +97,10 @@ public class ObjectWithDeprecatedFieldsDto {
     this.id = id;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFieldsDto deprecatedRef(@Nullable DeprecatedObjectDto deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -112,7 +120,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("deprecatedRef")
@@ -120,11 +128,19 @@ public class ObjectWithDeprecatedFieldsDto {
     this.deprecatedRef = deprecatedRef;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFieldsDto bars(List<String> bars) {
     this.bars = bars;
     return this;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFieldsDto addBarsItem(String barsItem) {
     if (this.bars == null) {
       this.bars = new ArrayList<>();
@@ -147,7 +163,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("bars")
