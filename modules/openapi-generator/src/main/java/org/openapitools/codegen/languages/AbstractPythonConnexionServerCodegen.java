@@ -936,6 +936,41 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
                 }
             }
+            // Generated tests must send API keys under their wire name (keyParamName) and in
+            // their declared location. Query keys extend the query_string/params list after the
+            // regular query parameters; cookie keys are merged into a single Cookie header
+            // (version-agnostic: works the same for Werkzeug, httpx and aiohttp test clients).
+            List<Map<String, String>> testQueryString = new ArrayList<>();
+            for (CodegenParameter param : operation.queryParams) {
+                Map<String, String> entry = new HashMap<>();
+                Object openapiName = param.vendorExtensions.get("x-python-connexion-openapi-name");
+                entry.put("name", openapiName != null ? openapiName.toString() : param.paramName);
+                entry.put("example", param.example);
+                testQueryString.add(entry);
+            }
+            StringJoiner apiKeyCookie = new StringJoiner("; ");
+            if (operation.authMethods != null) {
+                for (CodegenSecurity auth : operation.authMethods) {
+                    if (!Boolean.TRUE.equals(auth.isApiKey)) {
+                        continue;
+                    }
+                    if (Boolean.TRUE.equals(auth.isKeyInQuery)) {
+                        Map<String, String> entry = new HashMap<>();
+                        entry.put("name", auth.keyParamName);
+                        entry.put("example", "'special-key'");
+                        testQueryString.add(entry);
+                    }
+                    if (Boolean.TRUE.equals(auth.isKeyInCookie)) {
+                        apiKeyCookie.add(auth.keyParamName + "=special-key");
+                    }
+                }
+            }
+            if (!testQueryString.isEmpty()) {
+                operation.vendorExtensions.put("x-test-query-string", testQueryString);
+            }
+            if (apiKeyCookie.length() > 0) {
+                operation.vendorExtensions.put("x-test-apikey-cookie", apiKeyCookie.toString());
+            }
         }
         if (hasJsonHeaderParam) {
             objs.put("hasJsonHeaderParam", Boolean.TRUE);

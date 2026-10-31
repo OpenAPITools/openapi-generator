@@ -674,6 +674,33 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "generated controller tests send apiKey security under the scheme's keyParamName in the declared in-location (header, query, cookie)")
+    public void testApiKeyLocationsInGeneratedTests() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-apikey-locations.yaml";
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            Path flaskDir = generateOutputDir("python-flask", props, specPath);
+            Path flaskTest = flaskDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+            assertFileExists(flaskTest);
+            // header apiKey goes to headers under its wire name
+            assertFileContains(flaskTest, "'X-Api-Key': 'special-key'");
+            // query apiKey goes to query_string under its wire name
+            assertFileContains(flaskTest, "('apikey', 'special-key')", "query_string=query_string");
+            // cookie apiKey goes to a Cookie header under its wire name
+            assertFileContains(flaskTest, "'Cookie': 'session=special-key'");
+            // the scheme names are not wire names and must not be sent
+            assertFileNotContains(flaskTest, "'apikey_header'", "'apikey_query'", "'apikey_cookie'");
+        }
+
+        Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath);
+        Path aiohttpTest = aiohttpDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        assertFileExists(aiohttpTest);
+        assertFileContains(aiohttpTest, "'X-Api-Key': 'special-key'");
+        assertFileContains(aiohttpTest, "('apikey', 'special-key')", "params=params");
+        assertFileContains(aiohttpTest, "'Cookie': 'session=special-key'");
+        assertFileNotContains(aiohttpTest, "'apikey_header'", "'apikey_query'", "'apikey_cookie'");
+    }
+
     @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")
     public void testAiohttpRequirementsIncludePythonDateutil() throws IOException {
         Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
