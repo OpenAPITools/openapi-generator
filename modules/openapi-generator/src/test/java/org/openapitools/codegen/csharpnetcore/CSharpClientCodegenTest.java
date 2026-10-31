@@ -473,6 +473,37 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testUseClientFactoryEmitsRestClientFactoryArgument() throws IOException {
+        for (boolean useClientFactory : new boolean[]{false, true}) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+            final DefaultGenerator defaultGenerator = new DefaultGenerator();
+            final ClientOptInput clientOptInput = new ClientOptInput();
+            clientOptInput.openAPI(openAPI);
+            CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+            cSharpClientCodegen.setLibrary("restsharp");
+            cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+            cSharpClientCodegen.additionalProperties().put("useClientFactory", useClientFactory);
+            clientOptInput.config(cSharpClientCodegen);
+            defaultGenerator.opts(clientOptInput);
+
+            Map<String, File> files = defaultGenerator.generate().stream()
+                    .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+            File apiClient = files
+                    .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
+            assertNotNull(apiClient);
+            if (useClientFactory) {
+                assertFileContains(apiClient.toPath(), "useClientFactory: true))",
+                        "client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));");
+            } else {
+                assertFileNotContains(apiClient.toPath(), "useClientFactory: true", "KnownHeaders.UserAgent");
+            }
+        }
+    }
+
+    @Test
     public void test31specAdditionalPropertiesOfOneOf() throws IOException {
         // for https://github.com/OpenAPITools/openapi-generator/pull/18772
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
