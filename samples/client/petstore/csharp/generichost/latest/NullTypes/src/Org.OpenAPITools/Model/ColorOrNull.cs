@@ -118,34 +118,28 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             string? varString = default;
             Color? color = default;
 
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (utf8JsonReaderAnyOf.Read())
+            if (isScalarToken)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
-                    ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
-
-                    Utf8JsonReader utf8JsonReaderColor = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Color?>(ref utf8JsonReaderColor, jsonSerializerOptions, out color);
-                }
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
             }
 
-            while (utf8JsonReader.Read())
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderColor = utf8JsonReader;
+                ClientUtils.TryDeserialize<Color?>(ref utf8JsonReaderColor, jsonSerializerOptions, out color);
+            }
+
+            if (startingTokenType != JsonTokenType.StartObject && varString == null && color == null)
+                throw new JsonException();
+
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -184,10 +178,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, ColorOrNull colorOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
-
             if (colorOrNull.StringOption.IsSet && colorOrNull.StringOption.Value != null)
-                writer.WriteString("ColorOrNull", colorOrNull.StringOption.Value);
+            {
+                JsonSerializer.Serialize(writer, colorOrNull.StringOption.Value, jsonSerializerOptions);
+                return;
+            }
+
+            writer.WriteStartObject();
 
             if (colorOrNull.ColorOption.IsSet && colorOrNull.ColorOption.Value != null)
             {

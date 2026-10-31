@@ -1,0 +1,184 @@
+openapi: 3.1.0
+info:
+  title: Union members that are not merged objects
+  version: 1.0.0
+paths:
+  /holder:
+    get:
+      operationId: getHolder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holder'
+components:
+  schemas:
+    Status:
+      type: string
+      enum:
+        - active
+        - inactive
+    # https://github.com/OpenAPITools/openapi-generator/issues/23261
+    OpenStatus:
+      anyOf:
+        - $ref: '#/components/schemas/Status'
+        - type: string
+    NullableOpenStatus:
+      anyOf:
+        - $ref: '#/components/schemas/Status'
+        - type: string
+        - type: 'null'
+    StatusOrText:
+      oneOf:
+        - $ref: '#/components/schemas/Status'
+        - type: string
+    PatternedText:
+      oneOf:
+        - type: string
+          pattern: ^a
+        - type: string
+          pattern: ^b
+    FlexibleValue:
+      oneOf:
+        - type: boolean
+        - type: string
+        - type: object
+        - type: array
+          items:
+            type: string
+    Foo:
+      type: object
+      properties:
+        id:
+          type: integer
+    # https://github.com/OpenAPITools/openapi-generator/issues/23529
+    FooOrList:
+      anyOf:
+        - $ref: '#/components/schemas/Foo'
+        - type: array
+          items:
+            $ref: '#/components/schemas/Foo'
+    Diagnostic:
+      type: object
+      required:
+        - resourceType
+        - id
+      properties:
+        resourceType:
+          type: string
+          enum:
+            - Diagnostic
+        id:
+          type: string
+    Observation:
+      type: object
+      required:
+        - resourceType
+        - id
+      properties:
+        resourceType:
+          type: string
+          enum:
+            - Observation
+        id:
+          type: string
+    # https://github.com/OpenAPITools/openapi-generator/issues/23693
+    Entry:
+      oneOf:
+        - $ref: '#/components/schemas/Diagnostic'
+        - $ref: '#/components/schemas/Observation'
+    Apple:
+      type: object
+      required:
+        - cultivar
+      properties:
+        cultivar:
+          type: string
+    Banana:
+      type: object
+      required:
+        - lengthCm
+      properties:
+        lengthCm:
+          type: number
+    Fruit:
+      type: object
+      properties:
+        color:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+    Image:
+      type: object
+      required:
+        - type
+        - id
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+        imageUri:
+          type: string
+    Document:
+      type: object
+      required:
+        - type
+        - id
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+        documentUri:
+          type: string
+    # https://github.com/OpenAPITools/openapi-generator/issues/25154
+    Asset:
+      anyOf:
+        - $ref: '#/components/schemas/Image'
+        - $ref: '#/components/schemas/Document'
+      discriminator:
+        propertyName: type
+        mapping:
+          image: '#/components/schemas/Image'
+          document: '#/components/schemas/Document'
+    Cat:
+      type: object
+      properties:
+        meow:
+          type: boolean
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+    Pet:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Holder:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/OpenStatus'
+        nullableStatus:
+          $ref: '#/components/schemas/NullableOpenStatus'
+        statusOrText:
+          $ref: '#/components/schemas/StatusOrText'
+        patternedText:
+          $ref: '#/components/schemas/PatternedText'
+        flexibleValue:
+          $ref: '#/components/schemas/FlexibleValue'
+        fooOrList:
+          $ref: '#/components/schemas/FooOrList'
+        entry:
+          $ref: '#/components/schemas/Entry'
+        fruit:
+          $ref: '#/components/schemas/Fruit'
+        asset:
+          $ref: '#/components/schemas/Asset'
+        pet:
+          $ref: '#/components/schemas/Pet'

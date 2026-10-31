@@ -112,34 +112,25 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             Number? number = default;
             Number2? number2 = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            if (isScalarToken)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderNumber = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Number?>(ref utf8JsonReaderNumber, jsonSerializerOptions, out number);
-
-                    Utf8JsonReader utf8JsonReaderNumber2 = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Number2?>(ref utf8JsonReaderNumber2, jsonSerializerOptions, out number2);
-                }
+                Utf8JsonReader utf8JsonReaderNumber = utf8JsonReader;
+                ClientUtils.TryDeserialize<Number?>(ref utf8JsonReaderNumber, jsonSerializerOptions, out number);
             }
 
-            while (utf8JsonReader.Read())
+            if (isScalarToken)
+            {
+                Utf8JsonReader utf8JsonReaderNumber2 = utf8JsonReader;
+                ClientUtils.TryDeserialize<Number2?>(ref utf8JsonReaderNumber2, jsonSerializerOptions, out number2);
+            }
+
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -177,6 +168,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, ParentWithPluralOneOfPropertyNumber parentWithPluralOneOfPropertyNumber, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parentWithPluralOneOfPropertyNumber.Number != null)
+            {
+                JsonSerializer.Serialize(writer, parentWithPluralOneOfPropertyNumber.Number, jsonSerializerOptions);
+                return;
+            }
+
+            if (parentWithPluralOneOfPropertyNumber.Number2 != null)
+            {
+                JsonSerializer.Serialize(writer, parentWithPluralOneOfPropertyNumber.Number2, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, parentWithPluralOneOfPropertyNumber, jsonSerializerOptions);

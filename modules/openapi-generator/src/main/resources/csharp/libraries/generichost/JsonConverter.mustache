@@ -47,10 +47,35 @@
             {{#lambda.trimLineBreaks}}
             int currentDepth = utf8JsonReader.CurrentDepth;
 
+            {{#model.discriminator}}
             if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            {{/model.discriminator}}
+            {{^model.discriminator}}
+            {{^composedSchemas.anyOf}}
+            {{^composedSchemas.oneOf}}
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            {{/composedSchemas.oneOf}}
+            {{/composedSchemas.anyOf}}
+            {{/model.discriminator}}
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            {{^model.discriminator}}
+            {{#composedSchemas.anyOf}}
+            {{#-first}}
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
+            {{/-first}}
+            {{/composedSchemas.anyOf}}
+            {{^composedSchemas.anyOf}}
+            {{#composedSchemas.oneOf}}
+            {{#-first}}
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
+            {{/-first}}
+            {{/composedSchemas.oneOf}}
+            {{/composedSchemas.anyOf}}
+            {{/model.discriminator}}
 
             {{#allVars}}
             Option<{{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}> {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = default;
@@ -117,62 +142,37 @@
             {{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = default;
             {{#-last}}
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
-            {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    {{#oneOf}}
-                    Utf8JsonReader utf8JsonReader{{name}} = utf8JsonReader;
-                    ClientUtils.TryDeserialize<{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>(ref utf8JsonReader{{name}}, jsonSerializerOptions, out {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}});
-                    {{^-last}}
-
-                    {{/-last}}
-                    {{/oneOf}}
-                }
-            }
             {{/-last}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/oneOf}}
-
+            {{#oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+{{>ReadUnionMember}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/oneOf}}
             {{#anyOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
             {{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = default;
             {{#-last}}
 
-            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
-            while (utf8JsonReaderAnyOf.Read())
-            {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
-                {
-                    {{#anyOf}}
-                    Utf8JsonReader utf8JsonReader{{name}} = utf8JsonReader;
-                    ClientUtils.TryDeserialize<{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>(ref utf8JsonReader{{name}}, jsonSerializerOptions, out {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}});
-                    {{^-last}}
-
-                    {{/-last}}
-                    {{/anyOf}}
-                }
-            }
             {{/-last}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/anyOf}}
+            {{#anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+{{>ReadUnionMember}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/anyOf}}
+            {{#anyOf}}
+            {{#-first}}
+            if (startingTokenType != JsonTokenType.StartObject && {{#lambda.joinWithAmpersand}}{{#anyOf}}{{^vendorExtensions.x-duplicated-data-type}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} == null  {{/vendorExtensions.x-duplicated-data-type}}{{/anyOf}}{{/lambda.joinWithAmpersand}})
+                throw new JsonException();
 
+            {{/-first}}
+            {{/anyOf}}
             {{/composedSchemas}}
             {{/model.discriminator}}
-            while (utf8JsonReader.Read())
+            while ({{^model.discriminator}}{{#composedSchemas.anyOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.anyOf}}{{^composedSchemas.anyOf}}{{#composedSchemas.oneOf}}{{#-first}}!isScalarToken && {{/-first}}{{/composedSchemas.oneOf}}{{/composedSchemas.anyOf}}{{/model.discriminator}}utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -389,6 +389,40 @@
 
             {{/children}}
             {{/discriminator}}
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{#isEnumRef}}
+{{>WriteUnionOneOfMember}}
+            {{/isEnumRef}}
+            {{^isEnumRef}}
+            {{#isPrimitiveType}}
+{{>WriteUnionOneOfMember}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isContainer}}
+{{>WriteUnionOneOfMember}}
+            {{/isContainer}}
+            {{/isPrimitiveType}}
+            {{/isEnumRef}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.oneOf}}
+            {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{#isEnumRef}}
+{{>WriteUnionAnyOfMember}}
+            {{/isEnumRef}}
+            {{^isEnumRef}}
+            {{#isPrimitiveType}}
+{{>WriteUnionAnyOfMember}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isContainer}}
+{{>WriteUnionAnyOfMember}}
+            {{/isContainer}}
+            {{/isPrimitiveType}}
+            {{/isEnumRef}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.anyOf}}
             writer.WriteStartObject();
 
             {{#model.discriminator}}
@@ -419,36 +453,37 @@
             {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
             {{^model.discriminator}}
-            {{#composedSchemas}}
-            {{#anyOf}}
-            if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet  {{/required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null{{/lambda.joinWithAmpersand}})
-                {{#isPrimitiveType}}
-                {{#isString}}
-                writer.WriteString("{{vendorExtensions.x-base-name}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value);
-                {{/isString}}
-                {{#isBoolean}}
-                writer.WriteBoolean("{{vendorExtensions.x-base-name}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value.Value);
-                {{/isBoolean}}
-                {{#isNumeric}}
-                writer.WriteNumber("{{vendorExtensions.x-base-name}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value.Value);
-                {{/isNumeric}}
-                {{#isEnum}}
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{^isEnumRef}}
+            {{^isPrimitiveType}}
+            {{^isContainer}}
+            if ({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
             {
-                {{datatypeWithEnum}}JsonConverter {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}.GetType()));
-                {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter.Write{{^isEnumRef}}Properties{{/isEnumRef}}(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}, jsonSerializerOptions);
+                {{datatypeWithEnum}}JsonConverter {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}.GetType()));
+                {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
             }
-                {{/isEnum}}
-                {{/isPrimitiveType}}
-                {{^isPrimitiveType}}
-            {
-                {{datatypeWithEnum}}JsonConverter {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}.GetType()));
-                {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter.Write{{^isEnumRef}}Properties{{/isEnumRef}}(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}, jsonSerializerOptions);
-            }
-                {{/isPrimitiveType}}
 
-            {{/anyOf}}
-            {{/composedSchemas}}
+            {{/isContainer}}
+            {{/isPrimitiveType}}
+            {{/isEnumRef}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.oneOf}}
             {{/model.discriminator}}
+            {{#composedSchemas.anyOf}}
+            {{^isEnumRef}}
+            {{^isPrimitiveType}}
+            {{^isContainer}}
+            if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet  {{/required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null{{/lambda.joinWithAmpersand}})
+            {
+                {{datatypeWithEnum}}JsonConverter {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}.GetType()));
+                {{#lambda.camelcase}}{{datatypeWithEnum}}{{/lambda.camelcase}}JsonConverter.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}, jsonSerializerOptions);
+            }
+
+            {{/isContainer}}
+            {{/isPrimitiveType}}
+            {{/isEnumRef}}
+            {{/composedSchemas.anyOf}}
             WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
             writer.WriteEndObject();
             {{/lambda.trimLineBreaks}}
