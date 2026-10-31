@@ -58,9 +58,8 @@ namespace Org.OpenAPITools.Model
         public int? Int { get; set; }
 
         /// <summary>
-        /// to test oneOf
+        /// Gets or Sets String
         /// </summary>
-        /// <value>to test oneOf</value>
         public string? String { get; set; }
 
         /// <summary>
