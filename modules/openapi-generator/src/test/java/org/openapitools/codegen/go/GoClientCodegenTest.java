@@ -624,6 +624,28 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testGoModContainsTestifyWithoutOAuth2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // echo_api.yaml has no OAuth2 security scheme, so the generated go.mod
+        // used to miss the testify dependency required by the generated tests
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
+                "github.com/stretchr/testify v1.10.0");
+        TestUtils.assertFileContains(Paths.get(output + "/go.sum"),
+                "github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithoutGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
