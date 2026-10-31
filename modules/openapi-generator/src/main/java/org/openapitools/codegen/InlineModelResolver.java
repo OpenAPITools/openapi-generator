@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,14 +240,15 @@ public class InlineModelResolver {
     private void flattenPathItems(Map<String, PathItem> pathItemMap) {
         for (Map.Entry<String, PathItem> pathsEntry : pathItemMap.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
+            List<Map.Entry<String, Operation>> toFlatten =
+                    new ArrayList<>(Oas32Extensions.allOperations(openAPI, path).entrySet());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
             String pathname = pathsEntry.getKey();
 
             // Include callback operation as well
-            for (Map.Entry<HttpMethod, Operation> operationEntry : new LinkedHashMap<>(path.readOperationsMap()).entrySet()) {
+            for (Map.Entry<String, Operation> operationEntry : new LinkedHashMap<>(Oas32Extensions.allOperations(openAPI, path)).entrySet()) {
                 Operation operation = operationEntry.getValue();
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
@@ -254,7 +256,7 @@ public class InlineModelResolver {
                         Callback callback = callbackEntry.getValue();
                         for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
                             PathItem pathItem = pathItemEntry.getValue();
-                            toFlatten.addAll(pathItem.readOperationsMap().entrySet());
+                            toFlatten.addAll(Oas32Extensions.allOperations(openAPI, pathItem).entrySet());
                         }
                     }
                 }
@@ -264,13 +266,27 @@ public class InlineModelResolver {
             flattenParameters(pathname, path.getParameters(), null);
 
             // flatten parameters for each operation
-            for (Map.Entry<HttpMethod, Operation> operationEntry : toFlatten) {
+            for (Map.Entry<String, Operation> operationEntry : toFlatten) {
                 Operation operation = operationEntry.getValue();
                 String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
                 flattenRequestBody(inlineSchemaName, operation);
                 flattenParameters(inlineSchemaName, operation.getParameters(), operation.getOperationId());
                 flattenResponses(inlineSchemaName, operation);
             }
+        }
+    }
+
+    /**
+     * Inline schema naming for a method key of
+     * {@link Oas32Extensions#allOperations}: the fixed HTTP methods keep the
+     * historical suffixes, other methods (3.2's {@code QUERY}, arbitrary
+     * {@code additionalOperations} names) get a lowercased method suffix.
+     */
+    private String getInlineSchemaName(String method, String pathname) {
+        try {
+            return getInlineSchemaName(HttpMethod.valueOf(method), pathname);
+        } catch (IllegalArgumentException e) {
+            return pathname + "_" + method.toLowerCase(Locale.ROOT);
         }
     }
 
@@ -1491,7 +1507,7 @@ public class InlineModelResolver {
             }
         }
         // Operations
-        for (Operation operation : pathItem.readOperations()) {
+        for (Operation operation : Oas32Extensions.allOperationsList(openAPI, pathItem)) {
             if (operation.getParameters() != null) {
                 for (Parameter p : operation.getParameters()) {
                     rewriteParameterRefs(p, refReplacements);

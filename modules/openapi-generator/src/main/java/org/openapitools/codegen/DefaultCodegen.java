@@ -70,6 +70,7 @@ import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.DiscriminatorUtils;
 import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1415,8 +1416,8 @@ public class DefaultCodegen implements CodegenConfig {
             // we need to add all request and response bodies to processed schemas
             if (pathItems != null) {
                 for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
-                    for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
-                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                    for (Map.Entry<String, Operation> op : Oas32Extensions.allOperations(openAPI, e.getValue()).entrySet()) {
+                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey());
                         // process request body
                         RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
                         Schema requestSchema = null;
@@ -5470,14 +5471,19 @@ public class DefaultCodegen implements CodegenConfig {
                 u.vendorExtensions.putAll(pi.getExtensions());
             }
 
-            Stream.of(
-                            Pair.of("get", pi.getGet()),
-                            Pair.of("head", pi.getHead()),
-                            Pair.of("put", pi.getPut()),
-                            Pair.of("post", pi.getPost()),
-                            Pair.of("delete", pi.getDelete()),
-                            Pair.of("patch", pi.getPatch()),
-                            Pair.of("options", pi.getOptions()))
+            Stream<Pair<String, Operation>> fixedOperations = Stream.of(
+                    Pair.of("get", pi.getGet()),
+                    Pair.of("head", pi.getHead()),
+                    Pair.of("put", pi.getPut()),
+                    Pair.of("post", pi.getPost()),
+                    Pair.of("delete", pi.getDelete()),
+                    Pair.of("patch", pi.getPatch()),
+                    Pair.of("options", pi.getOptions()));
+            // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
+            Stream<Pair<String, Operation>> restoredOperations = Oas32Extensions.operations(openAPI, pi)
+                    .entrySet().stream()
+                    .map(e -> Pair.of(e.getKey(), e.getValue()));
+            Stream.concat(fixedOperations, restoredOperations)
                     .filter(p -> p.getValue() != null)
                     .forEach(p -> {
                         String method = p.getKey();
@@ -5607,6 +5613,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
+        }
+        if (Oas32Extensions.isQueryStringParam(openAPI, parameter)) {
+            codegenParameter.vendorExtensions.put(Oas32Extensions.QUERYSTRING_PARAMETER_EXT, true);
         }
 
         Schema parameterSchema;

@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info: {title: form-model order regression, version: "1"}
+paths:
+  /x:
+    # readOperations() enumerates HEAD before POST (unlike
+    # readOperationsMap()); getSchemasUsedOnlyInFormParam depends on
+    # which operation visits schema A first
+    head:
+      operationId: headX
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/A'}
+    post:
+      operationId: postX
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema: {$ref: '#/components/schemas/A'}
+      responses:
+        '200': {description: ok}
+components:
+  schemas:
+    A:
+      allOf:
+        - $ref: '#/components/schemas/B'
+        - type: object
+    B:
+      type: object
+      properties: {id: {type: string}}

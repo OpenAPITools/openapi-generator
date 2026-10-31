@@ -1498,6 +1498,9 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
+            // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
+            Oas32Extensions.operations(openAPI, path).forEach(
+                    (method, operation) -> processOperation(resourcePath, method, operation, ops, path));
         }
         return ops;
     }
@@ -1519,6 +1522,9 @@ public class DefaultGenerator implements Generator {
             processOperation(resourceKey, "patch", path.getPatch(), ops, path);
             processOperation(resourceKey, "options", path.getOptions(), ops, path);
             processOperation(resourceKey, "trace", path.getTrace(), ops, path);
+            // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
+            Oas32Extensions.operations(openAPI, path).forEach(
+                    (method, operation) -> processOperation(resourceKey, method, operation, ops, path));
         }
         return ops;
     }

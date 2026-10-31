@@ -247,45 +247,42 @@ public class ModelUtils {
     }
 
     private static void visitPathItem(PathItem pathItem, OpenAPI openAPI, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
-        List<Operation> allOperations = pathItem.readOperations();
-        if (allOperations != null) {
-            for (Operation operation : allOperations) {
-                //Params:
-                visitParameters(openAPI, operation.getParameters(), visitor, visitedSchemas);
+        for (Operation operation : Oas32Extensions.allOperationsList(openAPI, pathItem)) {
+            //Params:
+            visitParameters(openAPI, operation.getParameters(), visitor, visitedSchemas);
 
-                //RequestBody:
-                RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                if (requestBody != null) {
-                    visitContent(openAPI, requestBody.getContent(), visitor, visitedSchemas);
-                }
+            //RequestBody:
+            RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
+            if (requestBody != null) {
+                visitContent(openAPI, requestBody.getContent(), visitor, visitedSchemas);
+            }
 
-                //Responses:
-                if (operation.getResponses() != null) {
-                    for (ApiResponse r : operation.getResponses().values()) {
-                        ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
-                        if (apiResponse != null) {
-                            visitContent(openAPI, apiResponse.getContent(), visitor, visitedSchemas);
-                            if (apiResponse.getHeaders() != null) {
-                                for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
-                                    Header header = getReferencedHeader(openAPI, e.getValue());
-                                    if (header.getSchema() != null) {
-                                        visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
-                                    }
-                                    visitContent(openAPI, header.getContent(), visitor, visitedSchemas);
+            //Responses:
+            if (operation.getResponses() != null) {
+                for (ApiResponse r : operation.getResponses().values()) {
+                    ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
+                    if (apiResponse != null) {
+                        visitContent(openAPI, apiResponse.getContent(), visitor, visitedSchemas);
+                        if (apiResponse.getHeaders() != null) {
+                            for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
+                                Header header = getReferencedHeader(openAPI, e.getValue());
+                                if (header.getSchema() != null) {
+                                    visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
                                 }
+                                visitContent(openAPI, header.getContent(), visitor, visitedSchemas);
                             }
                         }
                     }
                 }
+            }
 
-                //Callbacks:
-                if (operation.getCallbacks() != null) {
-                    for (Callback c : operation.getCallbacks().values()) {
-                        Callback callback = getReferencedCallback(openAPI, c);
-                        if (callback != null) {
-                            for (PathItem p : callback.values()) {
-                                visitPathItem(p, openAPI, visitor, visitedSchemas);
-                            }
+            //Callbacks:
+            if (operation.getCallbacks() != null) {
+                for (Callback c : operation.getCallbacks().values()) {
+                    Callback callback = getReferencedCallback(openAPI, c);
+                    if (callback != null) {
+                        for (PathItem p : callback.values()) {
+                            visitPathItem(p, openAPI, visitor, visitedSchemas);
                         }
                     }
                 }

@@ -54,6 +54,7 @@ import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -2474,10 +2475,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
                 String pathname = openAPIGetPathsEntry.getKey();
                 PathItem path = openAPIGetPathsEntry.getValue();
-                if (path.readOperations() == null) {
-                    continue;
-                }
-                for (Operation operation : path.readOperations()) {
+                // allOperationsList adds the operations the 3.2
+                // compatibility loader restored (query /
+                // additionalOperations) and degrades to readOperations()
+                // — same entries, same order — for any other document, so
+                // those operations get their Content-Type/Accept stamped
+                // too (e.g. Feign's @Headers reads x-accepts).
+                for (Operation operation : Oas32Extensions.allOperationsList(openAPI, path)) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
                     addContentTypeExtensions(openAPI, operation);
                 }

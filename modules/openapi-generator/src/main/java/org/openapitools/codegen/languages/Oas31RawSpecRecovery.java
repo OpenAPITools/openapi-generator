@@ -1,22 +1,14 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.cfg.JsonNodeFeature;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.config.SpecLoader;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.SpecUtils;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -64,8 +56,8 @@ final class Oas31RawSpecRecovery {
                     new io.swagger.v3.parser.core.models.ParseOptions();
             options.setResolve(false);
             options.setResolveResponses(false);
-            pristine = new io.swagger.v3.parser.OpenAPIV3Parser()
-                    .readLocation(inputSpec, null, options).getOpenAPI();
+            pristine = SpecLoader.forInputSpec(inputSpec)
+                    .load(inputSpec, null, options).getOpenAPI();
         } catch (RuntimeException ex) {
             throw new IllegalStateException(
                     "Unable to parse the pristine OAS 3.1 document for prefixItems recovery",
@@ -165,7 +157,7 @@ final class Oas31RawSpecRecovery {
 
         JsonNode document;
         try {
-            document = readRawDocument(inputSpec);
+            document = SpecUtils.readRawDocument(inputSpec);
         } catch (Exception ex) {
             throw new IllegalStateException(
                     "Unable to read the raw OAS 3.1 document for exact schema recovery",
@@ -181,38 +173,6 @@ final class Oas31RawSpecRecovery {
                         raw.isObject() && !raw.has("$ref"), parsed), location, api);
             }
         });
-    }
-
-    /** Reads the input document with swagger-parser's configured YAML limits. */
-    static JsonNode readRawDocument(String inputSpec) throws Exception {
-        String text = readInputSpec(inputSpec);
-        YAMLFactory yamlFactory = YAMLFactory.builder()
-                .loaderOptions(io.swagger.v3.parser.util.DeserializationUtils
-                        .buildLoaderOptions())
-                .build();
-        ObjectMapper mapper = YAMLMapper.builder(yamlFactory)
-                .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS)
-                .disable(JsonNodeFeature.STRIP_TRAILING_BIGDECIMAL_ZEROES)
-                .build();
-        return mapper.readTree(text);
-    }
-
-    static String readInputSpec(String inputSpec) throws Exception {
-        boolean windowsDrivePath = inputSpec.matches("^[A-Za-z]:[\\\\/].*");
-        if (!windowsDrivePath) {
-            try {
-                URI uri = URI.create(inputSpec);
-                if (uri.getScheme() != null) {
-                    try (InputStream input = uri.toURL().openStream()) {
-                        return new String(input.readAllBytes(), StandardCharsets.UTF_8);
-                    }
-                }
-            } catch (IllegalArgumentException ignored) {
-                // A local path may contain URI-reserved characters such as spaces.
-            }
-        }
-        return Files.readString(Paths.get(inputSpec), StandardCharsets.UTF_8);
     }
 
     private static Map<String, JsonNode> rawRootSchemaPositions(JsonNode document) {
