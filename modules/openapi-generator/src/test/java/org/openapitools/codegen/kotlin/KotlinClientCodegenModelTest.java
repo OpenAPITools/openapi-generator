@@ -1675,4 +1675,30 @@ public class KotlinClientCodegenModelTest {
                 "@KSerializable(with = PlaysSerializer::class)",
                 "internal object PlaysSerializer : KSerializer<Plays>");
     }
+
+    @Test(description = "a map whose additionalProperties is an inline enum keeps its Map type (#25453)")
+    public void testMapOfInlineEnumKeepsMapType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("jvm-retrofit2")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
+                    put(CodegenConstants.MODEL_PACKAGE, "model");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/issue25453-map-of-inline-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/model/Today.kt");
+
+        TestUtils.assertFileContains(modelKt, "val lessonStatus: kotlin.collections.Map<kotlin.String, Today.LessonStatus>");
+        TestUtils.assertFileContains(modelKt, "val previousStatus: kotlin.collections.Map<kotlin.String, Today.PreviousStatus>? = null");
+        TestUtils.assertFileContains(modelKt, "enum class LessonStatus(val value: kotlin.String)");
+        TestUtils.assertFileContains(modelKt, "enum class PreviousStatus(val value: kotlin.String)");
+    }
 }
