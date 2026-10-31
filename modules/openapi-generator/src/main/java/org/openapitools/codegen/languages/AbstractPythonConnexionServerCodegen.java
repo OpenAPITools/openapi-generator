@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,11 +26,14 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -814,10 +818,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             parameter.baseName = (String) openapiName;
         }
         if (parameter.isHeaderParam || parameter.isCookieParam) {
-            boolean isJsonContent = parameter.headerIsJsonMimeType
-                    || isJsonMimeType(parameter.contentType)
-                    || isJsonVendorMimeType(parameter.contentType);
-            if (isJsonContent) {
+            if (isJsonContentParam(parameter)) {
                 parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
             } else if (parameter.isArray) {
                 if (parameter.items == null || !parameter.items.isModel) {
@@ -839,6 +840,102 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             } else if (parameter.isBoolean) {
                 parameter.vendorExtensions.put("x-python-connexion-cast-bool", Boolean.TRUE);
             }
+        }
+    }
+
+    private static boolean isJsonContentParam(CodegenParameter parameter) {
+        return (parameter.isHeaderParam || parameter.isCookieParam)
+                && (parameter.headerIsJsonMimeType
+                        || isJsonMimeType(parameter.contentType)
+                        || isJsonVendorMimeType(parameter.contentType));
+    }
+
+    /**
+     * Parameters declared with `content` (instead of `schema`) keep their example in the
+     * media type, which the generic example lookup never inspects. The generated test
+     * would send `None` for them and the controller's `json.loads` call would fail, so
+     * a JSON literal is computed here for the test templates to use instead.
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        super.setParameterExampleValue(codegenParameter, parameter);
+
+        if (!isJsonContentParam(codegenParameter) || parameter == null
+                || parameter.getContent() == null || parameter.getContent().isEmpty()) {
+            return;
+        }
+        MediaType mediaType = parameter.getContent().values().iterator().next();
+        String jsonExample = toJsonString(jsonContentExample(mediaType));
+        if (jsonExample != null) {
+            codegenParameter.vendorExtensions.put("x-python-connexion-test-header-value",
+                    PythonStringUtils.toPythonSingleQuotedStringLiteral(jsonExample));
+        }
+    }
+
+    /**
+     * Example value of a JSON content media type: the media type `example`, the first
+     * `examples` entry (`$ref` resolved), the media type schema `example` (`$ref`
+     * resolved), or a minimal JSON value derived from the schema type.
+     */
+    private Object jsonContentExample(MediaType mediaType) {
+        if (mediaType == null) {
+            return Collections.emptyMap();
+        }
+        if (mediaType.getExample() != null) {
+            return mediaType.getExample();
+        }
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if (example.get$ref() != null && openAPI != null && openAPI.getComponents() != null
+                    && openAPI.getComponents().getExamples() != null) {
+                Example referenced = openAPI.getComponents().getExamples()
+                        .get(ModelUtils.getSimpleRef(example.get$ref()));
+                if (referenced != null && referenced.getValue() != null) {
+                    return referenced.getValue();
+                }
+            } else if (example.getValue() != null) {
+                return example.getValue();
+            }
+        }
+        Schema schema = mediaType.getSchema();
+        if (openAPI != null) {
+            schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        }
+        if (schema != null && schema.getExample() != null) {
+            return schema.getExample();
+        }
+        return minimalJsonExample(schema);
+    }
+
+    private Object minimalJsonExample(Schema schema) {
+        if (schema != null) {
+            if (ModelUtils.isArraySchema(schema)) {
+                return Collections.emptyList();
+            }
+            if (ModelUtils.isBooleanSchema(schema)) {
+                return Boolean.FALSE;
+            }
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema)) {
+                return 0;
+            }
+            if (ModelUtils.isStringSchema(schema)) {
+                return "";
+            }
+        }
+        return Collections.emptyMap();
+    }
+
+    private String toJsonString(Object example) {
+        if (example == null) {
+            return null;
+        }
+        try {
+            // MAPPER renders booleans as Python's True/False, so the plain swagger-core
+            // mapper is used here to keep valid JSON for json.loads on the other end.
+            return Json.mapper().writeValueAsString(example);
+        } catch (JsonProcessingException e) {
+            LOGGER.warn("Failed to serialize example of JSON content parameter to JSON", e);
+            return null;
         }
     }
 
@@ -932,7 +1029,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             for (CodegenParameter param : operation.allParams) {
-                if ((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType)) {
+                // "object" is the type name produced for inline `type: object`
+                // schemas (isModel can still be true when they declare properties),
+                // free-form objects and anyType; none of them get a generated model
+                // class to call `.from_dict()` on. Header and cookie parameters
+                // already carry the json.loads result, so they are converted only
+                // when their type is an actual generated model class.
+                if (((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType))
+                        || ((param.isHeaderParam || param.isCookieParam)
+                                && !(param.isModel && !"object".equals(param.dataType)))) {
                     param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
                 }
             }

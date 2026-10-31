@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Connexion JSON content header test values
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: get_items
+      parameters:
+        - name: X-Json-Media-Example
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  a:
+                    type: integer
+              example:
+                a: 1
+        - name: X-Json-Examples
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                first:
+                  value:
+                    b: 2
+        - name: X-Json-Ref-Example
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                shared:
+                  $ref: '#/components/examples/JsonHeaderExample'
+        - name: X-Json-Schema-Example
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderWithExample'
+        - name: X-Json-No-Example
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  d:
+                    type: integer
+        - name: X-Json-Inline-Cookie
+          in: cookie
+          required: false
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  k:
+                    type: integer
+        - name: X-Json-Model-Cookie
+          in: cookie
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderWithExample'
+        - name: X-Plain-Header
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+components:
+  examples:
+    JsonHeaderExample:
+      value:
+        e: 5
+  schemas:
+    HeaderWithExample:
+      type: object
+      properties:
+        c:
+          type: integer
+      example:
+        c: 3
