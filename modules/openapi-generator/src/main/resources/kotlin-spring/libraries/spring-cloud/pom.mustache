@@ -6,7 +6,7 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>{{#reactive}}
-        <kotlinx-coroutines.version>1.6.1</kotlinx-coroutines.version>{{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
+        <kotlinx-coroutines.version>1.11.0</kotlinx-coroutines.version>{{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
         <springdoc-openapi.version>1.6.8</springdoc-openapi.version>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         <swagger-ui.version>4.10.3</swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6</swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
