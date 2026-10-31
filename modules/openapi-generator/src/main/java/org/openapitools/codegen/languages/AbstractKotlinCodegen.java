@@ -420,8 +420,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private String getItemsTypeDeclaration(Schema items) {
         String itemsTypeDeclaration = getTypeDeclaration(items);
-        String nullable = items.getNullable() != null && items.getNullable() && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
-        return itemsTypeDeclaration + nullable;
+        Schema<?> referencedSchema = ModelUtils.getReferencedSchema(openAPI, items);
+        boolean nullable = ModelUtils.isNullable(items) || ModelUtils.isNullable(referencedSchema);
+        return itemsTypeDeclaration + (nullable && !itemsTypeDeclaration.endsWith("?") ? "?" : "");
     }
 
     /**
