@@ -10730,6 +10730,8 @@ public class SpringCodegenTest {
     }
 
     private static final String RECORDS_SPEC = "src/test/resources/3_0/spring/records.yaml";
+    private static final String ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3 = "it has additionalProperties, which a record receives "
+            + "only through Jackson 2.18 or later, and Spring Boot 3 brings Jackson 2.17 (use useSpringBoot4)";
     private static final String RECORDS_FIELDS_SPEC = "src/test/resources/3_0/spring/records-fields.yaml";
     private static final String RECORDS_BUILDERS_SPEC = "src/test/resources/3_0/spring/records-builders.yaml";
 
@@ -11306,7 +11308,7 @@ public class SpringCodegenTest {
 
         assertThat(messages).contains(
                 "useRecords: model 'KidParent' is generated as a class: it has a parent (Base)",
-                "useRecords: model 'KidAdditional' is generated as a class: it has additionalProperties",
+                "useRecords: model 'KidAdditional' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3,
                 "useRecords: model 'KidFail' is generated as a class: property 's' uses the FAIL null policy",
                 "useRecords: model 'GrandParent' is generated as a class: it is nested in 'KidParent', a parameter object that is a class",
                 "useRecords: model 'GrandAdditional' is generated as a class: it is nested in 'KidAdditional', a parameter object that is a class",
@@ -11420,7 +11422,7 @@ public class SpringCodegenTest {
         assertThat(messages).contains(
                 "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
                 "useRecords: model 'Vehicle' is generated as a class: it has child models",
-                "useRecords: model 'Counters' is generated as a class: it has additionalProperties");
+                "useRecords: model 'Counters' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'")
                 || m.contains("model 'Circle'") || m.contains("model 'Square'"));
     }
@@ -12347,6 +12349,161 @@ public class SpringCodegenTest {
         assertSource(files, "Holder.java").contains("      hollow = new Hollow();");
     }
 
+    private static final String RECORDS_ADDITIONAL_PROPERTIES_SPEC = "src/test/resources/3_0/spring/records-additional-properties.yaml";
+
+    @Test
+    public void useRecordsKeepsModelsWithAdditionalPropertiesAsClassesOnSpringBoot3() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of());
+                for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+                    assertSource(files, name + ".java").contains("public class " + name + " {", "@JsonAnySetter")
+                            .doesNotContain("public record");
+                }
+                assertSource(files, "Item.java").contains("public record Item(");
+                assertSource(files, "Holder.java").contains("public record Holder(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+            assertThat(messages).contains("useRecords: model '" + name + "' is generated as a class: "
+                    + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
+        }
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAdditionalPropertiesBoundFromRequestParametersAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-additional-properties-query.yaml",
+                        Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "QueryWithExtras.java").contains("public class QueryWithExtras {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'QueryWithExtras' is generated as a class: it has additionalProperties and is bound from request parameters");
+    }
+
+    @Test
+    public void useRecordsReceivesAdditionalPropertiesInAComponentOnSpringBoot4() throws IOException {
+        for (Map<String, Object> options : List.of(Map.<String, Object>of(USE_SPRING_BOOT4, "true"),
+                Map.<String, Object>of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"))) {
+            Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, options);
+
+            assertSource(files, "Tagged.java")
+                    .contains(
+                            "public record Tagged(",
+                            "String name,",
+                            "Integer count,",
+                            "String secret,",
+                            "    @JsonAnySetter\n    @JsonAnyGetter\n    Map<String, String> additionalProperties\n) {",
+                            "if (additionalProperties == null) {",
+                            "additionalProperties = new LinkedHashMap<>();",
+                            "public String getAdditionalProperty(String key) {",
+                            " * @param additionalProperties the additional (undeclared) properties, by name",
+                            "import com.fasterxml.jackson.annotation.JsonAnyGetter;",
+                            "import com.fasterxml.jackson.annotation.JsonAnySetter;")
+                    .doesNotContain("public class", "putAdditionalProperty", "Builder");
+            assertSource(files, "Loose.java").contains("public record Loose(", "Map<String, Object> additionalProperties");
+            assertSource(files, "Typed.java").contains("public record Typed(", "Map<String, Item> additionalProperties");
+            assertSource(files, "Lists.java").contains("public record Lists(", "Map<String, List> additionalProperties");
+        }
+    }
+
+    @Test
+    public void useRecordsCountsTheAdditionalPropertiesComponentAndLogsEachClassThatRemains() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "Child.java").contains("public class Child extends Base");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Child' is generated as a class: it has a parent (Base)");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Tagged'") || m.contains("model 'Loose'")
+                || m.contains("model 'Typed'") || m.contains("model 'Holder'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAPropertyNamedAdditionalPropertiesAsAClass() throws IOException {
+        Path spec = Files.createTempFile("named-additional", ".yaml");
+        Files.writeString(spec, Files.readString(Path.of(RECORDS_ADDITIONAL_PROPERTIES_SPEC))
+                + "    Named:\n      type: object\n      properties:\n        additionalProperties:\n          type: string\n"
+                + "      additionalProperties:\n        type: string\n");
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Named.java")
+                        .contains("public class Named {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'Named' is generated as a class: property 'additionalProperties' clashes with the additionalProperties component");
+    }
+
+    @Test
+    public void useRecordsLimitsComponentsIncludingTheAdditionalPropertiesComponent() throws IOException {
+        Path spec = Files.createTempFile("many-additional", ".yaml");
+        String extra = "      additionalProperties:\n        type: string\n      properties:";
+        // 249 properties and the map are 250 components
+        Files.writeString(spec, specWithProperties(249).replace("      properties:", extra));
+        assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                .contains("public record Many(");
+
+        Files.writeString(spec, specWithProperties(250).replace("      properties:", extra));
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                        .contains("public class Many {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Many' is generated as a class: it has more than 250 properties");
+    }
+
+    @Test
+    public void useRecordsBuilderOfARecordWithAdditionalPropertiesHoldsTheMap() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC,
+                Map.of(USE_SPRING_BOOT4, "true", GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Tagged.java")
+                .contains(
+                        "private Map<String, String> additionalProperties;",
+                        "this.additionalProperties = value.additionalProperties() == null ? null : new LinkedHashMap<>(value.additionalProperties());",
+                        "public Tagged.Builder additionalProperties(Map<String, String> additionalProperties) {",
+                        "return new Tagged(this.name, this.count, this.note, this.secret, this.additionalProperties);");
+        assertSource(files, "Loose.java")
+                .contains("return new Loose(this.id, this.additionalProperties);");
+    }
+
+    @Test
+    public void useRecordsMasksThePasswordAndPrintsTheAdditionalProperties() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains(
+                "+ \", secret=\" + \"*\"",
+                "+ \", additionalProperties=\" + additionalProperties");
+    }
+
+    @Test
+    public void useRecordsOffKeepsTheAdditionalPropertiesClassOnSpringBoot4() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_ADDITIONAL_PROPERTIES_SPEC, SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains("public class Tagged {", "public Tagged putAdditionalProperty(String key, String value)")
+                .doesNotContain("public record");
+    }
+
     @Test
     public void useRecordsKeepsOriginalReasonOfModelThatAlreadyStaysClass() {
         List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
@@ -12357,7 +12514,7 @@ public class SpringCodegenTest {
             }
         });
 
-        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: it has additionalProperties");
+        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'LooseSub'") && m.contains("constructs it"));
     }
 
