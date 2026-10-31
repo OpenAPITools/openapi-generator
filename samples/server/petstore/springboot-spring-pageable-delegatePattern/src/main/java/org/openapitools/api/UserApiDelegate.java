@@ -86,7 +86,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default ResponseEntity<User> getUserByName(String username) {
+    default @Valid ResponseEntity<User> getUserByName(String username) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -114,7 +114,7 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default ResponseEntity<String> loginUser(String username,
+    default @Valid ResponseEntity<String> loginUser(String username,
         String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

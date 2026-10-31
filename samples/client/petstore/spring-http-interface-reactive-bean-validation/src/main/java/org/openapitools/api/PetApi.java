@@ -86,7 +86,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
+    @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -107,7 +107,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
+    @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
@@ -127,7 +127,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<Pet>> getPetById(
+    @Valid Mono<ResponseEntity<Pet>> getPetById(
          @PathVariable("petId") Long petId
     );
 
@@ -193,7 +193,7 @@ public interface PetApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    Mono<ResponseEntity<ModelApiResponse>> uploadFile(
+    @Valid Mono<ResponseEntity<ModelApiResponse>> uploadFile(
          @PathVariable("petId") Long petId,
          @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) Part file

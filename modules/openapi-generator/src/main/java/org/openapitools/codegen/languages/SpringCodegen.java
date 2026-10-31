@@ -935,6 +935,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
+        additionalProperties.put("lambdaBeanValidationType", (Mustache.Lambda) (fragment, writer) -> {
+            String type = fragment.execute();
+            int genericStart = type.indexOf('<');
+            int qualifierEnd = (genericStart < 0 ? type : type.substring(0, genericStart)).lastIndexOf('.');
+            // Type-use annotations belong after the package qualifier, before the simple type name.
+            writer.write(type.substring(0, qualifierEnd + 1) + "@Valid " + type.substring(qualifierEnd + 1));
+        });
+
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
         // HEADS-UP: Do not add more template file after this block

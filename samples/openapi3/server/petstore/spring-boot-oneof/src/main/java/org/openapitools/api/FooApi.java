@@ -67,7 +67,7 @@ public interface FooApi {
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
     )
-    default ResponseEntity<FooRefOrValue> createFoo(
+    default @Valid ResponseEntity<FooRefOrValue> createFoo(
         @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) @Nullable Foo foo
     ) {
         getRequest().ifPresent(request -> {
@@ -105,7 +105,7 @@ public interface FooApi {
         value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
-    default ResponseEntity<List<FooRefOrValue>> getAllFoos(
+    default @Valid ResponseEntity<List<@Valid FooRefOrValue>> getAllFoos(
         
     ) {
         getRequest().ifPresent(request -> {

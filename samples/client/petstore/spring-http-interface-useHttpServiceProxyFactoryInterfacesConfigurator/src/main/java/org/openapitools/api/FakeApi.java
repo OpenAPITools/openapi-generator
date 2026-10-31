@@ -68,7 +68,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
          @Valid @RequestBody(required = false) @Nullable Boolean body
     );
 
@@ -87,7 +87,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
+    @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
          @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     );
 
@@ -106,7 +106,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
          @Valid @RequestBody(required = false) @Nullable BigDecimal body
     );
 
@@ -125,7 +125,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<String> fakeOuterStringSerialize(
+    @Valid ResponseEntity<String> fakeOuterStringSerialize(
          @Valid @RequestBody(required = false) @Nullable String body
     );
 
@@ -183,7 +183,7 @@ public interface FakeApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    ResponseEntity<Client> testClientModel(
+    @Valid ResponseEntity<Client> testClientModel(
          @Valid @RequestBody Client client
     );
 
@@ -391,7 +391,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         accept = { "application/json" }
     )
-    ResponseEntity<Integer> testWithResultExample(
+    @Valid ResponseEntity<Integer> testWithResultExample(
         
     );
 

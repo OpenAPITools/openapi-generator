@@ -65,7 +65,7 @@ public interface PetsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Pet> addPet(
+    default @Valid ResponseEntity<Pet> addPet(
         @Parameter(name = "Pet", description = "", required = true) @Valid @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
@@ -102,7 +102,7 @@ public interface PetsApi {
         value = PetsApi.PATH_SEARCH_PETS,
         produces = { "application/json" }
     )
-    default ResponseEntity<List<Pet>> searchPets(
+    default @Valid ResponseEntity<List<@Valid Pet>> searchPets(
         @Parameter(name = "filter", description = "", in = ParameterIn.QUERY) @Valid @Nullable Filter filter
     ) {
         getRequest().ifPresent(request -> {
