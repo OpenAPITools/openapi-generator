@@ -1102,6 +1102,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        // oneOf types to import; the union dedupes types used both directly and as array items
+        Set<String> oneOfImportNames = new TreeSet<>(cm.oneOfModels);
+        oneOfImportNames.addAll(cm.oneOfArrays);
+        cm.oneOfImports = oneOfImportNames.stream()
+                .map(name -> Map.of("classname", name, "filename", convertUsingFileNamingConvention(name)))
+                .collect(Collectors.toList());
+
         // create a set of primitive types used in the oneOf schemas for use in the to & from
         // typed JSON methods.
         cm.oneOfPrimitives = oneOfsList.stream()
@@ -2111,6 +2118,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
+        // classname/filename pairs of oneOfModels & oneOfArrays, file names follow the fileNaming option
+        @Getter @Setter
+        public List<Map<String, String>> oneOfImports = new ArrayList<>();
         @Getter @Setter
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
         @Getter @Setter

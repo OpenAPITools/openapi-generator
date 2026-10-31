@@ -740,6 +740,36 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(petApi, "} from '../models/Pet';");
     }
 
+    @Test(description = "Verify oneOf model imports follow kebab-case file naming")
+    public void testOneOfImportsInKebabCase() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        Path testResponse = Paths.get(output + "/models/test-response.ts");
+        TestUtils.assertFileContains(testResponse, "} from './test-a';");
+        TestUtils.assertFileNotContains(testResponse, "from './TestA';");
+        Path testArrayResponse = Paths.get(output + "/models/test-array-response.ts");
+        TestUtils.assertFileContains(testArrayResponse, "} from './test-a';", "} from './test-b';");
+        Path discriminatorResponse = Paths.get(output + "/models/test-discriminator-response.ts");
+        TestUtils.assertFileContains(discriminatorResponse, "} from './option-one';");
+    }
+
+    @Test(description = "Verify oneOf model imports follow camelCase file naming")
+    public void testOneOfImportsInCamelCase() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.CAMEL_CASE);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        Path testResponse = Paths.get(output + "/models/testResponse.ts");
+        TestUtils.assertFileContains(testResponse, "} from './testA';");
+        TestUtils.assertFileNotContains(testResponse, "from './TestA';");
+        Path discriminatorResponse = Paths.get(output + "/models/testDiscriminatorResponse.ts");
+        TestUtils.assertFileContains(discriminatorResponse, "} from './optionOne';");
+    }
+
     @Test(description = "Verify names of files generated in kebab-case and imports with additional model prefix")
     public void testGeneratedFilenamesInKebabCaseWithAdditionalModelPrefix() throws IOException {
 
