@@ -8,6 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.openapitools.model.Owner;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -29,169 +36,77 @@ import jakarta.annotation.Generated;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
+  @JsonSubTypes.Type(value = Bike.class, name = "bike"),
   @JsonSubTypes.Type(value = Car.class, name = "car")
 })
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public sealed class Vehicle permits Car {
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String type;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private @Nullable Integer wheels;
-
-  public Vehicle() {
-    super();
-  }
+public sealed interface Vehicle permits Bike, Car {
 
   /**
-   * Constructor with only required parameters
+   * Gets or Sets fuel
    */
-  public Vehicle(String type) {
-    this.type = type;
-  }
-
-  public Vehicle type(String type) {
-    this.type = type;
-    return this;
-  }
-
-  /**
-   * Get type
-   * @return type
-   */
-  @NotNull 
-  @Schema(name = "type", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("type")
-  public String getType() {
-    return type;
-  }
-
-  @JsonProperty("type")
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public Vehicle wheels(@Nullable Integer wheels) {
-    this.wheels = wheels;
-    return this;
-  }
-
-  /**
-   * Get wheels
-   * @return wheels
-   */
-  
-  @Schema(name = "wheels", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("wheels")
-  public @Nullable Integer getWheels() {
-    return wheels;
-  }
-
-  @JsonProperty("wheels")
-  public void setWheels(@Nullable Integer wheels) {
-    this.wheels = wheels;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Vehicle vehicle = (Vehicle) o;
-    return Objects.equals(this.type, vehicle.type) &&
-        Objects.equals(this.wheels, vehicle.wheels);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(type, wheels);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Vehicle {\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    wheels: ").append(toIndentedString(wheels)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(@Nullable Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
-  }
-  
-  public static class Builder {
-
-    private Vehicle instance;
-
-    public Builder() {
-      this(new Vehicle());
-    }
-
-    protected Builder(Vehicle instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Vehicle value) { 
-      this.instance.setType(value.type);
-      this.instance.setWheels(value.wheels);
-      return this;
-    }
-
-    public Vehicle.Builder type(String type) {
-      this.instance.type(type);
-      return this;
-    }
+  public enum FuelEnum {
+    PETROL("petrol"),
     
-    public Vehicle.Builder wheels(Integer wheels) {
-      this.instance.wheels(wheels);
-      return this;
+    DIESEL("diesel");
+
+    private final String value;
+
+    FuelEnum(String value) {
+      this.value = value;
     }
-    
-    /**
-    * returns a built Vehicle instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Vehicle build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
+
+    @JsonValue
+    public String getValue() {
+      return value;
     }
 
     @Override
     public String toString() {
-      return getClass() + "=(" + instance + ")";
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static FuelEnum fromValue(String value) {
+      for (FuelEnum b : FuelEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Vehicle.Builder builder() {
-    return new Vehicle.Builder();
-  }
+  @NotNull 
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("type")
+  String type();
 
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Vehicle.Builder toBuilder() {
-    Vehicle.Builder builder = new Vehicle.Builder();
-    return builder.copyOf(this);
-  }
+  
+  @Schema(name = "wheels", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("wheels")
+  @Nullable Integer wheels();
 
+  
+  @Schema(name = "fuel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fuel")
+  FuelEnum fuel();
+
+  
+  @Schema(name = "owner", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("owner")
+  @Nullable Owner owner();
+
+  
+  @Schema(name = "previousOwners", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("previousOwners")
+  List<Owner> previousOwners();
+
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  
+  @Schema(name = "registeredAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("registeredAt")
+  @Nullable OffsetDateTime registeredAt();
 }
 

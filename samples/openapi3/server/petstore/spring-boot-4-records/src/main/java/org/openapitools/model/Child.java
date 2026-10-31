@@ -21,151 +21,73 @@ import jakarta.annotation.Generated;
 
 /**
  * Child
+ *
+ * @param kind Get kind
+ * @param x Get x
  */
 
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Child extends Base {
+public record Child(
+    @NotNull 
+    @Schema(name = "kind", requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonProperty("kind")
+    String kind,
 
-  private @Nullable String x;
-
-  public Child() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Child(String kind) {
-    super(kind);
-  }
-
-  public Child x(@Nullable String x) {
-    this.x = x;
-    return this;
-  }
+    
+    @Schema(name = "x", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonProperty("x")
+    @Nullable String x
+) implements Base {
 
   /**
-   * Get x
-   * @return x
+   * Builder of Child. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
    */
-  
-  @Schema(name = "x", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("x")
-  public @Nullable String getX() {
-    return x;
-  }
+  public static class Builder {
 
-  @JsonProperty("x")
-  public void setX(@Nullable String x) {
-    this.x = x;
-  }
+    private String kind;
 
-
-  public Child kind(String kind) {
-    super.kind(kind);
-    return this;
-  }
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Child child = (Child) o;
-    return Objects.equals(this.x, child.x) &&
-        super.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(x, super.hashCode());
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Child {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    x: ").append(toIndentedString(x)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(@Nullable Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
-  }
-  
-  public static class Builder extends Base.Builder {
-
-    private Child instance;
+    private String x;
 
     public Builder() {
-      this(new Child());
     }
 
-    protected Builder(Child instance) {
-      super(instance); // the parent builder shares the same instance
-      this.instance = instance;
+    protected Builder copyOf(Child value) {
+      this.kind = value.kind();
+      this.x = value.x();
+      return this;
     }
 
-    protected Builder copyOf(Child value) { 
-      super.copyOf(value);
-      this.instance.setX(value.x);
+    public Child.Builder kind(String kind) {
+      this.kind = kind;
       return this;
     }
 
     public Child.Builder x(String x) {
-      this.instance.x(x);
+      this.x = x;
       return this;
-    }
-    
-    @Override
-    public Child.Builder kind(String kind) {
-      this.instance.kind(kind);
-      return this;
-    }
-    
-    /**
-    * returns a built Child instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Child build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
-      }
     }
 
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+    /**
+     * Returns a new Child from the values set so far; the builder stays usable.
+     */
+    public Child build() {
+      return new Child(this.kind, this.x);
     }
   }
 
   /**
-  * Create a builder with no initialized field (except for the default values).
-  */
+   * Create a builder with no initialized component (the constructor applies the initial values).
+   */
   public static Child.Builder builder() {
     return new Child.Builder();
   }
 
   /**
-  * Create a builder with a shallow copy of this instance.
-  */
+   * Create a builder holding every component of this record.
+   */
   public Child.Builder toBuilder() {
-    Child.Builder builder = new Child.Builder();
-    return builder.copyOf(this);
+    return new Child.Builder().copyOf(this);
   }
 
 }
