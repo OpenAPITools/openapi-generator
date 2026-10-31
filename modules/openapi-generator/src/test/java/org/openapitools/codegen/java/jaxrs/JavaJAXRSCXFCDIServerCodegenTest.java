@@ -8,6 +8,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen;
 import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -107,5 +108,14 @@ public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
 
         Assert.assertTrue(codegen.isJackson());
         Assert.assertFalse(codegen.additionalProperties().containsKey(JavaJAXRSSpecServerCodegen.SERIALIZATION_LIBRARY_JSONB));
+    }
+
+    @Test
+    public void testUseJackson3IsIgnored() {
+        codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.USE_JACKSON_3, "true");
+        codegen.processOpts();
+
+        Assert.assertFalse(((JavaJAXRSCXFCDIServerCodegen)codegen).isUseJackson3());
+        Assert.assertFalse(codegen.additionalProperties().containsKey(JavaJAXRSSpecServerCodegen.USE_JACKSON_3));
     }
 }

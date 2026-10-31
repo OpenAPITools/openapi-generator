@@ -60,7 +60,7 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{#jackson}}
 @JsonTypeName("{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}")
 {{#additionalProperties}}
-@JsonFormat(shape=JsonFormat.Shape.OBJECT)
+@JsonFormat(shape=JsonFormat.Shape.{{#useJackson3}}POJO{{/useJackson3}}{{^useJackson3}}OBJECT{{/useJackson3}})
 {{/additionalProperties}}
 {{/jackson}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}
