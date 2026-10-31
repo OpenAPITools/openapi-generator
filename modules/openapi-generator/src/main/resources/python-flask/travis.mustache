@@ -17,6 +17,6 @@ python:
   - "3.12"
 {{/useConnexion3}}
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: "pip install -r requirements.txt -r test-requirements.txt"
 # command to run tests
-script: nosetests
+script: python -m pytest

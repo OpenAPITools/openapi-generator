@@ -64,8 +64,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
     public static final String FEATURE_CORS = "featureCORS";
-    // nose is a python testing framework, we use pytest if USE_NOSE is unset
-    public static final String USE_NOSE = "useNose";
     public static final String PYTHON_SRC_ROOT = "pythonSrcRoot";
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
@@ -81,7 +79,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected Map<Character, String> regexModifiers;
     protected boolean fixBodyName;
     protected boolean featureCORS = Boolean.FALSE;
-    protected boolean useNose = Boolean.FALSE;
     protected String pythonSrcRoot;
     protected boolean usePythonSrcRootInImports = Boolean.FALSE;
     protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
@@ -162,8 +159,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 defaultValue("8080"));
         cliOptions.add(CliOption.newBoolean(FEATURE_CORS, "use flask-cors for handling CORS requests").
                 defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
-                defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(PYTHON_SRC_ROOT, "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.").
                 defaultValue(""));
         cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
@@ -207,9 +202,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (additionalProperties.containsKey(FEATURE_CORS)) {
             setFeatureCORS(String.valueOf(additionalProperties.get(FEATURE_CORS)));
         }
-        if (additionalProperties.containsKey(USE_NOSE)) {
-            setUseNose(String.valueOf(additionalProperties.get(USE_NOSE)));
-        }
         if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
             setUsePythonSrcRootInImports(String.valueOf(additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS)));
         }
@@ -249,10 +241,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     public void setFeatureCORS(String val) {
         this.featureCORS = Boolean.parseBoolean(val);
-    }
-
-    public void setUseNose(String val) {
-        this.useNose = Boolean.parseBoolean(val);
     }
 
     public void setPythonSrcRoot(String val) {
