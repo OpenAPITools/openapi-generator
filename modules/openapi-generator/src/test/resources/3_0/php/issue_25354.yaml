@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: issue 25354 allOf-wrapped array items
+paths:
+  /things:
+    get:
+      parameters:
+        - name: sort
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/SortDir'
+        - name: sort_plain
+          in: query
+          schema:
+            $ref: '#/components/schemas/SortDir'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    SortDir:
+      type: string
+      enum: [asc, desc]
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+    Result:
+      type: object
+      properties:
+        errors_wrapped:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+        errors_plain:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        errors_named:
+          type: array
+          items:
+            x-all-of-name: CustomError
+            allOf:
+              - $ref: '#/components/schemas/Error'
