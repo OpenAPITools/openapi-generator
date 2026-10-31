@@ -20,6 +20,22 @@ paths:
       responses:
         '200':
           description: OK
+    post:
+      operationId: createThing
+      requestBody:
+        required: true
+        description: |
+          Thing to create:
+
+          * name - the thing name
+          * kind - the thing kind
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      responses:
+        '201':
+          description: Created
 components:
   schemas:
     Thing:

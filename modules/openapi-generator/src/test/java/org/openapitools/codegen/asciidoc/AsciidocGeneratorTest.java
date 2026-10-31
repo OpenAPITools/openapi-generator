@@ -89,6 +89,12 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupContent.contains("* A - first option\n* B - second option"),
                 "expected line breaks to be preserved in the parameter description cell: " + markupContent);
 
+        // request body descriptions must keep their line breaks too
+        Assert.assertTrue(markupContent.contains("a| Thing to create:"),
+                "expected body parameter description cell to use the a| prefix: " + markupContent);
+        Assert.assertTrue(markupContent.contains("* name - the thing name\n* kind - the thing kind"),
+                "expected line breaks to be preserved in the body parameter description cell: " + markupContent);
+
         // the flattened single-line form must not be generated anymore
         Assert.assertFalse(markupContent.contains("Type of Vehicle:  * 1 - Automobile / Car"),
                 "description should not be flattened to a single line: " + markupContent);

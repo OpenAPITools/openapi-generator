@@ -20,6 +20,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -36,6 +37,7 @@ import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * basic asciidoc markup generator.
@@ -212,6 +214,20 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     @Override
     public String getName() {
         return "asciidoc";
+    }
+
+    /**
+     * DefaultCodegen only populates the escaped {@code description} for body
+     * parameters; the table templates render {@code unescapedDescription} to
+     * keep line breaks, so the unescaped value must be provided here.
+     */
+    @Override
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        CodegenParameter parameter = super.fromRequestBody(body, imports, bodyParameterName);
+        if (parameter != null && parameter.unescapedDescription == null) {
+            parameter.unescapedDescription = body.getDescription();
+        }
+        return parameter;
     }
 
     @Override
