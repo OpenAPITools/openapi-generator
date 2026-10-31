@@ -206,6 +206,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     @Setter protected boolean implicitHeaders = false;
     @Setter protected String implicitHeadersRegex = null;
+    private Pattern implicitHeadersPattern = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
     @Setter protected boolean containerDefaultToNull = false;
@@ -372,7 +373,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
-        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
+        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
@@ -2933,7 +2934,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
-        return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
+        if (StringUtils.isBlank(implicitHeadersRegex)) {
+            return false;
+        }
+        // Compiled once and kept in step with the field. HTTP header names are case insensitive, so the regex is too
+        if (implicitHeadersPattern == null || !implicitHeadersPattern.pattern().equals(implicitHeadersRegex)) {
+            implicitHeadersPattern = Pattern.compile(implicitHeadersRegex, Pattern.CASE_INSENSITIVE);
+        }
+        return implicitHeadersPattern.matcher(parameter.baseName).matches();
     }
 
     @Override

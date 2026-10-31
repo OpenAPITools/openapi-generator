@@ -12577,4 +12577,24 @@ public class SpringCodegenTest {
 
         assertThat(messages).noneMatch(m -> m.contains("model 'URI'"));
     }
+
+    @Test
+    public void implicitHeadersRegexMatchesHeaderNamesCaseInsensitively_issue25475() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long");
+    }
+
+    @Test
+    public void implicitHeadersRegexKeepsHeadersItDoesNotMatch() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY_2");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long", "String");
+    }
 }
