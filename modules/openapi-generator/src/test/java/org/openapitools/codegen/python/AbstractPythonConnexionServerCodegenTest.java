@@ -590,6 +590,15 @@ public class AbstractPythonConnexionServerCodegenTest {
         // line the templates do not support
         assertFileContains(requirements, "connexion[swagger-ui] >= 2.6.0",
                 "connexion[swagger-ui] <= 2.14.2");
-        assertFileContains(setupPy, "connexion>=2.0.2,<=2.14.2");
+        // setup.py's REQUIRES must mirror requirements.txt — the same
+        // connexion markers/extra and the swagger-ui-bundle — or
+        // `python setup.py install` resolves a different, unsupported
+        // runtime than the requirements-based install
+        assertFileContains(setupPy,
+                "connexion[swagger-ui] >= 2.6.0; python_version>=\"3.6\"",
+                "connexion[swagger-ui] <= 2.3.0; python_version==\"3.5\" or python_version==\"3.4\"",
+                "connexion[swagger-ui] <= 2.14.2; python_version>\"3.4\"",
+                "werkzeug == 0.16.1; python_version==\"3.5\" or python_version==\"3.4\"",
+                "swagger-ui-bundle >= 0.0.2");
     }
 }
