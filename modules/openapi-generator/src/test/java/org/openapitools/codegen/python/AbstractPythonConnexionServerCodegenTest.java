@@ -577,4 +577,19 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(swaggerYaml);
         assertFileContains(swaggerYaml, "openapi:", "paths:");
     }
+
+    @Test(description = "python-blueplanet pins a connexion 2.x range that can serve the generated OpenAPI 3.0 swagger.yaml")
+    public void testBlueplanetRequirementsPinConnexion2() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path requirements = blueplanetDir.resolve(Paths.get("app", "requirements.txt"));
+        Path setupPy = blueplanetDir.resolve(Paths.get("app", "setup.py"));
+        assertFileExists(requirements);
+        assertFileExists(setupPy);
+        // swagger.yaml is an OpenAPI 3.0 document, which connexion 1.x cannot
+        // serve; the pin must select a 2.x release and exclude the connexion 3
+        // line the templates do not support
+        assertFileContains(requirements, "connexion[swagger-ui] >= 2.6.0",
+                "connexion[swagger-ui] <= 2.14.2");
+        assertFileContains(setupPy, "connexion>=2.0.2,<=2.14.2");
+    }
 }
