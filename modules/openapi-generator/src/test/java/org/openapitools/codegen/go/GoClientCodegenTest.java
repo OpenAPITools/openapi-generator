@@ -670,6 +670,7 @@ public class GoClientCodegenTest {
                 "github.com/aws/aws-sdk-go-v2/credentials v1.17.8",
                 "github.com/aws/smithy-go v1.20.4 // indirect");
         TestUtils.assertFileContains(Paths.get(output + "/go.sum"),
+                "github.com/aws/aws-sdk-go-v2 v1.30.4 h1:frhcagrVNrzmT95RJImMHgabt99vkXGslubDaDagTk8=",
                 "github.com/aws/aws-sdk-go-v2/credentials v1.17.8 h1:WUdNLXbyNbU07V/WFrSOBXqZTDgmmMNMgUFzpYOKJhw=",
                 "github.com/aws/smithy-go v1.20.4 h1:2HK1zBdPgRbjFOHlfeQZfpC4r72MOb9bZkiFwggKO+4=");
     }
