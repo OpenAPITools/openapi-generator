@@ -1535,16 +1535,14 @@ public class DefaultGenerator implements Generator {
      * fixed operation is kept and the restored duplicate is skipped rather
      * than processing the same wire method twice. {@link
      * Oas32Extensions#operations} itself returns the restored set verbatim —
-     * other consumers (e.g. the FILTER normalizer) need the contradictory
-     * operation to still be visible, so the skip lives at this consumer.
+     * consumers inspecting the declared set (e.g. the FILTER normalizer)
+     * need the contradictory operation to still be visible, so the skip
+     * lives in the consumers that process operations: here and in the
+     * effective-set accessors {@code allOperations}/{@code allOperationsList}.
      */
     private void processRestoredOperations(OpenAPI openAPI, String resourceKey, PathItem pathItem,
                                            Map<String, List<CodegenOperation>> ops) {
-        Map<PathItem.HttpMethod, Operation> fixed = pathItem.readOperationsMap();
-        Set<String> fixedNames = fixed == null ? Collections.emptySet()
-                : fixed.keySet().stream()
-                        .map(method -> method.name().toLowerCase(Locale.ROOT))
-                        .collect(Collectors.toSet());
+        Set<String> fixedNames = Oas32Extensions.fixedMethodNames(pathItem);
         Oas32Extensions.operations(openAPI, pathItem).forEach((method, operation) -> {
             if (!fixedNames.contains(method.toLowerCase(Locale.ROOT))) {
                 processOperation(resourceKey, method, operation, ops, pathItem);

@@ -1219,6 +1219,15 @@ public class Oas32CompatSpecLoaderTest {
         Assert.assertNotNull(restored.get("QUERY"));
         Assert.assertNotNull(restored.get("PURGE"));
 
+        // the effective-set accessors apply the same dedup, so consumers
+        // like InlineModelResolver never see the duplicate wire method
+        Map<String, Operation> all = Oas32Extensions.allOperations(openAPI, t);
+        Assert.assertEquals(all.size(), 3, "GET, QUERY and PURGE only");
+        Assert.assertSame(all.get("GET"), t.getGet(),
+                "the fixed GET must win over additionalOperations.get");
+        Assert.assertEquals(
+                Oas32Extensions.allOperationsList(openAPI, t).size(), 3);
+
         Map<String, List<CodegenOperation>> ops = processPaths(openAPI);
         Assert.assertNotNull(findOperation(ops, "/t", "GET"),
                 "the fixed get operation must still be generated");

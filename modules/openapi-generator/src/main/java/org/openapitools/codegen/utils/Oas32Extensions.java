@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -174,10 +175,13 @@ public final class Oas32Extensions {
      * the fixed 3.1 HTTP methods first (in {@link PathItem#readOperationsMap()}
      * order, keyed by the enum name such as {@code "GET"}), then the 3.2
      * operations restored from the {@code x-oas32-*} extensions
-     * ({@code "QUERY"}, then the {@code additionalOperations} keys verbatim).
-     * For a document that never went through the compatibility loader the
-     * result is exactly the {@code readOperationsMap()} enumeration under
-     * string keys — nothing is added or reordered.
+     * ({@code "QUERY"}, then the {@code additionalOperations} keys). A
+     * restored key naming a fixed method in any letter case is the same
+     * wire method and is skipped — the fixed operation wins; the verbatim
+     * set stays available through {@link #operations}. For a document
+     * that never went through the compatibility loader the result is
+     * exactly the {@code readOperationsMap()} enumeration under string
+     * keys — nothing is added or reordered.
      */
     public static Map<String, Operation> allOperations(OpenAPI openAPI, PathItem pathItem) {
         Map<String, Operation> operations = new LinkedHashMap<>();
@@ -188,9 +192,16 @@ public final class Oas32Extensions {
         if (fixed != null) {
             fixed.forEach((method, operation) -> operations.put(method.name(), operation));
         }
-        // putIfAbsent: the fixed methods win over a contradictory
-        // additionalOperations key like "GET"
-        operations(openAPI, pathItem).forEach(operations::putIfAbsent);
+        // the fixed methods win over a contradictory additionalOperations
+        // key naming the same wire method in any letter case ("get" beside
+        // GET): the duplicate stays visible through operations(), whose
+        // verbatim view serves consumers inspecting the declared set
+        Set<String> fixedNames = fixedMethodNames(pathItem);
+        operations(openAPI, pathItem).forEach((method, operation) -> {
+            if (!fixedNames.contains(method.toLowerCase(Locale.ROOT))) {
+                operations.putIfAbsent(method, operation);
+            }
+        });
         return operations;
     }
 
@@ -199,11 +210,13 @@ public final class Oas32Extensions {
      * HTTP methods first in {@link PathItem#readOperations()} order, then
      * the 3.2 operations restored from the {@code x-oas32-*} extensions
      * ({@code QUERY}, then the {@code additionalOperations} values in
-     * declaration order). For a document that never went through the
-     * compatibility loader the result is the {@code readOperations()}
-     * enumeration — nothing is added or reordered. Use this variant wherever
-     * the replaced code iterated {@code readOperations()}, whose order
-     * differs from {@link PathItem#readOperationsMap}.
+     * declaration order, except keys duplicating a fixed method in any
+     * letter case — see {@link #allOperations}). For a document that
+     * never went through the compatibility loader the result is the
+     * {@code readOperations()} enumeration — nothing is added or
+     * reordered. Use this variant wherever the replaced code iterated
+     * {@code readOperations()}, whose order differs from {@link
+     * PathItem#readOperationsMap}.
      */
     public static List<Operation> allOperationsList(OpenAPI openAPI, PathItem pathItem) {
         List<Operation> operations = new ArrayList<>();
@@ -214,8 +227,36 @@ public final class Oas32Extensions {
         if (fixed != null) {
             operations.addAll(fixed);
         }
-        operations.addAll(operations(openAPI, pathItem).values());
+        // same duplicate rule as allOperations: a restored key matching a
+        // fixed method in any letter case is the same wire method and the
+        // fixed operation wins
+        Set<String> fixedNames = fixedMethodNames(pathItem);
+        operations(openAPI, pathItem).forEach((method, operation) -> {
+            if (!fixedNames.contains(method.toLowerCase(Locale.ROOT))) {
+                operations.add(operation);
+            }
+        });
         return operations;
+    }
+
+    /**
+     * The lowercased names of the HTTP methods a path item declares
+     * through its fixed fields ({@code "get"}, {@code "post"}, ...). A
+     * restored 3.2 operation whose key appears here in any letter case
+     * names a wire method the path item already defines — consumers that
+     * must not process the same method twice skip it (the verbatim
+     * {@link #operations} view keeps it for consumers inspecting the
+     * declared set). Empty for {@code null} or fixed-operation-free items.
+     */
+    public static Set<String> fixedMethodNames(PathItem pathItem) {
+        Map<PathItem.HttpMethod, Operation> fixed =
+                pathItem == null ? null : pathItem.readOperationsMap();
+        if (fixed == null) {
+            return Collections.emptySet();
+        }
+        Set<String> names = new HashSet<>();
+        fixed.keySet().forEach(method -> names.add(method.name().toLowerCase(Locale.ROOT)));
+        return names;
     }
 
     /**
