@@ -647,6 +647,21 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertSetupPyValuesMatchSpec(blueplanetSetup, expectedTitle, expectedDescription, expectedEmail);
     }
 
+    @Test(description = "a caller-provided infoEmail is rendered as the setup.py author_email literal when the spec declares no contact email")
+    public void testProvidedInfoEmailUsedWhenSpecHasNoContactEmail() throws IOException {
+        // connexion-param-sources.yaml declares no info.contact
+        for (Map.Entry<String, String> variant : Map.of(
+                "python-flask", "setup.py",
+                "python-aiohttp", "setup.py",
+                "python-blueplanet", "app/setup.py").entrySet()) {
+            Path outputDir = generateOutputDir(variant.getKey(),
+                    ImmutableMap.of("infoEmail", "caller@example.com"));
+            Path setupPy = outputDir.resolve(variant.getValue());
+            assertFileExists(setupPy);
+            assertFileContains(setupPy, "author_email=\"caller@example.com\"");
+        }
+    }
+
     /**
      * Parses the generated setup.py with python's ast and asserts that the
      * description/long_description/author_email kwargs evaluate to the raw

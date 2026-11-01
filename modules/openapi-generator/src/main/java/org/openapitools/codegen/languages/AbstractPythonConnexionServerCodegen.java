@@ -376,6 +376,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         : description));
         String infoEmail = openAPI.getInfo() != null && openAPI.getInfo().getContact() != null
                 ? openAPI.getInfo().getContact().getEmail() : null;
+        if (infoEmail == null) {
+            // DefaultGenerator only populates infoEmail from the spec's contact
+            // email, so when the spec has none a caller-provided infoEmail is
+            // still in additionalProperties and is the value the literal must
+            // carry rather than collapsing to an empty string
+            Object providedInfoEmail = additionalProperties.get("infoEmail");
+            if (providedInfoEmail != null) {
+                infoEmail = providedInfoEmail.toString();
+            }
+        }
         additionalProperties.put("infoEmailDoubleQuotedLiteral",
                 infoEmail != null ? toPythonStringLiteral(infoEmail) : "\"\"");
 
