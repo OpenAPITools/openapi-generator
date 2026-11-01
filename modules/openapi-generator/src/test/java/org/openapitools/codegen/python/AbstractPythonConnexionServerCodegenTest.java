@@ -674,26 +674,65 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
-    @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
-    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
-        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
-
+    /**
+     * Generates one output directory per connexion server variant the
+     * JSON-content parameter tests cover, keyed by a variant label. A
+     * {@code +<option>} suffix in the label selects an additional property;
+     * the generator name is the label without the suffix.
+     */
+    private static Map<String, Path> generateConnexionVariants(String specPath) throws IOException {
         Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
         variants.put("python-flask", Collections.emptyMap());
         variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
         variants.put("python-aiohttp", Collections.emptyMap());
         variants.put("python-blueplanet", Collections.emptyMap());
 
+        Map<String, Path> outputs = new LinkedHashMap<>();
         for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
             String generatorName = variant.getKey().replace("+useConnexion3", "");
-            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
+            outputs.put(variant.getKey(),
+                    generateOutputDir(generatorName, variant.getValue(), specPath));
+        }
+        return outputs;
+    }
 
-            boolean blueplanet = "python-blueplanet".equals(generatorName);
-            Path testFile = blueplanet
-                    ? outputDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"))
-                    : "python-aiohttp".equals(generatorName)
-                            ? outputDir.resolve(Paths.get("tests", "test_default_controller.py"))
-                            : outputDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+    private static boolean isBlueplanetVariant(String variantKey) {
+        return variantKey.startsWith("python-blueplanet");
+    }
+
+    /**
+     * The generated test stub for the default controller in each variant's
+     * output layout.
+     */
+    private static Path generatedTestPath(String variantKey, Path outputDir) {
+        if (isBlueplanetVariant(variantKey)) {
+            return outputDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"));
+        }
+        if (variantKey.startsWith("python-aiohttp")) {
+            return outputDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        }
+        return outputDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+    }
+
+    /**
+     * The generated controller for the default controller in each variant's
+     * output layout.
+     */
+    private static Path generatedControllerPath(String variantKey, Path outputDir) {
+        if (isBlueplanetVariant(variantKey)) {
+            return outputDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        }
+        return outputDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+    }
+
+    @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
+    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            String variantKey = variant.getKey();
+            boolean blueplanet = isBlueplanetVariant(variantKey);
+            Path testFile = generatedTestPath(variantKey, variant.getValue());
             assertFileExists(testFile);
 
             // each variant carries the example in a different place of the media type;
@@ -718,6 +757,18 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileContains(testFile,
                     blueplanet ? "('X-Plain-Header', 'x_plain_header_example')"
                             : "'X-Plain-Header': 'x_plain_header_example'");
+            // cookie parameters are sent too: aiohttp passes a cookies dict,
+            // flask and blueplanet fold them into a Cookie header value
+            if (variantKey.startsWith("python-aiohttp")) {
+                assertFileContains(testFile,
+                        "'X-Json-Inline-Cookie': '{}'",
+                        "'X-Json-Model-Cookie': '{\"c\":3}'",
+                        "cookies=cookies");
+            } else {
+                assertFileContains(testFile,
+                        "'X-Json-Inline-Cookie=' + '{}'",
+                        "'X-Json-Model-Cookie=' + '{\"c\":3}'");
+            }
         }
     }
 
@@ -725,20 +776,8 @@ public class AbstractPythonConnexionServerCodegenTest {
     public void testJsonContentHeaderParamsConvertOnlyGeneratedModels() throws IOException {
         String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
 
-        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
-        variants.put("python-flask", Collections.emptyMap());
-        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
-        variants.put("python-aiohttp", Collections.emptyMap());
-        variants.put("python-blueplanet", Collections.emptyMap());
-
-        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
-            String generatorName = variant.getKey().replace("+useConnexion3", "");
-            Path outputDir = generateOutputDir(generatorName, variant.getValue(), specPath);
-
-            boolean blueplanet = "python-blueplanet".equals(generatorName);
-            Path controller = blueplanet
-                    ? outputDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"))
-                    : outputDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            Path controller = generatedControllerPath(variant.getKey(), variant.getValue());
             assertFileExists(controller);
 
             // JSON content params are still parsed from the raw string first
