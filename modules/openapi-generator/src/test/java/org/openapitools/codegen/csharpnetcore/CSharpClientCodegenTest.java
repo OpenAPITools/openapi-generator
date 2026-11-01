@@ -547,6 +547,9 @@ public class CSharpClientCodegenTest {
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
             "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        openAPI.getComponents().getSchemas().get("FruitAnyOfDisc").getDiscriminator().setMapping(Map.of(
+                "apple", "#/components/schemas/AppleAnyOfDisc",
+                "banana", "#/components/schemas/BananaAnyOfDisc"));
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
@@ -568,6 +571,17 @@ public class CSharpClientCodegenTest {
         assertNotNull(file, "Could not find file for model: " + modelName);
         // Should not contain this as the constructor will have two parameters instead of one
         assertFileNotContains(file.toPath(), "return new FruitAnyOfDisc(appleAnyOfDisc);");
+        assertFileContains(file.toPath(),
+                "ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, \"fruitType\")");
+
+        File clientUtils = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ClientUtils.cs")
+                .toString());
+        assertNotNull(clientUtils);
+        assertFileContains(clientUtils.toPath(),
+                "return GetDiscriminatorValue(utf8JsonReader, discriminator);",
+                "if (utf8JsonReader.TokenType != JsonTokenType.String)",
+                "The discriminator property '{discriminator}' must contain a JSON string, but found {utf8JsonReader.TokenType}.");
     }
 
     @Test
