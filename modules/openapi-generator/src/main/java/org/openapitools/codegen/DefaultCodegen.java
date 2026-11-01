@@ -5616,6 +5616,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (Oas32Extensions.isQueryStringParam(openAPI, parameter)) {
             codegenParameter.vendorExtensions.put(Oas32Extensions.QUERYSTRING_PARAMETER_EXT, true);
+            LOGGER.warn("parameter '{}' is in:querystring (OpenAPI 3.2): this generator will "
+                    + "serialize it as a regular named query parameter, not as the whole "
+                    + "query string — the marker x-oas32-querystring records the original "
+                    + "location for generators that implement it", parameter.getName());
         }
 
         Schema parameterSchema;

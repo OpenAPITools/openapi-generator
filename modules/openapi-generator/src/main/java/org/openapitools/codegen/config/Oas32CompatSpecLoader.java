@@ -57,11 +57,13 @@ import java.util.function.Consumer;
  * {@code $ref}s inside its scope resolve against the document location
  * like every other ref (the same result the 3.1 parser produces when
  * the {@code $id} base is unavailable), so a document relying on a
- * working {@code $id} base would differ; and a root {@code $self} is
- * preserved as an extension but never used as the reference base.
- * Documents reached through external {@code $ref}s are parsed without
- * the rewrite, so 3.2-only members in them may be dropped (a warning
- * names each such document).
+ * working {@code $id} base would differ; and a parameter declared
+ * {@code in: "querystring"} reaches codegen as a regular query parameter
+ * carrying {@code x-oas32-in}/{@code x-oas32-querystring} markers — no
+ * generator serializes the raw query string yet, which the code emits a
+ * warning for. Documents reached through external {@code $ref}s are
+ * parsed without the rewrite, so 3.2-only members in them may be dropped
+ * (a warning names each such document).
  *
  * <p>The rewritten text is parsed with
  * {@link OpenAPIV3Parser#readContents(String, List, ParseOptions, String)}
@@ -287,12 +289,21 @@ class Oas32CompatSpecLoader implements SpecLoader {
             return new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
         }
 
+        // $self is the document's self-declared base URI (spec 3.2.1): when
+        // present it replaces the input location as the base relative $refs
+        // resolve against. Read it before rewriteForCompatibility moves it
+        // to x-oas32-$self.
+        URI refBase = refBaseUri(inputSpec);
+        JsonNode self = document.get("$self");
+        if (self != null && self.isTextual()) {
+            refBase = selfBaseUri(refBase, self.asText());
+        }
+
         rewriteForCompatibility(document);
         // The dereferencer resolves same-file "#/..." references by re-reading
         // the file at the given location, which would bypass this rewrite, so
         // location must stay null and relative "$ref"s are made absolute
         // against the original inputSpec instead (issue #25477).
-        URI refBase = refBaseUri(inputSpec);
         // Single pass: warns on external refs and rewrites relative ones when
         // a base is available (refBase==null still warns, rewrites nothing).
         absolutizeRefs((ObjectNode) document, refBase);
@@ -327,14 +338,6 @@ class Oas32CompatSpecLoader implements SpecLoader {
         // isOas32Document() guarantees the openapi field is a value node.
         root.put(EXT_PREFIX + "openapi", root.get("openapi").asText());
         root.put("openapi", COMPAT_VERSION);
-        if (root.has("$self")) {
-            // $self is the document's self-declared base URI (spec 3.2.1).
-            // This loader never resolves relative $refs against it — the
-            // document location is the base — so it is only preserved.
-            LOGGER.warn("$self {}: kept as {}$self but not used as the base "
-                    + "URI for relative $refs (the document location is)",
-                    root.get("$self").asText(), EXT_PREFIX);
-        }
         moveKey(root, "$self");
         forEach(root.get("servers"), Oas32CompatSpecLoader::rewriteServer);
         forEach(root.get("tags"), Oas32CompatSpecLoader::rewriteTag);
@@ -356,7 +359,18 @@ class Oas32CompatSpecLoader implements SpecLoader {
     private static void moveKey(ObjectNode object, String key) {
         JsonNode value = object.remove(key);
         if (value != null) {
-            object.set(EXT_PREFIX + key, value);
+            String extKey = EXT_PREFIX + key;
+            if (object.has(extKey)) {
+                // The document authored an extension that occupies the slot
+                // the moved member needs: keep the authored value under a
+                // further prefix rather than discarding it silently.
+                String authoredKey = EXT_PREFIX + "authored-" + key;
+                object.set(authoredKey, object.get(extKey));
+                LOGGER.warn("authored extension {} moved aside to {}: the "
+                        + "compat slot now holds the document's 3.2 member {}",
+                        extKey, authoredKey, key);
+            }
+            object.set(extKey, value);
         }
     }
 
@@ -535,11 +549,12 @@ class Oas32CompatSpecLoader implements SpecLoader {
         moveKey(response, "summary");
         // A Response Object without a description is valid in 3.2 but fails
         // the released parser's 3.1 schema, so an empty description is
-        // supplied and the absence is recorded. An object holding "$ref" is
-        // a Reference Object and is left alone.
+        // supplied. Whether it was absent is not recorded: nothing reads
+        // the distinction and a marker written into the document would leak
+        // into generated output. An object holding "$ref" is a Reference
+        // Object and is left alone.
         if (!response.has("$ref") && !response.has("description")) {
             response.put("description", "");
-            response.put(EXT_PREFIX + "description-absent", true);
         }
         forEach(response.get("headers"), Oas32CompatSpecLoader::rewriteHeader);
         forEach(response.get("content"), Oas32CompatSpecLoader::rewriteMediaType);
@@ -996,6 +1011,27 @@ class Oas32CompatSpecLoader implements SpecLoader {
     // Relative "$ref" resolution (the dereferencer cannot use the original
     // location because it would re-read the unrewritten document)
     // ------------------------------------------------------------------
+
+    /**
+     * The reference base a root {@code $self} produces: the declared URI
+     * resolved against the document's own base (an absolute {@code $self},
+     * the form spec 3.2.1 requires, resolves to itself). Falls back to
+     * {@code documentBase} with a warning when the value cannot be used as
+     * a base. Package-visible for tests.
+     */
+    static URI selfBaseUri(URI documentBase, String self) {
+        try {
+            URI resolved = documentBase != null
+                    ? documentBase.resolve(new URI(self)) : new URI(self);
+            if (resolved.getScheme() != null) {
+                return resolved;
+            }
+        } catch (URISyntaxException ignored) {
+        }
+        LOGGER.warn("$self {}: not usable as the base URI for relative $refs; "
+                + "the document location is used instead", self);
+        return documentBase;
+    }
 
     /**
      * The base URI that relative {@code $ref}s in {@code inputSpec} resolve

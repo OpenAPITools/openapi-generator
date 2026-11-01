@@ -24,8 +24,10 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.Oas32Extensions;
+import org.openapitools.codegen.utils.SpecUtils;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import java.io.Closeable;
@@ -38,7 +40,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -472,16 +476,19 @@ public class Oas32CompatSpecLoaderTest {
     @Test
     public void responsesWithoutDescriptionPassValidation() {
         // C1: a Response Object without a description is legal in 3.2, so
-        // the loader supplies an empty description (recorded by the
-        // x-oas32-description-absent marker) and the document validates.
+        // the loader supplies an empty description and the document
+        // validates. Nothing distinguishes the injected one from an
+        // authored empty description: no marker is written into the
+        // document, so none can leak into generated output.
         OpenAPI openAPI = contextFor("src/test/resources/3_2/oas32-nodesc.yaml")
                 .getSpecDocument();
         Assert.assertNotNull(openAPI);
         ApiResponse noContent = openAPI.getPaths().get("/things").getGet()
                 .getResponses().get("204");
         Assert.assertEquals(noContent.getDescription(), "");
-        Assert.assertEquals(noContent.getExtensions()
-                .get("x-oas32-description-absent"), true);
+        Assert.assertFalse(noContent.getExtensions() != null
+                && noContent.getExtensions().containsKey("x-oas32-description-absent"),
+                "no compatibility marker must be left in the document");
 
         // a "$ref" member makes the value a Reference Object, which gets no
         // description injected even when it has none
@@ -672,43 +679,49 @@ public class Oas32CompatSpecLoaderTest {
     }
 
     @Test
-    public void selfIsPreservedButNotUsedAsRefBase() {
-        // E1: the root $self is the document's self-declared base URI, but
-        // this loader never uses it — it is kept as x-oas32-$self and
-        // relative $refs still resolve against the document location.
-        ObjectNode doc = Json31.mapper().createObjectNode();
-        doc.put("openapi", "3.2.0");
-        doc.put("$self", "https://self.example.com/api/spec.yaml");
-        doc.putObject("paths").putObject("/x").putObject("get")
-                .putObject("responses").putObject("200").putObject("content")
-                .putObject("application/json").putObject("schema")
-                .put("$ref", "./schemas/T.yaml");
-
-        ListAppender<ILoggingEvent> appender = new ListAppender<>();
-        appender.start();
-        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)
-                LoggerFactory.getLogger(Oas32CompatSpecLoader.class);
-        logger.addAppender(appender);
+    public void selfDeclaresTheBaseUriForRelativeRefs() throws Exception {
+        // E1: the root $self is the document's self-declared base URI
+        // (spec 3.2.1). Resolved against the input location it becomes the
+        // base relative $refs use — the referenced file only exists under
+        // the $self directory, so resolving against the input location
+        // would fail. It is still preserved as x-oas32-$self.
+        java.nio.file.Path dir = Files.createTempDirectory("selfbase");
+        java.nio.file.Path selfDir = dir.resolve("self");
+        java.nio.file.Path input = dir.resolve("input.yaml");
+        java.nio.file.Path comp = selfDir.resolve("comp.yaml");
         try {
-            Oas32CompatSpecLoader.rewriteForCompatibility(doc);
-            Oas32CompatSpecLoader.absolutizeRefs(doc,
-                    URI.create("file:///specs/api/spec.yaml"));
-        } finally {
-            logger.detachAppender(appender);
-        }
+            Files.createDirectories(selfDir);
+            Files.writeString(comp, "components:\n  schemas:\n    Thing:\n"
+                    + "      type: object\n      properties:\n        id:\n"
+                    + "          type: string\n");
+            String selfUri = selfDir.resolve("self.yaml").toUri().toString();
+            Files.writeString(input,
+                    "openapi: 3.2.0\n"
+                    + "info:\n  title: t\n  version: '1'\n"
+                    + "$self: " + selfUri + "\n"
+                    + "paths:\n  /t:\n    get:\n      operationId: g\n"
+                    + "      responses:\n        '200':\n          description: ok\n"
+                    + "          content:\n            application/json:\n"
+                    + "              schema:\n                $ref: "
+                    + "'./comp.yaml#/components/schemas/Thing'\n");
 
-        Assert.assertEquals(doc.get("x-oas32-$self").asText(),
-                "https://self.example.com/api/spec.yaml");
-        Assert.assertEquals(
-                doc.at("/paths/~1x/get/responses/200/content/application~1json/schema/$ref")
-                        .asText(),
-                "/specs/api/schemas/T.yaml",
-                "the $self host must not become the ref base");
-        long selfWarnings = appender.list.stream()
-                .filter(e -> e.getFormattedMessage().contains("$self"))
-                .count();
-        Assert.assertEquals(selfWarnings, 1,
-                "the unused $self is warned about once");
+            OpenAPI openAPI = contextFor(input.toString()).getSpecDocument();
+            Assert.assertNotNull(openAPI);
+            Schema schema = openAPI.getPaths().get("/t").getGet().getResponses()
+                    .get("200").getContent().get("application/json").getSchema();
+            Assert.assertNotNull(schema);
+            Assert.assertTrue(schema.getProperties() != null
+                            && schema.getProperties().containsKey("id"),
+                    "the relative $ref must resolve against $self "
+                            + "(self/comp.yaml), not the input location");
+            Assert.assertEquals(openAPI.getExtensions().get("x-oas32-$self"),
+                    selfUri, "$self stays readable as an extension");
+        } finally {
+            input.toFile().delete();
+            comp.toFile().delete();
+            selfDir.toFile().delete();
+            dir.toFile().delete();
+        }
     }
 
     @Test
@@ -1181,6 +1194,143 @@ public class Oas32CompatSpecLoaderTest {
                 .filter(p -> name.equals(p.baseName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Test
+    public void additionalOperationsCollidingWithFixedMethodsAreSkipped() {
+        // an additionalOperations key naming a fixed method the path item
+        // already carries (compared case-insensitively) would process the
+        // same wire method twice — it is skipped, other keys are kept
+        OpenAPI openAPI = new OpenAPI();
+        Oas32Extensions.markCompatDocument(openAPI);
+        PathItem pathItem = new PathItem();
+        pathItem.setGet(new Operation().operationId("fixedGet"));
+        Map<String, Object> additional = new LinkedHashMap<>();
+        additional.put("get", new Operation().operationId("shadowGet"));
+        additional.put("PURGE", new Operation().operationId("purge"));
+        pathItem.addExtension(Oas32Extensions.ADDITIONAL_OPERATIONS_EXT, additional);
+
+        Map<String, Operation> operations = Oas32Extensions.operations(openAPI, pathItem);
+        Assert.assertNull(operations.get("get"),
+                "the fixed get must win over additionalOperations.get");
+        Assert.assertEquals(operations.size(), 1);
+        Assert.assertEquals(operations.get("PURGE").getOperationId(), "purge");
+    }
+
+    @Test
+    public void convertedOperationsAreCachedBackIntoTheExtensionMap() {
+        // an ungrafted extension value (the loosely-typed map the extension
+        // deserializer produced) is converted once and stored back: later
+        // reads return the same instance, so caller mutations such as
+        // InlineModelResolver's edits are not lost between calls
+        OpenAPI openAPI = new OpenAPI();
+        Oas32Extensions.markCompatDocument(openAPI);
+        PathItem pathItem = new PathItem();
+        Map<String, Object> rawOperation = new LinkedHashMap<>();
+        rawOperation.put("operationId", "purgeThings");
+        Map<String, Object> additional = new LinkedHashMap<>();
+        additional.put("PURGE", rawOperation);
+        pathItem.addExtension(Oas32Extensions.ADDITIONAL_OPERATIONS_EXT, additional);
+
+        Operation first = Oas32Extensions.operations(openAPI, pathItem).get("PURGE");
+        Assert.assertNotNull(first);
+        first.setDescription("mutated by a caller");
+
+        Operation second = Oas32Extensions.operations(openAPI, pathItem).get("PURGE");
+        Assert.assertSame(first, second,
+                "the converted operation must be cached back into the extension map");
+        Assert.assertEquals(second.getDescription(), "mutated by a caller");
+    }
+
+    @Test
+    public void selfBaseUriResolvesAgainstDocumentLocation() {
+        URI docBase = URI.create("https://a.example/specs/spec.yaml");
+        Assert.assertEquals(
+                Oas32CompatSpecLoader.selfBaseUri(docBase, "https://b.example/self/doc.yaml"),
+                URI.create("https://b.example/self/doc.yaml"),
+                "an absolute $self replaces the document location as ref base");
+        Assert.assertEquals(
+                Oas32CompatSpecLoader.selfBaseUri(docBase, "../self/doc.yaml"),
+                URI.create("https://a.example/self/doc.yaml"),
+                "a relative $self resolves against the document location");
+        Assert.assertEquals(
+                Oas32CompatSpecLoader.selfBaseUri(docBase, "://not a uri"),
+                docBase, "an unusable $self falls back to the document location");
+    }
+
+    @Test
+    public void movedMemberKeepsAuthoredExtensionAside() {
+        // a document that authored an x-oas32-<key> extension AND uses the
+        // real 3.2 member: the authored value moves to
+        // x-oas32-authored-<key> instead of being silently overwritten
+        ObjectNode doc = Json31.mapper().createObjectNode();
+        doc.put("openapi", "3.2.0");
+        doc.putObject("paths");
+        ObjectNode response = doc.putObject("components").putObject("responses")
+                .putObject("R");
+        response.put("summary", "the 3.2 summary member");
+        response.put("x-oas32-summary", "authored extension value");
+
+        Oas32CompatSpecLoader.rewriteForCompatibility(doc);
+
+        Assert.assertEquals(response.get("x-oas32-summary").asText(),
+                "the 3.2 summary member");
+        Assert.assertEquals(response.get("x-oas32-authored-summary").asText(),
+                "authored extension value");
+        Assert.assertFalse(response.has("summary"));
+    }
+
+    @Test
+    public void querystringParameterEmitsSerializationWarning() throws Exception {
+        // P1 review follow-up: no generator serializes in:querystring yet,
+        // so stamping the marker warns instead of failing silently
+        OpenAPI openAPI = contextFor(SPEC).getSpecDocument();
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)
+                LoggerFactory.getLogger(DefaultCodegen.class);
+        ListAppender<ILoggingEvent> appender = new ListAppender<>();
+        appender.start();
+        logger.addAppender(appender);
+        try {
+            processPaths(openAPI);
+        } finally {
+            logger.detachAppender(appender);
+        }
+        Assert.assertTrue(appender.list.stream().anyMatch(
+                        e -> e.getFormattedMessage().contains("in:querystring")),
+                "a warning must name the in:querystring parameter");
+    }
+
+    @Test
+    public void localFileWithSchemeLikeNameReadsAsFile() throws Exception {
+        // "a:b.yaml" parses as URI scheme "a", which has no protocol
+        // handler: it must fall through to the local-file read rather than
+        // propagating MalformedURLException
+        if (System.getProperty("os.name").toLowerCase(java.util.Locale.ROOT).contains("win")) {
+            throw new SkipException("Windows forbids ':' in file names");
+        }
+        java.nio.file.Path dir = Files.createTempDirectory("spec");
+        java.nio.file.Path file = dir.resolve("a:b.yaml");
+        try {
+            Files.writeString(file, "openapi: 3.0.0\n");
+            Assert.assertEquals(SpecUtils.readInputSpec(file.toString(), null),
+                    "openapi: 3.0.0\n");
+        } finally {
+            file.toFile().delete();
+            dir.toFile().delete();
+        }
+    }
+
+    @Test
+    public void httpUrlUsesRemoteUrlEvenWhenUriParsingWouldFail() throws Exception {
+        // an http(s) URL that URI.create rejects (here: a space in the
+        // path) is still an HTTP location and must be dispatched to
+        // RemoteUrl — not misread as a local file
+        AtomicInteger gets = new AtomicInteger();
+        try (SpecServer server = serving("openapi: 3.2.0\n", gets)) {
+            String body = SpecUtils.readInputSpec(urlOf(server) + "/my spec.yaml", null);
+            Assert.assertTrue(body.contains("3.2.0"));
+            Assert.assertEquals(gets.get(), 1);
+        }
     }
 
     private Map<String, List<CodegenOperation>> processPaths(OpenAPI openAPI) throws Exception {

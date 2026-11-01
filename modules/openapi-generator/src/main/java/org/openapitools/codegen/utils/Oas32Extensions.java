@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -118,8 +119,13 @@ public final class Oas32Extensions {
      * Returns the operations a 3.2 path item carries in its
      * {@code x-oas32-query} / {@code x-oas32-additionalOperations} extensions,
      * keyed by HTTP method name ({@code QUERY} for the former, the map key
-     * verbatim for the latter). Empty unless {@code openAPI} is a document
-     * read through the 3.2 compatibility loader (see class javadoc).
+     * verbatim for the latter). An {@code additionalOperations} entry whose
+     * key names a fixed method the path item already carries (compared
+     * case-insensitively, e.g. {@code "get"} alongside {@code get}) or the
+     * restored {@code QUERY} operation is skipped — processing it would
+     * generate a duplicate of the fixed operation. Empty unless
+     * {@code openAPI} is a document read through the 3.2 compatibility
+     * loader (see class javadoc).
      */
     public static Map<String, Operation> operations(OpenAPI openAPI, PathItem pathItem) {
         Map<String, Operation> operations = new LinkedHashMap<>();
@@ -130,18 +136,35 @@ public final class Oas32Extensions {
         if (extensions == null) {
             return operations;
         }
+        Set<String> taken = new HashSet<>();
         Operation query = toOperation(extensions.get(QUERY_OPERATION_EXT));
         if (query != null) {
             operations.put("QUERY", query);
+            taken.add("query");
+            // a converted operation is written back so later reads return
+            // the same instance — mutations by callers (e.g.
+            // InlineModelResolver) must not be lost between calls
+            if (!(extensions.get(QUERY_OPERATION_EXT) instanceof Operation)) {
+                extensions.put(QUERY_OPERATION_EXT, query);
+            }
+        }
+        Map<PathItem.HttpMethod, Operation> fixed = pathItem.readOperationsMap();
+        if (fixed != null) {
+            fixed.keySet().forEach(method -> taken.add(method.name().toLowerCase(Locale.ROOT)));
         }
         Object additional = extensions.get(ADDITIONAL_OPERATIONS_EXT);
         if (additional instanceof Map) {
             ((Map<?, ?>) additional).forEach((method, operation) -> {
                 Operation parsed = toOperation(operation);
-                // putIfAbsent: a contradictory additionalOperations entry
-                // keyed "QUERY" must not replace the real query operation
-                if (method instanceof String && parsed != null) {
+                if (method instanceof String && parsed != null
+                        && !taken.contains(((String) method).toLowerCase(Locale.ROOT))) {
+                    // putIfAbsent: a contradictory additionalOperations entry
+                    // keyed "QUERY" must not replace the real query operation
                     operations.putIfAbsent((String) method, parsed);
+                    // cache the converted operation back (see above)
+                    if (!(operation instanceof Operation)) {
+                        cacheConverted((Map<?, ?>) additional, (String) method, parsed);
+                    }
                 }
             });
         }
@@ -237,5 +260,15 @@ public final class Oas32Extensions {
             return (Operation) value;
         }
         return Json31.mapper().convertValue(value, Operation.class);
+    }
+
+    /**
+     * Stores the converted {@link Operation} back into the loosely-typed
+     * extension map it was read from, so every subsequent read sees the same
+     * instance and caller mutations are not lost between calls.
+     */
+    @SuppressWarnings("unchecked")
+    private static void cacheConverted(Map<?, ?> holder, String key, Operation parsed) {
+        ((Map<String, Object>) holder).put(key, parsed);
     }
 }

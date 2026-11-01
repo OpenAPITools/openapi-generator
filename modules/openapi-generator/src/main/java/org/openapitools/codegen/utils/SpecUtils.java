@@ -10,11 +10,14 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.util.RemoteUrl;
 
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Reads an OpenAPI document from an input spec location (path or URL) into
@@ -67,17 +70,29 @@ public final class SpecUtils {
     public static String readInputSpec(String inputSpec,
                                        List<AuthorizationValue> authorizationValues)
             throws Exception {
+        // http(s) is dispatched by prefix, before URI parsing: RemoteUrl is
+        // the parser's own reader and accepts inputs (e.g. containing spaces)
+        // that URI.create would reject — they must not fall through to the
+        // local-file read.
+        String lowerCased = inputSpec.toLowerCase(Locale.ROOT);
+        if (lowerCased.startsWith("http://") || lowerCased.startsWith("https://")) {
+            return RemoteUrl.urlToString(inputSpec, authorizationValues);
+        }
         boolean windowsDrivePath = inputSpec.matches("^[A-Za-z]:[\\\\/].*");
         if (!windowsDrivePath) {
             try {
                 URI uri = URI.create(inputSpec);
                 if (uri.getScheme() != null) {
-                    if ("http".equalsIgnoreCase(uri.getScheme())
-                            || "https".equalsIgnoreCase(uri.getScheme())) {
-                        return RemoteUrl.urlToString(inputSpec, authorizationValues);
-                    }
-                    try (InputStream input = uri.toURL().openStream()) {
-                        return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+                    // A "scheme" the JVM has no protocol handler for (a local
+                    // file named "a:b.yaml" looks like one) fails in toURL()
+                    // with MalformedURLException — that input is a file name,
+                    // so it falls through to the local read.
+                    try {
+                        URL url = uri.toURL();
+                        try (InputStream input = url.openStream()) {
+                            return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+                        }
+                    } catch (MalformedURLException ignored) {
                     }
                 }
             } catch (IllegalArgumentException ignored) {
