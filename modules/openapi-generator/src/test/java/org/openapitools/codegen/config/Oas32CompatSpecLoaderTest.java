@@ -370,14 +370,19 @@ public class Oas32CompatSpecLoaderTest {
                 Oas32CompatSpecLoader.absolutizeRef("schemas/Ext.yaml#/components/schemas/Ext", winBase),
                 "C:/specs/api/schemas/Ext.yaml#/components/schemas/Ext");
 
-        // POSIX local paths become plain absolute paths too
+        // POSIX local paths become plain absolute paths too; on Windows a
+        // leading-slash path resolves against the current drive instead
+        // (CI workspaces live on D:\a\...), so derive the expectation the
+        // same way the loader does
         URI posixBase = Oas32CompatSpecLoader.refBaseUri("/specs/api/spec.yaml");
+        String expectedExt = Paths.get("/specs/api/schemas/Ext.yaml")
+                .toAbsolutePath().toString().replace('\\', '/');
         Assert.assertEquals(
                 Oas32CompatSpecLoader.absolutizeRef("./schemas/Ext.yaml", posixBase),
-                "/specs/api/schemas/Ext.yaml");
+                expectedExt);
         Assert.assertEquals(
                 Oas32CompatSpecLoader.absolutizeRef("./schemas/Ext.yaml#/components/schemas/Ext", posixBase),
-                "/specs/api/schemas/Ext.yaml#/components/schemas/Ext");
+                expectedExt + "#/components/schemas/Ext");
 
         // names needing percent-escapes keep the file: URI form (readURI
         // decodes it through URI.getPath()), since plain text would either
