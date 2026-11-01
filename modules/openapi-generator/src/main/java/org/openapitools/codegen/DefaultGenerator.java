@@ -1499,8 +1499,7 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
             // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
-            Oas32Extensions.operations(openAPI, path).forEach(
-                    (method, operation) -> processOperation(resourcePath, method, operation, ops, path));
+            processRestoredOperations(openAPI, resourcePath, path, ops);
         }
         return ops;
     }
@@ -1523,10 +1522,34 @@ public class DefaultGenerator implements Generator {
             processOperation(resourceKey, "options", path.getOptions(), ops, path);
             processOperation(resourceKey, "trace", path.getTrace(), ops, path);
             // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
-            Oas32Extensions.operations(openAPI, path).forEach(
-                    (method, operation) -> processOperation(resourceKey, method, operation, ops, path));
+            processRestoredOperations(openAPI, resourceKey, path, ops);
         }
         return ops;
+    }
+
+    /**
+     * Feeds the operations the 3.2 compatibility loader restored on
+     * {@code pathItem} into {@link #processOperation}. Spec 3.2.1 forbids an
+     * {@code additionalOperations} entry naming a method the path item also
+     * defines by a fixed field, but a document can still carry one: the
+     * fixed operation is kept and the restored duplicate is skipped rather
+     * than processing the same wire method twice. {@link
+     * Oas32Extensions#operations} itself returns the restored set verbatim —
+     * other consumers (e.g. the FILTER normalizer) need the contradictory
+     * operation to still be visible, so the skip lives at this consumer.
+     */
+    private void processRestoredOperations(OpenAPI openAPI, String resourceKey, PathItem pathItem,
+                                           Map<String, List<CodegenOperation>> ops) {
+        Map<PathItem.HttpMethod, Operation> fixed = pathItem.readOperationsMap();
+        Set<String> fixedNames = fixed == null ? Collections.emptySet()
+                : fixed.keySet().stream()
+                        .map(method -> method.name().toLowerCase(Locale.ROOT))
+                        .collect(Collectors.toSet());
+        Oas32Extensions.operations(openAPI, pathItem).forEach((method, operation) -> {
+            if (!fixedNames.contains(method.toLowerCase(Locale.ROOT))) {
+                processOperation(resourceKey, method, operation, ops, pathItem);
+            }
+        });
     }
 
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {

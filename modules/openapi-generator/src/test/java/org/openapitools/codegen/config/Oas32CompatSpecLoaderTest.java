@@ -1197,24 +1197,34 @@ public class Oas32CompatSpecLoaderTest {
     }
 
     @Test
-    public void additionalOperationsCollidingWithFixedMethodsAreSkipped() {
-        // an additionalOperations key naming a fixed method the path item
-        // already carries (compared case-insensitively) would process the
-        // same wire method twice — it is skipped, other keys are kept
-        OpenAPI openAPI = new OpenAPI();
-        Oas32Extensions.markCompatDocument(openAPI);
-        PathItem pathItem = new PathItem();
-        pathItem.setGet(new Operation().operationId("fixedGet"));
-        Map<String, Object> additional = new LinkedHashMap<>();
-        additional.put("get", new Operation().operationId("shadowGet"));
-        additional.put("PURGE", new Operation().operationId("purge"));
-        pathItem.addExtension(Oas32Extensions.ADDITIONAL_OPERATIONS_EXT, additional);
+    public void additionalOperationsCollidingWithFixedMethodsStayVisibleButAreNotGenerated() throws Exception {
+        // spec 3.2.1 forbids an additionalOperations key naming a fixed
+        // method, but a document can carry one: Oas32Extensions.operations
+        // still returns it verbatim (the FILTER normalizer must be able to
+        // see and mark it), while processPaths skips it so the same wire
+        // method is not generated twice
+        OpenAPI openAPI = contextFor("src/test/resources/3_2/oas32-filter.yaml")
+                .getSpecDocument();
+        PathItem t = openAPI.getPaths().get("/t");
 
-        Map<String, Operation> operations = Oas32Extensions.operations(openAPI, pathItem);
-        Assert.assertNull(operations.get("get"),
-                "the fixed get must win over additionalOperations.get");
-        Assert.assertEquals(operations.size(), 1);
-        Assert.assertEquals(operations.get("PURGE").getOperationId(), "purge");
+        Map<String, Operation> restored = Oas32Extensions.operations(openAPI, t);
+        Assert.assertNotNull(restored.get("get"),
+                "the declared additionalOperations.get must be restored verbatim");
+        Assert.assertEquals(restored.get("get").getOperationId(), "additionalGet");
+        Assert.assertNotNull(restored.get("QUERY"));
+        Assert.assertNotNull(restored.get("PURGE"));
+
+        Map<String, List<CodegenOperation>> ops = processPaths(openAPI);
+        Assert.assertNotNull(findOperation(ops, "/t", "GET"),
+                "the fixed get operation must still be generated");
+        Assert.assertEquals(findOperation(ops, "/t", "GET").operationId, "standardGet");
+        Assert.assertNotNull(findOperation(ops, "/t", "QUERY"));
+        Assert.assertNotNull(findOperation(ops, "/t", "PURGE"));
+        long getOps = ops.values().stream().flatMap(List::stream)
+                .filter(o -> "/t".equals(o.path) && "get".equalsIgnoreCase(o.httpMethod))
+                .count();
+        Assert.assertEquals(getOps, 1,
+                "additionalOperations.get must not produce a second get operation");
     }
 
     @Test
