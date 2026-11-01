@@ -33,7 +33,7 @@ plugins {
 }
 
 dependencies {
-    val kotlinxCoroutinesVersion = "1.6.1"
+    val kotlinxCoroutinesVersion = "1.11.0"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-webflux")

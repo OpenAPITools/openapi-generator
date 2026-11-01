@@ -14,7 +14,7 @@ For more information, please visit [https://example.org](https://example.org)
 ## Requires
 
 * Kotlin 2.4.20
-* Gradle 8.14
+* Gradle 8.14.5
 
 ## Build
 

@@ -6,7 +6,7 @@
     <name>openapi-spring</name>
     <version>1.0.0</version>
     <properties>
-        <kotlinx-coroutines.version>1.6.1</kotlinx-coroutines.version>
+        <kotlinx-coroutines.version>1.11.0</kotlinx-coroutines.version>
         <swagger-annotations.version>1.6.6</swagger-annotations.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
