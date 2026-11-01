@@ -172,7 +172,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<Void> testBodyWithQueryParams(
-         @RequestParam(value = "query", required = true) String query,
+         @RequestParam(value = "query") String query,
          @RequestBody Mono<User> user
     );
 
@@ -227,10 +227,10 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<Void> testEndpointParameters(
-         @RequestPart(value = "number", required = true) BigDecimal number,
-         @RequestPart(value = "double", required = true) Double _double,
-         @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestPart(value = "byte", required = true) byte[] _byte,
+         @RequestPart(value = "number") BigDecimal number,
+         @RequestPart(value = "double") Double _double,
+         @RequestPart(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+         @RequestPart(value = "byte") byte[] _byte,
          @RequestPart(value = "integer", required = false) Integer integer,
          @RequestPart(value = "int32", required = false) Integer int32,
          @RequestPart(value = "int64", required = false) Long int64,
@@ -299,9 +299,9 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<Void> testGroupParameters(
-         @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-         @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-         @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+         @RequestParam(value = "required_string_group") Integer requiredStringGroup,
+         @RequestHeader(value = "required_boolean_group") Boolean requiredBooleanGroup,
+         @RequestParam(value = "required_int64_group") Long requiredInt64Group,
          @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
          @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
          @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
@@ -311,7 +311,6 @@ public interface FakeApi {
     String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
-     * 
      *
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
@@ -331,7 +330,6 @@ public interface FakeApi {
     String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
-     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -345,15 +343,14 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<Void> testJsonFormData(
-         @RequestPart(value = "param", required = true) String param,
-         @RequestPart(value = "param2", required = true) String param2
+         @RequestPart(value = "param") String param,
+         @RequestPart(value = "param2") String param2
     );
 
 
     String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
-     * 
      *
      * @param childWithNullable request body (required)
      * @return successful operation (status code 200)
@@ -388,10 +385,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<Void> testQueryParameterCollectionFormat(
-         @RequestParam(value = "pipe", required = true) List<String> pipe,
-         @RequestParam(value = "http", required = true) List<String> http,
-         @RequestParam(value = "url", required = true) List<String> url,
-         @RequestParam(value = "context", required = true) List<String> context
+         @RequestParam(value = "pipe") List<String> pipe,
+         @RequestParam(value = "http") List<String> http,
+         @RequestParam(value = "url") List<String> url,
+         @RequestParam(value = "context") List<String> context
     );
 
 

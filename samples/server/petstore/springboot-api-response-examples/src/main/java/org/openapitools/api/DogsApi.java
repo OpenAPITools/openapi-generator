@@ -81,7 +81,7 @@ public interface DogsApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Dog> createDog(
-        @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) @Nullable Dog dog
+        @Parameter(name = "Dog") @Valid @RequestBody(required = false) @Nullable Dog dog
     ) {
         return getDelegate().createDog(dog);
     }

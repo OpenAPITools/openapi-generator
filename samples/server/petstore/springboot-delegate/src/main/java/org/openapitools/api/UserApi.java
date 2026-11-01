@@ -71,7 +71,6 @@ public interface UserApi {
     String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
-     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -79,7 +78,6 @@ public interface UserApi {
     @Operation(
         operationId = "createUsersWithArrayInput",
         summary = "Creates list of users with given input array",
-        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
@@ -100,7 +98,6 @@ public interface UserApi {
     String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
-     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -108,7 +105,6 @@ public interface UserApi {
     @Operation(
         operationId = "createUsersWithListInput",
         summary = "Creates list of users with given input array",
-        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")
@@ -159,7 +155,6 @@ public interface UserApi {
     String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
-     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return successful operation (status code 200)
@@ -169,7 +164,6 @@ public interface UserApi {
     @Operation(
         operationId = "getUserByName",
         summary = "Get user by user name",
-        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -195,7 +189,6 @@ public interface UserApi {
     String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
-     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -205,7 +198,6 @@ public interface UserApi {
     @Operation(
         operationId = "loginUser",
         summary = "Logs user into the system",
-        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -221,8 +213,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username") String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password") String password
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -231,14 +223,12 @@ public interface UserApi {
     String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
-     * 
      *
      * @return successful operation (status code 200)
      */
     @Operation(
         operationId = "logoutUser",
         summary = "Logs out current logged in user session",
-        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "default", description = "successful operation")

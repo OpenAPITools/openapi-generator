@@ -42,14 +42,12 @@ public interface DummyApi {
     String PATH_UPLOAD_FILE = "/dummy";
     /**
      * POST /dummy
-     * 
      *
      * @param body  (optional)
      * @return successful operation (status code 200)
      */
     @Operation(
         operationId = "uploadFile",
-        description = "",
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
@@ -60,7 +58,7 @@ public interface DummyApi {
         consumes = { "application/octet-stream" }
     )
     default ResponseEntity<Void> uploadFile(
-        @Parameter(name = "body", description = "") @Valid @RequestBody(required = false) Optional<org.springframework.core.io.Resource> body
+        @Parameter(name = "body") @Valid @RequestBody(required = false) Optional<org.springframework.core.io.Resource> body
     ) {
         return getDelegate().uploadFile(body);
     }

@@ -30,7 +30,6 @@ public interface PetApiDelegate {
 
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -44,7 +43,6 @@ public interface PetApiDelegate {
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
-     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -147,7 +145,6 @@ public interface PetApiDelegate {
 
     /**
      * PUT /pet : Update an existing pet
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -163,7 +160,6 @@ public interface PetApiDelegate {
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
-     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -180,7 +176,6 @@ public interface PetApiDelegate {
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)

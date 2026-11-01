@@ -264,7 +264,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithFileSchema(
-        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
+        @Parameter(name = "FileSchemaTestClass", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
     ) {
         return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
@@ -292,8 +292,8 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
-        @Parameter(name = "User", description = "", required = true) @Valid @RequestBody Mono<User> user
+        @NotNull @Parameter(name = "query", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query") String query,
+        @Parameter(name = "User", required = true) @Valid @RequestBody Mono<User> user
     ) {
         return getDelegate().testBodyWithQueryParams(query, user);
     }
@@ -374,10 +374,10 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
+        @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number") BigDecimal number,
+        @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double") Double _double,
+        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestPart(value = "byte") byte[] _byte,
         @Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
         @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
@@ -467,9 +467,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group") Integer requiredStringGroup,
+        @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group") Boolean requiredBooleanGroup,
+        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group") Long requiredInt64Group,
         @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
         @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
@@ -481,7 +481,6 @@ public interface FakeApi {
     String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
-     * 
      *
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
@@ -489,7 +488,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testInlineAdditionalProperties",
         summary = "test inline additionalProperties",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -511,7 +509,6 @@ public interface FakeApi {
     String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
-     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -520,7 +517,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testJsonFormData",
         summary = "test json serialization of form data",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -533,8 +529,8 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestPart(value = "param", required = true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2
+        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestPart(value = "param") String param,
+        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestPart(value = "param2") String param2
     ) {
         return getDelegate().testJsonFormData(param, param2);
     }
@@ -543,7 +539,6 @@ public interface FakeApi {
     String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
-     * 
      *
      * @param childWithNullable request body (required)
      * @return successful operation (status code 200)
@@ -551,7 +546,6 @@ public interface FakeApi {
     @Operation(
         operationId = "testNullable",
         summary = "test nullable parent property",
-        description = "",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -595,10 +589,10 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @Parameter(name = "pipe", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe") List<String> pipe,
+        @NotNull @Parameter(name = "http", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http") List<String> http,
+        @NotNull @Parameter(name = "url", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url") List<String> url,
+        @NotNull @Parameter(name = "context", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context") List<String> context
     ) {
         return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
@@ -637,7 +631,6 @@ public interface FakeApi {
     String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
@@ -647,7 +640,6 @@ public interface FakeApi {
     @Operation(
         operationId = "uploadFileWithRequiredFile",
         summary = "uploads an image (required)",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -667,7 +659,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
+        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile") Part requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);

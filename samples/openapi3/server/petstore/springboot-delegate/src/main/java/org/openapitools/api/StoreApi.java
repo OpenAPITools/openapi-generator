@@ -141,7 +141,6 @@ public interface StoreApi {
     String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
-     * 
      *
      * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
@@ -150,7 +149,6 @@ public interface StoreApi {
     @Operation(
         operationId = "placeOrder",
         summary = "Place an order for a pet",
-        description = "",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

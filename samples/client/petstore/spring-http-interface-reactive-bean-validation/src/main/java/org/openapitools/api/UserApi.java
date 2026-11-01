@@ -51,7 +51,6 @@ public interface UserApi {
     String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
-     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -70,7 +69,6 @@ public interface UserApi {
     String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
-     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -108,7 +106,6 @@ public interface UserApi {
     String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
-     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return successful operation (status code 200)
@@ -128,7 +125,6 @@ public interface UserApi {
     String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
-     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -141,15 +137,14 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<String>> loginUser(
-        @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull  @Valid @RequestParam(value = "username") String username,
+        @NotNull  @Valid @RequestParam(value = "password") String password
     );
 
 
     String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
-     * 
      *
      * @return successful operation (status code 200)
      */

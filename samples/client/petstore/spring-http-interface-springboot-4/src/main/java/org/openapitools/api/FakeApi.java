@@ -183,7 +183,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull  @Valid @RequestParam(value = "query", required = true) String query,
+        @NotNull  @Valid @RequestParam(value = "query") String query,
          @Valid @RequestBody UserDto userDto
     );
 
@@ -236,10 +236,10 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEndpointParameters(
-         @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-         @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
-         @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+         @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number") BigDecimal number,
+         @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double") Double _double,
+         @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+         @Valid @RequestParam(value = "byte") byte[] _byte,
          @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
          @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
          @Valid @RequestParam(value = "int64", required = false) Long int64,
@@ -306,9 +306,9 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> testGroupParameters(
-        @NotNull  @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @NotNull  @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull  @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+        @NotNull  @Valid @RequestParam(value = "required_string_group") Integer requiredStringGroup,
+        @NotNull  @RequestHeader(value = "required_boolean_group") Boolean requiredBooleanGroup,
+        @NotNull  @Valid @RequestParam(value = "required_int64_group") Long requiredInt64Group,
          @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
          @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
          @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
@@ -318,7 +318,6 @@ public interface FakeApi {
     String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
-     * 
      *
      * @param requestBody request body (required)
      * @return successful operation (status code 200)
@@ -337,7 +336,6 @@ public interface FakeApi {
     String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
-     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -350,15 +348,14 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testJsonFormData(
-         @Valid @RequestParam(value = "param", required = true) String param,
-         @Valid @RequestParam(value = "param2", required = true) String param2
+         @Valid @RequestParam(value = "param") String param,
+         @Valid @RequestParam(value = "param2") String param2
     );
 
 
     String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
-     * 
      *
      * @param childWithNullableDto request body (required)
      * @return successful operation (status code 200)
@@ -391,10 +388,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull  @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull  @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull  @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull  @RequestParam(value = "context", required = true) List<String> context
+        @NotNull  @RequestParam(value = "pipe") List<String> pipe,
+        @NotNull  @RequestParam(value = "http") List<String> http,
+        @NotNull  @RequestParam(value = "url") List<String> url,
+        @NotNull  @RequestParam(value = "context") List<String> context
     );
 
 
@@ -418,7 +415,6 @@ public interface FakeApi {
     String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
@@ -433,7 +429,7 @@ public interface FakeApi {
     )
     ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @RequestPart(value = "requiredFile") MultipartFile requiredFile,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 

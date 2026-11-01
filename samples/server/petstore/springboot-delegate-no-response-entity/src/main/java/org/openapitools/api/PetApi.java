@@ -43,7 +43,6 @@ public interface PetApi {
     String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -52,7 +51,6 @@ public interface PetApi {
     @Operation(
         operationId = "addPet",
         summary = "Add a new pet to the store",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -82,7 +80,6 @@ public interface PetApi {
     String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
-     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -91,7 +88,6 @@ public interface PetApi {
     @Operation(
         operationId = "deletePet",
         summary = "Deletes a pet",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid pet value")
@@ -107,7 +103,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+        @Parameter(name = "api_key", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         getDelegate().deletePet(petId, apiKey);
     }
@@ -145,7 +141,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default List<Pet> findPetsByStatus(
-        @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
+        @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status") @Deprecated List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
     }
@@ -186,7 +182,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default List<Pet> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags") List<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
     }
@@ -235,7 +231,6 @@ public interface PetApi {
     String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
-     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -248,7 +243,6 @@ public interface PetApi {
     @Operation(
         operationId = "updatePet",
         summary = "Update an existing pet",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -281,7 +275,6 @@ public interface PetApi {
     String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
-     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -291,7 +284,6 @@ public interface PetApi {
     @Operation(
         operationId = "updatePetWithForm",
         summary = "Updates a pet in the store with form data",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
@@ -318,7 +310,6 @@ public interface PetApi {
     String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
-     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -328,7 +319,6 @@ public interface PetApi {
     @Operation(
         operationId = "uploadFile",
         summary = "uploads an image",
-        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

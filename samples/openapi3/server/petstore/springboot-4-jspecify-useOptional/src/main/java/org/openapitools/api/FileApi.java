@@ -64,7 +64,7 @@ public interface FileApi {
         produces = { "application/json" }
     )
     default ResponseEntity<FileContent> fileIdGet(
-        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
+        @Parameter(name = "id", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
