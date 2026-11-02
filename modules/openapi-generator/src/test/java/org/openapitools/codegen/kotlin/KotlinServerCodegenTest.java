@@ -412,6 +412,34 @@ public class KotlinServerCodegenTest {
     }
 
     @Test
+    public void disableDiscriminatorJsonIgnorePropertiesUsesExistingProperty() throws IOException {
+        Path defaultPet = generateJavalinPet(false);
+        assertFileContains(defaultPet, "JsonTypeInfo.As.PROPERTY");
+        assertFileNotContains(defaultPet, "EXISTING_PROPERTY");
+
+        Path optionPet = generateJavalinPet(true);
+        assertFileContains(optionPet, "JsonTypeInfo.As.EXISTING_PROPERTY");
+        assertFileNotContains(optionPet, "JsonTypeInfo.As.PROPERTY");
+    }
+
+    private Path generateJavalinPet(boolean disableDiscriminatorJsonIgnoreProperties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(KotlinServerCodegen.Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, disableDiscriminatorJsonIgnoreProperties);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        return Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/models/Pet.kt");
+    }
+
+    @Test
     public void oneOfWithDiscriminator_generatesChildrenWithOverrideDiscriminatorProperty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

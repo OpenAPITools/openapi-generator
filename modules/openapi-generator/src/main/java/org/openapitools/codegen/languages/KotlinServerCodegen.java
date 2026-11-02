@@ -113,6 +113,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private boolean fixJacksonJsonTypeInfoInheritance = true;
     @Getter
     @Setter
+    private boolean disableDiscriminatorJsonIgnoreProperties = false;
+    @Getter
+    @Setter
     private Boolean delegatePatternEnabled = false;
 
     /**
@@ -188,6 +191,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
         addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
+        addSwitch(Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES_DESC, disableDiscriminatorJsonIgnoreProperties);
         addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getDelegatePatternEnabled());
     }
 
@@ -266,6 +270,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             setFixJacksonJsonTypeInfoInheritance(Boolean.parseBoolean(additionalProperties.get(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE).toString()));
         }
         additionalProperties.put(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, fixJacksonJsonTypeInfoInheritance);
+
+        if (additionalProperties.containsKey(Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES)) {
+            setDisableDiscriminatorJsonIgnoreProperties(Boolean.parseBoolean(additionalProperties.get(Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES).toString()));
+        }
+        additionalProperties.put(Constants.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, disableDiscriminatorJsonIgnoreProperties);
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
@@ -437,6 +446,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
         public static final String USE_TAGS = "useTags";
+        public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
+        public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES_DESC = "Use Jackson's `JsonTypeInfo.As.EXISTING_PROPERTY` instead of `JsonTypeInfo.As.PROPERTY` for discriminators, so the discriminator is serialized from the model's own property instead of being written again by Jackson. Only applies to the jackson serialization library.";
         public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
         public static final String DELEGATE_PATTERN = "delegatePattern";
         public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
