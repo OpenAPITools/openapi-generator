@@ -373,9 +373,10 @@ public class AbstractPythonConnexionServerCodegenTest {
         // sanitized Python parameter name (qwes)
         assertFileContains(flaskTest,
                 "'X-A&B\\'Key': 'special-key'",
-                "('q&we\\'s',");
+                "('q&we\\'s',",
+                "('api_query_token', 'special-key')");
         assertFileNotContains(flaskTest,
-                "'apiKeyAuth'", "'apiQueryAuth'", "api_query_token", "('qwes',");
+                "'apiKeyAuth'", "'apiQueryAuth'", "('qwes',");
         // the 'X-A&amp;B&#39;Head' headerParam line emitted here stays HTML-escaped on
         // purpose: flask/aiohttp test and controller headerParam names are owned by the
         // object-params work (x-python-connexion-quoted-name), not by this change
@@ -394,9 +395,10 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(aiohttpTest);
         assertFileContains(aiohttpTest,
                 "'X-A&B\\'Key': 'special-key'",
-                "('q&we\\'s',");
+                "('q&we\\'s',",
+                "('api_query_token', 'special-key')");
         assertFileNotContains(aiohttpTest,
-                "'apiKeyAuth'", "'apiQueryAuth'", "api_query_token", "('qwes',");
+                "'apiKeyAuth'", "'apiQueryAuth'", "('qwes',");
 
         Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap(), specPath);
         Path blueplanetModel = blueplanetDir.resolve(Paths.get("app", "openapi_server", "models", "escaped_names.py"));

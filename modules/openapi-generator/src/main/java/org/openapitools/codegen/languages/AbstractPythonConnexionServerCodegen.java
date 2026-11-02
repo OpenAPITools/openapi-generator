@@ -521,6 +521,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         for (CodegenSecurity codegenSecurity : codegenSecurities) {
             codegenSecurity.vendorExtensions.put("x-python-connexion-security-function-suffix",
                     securityFunctionNameSuffix(codegenSecurity.name));
+            if (codegenSecurity.keyParamName != null) {
+                // an apiKey-in-header's keyParamName goes into a single-quoted Python literal
+                // in generated tests (it is the header name, not the security scheme name)
+                codegenSecurity.vendorExtensions.put(X_QUOTED_KEY_PARAM_NAME,
+                        escapeForPythonSingleQuotedLiteral(codegenSecurity.keyParamName));
+            }
         }
         return codegenSecurities;
     }
@@ -749,19 +755,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             }
         }
         return sb.toString();
-    }
-
-    @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
-        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
-        for (CodegenSecurity cs : codegenSecurities) {
-            if (cs.keyParamName != null) {
-                // an apiKey-in-header's keyParamName goes into a single-quoted Python literal
-                // in generated tests (it is the header name, not the security scheme name)
-                cs.vendorExtensions.put(X_QUOTED_KEY_PARAM_NAME, escapeForPythonSingleQuotedLiteral(cs.keyParamName));
-            }
-        }
-        return codegenSecurities;
     }
 
     @Override
@@ -1017,7 +1010,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             for (CodegenParameter param : operation.queryParams) {
                 Map<String, String> entry = new HashMap<>();
                 Object openapiName = param.vendorExtensions.get("x-python-connexion-openapi-name");
-                entry.put("name", openapiName != null ? openapiName.toString() : param.paramName);
+                String wireName = openapiName != null ? openapiName.toString() : param.baseName;
+                entry.put("name", escapeForPythonSingleQuotedLiteral(wireName));
                 entry.put("example", param.example);
                 testQueryString.add(entry);
             }
@@ -1029,7 +1023,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                     if (Boolean.TRUE.equals(auth.isKeyInQuery)) {
                         Map<String, String> entry = new HashMap<>();
-                        entry.put("name", auth.keyParamName);
+                        entry.put("name", escapeForPythonSingleQuotedLiteral(auth.keyParamName));
                         entry.put("example", "'special-key'");
                         testQueryString.add(entry);
                     }
