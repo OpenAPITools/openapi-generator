@@ -1263,29 +1263,21 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             return null;
         }
         PathItem pathItem = this.openAPI.getPaths() != null
-                ? this.openAPI.getPaths().get(operation.path) : null;
+                ? findPathItem(this.openAPI.getPaths(), operation.path) : null;
         if (pathItem == null && this.openAPI.getWebhooks() != null) {
             pathItem = this.openAPI.getWebhooks().get(operation.path);
             if (pathItem == null && operation.path.startsWith("/")) {
                 pathItem = this.openAPI.getWebhooks().get(operation.path.substring(1));
             }
         }
-        Operation swaggerOperation = null;
-        if (pathItem != null) {
-            try {
-                swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
-            } catch (IllegalArgumentException e) {
-                swaggerOperation = null;
-            }
+        if (pathItem == null) {
+            return null;
         }
-        if (swaggerOperation == null) {
-            // operation.path is normalized before this lookup (e.g. escaped backslashes),
-            // so fall back to matching the operation by its operationId instead of the path key
-            String operationId = operation.operationIdOriginal != null
-                    ? operation.operationIdOriginal : operation.operationId;
-            if (operationId != null) {
-                swaggerOperation = findSwaggerOperationById(operationId, operation.httpMethod);
-            }
+        Operation swaggerOperation;
+        try {
+            swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
+        } catch (IllegalArgumentException e) {
+            return null;
         }
         if (swaggerOperation == null) {
             return null;
@@ -1293,18 +1285,20 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         return ModelUtils.getReferencedRequestBody(this.openAPI, swaggerOperation.getRequestBody());
     }
 
-    private Operation findSwaggerOperationById(String operationId, String httpMethod) {
-        for (Map<String, PathItem> items : Arrays.asList(this.openAPI.getPaths(), this.openAPI.getWebhooks())) {
-            if (items == null) {
-                continue;
-            }
-            for (PathItem item : items.values()) {
-                for (Map.Entry<PathItem.HttpMethod, Operation> entry : item.readOperationsMap().entrySet()) {
-                    if (operationId.equals(entry.getValue().getOperationId())
-                            && (httpMethod == null || entry.getKey().name().equalsIgnoreCase(httpMethod))) {
-                        return entry.getValue();
-                    }
-                }
+    /**
+     * Finds a path item for a CodegenOperation path. DefaultCodegen strips backslashes
+     * from operation paths ({@code op.path.replace("\\", "")}), so spec paths containing
+     * escapes (e.g. {@code /api/GetPetById\(\)}) are matched after applying the same
+     * normalization to the spec keys — exact correspondence, no fuzzy matching.
+     */
+    private static PathItem findPathItem(Map<String, PathItem> paths, String operationPath) {
+        PathItem direct = paths.get(operationPath);
+        if (direct != null) {
+            return direct;
+        }
+        for (Map.Entry<String, PathItem> entry : paths.entrySet()) {
+            if (entry.getKey().replace("\\", "").equals(operationPath)) {
+                return entry.getValue();
             }
         }
         return null;

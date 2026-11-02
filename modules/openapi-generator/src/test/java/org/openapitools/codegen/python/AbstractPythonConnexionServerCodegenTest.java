@@ -598,6 +598,10 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "async def create_gadget(request: web.Request, body=None) -> web.Response:",
                 "body = _form_body.get('body')",
                 "async def upload_mixed_case(request: web.Request, body=None, file=None) -> web.Response:",
+                // an escaped-backslash spec path loses the direct paths lookup after
+                // DefaultCodegen strips the backslashes; the collapse must still fire
+                "async def post_escaped_backslash_form(request: web.Request, body=None) -> web.Response:",
+                "token = _form_body.get('token')",
                 "async def submit_pet_survey(request: web.Request, pet_id, body=None) -> web.Response:",
                 "scores = _form_body.get('scores')",
                 ":param body: Form fields: name (str): Updated name of the pet; "

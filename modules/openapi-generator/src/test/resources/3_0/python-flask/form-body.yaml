@@ -266,3 +266,19 @@ paths:
       responses:
         '200':
           description: OK
+  /escaped\\path:
+    post:
+      operationId: post_escaped_backslash_form
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: OK
