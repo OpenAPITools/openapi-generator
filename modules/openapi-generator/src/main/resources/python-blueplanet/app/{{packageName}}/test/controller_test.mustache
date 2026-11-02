@@ -29,7 +29,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{baseName}}', {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
         {{#cookieParams}}{{#-first}}{{^headerParams}}headers = []
-        {{/headerParams}}headers += [('Cookie', '; '.join([{{/-first}}'{{baseName}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}])]{{/-last}}
+        {{/headerParams}}headers += [('Cookie', '; '.join([{{/-first}}'{{baseName}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]))]{{/-last}}
         {{/cookieParams}}
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}

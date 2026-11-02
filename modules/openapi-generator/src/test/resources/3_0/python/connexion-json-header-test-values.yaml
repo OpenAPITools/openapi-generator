@@ -88,6 +88,24 @@ paths:
       responses:
         '200':
           description: ok
+  /cookie-only:
+    get:
+      operationId: get_cookie_only
+      parameters:
+        - name: session_id
+          in: cookie
+          required: true
+          schema:
+            type: string
+        - name: visit_count
+          in: cookie
+          required: false
+          schema:
+            type: integer
+            example: 7
+      responses:
+        '200':
+          description: ok
 components:
   examples:
     JsonHeaderExample:

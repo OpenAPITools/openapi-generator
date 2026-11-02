@@ -14,11 +14,13 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
 import org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,8 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -726,7 +730,7 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
-    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
+    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException, InterruptedException {
         String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
 
         for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
@@ -734,6 +738,7 @@ public class AbstractPythonConnexionServerCodegenTest {
             boolean blueplanet = isBlueplanetVariant(variantKey);
             Path testFile = generatedTestPath(variantKey, variant.getValue());
             assertFileExists(testFile);
+            assertPythonSyntaxValid(testFile);
 
             // each variant carries the example in a different place of the media type;
             // whatever the source, the generated test must send a JSON string literal
@@ -765,12 +770,40 @@ public class AbstractPythonConnexionServerCodegenTest {
                         "'X-Json-Model-Cookie': '{\"c\":3}'",
                         "'count': str(56)",
                         "cookies=cookies");
+                assertFileContainsTrimmedLine(testFile, "'count': str(56) }");
             } else {
                 assertFileContains(testFile,
                         "'X-Json-Inline-Cookie=' + '{}'",
                         "'X-Json-Model-Cookie=' + '{\"c\":3}'",
                         "'count=' + str(56)");
+                // the complete closing line of the Cookie statement must
+                // balance every bracket: blueplanet emitted `])]`, leaving the
+                // ('Cookie', ...) tuple unclosed → SyntaxError in generated tests
+                assertFileContainsTrimmedLine(testFile, blueplanet
+                        ? "'count=' + str(56)]))]"
+                        : "'count=' + str(56)])");
             }
+
+            // the cookie-only operation has no header list to extend, so the
+            // Cookie statement must still be complete on its own
+            String cookieOnly = generatedTestMethodBody(testFile, "test_get_cookie_only");
+            if (variantKey.startsWith("python-aiohttp")) {
+                assertThat(cookieOnly).contains(
+                        "'session_id': str('session_id_example')",
+                        "'visit_count': str(7)",
+                        "cookies=cookies");
+            } else {
+                assertThat(cookieOnly).contains(
+                        "'session_id=' + str('session_id_example')",
+                        "'visit_count=' + str(7)");
+                if (blueplanet) {
+                    assertThat(cookieOnly).contains("headers = []");
+                }
+            }
+            assertFileContainsTrimmedLine(testFile,
+                    blueplanet ? "'visit_count=' + str(7)]))]"
+                            : variantKey.startsWith("python-aiohttp") ? "'visit_count': str(7) }"
+                            : "'visit_count=' + str(7)])");
         }
     }
 
@@ -878,5 +911,39 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(aiohttpSetupPy);
         assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
         assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
+    }
+
+    /**
+     * Asserts the file contains a physical line equal to {@code expected}
+     * after trimming — a stronger check than substring containment, used to
+     * pin the exact closing brackets of the generated Cookie statement.
+     */
+    private static void assertFileContainsTrimmedLine(Path file, String expected) throws IOException {
+        List<String> trimmed = Files.readAllLines(file).stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+        assertThat(trimmed)
+                .as("generated file %s must contain the line: %s", file, expected)
+                .contains(expected);
+    }
+
+    /**
+     * Runs {@code python3 -m py_compile} on the generated file. Skips if
+     * {@code python3} is not available (optional toolchain).
+     */
+    private static void assertPythonSyntaxValid(Path pythonFile) throws IOException, InterruptedException {
+        ProcessBuilder pb = new ProcessBuilder("python3", "-m", "py_compile", pythonFile.toString());
+        pb.redirectErrorStream(true);
+        final Process p;
+        try {
+            p = pb.start();
+        } catch (IOException e) {
+            throw new SkipException("python3 not available on PATH, skipping syntax check: " + e.getMessage());
+        }
+        assertThat(p.waitFor(30, TimeUnit.SECONDS)).as("python3 -m py_compile timed out").isTrue();
+        String out = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+        assertThat(p.exitValue())
+                .as("python3 -m py_compile must accept generated test %s: %s", pythonFile, out)
+                .isEqualTo(0);
     }
 }
