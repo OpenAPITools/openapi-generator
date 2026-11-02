@@ -1,23 +1,29 @@
-name: Python Flask (Connexion 3) Server
+name: Python Flask Server
 
 on:
   push:
     paths:
+      - samples/server/petstore/python-flask/**
       - samples/server/petstore/python-flask-connexion3/**
+      - modules/openapi-generator/src/main/resources/python-flask/**
+      - modules/openapi-generator/src/test/resources/3_0/python-flask/**
       - .github/workflows/samples-python-flask-connexion3-server.yaml
   pull_request:
     paths:
+      - samples/server/petstore/python-flask/**
       - samples/server/petstore/python-flask-connexion3/**
+      - modules/openapi-generator/src/main/resources/python-flask/**
+      - modules/openapi-generator/src/test/resources/3_0/python-flask/**
       - .github/workflows/samples-python-flask-connexion3-server.yaml
 jobs:
   build:
-    name: Test Python Flask (Connexion 3) server
+    name: Test Python Flask server (${{ matrix.sample }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          # servers
+          - samples/server/petstore/python-flask/
           - samples/server/petstore/python-flask-connexion3/
     steps:
       - uses: actions/checkout@v7
@@ -30,6 +36,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r test-requirements.txt
-      - name: Test
+      - name: Test JSON serialization
+        working-directory: ${{ matrix.sample }}
+        run: >-
+          python -m pytest --import-mode=importlib
+          "$GITHUB_WORKSPACE/modules/openapi-generator/src/test/resources/3_0/python-flask/test_json_serialization.py"
+      - name: Test existing Connexion 3 sample
+        if: matrix.sample == 'samples/server/petstore/python-flask-connexion3/'
         working-directory: ${{ matrix.sample }}
         run: pytest
