@@ -72,6 +72,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'FlexibleValue'
+        /// </summary>
+        [Fact]
+        public void FlexibleValueTest()
+        {
+            // TODO unit test for the property 'FlexibleValue'
+        }
+
+        /// <summary>
         /// Test the property 'FooOrList'
         /// </summary>
         [Fact]
@@ -81,12 +90,48 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Fruit'
+        /// </summary>
+        [Fact]
+        public void FruitTest()
+        {
+            // TODO unit test for the property 'Fruit'
+        }
+
+        /// <summary>
+        /// Test the property 'NestedFoo'
+        /// </summary>
+        [Fact]
+        public void NestedFooTest()
+        {
+            // TODO unit test for the property 'NestedFoo'
+        }
+
+        /// <summary>
+        /// Test the property 'NestedScalar'
+        /// </summary>
+        [Fact]
+        public void NestedScalarTest()
+        {
+            // TODO unit test for the property 'NestedScalar'
+        }
+
+        /// <summary>
         /// Test the property 'NullableStatus'
         /// </summary>
         [Fact]
         public void NullableStatusTest()
         {
             // TODO unit test for the property 'NullableStatus'
+        }
+
+        /// <summary>
+        /// Test the property 'PatternedText'
+        /// </summary>
+        [Fact]
+        public void PatternedTextTest()
+        {
+            // TODO unit test for the property 'PatternedText'
         }
 
         /// <summary>

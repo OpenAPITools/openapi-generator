@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("type") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "type");
                         if (discriminator?.Equals("document") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderDocument = utf8JsonReader;
