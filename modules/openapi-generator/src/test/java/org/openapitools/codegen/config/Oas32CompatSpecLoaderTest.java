@@ -2,6 +2,7 @@ package org.openapitools.codegen.config;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -1355,6 +1356,165 @@ public class Oas32CompatSpecLoaderTest {
             Assert.assertTrue(body.contains("3.2.0"));
             Assert.assertEquals(gets.get(), 1);
         }
+    }
+
+    @Test
+    public void operationsRejectsNullPathItem() {
+        // allOperations/allOperationsList return early on a null path
+        // item; operations must guard the same way instead of throwing NPE
+        OpenAPI openAPI = new OpenAPI();
+        Oas32Extensions.markCompatDocument(openAPI);
+        Assert.assertTrue(Oas32Extensions.operations(openAPI, null).isEmpty());
+    }
+
+    @Test
+    public void malformedRestoredOperationNamesTheMember() {
+        // an x-oas32-* member holding a value that cannot be an Operation
+        // fails convertValue with a bare Jackson error — it must be
+        // rethrown naming the member, the only pointer back into the
+        // source document the parsed model still has
+        OpenAPI openAPI = new OpenAPI();
+        Oas32Extensions.markCompatDocument(openAPI);
+        PathItem pathItem = new PathItem();
+        pathItem.addExtension(Oas32Extensions.QUERY_OPERATION_EXT, "not-an-operation");
+        try {
+            Oas32Extensions.operations(openAPI, pathItem);
+            Assert.fail("a non-operation value must fail conversion");
+        } catch (IllegalArgumentException e) {
+            Assert.assertTrue(e.getMessage().contains("'query'"), e.getMessage());
+        }
+
+        PathItem additionalItem = new PathItem();
+        Map<String, Object> additional = new LinkedHashMap<>();
+        additional.put("PURGE", "not-an-operation");
+        additionalItem.addExtension(Oas32Extensions.ADDITIONAL_OPERATIONS_EXT, additional);
+        try {
+            Oas32Extensions.operations(openAPI, additionalItem);
+            Assert.fail("a non-operation value must fail conversion");
+        } catch (IllegalArgumentException e) {
+            Assert.assertTrue(e.getMessage().contains("'PURGE'"), e.getMessage());
+        }
+    }
+
+    @Test
+    public void authoredOpIdExtensionSurvivesStaging() throws Exception {
+        // an authored x-oas32-op-id on a moved operation occupies the slot
+        // the staging marker borrows: it is kept under
+        // x-oas32-authored-op-id and restored when the marker is stripped
+        String spec = "openapi: 3.2.0\n"
+                + "info:\n  title: t\n  version: '1'\n"
+                + "paths:\n"
+                + "  /t:\n"
+                + "    query:\n"
+                + "      operationId: q\n"
+                + "      x-oas32-op-id: authored\n"
+                + "      responses:\n"
+                + "        '200':\n"
+                + "          description: ok\n";
+        java.nio.file.Path file = Files.createTempFile("oas32-op-id", ".yaml");
+        Files.write(file, spec.getBytes(StandardCharsets.UTF_8));
+        try {
+            OpenAPI openAPI = contextFor(file.toString()).getSpecDocument();
+            Assert.assertNotNull(openAPI);
+            Operation query = Oas32Extensions.operations(
+                    openAPI, openAPI.getPaths().get("/t")).get("QUERY");
+            Assert.assertNotNull(query);
+            Assert.assertEquals(query.getExtensions().get("x-oas32-op-id"), "authored",
+                    "the authored extension must be restored after staging");
+            Assert.assertFalse(query.getExtensions().containsKey("x-oas32-authored-op-id"),
+                    "the preservation slot must not be left behind");
+        } finally {
+            Files.deleteIfExists(file);
+        }
+    }
+
+    @Test
+    public void refResponseKeepsItsSummaryOverride() {
+        // a "summary" beside $ref is the override spec 3.1 defines on a
+        // Reference Object — not a 3.2 member, so it is neither moved nor
+        // given a default description
+        ObjectNode doc = Json31.mapper().createObjectNode();
+        doc.put("openapi", "3.2.0");
+        doc.putObject("paths");
+        ObjectNode refResponse = doc.putObject("components").putObject("responses")
+                .putObject("R");
+        refResponse.put("$ref", "#/components/responses/Base");
+        refResponse.put("summary", "the 3.1 override");
+        refResponse.put("description", "the 3.1 description override");
+
+        Oas32CompatSpecLoader.rewriteForCompatibility(doc);
+
+        Assert.assertEquals(refResponse.get("summary").asText(), "the 3.1 override");
+        Assert.assertFalse(refResponse.has("x-oas32-summary"),
+                "a $ref sibling summary must not be moved to an extension");
+        Assert.assertEquals(refResponse.get("description").asText(),
+                "the 3.1 description override");
+    }
+
+    @Test
+    public void callbackRestoredDuplicateOfFixedMethodIsNotGenerated() {
+        // a callback path item whose additionalOperations names a fixed
+        // method in any letter case must not produce two requests for one
+        // wire method — the fixed operation wins, as in paths and webhooks
+        OpenAPI openAPI = new OpenAPI();
+        Oas32Extensions.markCompatDocument(openAPI);
+        PathItem callbackItem = new PathItem();
+        callbackItem.setGet(new Operation().operationId("fixedGet"));
+        Map<String, Object> additional = new LinkedHashMap<>();
+        additional.put("GET", new Operation().operationId("duplicateGet"));
+        callbackItem.addExtension(Oas32Extensions.ADDITIONAL_OPERATIONS_EXT, additional);
+        Callback callback = new Callback();
+        callback.put("{$request.body#/cb}", callbackItem);
+
+        DefaultCodegen config = new DefaultCodegen();
+        config.setOpenAPI(openAPI);
+        CodegenCallback codegenCallback = config.fromCallback("onEvent", callback, null);
+
+        Assert.assertEquals(codegenCallback.urls.size(), 1);
+        long getRequests = codegenCallback.urls.get(0).requests.stream()
+                .filter(r -> "get".equalsIgnoreCase(r.httpMethod))
+                .count();
+        Assert.assertEquals(getRequests, 1,
+                "the additionalOperations duplicate must not add a second request");
+        Assert.assertEquals(codegenCallback.urls.get(0).requests.get(0).operationId, "fixedGet");
+    }
+
+    @Test
+    public void authoredStructuralExtensionsKeepTheirRefsOpaque() {
+        // an authored x-oas32-* member is user data, not a loader-created
+        // member: $ref-looking strings inside it stay untouched, while a
+        // real moved member's refs are still absolutized
+        URI base = URI.create("file:///specs/api.yaml");
+        ObjectNode doc = Json31.mapper().createObjectNode();
+        doc.put("openapi", "3.2.0");
+        // an authored structural-name extension on a non-path-item node
+        doc.putObject("components").putObject("schemas").putObject("S")
+                .putObject("x-oas32-query").putObject("payload")
+                .put("$ref", "./schemas/X.yaml");
+        // an authored structural-name extension on a path item itself
+        ObjectNode pathItem = doc.putObject("paths").putObject("/t");
+        pathItem.putObject("x-oas32-itemSchema").put("$ref", "./schemas/Authored.yaml");
+        // the moved member: a query operation holding a relative ref
+        pathItem.putObject("query").putArray("parameters").addObject()
+                .put("name", "p").put("in", "query")
+                .putObject("schema").put("$ref", "./schemas/P.yaml");
+
+        Map<JsonNode, java.util.Set<String>> authored =
+                Oas32CompatSpecLoader.authoredStructuralExtensions(doc);
+        Oas32CompatSpecLoader.rewriteForCompatibility(doc);
+        Oas32CompatSpecLoader.absolutizeRefs(doc, base, authored);
+
+        Assert.assertEquals(
+                doc.at("/components/schemas/S/x-oas32-query/payload/$ref").asText(),
+                "./schemas/X.yaml", "authored x-oas32-* payload must stay opaque");
+        Assert.assertEquals(
+                doc.at("/paths/~1t/x-oas32-itemSchema/$ref").asText(),
+                "./schemas/Authored.yaml",
+                "an authored member on a path item stays opaque too");
+        Assert.assertEquals(
+                doc.at("/paths/~1t/x-oas32-query/parameters/0/schema/$ref").asText(),
+                "/specs/schemas/P.yaml",
+                "the loader-moved member's refs are absolutized");
     }
 
     private Map<String, List<CodegenOperation>> processPaths(OpenAPI openAPI) throws Exception {

@@ -5479,9 +5479,15 @@ public class DefaultCodegen implements CodegenConfig {
                     Pair.of("delete", pi.getDelete()),
                     Pair.of("patch", pi.getPatch()),
                     Pair.of("options", pi.getOptions()));
-            // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader
+            // OpenAPI 3.2 members kept in x-oas32-* extensions by Oas32CompatSpecLoader.
+            // A restored key naming a fixed method in any letter case is the same wire
+            // method — spec 3.2.1 forbids it, but a document can carry one: the fixed
+            // operation wins and the duplicate is skipped, as processRestoredOperations
+            // does for paths and webhooks.
+            Set<String> fixedMethodNames = Oas32Extensions.fixedMethodNames(pi);
             Stream<Pair<String, Operation>> restoredOperations = Oas32Extensions.operations(openAPI, pi)
                     .entrySet().stream()
+                    .filter(e -> !fixedMethodNames.contains(e.getKey().toLowerCase(Locale.ROOT)))
                     .map(e -> Pair.of(e.getKey(), e.getValue()));
             Stream.concat(fixedOperations, restoredOperations)
                     .filter(p -> p.getValue() != null)

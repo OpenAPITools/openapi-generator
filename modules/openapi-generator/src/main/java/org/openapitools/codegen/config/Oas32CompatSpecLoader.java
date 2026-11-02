@@ -134,6 +134,14 @@ class Oas32CompatSpecLoader implements SpecLoader {
     private static final String OPERATION_MARKER_EXT = EXT_PREFIX + "op-id";
 
     /**
+     * The slot an authored {@code x-oas32-op-id} extension is preserved
+     * under while {@link #OPERATION_MARKER_EXT} is borrowed for staging —
+     * the same {@code authored-} convention {@link #moveKey} uses. Grafting
+     * moves it back once the staging marker is removed.
+     */
+    private static final String AUTHORED_MARKER_EXT = EXT_PREFIX + "authored-op-id";
+
+    /**
      * Keys whose values are payload data, not structural objects: a
      * {@code "$ref"} member inside them is document content (for example an
      * example value that happens to contain a property named {@code "$ref"})
@@ -299,6 +307,12 @@ class Oas32CompatSpecLoader implements SpecLoader {
             refBase = selfBaseUri(refBase, self.asText());
         }
 
+        // Record which x-oas32-* members the document authored before the
+        // rewrite fills those slots with moved members — after the rewrite
+        // a loader-created extension is indistinguishable from an authored
+        // one, and the ref walk must only descend into the former.
+        Map<JsonNode, Set<String>> authoredStructural =
+                authoredStructuralExtensions((ObjectNode) document);
         rewriteForCompatibility(document);
         // The dereferencer resolves same-file "#/..." references by re-reading
         // the file at the given location, which would bypass this rewrite, so
@@ -306,7 +320,7 @@ class Oas32CompatSpecLoader implements SpecLoader {
         // against the original inputSpec instead (issue #25477).
         // Single pass: warns on external refs and rewrites relative ones when
         // a base is available (refBase==null still warns, rewrites nothing).
-        absolutizeRefs((ObjectNode) document, refBase);
+        absolutizeRefs((ObjectNode) document, refBase, authoredStructural);
         boolean hadPaths = document.get("paths") instanceof ObjectNode;
         List<StagedOperation> staged = stageMovedOperations((ObjectNode) document);
         String rewritten;
@@ -382,6 +396,37 @@ class Oas32CompatSpecLoader implements SpecLoader {
             }
         } else if (node != null && node.isArray()) {
             node.forEach(consumer);
+        }
+    }
+
+    /**
+     * Records the {@code x-oas32-*} members a document authored in the
+     * slots {@link #rewriteForCompatibility} fills with moved members —
+     * keyed by the object holding them, matched by identity so it must run
+     * on the tree before the rewrite mutates it. {@link #absolutizeRefs}
+     * descends into an {@link #STRUCTURAL_EXTENSIONS} member only when
+     * this map does not prove it authored.
+     */
+    static Map<JsonNode, Set<String>> authoredStructuralExtensions(ObjectNode root) {
+        Map<JsonNode, Set<String>> authored = new IdentityHashMap<>();
+        collectAuthoredStructural(root, authored);
+        return authored;
+    }
+
+    private static void collectAuthoredStructural(JsonNode node,
+                                                  Map<JsonNode, Set<String>> authored) {
+        if (node instanceof ObjectNode) {
+            ObjectNode object = (ObjectNode) node;
+            Iterator<String> names = object.fieldNames();
+            while (names.hasNext()) {
+                String name = names.next();
+                if (STRUCTURAL_EXTENSIONS.contains(name)) {
+                    authored.computeIfAbsent(object, k -> new HashSet<>()).add(name);
+                }
+            }
+            object.forEach(child -> collectAuthoredStructural(child, authored));
+        } else if (node != null && node.isArray()) {
+            node.forEach(child -> collectAuthoredStructural(child, authored));
         }
     }
 
@@ -546,14 +591,19 @@ class Oas32CompatSpecLoader implements SpecLoader {
             return;
         }
         ObjectNode response = (ObjectNode) node;
-        moveKey(response, "summary");
+        // An object holding "$ref" is a Reference Object, whose "summary"
+        // and "description" are the overrides spec 3.1 already defines —
+        // they are left alone rather than moved or defaulted.
+        boolean reference = response.has("$ref");
+        if (!reference) {
+            moveKey(response, "summary");
+        }
         // A Response Object without a description is valid in 3.2 but fails
         // the released parser's 3.1 schema, so an empty description is
         // supplied. Whether it was absent is not recorded: nothing reads
         // the distinction and a marker written into the document would leak
-        // into generated output. An object holding "$ref" is a Reference
-        // Object and is left alone.
-        if (!response.has("$ref") && !response.has("description")) {
+        // into generated output.
+        if (!reference && !response.has("description")) {
             response.put("description", "");
         }
         forEach(response.get("headers"), Oas32CompatSpecLoader::rewriteHeader);
@@ -720,6 +770,16 @@ class Oas32CompatSpecLoader implements SpecLoader {
             do {
                 name = SYNTHETIC_PATH_PREFIX + seq++;
             } while (paths.has(name));
+            if (operation.node.has(OPERATION_MARKER_EXT)) {
+                // an authored x-oas32-op-id extension occupies the marker
+                // slot: keep it under the authored- key so grafting can
+                // restore it instead of losing it with the marker
+                operation.node.set(AUTHORED_MARKER_EXT,
+                        operation.node.get(OPERATION_MARKER_EXT));
+                LOGGER.warn("authored extension {} moved aside to {}: the "
+                        + "slot is needed to stage a 3.2 operation",
+                        OPERATION_MARKER_EXT, AUTHORED_MARKER_EXT);
+            }
             operation.node.put(OPERATION_MARKER_EXT, name);
             operation.name = name;
             paths.putObject(name).set("post", operation.node);
@@ -892,6 +952,7 @@ class Oas32CompatSpecLoader implements SpecLoader {
                     continue;
                 }
                 Object marker = parsed.getExtensions().remove(OPERATION_MARKER_EXT);
+                restoreAuthoredMarker(parsed.getExtensions());
                 if (marker != null) {
                     parsedByName.put(String.valueOf(marker), parsed);
                 }
@@ -1004,7 +1065,20 @@ class Oas32CompatSpecLoader implements SpecLoader {
         @SuppressWarnings("unchecked")
         Map<String, Object> value = (Map<String, Object>) extensionValue;
         Object marker = value.remove(OPERATION_MARKER_EXT);
+        restoreAuthoredMarker(value);
         return marker == null ? null : parsedByName.get(String.valueOf(marker));
+    }
+
+    /**
+     * Moves a preserved authored extension back into the slot the staging
+     * marker occupied (see {@link #AUTHORED_MARKER_EXT}): after the marker
+     * is removed the extension looks exactly as the document authored it.
+     */
+    private static void restoreAuthoredMarker(Map<String, Object> extensions) {
+        Object authored = extensions.remove(AUTHORED_MARKER_EXT);
+        if (authored != null) {
+            extensions.put(OPERATION_MARKER_EXT, authored);
+        }
     }
 
     // ------------------------------------------------------------------
@@ -1202,7 +1276,20 @@ class Oas32CompatSpecLoader implements SpecLoader {
      * 3.1 parser produces; one warning per load.
      */
     static void absolutizeRefs(ObjectNode node, URI baseUri) {
-        new RefWalk(node, baseUri).walk(node, false, false);
+        absolutizeRefs(node, baseUri, null);
+    }
+
+    /**
+     * {@link #absolutizeRefs(ObjectNode, URI)} with the pre-rewrite record
+     * of authored {@code x-oas32-*} members (see {@link
+     * #authoredStructuralExtensions}): a structural extension the document
+     * authored is opaque content — only loader-created members are
+     * descended into. {@code null} keeps the lenient behaviour of walking
+     * every structural name, for callers without pre-rewrite information.
+     */
+    static void absolutizeRefs(ObjectNode node, URI baseUri,
+                             Map<JsonNode, Set<String>> authoredStructural) {
+        new RefWalk(node, baseUri, authoredStructural).walk(node, false, false);
     }
 
     /**
@@ -1213,13 +1300,16 @@ class Oas32CompatSpecLoader implements SpecLoader {
     private static final class RefWalk {
         private final URI baseUri;
         private final ObjectNode root;
+        private final Map<JsonNode, Set<String>> authoredStructural;
         private final Set<String> warnedDocuments = new HashSet<>();
         private final Set<String> warnedMovedRefs = new HashSet<>();
         private boolean warnedIdScope;
 
-        private RefWalk(ObjectNode root, URI baseUri) {
+        private RefWalk(ObjectNode root, URI baseUri,
+                        Map<JsonNode, Set<String>> authoredStructural) {
             this.root = root;
             this.baseUri = baseUri;
+            this.authoredStructural = authoredStructural;
         }
 
         /**
@@ -1272,8 +1362,10 @@ class Oas32CompatSpecLoader implements SpecLoader {
                     return;
                 }
                 if (key.startsWith("x-")
-                        && !STRUCTURAL_EXTENSIONS.contains(key)) {
-                    // user extension values and the loader's moved data
+                        && !(STRUCTURAL_EXTENSIONS.contains(key)
+                                && isLoaderCreated(node, key))) {
+                    // user extension values — including authored
+                    // x-oas32-* members — and the loader's moved data
                     // payloads are opaque content
                     return;
                 }
@@ -1283,6 +1375,26 @@ class Oas32CompatSpecLoader implements SpecLoader {
                 }
                 walk(value, false, idScope);
             });
+        }
+
+        /**
+         * Whether {@code key} on {@code node} is a structural extension the
+         * loader created, as opposed to one the document authored. The
+         * pre-rewrite record says the document authored it; that stays true
+         * after the rewrite unless {@code moveKey} pushed the authored
+         * value aside to {@code x-oas32-authored-<key>}, in which case the
+         * {@code x-oas32-<key>} now present is the moved member.
+         */
+        private boolean isLoaderCreated(ObjectNode node, String key) {
+            if (authoredStructural == null) {
+                return true;
+            }
+            Set<String> authored = authoredStructural.get(node);
+            if (authored == null || !authored.contains(key)) {
+                return true;
+            }
+            return node.has(EXT_PREFIX + "authored-"
+                    + key.substring(EXT_PREFIX.length()));
         }
 
         private void walk(JsonNode node, boolean insideLink,

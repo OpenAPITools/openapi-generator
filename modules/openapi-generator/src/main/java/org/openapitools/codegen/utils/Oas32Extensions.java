@@ -132,14 +132,15 @@ public final class Oas32Extensions {
      */
     public static Map<String, Operation> operations(OpenAPI openAPI, PathItem pathItem) {
         Map<String, Operation> operations = new LinkedHashMap<>();
-        if (!isCompatDocument(openAPI)) {
+        if (!isCompatDocument(openAPI) || pathItem == null) {
             return operations;
         }
         Map<String, Object> extensions = pathItem.getExtensions();
         if (extensions == null) {
             return operations;
         }
-        Operation query = toOperation(extensions.get(QUERY_OPERATION_EXT));
+        Operation query = toOperation(extensions.get(QUERY_OPERATION_EXT),
+                "path item member 'query'");
         if (query != null) {
             operations.put("QUERY", query);
             // a converted operation is written back so later reads return
@@ -152,7 +153,8 @@ public final class Oas32Extensions {
         Object additional = extensions.get(ADDITIONAL_OPERATIONS_EXT);
         if (additional instanceof Map) {
             ((Map<?, ?>) additional).forEach((method, operation) -> {
-                Operation parsed = toOperation(operation);
+                Operation parsed = toOperation(operation,
+                        "'additionalOperations' member '" + method + "'");
                 // a key spelling "query" in any case duplicates the restored
                 // QUERY operation rather than naming a distinct method
                 if (method instanceof String && parsed != null
@@ -291,14 +293,28 @@ public final class Oas32Extensions {
         return COMPAT_DOCS.contains(new CompatRef(openAPI));
     }
 
-    private static Operation toOperation(Object value) {
+    /**
+     * Converts a loosely-typed extension value to {@link Operation}. A
+     * malformed value fails {@code convertValue} with an {@link
+     * IllegalArgumentException} that names neither the extension nor the
+     * document location, so the failure is rethrown with {@code source}
+     * naming the member the value was read from — the parsed model carries
+     * no document position, which makes the member name the only usable
+     * pointer back into the source file.
+     */
+    private static Operation toOperation(Object value, String source) {
         if (value == null) {
             return null;
         }
         if (value instanceof Operation) {
             return (Operation) value;
         }
-        return Json31.mapper().convertValue(value, Operation.class);
+        try {
+            return Json31.mapper().convertValue(value, Operation.class);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("the " + source
+                    + " does not hold a valid Operation object: " + e.getMessage(), e);
+        }
     }
 
     /**
