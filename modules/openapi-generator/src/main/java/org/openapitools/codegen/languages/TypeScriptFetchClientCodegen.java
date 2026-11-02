@@ -725,6 +725,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public void processOpenAPI(OpenAPI openAPI) {
         super.processOpenAPI(openAPI);
         additionalProperties.remove("hasJsonContentModelHeader");
+        boolean hadJsonHeaderSerializers = Boolean.TRUE.equals(additionalProperties.remove("jsonHeaderModelSerializers"));
+        if (withoutRuntimeChecks && hadJsonHeaderSerializers) {
+            modelTemplateFiles.remove("models.mustache");
+            additionalProperties.put("modelSerializersEnabled", false);
+        }
         if (openAPI.getPaths() != null) {
             for (PathItem path : openAPI.getPaths().values()) {
                 if (hasJsonContentModelHeader(openAPI, path)) {
