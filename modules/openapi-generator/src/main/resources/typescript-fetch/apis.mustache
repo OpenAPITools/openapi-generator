@@ -258,7 +258,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#headerIsJsonMimeType}}
         {{#jsonHeaderUsesModelSerializer}}
         if (requestParameters['{{paramName}}'] !== undefined) {
-            headerParameters['{{baseName}}'] = JSON.stringify({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+            headerParameters['{{baseName}}'] = runtime.jsonStringifyForHeader({{dataType}}ToJSON(requestParameters['{{paramName}}']));
         }
 
         {{/jsonHeaderUsesModelSerializer}}

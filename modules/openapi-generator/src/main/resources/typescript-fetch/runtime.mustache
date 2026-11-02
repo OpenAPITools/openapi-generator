@@ -2,6 +2,15 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+{{#hasJsonContentModelHeader}}
+/** Serialize a JSON-content header using only ASCII characters. */
+export function jsonStringifyForHeader(value: unknown): string {
+    const json = JSON.stringify(value);
+    return json === undefined ? json : json.replace(/[\u007f-\uffff]/g, char =>
+        '\\u' + ('000' + char.charCodeAt(0).toString(16)).slice(-4));
+}
+
+{{/hasJsonContentModelHeader}}
 export const BASE_PATH: string = "{{{basePath}}}".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {

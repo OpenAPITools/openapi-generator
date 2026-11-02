@@ -17,6 +17,7 @@ import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -44,13 +45,15 @@ public class TypeScriptFetchClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath());
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
 
+        TestUtils.assertFileContains(output.toPath().resolve("runtime.ts"),
+                "export function jsonStringifyForHeader(value: unknown): string", "char.charCodeAt(0)");
         Path api = output.toPath().resolve("apis/DefaultApi.ts");
         TestUtils.assertFileContains(api,
                 "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
-                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
-                "headerParameters['X-Optional-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
-                "headerParameters['X-Vendor-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xVendorArg']));",
-                "headerParameters['X-Referenced-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Vendor-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
                 "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);");
         TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
                 "filePath?: string;",
@@ -61,6 +64,71 @@ public class TypeScriptFetchClientCodegenTest {
                 "headerParameters['X-Json-Arg'] = String(",
                 "headerParameters['X-Optional-Json-Arg'] = String(",
                 "headerParameters['X-Vendor-Arg'] = String(");
+    }
+
+    @Test
+    public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        File first = Files.createTempDirectory("typescript-json-header-first").toFile();
+        File second = Files.createTempDirectory("typescript-json-header-second").toFile();
+        try {
+            ClientOptInput firstInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                    .setOutputDir(first.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(first.getAbsolutePath());
+            new DefaultGenerator().opts(firstInput).generate();
+            TestUtils.assertFileContains(first.toPath().resolve("runtime.ts"), "jsonStringifyForHeader");
+            // The first spec has no license; avoid an unrelated null licenseName on reuse.
+            codegen.additionalProperties().remove(CodegenConstants.LICENSE_NAME);
+
+            ClientOptInput secondInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                    .setOutputDir(second.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(second.getAbsolutePath());
+            new DefaultGenerator().opts(secondInput).generate();
+            TestUtils.assertFileNotContains(second.toPath().resolve("runtime.ts"), "jsonStringifyForHeader");
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(first);
+            org.apache.commons.io.FileUtils.deleteDirectory(second);
+        }
+    }
+
+    @DataProvider(name = "runtimeCheckOptions")
+    public Object[][] runtimeCheckOptions() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "runtimeCheckOptions")
+    public void testJsonContentHeaderRuntime(boolean withoutRuntimeChecks) throws IOException, InterruptedException {
+        try {
+            if (new ProcessBuilder("node", "-e", "if (typeof Headers === 'undefined') process.exit(1)").start().waitFor() != 0
+                    || new ProcessBuilder("tsc", "--version").start().waitFor() != 0) {
+                throw new SkipException("Node.js with Headers and TypeScript compiler are required");
+            }
+        } catch (IOException ignored) {
+            throw new SkipException("Node.js with Headers and TypeScript compiler are required");
+        }
+        File output = Files.createTempDirectory("typescript-fetch-json-header-runtime").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty("withoutRuntimeChecks", withoutRuntimeChecks);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Process compile = new ProcessBuilder("tsc", "--target", "ES2018", "--module", "commonjs",
+                    "--lib", "ES2018,DOM", "--outDir", "compiled", "index.ts")
+                    .directory(output).redirectErrorStream(true).start();
+            String compileOutput = new String(compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(compile.waitFor(), 0, compileOutput);
+            Process test = new ProcessBuilder("node", Paths.get("src/test/resources/3_1/typescript-fetch/json-header-runtime.cjs")
+                    .toAbsolutePath().toString(), output.toPath().resolve("compiled").toString())
+                    .redirectErrorStream(true).start();
+            String testOutput = new String(test.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(test.waitFor(), 0, testOutput);
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(output);
+        }
     }
 
     @Test
@@ -77,10 +145,10 @@ public class TypeScriptFetchClientCodegenTest {
         Path api = output.toPath().resolve("apis/DefaultApi.ts");
         TestUtils.assertFileContains(api,
                 "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
-                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
-                "headerParameters['X-Optional-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
-                "headerParameters['X-Vendor-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xVendorArg']));",
-                "headerParameters['X-Referenced-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Vendor-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
                 "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);",
                 "import { HeaderArgToJSON } from '../models/HeaderArg';");
         TestUtils.assertFileNotContains(api,
@@ -102,7 +170,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path api = output.toPath().resolve("apis/DefaultApi.ts");
         TestUtils.assertFileContains(api,
-                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
                 "type HeaderArg,",
                 "HeaderArgToJSON,",
                 "} from '../models/HeaderArg';");
@@ -122,7 +190,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path api = output.toPath().resolve("apis/DefaultApi.ts");
         TestUtils.assertFileContains(api,
-                "headerParameters['X-Json-Arg'] = JSON.stringify(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
                 "import { HeaderArgToJSON } from '../models/HeaderArg';");
         TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
                 "'file_path': value['filePath'],");
