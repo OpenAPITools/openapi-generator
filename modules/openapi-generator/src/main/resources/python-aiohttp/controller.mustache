@@ -1,3 +1,6 @@
+{{#hasJsonHeaderParam}}
+import json
+{{/hasJsonHeaderParam}}
 from typing import List, Dict
 from aiohttp import web
 
@@ -8,7 +11,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> web.Response:
+async def {{operationId}}(request: web.Request, {{#vendorExtensions.x-handler-params}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-handler-params}}) -> web.Response:
     """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{notes}}
@@ -57,17 +60,67 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
 
     """
     {{#allParams}}
+        {{#isHeaderParam}}
+    {{paramName}} = request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{/isHeaderParam}}
+        {{#isCookieParam}}
+    {{paramName}} = request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+        {{/isCookieParam}}
+        {{#vendorExtensions.x-python-connexion-cast-int}}
+    if {{paramName}} is not None:
+        {{paramName}} = int({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-int}}
+        {{#vendorExtensions.x-python-connexion-cast-float}}
+    if {{paramName}} is not None:
+        {{paramName}} = float({{paramName}})
+        {{/vendorExtensions.x-python-connexion-cast-float}}
+        {{#vendorExtensions.x-python-connexion-cast-bool}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.lower() == 'true'
+        {{/vendorExtensions.x-python-connexion-cast-bool}}
+        {{#vendorExtensions.x-python-connexion-json-content}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = json.loads({{paramName}})
+        {{/vendorExtensions.x-python-connexion-json-content}}
+        {{#vendorExtensions.x-python-connexion-split-csv}}
+    if isinstance({{paramName}}, str):
+        {{paramName}} = {{paramName}}.split(',')
+        {{/vendorExtensions.x-python-connexion-split-csv}}
+        {{#vendorExtensions.x-python-connexion-cast-int-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [int(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-int-items}}
+        {{#vendorExtensions.x-python-connexion-cast-float-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [float(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-float-items}}
+        {{#vendorExtensions.x-python-connexion-cast-bool-items}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [x.lower() == 'true' if isinstance(x, str) else bool(x) for x in {{paramName}}]
+        {{/vendorExtensions.x-python-connexion-cast-bool-items}}
         {{^isContainer}}
             {{#isDate}}
-    {{paramName}} = util.deserialize_date({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_date({{paramName}})
             {{/isDate}}
             {{#isDateTime}}
-    {{paramName}} = util.deserialize_datetime({{paramName}})
+    if {{paramName}} is not None:
+        {{paramName}} = util.deserialize_datetime({{paramName}})
             {{/isDateTime}}
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     {{paramName}} = {{baseType}}.from_dict({{paramName}})
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
+                        {{/isBodyParam}}
+                        {{^isBodyParam}}
+                            {{^vendorExtensions.x-python-connexion-skip-from-dict}}
+    if isinstance({{paramName}}, dict):
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict({{paramName}})
+                            {{/vendorExtensions.x-python-connexion-skip-from-dict}}
+                        {{/isBodyParam}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -75,26 +128,47 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
         {{#isArray}}
             {{#items}}
                 {{#isDate}}
+                    {{#isBodyParam}}
     {{paramName}} = [util.deserialize_date(s) for s in {{paramName}}]
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [util.deserialize_date(s) for s in {{paramName}}]
+                    {{/isBodyParam}}
                 {{/isDate}}
                 {{#isDateTime}}
+                    {{#isBodyParam}}
     {{paramName}} = [util.deserialize_datetime(s) for s in {{paramName}}]
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [util.deserialize_datetime(s) for s in {{paramName}}]
+                    {{/isBodyParam}}
                 {{/isDateTime}}
                 {{#complexType}}
+                    {{#isBodyParam}}
     {{paramName}} = [{{complexType}}.from_dict(d) for d in {{paramName}}]
+                    {{/isBodyParam}}
+                    {{^isBodyParam}}
+    if isinstance({{paramName}}, list):
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in {{paramName}}]
+                    {{/isBodyParam}}
                 {{/complexType}}
             {{/items}}
         {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isDate}}
-    {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}}
+    if {{paramName}} is not None:
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}.items()}
                 {{/isDate}}
                 {{#isDateTime}}
-    {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}}
+    if {{paramName}} is not None:
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}.items()}
                 {{/isDateTime}}
                 {{#complexType}}
-    {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}}
+    if {{paramName}} is not None:
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}.items()}
                 {{/complexType}}
             {{/items}}
         {{/isMap}}

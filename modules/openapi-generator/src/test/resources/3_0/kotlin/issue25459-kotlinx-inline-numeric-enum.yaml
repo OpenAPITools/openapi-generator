@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: 'Issue 25459 kotlinx_serialization inline numeric enum'
+  version: latest
+paths:
+  '/recording':
+    get:
+      operationId: getRecording
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+components:
+  schemas:
+    Recording:
+      type: object
+      required: [plays, mode, speed]
+      properties:
+        plays:
+          type: integer
+          enum: [1, 2]
+        mode:
+          type: string
+          enum: [fast, slow]
+        ratio:
+          type: number
+          enum: [0.5, 1.5]
+        weight:
+          type: number
+          format: double
+          enum: [0.25, 0.75]
+        speed:
+          $ref: '#/components/schemas/Speed'
+        label:
+          $ref: '#/components/schemas/Label'
+    Speed:
+      type: integer
+      enum: [1, 2]
+    Label:
+      type: object
+      properties:
+        text:
+          type: string

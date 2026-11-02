@@ -1053,114 +1053,114 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if (this.Integer > (int)100)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
             if (this.Integer < (int)10)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             // Int32 (int) maximum
             if (this.Int32 > (int)200)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
             if (this.Int32 < (int)20)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // Int32Range (int) maximum
             if (this.Int32Range > (int)2147483647)
             {
-                yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
             }
 
             // Int32Range (int) minimum
             if (this.Int32Range < (int)-2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
             }
 
             // Int64Positive (long) minimum
             if (this.Int64Positive < (long)2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
             }
 
             // Int64Negative (long) maximum
             if (this.Int64Negative > (long)-2147483649)
             {
-                yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
             }
 
             // Int64PositiveExclusive (long) minimum
             if (this.Int64PositiveExclusive < (long)2147483647)
             {
-                yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
             }
 
             // Int64NegativeExclusive (long) maximum
             if (this.Int64NegativeExclusive <= (long)-2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
             }
 
             // UnsignedInteger (uint) maximum
             if (this.UnsignedInteger > (uint)200)
             {
-                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
             if (this.UnsignedInteger < (uint)20)
             {
-                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Float (float) maximum
             if (this.Float > (float)987.6)
             {
-                yield return new ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
             // Float (float) minimum
             if (this.Float < (float)54.3)
             {
-                yield return new ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
             // Double (double) maximum
             if (this.Double > (double)123.4)
             {
-                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
             // Double (double) minimum
             if (this.Double < (double)67.8)
             {
-                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
             if (this.String != null) {
@@ -1175,13 +1175,13 @@ namespace Org.OpenAPITools.Model
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
             if (this.PatternWithDigits != null) {

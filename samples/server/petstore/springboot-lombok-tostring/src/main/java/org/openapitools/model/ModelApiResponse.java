@@ -31,12 +31,21 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class ModelApiResponse {
 
+  
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("code")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer code;
 
+  
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("type")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String type;
 
+  
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String message;
 

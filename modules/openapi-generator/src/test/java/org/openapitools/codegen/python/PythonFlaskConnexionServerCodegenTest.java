@@ -163,4 +163,56 @@ public class PythonFlaskConnexionServerCodegenTest {
         Assert.assertFalse(Files.exists(old),
                 "Untagged operations should honor defaultController, not fall back to default_controller.py");
     }
+
+    @Test
+    public void testWebhookControllerDoesNotImportPydantic() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+
+        final Path controller = Paths.get(outputPath + "openapi_server/controllers/hooks_controller.py");
+        assertFileExists(controller);
+        assertFileContains(
+                controller,
+                "from openapi_server.models.header_arg import HeaderArg  # noqa: E501",
+                "from openapi_server import util",
+                // header parameters are read from the request, not passed in by Connexion
+                "def item_event_post(filter):",
+                "x_json_arg = flask.request.headers.get('X-Json-Arg')",
+                "x_json_arg = json.loads(x_json_arg)",
+                "x_json_arg = HeaderArg.from_dict(x_json_arg)  # noqa: E501");
+        assertFileNotContains(controller, "pydantic");
+
+        final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
+        assertFileExists(controllerTest);
+        assertFileNotContains(controllerTest, "pydantic");
+    }
+
+    @Test
+    public void testWebhookConnexion3SkipsMultipleProduces() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put(PythonFlaskConnexionServerCodegen.USE_CONNEXION_3, true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+
+        final Path controllerTest = Paths.get(outputPath + "openapi_server/test/test_hooks_controller.py");
+        assertFileExists(controllerTest);
+        assertFileNotContains(controllerTest, "pydantic");
+        assertFileContains(
+                controllerTest,
+                "@unittest.skip(\"Connexion 3 requires the handler to specify which content type to return");
+    }
+
+    @Test(description = "free-form object query/header parameters are passed through, not converted with object.from_dict")
+    public void testFreeFormObjectParametersAreNotConvertedWithFromDict() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/free-form-object-params.yaml");
+
+        // Connexion passes {} for an absent object query parameter, so "object.from_dict(meta)" raised
+        // AttributeError (500) on every request.
+        final Path controller = Paths.get(outputPath, "openapi_server/controllers/default_controller.py");
+        assertFileExists(controller);
+        assertFileContains(controller, "x_extra = flask.request.headers.get('X-Extra')");
+        assertFileNotContains(controller, "object.from_dict");
+        // A named model without a top-level "type" (allOf) is still converted.
+        assertFileContains(controller, "composed = Composed.from_dict(composed)");
+    }
 }

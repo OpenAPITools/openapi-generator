@@ -31,10 +31,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -80,6 +83,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_SPRING = "jvm-spring";
     protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
     protected static final String JVM_SPRING_RESTCLIENT = "jvm-spring-restclient";
+    public static final String JVM_MICROPROFILE = "jvm-microprofile";
+
+    public static final String MICROPROFILE_REST_CLIENT_VERSION = "microprofileRestClientVersion";
+    public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
+    public static final String CONFIG_KEY = "configKey";
+    public static final String CONFIG_KEY_FROM_CLASS_NAME = "configKeyFromClassName";
 
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
@@ -260,6 +269,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9 (Deprecated)");
         supportedLibraries.put(JVM_VERTX, "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
+        supportedLibraries.put(JVM_MICROPROFILE, "Platform: Java Virtual Machine. HTTP client: MicroProfile Rest Client 3.0 (Jakarta) or 2.0 (javax). JSON processing: Jackson. Optional SmallRye Mutiny support.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -314,6 +324,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
+        cliOptions.add(new CliOption(MICROPROFILE_REST_CLIENT_VERSION,
+                "MicroProfile Rest Client API version for jvm-microprofile. Supported values: 2.0 (javax, useJakartaEe=false), 3.0 (Jakarta, useJakartaEe=true). If specified, useJakartaEe must match the version.").defaultValue("3.0"));
+        cliOptions.add(CliOption.newBoolean(MICROPROFILE_MUTINY, "Return SmallRye Mutiny Uni types with jvm-microprofile. This library does not support useCoroutines or useRxJava3.", false));
+        cliOptions.add(new CliOption(CONFIG_KEY, "Configuration key in @RegisterRestClient for jvm-microprofile. Mutually exclusive with configKeyFromClassName=true."));
+        cliOptions.add(CliOption.newBoolean(CONFIG_KEY_FROM_CLASS_NAME, "Derive the jvm-microprofile configuration key from the API class name. Mutually exclusive with configKey.", false));
 
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
 
@@ -442,6 +457,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // super.processOpts() always writes useJackson3 back, so remember whether the user set it
         boolean useJackson3Configured = additionalProperties.containsKey(USE_JACKSON_3);
+
+        if (JVM_MICROPROFILE.equals(getLibrary())) {
+            additionalProperties.putIfAbsent(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_TYPE.jackson.name());
+            additionalProperties.putIfAbsent("useJakartaEe",
+                    "3.0".equals(additionalProperties.getOrDefault(MICROPROFILE_REST_CLIENT_VERSION, "3.0").toString()));
+        }
 
         super.processOpts();
 
@@ -588,6 +609,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case JVM_VERTX:
                 processJVMVertXLibrary(infrastructureFolder);
                 break;
+            case JVM_MICROPROFILE:
+                processJvmMicroprofileLibrary();
+                break;
             default:
                 break;
         }
@@ -645,6 +669,43 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
         additionalProperties.put("fnToOneOfWrapperName", new ToOneOfWrapperName());
         additionalProperties.put("fnToValueClassName", new ToValueClassName());
+    }
+
+    private void processJvmMicroprofileLibrary() {
+        if (generateRoomModels || (additionalProperties.containsKey(GENERATE_ROOM_MODELS)
+                && convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS))) {
+            throw new IllegalArgumentException("jvm-microprofile does not support generateRoomModels (JVM Volley library only)");
+        }
+        if (serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
+            throw new IllegalArgumentException("jvm-microprofile requires serializationLibrary=jackson");
+        }
+        if (useCoroutines || useRxJava3) {
+            throw new IllegalArgumentException("jvm-microprofile supports microprofileMutiny, not useCoroutines or useRxJava3");
+        }
+        String version = additionalProperties.getOrDefault(MICROPROFILE_REST_CLIENT_VERSION, "3.0").toString();
+        if (!"2.0".equals(version) && !"3.0".equals(version)) {
+            throw new IllegalArgumentException("jvm-microprofile supports microprofileRestClientVersion 2.0 or 3.0");
+        }
+        boolean jakarta = "3.0".equals(version);
+        if (additionalProperties.containsKey("useJakartaEe")
+                && convertPropertyToBoolean("useJakartaEe") != jakarta) {
+            throw new IllegalArgumentException("useJakartaEe must match microprofileRestClientVersion (3.0: true, 2.0: false)");
+        }
+        boolean configKeyFromClassName = additionalProperties.containsKey(CONFIG_KEY_FROM_CLASS_NAME)
+                && convertPropertyToBooleanAndWriteBack(CONFIG_KEY_FROM_CLASS_NAME);
+        if (configKeyFromClassName && additionalProperties.containsKey(CONFIG_KEY)) {
+            throw new IllegalArgumentException("Specify either configKey or configKeyFromClassName, not both");
+        }
+        additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, version);
+        additionalProperties.put("useJakartaEe", jakarta);
+        additionalProperties.put("rootJavaEEPackage", jakarta ? "jakarta" : "javax");
+        additionalProperties.put(JVM_MICROPROFILE, true);
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(MICROPROFILE_MUTINY, additionalProperties.containsKey(MICROPROFILE_MUTINY)
+                && convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY));
+        supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+        // HTTP transport, providers and authentication are supplied by the MicroProfile runtime.
+        apiTestTemplateFiles.clear();
     }
 
     private void processDateLibrary() {
@@ -1043,6 +1104,30 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
+        if (JVM_MICROPROFILE.equals(getLibrary())) {
+            Map<String, CodegenModel> models = getAllModels(objs);
+            Map<String, List<String>> unionInterfaces = new HashMap<>();
+            for (CodegenModel model : models.values()) {
+                if (model.discriminator == null || (model.oneOf.isEmpty() && model.anyOf.isEmpty())) {
+                    continue;
+                }
+                // Union alternatives do not share the properties merged by the normalizer.
+                getAllVarProperties(model).forEach(List::clear);
+                for (CodegenDiscriminator.MappedModel mapped : model.discriminator.getMappedModels()) {
+                    CodegenModel child = models.get(mapped.getModelName());
+                    if (child != null && !model.classname.equals(child.parent)) {
+                        List<String> interfaces = unionInterfaces.computeIfAbsent(child.classname, key -> new ArrayList<>());
+                        if (!interfaces.contains(model.classname)) {
+                            interfaces.add(model.classname);
+                        }
+                        child.imports.add(model.classname);
+                    }
+                }
+                unionInterfaces.forEach((name, interfaces) -> models.get(name).vendorExtensions.put(
+                        "x-kotlin-microprofile-union-interfaces", String.join(", ", interfaces)));
+            }
+        }
+
         // Resolve x-jackson-default-impl / typeInfoDefaultImpls into x-jackson-resolved-default-impl.
         // kotlin-client only supports discriminator-based oneOf (via @JsonTypeInfo + @JsonSubTypes);
         // deduction-based is not supported by these templates.
@@ -1123,8 +1208,36 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         OperationMap operations = objs.getOperations();
         boolean isResponseFile = false;
         if (operations != null) {
+            if (JVM_MICROPROFILE.equals(getLibrary())
+                    && Boolean.TRUE.equals(additionalProperties.get(CONFIG_KEY_FROM_CLASS_NAME))) {
+                operations.put(CONFIG_KEY, operations.getClassname().replaceFirst("Api$", "")
+                        .toLowerCase(Locale.ROOT) + "-api");
+            }
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
+                if (JVM_MICROPROFILE.equals(getLibrary()) && operation.returnProperty != null
+                        && operation.returnProperty.isNullable) {
+                    operation.vendorExtensions.put("x-kotlin-microprofile-nullable-return", true);
+                }
+                if (JVM_MICROPROFILE.equals(getLibrary()) && operation.consumes != null
+                        && operation.consumes.stream().map(mediaType -> mediaType.get("mediaType"))
+                        .filter(Objects::nonNull)
+                        .anyMatch(mediaType -> mediaType.split(";", 2)[0].trim().toLowerCase(Locale.ROOT).startsWith("multipart/"))) {
+                    throw new IllegalArgumentException("jvm-microprofile does not support multipart operations: " + operation.operationId);
+                }
+                if (JVM_MICROPROFILE.equals(getLibrary())) {
+                    for (CodegenParameter parameter : operation.queryParams) {
+                        if ((parameter.style != null && !"form".equals(parameter.style))
+                                || parameter.contentType != null
+                                || parameter.isModel || parameter.isMap || parameter.isFreeFormObject || parameter.isAnyType
+                                || (parameter.isArray && (!parameter.isCollectionFormatMulti || parameter.items == null
+                                || parameter.items.isContainer || parameter.items.isModel
+                                || parameter.items.isFreeFormObject || parameter.items.isAnyType))) {
+                            throw new IllegalArgumentException("jvm-microprofile supports only scalar query parameters and "
+                                    + "form-style exploded arrays of scalars: " + operation.operationId + "." + parameter.baseName);
+                        }
+                    }
+                }
                 isResponseFile = isResponseFile || operation.isResponseFile;
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {

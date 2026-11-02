@@ -26,7 +26,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#headerParams}}
-        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{baseName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}

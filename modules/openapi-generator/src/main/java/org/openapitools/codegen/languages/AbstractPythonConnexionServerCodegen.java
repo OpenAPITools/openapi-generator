@@ -86,6 +86,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean usePythonSrcRootInImports = Boolean.FALSE;
     protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
 
+    // Python function name suffix per security scheme name (e.g. "api-key" -> "api_key").
+    // Suffixes are assigned by addSecurityExtensions (called from preprocessOpenAPI):
+    // scheme names that are already valid identifier parts keep their name, the rest are
+    // numbered in spec order, so that the x-*Func references written into the spec and the
+    // function definitions emitted by security_controller.mustache always agree, even when
+    // the scheme name is not a valid Python identifier. fromSecurity only reads the values
+    // that addSecurityExtensions has already computed.
+    private final Map<String, String> securityFunctionNameSuffixes = new HashMap<>();
+
     public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
 
@@ -459,32 +468,90 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
+            securityFunctionNameSuffixes.clear();
+            // Reserve the suffix of names that already are valid identifier parts (no
+            // character replacement needed) so they keep the same function name as before.
+            // The remaining names are numbered afterwards, in spec order, avoiding the
+            // reserved suffixes (e.g. "api-key" listed before "api_key" gets "api_key_2",
+            // while "api_key" keeps "api_key").
+            for (String securityName : securitySchemes.keySet()) {
+                if (toPythonIdentifierSuffix(securityName).equals(securityName)) {
+                    securityFunctionNameSuffixes.put(securityName, securityName);
+                }
+            }
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
+                String functionSuffix = securityFunctionNameSuffix(securityName);
                 String baseFunctionName = controllerPackage + ".security_controller.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
-                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         break;
                     case HTTP:
                         if ("basic".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         } else if ("bearer".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
                         }
                         break;
                     case OPENIDCONNECT:
                         LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
-                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
-                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
+                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + functionSuffix);
+                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + functionSuffix);
                         break;
                     default:
                         LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
                 }
             }
         }
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(schemes);
+        for (CodegenSecurity codegenSecurity : codegenSecurities) {
+            codegenSecurity.vendorExtensions.put("x-python-connexion-security-function-suffix",
+                    securityFunctionNameSuffix(codegenSecurity.name));
+        }
+        return codegenSecurities;
+    }
+
+    /**
+     * Returns the Python identifier suffix used for the info_from_/validate_scope_ functions
+     * of the given security scheme name. The result is stable per scheme name and unique across
+     * schemes of the same spec. Scheme names that already are valid identifier parts are
+     * reserved by addSecurityExtensions and keep their name; for the others, if the sanitized
+     * suffix is already taken by another scheme name (e.g. "api-key" vs "api.key"), "_2",
+     * "_3", ... is appended in spec order.
+     */
+    private String securityFunctionNameSuffix(String schemeName) {
+        return securityFunctionNameSuffixes.computeIfAbsent(schemeName, name -> {
+            String base = toPythonIdentifierSuffix(name);
+            String suffix = base;
+            for (int i = 2; securityFunctionNameSuffixes.containsValue(suffix); i++) {
+                suffix = base + "_" + i;
+            }
+            return suffix;
+        });
+    }
+
+    /**
+     * Maps a security scheme name to a string usable as part of a Python identifier:
+     * every character that is not ASCII alphanumeric or '_' becomes '_'. The result is
+     * only used after the "info_from_"/"validate_scope_" prefixes, so a leading digit
+     * needs no further fix-up.
+     */
+    private static String toPythonIdentifierSuffix(String name) {
+        StringBuilder suffix = new StringBuilder(name.length());
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            boolean isIdentifierChar = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+                    || (c >= '0' && c <= '9') || c == '_';
+            suffix.append(isIdentifierChar ? c : '_');
+        }
+        return suffix.toString();
     }
 
     private static List<OperationMap> getOperations(Map<String, Object> objs) {
@@ -656,16 +723,156 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
+    public String toDefaultValue(Schema p) {
+        Schema<?> unaliased = p != null ? ModelUtils.unaliasSchema(this.openAPI, p) : null;
+        Object rawDefault = p != null && p.getDefault() != null ? p.getDefault()
+                : (unaliased != null ? unaliased.getDefault() : null);
+        Schema<?> target = unaliased != null ? unaliased : p;
+        if (target != null && ModelUtils.isArraySchema(target) && rawDefault instanceof Iterable<?>) {
+            return formatPythonDefaultValue(rawDefault, target);
+        }
+        return super.toDefaultValue(p);
+    }
+
+    private String formatPythonDefaultValue(Object value, Schema<?> schema) {
+        Schema<?> target = schema != null ? ModelUtils.unaliasSchema(this.openAPI, schema) : null;
+        if (value == null || (value instanceof com.fasterxml.jackson.databind.JsonNode
+                && ((com.fasterxml.jackson.databind.JsonNode) value).isNull())) {
+            return "None";
+        }
+        if (value instanceof com.fasterxml.jackson.databind.JsonNode) {
+            com.fasterxml.jackson.databind.JsonNode node = (com.fasterxml.jackson.databind.JsonNode) value;
+            if (node.isArray()) {
+                Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+                List<String> elements = new ArrayList<>();
+                for (com.fasterxml.jackson.databind.JsonNode elem : node) {
+                    elements.add(formatPythonDefaultValue(elem, itemSchema));
+                }
+                return "[" + String.join(", ", elements) + "]";
+            }
+            if (node.isObject()) {
+                List<String> entries = new ArrayList<>();
+                Iterator<Map.Entry<String, com.fasterxml.jackson.databind.JsonNode>> fields = node.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, com.fasterxml.jackson.databind.JsonNode> entry = fields.next();
+                    Schema<?> propSchema = null;
+                    if (target != null && target.getProperties() != null) {
+                        propSchema = (Schema<?>) target.getProperties().get(entry.getKey());
+                    } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                        propSchema = ModelUtils.getAdditionalProperties(target);
+                    }
+                    entries.add(formatPythonStringLiteral(entry.getKey()) + ": "
+                            + formatPythonDefaultValue(entry.getValue(), propSchema));
+                }
+                return "{" + String.join(", ", entries) + "}";
+            }
+            if (node.isBoolean() || (target != null && ModelUtils.isBooleanSchema(target))) {
+                return node.asBoolean() ? "True" : "False";
+            }
+            if (node.isNumber() || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+                return node.asText();
+            }
+            return formatPythonStringLiteral(node.asText());
+        }
+        if (value instanceof Iterable<?>) {
+            Schema<?> itemSchema = target != null ? ModelUtils.getSchemaItems(target) : null;
+            List<String> elements = new ArrayList<>();
+            for (Object elem : (Iterable<?>) value) {
+                elements.add(formatPythonDefaultValue(elem, itemSchema));
+            }
+            return "[" + String.join(", ", elements) + "]";
+        }
+        if (value instanceof Map<?, ?>) {
+            List<String> entries = new ArrayList<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+                String key = String.valueOf(entry.getKey());
+                Schema<?> propSchema = null;
+                if (target != null && target.getProperties() != null) {
+                    propSchema = (Schema<?>) target.getProperties().get(key);
+                } else if (target != null && ModelUtils.getAdditionalProperties(target) != null) {
+                    propSchema = ModelUtils.getAdditionalProperties(target);
+                }
+                entries.add(formatPythonStringLiteral(key) + ": "
+                        + formatPythonDefaultValue(entry.getValue(), propSchema));
+            }
+            return "{" + String.join(", ", entries) + "}";
+        }
+        if (value instanceof Boolean || (target != null && ModelUtils.isBooleanSchema(target))) {
+            return Boolean.parseBoolean(value.toString()) ? "True" : "False";
+        }
+        if (value instanceof Number || (target != null && (ModelUtils.isIntegerSchema(target) || ModelUtils.isNumberSchema(target)))) {
+            return value.toString();
+        }
+        return formatPythonStringLiteral(value.toString());
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        Object openapiName = parameter.vendorExtensions.get("x-python-connexion-openapi-name");
+        if (openapiName instanceof String) {
+            parameter.baseName = (String) openapiName;
+        }
+        if (parameter.isHeaderParam || parameter.isCookieParam) {
+            boolean isJsonContent = parameter.headerIsJsonMimeType
+                    || isJsonMimeType(parameter.contentType)
+                    || isJsonVendorMimeType(parameter.contentType);
+            if (isJsonContent) {
+                parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
+            } else if (parameter.isArray) {
+                if (parameter.items == null || !parameter.items.isModel) {
+                    parameter.vendorExtensions.put("x-python-connexion-split-csv", Boolean.TRUE);
+                }
+                if (parameter.items != null) {
+                    if (parameter.items.isInteger || parameter.items.isLong) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-int-items", Boolean.TRUE);
+                    } else if (parameter.items.isNumber || parameter.items.isFloat || parameter.items.isDouble) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-float-items", Boolean.TRUE);
+                    } else if (parameter.items.isBoolean) {
+                        parameter.vendorExtensions.put("x-python-connexion-cast-bool-items", Boolean.TRUE);
+                    }
+                }
+            } else if (parameter.isInteger || parameter.isLong) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-int", Boolean.TRUE);
+            } else if (parameter.isNumber || parameter.isFloat || parameter.isDouble) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-float", Boolean.TRUE);
+            } else if (parameter.isBoolean) {
+                parameter.vendorExtensions.put("x-python-connexion-cast-bool", Boolean.TRUE);
+            }
+        }
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();
+        postProcessConnexionOperationMap(objs.getOperations(), objs);
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // Do not call super to avoid replacing DefaultGenerator imports with Pydantic imports.
+        postProcessConnexionOperationMap(objs.getWebhooks(), objs);
+        return objs;
+    }
+
+    /**
+     * @param objs the enclosing operations/webhooks map; template-level flags (e.g. hasJsonHeaderParam) are set on it
+     */
+    protected void postProcessConnexionOperationMap(OperationMap operations, Map<String, Object> objs) {
         List<CodegenOperation> operationList = operations.getOperation();
 
+        boolean hasJsonHeaderParam = false;
         for (CodegenOperation operation : operationList) {
+            List<CodegenParameter> handlerParams = new ArrayList<>();
+            for (CodegenParameter param : operation.allParams) {
+                if (!param.isHeaderParam && !param.isCookieParam) {
+                    handlerParams.add(param);
+                }
+                if (Boolean.TRUE.equals(param.vendorExtensions.get("x-python-connexion-json-content"))) {
+                    hasJsonHeaderParam = true;
+                }
+            }
+            operation.vendorExtensions.put("x-handler-params", handlerParams);
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
@@ -724,8 +931,50 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                 }
             }
+            for (CodegenParameter param : operation.allParams) {
+                if ((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType)) {
+                    param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
+                }
+            }
+            // Generated tests must send API keys under their wire name (keyParamName) and in
+            // their declared location. Query keys extend the query_string/params list after the
+            // regular query parameters; cookie keys are merged into a single Cookie header
+            // (version-agnostic: works the same for Werkzeug, httpx and aiohttp test clients).
+            List<Map<String, String>> testQueryString = new ArrayList<>();
+            for (CodegenParameter param : operation.queryParams) {
+                Map<String, String> entry = new HashMap<>();
+                Object openapiName = param.vendorExtensions.get("x-python-connexion-openapi-name");
+                entry.put("name", openapiName != null ? openapiName.toString() : param.paramName);
+                entry.put("example", param.example);
+                testQueryString.add(entry);
+            }
+            StringJoiner apiKeyCookie = new StringJoiner("; ");
+            if (operation.authMethods != null) {
+                for (CodegenSecurity auth : operation.authMethods) {
+                    if (!Boolean.TRUE.equals(auth.isApiKey)) {
+                        continue;
+                    }
+                    if (Boolean.TRUE.equals(auth.isKeyInQuery)) {
+                        Map<String, String> entry = new HashMap<>();
+                        entry.put("name", auth.keyParamName);
+                        entry.put("example", "'special-key'");
+                        testQueryString.add(entry);
+                    }
+                    if (Boolean.TRUE.equals(auth.isKeyInCookie)) {
+                        apiKeyCookie.add(auth.keyParamName + "=special-key");
+                    }
+                }
+            }
+            if (!testQueryString.isEmpty()) {
+                operation.vendorExtensions.put("x-test-query-string", testQueryString);
+            }
+            if (apiKeyCookie.length() > 0) {
+                operation.vendorExtensions.put("x-test-apikey-cookie", apiKeyCookie.toString());
+            }
         }
-        return objs;
+        if (hasJsonHeaderParam) {
+            objs.put("hasJsonHeaderParam", Boolean.TRUE);
+        }
     }
 
     /*
@@ -736,6 +985,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             //Must follow Perl /pattern/modifiers convention

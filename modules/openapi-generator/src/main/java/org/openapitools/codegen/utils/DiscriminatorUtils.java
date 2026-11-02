@@ -33,6 +33,13 @@ public class DiscriminatorUtils {
             "'{}' defines discriminator '{}', but the schema '{}' has a different {} definition than the prior schema's. Make sure the {} type and required values are the same";
     private static final String DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT =
             "'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}";
+    private static final String STACK_OVERFLOW_ERROR =
+            "Stack overflow hit when looking for %s, an infinite loop starting and ending at %s was seen";
+    private static final String FAILED_TO_FIND_SCHEMA_WHEN_WALKING_ONE_OF_ANY_OF =
+            "Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.";
+    private static final String INVALID_SCHEMA_DEFINED =
+            "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition";
+
     /**
      * Recursively look in Schema sc for the discriminator discPropName
      * and return a CodegenProperty with the dataType and required params set
@@ -218,36 +225,121 @@ public class DiscriminatorUtils {
     }
 
     /**
-     * Get the value of the vendor extension {@code x-discriminator-value} from the schema, if present.
-     * @param schema the schema to check for the vendor extension
-     * @return the value of the vendor extension, or an empty optional if not present
+     * Finds all descendant schemas that inherit from the given schema via {@code allOf}.
+     * The method walks the schema graph, collects descendant models, and resolves any discriminator
+     * vendor extension value when present to determine the mapping name.
+     *
+     * @param openAPI the OpenAPI specification
+     * @param thisSchemaName the name of the schema whose descendants should be found
+     * @return the list of descendant models reachable through {@code allOf}
      */
-    public static Optional<String> discriminatorVendorExtensionValue(Schema schema) {
-        return Optional.ofNullable(schema)
-                .map(Schema::getExtensions)
-                .map(vendorExtensions -> vendorExtensions.get(X_DISCRIMINATOR_VALUE))
-                .map(discriminatorValue -> (String) discriminatorValue);
+    public static List<MappedModel> getAllOfDescendants(OpenAPI openAPI,
+                                                        String thisSchemaName) {
+        ArrayList<String> queue = new ArrayList<>();
+        List<MappedModel> descendentSchemas = new ArrayList<>();
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        String currentSchemaName = thisSchemaName;
+        Set<String> keys = schemas.keySet();
+
+        int count = 0;
+        // hack: avoid infinite loop on potential self-references in event our checks fail.
+        while (100000 > count++) {
+            for (String childName : keys) {
+                if (childName.equals(thisSchemaName)) {
+                    continue;
+                }
+                Schema child = schemas.get(childName);
+                if (ModelUtils.isComposedSchema(child)) {
+                    List<Schema> parents = child.getAllOf();
+                    if (parents != null) {
+                        for (Schema parent : parents) {
+                            String ref = parent.get$ref();
+                            if (ref == null) {
+                                // for schemas with no ref, it is not possible to build the discriminator map
+                                // because ref is how we get the model name
+                                // we hit this use case when an allOf composed schema contains an inline schema
+                                continue;
+                            }
+                            String parentName = ModelUtils.getSimpleRef(ref);
+                            if (parentName != null && parentName.equals(currentSchemaName)) {
+                                if (queue.contains(childName) || descendentSchemas.stream().anyMatch(i -> childName.equals(i.getMappingName()))) {
+                                    throw new RuntimeException(String.format(Locale.ROOT, STACK_OVERFLOW_ERROR, thisSchemaName, childName));
+                                }
+                                queue.add(childName);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (queue.isEmpty()) {
+                break;
+            }
+            currentSchemaName = queue.remove(0);
+            Schema sc = schemas.get(currentSchemaName);
+            String mappingName = discriminatorVendorExtensionValue(sc)
+                            .orElse(currentSchemaName);
+            MappedModel mm = new MappedModel(mappingName, currentSchemaName, currentSchemaName, !mappingName.equals(currentSchemaName));
+            descendentSchemas.add(mm);
+        }
+        return descendentSchemas;
     }
 
-    public static String getDiscriminatorSchemaError(CodegenProperty codegenProperty, String discPropName,
-                                                     String modelName, String composedSchemaName) {
-        String msgSuffix = "";
-        if (codegenProperty == null) {
-            msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
-        } else {
-            if (!codegenProperty.isString) {
-                msgSuffix += "invalid type for " + discPropName + ", set it to string";
+    /**
+     * This function is only used for composed schemas which have a discriminator.
+     * Process {@code oneOf} and {@code anyOf} models in a composed schema and adds them into
+     * a list if the {@code oneOf} and {@code anyOf} models contain the required discriminator.
+     * If they don't contain the required discriminator or the discriminator is the wrong type then an error is thrown.
+     *
+     * @param composedSchemaName The String model name of the composed schema where we are setting the discriminator map
+     * @param discPropName       The String that is the discriminator propertyName in the schema
+     * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
+     * @return the list of {@code oneOf} and {@code anyOf} {@link MappedModel} that need to be added to the discriminator map
+     */
+    public static List<MappedModel> getOneOfAnyOfDescendants(
+            OpenAPI openAPI,
+            String composedSchemaName,
+            String discPropName,
+            Schema c) {
+        ArrayList<List<Schema>> listOfAlternatives = new ArrayList<>();
+        listOfAlternatives.add(c.getOneOf());
+        listOfAlternatives.add(c.getAnyOf());
+        List<MappedModel> descendentSchemas = new ArrayList<>();
+        for (List<Schema> schemaList : listOfAlternatives) {
+            if (schemaList == null) {
+                continue;
             }
-            if (!codegenProperty.required) {
-                String spacer = "";
-                if (!msgSuffix.isEmpty()) {
-                    spacer = ". ";
+            for (Schema schema : schemaList) {
+                if (ModelUtils.isNullType(schema)) {
+                    continue;
                 }
-                msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
+                String ref = schema.get$ref();
+                if (ref == null) {
+                    // for schemas with no ref, it is not possible to build the discriminator map
+                    // because ref is how we get the model name
+                    // we only hit this use case for a schema with inline composed schemas, and one of those
+                    // schemas also has inline composed schemas
+                    // Note: if it is only inline one level, then the inline model resolver will move it into its own
+                    // schema and make it a $ref schema in the oneOf/anyOf location
+                    once(LOGGER).warn(INVALID_SCHEMA_DEFINED, composedSchemaName);
+                }
+                CodegenProperty df = discriminatorFound(openAPI, composedSchemaName, schema, discPropName, new TreeSet<>());
+                String modelName = ModelUtils.getSimpleRef(ref);
+                if (df == null || !df.isString || !df.required) {
+                    once(LOGGER).warn(getDiscriminatorSchemaError(df, discPropName, modelName, composedSchemaName));
+                }
+                MappedModel mm = new MappedModel(modelName, modelName, modelName, false);
+                descendentSchemas.add(mm);
+                Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+                if (modelSchema == null) { // cannot look up the model based on the name
+                    once(LOGGER).error(FAILED_TO_FIND_SCHEMA_WHEN_WALKING_ONE_OF_ANY_OF, modelName);
+                } else {
+                    discriminatorVendorExtensionValue(modelSchema)
+                            .ifPresent(discriminatorValue -> descendentSchemas.add(new MappedModel(discriminatorValue, modelName, modelName, true)));
+                }
             }
         }
-        return MessageFormatter.arrayFormat(DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT,
-                new Object[]{composedSchemaName, discPropName, modelName, msgSuffix}).getMessage();
+        return descendentSchemas;
     }
 
     /**
@@ -480,6 +572,39 @@ public class DiscriminatorUtils {
         // multiple types, too complex.
         return null;
 
+    }
+
+    private static String getDiscriminatorSchemaError(CodegenProperty codegenProperty, String discPropName,
+                                                      String modelName, String composedSchemaName) {
+        String msgSuffix = "";
+        if (codegenProperty == null) {
+            msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
+        } else {
+            if (!codegenProperty.isString) {
+                msgSuffix += "invalid type for " + discPropName + ", set it to string";
+            }
+            if (!codegenProperty.required) {
+                String spacer = "";
+                if (!msgSuffix.isEmpty()) {
+                    spacer = ". ";
+                }
+                msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
+            }
+        }
+        return MessageFormatter.arrayFormat(DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT,
+                new Object[]{composedSchemaName, discPropName, modelName, msgSuffix}).getMessage();
+    }
+
+    /**
+     * Get the value of the vendor extension {@code x-discriminator-value} from the schema, if present.
+     * @param schema the schema to check for the vendor extension
+     * @return the value of the vendor extension, or an empty optional if not present
+     */
+    private static Optional<String> discriminatorVendorExtensionValue(Schema schema) {
+        return Optional.ofNullable(schema)
+                .map(Schema::getExtensions)
+                .map(vendorExtensions -> vendorExtensions.get(X_DISCRIMINATOR_VALUE))
+                .map(discriminatorValue -> (String) discriminatorValue);
     }
 
     public static class DiscriminatorData {

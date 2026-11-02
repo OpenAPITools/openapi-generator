@@ -327,7 +327,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate sealed model interfaces and classes"));
         cliOptions.add(CliOption.newBoolean(USE_RECORDS,
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
-                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
+                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), "
                         + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
                         + "property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. "
                         + "Not supported with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
@@ -1758,6 +1758,15 @@ public class SpringCodegen extends AbstractJavaCodegen
                     && (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
+            // the required args constructor only has lombok's signature when every own field is a plain required
+            // argument: requiredVars also holds inherited properties, a JsonNullable field takes a plain value
+            // and the additionalProperties map is a field too
+            if (lombokAnnotations != null && lombokAnnotations.containsKey("AllArgsConstructor")
+                    && cm.additionalPropertiesType == null
+                    && cm.requiredVars.size() == cm.vars.size()
+                    && cm.vars.stream().allMatch(p -> p.required && !(openApiNullable && p.isNullable))) {
+                cm.vendorExtensions.put("x-java-lombok-duplicates-required-args-constructor", true);
+            }
         }
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
@@ -1926,7 +1935,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     hasInitialValue = true;
                 }
             }
-            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
+            // the compact constructor also gives the additionalProperties component its empty map
+            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue || isNotEmpty(cm.additionalPropertiesType));
             cm.vendorExtensions.put("x-record-discriminator-accessors", accessorsOfModel.get(cm.classname));
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
@@ -2237,6 +2247,29 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    /**
+     * A record receives the undeclared properties through {@code @JsonAnySetter} on its constructor parameter. Jackson
+     * supports that from 2.18.0 (databind #4558); 2.17 and older answer "Unrecognized field", which Spring's mapper
+     * (FAIL_ON_UNKNOWN_PROPERTIES off) turns into dropped data. The generated Spring Boot 3 project brings 2.17.3, and
+     * the generator cannot know the version a user's own parent brings, so only Spring Boot 4 (Jackson 2.20 and 3.0)
+     * gets a record. Returns null when the model may be a record.
+     */
+    private String reasonForAdditionalProperties(CodegenModel cm, ParameterObjects parameterObjects) {
+        if (!useSpringBoot4) {
+            return "it has additionalProperties, which a record receives only through Jackson 2.18 or later, "
+                    + "and Spring Boot 3 brings Jackson 2.17 (use useSpringBoot4)";
+        }
+        if (parameterObjects.boundByName.contains(cm.schemaName)) {
+            return "it has additionalProperties and is bound from request parameters";
+        }
+        for (CodegenProperty cp : cm.vars) {
+            if ("additionalProperties".equals(cp.name)) {
+                return "property '" + cp.name + "' clashes with the additionalProperties component";
+            }
+        }
+        return null;
+    }
+
     private String reasonForClass(CodegenModel cm, ParameterObjects parameterObjects,
                                   Map<String, String> constructedByDefault) {
         if (cm.parent != null) {
@@ -2249,12 +2282,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "it is a discriminator base";
         }
         if (isNotEmpty(cm.additionalPropertiesType)) {
-            return "it has additionalProperties";
+            String reason = reasonForAdditionalProperties(cm, parameterObjects);
+            if (reason != null) {
+                return reason;
+            }
         }
         if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
             return "it is a oneOf or anyOf composition";
         }
-        if (cm.vars.size() > RECORD_MAX_COMPONENTS) {
+        if (cm.vars.size() + (isNotEmpty(cm.additionalPropertiesType) ? 1 : 0) > RECORD_MAX_COMPONENTS) {
             return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
         }
         if (parameterObjects.converted.contains(cm.schemaName)) {

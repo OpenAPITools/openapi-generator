@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: Connexion parameter sources test
+  version: 1.0.0
+servers:
+  - url: /v1
+paths:
+  /items:
+    post:
+      operationId: create_item
+      parameters:
+        - name: X-Req-Header
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-Int-Header
+          in: header
+          required: false
+          schema:
+            type: integer
+            default: 7
+        - name: X-Num-Header
+          in: header
+          required: false
+          schema:
+            type: number
+            default: 1.5
+        - name: X-Bool-Header
+          in: header
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: X-Opt-Date
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: X-Json-Header
+          in: header
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Tag-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - foo
+              - bar
+        - name: X-Flag-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: boolean
+            default:
+              - true
+              - false
+        - name: X-Date-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - name: X-Status-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/StatusEnum'
+        - name: X-Obj-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QueryFilter'
+            default:
+              - tag: alpha
+              - tag: beta
+        - name: X-Nested-List
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: array
+              items:
+                type: string
+            default:
+              - - a
+                - b
+              - - c
+        - name: session_token
+          in: cookie
+          required: false
+          schema:
+            type: string
+            default: default-cookie
+        - name: opt_datetime
+          in: cookie
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: ids
+          in: cookie
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+            default:
+              - 1
+              - 2
+        - name: json_cookie
+          in: cookie
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: filter_param
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/QueryFilter'
+        - name: date_list
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - name: model_map
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/QueryFilter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    StatusEnum:
+      type: string
+      enum:
+        - active
+        - archived
+    HeaderArg:
+      type: object
+      properties:
+        mode:
+          type: string
+    QueryFilter:
+      type: object
+      properties:
+        tag:
+          type: string
+    BodyPayload:
+      type: object
+      properties:
+        item_name:
+          type: string

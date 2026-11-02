@@ -117,6 +117,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
+  {{^vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
@@ -140,6 +141,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
+  {{/vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{/lombok.RequiredArgsConstructor}}
   {{#vendorExtensions.x-java-all-args-constructor}}
 

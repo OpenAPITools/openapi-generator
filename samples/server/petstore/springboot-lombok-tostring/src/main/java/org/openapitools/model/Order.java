@@ -32,15 +32,27 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
 public class Order {
 
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  
+  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("petId")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long petId;
 
+  
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("quantity")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer quantity;
 
+  @Valid 
+  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("shipDate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
@@ -82,9 +94,15 @@ public class Order {
     }
   }
 
+  
+  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable StatusEnum status;
 
+  
+  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("complete")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean complete = false;
 
