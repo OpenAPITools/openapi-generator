@@ -27,7 +27,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#vendorExtensions.x-test-query-string}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{{name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/vendorExtensions.x-test-query-string}}
         headers = { {{#vendorExtensions.x-preferred-produce}}
             'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
