@@ -3,13 +3,17 @@ import pytest
 import os
 
 import connexion
+{{#connexionObjectParams}}
+from {{packageName}} import param_parsing
+{{/connexionObjectParams}}
 
 
 @pytest.fixture
 async def client(aiohttp_client):
     logging.getLogger('connexion.operation').setLevel('ERROR')
     options = {
-        "swagger_ui": True
+        "swagger_ui": True{{#connexionObjectParams}},
+        "uri_parser_class": param_parsing.ObjectParameterURIParser{{/connexionObjectParams}}
         }
     specification_dir = os.path.join(os.path.dirname(__file__), '..',
                                      {{#lambda.forwardslash}}
@@ -22,5 +26,6 @@ async def client(aiohttp_client):
     app = connexion.AioHttpApp(__name__, specification_dir=specification_dir,
                                options=options)
     app.add_api('openapi.yaml', pythonic_params=True,
-                pass_context_arg_name='request')
+                pass_context_arg_name='request'{{#connexionObjectParams}},
+                validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
     return await aiohttp_client(app.app)

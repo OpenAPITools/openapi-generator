@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -2237,21 +2238,35 @@ public class ModelUtils {
     private static void setNumericValidations(Schema schema, BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
         if (multipleOf != null) target.setMultipleOf(multipleOf);
         if (minimum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMinimum(String.valueOf(minimum.toBigInteger()));
-            } else {
-                target.setMinimum(String.valueOf(minimum));
-            }
+            target.setMinimum(formatNumericBound(minimum, schema, true, Boolean.TRUE.equals(exclusiveMinimum)));
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
         }
         if (maximum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMaximum(String.valueOf(maximum.toBigInteger()));
-            } else {
-                target.setMaximum(String.valueOf(maximum));
-            }
+            target.setMaximum(formatNumericBound(maximum, schema, false, Boolean.TRUE.equals(exclusiveMaximum)));
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
         }
+    }
+
+    /**
+     * Formats a minimum or maximum for the given schema.
+     * <p>
+     * Integer schemas get an integer. A fractional bound is rounded into the allowed range (up for a minimum,
+     * down for a maximum, the other way round when the bound is exclusive), so the generated check accepts the
+     * same integers as the declared bound: e.g. {@code minimum: 1.5} becomes {@code 2} and
+     * {@code exclusiveMinimum: -1.5} becomes an exclusive {@code -2}. Other schemas get the declared value.
+     *
+     * @param bound     the declared minimum or maximum
+     * @param schema    the schema the bound applies to
+     * @param isMinimum true for a minimum, false for a maximum
+     * @param exclusive true if the bound is exclusive
+     * @return the bound as a string
+     */
+    public static String formatNumericBound(BigDecimal bound, Schema schema, boolean isMinimum, boolean exclusive) {
+        if (isIntegerSchema(schema)) {
+            RoundingMode roundingMode = isMinimum != exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
+            return String.valueOf(bound.setScale(0, roundingMode).toBigInteger());
+        }
+        return String.valueOf(bound);
     }
 
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
