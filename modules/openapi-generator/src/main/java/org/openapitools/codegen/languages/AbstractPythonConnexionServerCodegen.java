@@ -865,7 +865,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         for (CodegenOperation operation : operationList) {
             List<CodegenParameter> handlerParams = new ArrayList<>();
             List<CodegenParameter> formDocFields = new ArrayList<>();
-            boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation);
+            // a resolved requestBody distinguishes an OpenAPI 3 form requestBody from
+            // legacy formData parameters, which Connexion passes individually
+            boolean collapseFormBody = collapseFormBodyToDictArgument() && consumesFormContent(operation)
+                    && getOperationRequestBody(operation) != null;
             CodegenParameter formBodyParam = null;
             CodegenParameter formDictInitParam = null;
             String formDictLocal = null;
