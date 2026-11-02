@@ -32,7 +32,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         headers = { {{#vendorExtensions.x-preferred-produce}}
             'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
             'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
-            '{{baseName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
+            '{{{vendorExtensions.x-python-connexion-quoted-name}}}': {{{example}}},{{/headerParams}}{{#authMethods}}
             {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}{{#isKeyInHeader}}'{{{vendorExtensions.x-python-connexion-quoted-key-param-name}}}': 'special-key',{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'Basic Zm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}{{#vendorExtensions.x-test-apikey-cookie}}
             'Cookie': '{{{vendorExtensions.x-test-apikey-cookie}}}',{{/vendorExtensions.x-test-apikey-cookie}}
         }
