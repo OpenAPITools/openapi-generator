@@ -805,4 +805,36 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
         assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
     }
+
+    @Test(description = "python-blueplanet generated swagger.yaml is not empty and contains the OpenAPI spec")
+    public void testBlueplanetSwaggerYamlNotEmpty() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path swaggerYaml = blueplanetDir.resolve(Paths.get("app", "openapi_server", "swagger", "swagger.yaml"));
+        assertFileExists(swaggerYaml);
+        assertFileContains(swaggerYaml, "openapi:", "paths:");
+    }
+
+    @Test(description = "python-blueplanet pins a connexion 2.x range that can serve the generated OpenAPI 3.0 swagger.yaml")
+    public void testBlueplanetRequirementsPinConnexion2() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path requirements = blueplanetDir.resolve(Paths.get("app", "requirements.txt"));
+        Path setupPy = blueplanetDir.resolve(Paths.get("app", "setup.py"));
+        assertFileExists(requirements);
+        assertFileExists(setupPy);
+        // swagger.yaml is an OpenAPI 3.0 document, which connexion 1.x cannot
+        // serve; the pin must select a 2.x release and exclude the connexion 3
+        // line the templates do not support
+        assertFileContains(requirements, "connexion[swagger-ui] >= 2.6.0",
+                "connexion[swagger-ui] <= 2.14.2");
+        // setup.py's REQUIRES must mirror requirements.txt — the same
+        // connexion markers/extra and the swagger-ui-bundle — or
+        // `python setup.py install` resolves a different, unsupported
+        // runtime than the requirements-based install
+        assertFileContains(setupPy,
+                "connexion[swagger-ui] >= 2.6.0; python_version>=\"3.6\"",
+                "connexion[swagger-ui] <= 2.3.0; python_version==\"3.5\" or python_version==\"3.4\"",
+                "connexion[swagger-ui] <= 2.14.2; python_version>\"3.4\"",
+                "werkzeug == 0.16.1; python_version==\"3.5\" or python_version==\"3.4\"",
+                "swagger-ui-bundle >= 0.0.2");
+    }
 }
