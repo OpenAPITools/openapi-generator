@@ -94,13 +94,17 @@ jobs:
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi
           - samples/client/petstore/kotlin-allOf-special-discriminator-kotlinx-serialization
           - samples/client/petstore/kotlin-multiplatform-allOf-special-discriminator
+        include:
+          - sample: samples/client/petstore/kotlin-jvm-microprofile-mutiny
+            java: 17
+            maven: true
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: 11
-          cache: gradle
+          java-version: ${{ matrix.java || 11 }}
+          cache: ${{ matrix.maven && 'maven' || 'gradle' }}
       - name: Cache maven dependencies
         uses: actions/cache@v6
         env:
@@ -110,10 +114,15 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
+        if: ${{ !matrix.maven }}
         uses: eskatos/gradle-command-action@v3
         with:
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
       - name: Build
+        if: ${{ !matrix.maven }}
         working-directory: ${{ matrix.sample }}
         run: ./gradlew build -x test
+      - name: Build and test MicroProfile client
+        if: matrix.maven
+        run: ./mvnw -B -f "${{ matrix.sample }}/pom.xml" clean test

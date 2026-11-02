@@ -802,6 +802,73 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    /**
+     * Body of one generated test method: the text from {@code def <name>} up
+     * to the next method definition, the {@code __main__} guard, or the end
+     * of the file — so assertions can be scoped to a single operation rather
+     * than the whole generated file.
+     */
+    private static String generatedTestMethodBody(Path file, String methodName) throws IOException {
+        String content = Files.readString(file);
+        int start = content.indexOf("def " + methodName);
+        assertThat(start).as("generated file %s is missing %s", file, methodName)
+                .isGreaterThanOrEqualTo(0);
+        int end = content.length();
+        for (String marker : new String[]{"\n    def ", "\nasync def ", "\n\nif __name__"}) {
+            int next = content.indexOf(marker, start + 1);
+            if (next >= 0) {
+                end = Math.min(end, next);
+            }
+        }
+        return content.substring(start, end);
+    }
+
+    @Test(description = "generated controller tests send apiKey security under the scheme's keyParamName in the declared in-location (header, query, cookie)")
+    public void testApiKeyLocationsInGeneratedTests() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-apikey-locations.yaml";
+
+        for (Map<String, Object> props : new Map[]{Collections.emptyMap(), ImmutableMap.of("useConnexion3", "true")}) {
+            boolean connexion3 = props.containsKey("useConnexion3");
+            Path flaskDir = generateOutputDir("python-flask", props, specPath);
+            Path flaskTest = flaskDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+            assertFileExists(flaskTest);
+            // header apiKey goes to headers under its wire name
+            assertFileContains(flaskTest, "'X-Api-Key': 'special-key'");
+            // query apiKey goes to query_string under its wire name
+            assertFileContains(flaskTest, "('apikey', 'special-key')", "query_string=query_string");
+            // cookie apiKey goes to a Cookie header under its wire name
+            assertFileContains(flaskTest, "'Cookie': 'session=special-key'");
+            // the scheme names are not wire names and must not be sent
+            assertFileNotContains(flaskTest, "'apikey_header'", "'apikey_query'", "'apikey_cookie'");
+
+            // the operation secured by all three schemes must carry every
+            // credential inside the same generated test method, and the
+            // cookie-capable client must be the one the variant needs:
+            // connexion2 disables the werkzeug client's cookie handling so
+            // the manual Cookie header survives; connexion3's client passes it
+            String getSecuredAll = generatedTestMethodBody(flaskTest, "test_get_secured_all");
+            assertThat(getSecuredAll)
+                    .contains("'X-Api-Key': 'special-key'")
+                    .contains("('apikey', 'special-key')")
+                    .contains("'Cookie': 'session=special-key'")
+                    .contains(connexion3 ? "client = self.client"
+                            : "client = self.app.test_client(use_cookies=False)");
+        }
+
+        Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath);
+        Path aiohttpTest = aiohttpDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        assertFileExists(aiohttpTest);
+        assertFileContains(aiohttpTest, "'X-Api-Key': 'special-key'");
+        assertFileContains(aiohttpTest, "('apikey', 'special-key')", "params=params");
+        assertFileContains(aiohttpTest, "'Cookie': 'session=special-key'");
+        assertFileNotContains(aiohttpTest, "'apikey_header'", "'apikey_query'", "'apikey_cookie'");
+        String aiohttpGetSecuredAll = generatedTestMethodBody(aiohttpTest, "test_get_secured_all");
+        assertThat(aiohttpGetSecuredAll)
+                .contains("'X-Api-Key': 'special-key'")
+                .contains("('apikey', 'special-key')")
+                .contains("'Cookie': 'session=special-key'");
+    }
+
     @Test(description = "python-aiohttp generated requirements.txt and setup.py declare python_dateutil so util.deserialize_date/datetime actually parse dates")
     public void testAiohttpRequirementsIncludePythonDateutil() throws IOException {
         Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());

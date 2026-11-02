@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Kotlin MicroProfile nullability
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      tags: [pet]
+      operationId: getPet
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: [string, 'null']
+      responses:
+        '200':
+          description: Pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      required: [name, nickname, labels]
+      properties:
+        name:
+          type: string
+        nickname:
+          type: [string, 'null']
+        labels:
+          type: array
+          items:
+            type: [string, 'null']

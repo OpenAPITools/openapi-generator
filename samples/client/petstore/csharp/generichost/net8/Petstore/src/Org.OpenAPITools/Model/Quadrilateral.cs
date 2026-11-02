@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName.Equals("quadrilateralType"))
                     {
-                        string discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "quadrilateralType");
                         if (discriminator.Equals("ComplexQuadrilateral"))
                         {
                             Utf8JsonReader utf8JsonReaderComplexQuadrilateral = utf8JsonReader;
