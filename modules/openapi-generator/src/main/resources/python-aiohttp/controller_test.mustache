@@ -40,7 +40,7 @@ async def test_{{operationId}}(client):
         {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
     }
     {{#cookieParams}}
-    {{#-first}}cookies = { {{/-first}}{{^-first}}                {{/-first}}'{{baseName}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
+    {{#-first}}cookies = { {{/-first}}{{^-first}}                {{/-first}}'{{baseName}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
     {{/cookieParams}}
     {{#formParams}}
     {{#isMultipart}}

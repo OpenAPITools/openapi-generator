@@ -79,6 +79,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: count
+          in: cookie
+          required: false
+          schema:
+            type: integer
+            example: 56
       responses:
         '200':
           description: ok

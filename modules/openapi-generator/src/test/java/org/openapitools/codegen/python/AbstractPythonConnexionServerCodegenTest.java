@@ -763,11 +763,13 @@ public class AbstractPythonConnexionServerCodegenTest {
                 assertFileContains(testFile,
                         "'X-Json-Inline-Cookie': '{}'",
                         "'X-Json-Model-Cookie': '{\"c\":3}'",
+                        "'count': str(56)",
                         "cookies=cookies");
             } else {
                 assertFileContains(testFile,
                         "'X-Json-Inline-Cookie=' + '{}'",
-                        "'X-Json-Model-Cookie=' + '{\"c\":3}'");
+                        "'X-Json-Model-Cookie=' + '{\"c\":3}'",
+                        "'count=' + str(56)");
             }
         }
     }
