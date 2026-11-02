@@ -31,17 +31,17 @@ async def test_{{operationId}}(client):
     {{paramName}} = {{{example}}}
     {{/bodyParam}}
     {{#vendorExtensions.x-test-query-string}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{{name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
     {{/vendorExtensions.x-test-query-string}}
     headers = { {{#vendorExtensions.x-preferred-produce}}
         'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
         'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
-        '{{baseName}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}},{{/headerParams}}{{#authMethods}}
+        '{{{vendorExtensions.x-python-connexion-quoted-name}}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}},{{/headerParams}}{{#authMethods}}
         {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}{{#isKeyInHeader}}'{{keyParamName}}': 'special-key',{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}{{#vendorExtensions.x-test-apikey-cookie}}
         'Cookie': '{{{vendorExtensions.x-test-apikey-cookie}}}',{{/vendorExtensions.x-test-apikey-cookie}}
     }
     {{#cookieParams}}
-    {{#-first}}cookies = { {{/-first}}{{^-first}}                {{/-first}}'{{baseName}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
+    {{#-first}}cookies = { {{/-first}}{{^-first}}                {{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}': {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
     {{/cookieParams}}
     {{#formParams}}
     {{#isMultipart}}
