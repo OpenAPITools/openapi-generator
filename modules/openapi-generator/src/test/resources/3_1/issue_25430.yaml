@@ -18,6 +18,8 @@ components:
   schemas:
     PatchRequest:
       type: object
+      required:
+        - missing
       properties:
         context:
           type: object

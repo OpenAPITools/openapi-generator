@@ -1288,6 +1288,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testRequiredPropertyNotInPropertiesWithBooleanSchemaFalse3_1() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_25430.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("PatchRequest");
+        CodegenModel model = codegen.fromModel("PatchRequest", schema);
+        assertNotNull(model.getRequiredVarsMap());
+        assertTrue(model.getRequiredVarsMap().containsKey("missing"));
+        assertNull(model.getRequiredVarsMap().get("missing"));
+    }
+
+    @Test
     public void testEnumDiscriminatorWithDescriptionOverridden3_1() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml");
         new OpenAPINormalizer(openAPI, Map.of()).normalize();
