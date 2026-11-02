@@ -21,6 +21,7 @@ components:
       type: object
       required:
         - petType
+        - nickname
       properties:
         petType:
           type: string
