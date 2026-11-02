@@ -177,6 +177,16 @@ public class Pig extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Pig(BasquePig o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Pig(DanishPig o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("BasquePig", BasquePig.class);
         schemas.put("DanishPig", DanishPig.class);

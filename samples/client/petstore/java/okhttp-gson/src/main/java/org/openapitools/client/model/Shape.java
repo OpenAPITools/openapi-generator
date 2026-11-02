@@ -177,6 +177,16 @@ public class Shape extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Shape(Triangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Shape(Quadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Triangle", Triangle.class);
         schemas.put("Quadrilateral", Quadrilateral.class);

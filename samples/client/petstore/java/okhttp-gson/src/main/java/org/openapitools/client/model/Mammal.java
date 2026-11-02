@@ -201,6 +201,21 @@ public class Mammal extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Mammal(Whale o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Mammal(Zebra o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Mammal(Pig o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);

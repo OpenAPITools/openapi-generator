@@ -201,6 +201,21 @@ public class MammalAnyof extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MammalAnyof(Whale o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public MammalAnyof(Zebra o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public MammalAnyof(Pig o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);

@@ -189,6 +189,26 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ScalarAnyOf(UUID o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(BigDecimal o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(Boolean o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("UUID", UUID.class);
         schemas.put("String", String.class);

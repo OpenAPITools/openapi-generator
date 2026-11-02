@@ -150,6 +150,16 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public OneOfStringOrInt(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public OneOfStringOrInt(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);

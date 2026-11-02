@@ -153,6 +153,16 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public NullableFieldsMapResponse(NullableFieldsMapSuccess o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public NullableFieldsMapResponse(NullableFieldsMapError o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("NullableFieldsMapSuccess", NullableFieldsMapSuccess.class);
         schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);

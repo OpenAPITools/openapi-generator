@@ -160,6 +160,16 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Pet", Pet.class);
         schemas.put("Order", Order.class);

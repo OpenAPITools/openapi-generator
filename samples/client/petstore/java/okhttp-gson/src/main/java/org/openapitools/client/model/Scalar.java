@@ -192,6 +192,26 @@ public class Scalar extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Scalar(UUID o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Scalar(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Scalar(BigDecimal o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Scalar(Boolean o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("UUID", UUID.class);
         schemas.put("String", String.class);

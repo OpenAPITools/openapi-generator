@@ -161,6 +161,16 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ArrayOneOf(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ArrayOneOf(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Integer", Integer.class);
         schemas.put("List<String>", List.class);

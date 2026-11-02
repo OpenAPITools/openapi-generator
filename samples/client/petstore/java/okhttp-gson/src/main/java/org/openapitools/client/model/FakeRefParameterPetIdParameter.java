@@ -150,6 +150,16 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public FakeRefParameterPetIdParameter(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public FakeRefParameterPetIdParameter(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);

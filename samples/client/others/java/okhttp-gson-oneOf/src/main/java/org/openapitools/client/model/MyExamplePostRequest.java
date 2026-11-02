@@ -129,6 +129,11 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MyExamplePostRequest(String o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
     }

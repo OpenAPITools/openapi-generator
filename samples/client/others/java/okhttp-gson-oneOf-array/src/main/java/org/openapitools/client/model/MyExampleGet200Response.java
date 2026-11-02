@@ -170,6 +170,16 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MyExampleGet200Response(List<@Valid OneOf1> o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public MyExampleGet200Response(OneOf1 o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("List<@Valid OneOf1>", List.class);
         schemas.put("OneOf1", OneOf1.class);

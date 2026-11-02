@@ -153,6 +153,11 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public FreeFormObjectTestClassProperties(String o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Map<String, Object>", Map.class);

@@ -161,6 +161,16 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
         setActualInstance(o);
     }
 
+    public RefToRefParameterAnyofRefToAnyofParameter(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public RefToRefParameterAnyofRefToAnyofParameter(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("List<String>", List.class);

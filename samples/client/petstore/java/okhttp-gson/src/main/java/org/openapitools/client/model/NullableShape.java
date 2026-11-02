@@ -177,6 +177,16 @@ public class NullableShape extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public NullableShape(Triangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public NullableShape(Quadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Triangle", Triangle.class);
         schemas.put("Quadrilateral", Quadrilateral.class);

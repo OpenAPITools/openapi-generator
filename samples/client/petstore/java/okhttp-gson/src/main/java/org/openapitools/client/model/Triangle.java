@@ -201,6 +201,21 @@ public class Triangle extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Triangle(EquilateralTriangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Triangle(IsoscelesTriangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Triangle(ScaleneTriangle o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("EquilateralTriangle", EquilateralTriangle.class);
         schemas.put("IsoscelesTriangle", IsoscelesTriangle.class);

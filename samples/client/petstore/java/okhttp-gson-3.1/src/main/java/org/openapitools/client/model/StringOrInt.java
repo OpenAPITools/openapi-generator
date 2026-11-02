@@ -145,6 +145,16 @@ public class StringOrInt extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public StringOrInt(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public StringOrInt(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);

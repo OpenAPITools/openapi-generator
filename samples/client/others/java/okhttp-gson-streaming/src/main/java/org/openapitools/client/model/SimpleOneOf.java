@@ -151,6 +151,16 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         setActualInstance(o);
     }
 
+    public SimpleOneOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public SimpleOneOf(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);

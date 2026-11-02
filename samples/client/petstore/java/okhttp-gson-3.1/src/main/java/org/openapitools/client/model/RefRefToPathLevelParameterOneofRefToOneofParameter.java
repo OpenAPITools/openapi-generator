@@ -150,6 +150,16 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
         setActualInstance(o);
     }
 
+    public RefRefToPathLevelParameterOneofRefToOneofParameter(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public RefRefToPathLevelParameterOneofRefToOneofParameter(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);

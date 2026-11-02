@@ -156,6 +156,16 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ArrayAnyOf(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ArrayAnyOf(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Integer", Integer.class);
         schemas.put("List<String>", List.class);

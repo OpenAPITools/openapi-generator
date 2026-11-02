@@ -156,6 +156,16 @@ public class Fruit extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Fruit(Apple o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Fruit(Banana o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Apple", Apple.class);
         schemas.put("Banana", Banana.class);

@@ -161,6 +161,16 @@ public class Value extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Value(Scalar o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Value(List<Scalar> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Scalar", Scalar.class);
         schemas.put("List<Scalar>", List.class);

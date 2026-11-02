@@ -150,6 +150,16 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public SelfReferenceOneOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public SelfReferenceOneOf(Boolean o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Boolean", Boolean.class);

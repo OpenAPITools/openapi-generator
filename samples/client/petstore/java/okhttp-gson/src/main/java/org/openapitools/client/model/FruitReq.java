@@ -156,6 +156,16 @@ public class FruitReq extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public FruitReq(AppleReq o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public FruitReq(BananaReq o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("AppleReq", AppleReq.class);
         schemas.put("BananaReq", BananaReq.class);

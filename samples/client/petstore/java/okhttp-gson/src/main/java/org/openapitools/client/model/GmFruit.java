@@ -151,6 +151,16 @@ public class GmFruit extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public GmFruit(Apple o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public GmFruit(Banana o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Apple", Apple.class);
         schemas.put("Banana", Banana.class);

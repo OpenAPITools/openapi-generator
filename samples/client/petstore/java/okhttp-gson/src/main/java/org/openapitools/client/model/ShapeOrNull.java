@@ -177,6 +177,16 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ShapeOrNull(Triangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ShapeOrNull(Quadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Triangle", Triangle.class);
         schemas.put("Quadrilateral", Quadrilateral.class);

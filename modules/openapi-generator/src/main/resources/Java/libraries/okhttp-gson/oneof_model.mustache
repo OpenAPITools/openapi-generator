@@ -298,6 +298,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         setActualInstance(o);
     }
 
+    {{#composedSchemas}}
+    {{#oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
+    {{^isAnyType}}
+    {{^isFreeFormObject}}
+    public {{classname}}({{{dataType}}} o) {
+        this();
+        setActualInstance(o);
+    }
+
+    {{/isFreeFormObject}}
+    {{/isAnyType}}
+    {{/vendorExtensions.x-duplicated-data-type}}
+    {{/oneOf}}
+    {{/composedSchemas}}
     static {
         {{#composedSchemas}}
         {{#oneOf}}

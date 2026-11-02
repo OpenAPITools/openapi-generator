@@ -177,6 +177,16 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Quadrilateral(SimpleQuadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Quadrilateral(ComplexQuadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
         schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);

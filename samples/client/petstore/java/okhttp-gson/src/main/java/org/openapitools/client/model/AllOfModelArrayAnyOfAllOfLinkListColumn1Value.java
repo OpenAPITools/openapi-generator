@@ -151,6 +151,16 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("User", User.class);
         schemas.put("Tag", Tag.class);

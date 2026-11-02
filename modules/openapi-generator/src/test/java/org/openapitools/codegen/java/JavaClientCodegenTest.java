@@ -4562,6 +4562,44 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpGsonOneOfAnyOfTypedConstructors() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/java/okhttp-gson-composed-typed-constructors.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        final Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+        assertThat(modelDir.resolve("OpenTaxIdType.java")).content()
+                .contains(
+                        "public OpenTaxIdType(Object o) {",
+                        "public OpenTaxIdType(TaxIdType o) {",
+                        "public OpenTaxIdType(String o) {");
+        assertThat(modelDir.resolve("Scalar.java")).content()
+                .contains(
+                        "public Scalar(BigDecimal o) {",
+                        "public Scalar(Integer o) {",
+                        "public Scalar(Long o) {",
+                        "public Scalar(Boolean o) {");
+        assertThat(modelDir.resolve("PetOrPets.java")).content()
+                .contains("public PetOrPets(Pet o) {", "public PetOrPets(List<Pet> o) {");
+        // List<BigDecimal> and List<Integer> have the same erasure, so only the first gets a constructor.
+        assertThat(modelDir.resolve("Numbers.java")).content()
+                .contains("public Numbers(List<BigDecimal> o) {")
+                .doesNotContain("public Numbers(List<Integer> o) {");
+        // A free-form member is an Object, which the existing constructor already accepts.
+        assertThat(modelDir.resolve("PetOrFreeForm.java")).content()
+                .containsOnlyOnce("public PetOrFreeForm(Object o) {")
+                .contains("public PetOrFreeForm(Pet o) {");
+        assertThat(modelDir.resolve("NullablePetOrName.java")).content()
+                .contains("public NullablePetOrName(Pet o) {", "public NullablePetOrName(String o) {");
+    }
+
+    @Test
     public void testEnumWithImplements() {
         final Path output = newTempFolder();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum-implements.yaml");
