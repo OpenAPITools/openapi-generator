@@ -1072,7 +1072,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 // object/array params serialized into multiple pairs keep the same
                 // (key, value) entries the old per-param template rendering produced
                 Object pairs = param.vendorExtensions.get("x-python-connexion-test-query-pairs");
-                if (pairs instanceof List && !((List<?>) pairs).isEmpty()) {
+                // an intentionally empty pair list means the object has no serializable
+                // scalar properties: emit nothing rather than the raw example value
+                if (pairs instanceof List) {
+                    if (((List<?>) pairs).isEmpty()) {
+                        continue;
+                    }
                     for (Object pair : (List<?>) pairs) {
                         @SuppressWarnings("unchecked")
                         Map<String, String> p = (Map<String, String>) pair;
