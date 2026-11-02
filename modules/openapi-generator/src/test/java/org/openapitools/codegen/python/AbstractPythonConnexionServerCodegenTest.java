@@ -602,6 +602,10 @@ public class AbstractPythonConnexionServerCodegenTest {
                 // DefaultCodegen strips the backslashes; the collapse must still fire
                 "async def post_escaped_backslash_form(request: web.Request, body=None) -> web.Response:",
                 "token = _form_body.get('token')",
+                // an operation without operationId gets a generated one; the request-body
+                // lookup is path-based so the collapse still fires (assert on the field,
+                // which only this operation has, rather than guessing the generated name)
+                "flag = _form_body.get('flag')",
                 "async def submit_pet_survey(request: web.Request, pet_id, body=None) -> web.Response:",
                 "scores = _form_body.get('scores')",
                 ":param body: Form fields: name (str): Updated name of the pet; "

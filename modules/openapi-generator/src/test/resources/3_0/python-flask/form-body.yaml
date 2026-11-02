@@ -282,3 +282,18 @@ paths:
       responses:
         '200':
           description: OK
+  /no\\opid:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - flag
+              properties:
+                flag:
+                  type: string
+      responses:
+        '200':
+          description: OK
