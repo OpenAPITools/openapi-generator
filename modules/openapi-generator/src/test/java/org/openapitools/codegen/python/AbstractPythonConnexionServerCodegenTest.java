@@ -245,8 +245,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(aiohttpController, "session_token=None");
         assertFileNotContains(aiohttpController, "[foo, bar]");
         assertFileNotContains(aiohttpController, "[true, false]");
-        assertFileNotContains(aiohttpController, "['', '']");
         assertFileNotContains(aiohttpController, "x_obj_list.split(',')");
+        assertFileNotContains(aiohttpController, "['', '']");
         assertFileContains(aiohttpTest, "'X-Req-Header':");
         assertFileNotContains(aiohttpTest, "'x_req_header':");
 
@@ -296,8 +296,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(blueplanetController, "session_token=None");
         assertFileNotContains(blueplanetController, "[foo, bar]");
         assertFileNotContains(blueplanetController, "[true, false]");
-        assertFileNotContains(blueplanetController, "['', '']");
         assertFileNotContains(blueplanetController, "x_obj_list.split(',')");
+        assertFileNotContains(blueplanetController, "['', '']");
         assertFileContains(blueplanetTest, "('X-Req-Header',");
         assertFileNotContains(blueplanetTest, "('x_req_header',");
 
@@ -348,8 +348,8 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileNotContains(flaskController, "session_token=None");
             assertFileNotContains(flaskController, "[foo, bar]");
             assertFileNotContains(flaskController, "[true, false]");
-            assertFileNotContains(flaskController, "['', '']");
             assertFileNotContains(flaskController, "x_obj_list.split(',')");
+            assertFileNotContains(flaskController, "['', '']");
             assertFileContains(flaskTest, "'X-Req-Header':");
             assertFileNotContains(flaskTest, "'x_req_header':");
         }
@@ -615,6 +615,60 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "header parameters defined with content+$ref should use dataType when baseType is null in python-aiohttp")
+    public void testJsonHeaderContentParameterUsesDataTypeInAiohttpController() throws IOException {
+        File aiohttpOutput = Files.createTempDirectory("test-aiohttp").toFile().getCanonicalFile();
+        aiohttpOutput.deleteOnExit();
+
+        final CodegenConfigurator aiohttpConfig = new CodegenConfigurator()
+                .setGeneratorName("python-aiohttp")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(aiohttpOutput.getAbsolutePath());
+
+        List<File> aiohttpFiles = new DefaultGenerator().opts(aiohttpConfig.toClientOptInput()).generate();
+        aiohttpFiles.forEach(File::deleteOnExit);
+
+        Path aiohttpController = Paths.get(
+                aiohttpOutput.getAbsolutePath(),
+                "openapi_server",
+                "controllers",
+                "default_controller.py");
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "from openapi_server.models.header_arg import HeaderArg",
+                "x_json_arg = HeaderArg.from_dict(x_json_arg)");
+        assertFileNotContains(aiohttpController, "= .from_dict(");
+    }
+
+    @Test(description = "header parameters defined with content+$ref should use dataType when baseType is null in python-blueplanet")
+    public void testJsonHeaderContentParameterUsesDataTypeInBlueplanetController() throws IOException {
+        File blueplanetOutput = Files.createTempDirectory("test-blueplanet").toFile().getCanonicalFile();
+        blueplanetOutput.deleteOnExit();
+
+        final CodegenConfigurator blueplanetConfig = new CodegenConfigurator()
+                .setGeneratorName("python-blueplanet")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(blueplanetOutput.getAbsolutePath());
+
+        List<File> blueplanetFiles = new DefaultGenerator().opts(blueplanetConfig.toClientOptInput()).generate();
+        blueplanetFiles.forEach(File::deleteOnExit);
+
+        Path blueplanetController = Paths.get(
+                blueplanetOutput.getAbsolutePath(),
+                "app",
+                "openapi_server",
+                "controllers",
+                "default_controller.py");
+        assertFileExists(blueplanetController);
+        assertFileContains(
+                blueplanetController,
+                "from app.openapi_server.models.header_arg import HeaderArg  # noqa: E501",
+                // header parameters are read from the request headers, not from the body
+                "x_json_arg = connexion.request.headers.get('X-Json-Arg')",
+                "x_json_arg = HeaderArg.from_dict(x_json_arg)  # noqa: E501");
+        assertFileNotContains(blueplanetController, "= .from_dict(");
+    }
     @Test(description = "security scheme names with '-' or '.' produce valid, unique Python function names that match the x-*Func references")
     public void testSecuritySchemeNamesProduceValidPythonFunctions() throws IOException {
         String specPath = "src/test/resources/3_0/python-flask/security-scheme-names.yaml";
@@ -795,5 +849,37 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(aiohttpSetupPy);
         assertFileContains(aiohttpRequirements, "python_dateutil >= 2.6.0");
         assertFileContains(aiohttpSetupPy, "python_dateutil>=2.6.0");
+    }
+
+    @Test(description = "python-blueplanet generated swagger.yaml is not empty and contains the OpenAPI spec")
+    public void testBlueplanetSwaggerYamlNotEmpty() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path swaggerYaml = blueplanetDir.resolve(Paths.get("app", "openapi_server", "swagger", "swagger.yaml"));
+        assertFileExists(swaggerYaml);
+        assertFileContains(swaggerYaml, "openapi:", "paths:");
+    }
+
+    @Test(description = "python-blueplanet pins a connexion 2.x range that can serve the generated OpenAPI 3.0 swagger.yaml")
+    public void testBlueplanetRequirementsPinConnexion2() throws IOException {
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap());
+        Path requirements = blueplanetDir.resolve(Paths.get("app", "requirements.txt"));
+        Path setupPy = blueplanetDir.resolve(Paths.get("app", "setup.py"));
+        assertFileExists(requirements);
+        assertFileExists(setupPy);
+        // swagger.yaml is an OpenAPI 3.0 document, which connexion 1.x cannot
+        // serve; the pin must select a 2.x release and exclude the connexion 3
+        // line the templates do not support
+        assertFileContains(requirements, "connexion[swagger-ui] >= 2.6.0",
+                "connexion[swagger-ui] <= 2.14.2");
+        // setup.py's REQUIRES must mirror requirements.txt — the same
+        // connexion markers/extra and the swagger-ui-bundle — or
+        // `python setup.py install` resolves a different, unsupported
+        // runtime than the requirements-based install
+        assertFileContains(setupPy,
+                "connexion[swagger-ui] >= 2.6.0; python_version>=\"3.6\"",
+                "connexion[swagger-ui] <= 2.3.0; python_version==\"3.5\" or python_version==\"3.4\"",
+                "connexion[swagger-ui] <= 2.14.2; python_version>\"3.4\"",
+                "werkzeug == 0.16.1; python_version==\"3.5\" or python_version==\"3.4\"",
+                "swagger-ui-bundle >= 0.0.2");
     }
 }
