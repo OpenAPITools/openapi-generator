@@ -8,7 +8,7 @@ using Org.OpenAPITools.Extensions;
 using Org.OpenAPITools.Model;
 using Xunit;
 
-namespace Org.OpenAPITools.Test
+namespace UnionMembers.Tests
 {
     public class UnionMemberSerializationTests
     {
@@ -32,6 +32,12 @@ namespace Org.OpenAPITools.Test
         [InlineData("""{"flexibleValue":{}}""")]
         [InlineData("""{"flexibleValue":["a","b"]}""")]
         // https://github.com/OpenAPITools/openapi-generator/issues/23529
+        [InlineData("""{"nestedScalar":"text"}""")]
+        [InlineData("""{"nestedScalar":5}""")]
+        [InlineData("""{"nestedScalar":true}""")]
+        [InlineData("""{"nestedFoo":{"id":1}}""")]
+        [InlineData("""{"nestedFoo":"text"}""")]
+        [InlineData("""{"nestedFoo":false}""")]
         [InlineData("""{"fooOrList":{"id":1}}""")]
         [InlineData("""{"fooOrList":[{"id":1},{"id":2}]}""")]
         // https://github.com/OpenAPITools/openapi-generator/issues/23693
@@ -75,6 +81,7 @@ namespace Org.OpenAPITools.Test
         [Theory]
         [InlineData("""{"status":5}""")]
         [InlineData("""{"status":[1,2]}""")]
+        [InlineData("""{"status":{}}""")]
         [InlineData("""{"fooOrList":"foo"}""")]
         [InlineData("""{"pet":"cat"}""")]
         [InlineData("""{"entry":"d1"}""")]
