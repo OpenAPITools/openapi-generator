@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // Mammal - struct for Mammal
@@ -41,6 +42,24 @@ func ZebraAsMammal(v *Zebra) Mammal {
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into Whale
 	err = newStrictDecoder(data).Decode(&dst.Whale)
 	if err == nil {
@@ -48,7 +67,7 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 		if string(jsonWhale) == "{}" { // empty struct
 			dst.Whale = nil
 		} else {
-			if err = validator.Validate(dst.Whale); err != nil {
+			if err = valueValidator.Validate(dst.Whale); err != nil {
 				dst.Whale = nil
 			} else {
 				match++
@@ -65,7 +84,7 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 		if string(jsonZebra) == "{}" { // empty struct
 			dst.Zebra = nil
 		} else {
-			if err = validator.Validate(dst.Zebra); err != nil {
+			if err = valueValidator.Validate(dst.Zebra); err != nil {
 				dst.Zebra = nil
 			} else {
 				match++

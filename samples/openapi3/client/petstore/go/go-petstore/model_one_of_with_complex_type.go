@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // OneOfWithComplexType - struct for OneOfWithComplexType
@@ -41,6 +42,24 @@ func StringAsOneOfWithComplexType(v *string) OneOfWithComplexType {
 func (dst *OneOfWithComplexType) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into ArrayOfString
 	err = newStrictDecoder(data).Decode(&dst.ArrayOfString)
 	if err == nil {
@@ -48,7 +67,7 @@ func (dst *OneOfWithComplexType) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfString) == "{}" { // empty struct
 			dst.ArrayOfString = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfString); err != nil {
+			if err = valueValidator.Validate(dst.ArrayOfString); err != nil {
 				dst.ArrayOfString = nil
 			} else {
 				match++
@@ -65,7 +84,7 @@ func (dst *OneOfWithComplexType) UnmarshalJSON(data []byte) error {
 		if string(jsonString) == "{}" { // empty struct
 			dst.String = nil
 		} else {
-			if err = validator.Validate(dst.String); err != nil {
+			if err = valueValidator.Validate(dst.String); err != nil {
 				dst.String = nil
 			} else {
 				match++

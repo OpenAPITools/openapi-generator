@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
@@ -49,6 +50,24 @@ func Int32AsOneOfPrimitiveType(v *int32) OneOfPrimitiveType {
 func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into OneOfPrimitiveTypeChild
 	err = newStrictDecoder(data).Decode(&dst.OneOfPrimitiveTypeChild)
 	if err == nil {
@@ -56,7 +75,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonOneOfPrimitiveTypeChild) == "{}" { // empty struct
 			dst.OneOfPrimitiveTypeChild = nil
 		} else {
-			if err = validator.Validate(dst.OneOfPrimitiveTypeChild); err != nil {
+			if err = valueValidator.Validate(dst.OneOfPrimitiveTypeChild); err != nil {
 				dst.OneOfPrimitiveTypeChild = nil
 			} else {
 				match++
@@ -73,7 +92,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfString) == "{}" { // empty struct
 			dst.ArrayOfString = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfString); err != nil {
+			if err = valueValidator.Validate(dst.ArrayOfString); err != nil {
 				dst.ArrayOfString = nil
 			} else {
 				match++
@@ -90,7 +109,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonInt32) == "{}" { // empty struct
 			dst.Int32 = nil
 		} else {
-			if err = validator.Validate(dst.Int32); err != nil {
+			if err = valueValidator.Validate(dst.Int32); err != nil {
 				dst.Int32 = nil
 			} else {
 				match++

@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // IncidentData - struct for IncidentData
@@ -46,6 +47,24 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 	}
 
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into ArrayOfMapmapOfStringAny
 	err = newStrictDecoder(data).Decode(&dst.ArrayOfMapmapOfStringAny)
 	if err == nil {
@@ -53,7 +72,7 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfMapmapOfStringAny) == "{}" { // empty struct
 			dst.ArrayOfMapmapOfStringAny = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfMapmapOfStringAny); err != nil {
+			if err = valueValidator.Validate(dst.ArrayOfMapmapOfStringAny); err != nil {
 				dst.ArrayOfMapmapOfStringAny = nil
 			} else {
 				match++
@@ -70,7 +89,7 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonMapmapOfStringAny) == "{}" { // empty struct
 			dst.MapmapOfStringAny = nil
 		} else {
-			if err = validator.Validate(dst.MapmapOfStringAny); err != nil {
+			if err = valueValidator.Validate(dst.MapmapOfStringAny); err != nil {
 				dst.MapmapOfStringAny = nil
 			} else {
 				match++

@@ -15,6 +15,7 @@ import (
 	"time"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
@@ -42,6 +43,24 @@ func TimeTimeAsOneOfPrimitiveTypes(v *time.Time) OneOfPrimitiveTypes {
 func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into String
 	err = newStrictDecoder(data).Decode(&dst.String)
 	if err == nil {
@@ -49,7 +68,7 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonString) == "{}" { // empty struct
 			dst.String = nil
 		} else {
-			if err = validator.Validate(dst.String); err != nil {
+			if err = valueValidator.Validate(dst.String); err != nil {
 				dst.String = nil
 			} else {
 				match++
@@ -66,7 +85,7 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonTimeTime) == "{}" { // empty struct
 			dst.TimeTime = nil
 		} else {
-			if err = validator.Validate(dst.TimeTime); err != nil {
+			if err = valueValidator.Validate(dst.TimeTime); err != nil {
 				dst.TimeTime = nil
 			} else {
 				match++
