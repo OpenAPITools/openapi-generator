@@ -1194,7 +1194,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 || schema.getProperties() == null || schema.getProperties().isEmpty()) {
             return false;
         }
-        if (!"object".equals(schemaType(schema))) {
+        // a schema with properties but no explicit type is still an object schema
+        String objectType = schemaType(schema);
+        if (objectType != null && !"object".equals(objectType)) {
             return false;
         }
         for (Schema<?> property : schema.getProperties().values()) {
