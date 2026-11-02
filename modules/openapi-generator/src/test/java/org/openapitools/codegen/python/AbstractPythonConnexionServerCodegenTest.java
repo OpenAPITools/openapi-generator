@@ -224,6 +224,8 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "x_status_list = request.headers.get('X-Status-List')",
                 "x_status_list = x_status_list.split(',')",
                 "x_status_list = [StatusEnum.from_dict(d) for d in x_status_list]",
+                "x_obj_list = request.headers.get('X-Obj-List', [{'tag': 'alpha'}, {'tag': 'beta'}])",
+                "x_obj_list = [QueryFilter.from_dict(d) for d in x_obj_list]",
                 "x_nested_list = request.headers.get('X-Nested-List', [['a', 'b'], ['c']])",
                 "session_token = request.cookies.get('session_token', 'default-cookie')",
                 "opt_datetime = request.cookies.get('opt_datetime')",
@@ -239,6 +241,7 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(aiohttpController, "session_token=None");
         assertFileNotContains(aiohttpController, "[foo, bar]");
         assertFileNotContains(aiohttpController, "[true, false]");
+        assertFileNotContains(aiohttpController, "x_obj_list.split(',')");
         assertFileNotContains(aiohttpController, "['', '']");
         assertFileContains(aiohttpTest, "'X-Req-Header':");
         assertFileNotContains(aiohttpTest, "'x_req_header':");
@@ -272,6 +275,8 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "x_status_list = connexion.request.headers.get('X-Status-List')",
                 "x_status_list = x_status_list.split(',')",
                 "x_status_list = [StatusEnum.from_dict(d) for d in x_status_list]  # noqa: E501",
+                "x_obj_list = connexion.request.headers.get('X-Obj-List', [{'tag': 'alpha'}, {'tag': 'beta'}])",
+                "x_obj_list = [QueryFilter.from_dict(d) for d in x_obj_list]  # noqa: E501",
                 "x_nested_list = connexion.request.headers.get('X-Nested-List', [['a', 'b'], ['c']])",
                 "session_token = connexion.request.cookies.get('session_token', 'default-cookie')",
                 "opt_datetime = connexion.request.cookies.get('opt_datetime')",
@@ -287,6 +292,7 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(blueplanetController, "session_token=None");
         assertFileNotContains(blueplanetController, "[foo, bar]");
         assertFileNotContains(blueplanetController, "[true, false]");
+        assertFileNotContains(blueplanetController, "x_obj_list.split(',')");
         assertFileNotContains(blueplanetController, "['', '']");
         assertFileContains(blueplanetTest, "('X-Req-Header',");
         assertFileNotContains(blueplanetTest, "('x_req_header',");
@@ -321,6 +327,8 @@ public class AbstractPythonConnexionServerCodegenTest {
                     "x_status_list = flask.request.headers.get('X-Status-List')",
                     "x_status_list = x_status_list.split(',')",
                     "x_status_list = [StatusEnum.from_dict(d) for d in x_status_list]  # noqa: E501",
+                    "x_obj_list = flask.request.headers.get('X-Obj-List', [{'tag': 'alpha'}, {'tag': 'beta'}])",
+                    "x_obj_list = [QueryFilter.from_dict(d) for d in x_obj_list]  # noqa: E501",
                     "x_nested_list = flask.request.headers.get('X-Nested-List', [['a', 'b'], ['c']])",
                     "session_token = flask.request.cookies.get('session_token', 'default-cookie')",
                     "opt_datetime = flask.request.cookies.get('opt_datetime')",
@@ -336,6 +344,7 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileNotContains(flaskController, "session_token=None");
             assertFileNotContains(flaskController, "[foo, bar]");
             assertFileNotContains(flaskController, "[true, false]");
+            assertFileNotContains(flaskController, "x_obj_list.split(',')");
             assertFileNotContains(flaskController, "['', '']");
             assertFileContains(flaskTest, "'X-Req-Header':");
             assertFileNotContains(flaskTest, "'x_req_header':");

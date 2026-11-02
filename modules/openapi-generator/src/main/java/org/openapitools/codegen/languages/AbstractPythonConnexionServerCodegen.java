@@ -79,6 +79,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     static final String X_OBJECT_EXAMPLE = "x-python-connexion-object-example";
     // baseName escaped for a single-quoted Python literal.
     static final String X_QUOTED_NAME = "x-python-connexion-quoted-name";
+    static final String X_TEST_UNSERIALIZABLE = "x-python-connexion-test-unserializable";
     static final String HAS_OBJECT_PARAMS = "connexionObjectParams";
 
     // An object mapper that is used to convert an example string to
@@ -990,6 +991,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             // allParams, queryParams and headerParams hold separate copies of each parameter.
+            boolean unserializableObjectParam = false;
             for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.queryParams,
                     operation.headerParams)) {
                 for (CodegenParameter param : params) {
@@ -997,10 +999,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         hasObjectParams = true;
                         hasObjectHeaderParam |= param.isHeaderParam;
                         prepareObjectParameterExample(param, allModels);
+                        unserializableObjectParam |= Boolean.TRUE
+                                .equals(param.vendorExtensions.get(X_TEST_UNSERIALIZABLE));
                     }
                 }
             }
             Map<String, String> skipTests = new HashMap<>();
+            if (unserializableObjectParam) {
+                skipTests.put("reason",
+                        "object parameter has required non-scalar properties with no simple/form wire serialization");
+            }
             // Set flag to deactivate tests due to connexion issue.
             if (operation.consumes != null) {
                 if (operation.consumes.size() == 1) {
@@ -1162,20 +1170,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 values.add(new String[]{entry.getKey(), entry.getValue()});
             }
         } else if (model != null) {
-            boolean unserializableRequired = false;
             for (CodegenProperty var : model.vars) {
                 String value = wireExampleValue(var, delimited);
                 if (value != null) {
                     values.add(new String[]{var.baseName, value});
                 } else if (var.required) {
                     // a required nested object/array/map has no simple/form wire value;
-                    // an empty pair list tells the test builder to omit the param
-                    // instead of sending an incomplete model
-                    unserializableRequired = true;
+                    // flag the param so the generated test is skipped instead of
+                    // sending an incomplete model or dropping the required param
+                    param.vendorExtensions.put(X_TEST_UNSERIALIZABLE, Boolean.TRUE);
                 }
-            }
-            if (unserializableRequired) {
-                values.clear();
             }
         }
         if (delimited) {
@@ -1208,9 +1212,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 || schema.getProperties() == null || schema.getProperties().isEmpty()) {
             return false;
         }
-        // a schema with properties but no explicit type is still an object schema
-        String objectType = schemaType(schema);
-        if (objectType != null && !"object".equals(objectType)) {
+        // Connexion reads param_schema['type'] at runtime (uri_parsing.py), so a
+        // schema without an explicit "object" type is not handled by the feature
+        if (!"object".equals(schemaType(schema))) {
             return false;
         }
         for (Schema<?> property : schema.getProperties().values()) {
@@ -1227,13 +1231,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (schema == null) {
             return null;
         }
-        if (schema.getType() != null) {
-            return schema.getType();
-        }
-        if (schema.getTypes() != null && schema.getTypes().size() == 1) {
-            return schema.getTypes().iterator().next();
-        }
-        return null;
+        // Connexion compares param_schema['type'] against the literal string, so a
+        // 3.1 singleton type array ("['object']") is not an object to it either;
+        // only an explicit scalar `type` field qualifies
+        return schema.getType();
     }
 
     private static Map<String, String> testPair(String key, String value) {

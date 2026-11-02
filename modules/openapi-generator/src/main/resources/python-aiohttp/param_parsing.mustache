@@ -23,10 +23,7 @@ def _is_object(param):
     ``style: form``/``simple`` can carry. Must match the generator's isScalarObjectSchema()."""
     schema = param.get('schema', {})
     properties = schema.get('properties')
-    schema_type = schema.get('type')
-    if isinstance(schema_type, list):
-        schema_type = schema_type[0] if len(schema_type) == 1 else None
-    if (not properties or (schema_type is not None and schema_type != 'object')
+    if (not properties or schema.get('type') != 'object'
             or any(key in schema for key in ('allOf', 'oneOf', 'anyOf'))):
         return False
     return all(prop.get('type') in _SCALAR_TYPES for prop in properties.values())
