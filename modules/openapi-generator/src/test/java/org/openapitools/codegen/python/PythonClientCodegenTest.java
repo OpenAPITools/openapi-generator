@@ -289,6 +289,53 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testRegexWithEscapedDoubleQuote() throws IOException {
+        String output = generateFiles(new PythonClientCodegen(),
+                "src/test/resources/3_0/python/regex-escaped-quote.yaml");
+        Path model = Paths.get(output, "openapi_client", "models", "pattern_model.py");
+        String pattern = "[^\\/:?*<>\\\"|]*";
+        assertFileContains(model,
+                "re.match(r\"" + pattern + "\", value)",
+                "raise ValueError(r\"must validate the regular expression /" + pattern + "/\")");
+
+        String modelContent = Files.readString(model);
+        Map<String, String> expectedPatterns = Map.of(
+                "unescaped_quote", "^a\\\"b$",
+                "already_escaped_quote", "^a\\\"b$",
+                "even_backslashes", "^a\\\\\\\"b$",
+                "odd_backslashes", "^a\\\\\\\"b$",
+                "trailing_backslashes", "a\\\\",
+                "trailing_four_backslashes", "a\\\\\\\\");
+        expectedPatterns.forEach((field, expectedPattern) -> {
+            int start = modelContent.indexOf("def " + field + "_validate_regular_expression");
+            Assert.assertTrue(start >= 0, field);
+            int next = modelContent.indexOf("\n    @field_validator", start);
+            String validator = modelContent.substring(start, next < 0 ? modelContent.length() : next);
+            Assert.assertTrue(validator.contains("re.match(r\"" + expectedPattern + "\", value)"), field);
+        });
+    }
+
+    @DataProvider(name = "regexQuoteEscaping")
+    public Object[][] regexQuoteEscaping() {
+        return new Object[][] {
+                {"^a\"b$", "^a\\\"b$"},
+                {"^a\\\"b$", "^a\\\"b$"},
+                {"^a\\\\\"b$", "^a\\\\\\\"b$"},
+                {"^a\\\\\\\"b$", "^a\\\\\\\"b$"},
+                {"a\\\\", "a\\\\"},
+                {"a\\\\\\\\", "a\\\\\\\\"}
+        };
+    }
+
+    @Test(dataProvider = "regexQuoteEscaping")
+    public void testRegexQuoteEscaping(String pattern, String expectedRegex) {
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        new PythonClientCodegen().postProcessPattern(pattern, vendorExtensions);
+        Assert.assertEquals(vendorExtensions.get(CodegenConstants.X_REGEX), expectedRegex);
+        Assert.assertEquals(vendorExtensions.get(CodegenConstants.X_PATTERN), "/" + expectedRegex + "/");
+    }
+
+    @Test
     public void testSettersForConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setHideGenerationTimestamp(false);
@@ -342,7 +389,61 @@ public class PythonClientCodegenTest {
         // added to test fix for issue #6675
         // removed because "/^[\\pattern\\d{3}$/i" is invalid regex because [ is not escaped and there is no closing ]
         // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
+        // alternation_with_forward_slash '/ax$|/bx$'
+        Assert.assertEquals(op.allParams.get(7).pattern, "/\\/ax$|\\/bx$/");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-regex"), "\\/ax$|\\/bx$");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-modifiers"), Collections.emptyList());
+    }
 
+    @Test(description = "test regex patterns starting with forward slash (e.g. URL paths)")
+    public void testRegularExpressionStartingWithSlash() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        Schema<?> singleSlashSchema = new StringSchema().pattern("/v1");
+        CodegenProperty singleSlash = codegen.fromProperty("single_slash", singleSlashSchema, false);
+        codegen.postProcessModelProperty(null, singleSlash);
+        Assert.assertEquals(singleSlash.pattern, "/\\/v1/");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-regex"), "\\/v1");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> pathSchema = new StringSchema().pattern("/health_question_definition/[0-9]+");
+        CodegenProperty pathProp = codegen.fromProperty("path_pattern", pathSchema, false);
+        codegen.postProcessModelProperty(null, pathProp);
+        Assert.assertEquals(pathProp.pattern, "/\\/health_question_definition\\/[0-9]+/");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-regex"), "\\/health_question_definition\\/[0-9]+");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> multiSlashWithModifierLetters = new StringSchema().pattern("/api/v1/users");
+        CodegenProperty multiSlashPath = codegen.fromProperty("multi_slash_path", multiSlashWithModifierLetters, false);
+        codegen.postProcessModelProperty(null, multiSlashPath);
+        Assert.assertEquals(multiSlashPath.pattern, "/\\/api\\/v1\\/users/");
+        Assert.assertEquals(multiSlashPath.vendorExtensions.get("x-regex"), "\\/api\\/v1\\/users");
+        Assert.assertEquals(multiSlashPath.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> perlModifierSchema = new StringSchema().pattern("/^image_\\d{1,3}$/i");
+        CodegenProperty perlModifierProp = codegen.fromProperty("perl_modifier", perlModifierSchema, false);
+        codegen.postProcessModelProperty(null, perlModifierProp);
+        Assert.assertEquals(perlModifierProp.pattern, "/^image_\\d{1,3}$/i");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-regex"), "^image_\\d{1,3}$");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-modifiers"), Collections.singletonList("IGNORECASE"));
+
+        Schema<?> perlGlobalSchema = new StringSchema().pattern("/[0-9]{10}/g");
+        CodegenProperty perlGlobalProp = codegen.fromProperty("perl_global", perlGlobalSchema, false);
+        codegen.postProcessModelProperty(null, perlGlobalProp);
+        Assert.assertEquals(perlGlobalProp.pattern, "/[0-9]{10}/g");
+        Assert.assertEquals(perlGlobalProp.vendorExtensions.get("x-regex"), "[0-9]{10}");
+        Assert.assertEquals(perlGlobalProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> escapedBackslashBeforeSlashSchema = new StringSchema().pattern("a\\\\/b");
+        CodegenProperty escapedBackslashProp = codegen.fromProperty("escaped_backslash", escapedBackslashBeforeSlashSchema, false);
+        codegen.postProcessModelProperty(null, escapedBackslashProp);
+        Assert.assertEquals(escapedBackslashProp.pattern, "/a\\\\\\/b/");
+        Assert.assertEquals(escapedBackslashProp.vendorExtensions.get("x-regex"), "a\\\\\\/b");
+        Assert.assertEquals(escapedBackslashProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Assert.assertEquals(codegen.patternCorrection("/health_question_definition/[0-9]+"), "/health_question_definition/[0-9]+");
+        Assert.assertEquals(codegen.patternCorrection("/api/v1/"), "/api/v1/");
+        Assert.assertEquals(codegen.patternCorrection("/^image_\\d{1,3}$/i"), "^image_\\d{1,3}$");
     }
 
 

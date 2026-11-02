@@ -1,0 +1,45 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{rootJavaEEPackage}}.ws.rs.*
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
+{{#microprofileMutiny}}
+import io.smallrye.mutiny.Uni
+{{/microprofileMutiny}}
+
+{{#operations}}
+@RegisterRestClient{{#configKey}}(configKey = "{{#lambda.escapeDollar}}{{{.}}}{{/lambda.escapeDollar}}"){{/configKey}}
+@Path("/")
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface {{classname}} {
+{{#operation}}
+    {{#summary}}
+    /**
+     * {{summary}}
+     {{#notes}}
+     * {{{.}}}
+     {{/notes}}
+     */
+    {{/summary}}
+    {{#isDeprecated}}
+    @Deprecated("This operation is deprecated.")
+    {{/isDeprecated}}
+    @{{httpMethod}}
+    @Path("{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}")
+    {{#hasConsumes}}
+    @Consumes({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
+    {{/hasConsumes}}
+    {{#hasProduces}}
+    @Produces({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
+    {{/hasProduces}}
+    {{#explicitApi}}public {{/explicitApi}}fun {{{nickname}}}(
+        {{#allParams}}
+        {{#isPathParam}}@PathParam("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}") {{/isPathParam}}{{#isQueryParam}}@QueryParam("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}") {{/isQueryParam}}{{#isHeaderParam}}@HeaderParam("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}") {{/isHeaderParam}}{{#isCookieParam}}@CookieParam("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}") {{/isCookieParam}}{{#isFormParam}}@FormParam("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}") {{/isFormParam}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}? = null{{/required}}{{^-last}},{{/-last}}
+        {{/allParams}}
+    ): {{#microprofileMutiny}}Uni<{{/microprofileMutiny}}{{#returnType}}{{{.}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{^nullableReturnType}}{{#vendorExtensions.x-kotlin-microprofile-nullable-return}}?{{/vendorExtensions.x-kotlin-microprofile-nullable-return}}{{/nullableReturnType}}{{/returnType}}{{^returnType}}{{#microprofileMutiny}}Void?{{/microprofileMutiny}}{{^microprofileMutiny}}Unit{{/microprofileMutiny}}{{/returnType}}{{#microprofileMutiny}}>{{/microprofileMutiny}}
+
+{{/operation}}
+}
+{{/operations}}
