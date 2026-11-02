@@ -241,8 +241,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(aiohttpController, "session_token=None");
         assertFileNotContains(aiohttpController, "[foo, bar]");
         assertFileNotContains(aiohttpController, "[true, false]");
-        assertFileNotContains(aiohttpController, "['', '']");
         assertFileNotContains(aiohttpController, "x_obj_list.split(',')");
+        assertFileNotContains(aiohttpController, "['', '']");
         assertFileContains(aiohttpTest, "'X-Req-Header':");
         assertFileNotContains(aiohttpTest, "'x_req_header':");
 
@@ -292,8 +292,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(blueplanetController, "session_token=None");
         assertFileNotContains(blueplanetController, "[foo, bar]");
         assertFileNotContains(blueplanetController, "[true, false]");
-        assertFileNotContains(blueplanetController, "['', '']");
         assertFileNotContains(blueplanetController, "x_obj_list.split(',')");
+        assertFileNotContains(blueplanetController, "['', '']");
         assertFileContains(blueplanetTest, "('X-Req-Header',");
         assertFileNotContains(blueplanetTest, "('x_req_header',");
 
@@ -344,8 +344,8 @@ public class AbstractPythonConnexionServerCodegenTest {
             assertFileNotContains(flaskController, "session_token=None");
             assertFileNotContains(flaskController, "[foo, bar]");
             assertFileNotContains(flaskController, "[true, false]");
-            assertFileNotContains(flaskController, "['', '']");
             assertFileNotContains(flaskController, "x_obj_list.split(',')");
+            assertFileNotContains(flaskController, "['', '']");
             assertFileContains(flaskTest, "'X-Req-Header':");
             assertFileNotContains(flaskTest, "'x_req_header':");
         }
