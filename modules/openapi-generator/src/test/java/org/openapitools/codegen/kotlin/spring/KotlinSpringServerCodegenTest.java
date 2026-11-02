@@ -8315,6 +8315,37 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "sealed interface Pet");
     }
 
+    @Test(description = "discriminator uses JsonTypeInfo.As.PROPERTY with @JsonIgnoreProperties by default")
+    public void testDiscriminatorJsonIgnorePropertiesDefault() throws IOException {
+        Path pet = generateDiscriminatorPet(null);
+        assertFileContains(pet, "@JsonIgnoreProperties(", "JsonTypeInfo.As.PROPERTY");
+        assertFileNotContains(pet, "JsonTypeInfo.As.EXISTING_PROPERTY");
+    }
+
+    @Test(description = "disableDiscriminatorJsonIgnoreProperties uses EXISTING_PROPERTY and no @JsonIgnoreProperties")
+    public void testDisableDiscriminatorJsonIgnoreProperties() throws IOException {
+        Path pet = generateDiscriminatorPet("true");
+        assertFileContains(pet, "JsonTypeInfo.As.EXISTING_PROPERTY");
+        assertFileNotContains(pet, "@JsonIgnoreProperties", "JsonTypeInfo.As.PROPERTY");
+    }
+
+    private Path generateDiscriminatorPet(String disableDiscriminatorJsonIgnoreProperties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            if (disableDiscriminatorJsonIgnoreProperties != null) {
+                                additionalProperties().put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, disableDiscriminatorJsonIgnoreProperties);
+                            }
+                        }}))
+                .generate();
+
+        return Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+    }
+
     @Test(description = "allOf sealed interface correctly composes external x-kotlin-implements supertypes")
     public void testSealedInterfaceWithExternalSupertypes() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
