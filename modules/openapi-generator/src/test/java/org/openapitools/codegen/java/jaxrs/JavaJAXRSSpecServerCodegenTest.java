@@ -2690,6 +2690,14 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "public java.math.@Nullable BigDecimal getNumber() {");
         assertFileNotContains(model, "public Date getDt() {");
 
+        // required properties that are nullable are passed through the @JsonCreator constructor,
+        // so its parameters need the annotation too, or callers cannot pass null under @NullMarked
+        final Path requiredAndNullable = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/RequiredAndNullable.java");
+        assertFileContains(requiredAndNullable,
+                "@JsonProperty(required = true, value = \"str\") @Nullable String str",
+                "@JsonProperty(required = true, value = \"list\") @Nullable List<String> _list",
+                "@JsonProperty(required = true, value = \"onlyRequired\") String onlyRequired");
+
         // @NullMarked is what makes the unannotated types mean non-null
         assertFileContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/package-info.java"),
                 "@org.jspecify.annotations.NullMarked");
@@ -2726,6 +2734,38 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "org.jspecify", "@Nullable");
         assertFileContains(Paths.get(output.toPath() + "/pom.xml"), "jsr305");
         assertFileNotContains(Paths.get(output.toPath() + "/pom.xml"), "jspecify");
+    }
+
+    /**
+     * The JSON-B @JsonbCreator constructor takes the required properties as well, so nullable
+     * ones must be annotated there just like in the Jackson @JsonCreator constructor.
+     */
+    @Test
+    public void testUseJspecifyWithJsonbCreator() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_JSPECIFY, true);
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        properties.put(INTERFACE_ONLY, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path requiredAndNullable = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/RequiredAndNullable.java");
+        assertFileContains(requiredAndNullable,
+                "@JsonbCreator",
+                "@JsonbProperty(\"str\") @Nullable String str",
+                "@JsonbProperty(\"list\") @Nullable List<String> _list",
+                "@JsonbProperty(\"onlyRequired\") String onlyRequired");
     }
 
 
