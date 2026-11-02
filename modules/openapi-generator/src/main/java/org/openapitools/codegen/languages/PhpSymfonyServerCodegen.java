@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -666,9 +667,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumVarsObj;
 
+        // Decide integrality numerically (not lexically) so that "1.0" / "1e3" count as integral.
         boolean allIntegral = true;
         for (Map<String, Object> enumVar : enumVars) {
-            if (!String.valueOf(enumVar.get("value")).matches("-?\\d+")) {
+            if (toIntegralString(enumVar.get("value")) == null) {
                 allIntegral = false;
                 break;
             }
@@ -676,11 +678,34 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         if (allIntegral) {
             model.dataType = "int";
+            // PHP rejects `case X = 1.0;` / `case X = 1e3;` in an int-backed enum, so emit plain integer literals.
+            for (Map<String, Object> enumVar : enumVars) {
+                enumVar.put("value", toIntegralString(enumVar.get("value")));
+            }
         } else {
             model.dataType = "string";
             for (Map<String, Object> enumVar : enumVars) {
                 enumVar.put("value", "'" + escapeTextInSingleQuotes(String.valueOf(enumVar.get("value"))) + "'");
             }
+        }
+    }
+
+    /**
+     * @return the plain integer representation (e.g. {@code 1.0 -> "1"}, {@code 1e3 -> "1000"}) when the value is
+     * numerically integral, otherwise {@code null}.
+     */
+    private static String toIntegralString(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            BigDecimal number = new BigDecimal(String.valueOf(value).trim());
+            if (number.signum() == 0) {
+                return "0";
+            }
+            return number.stripTrailingZeros().scale() <= 0 ? number.toBigIntegerExact().toString() : null;
+        } catch (NumberFormatException | ArithmeticException e) {
+            return null;
         }
     }
 

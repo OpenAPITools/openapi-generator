@@ -74,6 +74,13 @@ components:
       enum:
         - 0.5
         - 1.5
+    # `type: number` + integral values written as decimals/exponents -> still int-backed with plain integer literals
+    DecimalIntegral:
+      type: number
+      enum:
+        - 1.0
+        - 2.0
+        - 1e3
     # controls: already valid before the fix, must stay unchanged
     IntCode:
       type: integer

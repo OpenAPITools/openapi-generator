@@ -506,6 +506,13 @@ public class PhpSymfonyServerCodegenTest {
         Assert.assertTrue(models.get("Ratio.php").contains("enum Ratio: string"), models.get("Ratio.php"));
         Assert.assertTrue(models.get("Ratio.php").contains("= '0.5';"), models.get("Ratio.php"));
         Assert.assertTrue(models.get("Ratio.php").contains("= '1.5';"), models.get("Ratio.php"));
+        // integral values written as decimals / exponents are still int-backed, with plain integer literals
+        String decimalIntegral = models.get("DecimalIntegral.php");
+        Assert.assertTrue(decimalIntegral.contains("enum DecimalIntegral: int"), decimalIntegral);
+        Assert.assertTrue(Pattern.compile("=\\s*1;").matcher(decimalIntegral).find(), decimalIntegral);
+        Assert.assertTrue(Pattern.compile("=\\s*2;").matcher(decimalIntegral).find(), decimalIntegral);
+        Assert.assertTrue(Pattern.compile("=\\s*1000;").matcher(decimalIntegral).find(), decimalIntegral);
+        Assert.assertFalse(Pattern.compile("=\\s*[\\d.]+[.eE][\\d+-]*;").matcher(decimalIntegral).find(), decimalIntegral);
         for (Map.Entry<String, String> e : models.entrySet()) {
             Assert.assertFalse(e.getValue().contains("enum " + e.getKey().replace(".php", "") + ": float"),
                     e.getKey() + " must not be a float-backed enum");
