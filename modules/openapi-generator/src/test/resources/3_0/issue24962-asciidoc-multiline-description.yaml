@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: asciidoc multiline description test
+  version: '1.0'
+paths:
+  /things:
+    get:
+      operationId: getThing
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          description: |
+            Applies a filter:
+
+            * A - first option
+            * B - second option
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createThing
+      requestBody:
+        required: true
+        description: |
+          Thing to create:
+
+          * name - the thing name
+          * kind - the thing kind
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      responses:
+        '201':
+          description: Created
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        vehicleType:
+          type: integer
+          enum: [1, 2, 3]
+          description: |
+            Type of Vehicle:
+
+            * 1 - Automobile / Car
+            * 2 - Truck
+            * 3 - Moped

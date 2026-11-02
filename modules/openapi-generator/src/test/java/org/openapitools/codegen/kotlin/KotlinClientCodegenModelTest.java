@@ -293,6 +293,30 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "Issue #25471: preserve nullability of items in nested arrays")
+    public void nestedNullableArrayItemsPreserveNullability() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .addAdditionalProperty("collectionType", "list")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                .setInputSpec("src/test/resources/bugs/kotlin/issue_25471_nested_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator()
+                .opts(configurator.toClientOptInput())
+                .generate();
+
+        Path boardModel = modelPath(output, "Board");
+
+        TestUtils.assertFileContains(boardModel,
+            "val column: kotlin.collections.List<Note?>",
+            "val grid: kotlin.collections.List<@Contextual kotlin.collections.List<Note?>>"
+        );
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema<?> schema = getMapSchema();
@@ -1581,5 +1605,98 @@ public class KotlinClientCodegenModelTest {
         Assert.assertNotNull(option, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE + " is not registered");
         Assert.assertEquals(option.getDefault(), "false");
         Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
+    }
+
+    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded and decoded without a BigDecimal serializer")
+    public void oneOfAnyOfKotlinxSerializationUnformattedNumber() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName(KOTLIN_GENERATOR)
+                        .setLibrary("jvm-retrofit2")
+                        .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                        .addAdditionalProperty(GENERATE_ONEOF_ANYOF_WRAPPERS, true)
+                        .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+
+        for (String model : new String[]{"AnyOfValue", "OneOfValue"}) {
+            // kotlinx.serialization has no serializer for java.math.BigDecimal, so this call cannot compile
+            TestUtils.assertFileNotContains(modelPath(output, model), "java.math.BigDecimal.serializer()");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+            // the number is a JsonPrimitive and a plain Json has no BigDecimal serializer, so it is read from the content
+            TestUtils.assertFileNotContains(modelPath(output, model), "decodeFromJsonElement<java.math.BigDecimal>");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "if (jsonElement is JsonPrimitive && !jsonElement.isString) { try { return " + model
+                            + ".BigDecimalValue(jsonElement.content.toBigDecimal())");
+        }
+    }
+
+    private Path generateKotlinxInlineNumericEnumModels(boolean serializableModel) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setInputSpec("src/test/resources/3_0/kotlin/issue25459-kotlinx-inline-numeric-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        return Paths.get(output.getAbsolutePath(), "src/main/kotlin/org/openapitools/client/models");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineNumericEnumUsesValueSerializer() throws IOException {
+        Path models = generateKotlinxInlineNumericEnumModels(false);
+        Path recordingKt = models.resolve("Recording.kt");
+
+        // A plain @Serializable enum is written by serial name, so Plays would be the JSON string "1"
+        // instead of the number 1. The value serializer reads and writes the Int itself.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = PlaysSerializer::class)",
+                "enum class Plays(val value: kotlin.Int)",
+                "internal object PlaysSerializer : KSerializer<Plays>",
+                "decoder.decodeSerializableValue(kotlin.Int.serializer())",
+                "encoder.encodeSerializableValue(kotlin.Int.serializer(), value.value)",
+                "import kotlinx.serialization.KSerializer",
+                "import kotlinx.serialization.builtins.serializer",
+                "import kotlinx.serialization.encoding.Decoder",
+                "import kotlinx.serialization.encoding.Encoder");
+        // String enums stay on their @SerialName values.
+        TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
+        // Models without enums must not pick up the serializer imports.
+        TestUtils.assertFileNotContains(models.resolve("Label.kt"), "KSerializer");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineBigDecimalEnumKeepsPlainSerializable() throws IOException {
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(false).resolve("Recording.kt");
+
+        // type: number maps to java.math.BigDecimal, which has no serializer() to build a value serializer from.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable enum class Ratio(val value: java.math.BigDecimal)");
+        TestUtils.assertFileNotContains(recordingKt, "RatioSerializer", "java.math.BigDecimal.serializer()");
+        // type: number with format double maps to kotlin.Double and keeps the value serializer.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = WeightSerializer::class)",
+                "encoder.encodeSerializableValue(kotlin.Double.serializer(), value.value)");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineNumericEnumUsesValueSerializerForSerializableModel() throws IOException {
+        // serializableModel imports kotlinx's Serializable under the alias KSerializable.
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(true).resolve("Recording.kt");
+
+        TestUtils.assertFileContains(recordingKt,
+                "@KSerializable(with = PlaysSerializer::class)",
+                "internal object PlaysSerializer : KSerializer<Plays>");
     }
 }

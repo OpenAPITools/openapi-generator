@@ -66,6 +66,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             "finally", "for", "from", "global", "if", "import", "in", "is",
             "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try",
             "while", "with", "yield");
+    private static final Pattern PERL_DELIMITER_PATTERN =
+            Pattern.compile("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -814,12 +816,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     public String patternCorrection(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return "";
+        }
         // Java does not recognize starting and ending forward slashes and mode modifiers
         // It considers them as characters with no special meaning and tries to find them in the match string
-        boolean checkEnding = pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
-        if (checkEnding) pattern = pattern.substring(0, pattern.length() - 2);
-        if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length() - 1);
-        if (pattern.startsWith("/")) pattern = pattern.substring(1);
+        if (PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
+            return pattern.substring(1, pattern.lastIndexOf('/'));
+        }
         return pattern;
     }
 
@@ -1561,6 +1565,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             // TODO update the check below follow python convention
@@ -1580,10 +1585,25 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
-            vendorExtensions.put(X_PATTERN, pattern.replace("\"", "\\\""));
+            vendorExtensions.put(X_REGEX, escapeUnescapedDoubleQuotes(regex));
+            vendorExtensions.put(X_PATTERN, escapeUnescapedDoubleQuotes(pattern));
             vendorExtensions.put(X_MODIFIERS, modifiers);
         }
+    }
+
+    private static String escapeUnescapedDoubleQuotes(String value) {
+        StringBuilder escaped = new StringBuilder(value.length());
+        int backslashes = 0;
+        for (int index = 0; index < value.length(); index++) {
+            char current = value.charAt(index);
+            // A quote after an odd number of backslashes is already escaped in a raw Python string.
+            if (current == '"' && backslashes % 2 == 0) {
+                escaped.append('\\');
+            }
+            escaped.append(current);
+            backslashes = current == '\\' ? backslashes + 1 : 0;
+        }
+        return escaped.toString();
     }
 
     @Override
@@ -1592,9 +1612,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
-            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        if (!PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
+            // Escape each '/' only when preceded by an even number of backslashes.
+            return "/" + pattern.replaceAll("((?<!\\\\)(?:\\\\\\\\)*)/", "$1\\\\/") + "/";
         }
 
         return pattern;
