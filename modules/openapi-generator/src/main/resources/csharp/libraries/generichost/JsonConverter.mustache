@@ -165,7 +165,7 @@
             {{/anyOf}}
             {{#anyOf}}
             {{#-first}}
-            if (startingTokenType != JsonTokenType.StartObject && {{#lambda.joinWithAmpersand}}{{#anyOf}}{{^vendorExtensions.x-duplicated-data-type}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} == null  {{/vendorExtensions.x-duplicated-data-type}}{{/anyOf}}{{/lambda.joinWithAmpersand}})
+            if ({{#lambda.joinWithAmpersand}}{{#anyOf}}{{^vendorExtensions.x-duplicated-data-type}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} == null  {{/vendorExtensions.x-duplicated-data-type}}{{/anyOf}}{{/lambda.joinWithAmpersand}})
                 throw new JsonException();
 
             {{/-first}}
@@ -391,6 +391,10 @@
             {{/discriminator}}
             {{#composedSchemas.oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
+            {{#vendorExtensions.x-is-union}}
+{{>WriteUnionOneOfMember}}
+            {{/vendorExtensions.x-is-union}}
+            {{^vendorExtensions.x-is-union}}
             {{#isEnumRef}}
 {{>WriteUnionOneOfMember}}
             {{/isEnumRef}}
@@ -404,10 +408,15 @@
             {{/isContainer}}
             {{/isPrimitiveType}}
             {{/isEnumRef}}
+            {{/vendorExtensions.x-is-union}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.oneOf}}
             {{#composedSchemas.anyOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
+            {{#vendorExtensions.x-is-union}}
+{{>WriteUnionAnyOfMember}}
+            {{/vendorExtensions.x-is-union}}
+            {{^vendorExtensions.x-is-union}}
             {{#isEnumRef}}
 {{>WriteUnionAnyOfMember}}
             {{/isEnumRef}}
@@ -421,6 +430,7 @@
             {{/isContainer}}
             {{/isPrimitiveType}}
             {{/isEnumRef}}
+            {{/vendorExtensions.x-is-union}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
             writer.WriteStartObject();
@@ -455,6 +465,7 @@
             {{^model.discriminator}}
             {{#composedSchemas.oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
+            {{^vendorExtensions.x-is-union}}
             {{^isEnumRef}}
             {{^isPrimitiveType}}
             {{^isContainer}}
@@ -467,10 +478,12 @@
             {{/isContainer}}
             {{/isPrimitiveType}}
             {{/isEnumRef}}
+            {{/vendorExtensions.x-is-union}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.oneOf}}
             {{/model.discriminator}}
             {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-is-union}}
             {{^isEnumRef}}
             {{^isPrimitiveType}}
             {{^isContainer}}
@@ -483,6 +496,7 @@
             {{/isContainer}}
             {{/isPrimitiveType}}
             {{/isEnumRef}}
+            {{/vendorExtensions.x-is-union}}
             {{/composedSchemas.anyOf}}
             WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
             writer.WriteEndObject();

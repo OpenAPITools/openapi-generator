@@ -209,6 +209,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullableShape.Triangle != null)
+            {
+                JsonSerializer.Serialize(writer, nullableShape.Triangle, jsonSerializerOptions);
+                return;
+            }
+
+            if (nullableShape.Quadrilateral != null)
+            {
+                JsonSerializer.Serialize(writer, nullableShape.Quadrilateral, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (nullableShape.Triangle != null)

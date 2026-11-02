@@ -199,7 +199,7 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<MixedSubId?>(ref utf8JsonReaderMixedSubId, jsonSerializerOptions, out mixedSubId);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject && varString == null && varBool == null && varInt == null && varDecimal == null && mixedSubId == null)
+            if (varString == null && varBool == null && varInt == null && varDecimal == null && mixedSubId == null)
                 throw new JsonException();
 
             while (!isScalarToken && utf8JsonReader.Read())

@@ -50,14 +50,18 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new FlexibleValueJsonConverter());
             _jsonOptions.Converters.Add(new FooJsonConverter());
             _jsonOptions.Converters.Add(new FooOrListJsonConverter());
+            _jsonOptions.Converters.Add(new FooOrTextJsonConverter());
             _jsonOptions.Converters.Add(new FruitJsonConverter());
             _jsonOptions.Converters.Add(new HolderJsonConverter());
             _jsonOptions.Converters.Add(new ImageJsonConverter());
+            _jsonOptions.Converters.Add(new NestedFooJsonConverter());
+            _jsonOptions.Converters.Add(new NestedScalarJsonConverter());
             _jsonOptions.Converters.Add(new NullableOpenStatusJsonConverter());
             _jsonOptions.Converters.Add(new ObservationJsonConverter());
             _jsonOptions.Converters.Add(new OpenStatusJsonConverter());
             _jsonOptions.Converters.Add(new PatternedTextJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
+            _jsonOptions.Converters.Add(new ScalarJsonConverter());
             _jsonOptions.Converters.Add(new StatusJsonConverter());
             _jsonOptions.Converters.Add(new StatusNullableJsonConverter());
             _jsonOptions.Converters.Add(new StatusOrTextJsonConverter());

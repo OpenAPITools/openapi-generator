@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject && status == null && varString == null)
+            if (status == null && varString == null)
                 throw new JsonException();
 
             while (!isScalarToken && utf8JsonReader.Read())

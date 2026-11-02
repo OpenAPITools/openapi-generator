@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **FlexibleValue** | [**FlexibleValue**](FlexibleValue.md) |  | [optional] 
 **FooOrList** | [**FooOrList**](FooOrList.md) |  | [optional] 
 **Fruit** | [**Fruit**](Fruit.md) |  | [optional] 
+**NestedFoo** | [**NestedFoo**](NestedFoo.md) |  | [optional] 
+**NestedScalar** | [**NestedScalar**](NestedScalar.md) |  | [optional] 
 **NullableStatus** | [**NullableOpenStatus**](NullableOpenStatus.md) |  | [optional] 
 **PatternedText** | [**PatternedText**](PatternedText.md) |  | [optional] 
 **Pet** | [**Pet**](Pet.md) |  | [optional] 

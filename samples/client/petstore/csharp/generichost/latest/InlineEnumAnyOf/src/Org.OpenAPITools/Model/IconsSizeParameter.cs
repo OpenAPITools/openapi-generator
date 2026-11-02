@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<int?>(ref utf8JsonReaderInt, jsonSerializerOptions, out varInt);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject && iconsSizeParameterAnyOf == null && varInt == null)
+            if (iconsSizeParameterAnyOf == null && varInt == null)
                 throw new JsonException();
 
             while (!isScalarToken && utf8JsonReader.Read())

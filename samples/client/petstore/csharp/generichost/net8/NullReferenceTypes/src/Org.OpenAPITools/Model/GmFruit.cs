@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<Banana?>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject && apple == null && banana == null)
+            if (apple == null && banana == null)
                 throw new JsonException();
 
             while (!isScalarToken && utf8JsonReader.Read())

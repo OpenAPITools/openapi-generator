@@ -48,6 +48,22 @@ components:
         - type: array
           items:
             type: string
+    Scalar:
+      oneOf:
+        - type: string
+        - type: integer
+    NestedScalar:
+      oneOf:
+        - $ref: '#/components/schemas/Scalar'
+        - type: boolean
+    FooOrText:
+      oneOf:
+        - $ref: '#/components/schemas/Foo'
+        - type: string
+    NestedFoo:
+      anyOf:
+        - $ref: '#/components/schemas/FooOrText'
+        - type: boolean
     Foo:
       type: object
       properties:
@@ -172,6 +188,10 @@ components:
           $ref: '#/components/schemas/PatternedText'
         flexibleValue:
           $ref: '#/components/schemas/FlexibleValue'
+        nestedScalar:
+          $ref: '#/components/schemas/NestedScalar'
+        nestedFoo:
+          $ref: '#/components/schemas/NestedFoo'
         fooOrList:
           $ref: '#/components/schemas/FooOrList'
         entry:

@@ -38,19 +38,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="flexibleValue">flexibleValue</param>
         /// <param name="fooOrList">fooOrList</param>
         /// <param name="fruit">fruit</param>
+        /// <param name="nestedFoo">nestedFoo</param>
+        /// <param name="nestedScalar">nestedScalar</param>
         /// <param name="nullableStatus">nullableStatus</param>
         /// <param name="patternedText">patternedText</param>
         /// <param name="pet">pet</param>
         /// <param name="status">status</param>
         /// <param name="statusOrText">statusOrText</param>
         [JsonConstructor]
-        public Holder(Option<Asset?> asset = default, Option<Entry?> entry = default, Option<FlexibleValue?> flexibleValue = default, Option<FooOrList?> fooOrList = default, Option<Fruit?> fruit = default, Option<NullableOpenStatus?> nullableStatus = default, Option<PatternedText?> patternedText = default, Option<Pet?> pet = default, Option<OpenStatus?> status = default, Option<StatusOrText?> statusOrText = default)
+        public Holder(Option<Asset?> asset = default, Option<Entry?> entry = default, Option<FlexibleValue?> flexibleValue = default, Option<FooOrList?> fooOrList = default, Option<Fruit?> fruit = default, Option<NestedFoo?> nestedFoo = default, Option<NestedScalar?> nestedScalar = default, Option<NullableOpenStatus?> nullableStatus = default, Option<PatternedText?> patternedText = default, Option<Pet?> pet = default, Option<OpenStatus?> status = default, Option<StatusOrText?> statusOrText = default)
         {
             AssetOption = asset;
             EntryOption = entry;
             FlexibleValueOption = flexibleValue;
             FooOrListOption = fooOrList;
             FruitOption = fruit;
+            NestedFooOption = nestedFoo;
+            NestedScalarOption = nestedScalar;
             NullableStatusOption = nullableStatus;
             PatternedTextOption = patternedText;
             PetOption = pet;
@@ -125,6 +129,32 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("fruit")]
         public Fruit? Fruit { get { return this.FruitOption.Value; } set { this.FruitOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NestedFoo
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NestedFoo?> NestedFooOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NestedFoo
+        /// </summary>
+        [JsonPropertyName("nestedFoo")]
+        public NestedFoo? NestedFoo { get { return this.NestedFooOption.Value; } set { this.NestedFooOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NestedScalar
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NestedScalar?> NestedScalarOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NestedScalar
+        /// </summary>
+        [JsonPropertyName("nestedScalar")]
+        public NestedScalar? NestedScalar { get { return this.NestedScalarOption.Value; } set { this.NestedScalarOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NullableStatus
@@ -204,6 +234,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  FlexibleValue: ").Append(FlexibleValue).Append("\n");
             sb.Append("  FooOrList: ").Append(FooOrList).Append("\n");
             sb.Append("  Fruit: ").Append(Fruit).Append("\n");
+            sb.Append("  NestedFoo: ").Append(NestedFoo).Append("\n");
+            sb.Append("  NestedScalar: ").Append(NestedScalar).Append("\n");
             sb.Append("  NullableStatus: ").Append(NullableStatus).Append("\n");
             sb.Append("  PatternedText: ").Append(PatternedText).Append("\n");
             sb.Append("  Pet: ").Append(Pet).Append("\n");
@@ -261,6 +293,8 @@ namespace Org.OpenAPITools.Model
             Option<FlexibleValue?> flexibleValue = default;
             Option<FooOrList?> fooOrList = default;
             Option<Fruit?> fruit = default;
+            Option<NestedFoo?> nestedFoo = default;
+            Option<NestedScalar?> nestedScalar = default;
             Option<NullableOpenStatus?> nullableStatus = default;
             Option<PatternedText?> patternedText = default;
             Option<Pet?> pet = default;
@@ -296,6 +330,12 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "fruit":
                             fruit = new Option<Fruit?>(JsonSerializer.Deserialize<Fruit>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "nestedFoo":
+                            nestedFoo = new Option<NestedFoo?>(JsonSerializer.Deserialize<NestedFoo>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "nestedScalar":
+                            nestedScalar = new Option<NestedScalar?>(JsonSerializer.Deserialize<NestedScalar>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "nullableStatus":
                             nullableStatus = new Option<NullableOpenStatus?>(JsonSerializer.Deserialize<NullableOpenStatus>(ref utf8JsonReader, jsonSerializerOptions));
@@ -333,6 +373,12 @@ namespace Org.OpenAPITools.Model
             if (fruit.IsSet && fruit.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: fruit.");
 
+            if (nestedFoo.IsSet && nestedFoo.Value == null)
+                throw new JsonException("Property is not nullable for class Holder: nestedFoo.");
+
+            if (nestedScalar.IsSet && nestedScalar.Value == null)
+                throw new JsonException("Property is not nullable for class Holder: nestedScalar.");
+
             if (patternedText.IsSet && patternedText.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: patternedText.");
 
@@ -345,7 +391,7 @@ namespace Org.OpenAPITools.Model
             if (statusOrText.IsSet && statusOrText.Value == null)
                 throw new JsonException("Property is not nullable for class Holder: statusOrText.");
 
-            return new Holder(asset, entry, flexibleValue, fooOrList, fruit, nullableStatus, patternedText, pet, status, statusOrText);
+            return new Holder(asset, entry, flexibleValue, fooOrList, fruit, nestedFoo, nestedScalar, nullableStatus, patternedText, pet, status, statusOrText);
         }
 
         /// <summary>
@@ -385,6 +431,12 @@ namespace Org.OpenAPITools.Model
             if (holder.FruitOption.IsSet && holder.Fruit == null)
                 throw new JsonException("Cannot write null property Holder.Fruit to non-nullable JSON property 'fruit'.");
 
+            if (holder.NestedFooOption.IsSet && holder.NestedFoo == null)
+                throw new JsonException("Cannot write null property Holder.NestedFoo to non-nullable JSON property 'nestedFoo'.");
+
+            if (holder.NestedScalarOption.IsSet && holder.NestedScalar == null)
+                throw new JsonException("Cannot write null property Holder.NestedScalar to non-nullable JSON property 'nestedScalar'.");
+
             if (holder.PatternedTextOption.IsSet && holder.PatternedText == null)
                 throw new JsonException("Cannot write null property Holder.PatternedText to non-nullable JSON property 'patternedText'.");
 
@@ -421,6 +473,16 @@ namespace Org.OpenAPITools.Model
             {
                 writer.WritePropertyName("fruit");
                 JsonSerializer.Serialize(writer, holder.Fruit, jsonSerializerOptions);
+            }
+            if (holder.NestedFooOption.IsSet)
+            {
+                writer.WritePropertyName("nestedFoo");
+                JsonSerializer.Serialize(writer, holder.NestedFoo, jsonSerializerOptions);
+            }
+            if (holder.NestedScalarOption.IsSet)
+            {
+                writer.WritePropertyName("nestedScalar");
+                JsonSerializer.Serialize(writer, holder.NestedScalar, jsonSerializerOptions);
             }
             if (holder.NullableStatusOption.IsSet)
                 if (holder.NullableStatusOption.Value != null)

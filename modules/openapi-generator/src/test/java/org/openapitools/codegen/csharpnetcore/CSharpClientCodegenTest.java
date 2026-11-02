@@ -601,6 +601,30 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testUnionMemberThatIsAUnionUsesItsOwnConverter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/union-members.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File file = getGeneratedModel(files, output, "NestedScalar");
+        assertFileContains(file.toPath(),
+            "varBool = default; Utf8JsonReader utf8JsonReaderScalar = utf8JsonReader;",
+            "JsonSerializer.Serialize(writer, nestedScalar.Scalar, jsonSerializerOptions);");
+        assertFileNotContains(file.toPath(), "scalarJsonConverter.WriteProperties");
+    }
+
+    @Test
     public void testDoubleDepthArrayAliasCSharp() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_21585.yaml");
         String schemaName = "GeoJSON_MultiLineString";

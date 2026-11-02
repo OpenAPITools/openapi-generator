@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
                 ClientUtils.TryDeserialize<Color?>(ref utf8JsonReaderColor, jsonSerializerOptions, out color);
             }
 
-            if (startingTokenType != JsonTokenType.StartObject && varString == null && color == null)
+            if (varString == null && color == null)
                 throw new JsonException();
 
             while (!isScalarToken && utf8JsonReader.Read())
