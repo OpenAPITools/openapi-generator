@@ -570,6 +570,60 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "header parameters defined with content+$ref should use dataType when baseType is null in python-aiohttp")
+    public void testJsonHeaderContentParameterUsesDataTypeInAiohttpController() throws IOException {
+        File aiohttpOutput = Files.createTempDirectory("test-aiohttp").toFile().getCanonicalFile();
+        aiohttpOutput.deleteOnExit();
+
+        final CodegenConfigurator aiohttpConfig = new CodegenConfigurator()
+                .setGeneratorName("python-aiohttp")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(aiohttpOutput.getAbsolutePath());
+
+        List<File> aiohttpFiles = new DefaultGenerator().opts(aiohttpConfig.toClientOptInput()).generate();
+        aiohttpFiles.forEach(File::deleteOnExit);
+
+        Path aiohttpController = Paths.get(
+                aiohttpOutput.getAbsolutePath(),
+                "openapi_server",
+                "controllers",
+                "default_controller.py");
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "from openapi_server.models.header_arg import HeaderArg",
+                "x_json_arg = HeaderArg.from_dict(x_json_arg)");
+        assertFileNotContains(aiohttpController, "= .from_dict(");
+    }
+
+    @Test(description = "header parameters defined with content+$ref should use dataType when baseType is null in python-blueplanet")
+    public void testJsonHeaderContentParameterUsesDataTypeInBlueplanetController() throws IOException {
+        File blueplanetOutput = Files.createTempDirectory("test-blueplanet").toFile().getCanonicalFile();
+        blueplanetOutput.deleteOnExit();
+
+        final CodegenConfigurator blueplanetConfig = new CodegenConfigurator()
+                .setGeneratorName("python-blueplanet")
+                .setInputSpec("src/test/resources/3_1/python/json-header-content.yaml")
+                .setOutputDir(blueplanetOutput.getAbsolutePath());
+
+        List<File> blueplanetFiles = new DefaultGenerator().opts(blueplanetConfig.toClientOptInput()).generate();
+        blueplanetFiles.forEach(File::deleteOnExit);
+
+        Path blueplanetController = Paths.get(
+                blueplanetOutput.getAbsolutePath(),
+                "app",
+                "openapi_server",
+                "controllers",
+                "default_controller.py");
+        assertFileExists(blueplanetController);
+        assertFileContains(
+                blueplanetController,
+                "from app.openapi_server.models.header_arg import HeaderArg  # noqa: E501",
+                // header parameters are read from the request headers, not from the body
+                "x_json_arg = connexion.request.headers.get('X-Json-Arg')",
+                "x_json_arg = HeaderArg.from_dict(x_json_arg)  # noqa: E501");
+        assertFileNotContains(blueplanetController, "= .from_dict(");
+    }
     @Test(description = "security scheme names with '-' or '.' produce valid, unique Python function names that match the x-*Func references")
     public void testSecuritySchemeNamesProduceValidPythonFunctions() throws IOException {
         String specPath = "src/test/resources/3_0/python-flask/security-scheme-names.yaml";
