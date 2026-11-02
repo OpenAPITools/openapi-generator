@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  * @param animalType Get animalType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public record Dog(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotNull @Size(min = 2) 
