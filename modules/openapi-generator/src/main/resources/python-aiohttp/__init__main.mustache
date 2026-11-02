@@ -1,19 +1,24 @@
 import os
 import connexion
+{{#connexionObjectParams}}
+from {{packageName}} import param_parsing
+{{/connexionObjectParams}}
 {{#featureCORS}}
 import aiohttp_cors
 {{/featureCORS}}
 
 def main():
     options = {
-        "swagger_ui": True
+        "swagger_ui": True{{#connexionObjectParams}},
+        "uri_parser_class": param_parsing.ObjectParameterURIParser{{/connexionObjectParams}}
         }
     specification_dir = os.path.join(os.path.dirname(__file__), 'openapi')
     app = connexion.AioHttpApp(__name__, specification_dir=specification_dir, options=options)
     app.add_api('openapi.yaml',
                 arguments={'title': '{{appName}}'},
                 pythonic_params=True,
-                pass_context_arg_name='request')
+                pass_context_arg_name='request'{{#connexionObjectParams}},
+                validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
 
 {{#featureCORS}}
     # Enable CORS for all origins.

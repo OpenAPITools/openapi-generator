@@ -15,15 +15,20 @@ from flask_cors import CORS
 {{/useConnexion3}}
 
 from {{packageName}} import encoder
+{{#connexionObjectParams}}
+from {{packageName}} import param_parsing
+{{/connexionObjectParams}}
 
 
 def main():
 {{^useConnexion3}}
-    app = connexion.App(__name__, specification_dir='./openapi/')
+    app = connexion.App(__name__, specification_dir='./openapi/'{{#connexionObjectParams}},
+                        options={'uri_parser_class': param_parsing.ObjectParameterURIParser}{{/connexionObjectParams}})
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
                 arguments={'title': '{{appName}}'},
-                pythonic_params=True)
+                pythonic_params=True{{#connexionObjectParams}},
+                validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
 {{/useConnexion3}}
 {{#useConnexion3}}
     app = connexion.FlaskApp(__name__, specification_dir='./openapi/')
@@ -47,7 +52,9 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': '{{appName}}'},
                 pythonic_params=True,
-                jsonifier=Jsonifier(cls=encoder.JSONEncoder))
+                jsonifier=Jsonifier(cls=encoder.JSONEncoder){{#connexionObjectParams}},
+                uri_parser_class=param_parsing.ObjectParameterURIParser,
+                validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
 {{/useConnexion3}}
 {{^useConnexion3}}
 {{#featureCORS}}
