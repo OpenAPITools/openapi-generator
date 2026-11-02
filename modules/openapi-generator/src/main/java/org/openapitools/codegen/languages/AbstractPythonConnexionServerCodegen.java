@@ -1270,19 +1270,44 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 pathItem = this.openAPI.getWebhooks().get(operation.path.substring(1));
             }
         }
-        if (pathItem == null) {
-            return null;
+        Operation swaggerOperation = null;
+        if (pathItem != null) {
+            try {
+                swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
+            } catch (IllegalArgumentException e) {
+                swaggerOperation = null;
+            }
         }
-        Operation swaggerOperation;
-        try {
-            swaggerOperation = pathItem.readOperationsMap().get(HttpMethod.valueOf(operation.httpMethod));
-        } catch (IllegalArgumentException e) {
-            return null;
+        if (swaggerOperation == null) {
+            // operation.path is normalized before this lookup (e.g. escaped backslashes),
+            // so fall back to matching the operation by its operationId instead of the path key
+            String operationId = operation.operationIdOriginal != null
+                    ? operation.operationIdOriginal : operation.operationId;
+            if (operationId != null) {
+                swaggerOperation = findSwaggerOperationById(operationId, operation.httpMethod);
+            }
         }
         if (swaggerOperation == null) {
             return null;
         }
         return ModelUtils.getReferencedRequestBody(this.openAPI, swaggerOperation.getRequestBody());
+    }
+
+    private Operation findSwaggerOperationById(String operationId, String httpMethod) {
+        for (Map<String, PathItem> items : Arrays.asList(this.openAPI.getPaths(), this.openAPI.getWebhooks())) {
+            if (items == null) {
+                continue;
+            }
+            for (PathItem item : items.values()) {
+                for (Map.Entry<PathItem.HttpMethod, Operation> entry : item.readOperationsMap().entrySet()) {
+                    if (operationId.equals(entry.getValue().getOperationId())
+                            && (httpMethod == null || entry.getKey().name().equalsIgnoreCase(httpMethod))) {
+                        return entry.getValue();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
