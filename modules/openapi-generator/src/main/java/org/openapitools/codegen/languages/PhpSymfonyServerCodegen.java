@@ -200,6 +200,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "array");
+        // schema without `type` (AnyType). It must be a type that is both type-hintable and understood by the JMS
+        // serializer (`@Type("mixed")` is not): without a mapping the literal "AnyType" ended up in the generated
+        // `@Type(...)`, `Assert\Type(...)` and, with an empty type hint, as an invalid `getFoo():` return type.
+        typeMapping.put("AnyType", "array");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
@@ -614,21 +618,70 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         ModelMap models = objs.getModels().get(0);
         CodegenModel model = models.getModel();
 
+        fixPhpEnumBackingType(model);
+
         // Simplify model var type
         for (CodegenProperty var : model.vars) {
             if (var.dataType != null) {
                 // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
-                var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType));
+                putTypeHintIfNotEmpty(var, "x-parameter-type", getTypeHintNullable(var.dataType));
                 var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType));
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType + "[]"));
+                    putTypeHintIfNotEmpty(var, "x-parameter-type", getTypeHintNullable(var.dataType + "[]"));
                     var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType + "[]"));
                 }
             }
         }
 
         return objs;
+    }
+
+    /**
+     * Only expose {@code x-parameter-type} when PHP can actually type-hint the property. The templates guard the
+     * {@code : returnType} part with {@code {{#vendorExtensions.x-parameter-type}}}, but Mustache treats an empty
+     * string as truthy, so an empty value rendered a dangling {@code getFoo():} (parse error).
+     */
+    private void putTypeHintIfNotEmpty(CodegenProperty var, String key, String typeHint) {
+        if (StringUtils.isEmpty(typeHint)) {
+            var.vendorExtensions.remove(key);
+        } else {
+            var.vendorExtensions.put(key, typeHint);
+        }
+    }
+
+    /**
+     * PHP backed enums can only be backed by {@code int} or {@code string}, but {@code type: number} (without
+     * {@code format}) maps to {@code float}, which produced {@code enum Foo: float} (fatal error).
+     * Integral values are int-backed; any fractional value makes the enum string-backed (values are quoted).
+     */
+    private void fixPhpEnumBackingType(CodegenModel model) {
+        if (!model.isEnum || !"float".equals(model.dataType) || model.allowableValues == null) {
+            return;
+        }
+        Object enumVarsObj = model.allowableValues.get("enumVars");
+        if (!(enumVarsObj instanceof List)) {
+            return;
+        }
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumVarsObj;
+
+        boolean allIntegral = true;
+        for (Map<String, Object> enumVar : enumVars) {
+            if (!String.valueOf(enumVar.get("value")).matches("-?\\d+")) {
+                allIntegral = false;
+                break;
+            }
+        }
+
+        if (allIntegral) {
+            model.dataType = "int";
+        } else {
+            model.dataType = "string";
+            for (Map<String, Object> enumVar : enumVars) {
+                enumVar.put("value", "'" + escapeTextInSingleQuotes(String.valueOf(enumVar.get("value"))) + "'");
+            }
+        }
     }
 
     public String prependSlashToDataTypeOnlyIfNecessary(String dataType) {

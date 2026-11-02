@@ -440,6 +440,128 @@ public class PhpSymfonyServerCodegenTest {
     }
 
     /**
+     * Regression for generated PHP that does not even parse:
+     * <ol>
+     *   <li>A property schema without {@code type} (AnyType, e.g. TypeSpec {@code unknown}) had no PHP type mapping, so
+     *   {@code x-parameter-type} was an empty string. JMustache treats {@code ""} as truthy, so the template rendered
+     *   {@code public function getDeviceInfo(): } (empty return type, parse error) and {@code @Type("AnyType")} /
+     *   {@code Assert\Type("AnyType")} referenced a class that does not exist (see issue #17618).</li>
+     *   <li>{@code type: number} (no format) enums were generated as {@code enum Foo: float}; PHP enums can only be
+     *   backed by {@code int} or {@code string}.</li>
+     * </ol>
+     * Spec: {@code src/test/resources/3_1/php-symfony/anytype-and-number-enum.yaml}. When {@code php} is on
+     * {@code PATH} every generated model is also linted with {@code php -l}.
+     */
+    @Test
+    public void testAnyTypePropertyAndNumberEnumGenerateValidPhp() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("invokerPackage", "Org\\OpenAPITools\\Petstore");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("php-symfony")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/php-symfony/anytype-and-number-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Map<String, String> models = new HashMap<>();
+        for (File f : files) {
+            if (f.getPath().contains("Model" + File.separator) && f.getName().endsWith(".php")) {
+                models.put(f.getName(), Files.readString(f.toPath(), StandardCharsets.UTF_8));
+            }
+        }
+        for (String name : new String[]{"LoginRequest", "ApiResponse", "SuccessCode", "MembershipStatus", "Ratio", "IntCode", "StrCode"}) {
+            Assert.assertTrue(models.containsKey(name + ".php"), name + ".php not generated, got " + models.keySet());
+        }
+
+        // --- AnyType property -------------------------------------------------------------------------------------
+        String login = models.get("LoginRequest.php");
+        Assert.assertFalse(
+                Pattern.compile("function\\s+\\w+\\(\\)\\s*:\\s*\\R").matcher(login).find(),
+                "getter must not have an empty return type");
+        Assert.assertFalse(login.contains("AnyType"), "AnyType is not a PHP type nor a JMS type: " + login);
+        Assert.assertTrue(login.contains("public function getDeviceInfo(): ?array"), "AnyType property should map to ?array");
+        Assert.assertTrue(login.contains("public function setDeviceInfo(?array $deviceInfo = null): self"));
+        Assert.assertTrue(Pattern.compile("@Type\\(\"array\"\\)\\s+\\*/\\s+#\\[Assert\\\\Type\\(\"array\"\\)\\]\\s+protected \\?array \\$deviceInfo")
+                .matcher(login).find(), "AnyType property should be (de)serialized as array");
+
+        String apiResponse = models.get("ApiResponse.php");
+        Assert.assertFalse(
+                Pattern.compile("function\\s+\\w+\\(\\)\\s*:\\s*\\R").matcher(apiResponse).find(),
+                "getter must not have an empty return type");
+        Assert.assertFalse(apiResponse.contains("AnyType"));
+        Assert.assertTrue(apiResponse.contains("public function getData(): ?array"));
+
+        // --- type: number enums -----------------------------------------------------------------------------------
+        Assert.assertTrue(models.get("SuccessCode.php").contains("enum SuccessCode: int"), models.get("SuccessCode.php"));
+        Assert.assertTrue(models.get("SuccessCode.php").contains("case NUMBER_0 = 0;"));
+        Assert.assertTrue(models.get("MembershipStatus.php").contains("enum MembershipStatus: int"));
+        Assert.assertTrue(models.get("MembershipStatus.php").contains("case NUMBER_3 = 3;"));
+        // fractional values cannot be int-backed: fall back to string-backed
+        Assert.assertTrue(models.get("Ratio.php").contains("enum Ratio: string"), models.get("Ratio.php"));
+        Assert.assertTrue(models.get("Ratio.php").contains("= '0.5';"), models.get("Ratio.php"));
+        Assert.assertTrue(models.get("Ratio.php").contains("= '1.5';"), models.get("Ratio.php"));
+        for (Map.Entry<String, String> e : models.entrySet()) {
+            Assert.assertFalse(e.getValue().contains("enum " + e.getKey().replace(".php", "") + ": float"),
+                    e.getKey() + " must not be a float-backed enum");
+        }
+        // controls stay untouched
+        Assert.assertTrue(models.get("IntCode.php").contains("enum IntCode: int"));
+        Assert.assertTrue(models.get("StrCode.php").contains("enum StrCode: string"));
+
+        for (File f : files) {
+            if (f.getPath().contains("Model" + File.separator) && f.getName().endsWith(".php")) {
+                assertGeneratedPhpSyntaxValid(f);
+            }
+        }
+
+        output.deleteOnExit();
+    }
+
+    /**
+     * A property whose mapped PHP type cannot be type-hinted (here {@code AnyType} remapped to {@code mixed} by the
+     * user, which is not in {@code typeHintable}) must not render a dangling {@code getFoo():}: an empty
+     * {@code x-parameter-type} used to be exposed to Mustache, which treats {@code ""} as truthy.
+     */
+    @Test
+    public void testPropertyWithoutPhpTypeHintDoesNotRenderEmptyReturnType() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("invokerPackage", "Org\\OpenAPITools\\Petstore");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("php-symfony")
+                .setAdditionalProperties(properties)
+                .addTypeMapping("AnyType", "mixed")
+                .setInputSpec("src/test/resources/3_1/php-symfony/anytype-and-number-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        File login = files.stream()
+                .filter(f -> "LoginRequest.php".equals(f.getName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("LoginRequest.php not generated"));
+        String content = Files.readString(login.toPath(), StandardCharsets.UTF_8);
+
+        Assert.assertFalse(
+                Pattern.compile("function\\s+\\w+\\(\\)\\s*:\\s*\\R").matcher(content).find(),
+                "getter must not have an empty return type");
+        Assert.assertTrue(
+                Pattern.compile("public function getDeviceInfo\\(\\)\\s*\\R").matcher(content).find(),
+                "getter without a PHP type hint must have no return type");
+        assertGeneratedPhpSyntaxValid(login);
+
+        output.deleteOnExit();
+    }
+
+    /**
      * Runs {@code php -l} on the file. Skips if {@code php} is not available (optional toolchain).
      */
     private static void assertGeneratedPhpSyntaxValid(File phpFile) throws Exception {
