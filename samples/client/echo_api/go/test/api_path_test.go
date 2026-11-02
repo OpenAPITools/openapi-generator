@@ -29,7 +29,7 @@ func Test_openapi_PathAPIService(t *testing.T) {
 		var pathString string
 		var pathInteger int32
 		var enumNonrefStringPath string
-		var enumRefStringPath StringEnumRef
+		var enumRefStringPath openapiclient.StringEnumRef
 
 		resp, httpRes, err := apiClient.PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(context.Background(), pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
 
