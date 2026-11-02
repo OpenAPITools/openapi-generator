@@ -1069,9 +1069,24 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             // (version-agnostic: works the same for Werkzeug, httpx and aiohttp test clients).
             List<Map<String, String>> testQueryString = new ArrayList<>();
             for (CodegenParameter param : operation.queryParams) {
+                // object/array params serialized into multiple pairs keep the same
+                // (key, value) entries the old per-param template rendering produced
+                Object pairs = param.vendorExtensions.get("x-python-connexion-test-query-pairs");
+                if (pairs instanceof List && !((List<?>) pairs).isEmpty()) {
+                    for (Object pair : (List<?>) pairs) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, String> p = (Map<String, String>) pair;
+                        Map<String, String> entry = new HashMap<>();
+                        entry.put("name", p.get("key"));
+                        entry.put("example", p.get("value"));
+                        testQueryString.add(entry);
+                    }
+                    continue;
+                }
                 Map<String, String> entry = new HashMap<>();
                 Object openapiName = param.vendorExtensions.get("x-python-connexion-openapi-name");
-                entry.put("name", openapiName != null ? openapiName.toString() : param.paramName);
+                String wireName = openapiName != null ? openapiName.toString() : param.baseName;
+                entry.put("name", escapeTextInSingleQuotes(wireName));
                 entry.put("example", param.example);
                 testQueryString.add(entry);
             }
@@ -1083,7 +1098,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                     if (Boolean.TRUE.equals(auth.isKeyInQuery)) {
                         Map<String, String> entry = new HashMap<>();
-                        entry.put("name", auth.keyParamName);
+                        entry.put("name", escapeTextInSingleQuotes(auth.keyParamName));
                         entry.put("example", "'special-key'");
                         testQueryString.add(entry);
                     }
