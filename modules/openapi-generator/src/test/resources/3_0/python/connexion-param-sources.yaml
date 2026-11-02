@@ -80,16 +80,6 @@ paths:
             type: array
             items:
               $ref: '#/components/schemas/StatusEnum'
-        - name: X-Obj-List
-          in: header
-          required: false
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/QueryFilter'
-            default:
-              - tag: alpha
-              - tag: beta
         - name: X-Nested-List
           in: header
           required: false

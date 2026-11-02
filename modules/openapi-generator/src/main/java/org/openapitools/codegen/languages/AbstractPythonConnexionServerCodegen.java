@@ -1162,11 +1162,20 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 values.add(new String[]{entry.getKey(), entry.getValue()});
             }
         } else if (model != null) {
+            boolean unserializableRequired = false;
             for (CodegenProperty var : model.vars) {
                 String value = wireExampleValue(var, delimited);
                 if (value != null) {
                     values.add(new String[]{var.baseName, value});
+                } else if (var.required) {
+                    // a required nested object/array/map has no simple/form wire value;
+                    // an empty pair list tells the test builder to omit the param
+                    // instead of sending an incomplete model
+                    unserializableRequired = true;
                 }
+            }
+            if (unserializableRequired) {
+                values.clear();
             }
         }
         if (delimited) {
