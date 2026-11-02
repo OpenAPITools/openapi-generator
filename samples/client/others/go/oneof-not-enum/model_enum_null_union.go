@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
-	"regexp"
 )
 
 // EnumNullUnion - struct for EnumNullUnion
@@ -42,24 +41,6 @@ func NullableExcludedEnumAsEnumNullUnion(v *NullableExcludedEnum) EnumNullUnion 
 func (dst *EnumNullUnion) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	valueValidator := validator.NewValidator()
-	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
-		nullable, ok := value.(NullableString)
-		if !ok {
-			return validator.ErrUnsupported
-		}
-		if nullable.Get() == nil {
-			return nil
-		}
-		matches, err := regexp.MatchString(pattern, *nullable.Get())
-		if err != nil {
-			return validator.ErrBadParameter
-		}
-		if !matches {
-			return validator.ErrRegexp
-		}
-		return nil
-	})
 	// try to unmarshal data into NullableEnum
 	err = newStrictDecoder(data).Decode(&dst.NullableEnum)
 	if err == nil {
@@ -67,7 +48,7 @@ func (dst *EnumNullUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonNullableEnum) == "{}" { // empty struct
 			dst.NullableEnum = nil
 		} else {
-			if err = valueValidator.Validate(dst.NullableEnum); err != nil {
+			if err = validator.Validate(dst.NullableEnum); err != nil {
 				dst.NullableEnum = nil
 			} else {
 				match++
@@ -84,7 +65,7 @@ func (dst *EnumNullUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonNullableExcludedEnum) == "{}" { // empty struct
 			dst.NullableExcludedEnum = nil
 		} else {
-			if err = valueValidator.Validate(dst.NullableExcludedEnum); err != nil {
+			if err = validator.Validate(dst.NullableExcludedEnum); err != nil {
 				dst.NullableExcludedEnum = nil
 			} else {
 				match++

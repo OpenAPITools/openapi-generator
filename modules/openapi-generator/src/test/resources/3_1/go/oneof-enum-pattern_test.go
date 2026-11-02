@@ -33,3 +33,22 @@ func TestOneOfEnumAndNullablePattern(t *testing.T) {
 		})
 	}
 }
+
+func TestOneOfNestedNullablePattern(t *testing.T) {
+	for _, tc := range []struct {
+		input   string
+		invalid bool
+	}{
+		{`{"child":{"path":"/ok"}}`, false},
+		{`{"child":{"path":null}}`, false},
+		{`{"child":{"path":"bad"}}`, true},
+	} {
+		t.Run(tc.input, func(t *testing.T) {
+			var got NestedUnion
+			err := json.Unmarshal([]byte(tc.input), &got)
+			if (err != nil) != tc.invalid {
+				t.Fatalf("error = %v", err)
+			}
+		})
+	}
+}

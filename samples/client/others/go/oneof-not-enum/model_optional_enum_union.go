@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
-	"regexp"
 )
 
 // OptionalEnumUnion - struct for OptionalEnumUnion
@@ -42,24 +41,6 @@ func OptionalEnumOtherAsOptionalEnumUnion(v *OptionalEnumOther) OptionalEnumUnio
 func (dst *OptionalEnumUnion) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	valueValidator := validator.NewValidator()
-	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
-		nullable, ok := value.(NullableString)
-		if !ok {
-			return validator.ErrUnsupported
-		}
-		if nullable.Get() == nil {
-			return nil
-		}
-		matches, err := regexp.MatchString(pattern, *nullable.Get())
-		if err != nil {
-			return validator.ErrBadParameter
-		}
-		if !matches {
-			return validator.ErrRegexp
-		}
-		return nil
-	})
 	// try to unmarshal data into OptionalEnumChild
 	err = newStrictDecoder(data).Decode(&dst.OptionalEnumChild)
 	if err == nil {
@@ -67,7 +48,7 @@ func (dst *OptionalEnumUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonOptionalEnumChild) == "{}" { // empty struct
 			dst.OptionalEnumChild = nil
 		} else {
-			if err = valueValidator.Validate(dst.OptionalEnumChild); err != nil {
+			if err = validator.Validate(dst.OptionalEnumChild); err != nil {
 				dst.OptionalEnumChild = nil
 			} else {
 				match++
@@ -84,7 +65,7 @@ func (dst *OptionalEnumUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonOptionalEnumOther) == "{}" { // empty struct
 			dst.OptionalEnumOther = nil
 		} else {
-			if err = valueValidator.Validate(dst.OptionalEnumOther); err != nil {
+			if err = validator.Validate(dst.OptionalEnumOther); err != nil {
 				dst.OptionalEnumOther = nil
 			} else {
 				match++

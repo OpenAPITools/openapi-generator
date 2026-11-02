@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
-	"regexp"
 )
 
 // FruitReq - struct for FruitReq
@@ -42,24 +41,6 @@ func BananaReqAsFruitReq(v *BananaReq) FruitReq {
 func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	valueValidator := validator.NewValidator()
-	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
-		nullable, ok := value.(NullableString)
-		if !ok {
-			return validator.ErrUnsupported
-		}
-		if nullable.Get() == nil {
-			return nil
-		}
-		matches, err := regexp.MatchString(pattern, *nullable.Get())
-		if err != nil {
-			return validator.ErrBadParameter
-		}
-		if !matches {
-			return validator.ErrRegexp
-		}
-		return nil
-	})
 	// try to unmarshal data into AppleReq
 	err = newStrictDecoder(data).Decode(&dst.AppleReq)
 	if err == nil {
@@ -67,7 +48,7 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 		if string(jsonAppleReq) == "{}" { // empty struct
 			dst.AppleReq = nil
 		} else {
-			if err = valueValidator.Validate(dst.AppleReq); err != nil {
+			if err = validator.Validate(dst.AppleReq); err != nil {
 				dst.AppleReq = nil
 			} else {
 				match++
@@ -84,7 +65,7 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 		if string(jsonBananaReq) == "{}" { // empty struct
 			dst.BananaReq = nil
 		} else {
-			if err = valueValidator.Validate(dst.BananaReq); err != nil {
+			if err = validator.Validate(dst.BananaReq); err != nil {
 				dst.BananaReq = nil
 			} else {
 				match++

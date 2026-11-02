@@ -13,6 +13,7 @@ package openapi
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // Object - struct for Object
@@ -51,6 +52,9 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 		// try to unmarshal JSON data into NestedObject1
 		err = json.Unmarshal(data, &dst.NestedObject1)
 		if err == nil {
+			err = validator.Validate(dst.NestedObject1)
+		}
+		if err == nil {
 			return nil // data stored in dst.NestedObject1, return on the first match
 		} else {
 			dst.NestedObject1 = nil
@@ -62,6 +66,9 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 	if jsonDict["type"] == "TWO" {
 		// try to unmarshal JSON data into NestedObject2
 		err = json.Unmarshal(data, &dst.NestedObject2)
+		if err == nil {
+			err = validator.Validate(dst.NestedObject2)
+		}
 		if err == nil {
 			return nil // data stored in dst.NestedObject2, return on the first match
 		} else {

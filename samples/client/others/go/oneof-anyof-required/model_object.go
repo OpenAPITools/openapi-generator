@@ -14,7 +14,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
-	"regexp"
 )
 
 // Object - struct for Object
@@ -42,24 +41,6 @@ func NestedObject2AsObject(v *NestedObject2) Object {
 func (dst *Object) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	valueValidator := validator.NewValidator()
-	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
-		nullable, ok := value.(NullableString)
-		if !ok {
-			return validator.ErrUnsupported
-		}
-		if nullable.Get() == nil {
-			return nil
-		}
-		matches, err := regexp.MatchString(pattern, *nullable.Get())
-		if err != nil {
-			return validator.ErrBadParameter
-		}
-		if !matches {
-			return validator.ErrRegexp
-		}
-		return nil
-	})
 	// try to unmarshal data into NestedObject1
 	err = newStrictDecoder(data).Decode(&dst.NestedObject1)
 	if err == nil {
@@ -67,7 +48,7 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 		if string(jsonNestedObject1) == "{}" { // empty struct
 			dst.NestedObject1 = nil
 		} else {
-			if err = valueValidator.Validate(dst.NestedObject1); err != nil {
+			if err = validator.Validate(dst.NestedObject1); err != nil {
 				dst.NestedObject1 = nil
 			} else {
 				match++
@@ -84,7 +65,7 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 		if string(jsonNestedObject2) == "{}" { // empty struct
 			dst.NestedObject2 = nil
 		} else {
-			if err = valueValidator.Validate(dst.NestedObject2); err != nil {
+			if err = validator.Validate(dst.NestedObject2); err != nil {
 				dst.NestedObject2 = nil
 			} else {
 				match++
