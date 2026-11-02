@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: Scalar anyOf as Union
+  description: anyOf schemas that generateScalarAnyOfAsUnion turns into Union type aliases, and ones it leaves as models
+  version: 1.0.0
+servers:
+  - url: http://localhost
+paths:
+  /holder:
+    post:
+      operationId: postHolder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Holder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holder'
+  /tax-id-type:
+    get:
+      operationId: getTaxIdType
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/OpenTaxIdType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenTaxIdType'
+components:
+  schemas:
+    TaxIdType:
+      type: string
+      enum:
+        - USA_SSN
+        - CAN_SIN
+    OpenTaxIdType:
+      description: A TaxIdType, or any other string.
+      anyOf:
+        - $ref: '#/components/schemas/TaxIdType'
+        - type: string
+          maxLength: 32
+    CountOrFlag:
+      anyOf:
+        - type: integer
+        - type: boolean
+    DateOrText:
+      anyOf:
+        - type: string
+          format: date
+        - type: string
+    NullableTaxIdType:
+      nullable: true
+      anyOf:
+        - $ref: '#/components/schemas/TaxIdType'
+        - type: string
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    PetOrName:
+      anyOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: string
+    PetOrTaxIdType:
+      anyOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/OpenTaxIdType'
+    NamesOrName:
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: string
+    Holder:
+      type: object
+      required:
+        - required_type
+      properties:
+        type:
+          $ref: '#/components/schemas/OpenTaxIdType'
+        required_type:
+          $ref: '#/components/schemas/OpenTaxIdType'
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenTaxIdType'
+        types_by_name:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/OpenTaxIdType'
+        nullable_type:
+          $ref: '#/components/schemas/NullableTaxIdType'
+        count_or_flag:
+          $ref: '#/components/schemas/CountOrFlag'
+        date_or_text:
+          $ref: '#/components/schemas/DateOrText'
+        pet_or_name:
+          $ref: '#/components/schemas/PetOrName'
+        pet_or_type:
+          $ref: '#/components/schemas/PetOrTaxIdType'
+        names_or_name:
+          $ref: '#/components/schemas/NamesOrName'

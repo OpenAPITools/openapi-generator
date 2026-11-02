@@ -2083,4 +2083,69 @@ public class PythonClientCodegenTest {
         final Path pyproject = Paths.get(output, "pyproject.toml");
         assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
+
+    @Test(description = "generateScalarAnyOfAsUnion turns an anyOf of enums and single values into a Union type alias")
+    public void testGenerateScalarAnyOfAsUnion() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(PythonClientCodegen.GENERATE_SCALAR_ANY_OF_AS_UNION, true);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/python/scalar-anyof-union.yaml");
+        final Path models = Paths.get(output, "openapi_client", "models");
+
+        assertFileContains(models.resolve("open_tax_id_type.py"),
+                "from openapi_client.models.tax_id_type import TaxIdType",
+                "OpenTaxIdType = Annotated[Union[TaxIdType, Annotated[str, Field(strict=True, max_length=32)]], Field(union_mode=\"left_to_right\")]");
+        TestUtils.assertFileNotContains(models.resolve("open_tax_id_type.py"),
+                "class OpenTaxIdType", "actual_instance", "BaseModel", "Optional");
+        assertFileContains(models.resolve("count_or_flag.py"),
+                "CountOrFlag = Annotated[Union[StrictInt, StrictBool], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("date_or_text.py"),
+                "from datetime import date",
+                "DateOrText = Annotated[Union[date, StrictStr], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("nullable_tax_id_type.py"),
+                "NullableTaxIdType = Annotated[Union[TaxIdType, StrictStr, None], Field(union_mode=\"left_to_right\")]");
+        // anyOf schemas with an object or array member keep the wrapper model
+        assertFileContains(models.resolve("pet_or_name.py"), "class PetOrName(BaseModel):");
+        assertFileContains(models.resolve("names_or_name.py"), "class NamesOrName(BaseModel):");
+        assertFileContains(models.resolve("pet_or_tax_id_type.py"),
+                "class PetOrTaxIdType(BaseModel):",
+                "instance.anyof_schema_2_validator = json.loads(json_str)");
+
+        // properties hold the value itself instead of calling to_dict() and from_dict() on it
+        final Path holder = models.resolve("holder.py");
+        assertFileContains(holder,
+                "type: Optional[OpenTaxIdType] = None",
+                "required_type: OpenTaxIdType",
+                "types: Optional[List[OpenTaxIdType]] = None",
+                "types_by_name: Optional[Dict[str, OpenTaxIdType]] = None",
+                "\"type\": obj.get(\"type\"),",
+                "\"types\": obj.get(\"types\"),",
+                "\"types_by_name\": obj.get(\"types_by_name\"),",
+                "\"pet_or_name\": PetOrName.from_dict(obj[\"pet_or_name\"])");
+        TestUtils.assertFileNotContains(holder,
+                "OpenTaxIdType.from_dict",
+                "self.type.to_dict()",
+                "_item_types.to_dict()");
+
+        assertFileContains(Paths.get(output, "openapi_client", "api_client.py"),
+                "from pydantic import SecretStr, TypeAdapter",
+                "return TypeAdapter(klass).validate_python(data)");
+        assertFileContains(Paths.get(output, "docs", "OpenTaxIdType.md"),
+                "`OpenTaxIdType` is a type alias",
+                "* [**TaxIdType**](TaxIdType.md)",
+                "* **str**");
+        assertFileContains(Paths.get(output, "docs", "Holder.md"),
+                "**type** | [**OpenTaxIdType**](OpenTaxIdType.md) |");
+    }
+
+    @Test(description = "scalar anyOf schemas keep the wrapper model unless generateScalarAnyOfAsUnion is set")
+    public void testScalarAnyOfWrapperByDefault() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        final String output = generateFiles(codegen, "src/test/resources/3_0/python/scalar-anyof-union.yaml");
+        final Path models = Paths.get(output, "openapi_client", "models");
+
+        assertFileContains(models.resolve("open_tax_id_type.py"), "class OpenTaxIdType(BaseModel):");
+        assertFileContains(models.resolve("holder.py"),
+                "\"type\": OpenTaxIdType.from_dict(obj[\"type\"]) if obj.get(\"type\") is not None else None,");
+        TestUtils.assertFileNotContains(Paths.get(output, "openapi_client", "api_client.py"), "TypeAdapter");
+    }
 }
