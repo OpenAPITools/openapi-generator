@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: php-symfony any-typed properties and number enum
+  version: 1.0.0
+  description: |
+    Fixture for php-symfony generation of
+      1. schemas without a `type` (any value), e.g. TypeSpec `unknown`
+      2. `type: number` enums (no format), e.g. TypeSpec numeric enums / literal unions
+    Both used to generate PHP that does not parse (`getFoo():` with an empty return type, `enum Foo: float`).
+paths:
+  /login:
+    post:
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - phone
+      properties:
+        phone:
+          type: string
+        # AnyType: no `type` at all, only a description
+        device_info:
+          description: client device info, any JSON value
+        # free-form object whose additionalProperties is `{}` (AnyType value)
+        extra:
+          type: object
+          additionalProperties: {}
+        status:
+          $ref: '#/components/schemas/MembershipStatus'
+    ApiResponse:
+      type: object
+      required:
+        - errno
+        - error
+        - data
+      properties:
+        errno:
+          $ref: '#/components/schemas/SuccessCode'
+        error:
+          type: string
+        # AnyType required property
+        data:
+          description: response payload
+    # `type: number` + integer values, no format -> must become a PHP int-backed enum
+    SuccessCode:
+      type: number
+      enum:
+        - 0
+    MembershipStatus:
+      type: number
+      enum:
+        - 1
+        - 2
+        - 3
+      description: 1 ok, 2 disabled, 3 removed
+    # `type: number` + fractional values -> PHP enums cannot be float-backed, must become string-backed
+    Ratio:
+      type: number
+      enum:
+        - 0.5
+        - 1.5
+    # `type: number` + integral values written as decimals/exponents -> still int-backed with plain integer literals
+    DecimalIntegral:
+      type: number
+      enum:
+        - 1.0
+        - 2.0
+        - 1e3
+    # controls: already valid before the fix, must stay unchanged
+    IntCode:
+      type: integer
+      enum:
+        - 0
+        - 1
+    StrCode:
+      type: string
+      enum:
+        - a
+        - b
