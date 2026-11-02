@@ -35,7 +35,7 @@ export interface StoreApiGetOrderByIdRequest {
 
 export interface StoreApiPlaceOrderRequest {
     /**
-     * 
+     * order placed for purchasing the pet
      */
     body: Order;
 }

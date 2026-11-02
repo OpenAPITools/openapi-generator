@@ -22,27 +22,31 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#bodyParam}}
         {{paramName}} = {{{example}}}
         {{/bodyParam}}
-        {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
-        {{/queryParams}}
+        {{#vendorExtensions.x-test-query-string}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{/vendorExtensions.x-test-query-string}}
         headers = { {{#vendorExtensions.x-preferred-produce}}
             'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
             'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
             '{{baseName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
-            {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'Basic Zm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
+            {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}{{#isKeyInHeader}}'{{keyParamName}}': 'special-key',{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'Basic Zm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}{{#vendorExtensions.x-test-apikey-cookie}}
+            'Cookie': '{{{vendorExtensions.x-test-apikey-cookie}}}',{{/vendorExtensions.x-test-apikey-cookie}}
         }
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
         {{/formParams}}
-        response = self.client.open(
+        {{#vendorExtensions.x-test-apikey-cookie}}
+        client = {{^useConnexion3}}self.app.test_client(use_cookies=False){{/useConnexion3}}{{#useConnexion3}}self.client{{/useConnexion3}}
+        {{/vendorExtensions.x-test-apikey-cookie}}
+        response = {{#vendorExtensions.x-test-apikey-cookie}}client{{/vendorExtensions.x-test-apikey-cookie}}{{^vendorExtensions.x-test-apikey-cookie}}self.client{{/vendorExtensions.x-test-apikey-cookie}}.open(
             '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
             method='{{httpMethod}}',
             headers=headers{{#bodyParam}},
             data=json.dumps({{paramName}}){{^consumes}},
             content_type='application/json'{{/consumes}}{{/bodyParam}}{{#formParams}}{{#-first}},
             data=data{{/-first}}{{/formParams}}{{#consumes}}{{#-first}},
-            content_type='{{{mediaType}}}'{{/-first}}{{/consumes}}{{#queryParams}}{{#-first}},
-            query_string=query_string{{/-first}}{{/queryParams}})
+            content_type='{{{mediaType}}}'{{/-first}}{{/consumes}}{{#vendorExtensions.x-test-query-string}}{{#-first}},
+            query_string=query_string{{/-first}}{{/vendorExtensions.x-test-query-string}})
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
