@@ -90,6 +90,24 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{/useOneOfDiscriminatorLookup}}
 	{{^useOneOfDiscriminatorLookup}}
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	{{#oneOf}}
 	// try to unmarshal data into {{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
 	err = newStrictDecoder(data).Decode(&dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
@@ -98,7 +116,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 		if string(json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}) == "{}" { // empty struct
 			dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 		} else {
-			if err = validator.Validate(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}); err != nil {
+			if err = valueValidator.Validate(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}); err != nil {
 				dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 			} else {
 				match++

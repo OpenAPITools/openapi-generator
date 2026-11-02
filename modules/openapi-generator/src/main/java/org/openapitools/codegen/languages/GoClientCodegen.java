@@ -570,6 +570,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
                 if (generateUnmarshalJSON && !useOneOfDiscriminatorLookup) {
                     imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                    imports.add(createMapping("import", "regexp"));
                     additionalProperties.put(IMPORT_VALIDATOR, true);
                 }
             }
@@ -608,7 +609,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return objs;
         }
 
-        // Scope allowed-enum checks to oneOf variants whose sibling excludes values of the same property.
+        // Enforce string enums on oneOf variants to distinguish their accepted values.
         Map<CodegenModel, Set<String>> allowedOneOfProperties = new IdentityHashMap<>();
         for (ModelsMap models : objs.values()) {
             for (ModelMap modelMap : models.getModels()) {
@@ -619,6 +620,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         continue;
                     }
                     for (CodegenProperty excludedProperty : effectiveVars(excludedMember).values()) {
+                        if (stringEnumComparison(excludedProperty, false) != null) {
+                            allowedOneOfProperties.computeIfAbsent(excludedMember, ignored -> new HashSet<>())
+                                    .add(excludedProperty.baseName);
+                        }
                         CodegenProperty not = excludedProperty.getComposedSchemas() == null
                                 ? null : excludedProperty.getComposedSchemas().getNot();
                         if (stringEnumComparison(not, true) == null) {

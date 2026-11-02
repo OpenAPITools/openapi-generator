@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/validator.v2"
+	"regexp"
 )
 
 // TaggedUnion - struct for TaggedUnion
@@ -41,6 +42,24 @@ func OtherAsTaggedUnion(v *Other) TaggedUnion {
 func (dst *TaggedUnion) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	valueValidator := validator.NewValidator()
+	_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+		nullable, ok := value.(NullableString)
+		if !ok {
+			return validator.ErrUnsupported
+		}
+		if nullable.Get() == nil {
+			return nil
+		}
+		matches, err := regexp.MatchString(pattern, *nullable.Get())
+		if err != nil {
+			return validator.ErrBadParameter
+		}
+		if !matches {
+			return validator.ErrRegexp
+		}
+		return nil
+	})
 	// try to unmarshal data into Known
 	err = newStrictDecoder(data).Decode(&dst.Known)
 	if err == nil {
@@ -48,7 +67,7 @@ func (dst *TaggedUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonKnown) == "{}" { // empty struct
 			dst.Known = nil
 		} else {
-			if err = validator.Validate(dst.Known); err != nil {
+			if err = valueValidator.Validate(dst.Known); err != nil {
 				dst.Known = nil
 			} else {
 				match++
@@ -65,7 +84,7 @@ func (dst *TaggedUnion) UnmarshalJSON(data []byte) error {
 		if string(jsonOther) == "{}" { // empty struct
 			dst.Other = nil
 		} else {
-			if err = validator.Validate(dst.Other); err != nil {
+			if err = valueValidator.Validate(dst.Other); err != nil {
 				dst.Other = nil
 			} else {
 				match++
