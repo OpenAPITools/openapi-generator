@@ -730,7 +730,7 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
-    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException, InterruptedException {
+    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
         String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
 
         for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
@@ -738,7 +738,6 @@ public class AbstractPythonConnexionServerCodegenTest {
             boolean blueplanet = isBlueplanetVariant(variantKey);
             Path testFile = generatedTestPath(variantKey, variant.getValue());
             assertFileExists(testFile);
-            assertPythonSyntaxValid(testFile);
 
             // each variant carries the example in a different place of the media type;
             // whatever the source, the generated test must send a JSON string literal
@@ -804,6 +803,17 @@ public class AbstractPythonConnexionServerCodegenTest {
                     blueplanet ? "'visit_count=' + str(7)]))]"
                             : variantKey.startsWith("python-aiohttp") ? "'visit_count': str(7) }"
                             : "'visit_count=' + str(7)])");
+        }
+    }
+
+    @Test(description = "generated tests for content (application/json) header params are valid Python syntax; kept in a separate test so a missing python3 toolchain skips only this check")
+    public void testJsonContentHeaderParamsGeneratedTestsCompile() throws IOException, InterruptedException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            Path testFile = generatedTestPath(variant.getKey(), variant.getValue());
+            assertFileExists(testFile);
+            assertPythonSyntaxValid(testFile);
         }
     }
 
