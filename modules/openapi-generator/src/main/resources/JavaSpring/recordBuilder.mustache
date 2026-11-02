@@ -7,6 +7,10 @@
 
     private {{#openApiNullable}}{{#isNullable}}JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>{{/isNullable}}{{^isNullable}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/isNullable}}{{/openApiNullable}}{{^openApiNullable}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/openApiNullable}} {{name}};
 {{/vars}}
+{{#additionalPropertiesType}}
+
+    private Map<String, {{{.}}}> additionalProperties;
+{{/additionalPropertiesType}}
 
     public Builder() {
     }
@@ -15,6 +19,9 @@
 {{#vars}}
       this.{{name}} = value.{{name}}();
 {{/vars}}
+{{#additionalPropertiesType}}
+      this.additionalProperties = value.additionalProperties() == null ? null : new LinkedHashMap<>(value.additionalProperties());
+{{/additionalPropertiesType}}
       return this;
     }
 {{#vars}}
@@ -36,12 +43,19 @@
     {{/isNullable}}
     {{/openApiNullable}}
 {{/vars}}
+{{#additionalPropertiesType}}
+
+    public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {
+      this.additionalProperties = additionalProperties;
+      return this;
+    }
+{{/additionalPropertiesType}}
 
     /**
      * Returns a new {{classname}} from the values set so far; the builder stays usable.
      */
     public {{classname}} build() {
-      return new {{classname}}({{#vars}}this.{{name}}{{^-last}}, {{/-last}}{{/vars}});
+      return new {{classname}}({{#vars}}this.{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}this.additionalProperties{{/additionalPropertiesType}});
     }
   }
 

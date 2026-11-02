@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: String or number
+  version: 1.0.0
+paths:
+  /any:
+    get:
+      operationId: getAnyOf
+      responses:
+        "200":
+          description: A string or a number
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfValue"
+  /one:
+    get:
+      operationId: getOneOf
+      responses:
+        "200":
+          description: A string or a number
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneOfValue"
+components:
+  schemas:
+    AnyOfValue:
+      anyOf:
+        - type: string
+        - type: number
+    OneOfValue:
+      oneOf:
+        - type: string
+        - type: number
