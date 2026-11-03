@@ -1417,6 +1417,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         if (isLibrary(OKHTTP_GSON)) {
+            // Match the models registered by JSON.mustache, preserving their generation order.
             @SuppressWarnings("unchecked")
             List<ModelMap> models = (List<ModelMap>) objs.get("models");
             List<CodegenModel> adapters = new ArrayList<>();
@@ -1428,6 +1429,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
             }
+            // Large initializers can exceed the JVM method-size limit; register in bounded batches.
             if (adapters.size() > GSON_ADAPTERS_PER_BATCH) {
                 List<Map<String, Object>> batches = new ArrayList<>();
                 for (int i = 0; i < adapters.size(); i += GSON_ADAPTERS_PER_BATCH) {
