@@ -578,12 +578,15 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
 
-        // When fixJacksonJsonTypeInfoInheritance is false and parent has no properties,
-        // visible should be false for oneOf pattern
+        // With As.EXISTING_PROPERTY the discriminator is read from/written to the real
+        // property, which every mapped child model declares or inherits; visible=true
+        // keeps that property populated on deserialization so round-trips preserve it
         assertFileContains(
                 petModel,
-                "visible = false"
+                "include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY",
+                "visible = true"
         );
+        assertFileNotContains(petModel, "visible = false");
     }
 
     // ==================== useTags for JAXRS-SPEC ====================
