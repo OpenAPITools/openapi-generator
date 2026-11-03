@@ -23,7 +23,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{paramName}} = {{{example}}}
         {{/bodyParam}}
         {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#headerParams}}
         {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}

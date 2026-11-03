@@ -17,6 +17,10 @@ paths:
           in: header
           schema:
             type: string
+        - name: "X-C&oo'kie"
+          in: cookie
+          schema:
+            type: string
       responses:
         '200':
           description: OK

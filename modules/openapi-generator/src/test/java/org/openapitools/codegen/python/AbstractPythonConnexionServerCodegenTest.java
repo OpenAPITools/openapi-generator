@@ -14,11 +14,13 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
 import org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -189,6 +191,22 @@ public class AbstractPythonConnexionServerCodegenTest {
         return output.toPath();
     }
 
+    private static void assertPythonCompiles(Path... files) throws IOException, InterruptedException {
+        for (Path file : files) {
+            Process process;
+            try {
+                process = new ProcessBuilder("python3", "-m", "py_compile", file.toString())
+                        .redirectErrorStream(true).start();
+            } catch (IOException e) {
+                throw new SkipException("python3 is not available; skipping py_compile of " + file, e);
+            }
+            String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            assertThat(process.waitFor())
+                    .as("python3 -m py_compile %s failed:%n%s", file, output)
+                    .isZero();
+        }
+    }
+
     @Test(description = "header and cookie parameters are read from request with type conversion and defaults rather than declared as Connexion handler arguments")
     public void testHeaderParamsReadFromRequestHeadersInConnexionControllers() throws IOException {
         Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
@@ -352,7 +370,7 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     @Test(description = "property, parameter, and apiKey names must be emitted losslessly (not HTML-escaped) inside generated Python string literals")
-    public void testEscapedNamesInAttributeMapAndApiKeyHeaders() throws IOException {
+    public void testEscapedNamesInAttributeMapAndApiKeyHeaders() throws IOException, InterruptedException {
         String specPath = "src/test/resources/3_0/python-flask/escaped-names.yaml";
 
         Path flaskDir = generateOutputDir("python-flask", Collections.emptyMap(), specPath);
@@ -416,6 +434,19 @@ public class AbstractPythonConnexionServerCodegenTest {
         // a single-quoted Python literal
         assertFileContains(blueplanetTest, "('X-A&B\\'Head',");
         assertFileNotContains(blueplanetTest, "('x_ab_head',", "&amp;", "&#39;");
+        // the query parameter must be sent under its wire name too, not the sanitized
+        // Python parameter name
+        assertFileContains(blueplanetTest, "('q&we\\'s', 'qwes_example')");
+        assertFileNotContains(blueplanetTest, "('qwes',");
+        Path blueplanetController = blueplanetDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(blueplanetController);
+        // the controller must read header and cookie parameters under their original
+        // names, escaped for a single-quoted Python literal rather than HTML-escaped
+        assertFileContains(blueplanetController,
+                "x_ab_head = connexion.request.headers.get('X-A&B\\'Head')",
+                "x_cookie = connexion.request.cookies.get('X-C&oo\\'kie')");
+        assertFileNotContains(blueplanetController, "&amp;", "&#39;");
+        assertPythonCompiles(blueplanetController, blueplanetTest);
     }
 
     @Test(description = "escapeForPythonSingleQuotedLiteral is lossless: it escapes backslash, single quote, and control characters so the literal evaluates back to the original name")
