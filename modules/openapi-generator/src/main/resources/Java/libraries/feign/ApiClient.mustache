@@ -61,6 +61,53 @@ import feign.Retryer;
 {{>generatedAnnotation}}
 
 public class ApiClient {
+  {{#hasFeignJsonHeader}}
+  /** Serializes JSON-content headers with the client's Jackson configuration. */
+  public static class JsonHeaderParamExpander implements feign.Param.Expander {
+    private final ApiClient client;
+
+    public JsonHeaderParamExpander() {
+      this(new ApiClient());
+    }
+
+    private JsonHeaderParamExpander(ApiClient client) {
+      this.client = client;
+    }
+
+    @Override
+    public String expand(Object value) {
+      try {
+        return client.objectMapper.writer()
+            .with(com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII)
+            .writeValueAsString(value);
+      } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+        throw new IllegalArgumentException("Failed to serialize JSON header", e);
+      }
+    }
+  }
+
+  private feign.Contract jsonHeaderContract() {
+    feign.Contract delegate = new feign.Contract.Default();
+    return type -> {
+      java.util.List<feign.MethodMetadata> methods = delegate.parseAndValidateMetadata(type);
+      for (feign.MethodMetadata method : methods) {
+        java.util.Map<Integer, feign.Param.Expander> expanders = new java.util.LinkedHashMap<>();
+        if (method.indexToExpander() != null) expanders.putAll(method.indexToExpander());
+        java.util.Iterator<java.util.Map.Entry<Integer, Class<? extends feign.Param.Expander>>> entries =
+            method.indexToExpanderClass().entrySet().iterator();
+        while (entries.hasNext()) {
+          java.util.Map.Entry<Integer, Class<? extends feign.Param.Expander>> entry = entries.next();
+          if (entry.getValue() == JsonHeaderParamExpander.class) {
+            expanders.put(entry.getKey(), new JsonHeaderParamExpander(this));
+            entries.remove();
+          }
+        }
+        method.indexToExpander(expanders);
+      }
+      return methods;
+    };
+  }
+  {{/hasFeignJsonHeader}}
   protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
@@ -89,6 +136,9 @@ public class ApiClient {
                 {{#feign-hc5}}
                 .client(APACHE_HTTP5_CLIENT)
                 {{/feign-hc5}}
+                {{#hasFeignJsonHeader}}
+                .contract(jsonHeaderContract())
+                {{/hasFeignJsonHeader}}
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 {{#hasOAuthMethods}}
@@ -194,6 +244,7 @@ public class ApiClient {
   {{#jackson}}
   protected ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL);
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     {{#failOnUnknownProperties}}

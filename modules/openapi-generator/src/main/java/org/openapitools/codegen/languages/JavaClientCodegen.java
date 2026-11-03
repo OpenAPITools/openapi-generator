@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.AccessLevel;
@@ -1139,6 +1141,21 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return false;
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        super.processOpenAPI(openAPI);
+        additionalProperties.remove("hasFeignJsonHeader");
+    }
+
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        CodegenParameter result = super.fromParameter(parameter, imports);
+        if (isLibrary(FEIGN) && jackson && result.isHeaderParam && result.headerIsJsonMimeType) {
+            additionalProperties.put("hasFeignJsonHeader", true);
+        }
+        return result;
     }
 
     @Override
