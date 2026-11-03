@@ -35,7 +35,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#cookieParams}}{{#-first}}headers['Cookie'] = '; '.join([{{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]){{/-last}}
         {{/cookieParams}}
         {{#formParams}}
-        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
+        {{#-first}}data = { {{/-first}}{{^-first}}            {{/-first}}'{{baseName}}': {{{example}}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
         {{/formParams}}
         {{#vendorExtensions.x-test-apikey-cookie}}
         client = {{^useConnexion3}}self.app.test_client(use_cookies=False){{/useConnexion3}}{{#useConnexion3}}self.client{{/useConnexion3}}

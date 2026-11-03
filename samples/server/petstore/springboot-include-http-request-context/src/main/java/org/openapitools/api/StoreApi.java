@@ -102,7 +102,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    default ResponseEntity<Map<String, Integer>> getInventory(
+    default @Valid ResponseEntity<Map<String, Integer>> getInventory(
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -139,7 +139,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<OrderDto> getOrderById(
+    default @Valid ResponseEntity<OrderDto> getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
@@ -190,7 +190,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<OrderDto> placeOrder(
+    default @Valid ResponseEntity<OrderDto> placeOrder(
         @Parameter(name = "OrderDto", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody OrderDto orderDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {

@@ -63,7 +63,7 @@ public interface FileApi {
         value = FileApi.PATH_FILE_ID_GET,
         produces = { "application/json" }
     )
-    default ResponseEntity<FileContent> fileIdGet(
+    default @Valid ResponseEntity<FileContent> fileIdGet(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) {
         getRequest().ifPresent(request -> {

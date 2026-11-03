@@ -42,7 +42,7 @@ public interface FakeClassnameTestApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<Client>> testClassname(
+    @Valid Mono<ResponseEntity<Client>> testClassname(
          @Valid @RequestBody Mono<Client> client
     );
 

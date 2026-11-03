@@ -71,7 +71,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<ClientDto> testClassname(
+    default @Valid ResponseEntity<ClientDto> testClassname(
         @Parameter(name = "ClientDto", description = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {

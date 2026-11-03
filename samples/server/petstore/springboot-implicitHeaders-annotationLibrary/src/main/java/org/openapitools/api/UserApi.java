@@ -129,7 +129,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<User> getUserByName(
+    default @Valid ResponseEntity<User> getUserByName(
          @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
@@ -166,7 +166,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<String> loginUser(
+    default @Valid ResponseEntity<String> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     ) {

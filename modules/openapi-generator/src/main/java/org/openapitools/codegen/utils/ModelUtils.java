@@ -2547,11 +2547,11 @@ public class ModelUtils {
     }
 
     /**
-     * Set schema type.
-     * For 3.1 spec, set as types, for 3.0, type
+     * Sets the schema type.
+     * For the 3.1 spec, sets {@code types}; for 3.0, sets {@code type}.
      *
      * @param schema the schema
-     * @return schema type
+     * @param type the type to set
      */
     public static void setType(Schema schema, String type) {
         if (schema instanceof JsonSchema) {

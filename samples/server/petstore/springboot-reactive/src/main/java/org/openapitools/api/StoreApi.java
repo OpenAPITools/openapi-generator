@@ -100,7 +100,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(
+    default @Valid Mono<ResponseEntity<Map<String, Integer>>> getInventory(
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().getInventory(exchange);
@@ -136,7 +136,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<Order>> getOrderById(
+    default @Valid Mono<ResponseEntity<Order>> getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -172,7 +172,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Order>> placeOrder(
+    default @Valid Mono<ResponseEntity<Order>> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
