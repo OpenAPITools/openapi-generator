@@ -205,6 +205,18 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            if (fruit.Apple != null)
+            {
+                AppleJsonConverter converter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(Apple)));
+                converter.WriteProperties(writer, fruit.Apple, jsonSerializerOptions);
+            }
+
+            if (fruit.Banana != null)
+            {
+                BananaJsonConverter converter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(Banana)));
+                converter.WriteProperties(writer, fruit.Banana, jsonSerializerOptions);
+            }
+
             WriteProperties(writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();
         }

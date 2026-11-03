@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: oneOf reproduction
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Entry:
+      oneOf:
+        - $ref: '#/components/schemas/FileEntry'
+        - $ref: '#/components/schemas/FolderEntry'
+    FileEntry:
+      type: object
+      required: [name, size]
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
+    FolderEntry:
+      type: object
+      required: [name, id]
+      properties:
+        name:
+          type: string
+        id:
+          type: string

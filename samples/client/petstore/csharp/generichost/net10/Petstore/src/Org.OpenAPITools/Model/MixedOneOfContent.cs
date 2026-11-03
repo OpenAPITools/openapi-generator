@@ -251,6 +251,12 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            if (mixedOneOfContent.MixedSubId != null)
+            {
+                MixedSubIdJsonConverter converter = (MixedSubIdJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(MixedSubId)));
+                converter.WriteProperties(writer, mixedOneOfContent.MixedSubId, jsonSerializerOptions);
+            }
+
             WriteProperties(writer, mixedOneOfContent, jsonSerializerOptions);
             writer.WriteEndObject();
         }

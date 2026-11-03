@@ -181,6 +181,18 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            if (fruitReq.AppleReq != null)
+            {
+                AppleReqJsonConverter converter = (AppleReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(AppleReq)));
+                converter.WriteProperties(writer, fruitReq.AppleReq, jsonSerializerOptions);
+            }
+
+            if (fruitReq.BananaReq != null)
+            {
+                BananaReqJsonConverter converter = (BananaReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(BananaReq)));
+                converter.WriteProperties(writer, fruitReq.BananaReq, jsonSerializerOptions);
+            }
+
             WriteProperties(writer, fruitReq, jsonSerializerOptions);
             writer.WriteEndObject();
         }
