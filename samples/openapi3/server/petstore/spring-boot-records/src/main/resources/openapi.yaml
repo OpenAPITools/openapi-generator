@@ -239,6 +239,23 @@ components:
           default: 10
           format: int32
           type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        sort-order:
+          type: string
+        range:
+          $ref: "#/components/schemas/Range"
+      type: object
+    Range:
+      properties:
+        from:
+          format: int32
+          type: integer
+        to:
+          format: int32
+          type: integer
       type: object
     Account:
       example:

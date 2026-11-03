@@ -1081,11 +1081,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toOperationId(String operationId) {
         operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 

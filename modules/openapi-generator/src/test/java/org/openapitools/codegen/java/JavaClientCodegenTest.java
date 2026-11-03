@@ -43,6 +43,8 @@ import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -436,6 +438,51 @@ public class JavaClientCodegenTest {
         Assertions.assertNotNull(testedEnumVar);
         Assertions.assertEquals(testedEnumVar.getOrDefault("name", ""), "NUMBER_1");
         Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+    }
+
+    @DataProvider
+    public Object[][] propertyRefEnumDefaults() {
+        return new Object[][] {
+                {"String", "ARCHIVE"},
+                {"Date", "2026-01-01"},
+                {"UUID", "123e4567-e89b-12d3-a456-426614174000"},
+                {"BigDecimal", "1.5"}
+        };
+    }
+
+    @Test(dataProvider = "propertyRefEnumDefaults")
+    public void testPropertyRefDiscriminatorDoesNotQualifyScalarDefault(String dataType, String value) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = dataType;
+        property.datatypeWithEnum = dataType;
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.isDiscriminator = true;
+        property.defaultValue = "String".equals(dataType) ? value : codegen.toEnumValue(value, dataType);
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of(value));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertNull(property.defaultValue);
+    }
+
+    @Test
+    public void testPropertyRefPreservesOrdinaryStringDefault() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = "String";
+        property.datatypeWithEnum = "String";
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.defaultValue = "ARCHIVE";
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of("ARCHIVE"));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertEquals("\"ARCHIVE\"", property.defaultValue);
     }
 
     @Test
@@ -2070,6 +2117,24 @@ public class JavaClientCodegenTest {
                 .assertProperty("format")
                 .asString()
                 .contains("new OutputFormat().order(OutputFormat.OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
+    public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
+                Map.of(MODEL_NAME_PREFIX, "Stock"));
+
+        // CategoryEvent.category is a discriminator property that is a `$ref` to another schema's
+        // (CategorySource) inline enum property, not to a named enum schema and not an inline enum
+        // itself. There is no enum type at this use site to qualify the discriminator mapping value
+        // with, so no default must be emitted here; previously this rendered the uncompilable
+        // `this.category = String.ARCHIVE;` (see #24874).
+        JavaFileAssert.assertThat(files.get("StockArchiveCategoryEvent.java"))
+                .fileDoesNotContain("String.ARCHIVE");
+        JavaFileAssert.assertThat(files.get("StockOrdinaryCategory.java"))
+                .assertProperty("category")
+                .asString()
+                .contains("CategoryEnum category = CategoryEnum.ARCHIVE");
     }
 
     @Test
@@ -4507,6 +4572,114 @@ public class JavaClientCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
+    }
+
+    @Test
+    public void testSerializableModelAddsSerializableToInnerEnums_issue23082() {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/issue_23082.yaml",
+                JavaClientCodegen.OKHTTP_GSON,
+                Map.of(SERIALIZABLE_MODEL, true));
+
+        JavaFileAssert.assertThat(files.get("ExampleWithInnerEnums.java")).fileContains(
+                "class ExampleWithInnerEnums implements Serializable {",
+                "enum ExampleInnerEnum implements Serializable {",
+                "enum NestedExamplesEnum implements Serializable {");
+    }
+
+    @Test
+    public void testSerializableModelTraversesEveryNestedPropertyLocation_issue23082() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(SERIALIZABLE_MODEL, true);
+        codegen.processOpts();
+
+        CodegenModel model = new CodegenModel();
+        CodegenProperty container = new CodegenProperty();
+        // components.schemas.Model.properties.container
+        model.vars.add(container);
+
+        CodegenProperty directEnum = newEnumProperty();
+        // properties.directEnum
+        container.vars.add(directEnum);
+
+        CodegenProperty arrayEnum = newEnumProperty();
+        CodegenProperty nestedArray = new CodegenProperty();
+        // type: array
+        // items:
+        //   type: array
+        //   items: { type: string, enum: [...] }
+        nestedArray.setItems(arrayEnum);
+        container.setItems(nestedArray);
+
+        CodegenProperty additionalPropertiesEnum = newEnumProperty();
+        // additionalProperties: { type: string, enum: [...] }
+        container.setAdditionalProperties(additionalPropertiesEnum);
+
+        CodegenProperty containsEnum = newEnumProperty();
+        // contains: { type: string, enum: [...] } (OpenAPI 3.1)
+        container.setContains(containsEnum);
+
+        CodegenProperty requiredPropertyEnum = newEnumProperty();
+        // required: [requiredProperty]
+        // properties.requiredProperty: { type: string, enum: [...] }
+        container.setRequiredVarsMap(Map.of("requiredProperty", requiredPropertyEnum));
+
+        CodegenProperty allOfEnum = newEnumProperty();
+        CodegenProperty oneOfEnum = newEnumProperty();
+        CodegenProperty anyOfEnum = newEnumProperty();
+        CodegenProperty notEnum = newEnumProperty();
+        // allOf: [{ type: string, enum: [...] }]
+        // oneOf: [{ type: string, enum: [...] }]
+        // anyOf: [{ type: string, enum: [...] }]
+        // not: { type: string, enum: [...] }
+        container.setComposedSchemas(new CodegenComposedSchemas(
+                List.of(allOfEnum), List.of(oneOfEnum), List.of(anyOfEnum), notEnum));
+
+        // Exercise model-level schema locations as well as property-level locations.
+        CodegenProperty modelItemsEnum = newEnumProperty();
+        // components.schemas.Model: { type: array, items: { type: string, enum: [...] } }
+        model.setItems(modelItemsEnum);
+        CodegenProperty modelAdditionalPropertiesEnum = newEnumProperty();
+        // components.schemas.Model: { type: object, additionalProperties: { type: string, enum: [...] } }
+        model.setAdditionalProperties(modelAdditionalPropertiesEnum);
+        CodegenProperty modelContainsEnum = newEnumProperty();
+        // components.schemas.Model: { type: array, contains: { type: string, enum: [...] } }
+        model.setContains(modelContainsEnum);
+
+        // A malformed or mutually recursive graph must not cause unbounded traversal.
+        container.vars.add(container);
+
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(model);
+        ModelsMap modelsMap = new ModelsMap();
+        modelsMap.setModels(List.of(modelMap));
+        modelsMap.setImports(new ArrayList<>());
+
+        codegen.postProcessModels(modelsMap);
+
+        List<CodegenProperty> nestedEnums = List.of(
+                directEnum,
+                arrayEnum,
+                additionalPropertiesEnum,
+                containsEnum,
+                requiredPropertyEnum,
+                allOfEnum,
+                oneOfEnum,
+                anyOfEnum,
+                notEnum,
+                modelItemsEnum,
+                modelAdditionalPropertiesEnum,
+                modelContainsEnum);
+        for (CodegenProperty nestedEnum : nestedEnums) {
+            assertThat(nestedEnum.getVendorExtensions())
+                    .containsEntry(X_IMPLEMENTS, List.of("Serializable"));
+        }
+    }
+
+    private static CodegenProperty newEnumProperty() {
+        CodegenProperty property = new CodegenProperty();
+        property.isEnum = true;
+        return property;
     }
 
     /**

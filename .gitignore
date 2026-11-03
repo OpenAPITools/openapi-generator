@@ -164,6 +164,7 @@ samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcworkspace/x
 samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
 
 # C#
+**/problems-report.html
 *.csproj.user
 samples/client/petstore/csharp/SwaggerClient/IO.Swagger.userprefs
 samples/client/petstore/csharp/SwaggerClientTest/obj

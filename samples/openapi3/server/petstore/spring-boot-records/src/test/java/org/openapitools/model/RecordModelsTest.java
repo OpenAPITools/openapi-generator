@@ -38,7 +38,8 @@ class RecordModelsTest {
         assertThat(Pet.class.isRecord()).isTrue();
         assertThat(Owner.class.isRecord()).isTrue();
         assertThat(Account.class.isRecord()).isTrue();
-        assertThat(Filter.class.isRecord()).as("bound from request parameters").isFalse();
+        assertThat(Filter.class.isRecord()).as("bound from request parameters").isTrue();
+        assertThat(Range.class.isRecord()).as("nested in the query object").isTrue();
         assertThat(Vehicle.class.isRecord()).isFalse();
         assertThat(Car.class.isRecord()).isFalse();
         assertThat(Counters.class.isRecord()).isFalse();

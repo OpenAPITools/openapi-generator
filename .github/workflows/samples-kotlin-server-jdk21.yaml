@@ -7,12 +7,14 @@ on:
       - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-misk/**'
   pull_request:
     paths:
       - 'samples/server/others/kotlin-server/**'
       - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-misk/**'
 
 env:
   GRADLE_VERSION: '8.14'

@@ -51,7 +51,7 @@ case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (base
     {{/pathParams}}
     val requestURL =
       uri"$baseUrl{{{path}}}"{{#queryParams}}
-        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}): _*){{/queryParams}}
+        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}})*){{/queryParams}}
 
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, requestURL)

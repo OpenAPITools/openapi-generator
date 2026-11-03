@@ -4,15 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/csharp/generichost/net8/**
-      - samples/client/petstore/csharp/httpclient/net8/**
       - samples/client/petstore/csharp/restsharp/net8/**
-      - samples/client/petstore/csharp/unityWebRequest/net8/**
   pull_request:
     paths:
       - samples/client/petstore/csharp/generichost/net8/**
-      - samples/client/petstore/csharp/httpclient/net8/**
       - samples/client/petstore/csharp/restsharp/net8/**
-      - samples/client/petstore/csharp/unityWebRequest/net8/**
 jobs:
   build:
     name: Build .Net 8 projects

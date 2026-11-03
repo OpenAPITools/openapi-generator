@@ -287,7 +287,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 // Test
                 "test",
                 // $GOOS
-                "aix", "android", "darwin", "dragonfly", "freebsd", "illumos", "js", "linux", "netbsd", "openbsd",
+                "aix", "android", "darwin", "dragonfly", "freebsd", "illumos", "ios", "js", "linux", "netbsd", "openbsd",
                 "plan9", "solaris", "windows",
                 // $GOARCH
                 "386", "amd64", "arm", "arm64", "mips", "mips64", "mips64le", "mipsle", "ppc64", "ppc64le", "s390x",
