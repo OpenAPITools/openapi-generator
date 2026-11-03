@@ -5946,4 +5946,25 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
     }
+    @Test
+    public void testFeignJacksonTaggedOneOf() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(FEIGN)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-tagged-oneof.yaml")
+                .setOutputDir(output.toString());
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+        Path java = output.resolve("src/main/java/org/openapitools/client");
+        assertThat(java.resolve("model/Metadata.java")).content()
+                .contains("interface Metadata", "defaultImpl = Metadata.InvalidVariant.class",
+                        "org.openapitools.client.model.File.class, name = \"file\"",
+                        "org.openapitools.client.model.Folder.class, name = \"folder\"");
+        assertThat(java.resolve("model/OpenMetadata.java")).content()
+                .contains("defaultImpl = org.openapitools.client.model.Other.class");
+        assertThat(java.resolve("model/File.java")).content().contains("implements Metadata, OpenMetadata");
+    }
+
 }

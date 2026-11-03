@@ -1,0 +1,62 @@
+openapi: 3.1.0
+info:
+  title: Feign Jackson oneOf and JSON header
+  version: 1.0.0
+paths:
+  /metadata:
+    get:
+      operationId: getMetadata
+      responses:
+        '200':
+          description: metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+components:
+  schemas:
+    Metadata:
+      oneOf:
+        - $ref: '#/components/schemas/File'
+        - $ref: '#/components/schemas/Folder'
+    File:
+      allOf:
+        - type: object
+          required: [.tag]
+          properties:
+            .tag:
+              type: string
+              enum: [file]
+        - type: object
+          properties:
+            name:
+              type: string
+            size:
+              type: integer
+    Folder:
+      allOf:
+        - type: object
+          required: [.tag]
+          properties:
+            .tag:
+              type: string
+              enum: [folder]
+        - type: object
+          properties:
+            name:
+              type: string
+    OpenMetadata:
+      oneOf:
+        - $ref: '#/components/schemas/File'
+        - $ref: '#/components/schemas/Folder'
+        - $ref: '#/components/schemas/Other'
+    Other:
+      type: object
+      required: [.tag]
+      properties:
+        .tag:
+          type: string
+          not:
+            enum: [file, folder]
+        name:
+          type: string
