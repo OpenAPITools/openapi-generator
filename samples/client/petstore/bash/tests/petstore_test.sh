@@ -122,6 +122,13 @@ export PETSTORE_HOST="http://petstore.swagger.io"
     [[ "$output" =~ "<id>37567</id>" ]]
 }
 
+@test "addPet from pipe returns the cURL exit code" {
+    run bash \
+      -c "echo '{\"id\": 37567, \"name\": \"lucky\", \"status\": \"available\"}' | \
+            bash $PETSTORE_CLI -ct json -ac xml --host http://127.0.0.1:9 addPet -"
+    [ "$status" -eq 7 ]
+}
+
 @test "updatePet with form data" {
     run bash $PETSTORE_CLI --dry-run \
         updatePetWithForm petId=1 name:=lucky status:=available
