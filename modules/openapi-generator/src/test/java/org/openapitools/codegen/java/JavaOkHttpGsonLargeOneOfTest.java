@@ -40,6 +40,10 @@ public class JavaOkHttpGsonLargeOneOfTest {
         Path spec = output.resolve("oneof.yaml");
         StringBuilder yaml = new StringBuilder("openapi: 3.0.3\ninfo: {title: OneOf, version: '1'}\npaths: {}\ncomponents:\n  schemas:\n    Union:\n      oneOf:\n");
         for (int i = 0; i < count; i++) yaml.append("        - $ref: '#/components/schemas/Variant").append(i).append("'\n");
+        if (count == 260) {
+            yaml.append("        - type: array\n          items: {$ref: '#/components/schemas/Variant0'}\n")
+                    .append("        - type: object\n          additionalProperties: {type: integer}\n");
+        }
         for (int i = 0; i < count; i++) yaml.append("    Variant").append(i).append(":\n      type: object\n      properties:\n        kind: {type: string}\n");
         Files.writeString(spec, yaml.toString());
         CodegenConfigurator config = new CodegenConfigurator().setGeneratorName("java").setLibrary("okhttp-gson")
@@ -57,7 +61,7 @@ public class JavaOkHttpGsonLargeOneOfTest {
         // Compile the generated factory with minimal model stubs, so the generated anonymous adapter
         // is loaded and exercised without requiring a separate generated project or Maven invocation.
         StringBuilder fixture = new StringBuilder("import com.google.gson.*;\nimport com.google.gson.reflect.*;\n"
-                + "import com.google.gson.stream.*;\nimport java.io.*;\nimport java.util.*;\nimport java.util.logging.*;\n"
+                + "import com.google.gson.stream.*;\nimport java.io.*;\nimport java.lang.reflect.Type;\nimport java.util.*;\nimport java.util.logging.*;\n"
                 + "public class UnionFixture { public static class Union {\n"
                 + "private static final Logger log = Logger.getLogger(Union.class.getName());\n"
                 + "private Object value; public Object getActualInstance() { return value; }\n"
@@ -89,6 +93,14 @@ public class JavaOkHttpGsonLargeOneOfTest {
                 Object value = type.getMethod("getActualInstance").invoke(result);
                 assertEquals(value.getClass().getSimpleName(), "Variant" + i);
                 assertEquals(gson.toJson(result, type), json);
+            }
+            if (count == 260) {
+                for (String json : new String[]{"[{\"kind\":\"v0\"}]", "{\"count\":3}"}) {
+                    Object result = gson.fromJson(json, type);
+                    Object value = type.getMethod("getActualInstance").invoke(result);
+                    assertTrue(json.startsWith("[") ? value instanceof java.util.List : value instanceof java.util.Map);
+                    assertEquals(gson.toJson(result, type), json);
+                }
             }
         }
     }
