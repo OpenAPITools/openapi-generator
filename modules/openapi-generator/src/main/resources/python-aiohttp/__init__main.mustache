@@ -17,7 +17,7 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': {{{appNameSingleQuotedLiteral}}}},
                 pythonic_params=True,
-                pass_context_arg_name='request'{{#connexionObjectParams}},
+                pass_context_arg_name='{{connexionContextArgName}}'{{#connexionObjectParams}},
                 validator_map={'parameter': param_parsing.ObjectParameterValidator}{{/connexionObjectParams}})
 
 {{#featureCORS}}
