@@ -865,7 +865,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileNotContains(duplicateController, "request_context2: web.Request");
         assertFileContains(duplicateInit, "pass_context_arg_name='request_context3'");
 
-        // a form field declared inside an allOf schema becomes a handler argument too
+        // a form field declared inside an allOf schema is extracted into a local
+        // variable in the handler, which must not shadow the context argument either
         Path formDir = generateOutputDir("python-aiohttp",
                 "src/test/resources/3_0/python/request-form-allof-param-name.yaml", Collections.emptyMap());
         Path formController = formDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
@@ -874,7 +875,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         assertFileExists(formInit);
         assertFileContains(
                 formController,
-                "async def create_thing(request_context: web.Request, request=None) -> web.Response:");
+                "async def create_thing(request_context: web.Request, body=None) -> web.Response:",
+                "request = _form_body.get('request')");
         assertFileNotContains(formController, "request: web.Request, request");
         assertFileContains(formInit, "pass_context_arg_name='request_context'");
     }
