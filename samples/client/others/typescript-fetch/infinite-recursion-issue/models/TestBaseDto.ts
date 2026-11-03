@@ -21,7 +21,7 @@ import {
     TestObjectTypeToJSONTyped,
 } from './TestObjectType';
 
-import { type ExtendDto, ExtendDtoFromJSONTyped, ExtendDtoToJSON, ExtendDtoToJSONTyped } from './ExtendDto';
+import { type ExtendDto, ExtendDtoFromJSON, ExtendDtoFromJSONTyped, ExtendDtoToJSON, ExtendDtoToJSONTyped } from './ExtendDto';
 /**
  * 
  * @export
