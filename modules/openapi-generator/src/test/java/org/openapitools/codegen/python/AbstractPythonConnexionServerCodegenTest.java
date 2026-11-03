@@ -361,6 +361,47 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "pythonic_params generators get Connexion-style argument names (id_, filter_) while python-blueplanet keeps the parent naming")
+    public void testPythonicParamsArgumentNamesPerGenerator() throws IOException {
+        String specPath = "src/test/resources/3_0/python-flask/builtin-param-names.yaml";
+
+        Path aiohttpDir = generateOutputDir("python-aiohttp", specPath, Collections.emptyMap());
+        Path aiohttpController = aiohttpDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path aiohttpTest = aiohttpDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        assertFileExists(aiohttpController);
+        assertFileContains(
+                aiohttpController,
+                "import json",
+                "async def get_thing(request: web.Request, id_, filter_=None, type_=None, format_=None, from_=None, page_size=None) -> web.Response:",
+                // id arrives via a $ref'd components/parameters entry; leading
+                // underscores and 'callback' are passed through by Connexion;
+                // 'date'/'self' are not builtins or keywords
+                "async def get_probe(request: web.Request, id_, _from=None, callback=None, date=None, self=None) -> web.Response:",
+                // a JSON header named 'json' must not shadow the json module
+                // used by the template for JSON content headers
+                "_json = request.headers.get('json')",
+                "_json = json.loads(_json)",
+                "async def post_thing_form(request: web.Request, filter_, type_=None) -> web.Response:");
+        // generated tests send form data under the wire (original) names
+        assertFileContains(
+                aiohttpTest,
+                "'filter': 'filter__example'",
+                "data.add_field('filter', 'filter__example')");
+        assertFileNotContains(aiohttpTest, "'filter_':");
+
+        Path blueplanetDir = generateOutputDir("python-blueplanet", specPath, Collections.emptyMap());
+        Path blueplanetController = blueplanetDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(blueplanetController);
+        // blueplanet registers the API without pythonic_params (Connexion 1.x),
+        // so handler argument names keep the parent rules
+        assertFileContains(
+                blueplanetController,
+                "def get_thing(id, filter=None, type=None, format=None, _from=None, page_size=None):",
+                "def get_probe(id, _from=None, param_callback=None, _date=None, _self=None):",
+                "_json = connexion.request.headers.get('json')",
+                "def post_thing_form(filter, type=None):");
+    }
+
     @Test(description = "non-body model, array, and map parameters are deserialized from their argument value rather than overwritten from request.get_json()")
     public void testNonBodyModelParamsNotOverwrittenFromRequestBody() throws IOException {
         Path aiohttpController = generateOutputDir("python-aiohttp", Collections.emptyMap())

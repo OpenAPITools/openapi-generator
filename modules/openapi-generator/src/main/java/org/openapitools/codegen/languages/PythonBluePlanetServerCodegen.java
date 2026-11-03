@@ -76,6 +76,13 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
+    protected boolean usesPythonicParams() {
+        // Generated blueplanet apps call add_api() without pythonic_params, so
+        // Connexion 1.x passes handler arguments under their original names.
+        return false;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
         //apiTemplateFiles.clear();
