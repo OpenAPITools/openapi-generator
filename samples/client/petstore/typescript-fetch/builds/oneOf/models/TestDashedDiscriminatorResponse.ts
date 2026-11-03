@@ -53,8 +53,8 @@ export function TestDashedDiscriminatorResponseFromJSONTyped(json: any, ignoreDi
     }
 }
 
-export function TestDashedDiscriminatorResponseToJSON(json: any): any {
-    return TestDashedDiscriminatorResponseToJSONTyped(json, false);
+export function TestDashedDiscriminatorResponseToJSON(value?: TestDashedDiscriminatorResponse | null): any {
+    return TestDashedDiscriminatorResponseToJSONTyped(value, false);
 }
 
 export function TestDashedDiscriminatorResponseToJSONTyped(value?: TestDashedDiscriminatorResponse | null, ignoreDiscriminator: boolean = false): any {

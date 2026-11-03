@@ -70,8 +70,8 @@ export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
     };
 }
 
-export function TagToJSON(json: any): Tag {
-    return TagToJSONTyped(json, false);
+export function TagToJSON(value?: Tag | null): any {
+    return TagToJSONTyped(value, false);
 }
 
 export function TagToJSONTyped(value?: Tag | null, ignoreDiscriminator: boolean = false): any {

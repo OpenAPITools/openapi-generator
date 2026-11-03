@@ -46,8 +46,8 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function HealthCheckResultToJSON(json: any): HealthCheckResult {
-    return HealthCheckResultToJSONTyped(json, false);
+export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
+    return HealthCheckResultToJSONTyped(value, false);
 }
 
 export function HealthCheckResultToJSONTyped(value?: HealthCheckResult | null, ignoreDiscriminator: boolean = false): any {
