@@ -8,7 +8,7 @@ version = '1.0.0'
 archivesBaseName = 'openapi-gen-groovy'
 
 wrapper {
-    gradleVersion = '8.14.5'
+    gradleVersion = '4.9'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -19,7 +19,7 @@ buildscript {
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.24.20')
-        classpath('com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1')
+        classpath('com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:4.0.4')
     }
 }
 
@@ -35,13 +35,13 @@ ext {
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:2.5.14'
-    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    implementation 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
-    testImplementation "junit:junit:4.13"
+    compile 'org.codehaus.groovy:groovy-all:2.5.14'
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    compile 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
+    testCompile "junit:junit:4.13"
 }

@@ -12,7 +12,7 @@ This Groovy package, using the [http-builder-ng library](https://http-builder-ng
 ## Requirements
 
 * Groovy 2.5.7
-* Gradle 8.14.5
+* Gradle 4.9
 
 ## Build
 
