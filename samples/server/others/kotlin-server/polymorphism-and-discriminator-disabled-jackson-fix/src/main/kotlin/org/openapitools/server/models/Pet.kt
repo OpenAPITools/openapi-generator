@@ -17,7 +17,7 @@ import org.openapitools.server.models.Dog
 /**
  * A pet
  */
-@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY, property = "petType", visible = false)
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY, property = "petType", visible = false)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Cat::class, name = "cat"),
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Dog::class, name = "dog")

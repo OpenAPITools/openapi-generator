@@ -405,9 +405,16 @@ public class KotlinServerCodegenTest {
                 "sealed class Pet(",
                 "open val petType: kotlin.String",
                 "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                // every mapped child model declares/inherits the discriminator property, so
+                // Jackson must reuse it instead of injecting a second copy (duplicated key)
+                "include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY",
                 "property = \"petType\"",
                 "visible = true",
                 "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+        assertFileNotContains(
+                petModel,
+                "include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY,"
         );
     }
 
