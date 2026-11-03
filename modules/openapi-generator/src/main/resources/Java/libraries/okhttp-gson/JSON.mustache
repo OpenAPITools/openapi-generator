@@ -117,6 +117,14 @@ public class JSON {
         return clazz;
     }
 
+    {{#gsonAdapterBatches}}
+    private static void registerModelAdapters{{index}}(GsonBuilder gsonBuilder) {
+        {{#models}}
+        gsonBuilder.registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory());
+        {{/models}}
+    }
+
+    {{/gsonAdapterBatches}}
     static {
         GsonBuilder gsonBuilder = createGson();
         gsonBuilder.registerTypeAdapter(Date.class, dateTypeAdapter);
@@ -131,6 +139,10 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, localDateTimeTypeAdapter);
         {{/jsr310}}
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
+        {{#gsonAdapterBatches}}
+        registerModelAdapters{{index}}(gsonBuilder);
+        {{/gsonAdapterBatches}}
+        {{^gsonAdapterBatches}}
         {{#models}}
         {{#model}}
         {{^isEnum}}
@@ -140,6 +152,7 @@ public class JSON {
         {{/isEnum}}
         {{/model}}
         {{/models}}
+        {{/gsonAdapterBatches}}
         gson = gsonBuilder.create();
     }
 

@@ -81,6 +81,33 @@ public class JavaClientCodegenTest {
 
     private static final String JAVA_GENERATOR = "java";
 
+    @Test
+    @SneakyThrows
+    public void testOkHttpGsonBatchesModelAdapterRegistrations() {
+        Path output = newTempFolder();
+        Path spec = output.resolve("many-models.yaml");
+        StringBuilder yaml = new StringBuilder("openapi: 3.0.0\ninfo: {title: Batch test, version: '1'}\npaths: {}\ncomponents:\n  schemas:\n");
+        for (int i = 0; i < 201; i++) {
+            yaml.append("    Model").append(i).append(":\n      type: object\n      properties:\n        value: {type: string}\n");
+        }
+        Files.write(spec, yaml.toString().getBytes(StandardCharsets.UTF_8));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(OKHTTP_GSON)
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path json = output.resolve("src/main/java/org/openapitools/client/JSON.java");
+        String code = new String(Files.readAllBytes(json), StandardCharsets.UTF_8);
+        StaticJavaParser.parse(code);
+        assertThat(code).contains("private static void registerModelAdapters0(GsonBuilder gsonBuilder)",
+                "private static void registerModelAdapters1(GsonBuilder gsonBuilder)",
+                "registerModelAdapters0(gsonBuilder);", "registerModelAdapters1(gsonBuilder);");
+        for (int i = 0; i < 201; i++) {
+            assertThat(code).containsOnlyOnce("new org.openapitools.client.model.Model" + i + ".CustomTypeAdapterFactory()");
+        }
+    }
+
     // This is the kind of information that ideally would be defined and available system-wide
     @Getter
     enum Library {

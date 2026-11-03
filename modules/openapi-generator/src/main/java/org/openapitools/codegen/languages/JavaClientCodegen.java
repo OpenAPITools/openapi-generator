@@ -66,6 +66,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
+    private static final int GSON_ADAPTERS_PER_BATCH = 200;
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -1415,6 +1416,29 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
+        if (isLibrary(OKHTTP_GSON)) {
+            @SuppressWarnings("unchecked")
+            List<ModelMap> models = (List<ModelMap>) objs.get("models");
+            List<CodegenModel> adapters = new ArrayList<>();
+            if (models != null) {
+                for (ModelMap model : models) {
+                    CodegenModel m = model.getModel();
+                    if (m != null && !m.isEnum && !m.hasChildren) {
+                        adapters.add(m);
+                    }
+                }
+            }
+            if (adapters.size() > GSON_ADAPTERS_PER_BATCH) {
+                List<Map<String, Object>> batches = new ArrayList<>();
+                for (int i = 0; i < adapters.size(); i += GSON_ADAPTERS_PER_BATCH) {
+                    Map<String, Object> batch = new HashMap<>();
+                    batch.put("index", batches.size());
+                    batch.put("models", adapters.subList(i, Math.min(i + GSON_ADAPTERS_PER_BATCH, adapters.size())));
+                    batches.add(batch);
+                }
+                objs.put("gsonAdapterBatches", batches);
+            }
+        }
         return super.postProcessSupportingFileData(objs);
     }
 
