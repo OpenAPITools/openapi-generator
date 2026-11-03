@@ -304,7 +304,7 @@ class PathApi:
         if enum_nonref_string_path is not None:
             _path_params['enum_nonref_string_path'] = enum_nonref_string_path
         if enum_ref_string_path is not None:
-            _path_params['enum_ref_string_path'] = enum_ref_string_path.value
+            _path_params['enum_ref_string_path'] = enum_ref_string_path
         # process the query parameters
         # process the header parameters
         # process the form parameters

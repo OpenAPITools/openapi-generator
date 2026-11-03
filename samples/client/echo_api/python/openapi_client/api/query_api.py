@@ -282,7 +282,7 @@ class QueryApi:
             
         if enum_ref_string_query is not None:
             
-            _query_params.append(('enum_ref_string_query', enum_ref_string_query.value))
+            _query_params.append(('enum_ref_string_query', enum_ref_string_query))
             
         # process the header parameters
         # process the form parameters

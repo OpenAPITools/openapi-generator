@@ -318,7 +318,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         # process the path parameters
 {{#pathParams}}
         if {{paramName}} is not None:
-            _path_params['{{baseName}}'] = {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}
+            _path_params['{{baseName}}'] = {{paramName}}
 {{/pathParams}}
         # process the query parameters
 {{#queryParams}}
@@ -378,7 +378,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             {{/isModel}}
             {{^isMap}}
             {{^isModel}}
-            _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
+            _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isModel}}
             {{/isMap}}
             {{/isDate}}{{/isDateTime}}
