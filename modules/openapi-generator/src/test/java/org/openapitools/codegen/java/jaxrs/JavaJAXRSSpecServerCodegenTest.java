@@ -2492,8 +2492,28 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
 
         Path pet = output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java");
-        assertFileContains(pet, "public enum PetTypeEnum {", "import com.fasterxml.jackson.annotation.*;");
-        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Dog.java"), "public enum PetTypeEnum {");
+        assertFileContains(pet, "public enum PetTypeEnum {", "import com.fasterxml.jackson.annotation.*;",
+                "PetTypeEnum getPetType();");
+        Path dog = output.toPath().resolve("src/gen/java/org/openapitools/model/Dog.java");
+        assertFileContains(dog, "implements Pet", "public PetTypeEnum getPetType()");
+        assertFileNotContains(dog, "public enum PetTypeEnum {");
+    }
+
+    @Test
+    public void testPropertyLevelOneOfInterfaceInlineDiscriminatorEnum() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_25398_property_level.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseOneOfInterfaces(true);
+        new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        Path ownerPet = output.toPath().resolve("src/gen/java/org/openapitools/model/OwnerPet.java");
+        assertFileContains(ownerPet, "public enum PetTypeEnum {", "PetTypeEnum getPetType();");
+        Path dog = output.toPath().resolve("src/gen/java/org/openapitools/model/Dog.java");
+        assertFileContains(dog, "implements OwnerPet", "public PetTypeEnum getPetType()");
+        assertFileNotContains(dog, "public enum PetTypeEnum {");
     }
 
     @Test
