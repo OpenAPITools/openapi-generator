@@ -117,7 +117,7 @@ public class RequiredNullableBody {
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
   @javax.annotation.Nonnull
-  private Map<String, Object> objectItemsNullable = new HashMap<>();
+  private Map<String, Object> objectItemsNullable;
 
   public static final String SERIALIZED_NAME_CUSTOM_REF_ENUM = "custom_ref_enum";
   @SerializedName(SERIALIZED_NAME_CUSTOM_REF_ENUM)
