@@ -57,7 +57,9 @@ dev_dependencies:
   # unlike the json_serializable variant, this one has no copy_with_extension_gen
   # whose source_gen constraint would hold source_helper back; source_helper 1.4.0
   # added extension members that clash with json_serializable 6.x's internal
-  # copies and break the build_runner build script, so hold it below 1.4.0
-  source_helper: '>=1.3.13 <1.4.0'
+  # copies and break the build_runner build script, so hold it below 1.4.0.
+  # 1.3.9+ requires Dart 3.9 while this variant advertises >=3.8.0, so keep the
+  # 1.3.8 lower bound resolvable for 3.8 users
+  source_helper: '>=1.3.8 <1.4.0'
 {{/useFreezed}}
   test: '^1.16.0'
