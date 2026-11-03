@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
+
 /**
  * <p>Mustache templates are located in {@code src/main/resources/typescript-jquery/}.
  */
@@ -94,7 +96,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         if (ModelUtils.isStringSchema(p)) {
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return openAPIType;
             }
         }

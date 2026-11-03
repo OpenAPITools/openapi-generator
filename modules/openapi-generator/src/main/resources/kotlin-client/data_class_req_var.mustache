@@ -9,8 +9,13 @@
     @SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
     {{/gson}}
     {{#jackson}}
-    @param:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    @param:JsonProperty({{#jvm-microprofile}}value = {{/jvm-microprofile}}"{{{vendorExtensions.x-base-name-literal}}}"{{#jvm-microprofile}}, required = true{{/jvm-microprofile}})
     @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+{{#jvm-microprofile}}
+{{^isNullable}}
+    @param:com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.FAIL)
+{{/isNullable}}
+{{/jvm-microprofile}}
     {{/jackson}}
     {{#kotlinx_serialization}}
     {{^isEnum}}{{^isArray}}{{^isPrimitiveType}}{{^isModel}}@Contextual {{/isModel}}{{/isPrimitiveType}}{{/isArray}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")

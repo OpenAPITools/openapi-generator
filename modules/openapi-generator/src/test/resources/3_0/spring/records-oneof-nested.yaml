@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: Records as members of nested oneOf interfaces
+  description: Models for the spring generator option useRecords where a oneOf interface is itself a member of another one
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Outer:
+      oneOf:
+        - $ref: '#/components/schemas/Inner'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: shapeType
+    Inner:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Kitten'
+      discriminator:
+        propertyName: quadType
+    Cat:
+      type: object
+      required: [shapeType, quadType, id]
+      properties:
+        shapeType: {type: string}
+        quadType: {type: string}
+        id: {type: string}
+    Kitten:
+      type: object
+      required: [shapeType, quadType, id]
+      properties:
+        shapeType: {type: string}
+        quadType: {type: string}
+        id: {type: string}
+    Dog:
+      type: object
+      required: [shapeType, id]
+      properties:
+        shapeType: {type: string}
+        id: {type: string}
+    MOuter:
+      oneOf:
+        - $ref: '#/components/schemas/MInner'
+        - $ref: '#/components/schemas/MDog'
+      discriminator:
+        propertyName: shapeType
+    MInner:
+      oneOf:
+        - $ref: '#/components/schemas/MCat'
+        - $ref: '#/components/schemas/MKitten'
+    MCat:
+      type: object
+      required: [shapeType, id]
+      properties:
+        shapeType: {type: string}
+        id: {type: string}
+    MKitten:
+      type: object
+      required: [shapeType, id]
+      properties:
+        shapeType: {type: string}
+        id: {type: string}
+    MDog:
+      type: object
+      required: [shapeType, id]
+      properties:
+        shapeType: {type: string}
+        id: {type: string}
+    L1:
+      oneOf:
+        - $ref: '#/components/schemas/L2'
+        - $ref: '#/components/schemas/D'
+      discriminator:
+        propertyName: l1
+    L2:
+      oneOf:
+        - $ref: '#/components/schemas/L3'
+        - $ref: '#/components/schemas/C'
+      discriminator:
+        propertyName: l2
+    L3:
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+      discriminator:
+        propertyName: l3
+    A:
+      type: object
+      required: [l1, l2, l3, id]
+      properties:
+        l1: {type: string}
+        l2: {type: string}
+        l3: {type: string}
+        id: {type: string}
+    B:
+      type: object
+      required: [l1, l2, l3, id]
+      properties:
+        l1: {type: string}
+        l2: {type: string}
+        l3: {type: string}
+        id: {type: string}
+    C:
+      type: object
+      required: [l1, l2, id]
+      properties:
+        l1: {type: string}
+        l2: {type: string}
+        id: {type: string}
+    D:
+      type: object
+      required: [l1, id]
+      properties:
+        l1: {type: string}
+        id: {type: string}
+    XOuter:
+      oneOf:
+        - $ref: '#/components/schemas/XInner'
+        - $ref: '#/components/schemas/XDog'
+      discriminator:
+        propertyName: xShape
+    XInner:
+      oneOf:
+        - $ref: '#/components/schemas/XCat'
+        - $ref: '#/components/schemas/XKitten'
+      discriminator:
+        propertyName: xQuad
+    XCat:
+      type: object
+      required: [xShape, xQuad]
+      properties:
+        xShape: {type: string}
+        xQuad: {type: string}
+    XKitten:
+      type: object
+      required: [xQuad]
+      properties:
+        xQuad: {type: string}
+    XDog:
+      type: object
+      required: [xShape]
+      properties:
+        xShape: {type: string}
+    SOuter:
+      oneOf:
+        - $ref: '#/components/schemas/SInner'
+        - $ref: '#/components/schemas/SDog'
+      discriminator:
+        propertyName: kind
+    SInner:
+      oneOf:
+        - $ref: '#/components/schemas/SCat'
+        - $ref: '#/components/schemas/SKitten'
+      discriminator:
+        propertyName: kind
+    SCat:
+      type: object
+      required: [kind, id]
+      properties:
+        kind: {type: string}
+        id: {type: string}
+    SKitten:
+      type: object
+      required: [kind, id]
+      properties:
+        kind: {type: string}
+        id: {type: string}
+    SDog:
+      type: object
+      required: [kind, id]
+      properties:
+        kind: {type: string}
+        id: {type: string}

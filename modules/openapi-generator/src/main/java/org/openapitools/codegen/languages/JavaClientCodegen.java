@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1243,9 +1242,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (isLibrary(OKHTTP_GSON)) {
             // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
             // the okhttp-gson additionalProperties bag is declared once, on the topmost ancestor
-            // that has one; every descendant inherits it instead of declaring its own copy
+            // that has one; every descendant inherits it instead of declaring its own copy.
+            // A oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent, and has no
+            // bag, so nothing is inherited through it
             for (CodegenModel cm : getAllModels(objs).values()) {
                 for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
+                    if (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty()) {
+                        break;
+                    }
                     if (ancestor.isAdditionalPropertiesTrue) {
                         cm.vendorExtensions.put("x-inherits-additional-properties", true);
                         break;
@@ -1290,28 +1294,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                 for (CodegenProperty var : cm.vars) {
                     addNullableImports = isAddNullableImports(cm, addNullableImports, var);
-                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
-                        // treat enum string as just string
-                        var.datatypeWithEnum = var.dataType;
 
-                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
-                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
-                                if (defaultValue.equals(enumVars.getEnumName())) {
-                                    // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.getEnumValue();
-                                }
-                            }
-                        }
-
-                        // add import for Set, HashSet
-                        cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<>();
-                        importsSet.put("import", "java.util.Set");
-                        imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<>();
-                        importsHashSet.put("import", "java.util.HashSet");
-                        imports.add(importsHashSet);
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get(X_ENUM_AS_STRING))) {
+                        handleEnumAsString(var, cm, imports);
                     }
 
                 }

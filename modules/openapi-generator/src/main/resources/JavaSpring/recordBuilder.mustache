@@ -1,0 +1,74 @@
+/**
+   * Builder of {{classname}}. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
+   */
+  public static class Builder {
+{{#vars}}
+
+    private {{#openApiNullable}}{{#isNullable}}JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>{{/isNullable}}{{^isNullable}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/isNullable}}{{/openApiNullable}}{{^openApiNullable}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/openApiNullable}} {{name}};
+{{/vars}}
+{{#additionalPropertiesType}}
+
+    private Map<String, {{{.}}}> additionalProperties;
+{{/additionalPropertiesType}}
+
+    public Builder() {
+    }
+
+    protected Builder copyOf({{classname}} value) {
+{{#vars}}
+      this.{{name}} = value.{{name}}();
+{{/vars}}
+{{#additionalPropertiesType}}
+      this.additionalProperties = value.additionalProperties() == null ? null : new LinkedHashMap<>(value.additionalProperties());
+{{/additionalPropertiesType}}
+      return this;
+    }
+{{#vars}}
+
+    {{#deprecated}}
+    @Deprecated
+    {{/deprecated}}
+    public {{classname}}.Builder {{name}}({{>nullableArgument_builder}} {{name}}) {
+      this.{{name}} = {{#openApiNullable}}{{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}}{{/openApiNullable}}{{^openApiNullable}}{{name}}{{/openApiNullable}};
+      return this;
+    }
+    {{#openApiNullable}}
+    {{#isNullable}}
+
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
+      this.{{name}} = {{name}};
+      return this;
+    }
+    {{/isNullable}}
+    {{/openApiNullable}}
+{{/vars}}
+{{#additionalPropertiesType}}
+
+    public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {
+      this.additionalProperties = additionalProperties;
+      return this;
+    }
+{{/additionalPropertiesType}}
+
+    /**
+     * Returns a new {{classname}} from the values set so far; the builder stays usable.
+     */
+    public {{classname}} build() {
+      return new {{classname}}({{#vars}}this.{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}this.additionalProperties{{/additionalPropertiesType}});
+    }
+  }
+
+  /**
+   * Create a builder with no initialized component (the constructor applies the initial values).
+   */
+  public static {{classname}}.Builder builder() {
+    return new {{classname}}.Builder();
+  }
+
+  /**
+   * Create a builder holding every component of this record.
+   */
+  public {{classname}}.Builder toBuilder() {
+    return new {{classname}}.Builder().copyOf(this);
+  }

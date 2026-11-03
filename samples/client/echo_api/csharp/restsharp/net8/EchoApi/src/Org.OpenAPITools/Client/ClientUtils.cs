@@ -206,8 +206,7 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Select the Accept header's value from the given accepts array:
-        /// if JSON exists in the given array, use it;
-        /// otherwise use all of them (joining into a string)
+        /// all of them, JSON types first (joining into a string)
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
@@ -216,10 +215,7 @@ namespace Org.OpenAPITools.Client
             if (accepts.Length == 0)
                 return null;
 
-            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
-                return "application/json";
-
-            return string.Join(",", accepts);
+            return string.Join(",", accepts.OrderBy(accept => IsJsonMime(accept) ? 0 : 1));
         }
 
         /// <summary>

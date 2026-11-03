@@ -22,6 +22,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ElixirClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -29,12 +30,41 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ElixirClientCodegenTest {
+
+    @DataProvider
+    public Object[][] pathParameterLibraries() {
+        return new Object[][]{{"tesla"}, {"req"}};
+    }
+
+    @Test(dataProvider = "pathParameterLibraries")
+    public void testGeneratedPathParametersAreEncoded(String library) throws Exception {
+        File output = Files.createTempDirectory("elixir-" + library + "-path-params").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary(library)
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            String generatedApi = Files.readString(output.toPath().resolve("lib/petstore/api/pet.ex"), StandardCharsets.UTF_8);
+            Assert.assertTrue(generatedApi.contains("|> url(\"/pet/#{encode_path_param(pet_id)}\")"));
+            String generatedRequestBuilder = Files.readString(output.toPath().resolve("lib/petstore/request_builder.ex"), StandardCharsets.UTF_8);
+            Assert.assertTrue(generatedRequestBuilder.contains("def encode_path_param(value) do"));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
 
     @Test
     public void testDefaultLibraryAndDependencies() {
@@ -58,6 +88,44 @@ public class ElixirClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get("isReq"), Boolean.TRUE);
         Assert.assertTrue(((List<?>) codegen.additionalProperties().get("deps"))
                 .contains("{:req, \"~> 0.6.0 or ~> 0.7.3\"}"));
+    }
+
+    @Test
+    public void testCustomTemplateDirectoryFallsBackToEmbeddedTemplates() throws Exception {
+        File output = Files.createTempDirectory("elixir-req-custom-templates").toFile();
+        try {
+            Path templates = Files.createDirectory(output.toPath().resolve("templates"));
+            String marker = "# generated from the custom template directory";
+            String modelTemplate = Files.readString(Path.of("src/main/resources/elixir/model.mustache"), StandardCharsets.UTF_8)
+                    .replace("{{>licenseInfo}}\n", "{{>licenseInfo}}\n" + marker + "\n");
+            Files.writeString(templates.resolve("model.mustache"), modelTemplate, StandardCharsets.UTF_8);
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary("req")
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setTemplateDir(templates.toString())
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.toPath().resolve("generated").toString());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Assert.assertEquals(input.getConfig().embeddedTemplateDir(), "elixir");
+            Assert.assertEquals(input.getConfig().templateDir(), templates.toString());
+            Path generated = output.toPath().resolve("generated");
+            Path model = generated.resolve("lib/petstore/model/pet.ex");
+            Assert.assertTrue(Files.exists(model));
+            Assert.assertTrue(Files.readString(model, StandardCharsets.UTF_8).contains(marker));
+            Path api = generated.resolve("lib/petstore/api/pet.ex");
+            Assert.assertTrue(Files.exists(api));
+            Assert.assertFalse(Files.readString(api, StandardCharsets.UTF_8).contains(marker));
+            Path readme = generated.resolve("README.md");
+            Assert.assertTrue(Files.exists(readme));
+            Assert.assertFalse(Files.readString(readme, StandardCharsets.UTF_8).contains(marker));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
     }
 
     @Test
@@ -115,6 +183,47 @@ public class ElixirClientCodegenTest {
                     .reduce((first, second) -> second)
                     .orElse("");
             Assert.assertEquals(deleteOrderDoc, "  - `" + deleteOrderSuccessTypes + "` on success");
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
+    public void testRequestBuilderKeepsClausesOfEachFunctionTogether() throws Exception {
+        File output = Files.createTempDirectory("elixir-codegen").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            Path requestBuilder;
+            try (Stream<Path> paths = Files.walk(output.toPath())) {
+                requestBuilder = paths
+                        .filter(path -> path.getFileName().toString().equals("request_builder.ex"))
+                        .findFirst()
+                        .orElseThrow();
+            }
+
+            // Elixir warns "clauses with the same name and arity should be grouped together"
+            // when another definition sits between two clauses of a function
+            List<String> functionNames = Files.readAllLines(requestBuilder, StandardCharsets.UTF_8).stream()
+                    .filter(line -> line.matches("^  defp? [a-z_?!]+.*"))
+                    .map(line -> line.trim().split("[ (,]")[1])
+                    .collect(Collectors.toList());
+            Set<String> finished = new HashSet<>();
+            for (int i = 1; i < functionNames.size(); i++) {
+                String previous = functionNames.get(i - 1);
+                String current = functionNames.get(i);
+                if (!current.equals(previous)) {
+                    finished.add(previous);
+                    Assert.assertFalse(finished.contains(current),
+                            current + " has clauses on both sides of another function in request_builder.ex");
+                }
+            }
         } finally {
             FileUtils.deleteDirectory(output);
         }

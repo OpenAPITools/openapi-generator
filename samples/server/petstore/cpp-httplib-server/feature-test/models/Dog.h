@@ -31,9 +31,29 @@ public:
     void setBarkVolume(const int& barkVolume);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Dog,
-         breed, barkVolume)
+    friend inline void to_json(nlohmann::json& j, const Dog& o)
+    {
+        // Serialize inherited properties via the parent's serializer
+        to_json(j, static_cast<const Animal&>(o));
+        j["breed"] = o.breed;
+        j["barkVolume"] = o.barkVolume;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, Dog& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "Dog must be a JSON object", &j);
+        }
+        // Deserialize inherited properties via the parent's deserializer
+        from_json(j, static_cast<Animal&>(o));
+        j.at("breed").get_to(o.breed);
+        if (j.contains("barkVolume"))
+        {
+            j.at("barkVolume").get_to(o.barkVolume);
+        }
+    }
+
 
 private:
     std::string breed;

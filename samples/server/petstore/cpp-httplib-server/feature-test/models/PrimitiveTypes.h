@@ -47,9 +47,65 @@ public:
     void setPasswordField(const std::string& passwordField);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(PrimitiveTypes,
-         stringField, intField, longField, floatField, doubleField, boolField, byteField, binaryField, dateField, dateTimeField, passwordField)
+    friend inline void to_json(nlohmann::json& j, const PrimitiveTypes& o)
+    {
+        j = nlohmann::json::object();
+        j["stringField"] = o.stringField;
+        j["intField"] = o.intField;
+        j["longField"] = o.longField;
+        j["floatField"] = o.floatField;
+        j["doubleField"] = o.doubleField;
+        j["boolField"] = o.boolField;
+        j["byteField"] = o.byteField;
+        j["binaryField"] = o.binaryField;
+        j["dateField"] = o.dateField;
+        j["dateTimeField"] = o.dateTimeField;
+        j["passwordField"] = o.passwordField;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, PrimitiveTypes& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "PrimitiveTypes must be a JSON object", &j);
+        }
+        j.at("stringField").get_to(o.stringField);
+        j.at("intField").get_to(o.intField);
+        if (j.contains("longField"))
+        {
+            j.at("longField").get_to(o.longField);
+        }
+        if (j.contains("floatField"))
+        {
+            j.at("floatField").get_to(o.floatField);
+        }
+        if (j.contains("doubleField"))
+        {
+            j.at("doubleField").get_to(o.doubleField);
+        }
+        j.at("boolField").get_to(o.boolField);
+        if (j.contains("byteField"))
+        {
+            j.at("byteField").get_to(o.byteField);
+        }
+        if (j.contains("binaryField"))
+        {
+            j.at("binaryField").get_to(o.binaryField);
+        }
+        if (j.contains("dateField"))
+        {
+            j.at("dateField").get_to(o.dateField);
+        }
+        if (j.contains("dateTimeField"))
+        {
+            j.at("dateTimeField").get_to(o.dateTimeField);
+        }
+        if (j.contains("passwordField"))
+        {
+            j.at("passwordField").get_to(o.passwordField);
+        }
+    }
+
 
 private:
     std::string stringField;

@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'
+      - '.github/workflows/samples-julia.yaml'
   pull_request:
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'
+      - '.github/workflows/samples-julia.yaml'
 
 jobs:
   tests-julia:
@@ -24,19 +26,26 @@ jobs:
         shell: bash
         working-directory: 'samples'
         run: |
-          currdir=`pwd`
+          currdir=$(pwd)
           # The julia-client/julia-server generators target the OpenAPI.jl 0.2.x series,
           #   maintained on the release-0.2 branch; OpenAPI.jl main hosts the 1.x rewrite
           #   with a different API. Testing against release-0.2 covers the latest 0.2.x fixes.
+          # Clone the exact branch we want instead of resolving from the registry, which can
+          # pick up stale or mismatched package metadata.
+          rm -rf ~/.julia/dev/OpenAPI
+          git clone --branch release-0.2 --depth 1 https://github.com/JuliaComputing/OpenAPI.jl.git ~/.julia/dev/OpenAPI
+          
           # Using develop mode to install package so that it is easier to modify the package test files
-          julia -e "using Pkg; Pkg.develop(\"OpenAPI\");"
+          julia -e 'using Pkg; Pkg.develop(path=joinpath(homedir(), ".julia", "dev", "OpenAPI")); Pkg.instantiate()'
+
           cd ~/.julia/dev/OpenAPI
-          git checkout release-0.2
-          cd $currdir
+          cd "$currdir"
+
           rm -rf ~/.julia/dev/OpenAPI/test/client/openapigenerator_petstore_v3/petstore
           rm -rf ~/.julia/dev/OpenAPI/test/server/openapigenerator_petstore_v3/petstore
           cp -r client/petstore/julia ~/.julia/dev/OpenAPI/test/client/openapigenerator_petstore_v3/petstore
           cp -r server/petstore/julia ~/.julia/dev/OpenAPI/test/server/openapigenerator_petstore_v3/petstore
+
           # setting this env runs only the tests relevant to the openapi-generator repo
           export OPENAPI_GENERATOR=true
-          julia -e "using Pkg; Pkg.test(\"OpenAPI\");"
+          julia -e 'using Pkg; Pkg.test("OpenAPI")'

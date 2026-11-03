@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  description: Generic container types as oneOf/anyOf members in the native client
+    (see issues 22249 and 22304)
+  title: oneOf/anyOf with array and map members
+  version: 1.0.0
+servers:
+- url: http://localhost
+paths:
+  /projects:
+    post:
+      operationId: postProjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectsRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Projects"
+          description: OK
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /numbers:
+    get:
+      operationId: getNumbers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Numbers"
+          description: OK
+      x-accepts:
+      - application/json
+  /tags:
+    get:
+      operationId: getTags
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsOrLabel"
+          description: OK
+      x-accepts:
+      - application/json
+  /pets:
+    get:
+      operationId: getPets
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PetOrPets"
+          description: OK
+      x-accepts:
+      - application/json
+  /counts:
+    get:
+      operationId: getCounts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountsOrName"
+          description: OK
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    ProjectsRequest:
+      example:
+        projects:
+        - ProjectsRequest_projects
+        - ProjectsRequest_projects
+      properties:
+        projects:
+          $ref: "#/components/schemas/ProjectsRequest_projects"
+      type: object
+    Projects:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - format: uuid
+        type: string
+    Numbers:
+      oneOf:
+      - items:
+          type: number
+        type: array
+      - items:
+          type: integer
+        type: array
+    TagsOrLabel:
+      anyOf:
+      - items:
+          type: string
+        type: array
+      - type: integer
+    Pet:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
+    PetOrPets:
+      oneOf:
+      - $ref: "#/components/schemas/Pet"
+      - items:
+          $ref: "#/components/schemas/Pet"
+        type: array
+    CountsOrName:
+      oneOf:
+      - additionalProperties:
+          type: integer
+        type: object
+      - type: string
+    ProjectsRequest_projects:
+      description: "A list of projects, or \"*\" for all projects."
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - enum:
+        - '*'
+        type: string
+

@@ -1381,8 +1381,8 @@ components:
         password: password
         phone: phone
         userStatus: 6
-        objectWithNoDeclaredProps: "{}"
-        objectWithNoDeclaredPropsNullable: "{}"
+        objectWithNoDeclaredProps: {}
+        objectWithNoDeclaredPropsNullable: {}
         anyTypeProp: ""
         anyTypePropNullable: ""
       properties:

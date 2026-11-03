@@ -28,14 +28,12 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
- *
- * @param bepa 
- * @param cepa 
- * @param depa 
- * @param epa 
- * @param fepa 
- * @param gepa 
+ * @param bepa
+ * @param cepa
+ * @param depa
+ * @param epa
+ * @param fepa
+ * @param gepa
  */
 
 

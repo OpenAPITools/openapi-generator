@@ -454,11 +454,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
     }

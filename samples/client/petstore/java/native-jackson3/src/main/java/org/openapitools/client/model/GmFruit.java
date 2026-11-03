@@ -53,7 +53,7 @@ import tools.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
@@ -130,12 +130,12 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public GmFruit(Banana o) {
-        super("anyOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

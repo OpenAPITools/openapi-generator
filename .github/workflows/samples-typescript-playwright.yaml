@@ -1,0 +1,63 @@
+name: Samples TypeScript Playwright Client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/typescript-playwright/**
+      - .github/workflows/samples-typescript-playwright.yaml
+  pull_request:
+    paths:
+      - samples/client/petstore/typescript-playwright/**
+      - .github/workflows/samples-typescript-playwright.yaml
+jobs:
+  build:
+    name: Build TypeScript Playwright client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18.x"
+          - "20.x"
+          - "22.x"
+        sample:
+          - samples/client/petstore/typescript-playwright/
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run echo server
+        # The generated tests issue real HTTP requests and assert on the response
+        # status. Point them at wing328's echo server (which answers 200 to any
+        # request) so the Playwright client is exercised at runtime, deterministically.
+        run: |
+          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
+          cd http-echo-server
+          git checkout 15a684c41d4de692878636f47fcc1670af309a0f
+          npm install
+          # Background only the server itself; it keeps running for later steps.
+          npm start &
+          # Wait until it is actually listening before moving on, so the test
+          # step never races server startup.
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://localhost:3000 >/dev/null; then
+              echo "Echo server is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Echo server did not become ready" >&2
+          exit 1
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: Type-check generated client and tests
+        working-directory: ${{ matrix.sample }}
+        run: npm run typecheck
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        env:
+          BASE_URL: http://localhost:3000
+        run: npm test

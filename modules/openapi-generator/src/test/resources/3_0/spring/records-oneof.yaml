@@ -1,0 +1,461 @@
+openapi: 3.0.3
+info:
+  title: Records as oneOf members
+  description: Models for the spring generator option useRecords with oneOf interfaces
+  version: 1.0.0
+paths:
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - name: filter
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Bound'
+      responses:
+        '200':
+          description: The matching pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    PetAgain:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Bird'
+      discriminator:
+        propertyName: petType
+    Tagged:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Fish'
+      discriminator:
+        propertyName: species
+    Domestic:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Hamster'
+    Cat:
+      type: object
+      required:
+        - petType
+        - species
+        - name
+      properties:
+        petType:
+          type: string
+        species:
+          type: string
+        name:
+          type: string
+          minLength: 2
+        lives:
+          type: integer
+          default: 9
+    Dog:
+      type: object
+      required:
+        - name
+        - petType
+      properties:
+        name:
+          type: string
+        petType:
+          type: string
+    Bird:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+    Fish:
+      type: object
+      required:
+        - species
+      properties:
+        species:
+          type: string
+    Hamster:
+      type: object
+      properties:
+        wheel:
+          type: boolean
+    Kind:
+      oneOf:
+        - $ref: '#/components/schemas/Alpha'
+        - $ref: '#/components/schemas/Beta'
+      discriminator:
+        propertyName: kind
+    Alpha:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+    Beta:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        weight:
+          type: integer
+    ShapeType:
+      type: string
+      enum:
+        - circ
+        - sq
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: shapeType
+        mapping:
+          circ: '#/components/schemas/Circle'
+          sq: '#/components/schemas/Square'
+    Circle:
+      type: object
+      required:
+        - shapeType
+      properties:
+        shapeType:
+          $ref: '#/components/schemas/ShapeType'
+        radius:
+          type: number
+    Square:
+      type: object
+      required:
+        - shapeType
+      properties:
+        shapeType:
+          $ref: '#/components/schemas/ShapeType'
+        side:
+          type: number
+    FruitType:
+      type: string
+      enum:
+        - APPLE
+        - BANANA
+    Fruit:
+      type: object
+      properties:
+        fruitType:
+          $ref: '#/components/schemas/FruitType'
+      required:
+        - fruitType
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+    Apple:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+    Banana:
+      type: object
+      properties:
+        length:
+          type: integer
+    Toy:
+      oneOf:
+        - $ref: '#/components/schemas/Ball'
+        - $ref: '#/components/schemas/Rope'
+    Ball:
+      type: object
+      required:
+        - radius
+      properties:
+        radius:
+          type: number
+    Rope:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
+    Lost:
+      oneOf:
+        - $ref: '#/components/schemas/LostA'
+        - $ref: '#/components/schemas/LostB'
+      discriminator:
+        propertyName: lostType
+    LostA:
+      type: object
+      properties:
+        lostType:
+          type: string
+    LostB:
+      type: object
+      properties:
+        other:
+          type: string
+    Vehicle:
+      oneOf:
+        - $ref: '#/components/schemas/Van'
+        - $ref: '#/components/schemas/Truck'
+        - $ref: '#/components/schemas/Moped'
+      discriminator:
+        propertyName: vkind
+        mapping:
+          van: '#/components/schemas/Van'
+          truck: '#/components/schemas/Truck'
+          moped: '#/components/schemas/Moped'
+    VehicleBase:
+      type: object
+      required:
+        - vkind
+      discriminator:
+        propertyName: vkind
+      properties:
+        vkind:
+          type: string
+        plate:
+          type: string
+    Truck:
+      allOf:
+        - $ref: '#/components/schemas/VehicleBase'
+        - type: object
+          properties:
+            payload:
+              type: integer
+    Van:
+      type: object
+      required:
+        - vkind
+      properties:
+        vkind:
+          type: string
+        doors:
+          type: integer
+          default: 4
+    Moped:
+      type: object
+      required:
+        - vkind
+      properties:
+        vkind:
+          type: string
+        cc:
+          type: integer
+    Mixed:
+      oneOf:
+        - $ref: '#/components/schemas/Blob'
+        - $ref: '#/components/schemas/Reserved'
+        - $ref: '#/components/schemas/Bound'
+        - $ref: '#/components/schemas/Named'
+        - $ref: '#/components/schemas/Fine'
+    Blob:
+      type: object
+      properties:
+        data:
+          type: string
+          format: byte
+    Reserved:
+      type: object
+      properties:
+        hashCode:
+          type: integer
+    Bound:
+      type: object
+      properties:
+        text:
+          type: string
+    Named:
+      type: object
+      properties:
+        builder:
+          type: string
+    Fine:
+      type: object
+      properties:
+        text:
+          type: string
+    Upper:
+      oneOf:
+        - $ref: '#/components/schemas/UpperA'
+        - $ref: '#/components/schemas/UpperB'
+      discriminator:
+        propertyName: TYPE
+        mapping:
+          a: '#/components/schemas/UpperA'
+          b: '#/components/schemas/UpperB'
+    UpperA:
+      type: object
+      required:
+        - TYPE
+      properties:
+        TYPE:
+          type: string
+    UpperB:
+      type: object
+      required:
+        - TYPE
+      properties:
+        TYPE:
+          type: string
+        v:
+          type: string
+    Nullish:
+      oneOf:
+        - $ref: '#/components/schemas/NullishA'
+        - $ref: '#/components/schemas/NullishB'
+      discriminator:
+        propertyName: kn
+        mapping:
+          a: '#/components/schemas/NullishA'
+          b: '#/components/schemas/NullishB'
+    NullishA:
+      type: object
+      required:
+        - kn
+      properties:
+        kn:
+          type: string
+          nullable: true
+    NullishB:
+      type: object
+      required:
+        - kn
+      properties:
+        kn:
+          type: string
+          nullable: true
+        v:
+          type: string
+    Optional:
+      oneOf:
+        - $ref: '#/components/schemas/OptionalA'
+        - $ref: '#/components/schemas/OptionalB'
+      discriminator:
+        propertyName: ko
+    OptionalA:
+      type: object
+      properties:
+        ko:
+          type: string
+          default: a
+    OptionalB:
+      type: object
+      properties:
+        ko:
+          type: string
+    ClashDash:
+      oneOf:
+        - $ref: '#/components/schemas/Both'
+        - $ref: '#/components/schemas/DashOnly'
+      discriminator:
+        propertyName: pet-type
+    ClashUnder:
+      oneOf:
+        - $ref: '#/components/schemas/Both'
+        - $ref: '#/components/schemas/UnderOnly'
+      discriminator:
+        propertyName: pet_type
+    Both:
+      type: object
+      properties:
+        pet-type:
+          type: string
+        pet_type:
+          type: string
+    DashOnly:
+      type: object
+      properties:
+        pet-type:
+          type: string
+    UnderOnly:
+      type: object
+      properties:
+        pet_type:
+          type: string
+    Getty:
+      oneOf:
+        - $ref: '#/components/schemas/GettyA'
+        - $ref: '#/components/schemas/GettyB'
+      discriminator:
+        propertyName: getKind
+    GettyA:
+      type: object
+      required:
+        - getKind
+      properties:
+        getKind:
+          type: string
+    GettyB:
+      type: object
+      required:
+        - getKind
+      properties:
+        getKind:
+          type: string
+        v:
+          type: string
+    Isy:
+      oneOf:
+        - $ref: '#/components/schemas/IsyA'
+        - $ref: '#/components/schemas/IsyB'
+      discriminator:
+        propertyName: isKind
+    IsyA:
+      type: object
+      required:
+        - isKind
+      properties:
+        isKind:
+          type: string
+    IsyB:
+      type: object
+      required:
+        - isKind
+      properties:
+        isKind:
+          type: string
+        v:
+          type: string
+    Gett:
+      oneOf:
+        - $ref: '#/components/schemas/GettA'
+        - $ref: '#/components/schemas/GettB'
+      discriminator:
+        propertyName: get
+    GettA:
+      type: object
+      required:
+        - get
+      properties:
+        get:
+          type: string
+    GettB:
+      type: object
+      required:
+        - get
+      properties:
+        get:
+          type: string
+        v:
+          type: string
