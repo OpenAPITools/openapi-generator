@@ -1749,8 +1749,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultParameterValue(final Schema<?> schema) {
-        Object defaultValue = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema).getDefault() : schema.getDefault();
+        Schema<?> referencedSchema = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema) : schema;
+        Object defaultValue = schema.getDefault() != null ? schema.getDefault() : referencedSchema.getDefault();
         if (defaultValue == null) {
+            return null;
+        }
+        if (isNullNode(defaultValue)) {
             return null;
         }
         if (defaultValue instanceof Date) {
