@@ -35,7 +35,7 @@ public interface DogsApiDelegate {
      *         or Bad Request (status code 400)
      * @see DogsApi#createDog
      */
-    default ResponseEntity<Dog> createDog(Dog dog) {
+    default @Valid ResponseEntity<Dog> createDog(Dog dog) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

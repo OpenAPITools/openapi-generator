@@ -47,7 +47,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsAutoDetectedWithSort(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsAutoDetectedWithSort(
          @Valid @RequestParam(value = "status", required = false) @Nullable String status,
          @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
          @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
@@ -67,7 +67,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_NON_PAGINATED_WITH_SORT_ENUM,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsNonPaginatedWithSortEnum(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsNonPaginatedWithSortEnum(
          @Valid @RequestParam(value = "sort", required = false) @Nullable String sort
     );
 
@@ -83,7 +83,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_ALL_DEFAULTS,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithAllDefaults(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithAllDefaults(
         @PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({@SortDefault(sort = {"name"}, direction = Sort.Direction.DESC), @SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)})  final Pageable pageable
     );
 
@@ -99,7 +99,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithArraySortEnum(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithArraySortEnum(
         @ValidSort(allowedValues = {"id,asc", "id,desc", "name,asc", "name,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
@@ -115,7 +115,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_REF_ENUM,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithArraySortRefEnum(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithArraySortRefEnum(
         @ValidSort(allowedValues = {"id,asc", "id,desc", "createdAt,asc", "createdAt,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
@@ -131,7 +131,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithDefaultFromAllOfRef(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithDefaultFromAllOfRef(
          final Pageable pageable
     );
 
@@ -147,7 +147,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithExternalParamRefArraySort(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithExternalParamRefArraySort(
         @ValidSort(allowedValues = {"name,asc", "name,desc", "id,asc", "id,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
@@ -163,7 +163,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithMinSizeConstraintFromAllOfRef(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithMinSizeConstraintFromAllOfRef(
         @ValidPageable(minSize = 5)  final Pageable pageable
     );
 
@@ -179,7 +179,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithMixedSortDefaults(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithMixedSortDefaults(
         @SortDefault.SortDefaults({@SortDefault(sort = {"name"}, direction = Sort.Direction.DESC), @SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)})  final Pageable pageable
     );
 
@@ -195,7 +195,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_NON_EXPLODED_EXTERNAL_PARAM_REF_ARRAY_SORT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithNonExplodedExternalParamRefArraySort(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithNonExplodedExternalParamRefArraySort(
         @ValidSort(allowedValues = {"name,asc", "name,desc", "id,asc", "id,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
@@ -211,7 +211,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithPageAndSizeConstraint(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithPageAndSizeConstraint(
         @ValidPageable(maxSize = 50, maxPage = 999)  final Pageable pageable
     );
 
@@ -227,7 +227,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithPageSizeDefaultsOnly(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithPageSizeDefaultsOnly(
         @PageableDefault(page = 0, size = 25)  final Pageable pageable
     );
 
@@ -243,7 +243,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_REF_SORT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithRefSort(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithRefSort(
         @ValidSort(allowedValues = {"id,asc", "id,desc", "createdAt,asc", "createdAt,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 
@@ -259,7 +259,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithSizeConstraint(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithSizeConstraint(
         @ValidPageable(maxSize = 100)  final Pageable pageable
     );
 
@@ -275,7 +275,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithSizeConstraintFromAllOfRef(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithSizeConstraintFromAllOfRef(
         @ValidPageable(maxSize = 75)  final Pageable pageable
     );
 
@@ -291,7 +291,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_SORT_DEFAULT_ASC,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithSortDefaultAsc(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithSortDefaultAsc(
         @SortDefault.SortDefaults({@SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)})  final Pageable pageable
     );
 
@@ -307,7 +307,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_SORT_DEFAULT_ONLY,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithSortDefaultOnly(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithSortDefaultOnly(
         @SortDefault.SortDefaults({@SortDefault(sort = {"name"}, direction = Sort.Direction.DESC)})  final Pageable pageable
     );
 
@@ -324,7 +324,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITH_SORT_ENUM,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithSortEnum(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithSortEnum(
          @Valid @RequestParam(value = "status", required = false) @Nullable String status,
         @ValidSort(allowedValues = {"id,asc", "id,desc", "name,asc", "name,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
@@ -341,7 +341,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_WITHOUT_SORT_ENUM,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPetsWithoutSortEnum(
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithoutSortEnum(
         @PageableDefault(page = 0, size = 20)  final Pageable pageable
     );
 

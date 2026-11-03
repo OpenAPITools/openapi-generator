@@ -81,7 +81,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_BIG_DECIMAL_MAP,
         produces = { "*/*" }
     )
-    default ResponseEntity<FakeBigDecimalMap200ResponseDto> fakeBigDecimalMap(
+    default @Valid ResponseEntity<FakeBigDecimalMap200ResponseDto> fakeBigDecimalMap(
         
     ) {
         getRequest().ifPresent(request -> {
@@ -119,7 +119,7 @@ public interface FakeApi {
         value = FakeApi.PATH_FAKE_HEALTH_GET,
         produces = { "application/json" }
     )
-    default ResponseEntity<HealthCheckResultDto> fakeHealthGet(
+    default @Valid ResponseEntity<HealthCheckResultDto> fakeHealthGet(
         
     ) {
         getRequest().ifPresent(request -> {
@@ -195,7 +195,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    default @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -227,7 +227,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<OuterCompositeDto> fakeOuterCompositeSerialize(
+    default @Valid ResponseEntity<OuterCompositeDto> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterCompositeDto", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterCompositeDto outerCompositeDto
     ) {
         getRequest().ifPresent(request -> {
@@ -268,7 +268,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    default @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -300,7 +300,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<String> fakeOuterStringSerialize(
+    default @Valid ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -332,7 +332,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<OuterObjectWithEnumPropertyDto> fakePropertyEnumIntegerSerialize(
+    default @Valid ResponseEntity<OuterObjectWithEnumPropertyDto> fakePropertyEnumIntegerSerialize(
         @Parameter(name = "OuterObjectWithEnumPropertyDto", description = "Input enum (int) as post body", required = true) @NotNull @Valid @RequestBody OuterObjectWithEnumPropertyDto outerObjectWithEnumPropertyDto
     ) {
         getRequest().ifPresent(request -> {
@@ -491,7 +491,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<ClientDto> testClientModel(
+    default @Valid ResponseEntity<ClientDto> testClientModel(
         @Parameter(name = "ClientDto", description = "client model", required = true) @NotNull @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {
@@ -881,7 +881,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
+    default @Valid ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

@@ -63,7 +63,7 @@ public interface AccountsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Account> addAccount(
+    default @Valid ResponseEntity<Account> addAccount(
         @Parameter(name = "Account", description = "", required = true) @Valid @RequestBody Account account
     ) {
         getRequest().ifPresent(request -> {

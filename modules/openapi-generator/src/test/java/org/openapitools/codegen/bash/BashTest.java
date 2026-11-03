@@ -22,10 +22,17 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.BashClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @SuppressWarnings("static-method")
 public class BashTest {
@@ -157,5 +164,24 @@ public class BashTest {
         Assert.assertEquals(codegen.escapeReservedWord("case"), "_case");
     }
 
+    @Test(description = "test that a body read from stdin keeps the exit status of cURL")
+    public void bodyFromStdinKeepsCurlExitStatusTest() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
 
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("bash")
+                .setInputSpec("src/test/resources/2_0/petstore-bash.json")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // the temporary file must be removed without losing the status of cURL
+        TestUtils.assertFileContains(Paths.get(output + "/client.sh"),
+                "-d @-\"\n"
+                        + "        fi\n"
+                        + "        local curl_exit_code=$?\n"
+                        + "        rm \"${body_content_temp_file}\"\n"
+                        + "        return \"$curl_exit_code\"");
+    }
 }
