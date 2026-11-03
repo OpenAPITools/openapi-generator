@@ -69,6 +69,31 @@ class TestHttpx2Transport(unittest.IsolatedAsyncioTestCase):
         finally:
             await rest.close()
 
+    async def test_client_timeout_applies_without_request_timeout(self):
+        requests = []
+
+        def handle(request):
+            requests.append(request)
+            return httpx2.Response(200)
+
+        rest = RESTClientObject(Configuration())
+        rest.pool_manager = httpx2.AsyncClient(
+            transport=httpx2.MockTransport(handle), timeout=httpx2.Timeout(7, connect=3),
+        )
+        try:
+            await rest.request("GET", "https://example.test/pet")
+            self.assertEqual(requests[-1].extensions["timeout"]["connect"], 3)
+            self.assertEqual(requests[-1].extensions["timeout"]["read"], 7)
+        finally:
+            await rest.close()
+
+    async def test_default_client_timeout(self):
+        pool = RESTClientObject(Configuration())._create_pool_manager()
+        try:
+            self.assertEqual(pool.timeout, httpx2.Timeout(5 * 60))
+        finally:
+            await pool.aclose()
+
     async def test_proxy_and_tls_configuration(self):
         config = Configuration()
         config.proxy = "http://localhost:8080"
