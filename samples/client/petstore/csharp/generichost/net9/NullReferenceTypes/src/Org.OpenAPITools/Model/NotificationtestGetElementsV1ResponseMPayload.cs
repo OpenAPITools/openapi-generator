@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NotificationtestGetElementsV1ResponseMPayload
     /// </summary>
-    public partial class NotificationtestGetElementsV1ResponseMPayload : IValidatableObject
+    public partial class NotificationtestGetElementsV1ResponseMPayload : IEquatable<NotificationtestGetElementsV1ResponseMPayload?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class.
@@ -77,6 +77,43 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as NotificationtestGetElementsV1ResponseMPayload).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if NotificationtestGetElementsV1ResponseMPayload instances are equal
+        /// </summary>
+        /// <param name="input">Instance of NotificationtestGetElementsV1ResponseMPayload to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(NotificationtestGetElementsV1ResponseMPayload? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
+                hashCode = (hashCode * 59) + PkiNotificationtestID.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

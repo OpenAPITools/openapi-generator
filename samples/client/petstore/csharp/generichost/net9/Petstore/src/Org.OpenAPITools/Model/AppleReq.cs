@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// AppleReq
     /// </summary>
-    public partial class AppleReq : IValidatableObject
+    public partial class AppleReq : IEquatable<AppleReq>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleReq" /> class.
@@ -75,6 +75,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Mealy: ").Append(Mealy).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as AppleReq).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if AppleReq instances are equal
+        /// </summary>
+        /// <param name="input">Instance of AppleReq to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(AppleReq input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+                if (Mealy != null)
+                    hashCode = (hashCode * 59) + Mealy.GetHashCode();
+
+
+                return hashCode;
+            }
         }
 
         /// <summary>
