@@ -471,6 +471,37 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileNotContains(output.toPath().resolve("lib/src/model/pet.dart"), "Optional<");
     }
 
+    /**
+     * Path parameters must be URI-encoded as path components: the query_param helpers pass
+     * strings through unchanged, so a value containing '/' or spaces would otherwise break
+     * the request path.
+     */
+    @Test
+    public void testPathParamsAreUriEncoded() throws IOException {
+        for (Object[] libraryOption : serializationLibraries()) {
+            String serializationLibrary = (String) libraryOption[0];
+            File output = Files.createTempDirectory("test").toFile();
+            output.deleteOnExit();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("dart-dio")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                    .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+
+            ClientOptInput opts = configurator.toClientOptInput();
+            Generator generator = new DefaultGenerator().opts(opts);
+            List<File> files = generator.generate();
+            files.forEach(File::deleteOnExit);
+
+            Path petApi = output.toPath().resolve("lib/src/api/pet_api.dart");
+            String content = Files.readString(petApi, StandardCharsets.UTF_8);
+            Assert.assertTrue(content.contains(".replaceAll("), content);
+            Assert.assertTrue(content.contains("Uri.encodeComponent("),
+                    "path parameter should be URI-encoded in " + serializationLibrary + ": " + content);
+        }
+    }
+
     private Path generateFormParamsClient(String serializationLibrary) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
