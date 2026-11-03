@@ -1272,7 +1272,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     || openAPI.getComponents().getSchemas() == null) {
                 continue;
             }
-            Schema schema = openAPI.getComponents().getSchemas().get(union.name);
+            Schema schema = openAPI.getComponents().getSchemas().get(union.schemaName);
             if (schema == null || schema.getProperties() != null && !schema.getProperties().isEmpty()
                     || schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
                 continue;

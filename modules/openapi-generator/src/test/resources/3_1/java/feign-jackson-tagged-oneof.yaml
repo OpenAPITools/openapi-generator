@@ -60,3 +60,10 @@ components:
             enum: [file, folder]
         name:
           type: string
+    class:
+      x-class-extra-annotation: '@Deprecated'
+      x-implements:
+        - java.io.Serializable
+      oneOf:
+        - $ref: '#/components/schemas/File'
+        - $ref: '#/components/schemas/Folder'

@@ -5964,7 +5964,9 @@ public class JavaClientCodegenTest {
                         "org.openapitools.client.model.Folder.class, name = \"folder\"");
         assertThat(java.resolve("model/OpenMetadata.java")).content()
                 .contains("defaultImpl = org.openapitools.client.model.Other.class");
-        assertThat(java.resolve("model/File.java")).content().contains("implements Metadata, OpenMetadata");
+        assertThat(java.resolve("model/File.java")).content().contains("implements Metadata", "ModelClass", "OpenMetadata");
+        assertThat(java.resolve("model/ModelClass.java")).content()
+                .contains("JsonTypeInfo", "@Deprecated", "interface ModelClass extends java.io.Serializable");
     }
 
 }

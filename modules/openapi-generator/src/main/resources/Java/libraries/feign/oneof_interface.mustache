@@ -7,9 +7,12 @@
   @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = {{{modelPackage}}}.{{model}}.class, name = "{{{value}}}"){{^-last}},{{/-last}}
 {{/vendorExtensions.x-feign-tag-mappings}}
 })
-public interface {{classname}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
   {{^vendorExtensions.x-feign-tag-default}}
-  final class InvalidVariant implements {{classname}} {
+  abstract class InvalidVariant implements {{classname}} {
     @com.fasterxml.jackson.annotation.JsonCreator
     public InvalidVariant() {
       throw new IllegalArgumentException("Unknown or missing oneOf discriminator for {{classname}}");
