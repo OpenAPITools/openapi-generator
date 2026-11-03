@@ -444,6 +444,31 @@ public class RubyNextgenClientCodegenTest {
     }
 
     @Test
+    public void testZeitwerkLoaderWhenModuleNameDiffersFromGemName() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/acronym.yaml")
+                        .setOutputDir(target.toString())
+                        // camelized gemName would be ThingsApi, but the namespace is Things:
+                        // Zeitwerk::Loader.for_gem would target ThingsApi and autoload nothing
+                        .addAdditionalProperty("gemName", "things_api")
+                        .addAdditionalProperty("moduleName", "Things")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        // the explicit loader targets the moduleName namespace regardless of gemName
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/things_api.rb"),
+                "Zeitwerk::Loader.new",
+                "@loader.push_dir(\"#{__dir__}/things_api\", namespace: self)");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(
+                target.resolve("lib/things_api.rb"), "Zeitwerk::Loader.for_gem");
+    }
+
+    @Test
     public void testNestedResourcesAreReachableFromClient() throws Exception {
         java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
         target.toFile().deleteOnExit();

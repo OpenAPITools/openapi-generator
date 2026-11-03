@@ -21,10 +21,9 @@ module {{moduleName}}
     attr_reader :loader
   end
 
-{{#moduleNameNested}}
-  # Nested moduleName: for_gem can't target a nested namespace, so drive Zeitwerk
-  # explicitly. The parent module(s) above are pre-defined so `module {{moduleName}}`
-  # (here and in every generated file) reopens rather than raising NameError.
+  # for_gem derives the namespace from gemName, which need not match moduleName (and
+  # can't target a nested one), so drive Zeitwerk explicitly. Any parent module(s) above
+  # are pre-defined so `module {{moduleName}}` reopens rather than raising NameError.
   @loader = Zeitwerk::Loader.new
   @loader.push_dir("#{__dir__}/{{gemName}}", namespace: self)
   # version.rb defines VERSION (not a `Version` class). for_gem's GemInflector special-cases
@@ -32,10 +31,6 @@ module {{moduleName}}
   # {{moduleName}}::VERSION available.
   @loader.ignore("#{__dir__}/{{gemName}}/version.rb")
   require_relative "{{gemName}}/version"
-{{/moduleNameNested}}
-{{^moduleNameNested}}
-  @loader = Zeitwerk::Loader.for_gem
-{{/moduleNameNested}}
 {{#zeitwerkInflections.0}}
   # Model names keep their acronym casing (e.g. HTTPConfig), but Zeitwerk's default
   # inflector would expect HttpConfig from the file name. Register the exceptions so
