@@ -474,7 +474,8 @@ public class DartDioClientCodegenTest {
     /**
      * Path parameters must be URI-encoded as path components: the query_param helpers pass
      * strings through unchanged, so a value containing '/' or spaces would otherwise break
-     * the request path.
+     * the request path. Every path substitution must therefore go through
+     * Uri.encodeComponent.
      */
     @Test
     public void testPathParamsAreUriEncoded() throws IOException {
@@ -494,11 +495,20 @@ public class DartDioClientCodegenTest {
             List<File> files = generator.generate();
             files.forEach(File::deleteOnExit);
 
-            Path petApi = output.toPath().resolve("lib/src/api/pet_api.dart");
-            String content = Files.readString(petApi, StandardCharsets.UTF_8);
-            Assert.assertTrue(content.contains(".replaceAll("), content);
-            Assert.assertTrue(content.contains("Uri.encodeComponent("),
-                    "path parameter should be URI-encoded in " + serializationLibrary + ": " + content);
+            // check every generated api class, not just one
+            Path apiDir = output.toPath().resolve("lib/src/api");
+            try (var apiFiles = Files.list(apiDir)) {
+                for (Path apiFile : apiFiles.filter(p -> p.getFileName().toString().endsWith("_api.dart"))
+                        .collect(java.util.stream.Collectors.toList())) {
+                    String content = Files.readString(apiFile, StandardCharsets.UTF_8);
+                    int substitutions = content.split("\\.replaceAll\\(", -1).length - 1;
+                    Assert.assertTrue(substitutions > 0,
+                            "expected path substitutions in " + apiFile + ": " + content);
+                    int encodings = content.split("Uri\\.encodeComponent\\(", -1).length - 1;
+                    Assert.assertEquals(encodings, substitutions,
+                            "every path substitution in " + apiFile + " must be URI-encoded: " + content);
+                }
+            }
         }
     }
 
