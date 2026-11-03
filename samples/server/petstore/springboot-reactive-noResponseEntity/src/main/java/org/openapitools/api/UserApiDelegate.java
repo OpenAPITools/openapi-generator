@@ -103,7 +103,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default Mono<User> getUserByName(String username) {
+    default @Valid Mono<User> getUserByName(String username) {
         Mono<Void> result = Mono.empty();
 
 
@@ -121,7 +121,7 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default Mono<String> loginUser(String username,
+    default @Valid Mono<String> loginUser(String username,
         String password) {
         Mono<Void> result = Mono.empty();
 

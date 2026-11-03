@@ -74,7 +74,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
+    @Valid Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
          @Valid @RequestBody(required = false) Mono<Boolean> body
     );
 
@@ -93,7 +93,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
+    @Valid Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
          @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite
     );
 
@@ -112,7 +112,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
+    @Valid Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
          @Valid @RequestBody(required = false) Mono<BigDecimal> body
     );
 
@@ -131,7 +131,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<String>> fakeOuterStringSerialize(
+    @Valid Mono<ResponseEntity<String>> fakeOuterStringSerialize(
          @Valid @RequestBody(required = false) Mono<String> body
     );
 
@@ -148,7 +148,7 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         accept = { "application/json" }
     )
-    Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
+    @Valid Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
          @PathVariable("petId") Long petId
     );
 
@@ -206,7 +206,7 @@ public interface FakeApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<Client>> testClientModel(
+    @Valid Mono<ResponseEntity<Client>> testClientModel(
          @Valid @RequestBody Mono<Client> client
     );
 
@@ -414,7 +414,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         accept = { "application/json" }
     )
-    Mono<ResponseEntity<Integer>> testWithResultExample(
+    @Valid Mono<ResponseEntity<Integer>> testWithResultExample(
         
     );
 
@@ -435,7 +435,7 @@ public interface FakeApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
+    @Valid Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) Part requiredFile,
          @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata

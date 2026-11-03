@@ -75,7 +75,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    default ResponseEntity<Pet> addPet(
+    default @Valid ResponseEntity<Pet> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
@@ -161,7 +161,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
-    default ResponseEntity<List<Pet>> findPetsByStatus(
+    default @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         getRequest().ifPresent(request -> {
@@ -216,7 +216,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    default ResponseEntity<List<Pet>> findPetsByTags(
+    default @Valid ResponseEntity<List<@Valid Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         getRequest().ifPresent(request -> {
@@ -270,7 +270,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    default ResponseEntity<Pet> getPetById(
+    default @Valid ResponseEntity<Pet> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
@@ -330,7 +330,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    default ResponseEntity<Pet> updatePet(
+    default @Valid ResponseEntity<Pet> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
@@ -419,7 +419,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    default ResponseEntity<ModelApiResponse> uploadFile(
+    default @Valid ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file

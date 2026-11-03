@@ -61,7 +61,7 @@ public interface FooApi {
         value = FooApi.PATH_FOO_GET,
         produces = { "application/json" }
     )
-    default ResponseEntity<FooGetDefaultResponseDto> fooGet(
+    default @Valid ResponseEntity<FooGetDefaultResponseDto> fooGet(
         
     ) {
         getRequest().ifPresent(request -> {

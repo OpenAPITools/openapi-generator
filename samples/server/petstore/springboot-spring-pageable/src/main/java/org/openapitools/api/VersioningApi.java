@@ -68,7 +68,7 @@ public interface VersioningApi {
         produces = { "*/*" },
         headers = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
-    default ResponseEntity<ModelApiResponse> versioningHeaders(
+    default @Valid ResponseEntity<ModelApiResponse> versioningHeaders(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
@@ -114,7 +114,7 @@ public interface VersioningApi {
         headers = { "VersionWithDefaultValueHeader=V1", "VersionNoDefaultValueHeader" } ,
         params = { "VersionWithDefaultValueQuery=V1", "VersionNoDefaultValueQuery" } 
     )
-    default ResponseEntity<ModelApiResponse> versioningMix(
+    default @Valid ResponseEntity<ModelApiResponse> versioningMix(
         @NotNull @Parameter(name = "VersionWithDefaultValueQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionWithDefaultValueQuery", required = true, defaultValue = "V1") String versionWithDefaultValueQuery,
         @NotNull @Parameter(name = "VersionNoDefaultValueQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionNoDefaultValueQuery", required = true) String versionNoDefaultValueQuery,
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
@@ -157,7 +157,7 @@ public interface VersioningApi {
         produces = { "*/*" },
         params = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
-    default ResponseEntity<ModelApiResponse> versioningQueryParams(
+    default @Valid ResponseEntity<ModelApiResponse> versioningQueryParams(
         @NotNull @Parameter(name = "VersionWithDefaultValue", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
         @NotNull @Parameter(name = "VersionNoDefaultValue", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
