@@ -140,7 +140,6 @@ public class ApiClient {
 
   protected ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL);
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

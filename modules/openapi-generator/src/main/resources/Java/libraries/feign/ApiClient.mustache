@@ -67,7 +67,7 @@ public class ApiClient {
     private final ApiClient client;
 
     public JsonHeaderParamExpander() {
-      this(new ApiClient());
+      throw new IllegalStateException("JSON header expander requires a configured ApiClient contract");
     }
 
     private JsonHeaderParamExpander(ApiClient client) {
@@ -77,7 +77,10 @@ public class ApiClient {
     @Override
     public String expand(Object value) {
       try {
-        return client.objectMapper.writer()
+        if (value instanceof JsonHeaderIterable) value = ((JsonHeaderIterable) value).value;
+        return client.objectMapper.copy()
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .writer()
             .with(com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII)
             .writeValueAsString(value);
       } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
@@ -85,6 +88,53 @@ public class ApiClient {
       }
     }
   }
+
+  private static final class JsonHeaderIterable {
+    private final Object value;
+    private JsonHeaderIterable(Object value) { this.value = value; }
+  }
+
+  {{#hasFeignJsonHeaderArrays}}
+  private static final class JsonHeaderInvocationHandler implements java.lang.reflect.InvocationHandler {
+    private final Object target;
+    private final java.lang.reflect.InvocationHandler delegate;
+
+    private JsonHeaderInvocationHandler(Object target) {
+      this.target = target;
+      this.delegate = java.lang.reflect.Proxy.getInvocationHandler(target);
+    }
+
+    @Override
+    public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
+      if (method.getDeclaringClass() == Object.class && method.getName().equals("equals")) {
+        Object other = args[0];
+        if (other == proxy) return true;
+        if (other != null && java.lang.reflect.Proxy.isProxyClass(other.getClass())) {
+          java.lang.reflect.InvocationHandler otherHandler = java.lang.reflect.Proxy.getInvocationHandler(other);
+          if (otherHandler instanceof JsonHeaderInvocationHandler) {
+            return delegate.equals(((JsonHeaderInvocationHandler) otherHandler).delegate);
+          }
+        }
+        return false;
+      }
+      if (args != null) {
+        args = args.clone();
+        java.lang.annotation.Annotation[][] annotations = method.getParameterAnnotations();
+        for (int i = 0; i < args.length; i++) {
+          if (!(args[i] instanceof Iterable)) continue;
+          for (java.lang.annotation.Annotation annotation : annotations[i]) {
+            if (annotation instanceof feign.Param
+                && ((feign.Param) annotation).expander() == JsonHeaderParamExpander.class) {
+              args[i] = new JsonHeaderIterable(args[i]);
+              break;
+            }
+          }
+        }
+      }
+      return delegate.invoke(target, method, args);
+    }
+  }
+  {{/hasFeignJsonHeaderArrays}}
 
   private feign.Contract jsonHeaderContract() {
     feign.Contract delegate = new feign.Contract.Default();
@@ -238,13 +288,15 @@ public class ApiClient {
 
   public ApiClient setFeignBuilder(Feign.Builder feignBuilder) {
     this.feignBuilder = feignBuilder;
+    {{#hasFeignJsonHeader}}
+    this.feignBuilder.contract(jsonHeaderContract());
+    {{/hasFeignJsonHeader}}
     return this;
   }
 
   {{#jackson}}
   protected ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL);
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     {{#failOnUnknownProperties}}
@@ -306,7 +358,14 @@ public class ApiClient {
    * @return The Client
    */
   public <T extends Api> T buildClient(Class<T> clientClass) {
+    {{#hasFeignJsonHeaderArrays}}
+    T target = feignBuilder.target(clientClass, basePath);
+    return clientClass.cast(java.lang.reflect.Proxy.newProxyInstance(clientClass.getClassLoader(),
+        new Class<?>[] { clientClass }, new JsonHeaderInvocationHandler(target)));
+    {{/hasFeignJsonHeaderArrays}}
+    {{^hasFeignJsonHeaderArrays}}
     return feignBuilder.target(clientClass, basePath);
+    {{/hasFeignJsonHeaderArrays}}
   }
 
   /**

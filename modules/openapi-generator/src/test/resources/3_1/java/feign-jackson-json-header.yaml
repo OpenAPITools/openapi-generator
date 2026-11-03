@@ -3,6 +3,22 @@ info:
   title: Feign JSON header
   version: 1.0.0
 paths:
+  /array:
+    get:
+      operationId: getArray
+      parameters:
+        - name: X-Json-Array
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '204':
+          description: Success
   /metadata:
     get:
       operationId: getMetadata
