@@ -17,13 +17,10 @@ part 'outer_composite.g.dart';
   explicitToJson: true,
 )
 class OuterComposite {
-  /// Returns a new [OuterComposite] instance.
+/// Returns a new [OuterComposite] instance.
   OuterComposite({
-
      this.myNumber,
-
      this.myString,
-
      this.myBoolean,
   });
 
@@ -67,6 +64,7 @@ class OuterComposite {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
+    runtimeType == other.runtimeType &&
       other.myNumber == myNumber &&
       other.myString == myString &&
       other.myBoolean == myBoolean;
