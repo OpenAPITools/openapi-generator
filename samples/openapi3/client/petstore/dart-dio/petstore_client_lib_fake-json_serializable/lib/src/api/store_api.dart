@@ -40,10 +40,7 @@ class StoreApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', Uri.encodeComponent(
-  orderId.toString(),
-)
-,);
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', Uri.encodeComponent(orderId.toString()),);
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -167,10 +164,7 @@ _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawD
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', Uri.encodeComponent(
-  orderId.toString(),
-)
-,);
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', Uri.encodeComponent(orderId.toString()),);
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{

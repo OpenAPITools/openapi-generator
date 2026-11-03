@@ -244,10 +244,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(
-  encodeQueryParameter(_serializers, username, const FullType(String)).toString(),
-)
-,);
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(encodeQueryParameter(_serializers, username, const FullType(String)).toString()),);
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -294,10 +291,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(
-  encodeQueryParameter(_serializers, username, const FullType(String)).toString(),
-)
-,);
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(encodeQueryParameter(_serializers, username, const FullType(String)).toString()),);
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -499,10 +493,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(
-  encodeQueryParameter(_serializers, username, const FullType(String)).toString(),
-)
-,);
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(encodeQueryParameter(_serializers, username, const FullType(String)).toString()),);
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
