@@ -1417,8 +1417,8 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
-    @Test(description = "The runtime typechecks under Node fetch types without the DOM lib")
-    public void testRuntimeUsesPlatformFetchTypes() throws IOException {
+    @Test(description = "Generated runtime.ts declares fetch types without DOM-only names")
+    public void testRuntimeDeclaresFetchTypesWithoutDomNames() throws IOException {
         Path spec = Files.createTempFile("typescript-fetch-node-fetch", ".json");
         spec.toFile().deleteOnExit();
         // Same minimal document as OpenAPITools/openapi-generator#25244.
