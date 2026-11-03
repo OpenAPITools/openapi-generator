@@ -31,8 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -170,6 +172,11 @@ public class AbstractPythonConnexionServerCodegenTest {
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties) throws IOException {
         return generateOutputDir(generatorName, additionalProperties,
                 "src/test/resources/3_0/python/connexion-param-sources.yaml");
+    }
+
+    private static Path generateOutputDir(String generatorName, String specPath,
+                                          Map<String, Object> additionalProperties) throws IOException {
+        return generateOutputDir(generatorName, additionalProperties, specPath);
     }
 
     private static Path generateOutputDir(String generatorName, Map<String, Object> additionalProperties,
@@ -683,6 +690,103 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "a parameter named 'request' must not collide with the aiohttp request context passed via pass_context_arg_name")
+    public void testAiohttpConnexionContextArgNameAvoidsParameterNamedRequest() throws IOException {
+        // a query parameter named "request" renames the context argument to request_context
+        Path aiohttpDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-param-name.yaml", Collections.emptyMap());
+        Path aiohttpController = aiohttpDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path aiohttpInit = aiohttpDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        Path aiohttpConftest = aiohttpDir.resolve(Paths.get("tests", "conftest.py"));
+        assertFileExists(aiohttpController);
+        assertFileExists(aiohttpInit);
+        assertFileExists(aiohttpConftest);
+        assertFileContains(
+                aiohttpController,
+                "async def list_things(request_context: web.Request, request=None) -> web.Response:",
+                "x_trace = request_context.headers.get('X-Trace')");
+        assertFileNotContains(aiohttpController, "request: web.Request, request");
+        assertFileContains(aiohttpInit, "pass_context_arg_name='request_context'");
+        assertFileContains(aiohttpConftest, "pass_context_arg_name='request_context'");
+
+        // the alternative name gets numbered when it collides with a parameter too
+        Path collisionDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-context-param-name.yaml", Collections.emptyMap());
+        Path collisionController = collisionDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path collisionInit = collisionDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(collisionController);
+        assertFileExists(collisionInit);
+        assertFileContains(
+                collisionController,
+                "async def list_things(request_context2: web.Request, request=None, request_context=None) -> web.Response:",
+                "x_trace = request_context2.headers.get('X-Trace')");
+        assertFileNotContains(collisionController, "request_context: web.Request");
+        assertFileContains(collisionInit, "pass_context_arg_name='request_context2'");
+
+        // without a 'request' parameter the context argument keeps its default name
+        Path defaultDir = generateOutputDir("python-aiohttp", Collections.emptyMap());
+        Path defaultInit = defaultDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        Path defaultConftest = defaultDir.resolve(Paths.get("tests", "conftest.py"));
+        Path defaultController = defaultDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(defaultInit);
+        assertFileExists(defaultConftest);
+        assertFileExists(defaultController);
+        assertFileContains(defaultInit, "pass_context_arg_name='request'");
+        assertFileContains(defaultConftest, "pass_context_arg_name='request'");
+        assertFileNotContains(defaultInit, "request_context");
+        assertFileContains(
+                defaultController,
+                "async def create_item(request: web.Request, filter_param, body, date_list=None, model_map=None) -> web.Response:",
+                "x_req_header = request.headers.get('X-Req-Header')");
+    }
+
+    @Test(description = "the aiohttp request context argument must not collide with names produced by duplicate-parameter renumbering or form fields inside composed schemas")
+    public void testAiohttpConnexionContextArgNameAvoidsRenumberedAndComposedFormNames() throws IOException {
+        // duplicate parameters are renumbered (request_context -> request_context2),
+        // so the context argument is numbered past them
+        Path duplicateDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-context-duplicate-param-name.yaml", Collections.emptyMap());
+        Path duplicateController = duplicateDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path duplicateInit = duplicateDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(duplicateController);
+        assertFileExists(duplicateInit);
+        assertFileContains(
+                duplicateController,
+                "async def list_things(request_context3: web.Request, request_context2, request=None, request_context=None) -> web.Response:");
+        assertFileNotContains(duplicateController, "request_context2: web.Request");
+        assertFileContains(duplicateInit, "pass_context_arg_name='request_context3'");
+
+        // a form field declared inside an allOf schema becomes a handler argument too
+        Path formDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_0/python/request-form-allof-param-name.yaml", Collections.emptyMap());
+        Path formController = formDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+        Path formInit = formDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(formController);
+        assertFileExists(formInit);
+        assertFileContains(
+                formController,
+                "async def create_thing(request_context: web.Request, request=None) -> web.Response:");
+        assertFileNotContains(formController, "request: web.Request, request");
+        assertFileContains(formInit, "pass_context_arg_name='request_context'");
+    }
+
+    @Test(description = "the aiohttp request context argument must not collide with a webhook parameter named 'request'")
+    public void testAiohttpConnexionContextArgNameAvoidsWebhookParameterNamedRequest() throws IOException {
+        // webhooks render through controller.mustache like regular operations, so a
+        // webhook parameter named "request" renames the context argument too
+        Path webhookDir = generateOutputDir("python-aiohttp",
+                "src/test/resources/3_1/python/webhook-request-param-name.yaml", Collections.emptyMap());
+        Path webhookController = webhookDir.resolve(Paths.get("openapi_server", "controllers", "hooks_controller.py"));
+        Path webhookInit = webhookDir.resolve(Paths.get("openapi_server", "__init__.py"));
+        assertFileExists(webhookController);
+        assertFileExists(webhookInit);
+        assertFileContains(
+                webhookController,
+                "async def on_new_thing(request_context: web.Request, request=None) -> web.Response:");
+        assertFileNotContains(webhookController, "request: web.Request, request");
+        assertFileContains(webhookInit, "pass_context_arg_name='request_context'");
+    }
+
     @Test(description = "header parameters defined with content+$ref should use dataType when baseType is null in python-aiohttp")
     public void testJsonHeaderContentParameterUsesDataTypeInAiohttpController() throws IOException {
         File aiohttpOutput = Files.createTempDirectory("test-aiohttp").toFile().getCanonicalFile();
@@ -842,6 +946,173 @@ public class AbstractPythonConnexionServerCodegenTest {
     }
 
     /**
+     * Generates one output directory per connexion server variant the
+     * JSON-content parameter tests cover, keyed by a variant label. A
+     * {@code +<option>} suffix in the label selects an additional property;
+     * the generator name is the label without the suffix.
+     */
+    private static Map<String, Path> generateConnexionVariants(String specPath) throws IOException {
+        Map<String, Map<String, Object>> variants = new LinkedHashMap<>();
+        variants.put("python-flask", Collections.emptyMap());
+        variants.put("python-flask+useConnexion3", ImmutableMap.of("useConnexion3", "true"));
+        variants.put("python-aiohttp", Collections.emptyMap());
+        variants.put("python-blueplanet", Collections.emptyMap());
+
+        Map<String, Path> outputs = new LinkedHashMap<>();
+        for (Map.Entry<String, Map<String, Object>> variant : variants.entrySet()) {
+            String generatorName = variant.getKey().replace("+useConnexion3", "");
+            outputs.put(variant.getKey(),
+                    generateOutputDir(generatorName, variant.getValue(), specPath));
+        }
+        return outputs;
+    }
+
+    private static boolean isBlueplanetVariant(String variantKey) {
+        return variantKey.startsWith("python-blueplanet");
+    }
+
+    /**
+     * The generated test stub for the default controller in each variant's
+     * output layout.
+     */
+    private static Path generatedTestPath(String variantKey, Path outputDir) {
+        if (isBlueplanetVariant(variantKey)) {
+            return outputDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"));
+        }
+        if (variantKey.startsWith("python-aiohttp")) {
+            return outputDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        }
+        return outputDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+    }
+
+    /**
+     * The generated controller for the default controller in each variant's
+     * output layout.
+     */
+    private static Path generatedControllerPath(String variantKey, Path outputDir) {
+        if (isBlueplanetVariant(variantKey)) {
+            return outputDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        }
+        return outputDir.resolve(Paths.get("openapi_server", "controllers", "default_controller.py"));
+    }
+
+    @Test(description = "header parameters declared with content (application/json) send a JSON string literal in generated tests instead of None")
+    public void testJsonContentHeaderParamsUseJsonLiteralInGeneratedTests() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            String variantKey = variant.getKey();
+            boolean blueplanet = isBlueplanetVariant(variantKey);
+            Path testFile = generatedTestPath(variantKey, variant.getValue());
+            assertFileExists(testFile);
+
+            // each variant carries the example in a different place of the media type;
+            // whatever the source, the generated test must send a JSON string literal
+            // (blueplanet renders headers as tuples, the others as dict entries)
+            String mediaExample = blueplanet
+                    ? "('X-Json-Media-Example', '{\"a\":1}')" : "'X-Json-Media-Example': '{\"a\":1}'";
+            assertFileContains(testFile,
+                    mediaExample,
+                    blueplanet ? "('X-Json-Examples', '{\"b\":2}')" : "'X-Json-Examples': '{\"b\":2}'",
+                    blueplanet ? "('X-Json-Ref-Example', '{\"e\":5}')" : "'X-Json-Ref-Example': '{\"e\":5}'",
+                    blueplanet ? "('X-Json-Schema-Example', '{\"c\":3}')" : "'X-Json-Schema-Example': '{\"c\":3}'",
+                    blueplanet ? "('X-Json-No-Example', '{}')" : "'X-Json-No-Example': '{}'");
+            String noneEntry = blueplanet
+                    ? "('X-Json-Media-Example', None)" : "'X-Json-Media-Example': None";
+            assertFileNotContains(testFile,
+                    noneEntry,
+                    blueplanet ? "('X-Json-Examples', None)" : "'X-Json-Examples': None",
+                    blueplanet ? "('X-Json-Schema-Example', None)" : "'X-Json-Schema-Example': None",
+                    blueplanet ? "('X-Json-No-Example', None)" : "'X-Json-No-Example': None");
+            // schema-based (non-content) headers keep the previous example behavior
+            assertFileContains(testFile,
+                    blueplanet ? "('X-Plain-Header', 'x_plain_header_example')"
+                            : "'X-Plain-Header': 'x_plain_header_example'");
+            // cookie parameters are sent too: aiohttp passes a cookies dict,
+            // flask and blueplanet fold them into a Cookie header value
+            if (variantKey.startsWith("python-aiohttp")) {
+                assertFileContains(testFile,
+                        "'X-Json-Inline-Cookie': '{}'",
+                        "'X-Json-Model-Cookie': '{\"c\":3}'",
+                        "'count': str(56)",
+                        "cookies=cookies");
+                assertFileContainsTrimmedLine(testFile, "'count': str(56) }");
+            } else {
+                assertFileContains(testFile,
+                        "'X-Json-Inline-Cookie=' + '{}'",
+                        "'X-Json-Model-Cookie=' + '{\"c\":3}'",
+                        "'count=' + str(56)");
+                // the complete closing line of the Cookie statement must
+                // balance every bracket: blueplanet emitted `])]`, leaving the
+                // ('Cookie', ...) tuple unclosed → SyntaxError in generated tests
+                assertFileContainsTrimmedLine(testFile, blueplanet
+                        ? "'count=' + str(56)]))]"
+                        : "'count=' + str(56)])");
+            }
+
+            // the cookie-only operation has no header list to extend, so the
+            // Cookie statement must still be complete on its own
+            String cookieOnly = generatedTestMethodBody(testFile, "test_get_cookie_only");
+            if (variantKey.startsWith("python-aiohttp")) {
+                assertThat(cookieOnly).contains(
+                        "'session_id': str('session_id_example')",
+                        "'visit_count': str(7)",
+                        "cookies=cookies");
+            } else {
+                assertThat(cookieOnly).contains(
+                        "'session_id=' + str('session_id_example')",
+                        "'visit_count=' + str(7)");
+                if (blueplanet) {
+                    assertThat(cookieOnly).contains("headers = []");
+                }
+            }
+            assertFileContainsTrimmedLine(testFile,
+                    blueplanet ? "'visit_count=' + str(7)]))]"
+                            : variantKey.startsWith("python-aiohttp") ? "'visit_count': str(7) }"
+                            : "'visit_count=' + str(7)])");
+        }
+    }
+
+    @Test(description = "generated tests for content (application/json) header params are valid Python syntax; kept in a separate test so a missing python3 toolchain skips only this check")
+    public void testJsonContentHeaderParamsGeneratedTestsCompile() throws IOException, InterruptedException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            Path testFile = generatedTestPath(variant.getKey(), variant.getValue());
+            assertFileExists(testFile);
+            assertPythonSyntaxValid(testFile);
+        }
+    }
+
+    @Test(description = "content (application/json) header/cookie params get X.from_dict() only for generated model classes; inline object schemas pass the json.loads result through")
+    public void testJsonContentHeaderParamsConvertOnlyGeneratedModels() throws IOException {
+        String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
+
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(specPath).entrySet()) {
+            Path controller = generatedControllerPath(variant.getKey(), variant.getValue());
+            assertFileExists(controller);
+
+            // JSON content params are still parsed from the raw string first
+            assertFileContains(controller,
+                    "x_json_media_example = json.loads(x_json_media_example)",
+                    "x_json_inline_cookie = json.loads(x_json_inline_cookie)");
+            // inline `type: object` schemas produce no model class, so the parsed
+            // dict is passed through instead of calling object.from_dict
+            assertFileNotContains(controller,
+                    "object.from_dict",
+                    "from_dict(x_json_media_example)",
+                    "from_dict(x_json_examples)",
+                    "from_dict(x_json_ref_example)",
+                    "from_dict(x_json_no_example)",
+                    "from_dict(x_json_inline_cookie)");
+            // $ref model headers/cookies keep the generated model conversion
+            assertFileContains(controller,
+                    "x_json_schema_example = HeaderWithExample.from_dict(x_json_schema_example)",
+                    "x_json_model_cookie = HeaderWithExample.from_dict(x_json_model_cookie)");
+        }
+    }
+
+    /**
      * Body of one generated test method: the text from {@code def <name>} up
      * to the next method definition, the {@code __main__} guard, or the end
      * of the file — so assertions can be scoped to a single operation rather
@@ -949,5 +1220,39 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "connexion[swagger-ui] <= 2.14.2; python_version>\"3.4\"",
                 "werkzeug == 0.16.1; python_version==\"3.5\" or python_version==\"3.4\"",
                 "swagger-ui-bundle >= 0.0.2");
+    }
+
+    /**
+     * Asserts the file contains a physical line equal to {@code expected}
+     * after trimming — a stronger check than substring containment, used to
+     * pin the exact closing brackets of the generated Cookie statement.
+     */
+    private static void assertFileContainsTrimmedLine(Path file, String expected) throws IOException {
+        List<String> trimmed = Files.readAllLines(file).stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+        assertThat(trimmed)
+                .as("generated file %s must contain the line: %s", file, expected)
+                .contains(expected);
+    }
+
+    /**
+     * Runs {@code python3 -m py_compile} on the generated file. Skips if
+     * {@code python3} is not available (optional toolchain).
+     */
+    private static void assertPythonSyntaxValid(Path pythonFile) throws IOException, InterruptedException {
+        ProcessBuilder pb = new ProcessBuilder("python3", "-m", "py_compile", pythonFile.toString());
+        pb.redirectErrorStream(true);
+        final Process p;
+        try {
+            p = pb.start();
+        } catch (IOException e) {
+            throw new SkipException("python3 not available on PATH, skipping syntax check: " + e.getMessage());
+        }
+        assertThat(p.waitFor(30, TimeUnit.SECONDS)).as("python3 -m py_compile timed out").isTrue();
+        String out = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+        assertThat(p.exitValue())
+                .as("python3 -m py_compile must accept generated test %s: %s", pythonFile, out)
+                .isEqualTo(0);
     }
 }
