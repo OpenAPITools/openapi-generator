@@ -134,7 +134,10 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
+        let entity: Option<AddPetError> = match status.as_u16() {
+            405 => Some(AddPetError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(AddPetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -167,7 +170,10 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
         Ok(())
     } else {
         let content = resp.text()?;
-        let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
+        let entity: Option<DeletePetError> = match status.as_u16() {
+            400 => Some(DeletePetError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(DeletePetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -218,7 +224,10 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByStatusError> = match status.as_u16() {
+            400 => Some(FindPetsByStatusError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByStatusError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -263,7 +272,10 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
+        let entity: Option<FindPetsByTagsError> = match status.as_u16() {
+            400 => Some(FindPetsByTagsError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(FindPetsByTagsError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -308,7 +320,11 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetPetByIdError> = match status.as_u16() {
+            400 => Some(GetPetByIdError::Status400()),
+            404 => Some(GetPetByIdError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetPetByIdError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -348,7 +364,10 @@ pub fn pets_explode_post(configuration: &configuration::Configuration, page_expl
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsExplodePostError> = match status.as_u16() {
+            400 => Some(PetsExplodePostError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsExplodePostError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -388,7 +407,10 @@ pub fn pets_post(configuration: &configuration::Configuration, page: Option<mode
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PetsPostError> = match status.as_u16() {
+            400 => Some(PetsPostError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PetsPostError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -429,7 +451,12 @@ pub fn update_pet(configuration: &configuration::Configuration, pet: models::Pet
         }
     } else {
         let content = resp.text()?;
-        let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdatePetError> = match status.as_u16() {
+            400 => Some(UpdatePetError::Status400()),
+            404 => Some(UpdatePetError::Status404()),
+            405 => Some(UpdatePetError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdatePetError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -468,7 +495,10 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         Ok(())
     } else {
         let content = resp.text()?;
-        let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdatePetWithFormError> = match status.as_u16() {
+            405 => Some(UpdatePetWithFormError::Status405()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdatePetWithFormError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -209,7 +209,11 @@ impl UserApi for UserApiClient {
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             Ok(())
         } else {
-            let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<DeleteUserError> = match local_var_status.as_u16() {
+                400 => Some(DeleteUserError::Status400()),
+                404 => Some(DeleteUserError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(DeleteUserError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -247,7 +251,11 @@ impl UserApi for UserApiClient {
                 ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::User`")))),
             }
         } else {
-            let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<GetUserByNameError> = match local_var_status.as_u16() {
+                400 => Some(GetUserByNameError::Status400()),
+                404 => Some(GetUserByNameError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(GetUserByNameError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -287,7 +295,10 @@ impl UserApi for UserApiClient {
                 ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `String`")))),
             }
         } else {
-            let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<LoginUserError> = match local_var_status.as_u16() {
+                400 => Some(LoginUserError::Status400()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(LoginUserError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -360,7 +371,11 @@ impl UserApi for UserApiClient {
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             Ok(())
         } else {
-            let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<UpdateUserError> = match local_var_status.as_u16() {
+                400 => Some(UpdateUserError::Status400()),
+                404 => Some(UpdateUserError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(UpdateUserError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }

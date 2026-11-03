@@ -75,11 +75,18 @@ pub async fn test_nullable_required_param(configuration: &configuration::Configu
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<TestNullableRequiredParamSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<TestNullableRequiredParamSuccess> = match status.as_u16() {
+            200 => Some(TestNullableRequiredParamSuccess::Status200()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestNullableRequiredParamSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&content).ok();
+        let entity: Option<TestNullableRequiredParamError> = match status.as_u16() {
+            400 => Some(TestNullableRequiredParamError::Status400()),
+            404 => Some(TestNullableRequiredParamError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(TestNullableRequiredParamError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

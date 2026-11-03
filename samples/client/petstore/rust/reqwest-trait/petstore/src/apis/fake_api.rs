@@ -74,7 +74,11 @@ impl FakeApi for FakeApiClient {
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
             Ok(())
         } else {
-            let local_var_entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<TestNullableRequiredParamError> = match local_var_status.as_u16() {
+                400 => Some(TestNullableRequiredParamError::Status400()),
+                404 => Some(TestNullableRequiredParamError::Status404()),
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map(TestNullableRequiredParamError::UnknownValue).ok());
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }

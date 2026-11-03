@@ -217,7 +217,11 @@ pub async fn delete_user(configuration: &configuration::Configuration, username:
         Ok(())
     } else {
         let content = resp.text().await?;
-        let entity: Option<DeleteUserError> = serde_json::from_str(&content).ok();
+        let entity: Option<DeleteUserError> = match status.as_u16() {
+            400 => Some(DeleteUserError::Status400()),
+            404 => Some(DeleteUserError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(DeleteUserError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -254,7 +258,11 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, user
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetUserByNameError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetUserByNameError> = match status.as_u16() {
+            400 => Some(GetUserByNameError::Status400()),
+            404 => Some(GetUserByNameError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetUserByNameError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -294,7 +302,10 @@ pub async fn login_user(configuration: &configuration::Configuration, username: 
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<LoginUserError> = serde_json::from_str(&content).ok();
+        let entity: Option<LoginUserError> = match status.as_u16() {
+            400 => Some(LoginUserError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(LoginUserError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -362,7 +373,11 @@ pub async fn update_user(configuration: &configuration::Configuration, username:
         Ok(())
     } else {
         let content = resp.text().await?;
-        let entity: Option<UpdateUserError> = serde_json::from_str(&content).ok();
+        let entity: Option<UpdateUserError> = match status.as_u16() {
+            400 => Some(UpdateUserError::Status400()),
+            404 => Some(UpdateUserError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(UpdateUserError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -72,7 +72,10 @@ pub async fn get_aggregate_data(configuration: &configuration::Configuration, st
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetAggregateDataError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetAggregateDataError> = match status.as_u16() {
+            400 => Some(GetAggregateDataError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetAggregateDataError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

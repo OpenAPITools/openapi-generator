@@ -523,12 +523,47 @@ impl {{classname}} for {{classname}}Client {
             {{/returnType}}
             {{/supportMultipleResponses}}
             {{#supportMultipleResponses}}
+            {{#vendorExtensions.x-rust-success-by-status}}
+            let local_var_entity: Option<{{{operationIdCamelCase}}}Success> = match local_var_status.as_u16() {
+                {{#responses}}
+                {{#is2xx}}
+                {{#isRange}}200..=299{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Success::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Success::Status{{code}}()){{/dataType}},
+                {{/is2xx}}
+                {{#is3xx}}
+                {{#isRange}}300..=399{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Success::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Success::Status{{code}}()){{/dataType}},
+                {{/is3xx}}
+                {{/responses}}
+                _ => None,
+            }.or_else(|| serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Success::UnknownValue).ok());
+            {{/vendorExtensions.x-rust-success-by-status}}
+            {{^vendorExtensions.x-rust-success-by-status}}
             let local_var_entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&local_var_content).ok();
+            {{/vendorExtensions.x-rust-success-by-status}}
             let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Ok(local_var_result)
             {{/supportMultipleResponses}}
         } else {
+            {{#vendorExtensions.x-rust-error-by-status}}
+            let local_var_entity: Option<{{{operationIdCamelCase}}}Error> = match local_var_status.as_u16() {
+                {{#responses}}
+                {{#is4xx}}
+                {{#isRange}}400..=499{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Error::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::Status{{code}}()){{/dataType}},
+                {{/is4xx}}
+                {{#is5xx}}
+                {{#isRange}}500..=599{{/isRange}}{{^isRange}}{{code}}{{/isRange}} => {{#dataType}}serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Error::Status{{code}}).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::Status{{code}}()){{/dataType}},
+                {{/is5xx}}
+                {{#isDefault}}
+                _ => {{#dataType}}serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Error::DefaultResponse).ok(){{/dataType}}{{^dataType}}Some({{{operationIdCamelCase}}}Error::DefaultResponse()){{/dataType}},
+                {{/isDefault}}
+                {{/responses}}
+                {{^hasDefaultResponse}}
+                _ => None,
+                {{/hasDefaultResponse}}
+            }.or_else(|| serde_json::from_str(&local_var_content).map({{{operationIdCamelCase}}}Error::UnknownValue).ok());
+            {{/vendorExtensions.x-rust-error-by-status}}
+            {{^vendorExtensions.x-rust-error-by-status}}
             let local_var_entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&local_var_content).ok();
+            {{/vendorExtensions.x-rust-error-by-status}}
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }

@@ -122,7 +122,11 @@ pub async fn delete_order(configuration: &configuration::Configuration, params: 
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<DeleteOrderError> = serde_json::from_str(&content).ok();
+        let entity: Option<DeleteOrderError> = match status.as_u16() {
+            400 => Some(DeleteOrderError::Status400()),
+            404 => Some(DeleteOrderError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(DeleteOrderError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -152,7 +156,10 @@ pub async fn get_inventory(configuration: &configuration::Configuration) -> Resu
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<GetInventorySuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<GetInventorySuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(GetInventorySuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetInventorySuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
@@ -178,11 +185,18 @@ pub async fn get_order_by_id(configuration: &configuration::Configuration, param
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<GetOrderByIdSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<GetOrderByIdSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(GetOrderByIdSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetOrderByIdSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetOrderByIdError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetOrderByIdError> = match status.as_u16() {
+            400 => Some(GetOrderByIdError::Status400()),
+            404 => Some(GetOrderByIdError::Status404()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(GetOrderByIdError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -205,11 +219,17 @@ pub async fn place_order(configuration: &configuration::Configuration, params: P
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text().await?;
-        let entity: Option<PlaceOrderSuccess> = serde_json::from_str(&content).ok();
+        let entity: Option<PlaceOrderSuccess> = match status.as_u16() {
+            200 => serde_json::from_str(&content).map(PlaceOrderSuccess::Status200).ok(),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PlaceOrderSuccess::UnknownValue).ok());
         Ok(ResponseContent { status, content, entity })
     } else {
         let content = resp.text().await?;
-        let entity: Option<PlaceOrderError> = serde_json::from_str(&content).ok();
+        let entity: Option<PlaceOrderError> = match status.as_u16() {
+            400 => Some(PlaceOrderError::Status400()),
+            _ => None,
+        }.or_else(|| serde_json::from_str(&content).map(PlaceOrderError::UnknownValue).ok());
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
