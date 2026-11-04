@@ -530,4 +530,24 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
     }
+
+    @Test
+    public void testReqwestPathParameterSpaceEncoding() throws IOException {
+        for (String library : new String[]{"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/reqwest-path-parameter-space-encoding.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/mod.rs");
+            TestUtils.assertFileExists(outputPath);
+            TestUtils.assertFileContains(outputPath, "percent_encoding::utf8_percent_encode(s.as_ref(), PATH_ENCODING_SET).to_string()");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/Cargo.toml"), "percent-encoding");
+        }
+    }
 }
