@@ -290,11 +290,14 @@ where
                                                 apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{#dataType}}
 {{^headers}}
-                                                    (body)
+                                                    ({{#isDefault}}status, {{/isDefault}}body)
 {{/headers}}
 {{#headers}}
 {{#-first}}
                                                     {
+{{#isDefault}}
+                                                        status,
+{{/isDefault}}
                                                         body,
 {{/-first}}
                                                         {{{name}}}{{^-last}},{{/-last}}
@@ -304,9 +307,17 @@ where
 {{/headers}}
 {{/dataType}}
 {{^dataType}}
+{{^headers}}
+{{#isDefault}}
+                                                    (status)
+{{/isDefault}}
+{{/headers}}
 {{#headers}}
 {{#-first}}
                                                     {
+{{#isDefault}}
+                                                        status,
+{{/isDefault}}
 {{/-first}}
                                                         {{{name}}}{{^-last}},{{/-last}}
 {{#-last}}
@@ -319,8 +330,14 @@ where
 {{#x-produces-sse}}
                 use axum::response::IntoResponse;
 
+{{#isDefault}}
+                let status = StatusCode::from_u16(status).map_err(|e| {
+                    error!(status, error = ?e);
+                    StatusCode::INTERNAL_SERVER_ERROR
+                })?;
+{{/isDefault}}
                 let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
-                parts.status = {{{code}}}.try_into().unwrap_or_default();
+                parts.status = {{#isDefault}}status{{/isDefault}}{{^isDefault}}{{{code}}}.try_into().unwrap_or_default(){{/isDefault}};
 
                 {{#headers}}
                 {{^required}}if let Some({{{name}}}) = {{{name}}}{{/required}} {
@@ -366,7 +383,16 @@ where
                                                   response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
 {{/range}}
 {{^range}}
+{{#isDefault}}
+                                                  let status = StatusCode::from_u16(status).map_err(|e| {
+                                                    error!(status, error = ?e);
+                                                    StatusCode::INTERNAL_SERVER_ERROR
+                                                  })?;
+                                                  let mut response = response.status(status);
+{{/isDefault}}
+{{^isDefault}}
                                                   let mut response = response.status({{{code}}});
+{{/isDefault}}
 {{/range}}
 {{#produces}}
 {{#-first}}
