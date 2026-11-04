@@ -50,13 +50,13 @@ import com.google.gson.annotations.SerializedName
 data class AnyOfUserOrPet (
 
     @SerializedName("username")
-    val username: kotlin.String,
+    val username: kotlin.String? = null,
 
     @SerializedName("name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>? = null,
 
     @SerializedName("id")
     val id: kotlin.Long? = null,
