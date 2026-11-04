@@ -1,5 +1,6 @@
 package org.openapitools.codegen.rust;
 
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -17,6 +18,36 @@ import java.util.regex.Pattern;
  * Tests for RustServerCodegen.
  */
 public class RustServerCodegenTest {
+
+    @Test
+    public void testRecursiveModelValidation() throws IOException {
+        Path target = Files.createTempDirectory("recursive-validation");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust-server")
+                    .setInputSpec("src/test/resources/3_0/rust-server/recursive-validation.yaml")
+                    .setGenerateAliasAsModel(true)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path modelsPath = target.resolve("src/models.rs");
+            TestUtils.assertFileContains(modelsPath,
+                    "validate(min_items = 1)",
+                    "validate(max_items = 2)",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    Vec<Positive>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    std::collections::HashMap<String, models::Positive>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    StringValue",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    swagger::OneOf2<models::Positive,models::Parent>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    swagger::AnyOf2<models::Positive,models::Positives>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    swagger::OneOf2<Positive,Parent>",
+                    "pub struct MixedChoice(\n    swagger::OneOf2<models::Positive,String>",
+                    "pub struct PrimitiveChoice(\n    swagger::AnyOf2<i32,String>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    pub children: Vec<models::Positive>",
+                    "#[cfg_attr(feature = \"validate\", validate)]\n    #[serde(skip_serializing_if=\"Option::is_none\")]\n    pub optional_children: Option<Vec<models::Positive>>");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
 
     /**
      * Test that integer parameters with minimum/maximum constraints are assigned appropriate Rust types.

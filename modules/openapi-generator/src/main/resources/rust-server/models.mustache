@@ -108,7 +108,8 @@ impl std::str::FromStr for {{{classname}}} {
 #[serde(rename = "{{{.}}}")]
 {{/xmlName}}
 pub struct {{{classname}}}(
-{{>validate}}    {{{dataType}}}
+{{>validate}}{{^hasConflictingModelNames}}{{#exts.x-needs-nested-validation}}    #[cfg_attr(feature = "validate", validate)]
+{{/exts.x-needs-nested-validation}}{{/hasConflictingModelNames}}    {{{dataType}}}
 );
 
 impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
@@ -250,7 +251,8 @@ pub struct {{{classname}}}(
     #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
 {{/x-item-xml-name}}
 {{/exts}}
-    Vec<{{{arrayModelType}}}>
+{{^hasConflictingModelNames}}{{>validate}}{{#exts.x-needs-nested-validation}}    #[cfg_attr(feature = "validate", validate)]
+{{/exts.x-needs-nested-validation}}{{/hasConflictingModelNames}}    Vec<{{{arrayModelType}}}>
 );
 
 impl std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
@@ -419,7 +421,7 @@ pub struct {{{classname}}} {
 {{^hasConflictingModelNames}}{{>validate}}{{/hasConflictingModelNames}}
 {{^hasConflictingModelNames}}
 {{#exts.x-needs-nested-validation}}
-    {{^minLength}}{{^maxLength}}{{^minItems}}{{^maxItems}}#[cfg_attr(feature = "validate", validate)]{{/maxItems}}{{/minItems}}{{/maxLength}}{{/minLength}}
+    #[cfg_attr(feature = "validate", validate)]
 {{/exts.x-needs-nested-validation}}
 {{/hasConflictingModelNames}}
     pub {{{name}}}: {{{dataType}}},
@@ -432,7 +434,7 @@ pub struct {{{classname}}} {
 {{^hasConflictingModelNames}}{{>validate}}{{/hasConflictingModelNames}}
 {{^hasConflictingModelNames}}
 {{#exts.x-needs-nested-validation}}
-    {{^minLength}}{{^maxLength}}{{^minItems}}{{^maxItems}}#[cfg_attr(feature = "validate", validate)]{{/maxItems}}{{/minItems}}{{/maxLength}}{{/minLength}}
+    #[cfg_attr(feature = "validate", validate)]
 {{/exts.x-needs-nested-validation}}
 {{/hasConflictingModelNames}}
     #[serde(skip_serializing_if="Option::is_none")]

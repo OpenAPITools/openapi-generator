@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info: {title: Recursive validation, version: 1.0.0}
+paths:
+  /parents/{name}:
+    get:
+      operationId: getParent
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema: {type: string, pattern: '^x+$'}
+      responses:
+        '200':
+          description: A parent
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Parent'}
+components:
+  schemas:
+    Positive:
+      type: object
+      required: [value]
+      properties:
+        value: {type: integer, minimum: 1}
+    Positives:
+      type: array
+      minItems: 1
+      maxItems: 2
+      items: {$ref: '#/components/schemas/Positive'}
+    Parent:
+      type: object
+      required: [children]
+      properties:
+        children: {$ref: '#/components/schemas/Positives'}
+    ModelChoice:
+      oneOf:
+        - $ref: '#/components/schemas/Positive'
+        - $ref: '#/components/schemas/Parent'
+    NamedModelChoice:
+      x-one-of-name: 'swagger::OneOf2<Positive,Parent>'
+      oneOf:
+        - $ref: '#/components/schemas/Positive'
+        - $ref: '#/components/schemas/Parent'
+    MixedChoice:
+      oneOf:
+        - $ref: '#/components/schemas/Positive'
+        - type: string
+    PrimitiveChoice:
+      anyOf:
+        - type: integer
+        - type: string
+    ModelAnyOf:
+      anyOf:
+        - $ref: '#/components/schemas/Positive'
+        - $ref: '#/components/schemas/Positives'
+    BoundedChildren:
+      type: object
+      required: [children]
+      properties:
+        children:
+          type: array
+          minItems: 1
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/Positive'
+        optionalChildren:
+          type: array
+          minItems: 1
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/Positive'
+    StringItems:
+      type: array
+      minItems: 1
+      maxItems: 2
+      items: {type: string}
+    PositiveMap:
+      type: object
+      additionalProperties: {$ref: '#/components/schemas/Positive'}
+    StringValue:
+      type: string
+      minLength: 1
+    StringAlias:
+      $ref: '#/components/schemas/StringValue'
+    NullableChildren:
+      type: object
+      required: [children]
+      properties:
+        children:
+          type: array
+          nullable: true
+          minItems: 1
+          maxItems: 2
+          items: {$ref: '#/components/schemas/Positive'}
+        optionalChildren:
+          type: array
+          nullable: true
+          minItems: 1
+          maxItems: 2
+          items: {$ref: '#/components/schemas/Positive'}
+    NullableStringItems:
+      type: array
+      nullable: true
+      minItems: 1
+      maxItems: 2
+      items: {type: string}
