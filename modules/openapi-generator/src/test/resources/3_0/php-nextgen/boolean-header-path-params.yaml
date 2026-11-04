@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Boolean header and path parameters
+  version: 1.0.0
+paths:
+  /flags/{flags}/{flag}:
+    get:
+      operationId: getFlags
+      parameters:
+        - name: flags
+          in: path
+          required: true
+          schema:
+            type: array
+            items:
+              type: boolean
+        - name: flag
+          in: path
+          required: true
+          schema:
+            type: boolean
+        - name: X-Flags
+          in: header
+          schema:
+            type: array
+            items:
+              type: boolean
+        - name: X-Flag
+          in: header
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: No content

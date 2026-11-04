@@ -151,11 +151,11 @@ class ObjectSerializer
      * Take value and turn it into a string suitable for inclusion in
      * the path, by url-encoding.
      *
-     * @param string $value a string which will be part of the path
+     * @param string|bool $value a string which will be part of the path
      *
      * @return string the serialized object
      */
-    public static function toPathValue(string $value): string
+    public static function toPathValue(string|bool $value): string
     {
         return rawurlencode(self::toString($value));
     }
@@ -360,11 +360,11 @@ class ObjectSerializer
      * the header. If it's a string, pass through unchanged
      * If it's a datetime object, format it in ISO8601
      *
-     * @param string $value a string which will be part of the header
+     * @param string|bool $value a string which will be part of the header
      *
      * @return string the header string
      */
-    public static function toHeaderValue(string $value): string
+    public static function toHeaderValue(string|bool $value): string
     {
         $callable = [$value, 'toHeaderValue'];
         if (is_callable($callable)) {
@@ -407,6 +407,13 @@ class ObjectSerializer
      */
     public static function serializeCollection(array $collection, string $style, bool $allowCollectionFormatMulti = false): string
     {
+        // implode() and http_build_query() would turn booleans into "1"/"" and 1/0
+        array_walk_recursive($collection, static function (mixed &$value): void {
+            if (is_bool($value)) {
+                $value = self::toString($value);
+            }
+        });
+
         if ($allowCollectionFormatMulti && ('multi' === $style)) {
             // http_build_query() almost does the job for us. We just
             // need to fix the result of multidimensional arrays.
