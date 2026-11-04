@@ -387,6 +387,26 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
+     * Shared inline ENUM column type.
+     */
+    private void putEnumType(CodegenProperty property, Map<String, Object> columnDefinition) {
+        List<Object> enumValues = getEnumValues(property.getAllowableValues());
+        List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
+        for (int i = 0; i < enumValues.size(); i++) {
+            if (i > ENUM_MAX_ELEMENTS - 1) {
+                LOGGER.warn(
+                        "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                        ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
+                break;
+            }
+            String value = String.valueOf(enumValues.get(i));
+            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
+        }
+        columnDefinition.put("colDataType", "ENUM");
+        columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
+    }
+
+    /**
      * Processes each model's property mapped to integer type and adds related vendor extensions
      *
      * @param model    model
@@ -400,7 +420,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String dataFormat = property.getDataFormat();
         String minimum = property.getMinimum();
@@ -410,23 +429,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         boolean unsigned = false;
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = getEnumValues(allowableValues);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
-            }
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
+        if (property.isEnum) {
+            putEnumType(property, columnDefinition);
         } else {
             if ("int64".equals(dataFormat)) {
                 columnDefinition.put("colDataType", "BIGINT");
@@ -476,30 +481,17 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String minimum = property.getMinimum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         boolean unsigned = false;
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.getAllowableValues());
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
-            }
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
+        if (property.isEnum) {
+            putEnumType(property, columnDefinition);
         } else {
+            List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
             Float min = (minimum != null) ? Float.valueOf(minimum) : null;
             if (exclusiveMinimum && min != null) min += 1;
             if (min != null && min >= 0) {
@@ -545,7 +537,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        ArrayList columnDataTypeArguments = new ArrayList();
+        List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
         String baseName = property.getBaseName();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
@@ -586,35 +578,22 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         Map<String, Object> columnDefinition = column.columnDefinition;
         String description = column.description;
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String dataType = property.getDataType();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.getAllowableValues());
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
-            }
+        if (property.isEnum) {
+            putEnumType(property, columnDefinition);
         } else if (dataType.equals("MEDIUMBLOB")) {
             columnDefinition.put("colDataType", "MEDIUMBLOB");
         } else {
             String matchedStringType = getMysqlMatchedStringDataType(minLength, maxLength);
             columnDefinition.put("colDataType", matchedStringType);
             if (matchedStringType.equals("CHAR") || matchedStringType.equals("VARCHAR")) {
+                List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
                 columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
