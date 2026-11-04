@@ -474,9 +474,11 @@ public class CSharpClientCodegenTest {
                         .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
                 assertNotNull(apiClient);
                 String wrapped = "throw new ApiException((int)response.StatusCode, string.Format(\"Error calling {0}: {1}\", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);";
+                // 4xx/5xx must still reach ExceptionFactory, so only lower status codes are wrapped here
+                String wrappedBelow400 = "if ((int)response.StatusCode < 400) { var error = ex.InnerException != null ? ex.InnerException : ex; " + wrapped + " }";
                 String rethrown = "throw ex.InnerException != null ? ex.InnerException : ex;";
                 if (throwOnAnyError) {
-                    assertFileContains(apiClient.toPath(), wrapped);
+                    assertFileContains(apiClient.toPath(), wrappedBelow400);
                     assertFileNotContains(apiClient.toPath(), rethrown);
                 } else {
                     assertFileContains(apiClient.toPath(), rethrown);
