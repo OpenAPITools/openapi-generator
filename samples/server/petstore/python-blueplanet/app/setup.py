@@ -21,7 +21,7 @@ REQUIRES = [
     'connexion[swagger-ui] >= 2.6.0; python_version>="3.6"',
     'connexion[swagger-ui] <= 2.3.0; python_version=="3.5" or python_version=="3.4"',
     'connexion[swagger-ui] <= 2.14.2; python_version>"3.4"',
-    'werkzeug == 0.16.1; python_version=="3.5" or python_version=="3.4"',
+    'werkzeug == 3.1.9; python_version=="3.5" or python_version=="3.4"',
     "swagger-ui-bundle >= 0.0.2",
     "python_dateutil == 2.6.0",
     "setuptools >= 21.0.0",
